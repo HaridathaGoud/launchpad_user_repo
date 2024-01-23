@@ -1,0 +1,26 @@
+{
+  "contractAddress": "0xf0CD287dC515551907b14700C0b00058Af3ef0d4",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "address", "name": "owner", "type": "address" },
+        { "indexed": false, "internalType": "address", "name": "contractAddress", "type": "address" }
+      ],
+      "name": "Deployed",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes32", "name": "_salt", "type": "bytes32" },
+        { "internalType": "string", "name": "name", "type": "string" },
+        { "internalType": "string", "name": "symbol", "type": "string" },
+        { "internalType": "string", "name": "tokenURIPrefix", "type": "string" }
+      ],
+      "name": "deploy",
+      "outputs": [{ "internalType": "address", "name": "addr", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

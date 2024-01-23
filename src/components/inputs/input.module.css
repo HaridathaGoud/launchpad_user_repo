@@ -1,0 +1,8 @@
+.star{color: #D60000;}
+.fileUpload{border-color: #575757;margin-top: -8px;border-radius: 0 0 28px 28px;}
+.fileUploadText{color: rgba(0, 0, 0, 0.50);}
+.browser{background-position: -99px -11px !important; width: 24px;height: 24px;position: absolute;top: 6px;left: 6px;}
+.add{background-position: -123px -11px !important; width: 24px;height: 24px;}
+.maticInput select{background-image: url(https://storageaccountdott.blob.core.windows.net/dotimages/dropdown-arrow.svg);background-repeat: no-repeat;background-position: 90px 19px;background-size: 20px;}
+.minus{background-position: -69px -11px !important; width: 24px;height: 24px;}
+.plus{background-position: -41px -11px !important; width: 24px;height: 24px;}

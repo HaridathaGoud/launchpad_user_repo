@@ -1,0 +1,20 @@
+.customTabs .tab{line-height: normal;}
+.tableTitle{line-height: normal;}
+.tableBg{background: url(../../assets/images/table_bg.svg)no-repeat;background-size: cover;}
+.tokenomicsTable table td{color: #000; line-height: normal; padding-top: 16px; padding-bottom: 16px;}
+.private{background-position: -225px -9px !important;}
+.public{background-position:-256px -9px !important;}
+.team{background-position:-166px -9px !important;}
+.advisors{background-position: -195px -9px !important;}
+.roadMap{background: url(../../assets/images/roadmapbg.svg)no-repeat;background-size: cover;padding: 38px;}
+.rightArrow{background-position: -410px -11px !important;height: 20px;width: 20px;}
+.closeIcon{width: 24px;height: 24px;background-position: -285px -9px !important;cursor: pointer;}
+.successGif{background: url(../../assets/images/success.gif);background-position: center;}
+.allocationtable thead{box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.25);}
+.allocationtable tbody tr{box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);}
+.allocationtable tbody tr:first-child{background: #F0EEEE;color: #000;}
+.projectCard{box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);}
+.usdt{background-position: -9px -72px !important; width: 16px;height: 16px;}
+.matic{background-position: -26px -71px !important; width: 16px;height: 16px;}
+.shop{background-position: -157px -210px !important;height: 24px;width: 24px;}
+.activeShop{background-position:-157px -241px !important;height: 24px;width: 24px;}
