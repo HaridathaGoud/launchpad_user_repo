@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -22,12 +22,15 @@ import error from '../../../../assets/images/error.svg';
 import { getCustomerDetails } from '../../../../reducers/authReducer';
 import { waitForTransaction } from 'wagmi/actions';
 import WalletText from '../../../../utils/walletText';
+import OutletContextModel from '../../../../layout/context/model';
+import outletContext from '../../../../layout/context/outletContext';
 
 function PublishProposal(props: any) {
   const PublishShimmers = shimmers.PublishProposal(3);
   const { addQuestion, parseError } = useVotingContract();
   const [btnLoader, setBtnLoader] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null)
+  // const [errorMsg, setErrorMessage?.] = useState(null)
+  const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
   const [optionVotingHashs, setOptionVotingHashs] = useState([])
   const [startDateEpoch,setStartDateEpoch] = useState<any>()
   const [endDateEpoch,setEndDateEpoch] = useState<any>()
@@ -63,7 +66,7 @@ function PublishProposal(props: any) {
     setEndDateEpoch(enEpochTime); 
 
     props?.contractDetails(params);
-    setErrorMsg(props?.proposal?.contractDetails?.error)
+    setErrorMessage?.(props?.proposal?.contractDetails?.error)
     getDaoItem()
     }
   }, [getCustomerId])
@@ -122,7 +125,7 @@ function PublishProposal(props: any) {
       const response = await addQuestion(contractAddress, proposalDetails.TitleHash, optionVotingHashs, startDateEpoch,endDateEpoch);
       const txResponse = await waitForTransaction({ hash: response.hash });
       if (txResponse && txResponse.status === 0) {
-        setErrorMsg("transaction failed");
+        setErrorMessage?.("transaction failed");
         setBtnLoader(false)
       }else{
         props?.saveProposalData(obj, (callback: any) => {
@@ -130,7 +133,7 @@ function PublishProposal(props: any) {
             router(`/dao/success/${params?.id}`)
             setBtnLoader(false)
           } else {
-            setErrorMsg(apiCalls.isErrorDispaly(callback));
+            setErrorMessage?.(apiCalls.isErrorDispaly(callback));
             window.scroll(0, 0);
             setBtnLoader(false)
           }
@@ -139,7 +142,7 @@ function PublishProposal(props: any) {
   
     } catch (error) {
       setOptionVotingHashs([])
-      setErrorMsg(apiCalls.isErrorDispaly(error));
+      setErrorMessage?.(apiCalls.isErrorDispaly(error));
       setBtnLoader(false)
       window.scroll(0, 0);
     }
@@ -160,12 +163,12 @@ function PublishProposal(props: any) {
           </Col> 
           <Col md={8}>
             <div className='praposal-left-card ms-md-4'>
-              {errorMsg && (<div className='cust-error-bg'>
+              {/* {errorMsg && (<div className='cust-error-bg'>
                 <div className='cust-crd-mr'><Image src={error} alt="" /></div>
                 <div>
                   <p className='error-title error-red'>Error</p>
                   <p className="error-desc">{errorMsg}</p></div>
-              </div>)}
+              </div>)} */}
               {!contractData?.loading && !loader ?              
                  <div className='voting-card'>
                   <div className=' p-voting'>

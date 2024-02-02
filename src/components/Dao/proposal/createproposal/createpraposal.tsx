@@ -56,7 +56,7 @@ function CreatePraposal(props: any) {
   const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
   const params = useParams()
-  const [errorMsg, setErrorMsg] = useState<any>(false);
+  // const [errorMsg, setErrorMessage] = useState<any>(false);
   const [options, setOptions] = useState<any>([{ options: null, Id: "00000000-0000-0000-0000-000000000000", optionhash: null }]);
   const [attributes, setAttributes] = useState([]);
   const [copied, setCopied] = useState(false);
@@ -160,20 +160,20 @@ function CreatePraposal(props: any) {
   }
 
   const handleRedirectToPublishProposalScreen = (event: any) => {
-    setErrorMsg(null)
+    setErrorMessage?.(null)
     event.preventDefault();
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else if (state?.startingDate && state?.endingDate < state?.startingDate) {
-      setErrorMsg("Start date cannot be greater than the end date.")
+      setErrorMessage?.("Start date cannot be greater than the end date.")
       window.scroll(0, 0);
     } else if ((state?.startingDate == state?.endingDate) && state?.endingTime == state?.startingTime) {
-      setErrorMsg("Start time and end time cannot be the same.")
+      setErrorMessage?.("Start time and end time cannot be the same.")
       window.scroll(0, 0);
     } 
     // else if (!state?.isChecked || attributes.length == 0) {
-    //   setErrorMsg("Please select proposal type")
+    //   setErrorMessage?.("Please select proposal type")
     //   window.scroll(0, 0);
     // } 
     else {
@@ -182,7 +182,7 @@ function CreatePraposal(props: any) {
       const endTime = convertTo24HourFormat(state?.endingTime);
 
       if ((state?.startingDate == state?.endingDate) && (startTime > endTime)) {
-        setErrorMsg("Start time cannot be greater than the end time.")
+        setErrorMessage?.("Start time cannot be greater than the end time.")
         window.scroll(0, 0);
       } else {
         let proposalType = state?.isChecked ? "voting" : "decision";
@@ -313,13 +313,13 @@ function CreatePraposal(props: any) {
               <StartedSteps formSteps={33} stepsOne={1} number={1} />
 
               <div className=''>
-
+{/* 
                 {errorMsg && (<div className='cust-error-bg'>
                   <div className='cust-crd-mr'><Image src={error} alt="" /></div>
                   <div>
                     <p className='error-title error-red'>Error</p>
                     <p className="error-desc">{errorMsg}</p></div>
-                </div>)}
+                </div>)} */}
                 {!loader ?
                   <form noValidate onSubmit={(e) => handleRedirectToPublishProposalScreen(e)}>
                     <div className='mt-4 '>
@@ -364,7 +364,7 @@ function CreatePraposal(props: any) {
                 </div>  */}
                     <div className='mt-4'>
                       {/* <span className='icon check-icon-ps'></span> */}
-                      <label  className='text-dark text-sm font-normal p-0 label ml-5 mb-2'>Select Your Proposal Type</label>
+                      <label  className='text-dark text-sm font-normal p-0 label ml-5'>Select Your Proposal Type</label>
                       <div className='flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-6 py-3 '>
                         <label className='cursor-pointer relative inline-block mt-1'>
                           <span>
