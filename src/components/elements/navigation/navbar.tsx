@@ -59,7 +59,7 @@ function HeaderNavbar() {
       { path: "/staking", content: "Staking" },
       { path: "/tiers", content: "Tiers" },
       { path: "#", content: "Streaming" },
-      // { path: "/dao", content: "DAOs" },
+       { path: "/dao", content: "DAOs" },
     ];
     const navBarDropDownMenu = [
       {
