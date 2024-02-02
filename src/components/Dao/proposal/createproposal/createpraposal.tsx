@@ -154,15 +154,8 @@ function CreatePraposal(props: any) {
   };
 
   const checkBoxChecked = (e: any) => {
-    // debugger
-    // if (attributes.length == 0 && !state.checked) {
-    //   dispatch({ type: 'isChecked', payload: e.target.checked })
-    // }
-    if (e.target.checked){
-      dispatch({ type: 'modalShow', payload: true })
-    }else{
-      dispatch({ type: 'modalShow', payload: false })
-
+    if (attributes.length == 0 && !state.checked) {
+      dispatch({ type: 'isChecked', payload: e.target.checked })
     }
   }
 
@@ -178,10 +171,12 @@ function CreatePraposal(props: any) {
     } else if ((state?.startingDate == state?.endingDate) && state?.endingTime == state?.startingTime) {
       setErrorMsg("Start time and end time cannot be the same.")
       window.scroll(0, 0);
-    } else if (!state?.isChecked || attributes.length == 0) {
-      setErrorMsg("Please select proposal type")
-      window.scroll(0, 0);
-    } else {
+    } 
+    // else if (!state?.isChecked || attributes.length == 0) {
+    //   setErrorMsg("Please select proposal type")
+    //   window.scroll(0, 0);
+    // } 
+    else {
 
       const startTime = convertTo24HourFormat(state?.startingTime);
       const endTime = convertTo24HourFormat(state?.endingTime);
@@ -377,8 +372,9 @@ function CreatePraposal(props: any) {
                               className='checkbox checkbox-error opacity-0 rounded-[28px]'
                               type='checkbox'
                               // checked={attributes.length !== 0 ?  state?.isChecked : ""}
-                              onChange={checkBoxChecked}
-                              onClick={openModalPopUp} />
+                              // onChange={checkBoxChecked}
+                              // onClick={openModalPopUp} 
+                              />
                             <span className=''></span>
                           </span>
                         </label>
