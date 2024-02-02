@@ -418,7 +418,7 @@ function CreatePraposal(props: any) {
                       <label className='text-sm font-normal text-red-600 ml-4'>{errors.enddate}</label>
                     </div>
                     <div className='flex justify-center gap-5 items-center mt-16'>
-                    <Button children={'Cancel'} handleClick={props?.close} type='cancel' />
+                    <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={props?.close} type='cancel' /> </Link>
                       
                     <Button
                 type="secondary"
