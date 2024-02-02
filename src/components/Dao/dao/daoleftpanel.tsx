@@ -61,7 +61,7 @@ const DaoLeftPanel = () => {
                     <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay" onClick={handleCancel}></label>
                     <div className="menu p-4 md:w-80 min-h-full bg-white text-base-content pt-24">
                        
-                       <Createpraposal/>
+                       <Createpraposal close={handleCancel}/>
                     </div>
                 </div>
             </div>}

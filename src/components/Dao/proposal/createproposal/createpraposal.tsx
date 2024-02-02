@@ -305,7 +305,7 @@ function CreatePraposal(props: any) {
           <div className=''>
             <div className='flex items-center justify-between mb-7'>
             <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
-            <span className={`icon closeIcon`}></span>
+            <span className={`icon closeIcon`} onClick={props?.close} ></span>
             </div>
 
             <div className=''>
@@ -418,7 +418,8 @@ function CreatePraposal(props: any) {
                       <label className='text-sm font-normal text-red-600 ml-4'>{errors.enddate}</label>
                     </div>
                     <div className='flex justify-center gap-5 items-center mt-16'>
-                      <Link className='' to={`/dao/${params.id}`}> <Button children={'Cancel'} type='cancel' />   </Link>
+                    <Button children={'Cancel'} handleClick={props?.close} type='cancel' />
+                      
                     <Button
                 type="secondary"
                 btnClassName="flex gap-2"
