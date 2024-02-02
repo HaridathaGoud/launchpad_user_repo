@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer, useContext } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -24,6 +24,8 @@ import shimmers from "../../shimmers/shimmers";
 import PlaceHolder from "../../shimmers/placeholder";
 import WalletText from '../../../../utils/walletText';
 import Button from '../../../../ui/Button';
+import outletContext from '../../../../layout/context/outletContext';
+import OutletContextModel from '../../../../layout/context/model';
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -60,6 +62,7 @@ function CreatePraposal(props: any) {
   const [copied, setCopied] = useState(false);
   const currentDate = new Date().toISOString().slice(0, 16);
   const [loader, setLoader] = useState(false)
+  const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
   const [state, dispatch] = useReducer(reducers, {
     startingDate: null, endingDate: null, startingTime: null, endingTime: null, modalShow: false,
     epochStartTime: null, epochEndData: null, modalError: false, isChecked: false
@@ -151,8 +154,15 @@ function CreatePraposal(props: any) {
   };
 
   const checkBoxChecked = (e: any) => {
-    if (attributes.length == 0 && !state.checked) {
-      dispatch({ type: 'isChecked', payload: e.target.checked })
+    // debugger
+    // if (attributes.length == 0 && !state.checked) {
+    //   dispatch({ type: 'isChecked', payload: e.target.checked })
+    // }
+    if (e.target.checked){
+      dispatch({ type: 'modalShow', payload: true })
+    }else{
+      dispatch({ type: 'modalShow', payload: false })
+
     }
   }
 
@@ -413,7 +423,13 @@ function CreatePraposal(props: any) {
                     </div>
                     <div className='flex justify-center gap-5 items-center mt-16'>
                       <Link className='' to={`/dao/${params.id}`}> <Button children={'Cancel'} type='cancel' />   </Link>
-                      <Button children={'Cancel'} type='secondary' />
+                    <Button
+                type="secondary"
+                btnClassName="flex gap-2"
+                handleClick={(e) => handleRedirectToPublishProposalScreen(e)}
+                 disabled={toasterMessage ||  state.buttonLoader}
+              > Next
+              </Button>
                     </div>
                   </form> : <PlaceHolder contenthtml={PublishShimmers} />}
               </div>
