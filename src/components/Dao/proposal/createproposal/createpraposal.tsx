@@ -369,7 +369,7 @@ function CreatePraposal(props: any) {
                 </div>  */}
                     <div className='mt-4'>
                       {/* <span className='icon check-icon-ps'></span> */}
-                      <label  className='text-dark text-sm font-normal p-0 label ml-5'>Select Your Proposal Type</label>
+                      <label  className='text-dark text-sm font-normal p-0 label ml-5 mb-2'>Select Your Proposal Type</label>
                       <div className='flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-6 py-3 '>
                         <label className='cursor-pointer relative inline-block mt-1'>
                           <span>

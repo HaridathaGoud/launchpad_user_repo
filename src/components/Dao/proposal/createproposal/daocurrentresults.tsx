@@ -101,8 +101,8 @@ const   DaoCurrentResults: NextPage = (props) => {
                </div>
                 <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
-                    <div className='mr-5'> <CancelButton/></div>
-                     <SecondaryButtonMd/>
+                    <div className='mr-5'> <Button children={'Cancel'} type='cancel' /></div>
+                    <Button children={'I agree'} type='secondary' />
                     </form>
                 </div>
             </div>
@@ -133,8 +133,8 @@ const   DaoCurrentResults: NextPage = (props) => {
                </div>
                 <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
-                    <div className='mr-5'> <CancelButton/></div>
-                     <SecondaryButtonMd/>
+                    <div className='mr-5'> <Button children={'Cancel'} type='cancel' /></div>
+                    <Button children={'Confirm'} type='secondary' />
                     </form>
                 </div>
             </div>
