@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import styles from "../dao/dao.module.css"  //"./dao.module.css";
 import Status from '../proposal/createproposal/status';
 import VotingDao from './testdao';
 import Voters from './votersgrid';
@@ -19,6 +20,8 @@ import DaoCurrentResults from '../proposal/createproposal/daocurrentresults';
 import Discussions from '../proposal/createproposal/discussions';
 import BannerCarousel from '../../../ui/BannerCarousal';
 import aquaman from '../../../assets/images/aquaman.png';
+import Button from '../../../ui/Button';
+// import { Button } from 'react-bootstrap';
   function Voting() {
     const router = useNavigate();
     const dispatch = useDispatch();
@@ -75,6 +78,42 @@ import aquaman from '../../../assets/images/aquaman.png';
             </div>
           </div>
         </div>}
+        {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
+        {/* <div className="modal-box p-0">
+               <div className='p-5'>
+               <div className="flex justify-between items-center  mb-5">
+               <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
+               <span className={`icon ${styles.closeIcon}`}></span>
+               </div>
+                <div className='flex justify-between items-center mb-3'>
+                    <p className={`text-sm ${styles.lightColor}`}>Choice</p>
+                    <p>No</p>
+                </div>
+                <div className='flex justify-between items-center mb-3'>
+                    <p className={`text-sm ${styles.lightColor}`}>DOTT</p>
+                    <p>31,272,274 <span className={`icon ${styles.squareArrow}`}></span></p>
+                </div>
+                <div className='flex justify-between items-center mb-3'>
+                    <p className={`text-sm ${styles.lightColor}`}>Your voting power</p>
+                    <p>0 Safran</p>
+                </div>
+                <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
+                    <div>
+                    <span className={`icon ${styles.info}`}></span>
+                    </div>
+                    <div>
+                        <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
+                    </div>
+                </div>
+               </div>
+                <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
+                    <form method="dialog" className='flex items-center'>
+                    <div className='mr-5'> <Button children={'Cancel'} type='cancel' /></div>
+                    <Button children={'I agree'} type='secondary' />
+                    </form>
+                </div>
+            </div> */}
+{/* </dialog>  */}
         </>
     );
 }

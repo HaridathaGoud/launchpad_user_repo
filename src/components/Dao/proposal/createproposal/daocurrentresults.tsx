@@ -12,11 +12,21 @@ import Button from '../../../../ui/Button';
 
 const   DaoCurrentResults: NextPage = (props) => {
     const [isVoted, setisVoted] = useState<any>(false);
+    const [isChecked, setIsChecked] = useState(false)
     const proposarDetailas = useSelector((state: any) => state?.vtg?.fetchproposalviewdata);
     const handleChange = (e: any) => {
         dispatch({ type: 'selectedOption', payload: e?.option })
         dispatch({ type: 'selectedhash', payload: e?.optionHash })
       }
+      const handleRedirectVotingScreen = () => {
+        setIsChecked(true)
+    }
+    const handleCancel = () => {
+        setIsChecked(false)
+    }
+    const handleSubmitVote=()=>{
+        console.log("waiting for redirect missing")
+    }
     return (
         <>
             <div>
@@ -47,7 +57,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                    </div>
                   </div>
                  <div className='mb-2'>
-                 <Button children={'Vote Now'} type='secondary' btnClassName='w-full'/>
+                 <Button children={'Vote Now'} handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full'/>
                  </div>
                  
                 </div>
@@ -69,14 +79,14 @@ const   DaoCurrentResults: NextPage = (props) => {
                             </Form.Check>))}
                           </div>
                         </div>}
-
-
-{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+ 
+ {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
+ {isChecked && <>
             <div className="modal-box p-0">
                <div className='p-5'>
                <div className="flex justify-between items-center  mb-5">
                <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
-               <span className={`icon ${styles.closeIcon}`}></span>
+               <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
                </div>
                 <div className='flex justify-between items-center mb-3'>
                     <p className={`text-sm ${styles.lightColor}`}>Choice</p>
@@ -101,22 +111,21 @@ const   DaoCurrentResults: NextPage = (props) => {
                </div>
                 <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
-                    <div className='mr-5'> <Button children={'Cancel'} type='cancel' /></div>
-                    <Button children={'I agree'} type='secondary' />
+                    <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
+                    <Button children={'I agree'} handleClick={handleSubmitVote} type='secondary' />
                     </form>
                 </div>
             </div>
-</dialog> */}
 
+{/* </dialog>   */}
 
-
-{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
 <div>
 <div className="modal-box p-0">
                <div className='p-5'>
                  <div className="flex justify-between items-center  mb-5">
                  <h3 className="font-semibold text-lg">Terms Of Service</h3>
-                 <span className={`icon ${styles.closeIcon}`}></span>
+                 <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
                  </div>
 
                 <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
@@ -133,13 +142,14 @@ const   DaoCurrentResults: NextPage = (props) => {
                </div>
                 <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
-                    <div className='mr-5'> <Button children={'Cancel'} type='cancel' /></div>
+                    <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
                     <Button children={'Confirm'} type='secondary' />
                     </form>
                 </div>
             </div>
 </div>
-</dialog> */}
+{/* </dialog>  */}
+ </>}
         </>
     );
 
