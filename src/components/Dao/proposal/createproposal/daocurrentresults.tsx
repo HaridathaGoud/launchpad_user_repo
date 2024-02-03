@@ -9,6 +9,7 @@ import SecondaryButtonMd from '../button/secondarymd';
 import { useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from '../../../../ui/Button';
+import { Modal } from '../../../../ui/Modal';
 
 const   DaoCurrentResults: NextPage = (props) => {
     const [isVoted, setisVoted] = useState<any>(false);
@@ -117,7 +118,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                   
                 </div>
             </div>
-            {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
+            {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
                           <p className='text-base font-semibold mt-3 text-secondary'>choose your option</p>
                           <div className='d-flex flex-wrap-align voting-card-opt'>
                             {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
@@ -133,16 +134,15 @@ const   DaoCurrentResults: NextPage = (props) => {
                               /><Form.Label className='text-secondary'>{item?.option}</Form.Label>
                             </Form.Check>))}
                           </div>
-                        </div>}
- 
-{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
-            {isVoted &&
-                <div>
-                    <div className="modal-box p-0">
-                        <div className='p-5'>
+                        </div>} */}
+                        {isVoted &&
+                        <Modal id='5'>
+                             <div>
+                    <div >
+                        <div className=''>
                             <div className="flex justify-between items-center  mb-5">
                                 <h3 className="font-semibold text-lg">Terms Of Service</h3>
-                                <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
+                                {/* <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span> */}
                             </div>
 
                             <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
@@ -157,23 +157,23 @@ const   DaoCurrentResults: NextPage = (props) => {
                                 <p className='text-center font-semibold truncate'>docs.safran.store/library/terms-a...</p><span className={`icon cursor-pointer shrink-0 ${styles.squareArrow}`}></span>
                             </div>
                         </div>
-                        <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
+                        <div className={`modal-action justify-center pt-4 ${styles.borderTop}`}>
                             <form method="dialog" className='flex items-center'>
                                 <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
                                  <Button children={'I agree'} handleClick={handleAgree} type='secondary' />
                             </form>
                         </div>
                     </div>
-                </div>}
-{/* </dialog>  */}
-
-{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
+                </div>
+                        </Modal>
+                         }
 {isChecked &&
-            <div className="modal-box p-0">
-               <div className='p-5'>
+  <Modal id={6} >
+    <div >
+               <div >
                <div className="flex justify-between items-center  mb-5">
                <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
-               <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
+               {/* <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span> */}
                </div>
                 <div className='flex justify-between items-center mb-3'>
                     <p className={`text-sm ${styles.lightColor}`}>Choice</p>
@@ -187,7 +187,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                     <p className={`text-sm ${styles.lightColor}`}>Your voting power</p>
                     <p>0 Safran</p>
                 </div>
-                <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
+                <div className={`py-4 px-3 flex gap-3 mb-4 ${styles.popBg}`}>
                     <div>
                     <span className={`icon ${styles.info}`}></span>
                     </div>
@@ -196,15 +196,15 @@ const   DaoCurrentResults: NextPage = (props) => {
                     </div>
                 </div>
                </div>
-                <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
+                <div className={`modal-action justify-center pt-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
                     <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
                     <Button children={'Confirm'}  handleClick={handleConfirmVote} type='secondary' />
                     </form>
                 </div>
             </div>
-}
-{/* </dialog>   */}
+  </Modal>
+ }
  
         </>
     );

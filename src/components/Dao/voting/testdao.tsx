@@ -284,7 +284,7 @@ function ProposalVoting(props: any) {
                           <p>{proposarDetailas?.data?.description}</p>
                         </div>
 
-                        {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
+                        {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
                           <p className='text-base font-semibold mt-3 text-secondary'>choose your option</p>
                           <div className='d-flex flex-wrap-align voting-card-opt'>
                             {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
@@ -300,7 +300,7 @@ function ProposalVoting(props: any) {
                               /><Form.Label className='text-secondary'>{item?.option}</Form.Label>
                             </Form.Check>))}
                           </div>
-                        </div>}
+                        </div>} */}
                         <p className='text-center'><a href="#" className='hover:text-primary text-secondary'>Show More</a></p>
                       </div>
                       {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>

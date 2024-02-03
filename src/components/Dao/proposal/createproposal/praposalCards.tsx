@@ -23,6 +23,7 @@ import {isMobile} from 'react-device-detect'
 import { Spinner } from 'react-bootstrap';
 import daocardProfile from "../../../../assets/images/daocard-profile.png";
 import daoimg from '../../../../assets/images/dao-img.png';
+import ProposalCardShimmer from '../../shimmers/proposalcardshimmer'
 const reducers = (state: any, action: any) => {
     switch (action.type) {
         case 'modalShow':
@@ -251,15 +252,9 @@ function ProposalCards(props: any) {
       };
     return (
         <>
-            {loading && <div className='text-center'>
-                <div className='loading-overlay'>
-                    <div className="text-center image-container">
-                        <Image
-                            className=""
-                            src={loadimg}
-                            alt=""
-                        />
-                    </div></div></div>}
+            {!loading && 
+              <ProposalCardShimmer/>
+            }
                    {!loading && <Container className=''>
                 {errorMsg &&
                     <div className='cust-error-bg'>
