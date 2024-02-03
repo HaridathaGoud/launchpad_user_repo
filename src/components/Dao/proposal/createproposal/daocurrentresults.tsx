@@ -14,6 +14,8 @@ const   DaoCurrentResults: NextPage = (props) => {
     const [isVoted, setisVoted] = useState<any>(false);
     const [isChecked, setIsChecked] = useState(false)
     const [selectedOption, setSelectedOption] = useState(null);
+    const [saveBtn,setsaveBtn] = useState(true);
+    const [editBtn,seteditBtn] = useState(false);
     const proposarDetailas = useSelector((state: any) => state?.vtg?.fetchproposalviewdata);
     const handleChange = (e: any) => {
         dispatch({ type: 'selectedOption', payload: e?.option })
@@ -21,11 +23,10 @@ const   DaoCurrentResults: NextPage = (props) => {
       }
       const handleRedirectVotingScreen = () => {
         if (selectedOption === 'yes') {
-            setIsChecked(true)
-            
-          } else if (selectedOption === 'no') {
             setisVoted(true);
-            
+                   
+          } else if (selectedOption === 'no') {
+            setIsChecked(true)
           }
     }
     const handleCheckBoxChange = (event) => {
@@ -36,11 +37,25 @@ const   DaoCurrentResults: NextPage = (props) => {
         setisVoted(false);
     }
     const handleAgree=()=>{
-        setIsChecked(false)
-        setisVoted(true);
+        setisVoted(false);
+        setIsChecked(true)
     }
     const handleConfirmVote=()=>{
-        setisVoted(false);
+        setIsChecked(false);
+        setsaveBtn(false);
+        if (selectedOption === 'no') {
+            setsaveBtn(true);
+            seteditBtn(false)
+        }else{
+            seteditBtn(true)
+        }
+    }
+    const handleEditVote=()=>{
+        setisVoted(true);
+    }
+    const handleViewVote=()=>{
+        seteditBtn(false);
+        setsaveBtn(true);
     }
     return (
         <>
@@ -84,10 +99,22 @@ const   DaoCurrentResults: NextPage = (props) => {
                     <p className='font-medium text-secondary'>No</p>
                    </div>
                   </div>
-                 <div className='mb-2'>
-                 <Button children={'Vote Now'} handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full'/>
-                 </div>
-                 
+                    {saveBtn &&
+                        <div className='mb-2'>
+                            <Button children={'Vote Now'} handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full' />
+                        </div>
+                    }
+                    {editBtn &&
+                        <div>
+                            <div className='mb-2'>
+                                <Button children={'Edit Vote'} handleClick={handleEditVote} type='secondary' btnClassName='w-full' />
+                            </div>
+                            <div className='mb-2'>
+                                <Button children={'View Vote'} handleClick={handleViewVote} type='secondary' btnClassName='w-full' />
+                            </div>
+                        </div>
+                    } 
+                  
                 </div>
             </div>
             {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
@@ -108,8 +135,40 @@ const   DaoCurrentResults: NextPage = (props) => {
                           </div>
                         </div>}
  
- {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
- {isChecked &&
+{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
+            {isVoted &&
+                <div>
+                    <div className="modal-box p-0">
+                        <div className='p-5'>
+                            <div className="flex justify-between items-center  mb-5">
+                                <h3 className="font-semibold text-lg">Terms Of Service</h3>
+                                <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
+                            </div>
+
+                            <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
+                                <div>
+                                    <span className={`icon ${styles.info}`}></span>
+                                </div>
+                                <div>
+                                    <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-center mt-7 px-10">
+                                <p className='text-center font-semibold truncate'>docs.safran.store/library/terms-a...</p><span className={`icon cursor-pointer shrink-0 ${styles.squareArrow}`}></span>
+                            </div>
+                        </div>
+                        <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
+                            <form method="dialog" className='flex items-center'>
+                                <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
+                                 <Button children={'I agree'} handleClick={handleAgree} type='secondary' />
+                            </form>
+                        </div>
+                    </div>
+                </div>}
+{/* </dialog>  */}
+
+{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
+{isChecked &&
             <div className="modal-box p-0">
                <div className='p-5'>
                <div className="flex justify-between items-center  mb-5">
@@ -140,45 +199,13 @@ const   DaoCurrentResults: NextPage = (props) => {
                 <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
                     <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
-                    <Button children={'I agree'}  handleClick={handleAgree} type='secondary' />
+                    <Button children={'Confirm'}  handleClick={handleConfirmVote} type='secondary' />
                     </form>
                 </div>
             </div>
 }
 {/* </dialog>   */}
  
-{/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
-            {isVoted &&
-                <div>
-                    <div className="modal-box p-0">
-                        <div className='p-5'>
-                            <div className="flex justify-between items-center  mb-5">
-                                <h3 className="font-semibold text-lg">Terms Of Service</h3>
-                                <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
-                            </div>
-
-                            <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
-                                <div>
-                                    <span className={`icon ${styles.info}`}></span>
-                                </div>
-                                <div>
-                                    <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-center mt-7 px-10">
-                                <p className='text-center font-semibold truncate'>docs.safran.store/library/terms-a...</p><span className={`icon cursor-pointer shrink-0 ${styles.squareArrow}`}></span>
-                            </div>
-                        </div>
-                        <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
-                            <form method="dialog" className='flex items-center'>
-                                <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
-                                 <Button children={'Confirm'} handleClick={handleConfirmVote} type='secondary' />
-                            </form>
-                        </div>
-                    </div>
-                </div>}
-{/* </dialog>  */}
-
         </>
     );
 
