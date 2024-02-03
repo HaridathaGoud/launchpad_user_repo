@@ -13,19 +13,34 @@ import Button from '../../../../ui/Button';
 const   DaoCurrentResults: NextPage = (props) => {
     const [isVoted, setisVoted] = useState<any>(false);
     const [isChecked, setIsChecked] = useState(false)
+    const [selectedOption, setSelectedOption] = useState(null);
     const proposarDetailas = useSelector((state: any) => state?.vtg?.fetchproposalviewdata);
     const handleChange = (e: any) => {
         dispatch({ type: 'selectedOption', payload: e?.option })
         dispatch({ type: 'selectedhash', payload: e?.optionHash })
       }
       const handleRedirectVotingScreen = () => {
-        setIsChecked(true)
+        if (selectedOption === 'yes') {
+            setIsChecked(true)
+            
+          } else if (selectedOption === 'no') {
+            setisVoted(true);
+            
+          }
     }
+    const handleCheckBoxChange = (event) => {
+        setSelectedOption(event.target.value);
+      };
     const handleCancel = () => {
         setIsChecked(false)
+        setisVoted(false);
     }
-    const handleSubmitVote=()=>{
-        console.log("waiting for redirect missing")
+    const handleAgree=()=>{
+        setIsChecked(false)
+        setisVoted(true);
+    }
+    const handleConfirmVote=()=>{
+        setisVoted(false);
     }
     return (
         <>
@@ -48,11 +63,24 @@ const   DaoCurrentResults: NextPage = (props) => {
                  <h2 className='text-base font-semibold mb-2 text-secondary'>Cast Your Vote</h2>
                   <div className="flex gap-8 mb-9">
                   <div className='flex gap-2'>
-                    <RadioInput/>
+
+                  <label><input type="radio" name="radio-1"
+                  value="yes"
+                  checked={selectedOption === 'yes'}
+                  onChange={handleCheckBoxChange}
+                   className="radio mr-1" /></label>
+
+                    {/* <RadioInput/> */}
                     <p className='font-medium text-secondary'>Yes</p>
                    </div>
                    <div className='flex gap-2'>
-                    <RadioInput/>
+                   <label><input type="radio" name="radio-1"
+                   value="no"
+                   checked={selectedOption === 'no'}
+                   onChange={handleCheckBoxChange}
+                    className="radio mr-1" /></label>
+
+                    {/* <RadioInput/> */}
                     <p className='font-medium text-secondary'>No</p>
                    </div>
                   </div>
@@ -81,7 +109,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                         </div>}
  
  {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
- {isChecked && <>
+ {isChecked &&
             <div className="modal-box p-0">
                <div className='p-5'>
                <div className="flex justify-between items-center  mb-5">
@@ -90,7 +118,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                </div>
                 <div className='flex justify-between items-center mb-3'>
                     <p className={`text-sm ${styles.lightColor}`}>Choice</p>
-                    <p>No</p>
+                    <p> {selectedOption} </p>
                 </div>
                 <div className='flex justify-between items-center mb-3'>
                     <p className={`text-sm ${styles.lightColor}`}>DOTT</p>
@@ -112,44 +140,45 @@ const   DaoCurrentResults: NextPage = (props) => {
                 <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
                     <form method="dialog" className='flex items-center'>
                     <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
-                    <Button children={'I agree'} handleClick={handleSubmitVote} type='secondary' />
+                    <Button children={'I agree'}  handleClick={handleAgree} type='secondary' />
                     </form>
                 </div>
             </div>
-
+}
 {/* </dialog>   */}
-
+ 
 {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
-<div>
-<div className="modal-box p-0">
-               <div className='p-5'>
-                 <div className="flex justify-between items-center  mb-5">
-                 <h3 className="font-semibold text-lg">Terms Of Service</h3>
-                 <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
-                 </div>
+            {isVoted &&
+                <div>
+                    <div className="modal-box p-0">
+                        <div className='p-5'>
+                            <div className="flex justify-between items-center  mb-5">
+                                <h3 className="font-semibold text-lg">Terms Of Service</h3>
+                                <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span>
+                            </div>
 
-                <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
-                    <div>
-                    <span className={`icon ${styles.info}`}></span>
+                            <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
+                                <div>
+                                    <span className={`icon ${styles.info}`}></span>
+                                </div>
+                                <div>
+                                    <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-center mt-7 px-10">
+                                <p className='text-center font-semibold truncate'>docs.safran.store/library/terms-a...</p><span className={`icon cursor-pointer shrink-0 ${styles.squareArrow}`}></span>
+                            </div>
+                        </div>
+                        <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
+                            <form method="dialog" className='flex items-center'>
+                                <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
+                                 <Button children={'Confirm'} handleClick={handleConfirmVote} type='secondary' />
+                            </form>
+                        </div>
                     </div>
-                    <div>
-                        <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
-                    </div>
-                </div>
-                <div className="flex items-center justify-center mt-7 px-10">
-                <p className='text-center font-semibold truncate'>docs.safran.store/library/terms-a...</p><span className={`icon cursor-pointer shrink-0 ${styles.squareArrow}`}></span>
-                </div>
-               </div>
-                <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
-                    <form method="dialog" className='flex items-center'>
-                    <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
-                    <Button children={'Confirm'} type='secondary' />
-                    </form>
-                </div>
-            </div>
-</div>
+                </div>}
 {/* </dialog>  */}
- </>}
+
         </>
     );
 

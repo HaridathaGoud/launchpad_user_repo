@@ -114,6 +114,36 @@ import Button from '../../../ui/Button';
                 </div>
             </div> */}
 {/* </dialog>  */}
+
+        {/* <div>
+          <div className="modal-box p-0">
+            <div className='p-5'>
+              <div className="flex justify-between items-center  mb-5">
+                <h3 className="font-semibold text-lg">Terms Of Service</h3>
+                <span className={`icon ${styles.closeIcon}`}></span>
+              </div>
+
+              <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
+                <div>
+                  <span className={`icon ${styles.info}`}></span>
+                </div>
+                <div>
+                  <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
+                </div>
+              </div>
+              <div className="flex items-center justify-center mt-7 px-10">
+                <p className='text-center font-semibold truncate'>docs.safran.store/library/terms-a...</p><span className={`icon cursor-pointer shrink-0 ${styles.squareArrow}`}></span>
+              </div>
+            </div>
+            <div className={`modal-action justify-center py-6 mt-2 ${styles.borderTop}`}>
+              <form method="dialog" className='flex items-center'>
+                <div className='mr-5'> <Button children={'Cancel'} type='cancel' /></div>
+                <Button children={'Confirm'} type='secondary' />
+              </form>
+            </div>
+          </div>
+        </div> */}
+        
         </>
     );
 }
