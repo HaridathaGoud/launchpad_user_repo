@@ -12,7 +12,8 @@ import { validateContentRule } from "../../../../utils/validation";
 import { useParams } from 'react-router-dom';
 import StartedSteps from './steps';
 import { ethers } from 'ethers/lib';
-import { Modal } from 'react-bootstrap';
+// import { Modal } from 'react-bootstrap';
+import { Modal, modalActions } from '../../../../ui/Modal';
 import error from '../../../../assets/images/error.svg';
 import Image from 'react-bootstrap/Image';
 import { useAccount } from 'wagmi';
@@ -107,13 +108,15 @@ function CreatePraposal(props: any) {
   };
 
   const openModalPopUp = () => {
-    dispatch({ type: 'modalShow', payload: true })
+     dispatch({ type: 'modalShow', payload: true })
+     modalActions("modalShow","open")
     dispatch({ type: 'modalError', payload: null })
   };
 
   const handleClose = () => {
     resetProperties();
-    dispatch({ type: 'modalShow', payload: false })
+     dispatch({ type: 'modalShow', payload: false })
+     modalActions("modalShow","close")
   };
 
   const optionSave = () => {
@@ -149,7 +152,8 @@ function CreatePraposal(props: any) {
     setAttributes(_attribute);
 
     if (isUpdate) {
-      dispatch({ type: 'modalShow', payload: false });
+       dispatch({ type: 'modalShow', payload: false });
+       modalActions("modalShow","close")
     }
   };
 
@@ -172,10 +176,10 @@ function CreatePraposal(props: any) {
       setErrorMessage?.("Start time and end time cannot be the same.")
       window.scroll(0, 0);
     } 
-    // else if (!state?.isChecked || attributes.length == 0) {
-    //   setErrorMessage?.("Please select proposal type")
-    //   window.scroll(0, 0);
-    // } 
+    else if (!state?.isChecked || attributes.length == 0) {
+      setErrorMessage?.("Please select proposal type")
+      window.scroll(0, 0);
+    } 
     else {
 
       const startTime = convertTo24HourFormat(state?.startingTime);
@@ -371,9 +375,9 @@ function CreatePraposal(props: any) {
                             <input
                               className='checkbox checkbox-error opacity-0 rounded-[28px]'
                               type='checkbox'
-                              // checked={attributes.length !== 0 ?  state?.isChecked : ""}
-                              // onChange={checkBoxChecked}
-                              // onClick={openModalPopUp} 
+                              checked={attributes.length !== 0 ?  state?.isChecked : ""}
+                              onChange={checkBoxChecked}
+                               onClick={openModalPopUp} 
                               />
                             <span className=''></span>
                           </span>
@@ -433,7 +437,54 @@ function CreatePraposal(props: any) {
 
 
             </div>
-            <Modal
+
+            <Modal id="modalShow">
+                      
+            <div>
+              <h4>Add Your Options</h4>
+              {state?.modalError && (<div className='cust-error-bg'>
+                <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                <div>
+                  <p className='error-title error-red'>Error</p>
+                  <p className="error-desc">{state?.modalError}</p></div>
+              </div>)}
+              <div >
+                <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
+                  <Button type="button" btnClassName="text-center fill-btn" handleClick={addOption}>
+                    <span className='icon add'></span>Add new option
+                  </Button>
+                </Col>
+                <Row>
+                  {options.map((option: any, index: any) => (<>
+                    <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
+                      <div className='d-flex align-items-center add-block' key={index}>
+                        <Form.Label className="mb-0">{option?.index ? (option?.index && option?.index + ".") : "A."}</Form.Label>
+                        <Form.Control
+                          type="text"
+                          className='border-none-modal'
+                          placeholder='Enter your option'
+                          maxLength={50}
+                          onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
+                          value={option.options ? option.options : ""}
+                        />
+                        <span className='icon delete-icon' onClick={() => deleteOption(index)}></span>
+                      </div>
+                    </Col>
+                  </>))}
+                </Row>
+              </div>
+              <div className="mt-4 text-end">
+                <Button type="button" btnClassName="text-center border-btn" handleClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button type="submit" btnClassName="fill-btn m-0 ms-3 submit-spinner" handleClick={optionSave}>
+                  Save
+                </Button>
+              </div>
+            </div>
+            </Modal>
+            
+            {/* <Modal
               show={state?.modalShow}
               size="lg"
               aria-labelledby="contained-modal-title-vcenter"
@@ -487,8 +538,8 @@ function CreatePraposal(props: any) {
                   </Button>
                 </div>
               </Modal.Footer>
-            </Modal>
-
+            </Modal> */}
+      
           </div>
         </> : <WalletText />}
 
