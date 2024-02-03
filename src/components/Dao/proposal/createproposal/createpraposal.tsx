@@ -172,10 +172,10 @@ function CreatePraposal(props: any) {
       setErrorMessage?.("Start time and end time cannot be the same.")
       window.scroll(0, 0);
     } 
-    // else if (!state?.isChecked || attributes.length == 0) {
-    //   setErrorMessage?.("Please select proposal type")
-    //   window.scroll(0, 0);
-    // } 
+    else if (!state?.isChecked || attributes.length == 0) {
+      setErrorMessage?.("Please select proposal type")
+      window.scroll(0, 0);
+    } 
     else {
 
       const startTime = convertTo24HourFormat(state?.startingTime);
@@ -371,9 +371,9 @@ function CreatePraposal(props: any) {
                             <input
                               className='checkbox checkbox-error opacity-0 rounded-[28px]'
                               type='checkbox'
-                              // checked={attributes.length !== 0 ?  state?.isChecked : ""}
-                              // onChange={checkBoxChecked}
-                              // onClick={openModalPopUp} 
+                              checked={attributes.length !== 0 ?  state?.isChecked : ""}
+                              onChange={checkBoxChecked}
+                              onClick={openModalPopUp} 
                               />
                             <span className=''></span>
                           </span>
