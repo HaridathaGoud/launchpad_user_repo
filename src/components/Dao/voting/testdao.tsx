@@ -46,6 +46,7 @@ function ProposalVoting(props: any) {
   const savevoterddata = useSelector((state: any) => state?.vtg?.savevoterddata);
   const getCustomerData = useSelector((state: any) => state?.oidc?.user);
   const [isVoted, setisVoted] = useState<any>(false);
+  const [readMore, setReadMore] = useState(false)
   const params = useParams();
   const { castVote, parseError } = useVotingContract();
   const [optionVotingHashs, setOptionVotingHashs] = useState([])
@@ -202,7 +203,10 @@ function ProposalVoting(props: any) {
     const timeDifference = moment(proposarDetailas?.data?.startDate).format("X") == moment(stDateData).format("X")
     return timeDifference
   }
-
+  const handleShowMore = (value:string)=>{
+    value==="more" && setReadMore(true);
+    value==="less" && setReadMore(false);
+  }
   return (
 
     <>
@@ -281,7 +285,11 @@ function ProposalVoting(props: any) {
                             <Image src={daoimg} className='rounded-lg object-cover w-full h-64' />
                           </div>
                           <h2 className='text-base font-semibold mt-3 text-secondary'>Project Overview</h2>
-                          <p>{proposarDetailas?.data?.description}</p>
+                          <p>
+                            {!readMore
+                              ? proposarDetailas?.data?.description?.slice(0, 30)
+                              : proposarDetailas?.data?.description}
+                          </p>
                         </div>
 
                         {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
@@ -301,7 +309,10 @@ function ProposalVoting(props: any) {
                             </Form.Check>))}
                           </div>
                         </div>} */}
-                        <p className='text-center'><a href="#" className='hover:text-primary text-secondary'>Show More</a></p>
+                        <p className='text-center'>
+                          {!readMore && (<button onClick={()=>handleShowMore('more')} className='hover:text-primary text-secondary'>Show More</button>)}
+                          {readMore && (<button onClick={()=>handleShowMore('less')} className="font-bold text-[#b21919]">Show Less</button>)}
+                        </p>
                       </div>
                       {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>
                         <h2 className='common-heading'>Votes</h2>
