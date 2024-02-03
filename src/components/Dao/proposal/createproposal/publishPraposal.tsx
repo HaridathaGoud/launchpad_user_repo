@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -24,6 +21,7 @@ import { waitForTransaction } from 'wagmi/actions';
 import WalletText from '../../../../utils/walletText';
 import OutletContextModel from '../../../../layout/context/model';
 import outletContext from '../../../../layout/context/outletContext';
+import Button from '../../../../ui/Button';
 
 function PublishProposal(props: any) {
   const PublishShimmers = shimmers.PublishProposal(3);
@@ -152,17 +150,17 @@ function PublishProposal(props: any) {
     <>
     {isConnected ? 
     <>
-      <Container className='dao-container'>
+      <div className='container mx-auto pt-5'>
       
-          <Link to={`/dao/${params.id}/createpraposal`} className='title-width-fit'>  <span className='mb-0 back-text'>Create Proposal</span></Link>
-        <hr className='custom-hr' /> 
+          {/* <Link to={`/dao/${params.id}/createpraposal`} className='title-width-fit'>  <span className='mb-0 back-text'>Create Proposal</span></Link>
+        <hr className='custom-hr' />  */}
         
-        <Row className=''>        
-          <Col md={4}>
+        <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>        
+          <div className='md:col-span-4'>
             <StartedSteps formSteps={66} stepsOne={1} stepsTwo={2} number={2} />
-          </Col> 
-          <Col md={8}>
-            <div className='praposal-left-card ms-md-4'>
+          </div> 
+          <div className='md:col-span-8'>
+            <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
               {/* {errorMsg && (<div className='cust-error-bg'>
                 <div className='cust-crd-mr'><Image src={error} alt="" /></div>
                 <div>
@@ -170,55 +168,55 @@ function PublishProposal(props: any) {
                   <p className="error-desc">{errorMsg}</p></div>
               </div>)} */}
               {!contractData?.loading && !loader ?              
-                 <div className='voting-card'>
-                  <div className=' p-voting'>
-                    <span className='testing-title mb-0 me-2'>{proposalDetails?.proposal}</span>
-                    <p className='mt-3 mb-2 testing-flow'>{proposalDetails?.summary}</p>
+                 <div className=''>
+                  <div className=''>
+                    <span className='mb-0 me-2 text-base font-semibold text-secondary'>{proposalDetails?.proposal}</span>
+                    <p className='mt-2'>{proposalDetails?.summary}</p>
                   </div>
-                  <hr />
-                  <div className='p-voting pb-0'>
-                    <div className='md-d-flex align-items-center justify-content-between'>
-                      <h1 className='vote-subtitle mb-3 mt-4'>Voting </h1>
+                  <hr className='my-3' />
+                  <div className=''>
+                    <div className='flex items-center justify-between'>
+                      <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>
                     </div>
                     <div>
                       <p>Your proposal options</p>
                       {proposalDetails?.ProposalOptionDetails?.map((item) => (
                         <>
-                          <p className='prtype-font'>{item?.index || "A"}. {item?.options}</p>
+                          <p className=''>{item?.index || "A"}. {item?.options}</p>
                         </>
                       ))}
                     </div>                  
-                    </div><hr />
-                  <div className='p-voting pb-0'>
-                    <h3 className='vote-subtitle mb-3'>Duration </h3>
-                    <div className='md-d-flex align-items-center justify-content-between mb-4'>
-                      <p className='kp-lbl'>Start Date & Time</p>
-                      <p className='kp-value'>
+                    </div><hr className='my-3' />
+                  <div className=''>
+                    <h3 className='mb-3 text-base font-semibold text-secondary'>Duration </h3>
+                    <div className='flex items-center justify-between mb-4'>
+                      <p className=''>Start Date & Time</p>
+                      <p className=''>
                         <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
                           {proposalDetails?.startdate}
                         </Moment>
                       </p>
                     </div>
-                    <div className='md-d-flex align-items-center justify-content-between mb-4'>
-                      <p className='kp-lbl'>End Date & Time</p>
-                      <p className='kp-value'>
+                    <div className='flex items-center justify-between mb-4'>
+                      <p className=''>End Date & Time</p>
+                      <p className=''>
                         <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
                           {proposalDetails?.enddate}
                         </Moment>
                       </p>
                     </div>
                   </div>
-                    <div className='text-end'>
-                      <Button variant="primary" disabled={btnLoader} className='m-0 text-center' onClick={publishProposal} >
+                    <div className='text-end mt-2'>
+                      <Button type='primary'  disabled={btnLoader} handleClick={publishProposal} >
                         <span>{(saveProposal?.loading || btnLoader) && <Spinner size="sm" className='spinner-color text-base-100' />} </span>  Publish Proposal
                       </Button>
                     </div>
                 </div> 
                 : <PlaceHolder contenthtml={PublishShimmers} />}             
             </div>
-          </Col>
-        </Row>
-      </Container> 
+          </div>
+        </div>
+      </div> 
       </> : <WalletText/>}
     </>
   );
