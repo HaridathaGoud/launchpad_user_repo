@@ -143,6 +143,7 @@ function PublishProposal(props: any) {
       setErrorMessage?.(apiCalls.isErrorDispaly(error));
       setBtnLoader(false)
       window.scroll(0, 0);
+      // router(`/dao/${params?.id}`)
     }
 
   }

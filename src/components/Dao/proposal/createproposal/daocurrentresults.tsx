@@ -9,7 +9,7 @@ import SecondaryButtonMd from '../button/secondarymd';
 import { useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from '../../../../ui/Button';
-import { Modal } from '../../../../ui/Modal';
+import { Modal, modalActions } from '../../../../ui/Modal';
 
 const   DaoCurrentResults: NextPage = (props) => {
     const [isVoted, setisVoted] = useState<any>(false);
@@ -24,25 +24,25 @@ const   DaoCurrentResults: NextPage = (props) => {
       }
       const handleRedirectVotingScreen = () => {
         if (selectedOption === 'yes') {
-            setisVoted(true);
+            modalActions('agreeModel','open')
                    
           } else if (selectedOption === 'no') {
-            setIsChecked(true)
+            modalActions('castYourVote','open')
           }
     }
     const handleCheckBoxChange = (event) => {
         setSelectedOption(event.target.value);
       };
     const handleCancel = () => {
-        setIsChecked(false)
-        setisVoted(false);
+        modalActions('agreeModel','close')
+        modalActions('castYourVote','close')
     }
     const handleAgree=()=>{
-        setisVoted(false);
-        setIsChecked(true)
+        modalActions('agreeModel','close')
+        modalActions('castYourVote','open')
     }
     const handleConfirmVote=()=>{
-        setIsChecked(false);
+        modalActions('castYourVote','close')
         setsaveBtn(false);
         if (selectedOption === 'no') {
             setsaveBtn(true);
@@ -52,7 +52,7 @@ const   DaoCurrentResults: NextPage = (props) => {
         }
     }
     const handleEditVote=()=>{
-        setisVoted(true);
+        modalActions('agreeModel','open')
     }
     const handleViewVote=()=>{
         seteditBtn(false);
@@ -135,16 +135,13 @@ const   DaoCurrentResults: NextPage = (props) => {
                             </Form.Check>))}
                           </div>
                         </div>} */}
-                        {isVoted &&
-                        <Modal id='5'>
-                             <div>
+
+                        <Modal id='agreeModel'>
                     <div >
                         <div className=''>
                             <div className="flex justify-between items-center  mb-5">
                                 <h3 className="font-semibold text-lg">Terms Of Service</h3>
-                                {/* <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span> */}
                             </div>
-
                             <div className={`py-4 px-3 flex gap-3 ${styles.popBg}`}>
                                 <div>
                                     <span className={`icon ${styles.info}`}></span>
@@ -164,52 +161,47 @@ const   DaoCurrentResults: NextPage = (props) => {
                             </form>
                         </div>
                     </div>
-                </div>
+              
                         </Modal>
-                         }
-{isChecked &&
-  <Modal id={6} >
-    <div >
-               <div >
-               <div className="flex justify-between items-center  mb-5">
-               <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
-               {/* <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span> */}
-               </div>
-                <div className='flex justify-between items-center mb-3'>
-                    <p className={`text-sm ${styles.lightColor}`}>Choice</p>
-                    <p> {selectedOption} </p>
-                </div>
-                <div className='flex justify-between items-center mb-3'>
-                    <p className={`text-sm ${styles.lightColor}`}>DOTT</p>
-                    <p>31,272,274 <span className={`icon ${styles.squareArrow}`}></span></p>
-                </div>
-                <div className='flex justify-between items-center mb-3'>
-                    <p className={`text-sm ${styles.lightColor}`}>Your voting power</p>
-                    <p>0 Safran</p>
-                </div>
-                <div className={`py-4 px-3 flex gap-3 mb-4 ${styles.popBg}`}>
-                    <div>
-                    <span className={`icon ${styles.info}`}></span>
+                      
+            <Modal id='castYourVote' >
+                <div >
+                    <div >
+                        <div className="flex justify-between items-center  mb-5">
+                            <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
+                            {/* <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span> */}
+                        </div>
+                        <div className='flex justify-between items-center mb-3'>
+                            <p className={`text-sm ${styles.lightColor}`}>Choice</p>
+                            <p> {selectedOption} </p>
+                        </div>
+                        <div className='flex justify-between items-center mb-3'>
+                            <p className={`text-sm ${styles.lightColor}`}>DOTT</p>
+                            <p>31,272,274 <span className={`icon ${styles.squareArrow}`}></span></p>
+                        </div>
+                        <div className='flex justify-between items-center mb-3'>
+                            <p className={`text-sm ${styles.lightColor}`}>Your voting power</p>
+                            <p>0 Safran</p>
+                        </div>
+                        <div className={`py-4 px-3 flex gap-3 mb-4 ${styles.popBg}`}>
+                            <div>
+                                <span className={`icon ${styles.info}`}></span>
+                            </div>
+                            <div>
+                                <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <p>Oops, it seems you don’t have any voting power at block 31,272,274. <span className='font-semibold text-base cursor-pointer'>Learn more</span><span className={`icon cursor-pointer ${styles.squareArrow}`}></span></p>
+                    <div className={`modal-action justify-center pt-6 mt-2 ${styles.borderTop}`}>
+                        <form method="dialog" className='flex items-center'>
+                            <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
+                            <Button children={'Confirm'} handleClick={handleConfirmVote} type='secondary' />
+                        </form>
                     </div>
                 </div>
-               </div>
-                <div className={`modal-action justify-center pt-6 mt-2 ${styles.borderTop}`}>
-                    <form method="dialog" className='flex items-center'>
-                    <div className='mr-5'> <Button children={'Cancel'} handleClick={handleCancel} type='cancel' /></div>
-                    <Button children={'Confirm'}  handleClick={handleConfirmVote} type='secondary' />
-                    </form>
-                </div>
-            </div>
-  </Modal>
- }
- 
+            </Modal>
         </>
     );
-
-
 };
 
 export default DaoCurrentResults;

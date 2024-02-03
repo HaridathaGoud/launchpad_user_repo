@@ -24,7 +24,7 @@ export default function Success() {
         {isConnected ? 
         <>
             <Container className='dao-container'>                       
-            <h4 > <Link to={`/dao/${params.id}/createpraposal`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
+            <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
             <hr className="custom-hr" />
           
                 <Row className=''>
