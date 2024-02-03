@@ -252,7 +252,7 @@ function ProposalCards(props: any) {
       };
     return (
         <>
-            {!loading && 
+            {loading && 
               <ProposalCardShimmer/>
             }
                    {!loading && <Container className=''>
