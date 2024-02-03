@@ -78,6 +78,7 @@ import Button from '../../../ui/Button';
             </div>
           </div>
         </div>}
+        <> 
         {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
         {/* <div className="modal-box p-0">
                <div className='p-5'>
@@ -143,7 +144,7 @@ import Button from '../../../ui/Button';
             </div>
           </div>
         </div> */}
-        
+        </>
         </>
     );
 }

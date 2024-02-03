@@ -12,8 +12,6 @@ import Button from '../../../../ui/Button';
 import { Modal, modalActions } from '../../../../ui/Modal';
 
 const   DaoCurrentResults: NextPage = (props) => {
-    const [isVoted, setisVoted] = useState<any>(false);
-    const [isChecked, setIsChecked] = useState(false)
     const [selectedOption, setSelectedOption] = useState(null);
     const [saveBtn,setsaveBtn] = useState(true);
     const [editBtn,seteditBtn] = useState(false);
@@ -46,9 +44,11 @@ const   DaoCurrentResults: NextPage = (props) => {
         setsaveBtn(false);
         if (selectedOption === 'no') {
             setsaveBtn(true);
-            seteditBtn(false)
+            seteditBtn(false);
+             // saveVote(true)
         }else{
             seteditBtn(true)
+            // saveVote(true)
         }
     }
     const handleEditVote=()=>{
