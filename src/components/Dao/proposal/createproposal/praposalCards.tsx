@@ -285,10 +285,10 @@ function ProposalCards(props: any) {
 
                             <div className='grid md:grid-cols-5 gap-2'>
 
-                                <select  className='border rounded-[30px] formselect-arrow max-sm:w-full px-2.5' aria-label="Default select example" onChange={(e) => getApprovedProposalData(e)}>
-                                {state?.statusLu?.map((item: any) => (
-                                                        <option value={item?.name} >{item?.name}</option>
-                                                    ))}
+                                <select className='border rounded-[30px] formselect-arrow max-sm:w-full px-2.5' aria-label="Default select example" onChange={(e) => getApprovedProposalData(e)}>
+                                    {state?.statusLu?.map((item: any) => (
+                                        <option value={item?.name} >{item?.name}</option>
+                                    ))}
                                 </select>
                                 {/* <Form.Select className='border rounded-[30px] formselect-arrow max-sm:w-full' aria-label="Default select example" onChange={(e) => getApprovedProposalData(e)}>
                                     {state?.statusLu?.map((item: any) => (
@@ -313,7 +313,11 @@ function ProposalCards(props: any) {
                             <div className={`mt-4`}>
                                 {shimmerLoading ?
                                     <>
-                                        <h2>hello</h2>
+                                        <div className="animate-pulse space-x-4">
+                                            <div className=" w-full opacity-1 border rounded-xl gap-10 flex items-center p-4 ">
+                                                <div className="w-full md:h-[312px] rounded-md bg-slate-200  "></div>
+                                            </div>
+                                        </div>
                                     </> : <>
                                         {proposalData != "" ?
                                             <>

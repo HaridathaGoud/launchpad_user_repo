@@ -5,10 +5,10 @@ const BreadCrumb = () => {
     <div className="text-sm breadcrumbs">
       <ul>
         <li>
-          <NaviLink path="/dashboard">Dashboard</NaviLink>
+          <NaviLink path="/dashboard" className="!font-normal">Dashboard</NaviLink>
         </li>
         <li>
-          <NaviLink path="/projects">Projects</NaviLink>
+          <NaviLink path="/projects" className="!font-normal">Projects</NaviLink>
         </li>
         <li>Add Document</li>
       </ul>
