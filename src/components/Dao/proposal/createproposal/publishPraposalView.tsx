@@ -50,45 +50,44 @@ function TestingPraposalflow(props:any) {
                     <div className=''>
                     <div className=''>
                        <div className=''><span className='text-2xl font-semibold'>{proposalView?.data?.title}</span>
-                       {locationSplit[2] !== "voting" && <span className='published-text'> (Published by <span className='yellow-text'>you</span>)</span>}
+                       {locationSplit[2] !== "voting" && <span className=' text-secondary'> (Published by <span className=' text-secondary'>you</span>)</span>}
                        </div>
-                        <div className='ms-auto'>
+                        <div className=''>
                 {(locationSplit[2] === "voting" && showButton) && <Button className='yes-btn' onClick={() => setModalShow(true)}>VOTE</Button>}
             </div>
-            </div> <p className='mt-0 mb-2 testing-flow'>{proposalView?.data?.description}</p>
+            </div> <p className='mt-0 mb-2  text-secondary'>{proposalView?.data?.description}</p>
                     </div>
                     <hr />
                     <div className='py-2'>
-                        <div className='md-d-flex align-items-center justify-content-between'>
-                            <h1 className='vote-subtitle mb-3'>Voting </h1>
+                        <div className='md-d-flex items-center justify-between'>
+                            <h1 className='mb-3 text-base font-semibold mt-3 text-secondary'>Voting </h1>
                         </div>
                         <div>
-                        <p>Your proposal options</p>
+                        <p className=' text-secondary'>Your proposal options</p>
                     {proposalView?.data?.options?.map((item:any)=>(
                       <>
                         <div key={item?.id}>
-                        <p>{getRecorderValue(item?.recorder)}. {item?.option}</p>
+                        <p className=' text-secondary'>{getRecorderValue(item?.recorder)}. {item?.option}</p>
                         </div>
                       </>
                       ))} 
                         </div>                      
 
                     </div><hr />
-                    <div className='p-voting pb-0'>
+                    <div className='pb-0'>
 
-                        <h3 className='vote-subtitle mb-3'>Duration </h3>
-
-                        <div className='md-d-flex align-items-center justify-content-between mb-4'>
-                            <p className='kp-lbl'>Start Date & Time</p>
-                            <p className='kp-value'>
+                        <h3 className='mb-3 text-base font-semibold mt-3 text-secondary'>Duration </h3>
+                        <div className='flex items-center justify-between mb-4'>
+                            <p className=' text-secondary'>Start Date & Time</p>
+                            <p className=' text-secondary'>
                             <Moment format={"DD/MM/YYYY HH:mm"}>
                           {proposalView?.data?.startDate}
                         </Moment>
                             </p>
                         </div>
-                        <div className='md-d-flex align-items-center justify-content-between mb-4'>
-                            <p className='kp-lbl'>End Date & Time</p>
-                            <p className='kp-value'>
+                        <div className='flex items-center justify-between mb-4'>
+                            <p className=' text-secondary'>End Date & Time</p>
+                            <p className=' text-secondary'>
                                 <Moment format={"DD/MM/YYYY HH:mm"}>
                           {proposalView?.data?.endDate}
                         </Moment>

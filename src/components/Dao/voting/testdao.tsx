@@ -285,7 +285,7 @@ function ProposalVoting(props: any) {
                             <Image src={daoimg} className='rounded-lg object-cover w-full h-64' />
                           </div>
                           <h2 className='text-base font-semibold mt-3 text-secondary'>Project Overview</h2>
-                          <p>
+                          <p className='text-secondary'>
                             {!readMore
                               ? proposarDetailas?.data?.description?.slice(0, 30)
                               : proposarDetailas?.data?.description}

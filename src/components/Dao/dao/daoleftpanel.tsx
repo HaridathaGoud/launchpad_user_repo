@@ -38,7 +38,7 @@ const DaoLeftPanel = () => {
                 </div>
                 <button onClick={handleRedirectCreatepraposalScreen} className='bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8'>New Proposal</button>
                 <div>
-                    <h1 className='text-base font-semibold my-5'>Proposals</h1>
+                    <h1 className='text-base font-semibold my-5 text-secondary'>Proposals</h1>
                     <p className={`mb-5 text-secondary opacity-60`}>About </p>
                     <p className={`mb-5 text-secondary opacity-60`}>Settings</p>
                     <div className='flex gap-2'> <span className={`icon facebook-md `}></span>
