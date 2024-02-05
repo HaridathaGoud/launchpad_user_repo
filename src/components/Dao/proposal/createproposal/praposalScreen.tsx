@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProposalCards from '../createproposal/praposalCards'
 import { connect } from "react-redux";
 import { getCardsProposalList } from '../proposlaReducer/proposlaReducer';
@@ -8,16 +8,25 @@ import ProjectViewTabs from '../../dao/projecttabs';
 import DaoLeftPanel from '../../dao/daoleftpanel';
 import aquaman from '../../../../assets/images/aquaman.png';
 import BannerCarousel from '../../../../ui/BannerCarousal';
+import ProposalCardShimmer from '../../shimmers/proposalcardshimmer';
+
 function CommonCreateProposal() {
   const projectCarousel=[
     {url:aquaman,alt:'spider man web series'},
     {url:aquaman,alt:'captain web series'}
   ]
+  const [loading,setLodaing]=useState(false)
   return (
+    
     <>
-   
-    <div className="container mx-auto max-sm:px-3 md:mt-3">  
-    <BannerCarousel images={projectCarousel} className='h-52' />  
+    
+    <div className="container mx-auto max-sm:px-3 md:mt-3"> 
+    {loading && 
+              <ProposalCardShimmer/>
+            } 
+            {!loading &&
+            <>
+              <BannerCarousel images={projectCarousel} className='h-52' />  
     <div className='mt-5 mb-4'>
   <BreadCrumb/>
   <div className='mb-12 mt-4'>
@@ -36,6 +45,8 @@ function CommonCreateProposal() {
     </div>
      </div>
      </div>
+            </>
+          }
     </div>
     </>
   )

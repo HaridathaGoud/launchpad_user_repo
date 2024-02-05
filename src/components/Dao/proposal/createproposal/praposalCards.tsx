@@ -252,10 +252,8 @@ function ProposalCards(props: any) {
       };
     return (
         <>
-            {loading && 
-              <ProposalCardShimmer/>
-            }
-                   {!loading && <Container className=''>
+           
+                  <Container className=''>
                 {errorMsg &&
                     <div className='cust-error-bg'>
                         <div className='cust-crd-mr'><Image src={error} alt="" /></div>
@@ -402,7 +400,7 @@ function ProposalCards(props: any) {
                         : <CreateFirstPraposal daoId={params.id} memberShipCount={mintedMemberShipCount} />}
 
                 </>
-            </Container>}
+            </Container>
             {state?.modalShow && <WalletModal modalShow={state?.modalShow} metaMaskModalClose={handleClose} screen={"proposal"} />}
         </>
     );
