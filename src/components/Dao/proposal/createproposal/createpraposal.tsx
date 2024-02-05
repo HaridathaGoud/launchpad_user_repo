@@ -196,7 +196,7 @@ function CreatePraposal(props: any) {
         formData.endDate = state?.epochEndData
         formData.proposalType = proposalType
         formData.customerId = getCustomerId
-        formData.TitleHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(form.proposal))
+        formData.TitleHash = ethers?.utils?.keccak256(ethers?.utils?.toUtf8Bytes(form?.proposal))
         store.dispatch(proposalData(formData));
         router(`/dao/${params?.id}/publishproposal`)
       }
@@ -307,182 +307,178 @@ function CreatePraposal(props: any) {
       {isConnected ?
         <>
           <div className=''>
-            <div className='flex items-center justify-between mb-7'>
-            <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
-            <span className={`icon closeIcon`} onClick={props?.close} ></span>
-            </div>
-
-            <div className=''>
-
-              <StartedSteps formSteps={33} stepsOne={1} number={1} />
-
-              <div className=''>
-{/* 
+            {!state?.modalShow &&
+              <>
+                <div className='flex items-center justify-between mb-7'>
+                  <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
+                  <span className={`icon closeIcon`} onClick={props?.close} ></span>
+                </div>
+                <div className=''>
+                  <StartedSteps formSteps={33} stepsOne={1} number={1} />
+                  <div className=''>
+                    {/* 
                 {errorMsg && (<div className='cust-error-bg'>
                   <div className='cust-crd-mr'><Image src={error} alt="" /></div>
                   <div>
                     <p className='error-title error-red'>Error</p>
                     <p className="error-desc">{errorMsg}</p></div>
                 </div>)} */}
-                {!loader ?
-                  <form noValidate onSubmit={(e) => handleRedirectToPublishProposalScreen(e)}>
-                    <div className='mt-4 '>
-                      <label className='mb-0 inline-block ml-5'>Author</label>
-                      <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center'>
-                        <img src={user}></img><span className=''>{address}</span>
-                        <CopyToClipboard text={address} options={{ format: 'text/plain' }}
-                          onCopy={() => handleCopy()}
-                        >
-                          <span className={!copied ? 'icon md copy-icon c-pointer' : 'icon copy-check c-pointer ms-2'} />
-                        </CopyToClipboard>
-                      </div>
-                    </div>
-                    <div className="mt-4" >
-                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Proposal Title</label>
-                      <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
-                        type="text"
-                        placeholder="Proposal Title"
-                        name="proposal"
-                        maxLength={250}
-                        isInvalid={!!errors.proposal}
-                        onChange={(e) => { setField('proposal', e.currentTarget.value?.trim()) }}
-                      />
-                      <label className='text-sm font-normal text-red-600 ml-4'>{errors.proposal}</label>
-                    </div>
-                    <div className="mb-3 mt-4" >
-                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Summary</label>
-                      <textarea as="textarea"
-                        className='textarea textarea-bordered w-full rounded-[28px] focus:outline-none pl-5'
-                        rows={3}
-                        placeholder="Summary"
-                        name='summary'
-                        isInvalid={!!errors.summary}
-                        onChange={(e) => { setField('summary', e.currentTarget.value?.trim()) }}
-                      />
-                      <label className='text-sm font-normal text-red-600 ml-4'>{errors.summary}</label>
-                    </div>
+                    {!loader ?
+                      <form noValidate onSubmit={(e) => handleRedirectToPublishProposalScreen(e)}>
+                        <div className='mt-4 '>
+                          <label className='mb-0 inline-block ml-5'>Author</label>
+                          <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center'>
+                            <img src={user}></img><span className=''>{address}</span>
+                            <CopyToClipboard text={address} options={{ format: 'text/plain' }}
+                              onCopy={() => handleCopy()}
+                            >
+                              <span className={!copied ? 'icon md copy-icon c-pointer' : 'icon copy-check c-pointer ms-2'} />
+                            </CopyToClipboard>
+                          </div>
+                        </div>
+                        <div className="mt-4" >
+                          <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Proposal Title</label>
+                          <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
+                            type="text"
+                            placeholder="Proposal Title"
+                            name="proposal"
+                            maxLength={250}
+                            isInvalid={!!errors.proposal}
+                            onChange={(e) => { setField('proposal', e.currentTarget.value?.trim()) }}
+                          />
+                          <label className='text-sm font-normal text-red-600 ml-4'>{errors.proposal}</label>
+                        </div>
+                        <div className="mb-3 mt-4" >
+                          <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Summary</label>
+                          <textarea as="textarea"
+                            className='textarea textarea-bordered w-full rounded-[28px] focus:outline-none pl-5'
+                            rows={3}
+                            placeholder="Summary"
+                            name='summary'
+                            isInvalid={!!errors.summary}
+                            onChange={(e) => { setField('summary', e.currentTarget.value?.trim()) }}
+                          />
+                          <label className='text-sm font-normal text-red-600 ml-4'>{errors.summary}</label>
+                        </div>
 
-
-                    {/* <div className='proposal-type c-pointer'>
+                        {/* <div className='proposal-type c-pointer'>
                 <span className='icon uncheck-icon-ps'></span><span className='mb-0'>Decision</span>
                 </div>  */}
-                    <div className='mt-4'>
-                      {/* <span className='icon check-icon-ps'></span> */}
-                      <label  className='text-dark text-sm font-normal p-0 label ml-5'>Select Your Proposal Type</label>
-                      <div className='flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-6 py-3 '>
-                        <label className='cursor-pointer relative inline-block mt-1'>
-                          <span>
-                            <input
-                              className='checkbox checkbox-error opacity-0 rounded-[28px]'
-                              type='checkbox'
-                              checked={attributes.length !== 0 ?  state?.isChecked : ""}
-                              onChange={checkBoxChecked}
-                               onClick={openModalPopUp} 
-                              />
-                            <span className=''></span>
-                          </span>
-                        </label>
-                        <span className='text-dark text-sm font-normal p-0 label' >Voting</span>
+                        <div className='mt-4'>
+                          {/* <span className='icon check-icon-ps'></span> */}
+                          <label className='text-dark text-sm font-normal p-0 label ml-5'>Select Your Proposal Type</label>
+                          <div className='flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-6 py-3 '>
+                            <label className='cursor-pointer relative inline-block mt-1'>
+                              <span>
+                                <input
+                                  className='checkbox checkbox-error opacity-0 rounded-[28px]'
+                                  type='checkbox'
+                                  checked={attributes.length !== 0 ? state?.isChecked : ""}
+                                  onChange={checkBoxChecked}
+                                  onClick={openModalPopUp}
+                                />
+                                <span className=''></span>
+                              </span>
+                            </label>
+                            <span className='text-dark text-sm font-normal p-0 label' >Voting</span>
+                          </div>
+                          {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
+
                         </div>
-                      {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
+                        <div className='mt-4'>
+                          <div className=''>
+                            {attributes?.map((item) => (
+                              <>
+                                <div className=''>
+                                  <span className='mb-0'>{item?.index || "A"}. {item?.options}</span>
+                                </div>
+                              </>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="mt-4" >
+                          <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Start Date & Time (Local time zone)</label>
+                          <input
+                            type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.startingDate) ? " " : (isMobile && state?.startingDate ? " " : "")}`}
+                            placeholder='Start Date'
+                            name='startdate'
+                            min={currentDate}
+                            isInvalid={!!errors.startdate}
+                            onChange={(e) => startDate(e)}
+                          />
+                          <label className='text-sm font-normal text-red-600 ml-4'  >{errors.startdate}</label>
+                        </div>
+                        <div className="mt-4" >
+                          <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>End Date & Time (Local time zone)</label>
+                          <input
+                            type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.endingDate) ? " " : (isMobile && state?.endingDate ? " " : "")}`} placeholder='End Date'
+                            name="enddate"
+                            min={currentDate}
+                            isInvalid={!!errors.enddate}
+                            onChange={(e) => endDate(e)}
+                          />
+                          <label className='text-sm font-normal text-red-600 ml-4'>{errors.enddate}</label>
+                        </div>
+                        <div className='flex justify-center gap-5 items-center mt-16'>
+                          <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={props?.close} type='cancel' /> </Link>
 
-                    </div>
-                    <div className='mt-4'>
-                      <div className=''>
-                        {attributes?.map((item) => (
-                          <>
-                            <div className=''>
-                              <span className='mb-0'>{item?.index || "A"}. {item?.options}</span>
-                            </div>
-                          </>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mt-4" >
-                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Start Date & Time (Local time zone)</label>
-                      <input
-                        type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.startingDate) ? " " : (isMobile && state?.startingDate ? " " : "")}`}
-                        placeholder='Start Date'
-                        name='startdate'
-                        min={currentDate}
-                        isInvalid={!!errors.startdate}
-                        onChange={(e) => startDate(e)}
-                      />
-                      <label className='text-sm font-normal text-red-600 ml-4'  >{errors.startdate}</label>
-                    </div>
-                    <div className="mt-4" >
-                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>End Date & Time (Local time zone)</label>
-                      <input
-                        type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.endingDate) ? " " : (isMobile && state?.endingDate ? " " : "")}`} placeholder='End Date'
-                        name="enddate"
-                        min={currentDate}
-                        isInvalid={!!errors.enddate}
-                        onChange={(e) => endDate(e)}
-                      />
-                      <label className='text-sm font-normal text-red-600 ml-4'>{errors.enddate}</label>
-                    </div>
-                    <div className='flex justify-center gap-5 items-center mt-16'>
-                    <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={props?.close} type='cancel' /> </Link>
-                      
-                    <Button
-                type="secondary"
-                btnClassName="flex gap-2"
-                handleClick={(e) => handleRedirectToPublishProposalScreen(e)}
-                 disabled={toasterMessage ||  state.buttonLoader}
-              > Next
-              </Button>
-                    </div>
-                  </form> : <PlaceHolder contenthtml={PublishShimmers} />}
-              </div>
-
-
-            </div>
-
-            <Modal id="modalShow">
-                      
-            <div>
-              <h4>Add Your Options</h4>
-              {state?.modalError && (<div className='cust-error-bg'>
-                <div className='cust-crd-mr'><Image src={error} alt="" /></div>
-                <div>
-                  <p className='error-title error-red'>Error</p>
-                  <p className="error-desc">{state?.modalError}</p></div>
-              </div>)}
-              <div >
-                <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
-                  <Button type="button" btnClassName="text-center fill-btn" handleClick={addOption}>
-                    <span className='icon add'></span>Add new option
+                          <Button
+                            type="secondary"
+                            btnClassName="flex gap-2"
+                            handleClick={(e) => handleRedirectToPublishProposalScreen(e)}
+                            disabled={toasterMessage || state.buttonLoader}
+                          > Next
+                          </Button>
+                        </div>
+                      </form> : <PlaceHolder contenthtml={PublishShimmers} />}
+                  </div>
+                </div>
+              </>}
+              
+            {state?.modalShow &&
+              <div>
+                <h4>Add Your Options</h4>
+                {state?.modalError && (<div className='cust-error-bg'>
+                  <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                  <div>
+                    <p className='error-title error-red'>Error</p>
+                    <p className="error-desc">{state?.modalError}</p></div>
+                </div>)}
+                <div >
+                  <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
+                    <Button type="button" btnClassName="text-center fill-btn" handleClick={addOption}>
+                      <span className='icon add'></span>Add new option
+                    </Button>
+                  </Col>
+                  <Row>
+                    {options.map((option: any, index: any) => (<>
+                      <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
+                        <div className='d-flex align-items-center add-block' key={index}>
+                          <Form.Label className="mb-0">{option?.index ? (option?.index && option?.index + ".") : "A."}</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className='border-none-modal'
+                            placeholder='Enter your option'
+                            maxLength={50}
+                            onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
+                            value={option.options ? option.options : ""}
+                          />
+                          <span className='icon delete-icon' onClick={() => deleteOption(index)}></span>
+                        </div>
+                      </Col>
+                    </>))}
+                  </Row>
+                </div>
+                <div className="mt-4 text-end">
+                  <Button type="button" btnClassName="text-center border-btn" handleClick={handleClose}>
+                    Cancel
                   </Button>
-                </Col>
-                <Row>
-                  {options.map((option: any, index: any) => (<>
-                    <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
-                      <div className='d-flex align-items-center add-block' key={index}>
-                        <Form.Label className="mb-0">{option?.index ? (option?.index && option?.index + ".") : "A."}</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className='border-none-modal'
-                          placeholder='Enter your option'
-                          maxLength={50}
-                          onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
-                          value={option.options ? option.options : ""}
-                        />
-                        <span className='icon delete-icon' onClick={() => deleteOption(index)}></span>
-                      </div>
-                    </Col>
-                  </>))}
-                </Row>
+                  <Button type="submit" btnClassName="fill-btn m-0 ms-3 submit-spinner" handleClick={optionSave}>
+                    Save
+                  </Button>
+                </div>
               </div>
-              <div className="mt-4 text-end">
-                <Button type="button" btnClassName="text-center border-btn" handleClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button type="submit" btnClassName="fill-btn m-0 ms-3 submit-spinner" handleClick={optionSave}>
-                  Save
-                </Button>
-              </div>
-            </div>
-            </Modal>
+            }
             
             {/* <Modal
               show={state?.modalShow}
