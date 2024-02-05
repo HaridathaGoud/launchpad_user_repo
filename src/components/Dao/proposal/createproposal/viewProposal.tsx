@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import StartedSteps from './steps';
 import { useAccount } from 'wagmi';
 import WalletText from '../../../../utils/walletText';
+import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
 
 export default function ProposalView() {
     const {isConnected} = useAccount();
@@ -15,6 +16,7 @@ export default function ProposalView() {
         <>
         {isConnected ?
             <div className='container mx-auto pt-5'>
+                 <PublishProposalShimmer/>
             {/* <div className='flex items-center'>
                 <Link to='/dao'>
                     <h4 className='mb-0 back-text'>Back</h4>
@@ -31,7 +33,7 @@ export default function ProposalView() {
                    <TestingPraposalflow></TestingPraposalflow>
                     </div>
                 </div>
-            </div> : <WalletText/>}
+            </div> : <WalletText/>}           
         </>
     );
 }
