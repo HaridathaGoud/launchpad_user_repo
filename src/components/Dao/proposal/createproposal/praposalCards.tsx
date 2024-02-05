@@ -395,7 +395,7 @@ function ProposalCards(props: any) {
                                                         <span className='text-center'>{loadMore && <Spinner size="sm" className='text-dark' />} </span>
                                                         <div className='addmore-title' onClick={addProposalList}>
                                                             {!hide && <>
-                                                                <p className=' addmore-title mb-0 c-pointer'>See More</p>
+                                                                <p className='text-center text-primary text-base font-medium mb-0 cursor-pointer'>See More</p>
                                                                 <span className='icon blue-doublearrow c-pointer'></span>
                                                             </>}
                                                         </div></>)}
