@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProposalCards from '../createproposal/praposalCards'
 import { connect } from "react-redux";
 import { getCardsProposalList } from '../proposlaReducer/proposlaReducer';
@@ -15,17 +15,22 @@ function CommonCreateProposal() {
     {url:aquaman,alt:'spider man web series'},
     {url:aquaman,alt:'captain web series'}
   ]
-  const [loading,setLodaing]=useState(false)
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
   return (
     
     <>
     
     <div className="container mx-auto max-sm:px-3 md:mt-3"> 
-    {loading && 
-              <ProposalCardShimmer/>
-            } 
-            {!loading &&
-            <>
+    {loading && <ProposalCardShimmer />}
+        {!loading && (
+          <>
               <BannerCarousel images={projectCarousel} className='h-52' />  
     <div className='mt-5 mb-4'>
   <BreadCrumb/>
@@ -46,7 +51,7 @@ function CommonCreateProposal() {
      </div>
      </div>
             </>
-          }
+          )}
     </div>
     </>
   )

@@ -307,8 +307,8 @@ function CreatePraposal(props: any) {
       {isConnected ?
         <>
           <div className=''>
-            {!state?.modalShow &&
-              <>
+            {/* {!state?.modalShow &&
+              <> */}
                 <div className='flex items-center justify-between mb-7'>
                   <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
                   <span className={`icon closeIcon`} onClick={props?.close} ></span>
@@ -373,7 +373,7 @@ function CreatePraposal(props: any) {
                                 <input
                                   className='checkbox checkbox-error opacity-0 rounded-[28px]'
                                   type='checkbox'
-                                  checked={attributes.length !== 0 ? state?.isChecked : ""}
+                                  checked={attributes?.length !== 0 ? state?.isChecked : ""}
                                   onChange={checkBoxChecked}
                                   onClick={openModalPopUp}
                                 />
@@ -385,6 +385,50 @@ function CreatePraposal(props: any) {
                           {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
 
                         </div>
+                    {state?.modalShow && 
+                      <div>
+                        <h4>Add Your Options</h4>
+                        {state?.modalError && (<div className='cust-error-bg'>
+                          <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                          <div>
+                            <p className='error-title error-red'>Error</p>
+                            <p className="error-desc">{state?.modalError}</p></div>
+                        </div>)}
+                        <div >
+                          <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
+                            <Button type="button" btnClassName="text-center fill-btn" handleClick={addOption}>
+                              <span className='icon add'></span>Add new option
+                            </Button>
+                          </Col>
+                          <Row>
+                            {options.map((option: any, index: any) => (<>
+                              <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
+                                <div className='d-flex align-items-center add-block' key={index}>
+                                  <Form.Label className="mb-0">{option?.index ? (option?.index && option?.index + ".") : "A."}</Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    className='border-none-modal'
+                                    placeholder='Enter your option'
+                                    maxLength={50}
+                                    onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
+                                    value={option.options ? option.options : ""}
+                                  />
+                                  <span className='icon delete-icon' onClick={() => deleteOption(index)}></span>
+                                </div>
+                              </Col>
+                            </>))}
+                          </Row>
+                        </div>
+                        <div className="mt-4 text-end">
+                          <Button type="button" btnClassName="text-center border-btn" handleClick={handleClose}>
+                            Cancel
+                          </Button>
+                          <Button type="submit" btnClassName="fill-btn m-0 ms-3 submit-spinner" handleClick={optionSave}>
+                            Save
+                          </Button>
+                        </div>
+                      </div>
+                    }
                         <div className='mt-4'>
                           <div className=''>
                             {attributes?.map((item) => (
@@ -433,9 +477,9 @@ function CreatePraposal(props: any) {
                       </form> : <PlaceHolder contenthtml={PublishShimmers} />}
                   </div>
                 </div>
-              </>}
+              {/* </>} */}
               
-            {state?.modalShow &&
+            {/* {state?.modalShow &&
               <div>
                 <h4>Add Your Options</h4>
                 {state?.modalError && (<div className='cust-error-bg'>
@@ -478,7 +522,7 @@ function CreatePraposal(props: any) {
                   </Button>
                 </div>
               </div>
-            }
+            } */}
             
             {/* <Modal
               show={state?.modalShow}
