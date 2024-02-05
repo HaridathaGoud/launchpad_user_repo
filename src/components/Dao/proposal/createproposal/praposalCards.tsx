@@ -96,7 +96,6 @@ function ProposalCards(props: any) {
     }, [address])
 
     const getApprovedProposalData = (e: any) => {
-        debugger
         setShimmerLoading(true)
         let data;
         if (e == "all") {
