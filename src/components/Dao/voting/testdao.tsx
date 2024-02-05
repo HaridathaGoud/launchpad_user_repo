@@ -292,7 +292,7 @@ function ProposalVoting(props: any) {
                           </p>
                         </div>
 
-                        {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
+                        {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
                           <p className='text-base font-semibold mt-3 text-secondary'>choose your option</p>
                           <div className='d-flex flex-wrap-align voting-card-opt'>
                             {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
@@ -308,7 +308,7 @@ function ProposalVoting(props: any) {
                               /><Form.Label className='text-secondary'>{item?.option}</Form.Label>
                             </Form.Check>))}
                           </div>
-                        </div>}
+                        </div>} */}
                         <p className='text-center'>
                           {!readMore && (<button onClick={()=>handleShowMore('more')} className='hover:text-primary text-secondary'>Show More</button>)}
                           {readMore && (<button onClick={()=>handleShowMore('less')} className="font-bold text-[#b21919]">Show Less</button>)}
@@ -340,11 +340,11 @@ function ProposalVoting(props: any) {
 
                   <Row className='justify-content-center mt-4'>
                     <Col lg={8}>
-                      {/* {(!isVoted &&
+                      {(!isVoted &&
                         state?.mintedMemberShipCount ==0
                         && showVotingOptions
                         && userDetails?.data?.status != "Publishing")
-                        && */}
+                        &&
                          <> {<div className='d-flex '>
                           <Button className='yes-btn' size="lg" onClick={() => saveVote(true)}
                             disabled={state?.isButtonLoading}
@@ -355,7 +355,7 @@ function ProposalVoting(props: any) {
                           </Button>
                         </div>}
                         </>
-                        {/* } */}
+                        } 
                         </Col>
                   </Row>
 
