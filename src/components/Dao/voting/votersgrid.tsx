@@ -62,7 +62,7 @@ import styles from "../proposal/createproposal/dao.module.css";
     const html = votersDetails?.map((item : any) => (
       <tr>
         <td className="">
-          <div className="d-flex ">
+          <div className="flex ">
             <div className='flex gap-2 items-center'>
               <img src={walletimg} alt="" className='mr-3 object-cover' />
               <span className=''>{item?.walletAddress}</span>{" "}
@@ -70,7 +70,7 @@ import styles from "../proposal/createproposal/dao.module.css";
             <CopyToClipboard text={item?.walletAddress} options={{ format: 'text/plain' }}
               onCopy={() => handleCopy(item?.walletAddress)}
             >
-              <span className={(copied && selection === item?.walletAddress) ? 'icon copy-check c-pointer ms-2' : 'icon md copy-icon c-pointer'} />
+              <span className={(copied && selection === item?.walletAddress) ? 'icon copy-check c-pointer ms-2' : 'icon md copy-icon c-pointer ms-2'} />
             </CopyToClipboard>
           </div>
         </td>
