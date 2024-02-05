@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,23 +11,35 @@ import StartedSteps from './steps';
 import { useAccount } from 'wagmi';
 import WalletText from '../../../../utils/walletText';
 import Button from '../../../../ui/Button';
+import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
 
 export default function Success() {
     const params = useParams()
     const { isConnected,address } = useAccount();  
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer); // Cleanup the timer
+    }, []);
 
     const router = useNavigate();
     const handleRedirect =()=>{
         router(`/dao/proposalview/${params.id}`)
     }
+
     return (
         <>
         {isConnected ? 
         <>
-            <div className='container mx-auto pt-5'>                       
+            <div className='container mx-auto pt-5'>
+            {loading ? (
+                           <PublishProposalShimmer/> 
+                        ) : ( <>                   
             {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
             <hr /> */}
-          
                 <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
                 <div className='md:col-span-4'> 
                     <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3}/>
@@ -43,6 +55,7 @@ export default function Success() {
                    </div>
                     </div>
                 </div>
+                </>  )}
             </div>
             </> : <WalletText/>}
         </>

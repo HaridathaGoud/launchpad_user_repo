@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -21,12 +21,14 @@ import Discussions from '../proposal/createproposal/discussions';
 import BannerCarousel from '../../../ui/BannerCarousal';
 import aquaman from '../../../assets/images/aquaman.png';
 import Button from '../../../ui/Button';
+import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
 // import { Button } from 'react-bootstrap';
   function Voting() {
     const router = useNavigate();
     const dispatch = useDispatch();
     const { isConnected } = useAccount();
     const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
+    const [loading, setLoading] = useState(true);
     const handleback =()=>{
         router(`/dao/${selectedDaoData?.daoId}`)
         dispatch({ type: 'savevoterddata', payload: null });
@@ -36,9 +38,23 @@ import Button from '../../../ui/Button';
       {url:aquaman,alt:'spider man web series'},
       {url:aquaman,alt:'captain web series'}
     ]
+    useEffect(() => {
+      const timer = setTimeout(() => {
+          setLoading(false);
+      }, 2000);
+      return () => clearTimeout(timer); // Cleanup the timer
+  }, []);
     return (
         <>
-        {isConnected && <div className='container mx-auto max-md:px-3'>
+        {loading ? (
+            <PublishProposalShimmer/> 
+                ) : ( <>
+        {isConnected && 
+        <div className='container mx-auto max-md:px-3'>
+        {/* {loading ? (
+            <PublishProposalShimmer/> 
+                ) : ( <>  */}
+
         <BannerCarousel images={projectCarousel} className='h-52' />
           <div className='mt-5 mb-4'>
             <BreadCrumb />
@@ -63,11 +79,14 @@ import Button from '../../../ui/Button';
               </div>
             </div>
           </div>
-        
+          {/* </> )} */}
+
         </div>}
         {!isConnected && <div className='container mx-auto'>
+        {/* {loading ? (
+            <PublishProposalShimmer/> 
+                ) : ( <>  */}
           <span className='mb-0 back-text c-pointer' onClick={handleback}>Voting</span>
-
           <div className='grid grid-cols-12 gap-[30px]'>
             <div className='col-span-3'>
               <Status></Status>
@@ -77,7 +96,9 @@ import Button from '../../../ui/Button';
               <TestingPraposalflow></TestingPraposalflow>
             </div>
           </div>
+    {/* </>)} */}
         </div>}
+        </> )}
         <> 
         {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
         {/* <div className="modal-box p-0">
