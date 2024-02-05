@@ -458,7 +458,7 @@ function CreatePraposal(props: any) {
                   <Row>
                     {options.map((option: any, index: any) => (<>
                       <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
-                        <div className='d-flex align-items-center add-block' key={index}>
+                        <div className='d-flex align-items-center add-block relative' key={index}>
                           <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">{option?.index ? (option?.index && option?.index + ".") : "A."}</label>
                           <input
                             type="text"
@@ -468,7 +468,7 @@ function CreatePraposal(props: any) {
                             onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
                             value={option.options ? option.options : ""}
                           />
-                          <span className='icon delete-icon' onClick={() => deleteOption(index)}></span>
+                          <span className='icon delete-icon top-10 absolute right-6 cursor-pointer' onClick={() => deleteOption(index)}></span>
                         </div>
                       </Col>
                     </>))}

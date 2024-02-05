@@ -10,10 +10,10 @@ export function modalActions(id, action) {
     modal?.classList.remove("modal-open");
   }
 }
-export function Modal({ id, children }) {
+export function Modal({ id, children,modalClass }) {
   return (
     <dialog id={id} className="modal">
-      <div className="modal-box w-11/12 max-w-2xl rounded-[15px]">
+      <div className={`modal-box w-11/12 max-w-2xl rounded-[15px] ${modalClass}`}>
         <form method="dialog">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"

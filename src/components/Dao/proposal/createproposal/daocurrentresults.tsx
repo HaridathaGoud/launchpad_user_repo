@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from '../../../../ui/Button';
 import { Modal, modalActions } from '../../../../ui/Modal';
+import votesuccess from '../../../../assets/images/vote-success.gif'
 
 const   DaoCurrentResults: NextPage = (props) => {
     const [selectedOption, setSelectedOption] = useState(null);
@@ -74,7 +75,10 @@ const   DaoCurrentResults: NextPage = (props) => {
                         <span className='text-base text-secondary'>No - 0%</span>
                     </div>
                    </div>
-                   <p className='text-secondary'>23k The Saf...</p>
+                   <div>
+                   <p className='text-secondary truncate'>23k The Saf...</p>
+                   {editBtn &&  <img src={votesuccess} alt="" className='mt-2 w-[90px]' />}
+                   </div>
                  </div>
                  <h2 className='text-base font-semibold mb-2 text-secondary'>Cast Your Vote</h2>
                   <div className="flex gap-8 mb-9">
@@ -136,7 +140,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                           </div>
                         </div>} */}
 
-                        <Modal id='agreeModel'>
+                        <Modal id='agreeModel' modalClass='max-w-[510px]'>
                     <div >
                         <div className=''>
                             <div className="flex justify-between items-center  mb-5">
@@ -164,7 +168,7 @@ const   DaoCurrentResults: NextPage = (props) => {
               
                         </Modal>
                       
-            <Modal id='castYourVote' >
+            <Modal id='castYourVote' modalClass='max-w-[510px]'>
                 <div >
                     <div >
                         <div className="flex justify-between items-center  mb-5">
