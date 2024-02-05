@@ -142,7 +142,7 @@ import styles from "./dao.module.css";
            
         </div>
           <div className='my-4'>
-          <h2 className='text-secondary'>Proposal options</h2>
+          <h2 className='text-secondary text-base font-semibold my-3 text-secondary '>Proposal options</h2>
                       {user?.data?.options?.map((data:any) => (<div className='text-secondary'>
                        <div key={data?.id}>
                        <p className='text-secondary'>{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}

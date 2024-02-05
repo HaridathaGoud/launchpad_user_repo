@@ -388,7 +388,7 @@ function CreatePraposal(props: any) {
 
                         </div>
                         <div className='mt-4'>
-                          <div className=''>
+                          <div className='flex'>
                             {attributes?.map((item) => (
                               <>
                                 <div className='pl-5 text-secondary font-medium'>
@@ -444,21 +444,21 @@ function CreatePraposal(props: any) {
                 <span className='icon closeIcon' onClick={handleClose}></span>
                 </div>
                 {state?.modalError && (<div className='cust-error-bg'>
-                  <div className='mr-4'><Image src={error} alt="" /></div>
+                  <div className='mr-4'><img src={error} alt="" /></div>
                   <div>
                     <p className='error-title error-red'>Error</p>
                     <p className="error-desc">{state?.modalError}</p></div>
                 </div>)}
                 <div >
-                  <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
+                  <div className='text-end mb-4'>
                     <Button type="primary" btnClassName="text-center fill-btn" handleClick={addOption}>
                       <span className='icon add'></span>Add new option
                     </Button>
-                  </Col>
-                  <Row>
+                  </div>
+                  <div>
                     {options.map((option: any, index: any) => (<>
-                      <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
-                        <div className='d-flex align-items-center add-block relative' key={index}>
+                      <div>
+                        <div className='d-flex align-items-center add-block relative mt-4' key={index}>
                           <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">{option?.index ? (option?.index && option?.index + ".") : "A."}</label>
                           <input
                             type="text"
@@ -470,9 +470,9 @@ function CreatePraposal(props: any) {
                           />
                           <span className='icon delete-icon top-10 absolute right-6 cursor-pointer' onClick={() => deleteOption(index)}></span>
                         </div>
-                      </Col>
+                      </div>
                     </>))}
-                  </Row>
+                  </div>
                 </div>
                 <div className="flex justify-center gap-5 items-center mt-16">
                   <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>

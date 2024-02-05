@@ -63,7 +63,7 @@ function TestingPraposalflow(props:any) {
                             <h1 className='mb-3 text-base font-semibold mt-3 text-secondary'>Voting </h1>
                         </div>
                         <div>
-                        <p className=' text-secondary'>Your proposal options</p>
+                        <p className=' text-secondary '>Your proposal options</p>
                     {proposalView?.data?.options?.map((item:any)=>(
                       <>
                         <div key={item?.id}>
