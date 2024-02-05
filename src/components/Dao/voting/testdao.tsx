@@ -276,7 +276,7 @@ function ProposalVoting(props: any) {
                                 <CopyToClipboard text={proposarDetailas?.data?.walletAddress} options={{ format: 'text/plain' }}
                                   onCopy={() => handleCopy()}
                                 >
-                                  <span className={!state?.copied ? 'icon md copy-icon c-pointer' : 'icon copy-check c-pointer ms-2'} />
+                                  <span className={!state?.copied ? 'icon md copy-icon c-pointer' : 'icon copy-check c-pointer'} />
                                 </CopyToClipboard>
                               </div>
                             </div>
@@ -311,7 +311,7 @@ function ProposalVoting(props: any) {
                         </div>} */}
                         <p className='text-center'>
                           {!readMore && (<button onClick={()=>handleShowMore('more')} className='hover:text-primary text-secondary'>Show More</button>)}
-                          {readMore && (<button onClick={()=>handleShowMore('less')} className="font-bold text-[#b21919]">Show Less</button>)}
+                          {readMore && (<button onClick={()=>handleShowMore('less')} className="hover:text-primary text-secondary">Show Less</button>)}
                         </p>
                       </div>
                       {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>

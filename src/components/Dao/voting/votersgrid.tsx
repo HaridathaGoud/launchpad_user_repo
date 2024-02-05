@@ -65,7 +65,7 @@ import styles from "../proposal/createproposal/dao.module.css";
           <div className="flex ">
             <div className='flex gap-2 items-center'>
               <img src={walletimg} alt="" className='mr-3 object-cover' />
-              <span className=''>{item?.walletAddress}</span>{" "}
+              <span className='truncate'>{item?.walletAddress}</span>{" "}
             </div>
             <CopyToClipboard text={item?.walletAddress} options={{ format: 'text/plain' }}
               onCopy={() => handleCopy(item?.walletAddress)}
@@ -75,7 +75,7 @@ import styles from "../proposal/createproposal/dao.module.css";
           </div>
         </td>
         <td className=''>{item?.options}</td>
-        <td className='whitespace-nowrap'>23k The Saf...</td>
+        <td className='whitespace-nowrap truncate'>23k The Saf...</td>
       </tr>
     ));
 
