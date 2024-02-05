@@ -22,6 +22,7 @@ import BannerCarousel from '../../../ui/BannerCarousal';
 import aquaman from '../../../assets/images/aquaman.png';
 import Button from '../../../ui/Button';
 import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
+import ProposalTabbedContent from './proposalTabs';
 // import { Button } from 'react-bootstrap';
   function Voting() {
     const router = useNavigate();
@@ -51,10 +52,6 @@ import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
                 ) : ( <>
         {isConnected && 
         <div className='container mx-auto max-md:px-3'>
-        {/* {loading ? (
-            <PublishProposalShimmer/> 
-                ) : ( <>  */}
-
         <BannerCarousel images={projectCarousel} className='h-52' />
           <div className='mt-5 mb-4'>
             <BreadCrumb />
@@ -72,20 +69,17 @@ import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
             <div className='md:col-span-9'>
               <VotingDao></VotingDao>
               <div>
-              <Voters></Voters>
+                <ProposalTabbedContent/>
+              {/* <Voters></Voters> */}
               </div>
               <div>
-                <Discussions/>
+                {/* <Discussions/> */}
               </div>
             </div>
           </div>
-          {/* </> )} */}
-
         </div>}
+        
         {!isConnected && <div className='container mx-auto'>
-        {/* {loading ? (
-            <PublishProposalShimmer/> 
-                ) : ( <>  */}
           <span className='mb-0 back-text c-pointer' onClick={handleback}>Voting</span>
           <div className='grid grid-cols-12 gap-[30px]'>
             <div className='col-span-3'>
@@ -96,7 +90,6 @@ import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
               <TestingPraposalflow></TestingPraposalflow>
             </div>
           </div>
-    {/* </>)} */}
         </div>}
         </> )}
         <> 

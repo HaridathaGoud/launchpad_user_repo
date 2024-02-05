@@ -34,29 +34,29 @@ export default function Success() {
         <>
         {isConnected ? 
         <>
-            <div className='container mx-auto pt-5'>
-            {loading ? (
-                           <PublishProposalShimmer/> 
-                        ) : ( <>                   
-            {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
+                    <div className='container mx-auto pt-5'>
+                        {loading ? (
+                            <PublishProposalShimmer />
+                        ) : (<>
+                            {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
             <hr /> */}
-                <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
-                <div className='md:col-span-4'> 
-                    <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3}/>
+                            <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
+                                <div className='md:col-span-4'>
+                                    <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3} />
+                                </div>
+                                <div className='md:col-span-8'>
+                                    <div className='text-center'>
+                                        <img src={success} className='mx-auto'></img>
+                                        <h1 className='text-success font-bold text-lg mt-3 cursor-pointer'>Thank You</h1>
+                                        <p className='mb-5 text-secondary'>Your proposal is submitted successfully!</p>
+                                        <Button type="primary" handleClick={handleRedirect}>
+                                            Back to publish proposal summary
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </>)}
                     </div>
-                    <div className='md:col-span-8'> 
-                   <div className='text-center'>
-                      <img src={success} className='mx-auto'></img>
-                      <h1 className='text-success font-bold text-lg mt-3 cursor-pointer'>Thank You</h1>
-                      <p className='mb-5 text-secondary'>Your proposal is submitted successfully!</p>
-                      <Button  type="primary"  handleClick={handleRedirect}>
-                     Back to publish proposal summary
-                    </Button>
-                   </div>
-                    </div>
-                </div>
-                </>  )}
-            </div>
             </> : <WalletText/>}
         </>
     );

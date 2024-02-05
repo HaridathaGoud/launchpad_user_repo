@@ -108,13 +108,14 @@ import styles from "../proposal/createproposal/dao.module.css";
        <div>
        <span className='text-2xl font-semibold text-secondary'>Voters {""}</span><span className='text-secondary'>({votersDetails?.length} voters)</span>
        </div>
-        <div className={`${styles.customTabs} tabs`}>
+        {/* <div className={`${styles.customTabs} tabs`}>
             <a className={`${styles.tab}  tab tab-active`}>Discussions</a>
             <a className={`${styles.tab} ${styles.tabActive} tab`}>Voters</a>
-        </div>
+        </div> */}
               
         </div>
        </div>
+
         {loading ?
         <Placeholder xs={12} animation="glow">
           <Placeholder xs={1} className='me-3 shimmer-icon' />
@@ -129,6 +130,7 @@ import styles from "../proposal/createproposal/dao.module.css";
             fetchMoreData={fetchMoreData}
           />
         </div> }
+        {/* <Discussions/> */}
 
         </>
     );
