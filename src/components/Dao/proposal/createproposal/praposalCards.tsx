@@ -96,6 +96,7 @@ function ProposalCards(props: any) {
     }, [address])
 
     const getApprovedProposalData = (e: any) => {
+        debugger
         setShimmerLoading(true)
         let data;
         if (e == "all") {
@@ -316,7 +317,9 @@ function ProposalCards(props: any) {
                                         {proposalData?.map((item) => (
                                             <>
                                                 {shimmerLoading ?
-                                                    <></> :
+                                                    <>
+                                                    <h2>hello</h2>
+                                                    </> :
                                                     <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
                                                         <div className="flex justify-between gap-4 items-center">
                                                             <div className="flex items-center truncate">
