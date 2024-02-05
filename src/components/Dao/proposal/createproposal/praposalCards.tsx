@@ -311,96 +311,95 @@ function ProposalCards(props: any) {
 
 
                             <div className={`mt-4`}>
-                                {proposalData != "" ?
+                                {shimmerLoading ?
                                     <>
-                                        {proposalData?.map((item) => (
+                                        <h2>hello</h2>
+                                    </> : <>
+                                        {proposalData != "" ?
                                             <>
-                                                {shimmerLoading ?
+                                                {proposalData?.map((item) => (
                                                     <>
-                                                    <h2>hello</h2>
-                                                    </> :
-                                                    <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
-                                                        <div className="flex justify-between gap-4 items-center">
-                                                            <div className="flex items-center truncate">
-                                                                <div className='w-9 h-9 mr-2 shrink-0'>
-                                                                    <Image src={daocardProfile} className='rounded-full object-cover' />
+                                                        <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
+                                                            <div className="flex justify-between gap-4 items-center">
+                                                                <div className="flex items-center truncate">
+                                                                    <div className='w-9 h-9 mr-2 shrink-0'>
+                                                                        <Image src={daocardProfile} className='rounded-full object-cover' />
+                                                                    </div>
+                                                                    <p className='truncate text-secondary'>0x4a9...929A</p>
                                                                 </div>
-                                                                <p className='truncate text-secondary'>0x4a9...929A</p>
+                                                                <div>
+                                                                    <span className={`font-semibold px-3 py-1 rounded ${(item?.status === "Pending" || item?.status === "Publishing") ? ("pending-text") :
+                                                                        (item?.status === "Closed" ? ("close-text") : (""))}`}>{item?.status}</span>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <span className={`font-semibold px-3 py-1 rounded ${(item?.status === "Pending" || item?.status === "Publishing") ? ("pending-text") :
-                                                                    (item?.status === "Closed" ? ("close-text") : (""))}`}>{item?.status}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className=''>
-                                                            <div className='d-flex align-items-center'>
-                                                                <h4 className='text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer' onClick={() => handleVotingScreen(item?.proposalId)}>{item?.title}</h4>
-                                                            </div>
-                                                            {/* <div className='d-flex align-items-center mobile-mt'>
+                                                            <div className=''>
+                                                                <div className='d-flex align-items-center'>
+                                                                    <h4 className='text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer' onClick={() => handleVotingScreen(item?.proposalId)}>{item?.title}</h4>
+                                                                </div>
+                                                                {/* <div className='d-flex align-items-center mobile-mt'>
                                                                     <span className={item?.status === "Approved" ? ("icon success-icon") :
                                                                         ((item?.status === "Pending" || item?.status === "Publishing") ? ("icon pending-icon") : ("icon failed-close"))}></span>
                                                                     <h4 className={`mb-0 ms-2 proposal-text ${(item?.status ===  "Pending" || item?.status === "Publishing") ? ("pending-text") :
                                                                     (item?.status === "Closed" ? ("close-text") : ("")) }`}>{item?.status}</h4>
                                                                 </div> */}
-                                                        </div>
-                                                        <div className="flex gap-5 flex-col lg:flex-row">
-                                                            <div className='w-full lg:w-52 lg:h-32 shrink-0'>
-                                                                <Image src={daoimg} className='rounded-lg object-cover' />
                                                             </div>
-                                                            <div className='flex-1'>
-                                                                <p className='text-base-200 mt-2'>
-                                                                    {item?.description || "--"}</p>
-                                                                <div className='d-flex align-items-center'>
-                                                                    <p className='text-secondary mt-3 me-3'>
-                                                                        Start Date: <b> <Moment format={"DD/MM/YYYY HH:mm"}>{item?.startDate}</Moment></b>
-                                                                    </p>
-                                                                    <p className='text-secondary mt-3 me-3'>
-                                                                        End Date: <b> <Moment format={"DD/MM/YYYY HH:mm"}>{item?.endDate}</Moment></b>
-                                                                    </p>
+                                                            <div className="flex gap-5 flex-col lg:flex-row">
+                                                                <div className='w-full lg:w-52 lg:h-32 shrink-0'>
+                                                                    <Image src={daoimg} className='rounded-lg object-cover' />
                                                                 </div>
-                                                                <div className='option-style'>
-                                                                    {item?.options?.map((data: any) => (<div className='text-secondary'>
-                                                                        <div key={data?.id}>
-                                                                            <p className='text-secondary'>{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>))}
-                                                                </div>
-                                                                <div className="md:flex justify-between items-center mt-2">
-                                                                    <p className='text-base font-semibold mb-2 md:mb-0 text-secondary'>Ends In 1 week</p>
-                                                                    <div className='flex gap-5'>
-                                                                        <div>
-                                                                            <span className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>
-                                                                            <span className='text-base text-secondary'>Yes - 100%</span>
-                                                                        </div>
-                                                                        <div>
-                                                                            <span className={`bg-primary h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>
-                                                                            <span className='text-base text-secondary'>No - 0%</span>
+                                                                <div className='flex-1'>
+                                                                    <p className='text-base-200 mt-2'>
+                                                                        {item?.description || "--"}</p>
+                                                                    <div className='d-flex align-items-center'>
+                                                                        <p className='text-secondary mt-3 me-3'>
+                                                                            Start Date: <b> <Moment format={"DD/MM/YYYY HH:mm"}>{item?.startDate}</Moment></b>
+                                                                        </p>
+                                                                        <p className='text-secondary mt-3 me-3'>
+                                                                            End Date: <b> <Moment format={"DD/MM/YYYY HH:mm"}>{item?.endDate}</Moment></b>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className='option-style'>
+                                                                        {item?.options?.map((data: any) => (<div className='text-secondary'>
+                                                                            <div key={data?.id}>
+                                                                                <p className='text-secondary'>{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>))}
+                                                                    </div>
+                                                                    <div className="md:flex justify-between items-center mt-2">
+                                                                        <p className='text-base font-semibold mb-2 md:mb-0 text-secondary'>Ends In 1 week</p>
+                                                                        <div className='flex gap-5'>
+                                                                            <div>
+                                                                                <span className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>
+                                                                                <span className='text-base text-secondary'>Yes - 100%</span>
+                                                                            </div>
+                                                                            <div>
+                                                                                <span className={`bg-primary h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>
+                                                                                <span className='text-base text-secondary'>No - 0%</span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+
+
                                                         </div>
+                                                    </>))}
+                                                {loadData && (
+                                                    <>
+                                                        <span className='text-center'>{loadMore && <Spinner size="sm" className='text-dark' />} </span>
+                                                        <div className='addmore-title' onClick={addProposalList}>
+                                                            {!hide && <>
+                                                                <p className=' addmore-title mb-0 c-pointer'>See More</p>
+                                                                <span className='icon blue-doublearrow c-pointer'></span>
+                                                            </>}
+                                                        </div></>)}
+                                            </>
 
-
-
-                                                    </div>
-                                                }
-
-                                            </>))}
-                                        {loadData && (
-                                            <>
-                                                <span className='text-center'>{loadMore && <Spinner size="sm" className='text-dark' />} </span>
-                                                <div className='addmore-title' onClick={addProposalList}>
-                                                    {!hide && <>
-                                                        <p className=' addmore-title mb-0 c-pointer'>See More</p>
-                                                        <span className='icon blue-doublearrow c-pointer'></span>
-                                                    </>}
-                                                </div></>)}
-                                    </>
-
-                                    : <div className='text-center'><img src={nodata} width={60} /><h4 className="text-center no-data-text">No Data Found</h4></div>
-                                }
+                                            : <div className='text-center'><img src={nodata} width={60} /><h4 className="text-center no-data-text">No Data Found</h4></div>
+                                        }
+                                    </>}
                             </div>
                         </div>
                         : <CreateFirstPraposal daoId={params.id} memberShipCount={mintedMemberShipCount} />}
