@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
@@ -39,5 +39,23 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <script>
+      // Check if the user prefers a dark color scheme
+      const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+      // Function to set the theme based on user preference
+      function setTheme() {
+        const newColorScheme = prefersDarkMode ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", newColorScheme);
+      }
+  
+      // Set the initial theme
+      setTheme();
+  
+      // Listen for changes in the user's color scheme preference
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setTheme);
+    </script>
   </body>
+  
 </html>

@@ -49,7 +49,7 @@ function TestingPraposalflow(props:any) {
            {!proposalView?.loading? <div className=''>
                     <div className=''>
                     <div className=''>
-                       <div className=''><span className='text-2xl font-semibold'>{proposalView?.data?.title}</span>
+                       <div className=''><span className='text-2xl font-semibold text-secondary'>{proposalView?.data?.title}</span>
                        {locationSplit[2] !== "voting" && <span className=' text-secondary'> (Published by <span className=' text-secondary'>you</span>)</span>}
                        </div>
                         <div className=''>
