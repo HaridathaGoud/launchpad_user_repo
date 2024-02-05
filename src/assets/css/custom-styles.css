@@ -227,6 +227,7 @@ select{background:url(https://devdottstoragespace.blob.core.windows.net/dottimag
 .icon.channel-check{background-position: -170px -161px !important;}
 .input:disabled{background-color: #e5e5e5 !important;}
 .no-scrollbar::-webkit-scrollbar{display: none;} 
+.icon.add{background-position: -477px -161px !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

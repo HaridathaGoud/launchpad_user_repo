@@ -132,7 +132,7 @@ debugger
                             
 <div className='p-3'>
                             <div className='cust-error-bg mt-2'>
-                            <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                            <div className='mr-4'><Image src={error} alt="" /></div>
                             <div>
                               <p className='error-title error-red text-start'>Error</p>
                               <p className="error-desc text-start">{errorMsg}</p></div>

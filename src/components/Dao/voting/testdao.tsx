@@ -215,7 +215,7 @@ function ProposalVoting(props: any) {
       <div className='py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg'>
         {(proposarDetailas?.error || savevoterddata?.error || state?.errorMsg) && (
           <div className='cust-error-bg'>
-            <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+            <div className='mr-4'><Image src={error} alt="" /></div>
             <div>
               <p className='error-title error-red'>Error</p>
               <p className="error-desc">{proposarDetailas?.error || savevoterddata?.error || state?.errorMsg}</p></div>

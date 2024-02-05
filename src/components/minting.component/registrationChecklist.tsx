@@ -303,7 +303,7 @@ const Registrationchecklist = (props, { customerDetails, luDataSet, cryptoChange
           && props.selectedData.customerRegisterDetails?.status?.toLowerCase() == "rejected") &&
           <div>
             <div className='cust-error-bg'>
-              <div className='cust-crd-mr'><Image
+              <div className='mr-4'><Image
                 src={`${errorIcons(props.selectedData.customerRegisterDetails?.status)}`}
                 alt="" /></div>
               <div>
@@ -390,7 +390,7 @@ const Registrationchecklist = (props, { customerDetails, luDataSet, cryptoChange
           && props.selectedData.customerRegisterDetails?.buttonName != "Not Whitelisted") &&
           <div>
             <div className='cust-error-bg'>
-              <div className='cust-crd-mr'><Image
+              <div className='mr-4'><Image
                 src={`${errorIcons(props.selectedData.customerRegisterDetails?.status)}`}
                 //  src={props.selectedData.customerRegisterDetails?.status !="Rejected"&&thankyou}
                 alt="" /></div>
@@ -489,7 +489,7 @@ const Registrationchecklist = (props, { customerDetails, luDataSet, cryptoChange
 
                 {props.note != null &&
                   <div className='cust-error-bg'>
-                    <div className='cust-crd-mr'><Image src={reject} alt="" /></div>
+                    <div className='mr-4'><Image src={reject} alt="" /></div>
                     <div>
                       <p className='error-title error-warning'>Warning</p>
                       <p className="error-desc">{`${props.note}`}</p>
@@ -542,7 +542,7 @@ const Registrationchecklist = (props, { customerDetails, luDataSet, cryptoChange
 
             ) ?
               <div className='cust-error-bg'>
-                <div className='cust-crd-mr'><Image
+                <div className='mr-4'><Image
                   src={`${errorIcons(props.selectedData.customerRegisterDetails?.status)}`}
                   //  src={props.selectedData.customerRegisterDetails?.status !="Rejected"&&thankyou}
                   alt="" /></div>
@@ -555,7 +555,7 @@ const Registrationchecklist = (props, { customerDetails, luDataSet, cryptoChange
                   || props.selectedData.customerRegisterDetails?.buttonName == "Not Whitelisted"}>
                    
                     <div className='cust-error-bg'>
-                <div className='cust-crd-mr'><Image
+                <div className='mr-4'><Image
                   src={reject}
                   //  src={props.selectedData.customerRegisterDetails?.status !="Rejected"&&thankyou}
                   alt="" /></div>
@@ -609,7 +609,7 @@ const Registrationchecklist = (props, { customerDetails, luDataSet, cryptoChange
           <>
             {props.note != null &&
               <div className='cust-error-bg'>
-                <div className='cust-crd-mr'><Image src={reject} alt="" /></div>
+                <div className='mr-4'><Image src={reject} alt="" /></div>
                 <div>
                   <p className='error-title error-warning'>Warning</p>
                   <p className="error-desc">{`${props.note}`}</p>

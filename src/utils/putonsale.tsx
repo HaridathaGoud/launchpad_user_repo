@@ -151,7 +151,7 @@ const PutOnSale = (props: any) => {
               //   <span>{saleErrorMsg}</span>
               // </Alert>
                <div className='cust-error-bg'>
-              <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+              <div className='mr-4'><Image src={error} alt="" /></div>
               <div>
                 <p className='error-title error-red text-start'>Error</p>
                 <p className="error-desc text-start">{saleErrorMsg}</p></div>

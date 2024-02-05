@@ -136,7 +136,7 @@ const hancleClose=()=>{
     <div className='container mx-auto max-sm:px-3 max-sm:mt-3 md:mt-10'>
     {errorMsg && (
               <div className='cust-error-bg'>
-                <div className='cust-crd-mr'>
+                <div className='mr-4'>
                   <img src={error}></img>
                 </div>
                 <div>

@@ -163,7 +163,7 @@ function PublishProposal(props: any) {
           <div className='md:col-span-8'>
             <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
               {/* {errorMsg && (<div className='cust-error-bg'>
-                <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                <div className='mr-4'><Image src={error} alt="" /></div>
                 <div>
                   <p className='error-title error-red'>Error</p>
                   <p className="error-desc">{errorMsg}</p></div>

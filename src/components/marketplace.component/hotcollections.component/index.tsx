@@ -64,7 +64,7 @@ export default function HotCollections() {
             {errorMessage && (
             
               <div className='cust-error-bg'>
-              <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+              <div className='mr-4'><Image src={error} alt="" /></div>
               <div>
               <p className='error-title error-red'>Error</p>
               <p className="error-desc">{errorMessage}</p></div>

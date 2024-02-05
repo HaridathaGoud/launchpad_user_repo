@@ -599,7 +599,7 @@ const DetailPage = (props: any) => {
           //   <span>{errorMsg}</span>
           // </Alert>
           <div className='cust-error-bg'>
-          <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+          <div className='mr-4'><Image src={error} alt="" /></div>
           <div>
             <p className='error-title error-red'>Error</p>
             <p className="error-desc">{errorMsg}</p></div>
@@ -611,7 +611,7 @@ const DetailPage = (props: any) => {
           //   <span>{placeABidError}</span>
           // </Alert>
           <div className='cust-error-bg'>
-          <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+          <div className='mr-4'><Image src={error} alt="" /></div>
           <div>
           <p className='error-title error-red'>Error</p>
           <p className="error-desc">{placeABidError}</p></div>
@@ -623,7 +623,7 @@ const DetailPage = (props: any) => {
           //   <span>{metaConnectionError}</span>
           // </Alert>
           <div className='cust-error-bg'>
-          <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+          <div className='mr-4'><Image src={error} alt="" /></div>
           <div>
           <p className='error-title error-red'>Error</p>
           <p className="error-desc">{metaConnectionError}</p></div>
@@ -636,7 +636,7 @@ const DetailPage = (props: any) => {
           //   <span>{successMsg && 'Bid successful'}</span>{' '}
           // </Alert>
          <div className='cust-error-bg'>
-         <div className='cust-crd-mr'><Image src={successimg} alt="" /></div>
+         <div className='mr-4'><Image src={successimg} alt="" /></div>
          <div>
          <p className='error-title'>Congratulations !</p>
          <p className="error-desc">{successMsg && 'Bid successful'}</p></div>
@@ -789,7 +789,7 @@ const DetailPage = (props: any) => {
                             //   <span>{saleErrorMsg}</span>
                             // </Alert>
                             <div className='cust-error-bg'>
-                            <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                            <div className='mr-4'><Image src={error} alt="" /></div>
                             <div>
                               <p className='error-title error-red text-start'>Error</p>
                               <p className="error-desc text-start">{saleErrorMsg}</p></div>

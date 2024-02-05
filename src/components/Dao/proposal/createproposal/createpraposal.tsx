@@ -318,7 +318,7 @@ function CreatePraposal(props: any) {
                   <div className=''>
                     {/* 
                 {errorMsg && (<div className='cust-error-bg'>
-                  <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                  <div className='mr-4'><Image src={error} alt="" /></div>
                   <div>
                     <p className='error-title error-red'>Error</p>
                     <p className="error-desc">{errorMsg}</p></div>
@@ -328,7 +328,7 @@ function CreatePraposal(props: any) {
                         <div className='mt-4 '>
                           <label className='mb-0 inline-block ml-5'>Author</label>
                           <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center'>
-                            <img src={user}></img><span className=''>{address}</span>
+                            <img src={user} className='mr-3'></img><span >{address}</span>
                             <CopyToClipboard text={address} options={{ format: 'text/plain' }}
                               onCopy={() => handleCopy()}
                             >
@@ -391,7 +391,7 @@ function CreatePraposal(props: any) {
                           <div className=''>
                             {attributes?.map((item) => (
                               <>
-                                <div className=''>
+                                <div className='pl-5 text-secondary font-medium'>
                                   <span className='mb-0'>{item?.index || "A"}. {item?.options}</span>
                                 </div>
                               </>
@@ -439,16 +439,19 @@ function CreatePraposal(props: any) {
               
             {state?.modalShow &&
               <div>
-                <h4>Add Your Options</h4>
+                <div className="flex justify-between items-center mb-7">
+                <h4 className='text-xl font-semibold text-secondary'>Add Your Options</h4>
+                <span className='icon closeIcon' onClick={handleClose}></span>
+                </div>
                 {state?.modalError && (<div className='cust-error-bg'>
-                  <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                  <div className='mr-4'><Image src={error} alt="" /></div>
                   <div>
                     <p className='error-title error-red'>Error</p>
                     <p className="error-desc">{state?.modalError}</p></div>
                 </div>)}
                 <div >
                   <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
-                    <Button type="button" btnClassName="text-center fill-btn" handleClick={addOption}>
+                    <Button type="primary" btnClassName="text-center fill-btn" handleClick={addOption}>
                       <span className='icon add'></span>Add new option
                     </Button>
                   </Col>
@@ -456,10 +459,10 @@ function CreatePraposal(props: any) {
                     {options.map((option: any, index: any) => (<>
                       <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
                         <div className='d-flex align-items-center add-block' key={index}>
-                          <Form.Label className="mb-0">{option?.index ? (option?.index && option?.index + ".") : "A."}</Form.Label>
-                          <Form.Control
+                          <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">{option?.index ? (option?.index && option?.index + ".") : "A."}</label>
+                          <input
                             type="text"
-                            className='border-none-modal'
+                            className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
                             placeholder='Enter your option'
                             maxLength={50}
                             onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
@@ -471,11 +474,11 @@ function CreatePraposal(props: any) {
                     </>))}
                   </Row>
                 </div>
-                <div className="mt-4 text-end">
-                  <Button type="button" btnClassName="text-center border-btn" handleClick={handleClose}>
+                <div className="flex justify-center gap-5 items-center mt-16">
+                  <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
                     Cancel
                   </Button>
-                  <Button type="submit" btnClassName="fill-btn m-0 ms-3 submit-spinner" handleClick={optionSave}>
+                  <Button type="secondary" btnClassName="fill-btn m-0 submit-spinner" handleClick={optionSave}>
                     Save
                   </Button>
                 </div>
@@ -494,7 +497,7 @@ function CreatePraposal(props: any) {
               </Modal.Header>
               <Modal.Body>
                 {state?.modalError && (<div className='cust-error-bg'>
-                  <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                  <div className='mr-4'><Image src={error} alt="" /></div>
                   <div>
                     <p className='error-title error-red'>Error</p>
                     <p className="error-desc">{state?.modalError}</p></div>
