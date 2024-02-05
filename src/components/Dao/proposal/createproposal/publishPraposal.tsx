@@ -209,7 +209,8 @@ function PublishProposal(props: any) {
                   </div>
                     <div className='text-end mt-2'>
                       <Button type='primary'  disabled={btnLoader} handleClick={publishProposal} >
-                        <span>{(saveProposal?.loading || btnLoader) && <Spinner size="sm" className='spinner-color text-base-100' />} </span>  Publish Proposal
+                        <span>{(saveProposal?.loading || btnLoader) && <span className="loading loading-spinner loading-sm"></span>} </span>
+                          Publish Proposal
                       </Button>
                     </div>
                 </div> 
