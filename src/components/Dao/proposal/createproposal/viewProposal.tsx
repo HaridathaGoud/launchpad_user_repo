@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,12 +11,21 @@ import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
 
 export default function ProposalView() {
     const {isConnected} = useAccount();
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }, []);
     return (
         <>
         {isConnected ?
             <div className='container mx-auto pt-5'>
-                 <PublishProposalShimmer/>
+    {loading && <PublishProposalShimmer />}
+        {!loading && 
+          <>
             {/* <div className='flex items-center'>
                 <Link to='/dao'>
                     <h4 className='mb-0 back-text'>Back</h4>
@@ -33,6 +42,7 @@ export default function ProposalView() {
                    <TestingPraposalflow></TestingPraposalflow>
                     </div>
                 </div>
+                </> }
             </div> : <WalletText/>}           
         </>
     );

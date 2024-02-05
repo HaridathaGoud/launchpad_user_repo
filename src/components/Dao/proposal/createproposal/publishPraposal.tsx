@@ -22,6 +22,7 @@ import WalletText from '../../../../utils/walletText';
 import OutletContextModel from '../../../../layout/context/model';
 import outletContext from '../../../../layout/context/outletContext';
 import Button from '../../../../ui/Button';
+import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
 
 function PublishProposal(props: any) {
   const PublishShimmers = shimmers.PublishProposal(3);
@@ -143,7 +144,6 @@ function PublishProposal(props: any) {
       setErrorMessage?.(apiCalls.isErrorDispaly(error));
       setBtnLoader(false)
       window.scroll(0, 0);
-      // router(`/dao/${params?.id}`)
     }
 
   }
@@ -151,73 +151,78 @@ function PublishProposal(props: any) {
     <>
     {isConnected ? 
     <>
+     
       <div className='container mx-auto pt-5'>
-      
-          {/* <Link to={`/dao/${params.id}/createpraposal`} className='title-width-fit'>  <span className='mb-0 back-text'>Create Proposal</span></Link>
+            {loader &&  <PublishProposalShimmer/> }
+            {!loader && (
+              <>
+                {/* <Link to={`/dao/${params.id}/createpraposal`} className='title-width-fit'>  <span className='mb-0 back-text'>Create Proposal</span></Link>
         <hr className='custom-hr' />  */}
-        
-        <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>        
-          <div className='md:col-span-4'>
-            <StartedSteps formSteps={66} stepsOne={1} stepsTwo={2} number={2} />
-          </div> 
-          <div className='md:col-span-8'>
-            <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
-              {/* {errorMsg && (<div className='cust-error-bg'>
+                <>
+                  <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>
+                    <div className='md:col-span-4'>
+                      <StartedSteps formSteps={66} stepsOne={1} stepsTwo={2} number={2} />
+                    </div>
+                    <div className='md:col-span-8'>
+                      <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
+                        {/* {errorMsg && (<div className='cust-error-bg'>
                 <div className='mr-4'><Image src={error} alt="" /></div>
                 <div>
                   <p className='error-title error-red'>Error</p>
                   <p className="error-desc">{errorMsg}</p></div>
               </div>)} */}
-              {!contractData?.loading && !loader ?              
-                 <div className=''>
-                  <div className=''>
-                    <span className='mb-0 me-2 text-base font-semibold text-secondary'>{proposalDetails?.proposal}</span>
-                    <p className='mt-2'>{proposalDetails?.summary}</p>
+                        {!contractData?.loading && !loader ?
+                          <div className=''>
+                            <div className=''>
+                              <span className='mb-0 me-2 text-base font-semibold text-secondary'>{proposalDetails?.proposal}</span>
+                              <p className='mt-2'>{proposalDetails?.summary}</p>
+                            </div>
+                            <hr className='my-3' />
+                            <div className=''>
+                              <div className='flex items-center justify-between'>
+                                <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>
+                              </div>
+                              <div>
+                                <p>Your proposal options</p>
+                                {proposalDetails?.ProposalOptionDetails?.map((item) => (
+                                  <>
+                                    <p className=''>{item?.index || "A"}. {item?.options}</p>
+                                  </>
+                                ))}
+                              </div>
+                            </div><hr className='my-3' />
+                            <div className=''>
+                              <h3 className='mb-3 text-base font-semibold text-secondary'>Duration </h3>
+                              <div className='flex items-center justify-between mb-4'>
+                                <p className=''>Start Date & Time</p>
+                                <p className=''>
+                                  <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
+                                    {proposalDetails?.startdate}
+                                  </Moment>
+                                </p>
+                              </div>
+                              <div className='flex items-center justify-between mb-4'>
+                                <p className=''>End Date & Time</p>
+                                <p className=''>
+                                  <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
+                                    {proposalDetails?.enddate}
+                                  </Moment>
+                                </p>
+                              </div>
+                            </div>
+                            <div className='text-end mt-2'>
+                              <Button type='primary' disabled={btnLoader} handleClick={publishProposal} >
+                                <span>{(saveProposal?.loading || btnLoader) && <span className="loading loading-spinner loading-sm"></span>} </span>
+                                Publish Proposal
+                              </Button>
+                            </div>
+                          </div>
+                          : <PlaceHolder contenthtml={PublishShimmers} />}
+                      </div>
+                    </div>
                   </div>
-                  <hr className='my-3' />
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>
-                    </div>
-                    <div>
-                      <p>Your proposal options</p>
-                      {proposalDetails?.ProposalOptionDetails?.map((item) => (
-                        <>
-                          <p className=''>{item?.index || "A"}. {item?.options}</p>
-                        </>
-                      ))}
-                    </div>                  
-                    </div><hr className='my-3' />
-                  <div className=''>
-                    <h3 className='mb-3 text-base font-semibold text-secondary'>Duration </h3>
-                    <div className='flex items-center justify-between mb-4'>
-                      <p className=''>Start Date & Time</p>
-                      <p className=''>
-                        <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
-                          {proposalDetails?.startdate}
-                        </Moment>
-                      </p>
-                    </div>
-                    <div className='flex items-center justify-between mb-4'>
-                      <p className=''>End Date & Time</p>
-                      <p className=''>
-                        <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
-                          {proposalDetails?.enddate}
-                        </Moment>
-                      </p>
-                    </div>
-                  </div>
-                    <div className='text-end mt-2'>
-                      <Button type='primary'  disabled={btnLoader} handleClick={publishProposal} >
-                        <span>{(saveProposal?.loading || btnLoader) && <span className="loading loading-spinner loading-sm"></span>} </span>
-                          Publish Proposal
-                      </Button>
-                    </div>
-                </div> 
-                : <PlaceHolder contenthtml={PublishShimmers} />}             
-            </div>
-          </div>
-        </div>
+                </>
+              </>)}
       </div> 
       </> : <WalletText/>}
     </>
