@@ -349,12 +349,12 @@ function ProposalCards(props: any) {
                                                             </div>
                                                             <div className="flex gap-5 flex-col lg:flex-row">
                                                                 <div className='w-full lg:w-52 lg:h-32 shrink-0'>
-                                                                    <Image src={daoimg} className='rounded-lg object-cover' />
+                                                                    <img src={daoimg} className='rounded-lg object-cover' />
                                                                 </div>
                                                                 <div className='flex-1'>
-                                                                    <p className='text-base-200 mt-2'>
+                                                                    <p className='text-base-200'>
                                                                         {item?.description || "--"}</p>
-                                                                    <div className='d-flex align-items-center'>
+                                                                    <div className='flex align-items-center gap-4'>
                                                                         <p className='text-secondary mt-3 me-3'>
                                                                             Start Date: <b> <Moment format={"DD/MM/YYYY HH:mm"}>{item?.startDate}</Moment></b>
                                                                         </p>
@@ -362,7 +362,7 @@ function ProposalCards(props: any) {
                                                                             End Date: <b> <Moment format={"DD/MM/YYYY HH:mm"}>{item?.endDate}</Moment></b>
                                                                         </p>
                                                                     </div>
-                                                                    <div className='option-style'>
+                                                                    <div className='flex gap-4 mt-2'>
                                                                         {item?.options?.map((data: any) => (<div className='text-secondary'>
                                                                             <div key={data?.id}>
                                                                                 <p className='text-secondary'>{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
