@@ -332,8 +332,8 @@ function ProposalCards(props: any) {
                                                                     <p className='truncate text-secondary'>0x4a9...929A</p>
                                                                 </div>
                                                                 <div>
-                                                                    <span className={`font-semibold px-3 py-1 rounded ${(item?.status === "Pending" || item?.status === "Publishing") ? ("pending-text") :
-                                                                        (item?.status === "Closed" ? ("close-text") : (""))}`}>{item?.status}</span>
+                                                                    <span className={`font-semibold px-3 py-1 rounded ${(item?.status === "Pending" || item?.status === "Publishing") ? ("bg-[#ffdc89] text-dark") :
+                                                                        (item?.status === "Closed" ? ("bg-success text-white") : (""))}`}>{item?.status}</span>
                                                                 </div>
                                                             </div>
                                                             <div className=''>
