@@ -1,8 +1,54 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import DaoCardShimmer from '../shimmers/daodashboard';
+import OutletContextModel from '../../../layout/context/model';
+import outletContext from '../../../layout/context/outletContext';
+import apiCalls from '../../../utils/api';
 
 function DaoCards(props: any) {
+    const [cardDetails, setCardDetails] = useState<any[]>([]);
+    const [cardSeeMoreHide, setCardSeeMoreHide] = useState<boolean>(false);
+    const [totalCardData, setTotalCardData] = useState<any[]>([]);
+    const [pageNo, setPageNo] = useState(1);
+    const [search, setSearch] = useState(null);
+    const [loadeMessage, setLoaderMessage] = useState('');
+    const [loader, setLoader] = useState(false);
+    const [loadData, setLoadData] = useState(false)
+    const {setErrorMessage}:OutletContextModel=useContext(outletContext)
 
+    // const fetchMoreData = (props:any) => {
+    //     getDaoCardDetails(pageNo, props.pageSize);
+    // };
+
+    // const getDaoCardDetails = async (pageNo: number,pageSize: number) => {
+    //     setLoader(true);
+    //     setCardSeeMoreHide(false);
+    //     if (cardDetails?.length == 0) {
+    //         setLoader(true);
+    //     }
+    //     const skip = pageNo * props.pageSize - props.pageSize;
+    //     let response = await apiCalls.getDaoDetails(10,5);
+    //     if (response) {
+    //         let _pageNo = pageNo + 1;
+    //         setPageNo(_pageNo);
+    //         setSearch(search);
+    //         let mergeData = pageNo == 1 ? [...response.data] : [...cardDetails, ...response.data];
+    //         if (mergeData.length > 0) {
+    //             setLoaderMessage(' ');
+    //             setLoadData(response.data.length >= 9)
+    //         } else if (mergeData.length == 0) {
+    //             setCardSeeMoreHide(true);
+    //             setLoaderMessage('No data found');
+    //         }
+    //         setCardDetails(mergeData);
+    //         if (search == null) {
+    //             setTotalCardData(mergeData);
+    //         }
+    //         setLoader(false);
+    //     } else {
+    //         setErrorMessage?.(response);
+    //         setLoader(false);
+    //     }
+    // };
     return (
         <><div><div className='container mx-auto max-sm:px-3 md:mt-3 mt-4'>
             <h5 className='font-semibold text-2xl text-secondary'>DAO’s</h5>
@@ -29,6 +75,7 @@ function DaoCards(props: any) {
                                     </div>)}
                            </>
                         ))}
+                        {/* {props?.daoData?.data && <div className='text-center mt-4' > <span onClick={fetchMoreData} className='cursor-pointer text-base text-primary font-semibold'>See More</span><span onClick={fetchMoreData} className='mx-auto block icon see-more cursor-pointer mt-[-4px]'></span> </div>} */}
                     </>)}
             </div>
         </div>

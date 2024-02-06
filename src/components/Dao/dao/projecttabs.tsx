@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef}) => {
     const [active,setActive]=useState('projectFeed')
+    const router = useNavigate();
+    const params = useParams();
     const handleTabClick=(tab)=>{
         setActive(tab)
         let ref;
@@ -12,6 +16,9 @@ const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef}) => {
         }
         else if(tab==='buyMembership'){
             ref=buyMembershipRef?.current;
+        }
+        else if(tab==='dao'){
+            router('/dao')  
         }
 
         ref?.scrollIntoView({ behavior: "smooth", block: "center" })
@@ -27,6 +34,7 @@ const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef}) => {
                <button onClick={()=>handleTabClick('projectFeed')}  className={`${active==='projectFeed'? '!bg-primary text-base-100':''} tab bg-accent leading-normal  font-semibold rounded-[28px] py-2 px-3.5 whitespace-nowrap`}>Project Feed</button>
                 <button onClick={()=>handleTabClick('allocationClaim')} className={`${active==='allocationClaim'? '!bg-primary text-base-100':'text-secondary'} tab bg-accent leading-normal font-semibold rounded-[28px] py-2 px-3.5  whitespace-nowrap`}>Allocation/Claim</button>
                 <button onClick={()=>handleTabClick('buyMembership')} className={`${active==='buyMembership'? '!bg-primary text-base-100':'text-secondary'} tab bg-accent leading-normal font-semibold rounded-[28px] py-2 px-3.5  whitespace-nowrap`}>Buy Membership</button>
+                <button onClick={()=>handleTabClick('dao')} className={`${active==='dao'? '!bg-primary text-base-100':'text-secondary'} tab bg-accent leading-normal font-semibold rounded-[28px] py-2 px-3.5  whitespace-nowrap`}>DAO’s</button>
               {/* <a href='/dao' className={`tab bg-accent leading-normal font-semibold rounded-[28px] py-2 px-3.5 text-black whitespace-nowrap`}>DAO’s</a> */}
             </div>
         </>
