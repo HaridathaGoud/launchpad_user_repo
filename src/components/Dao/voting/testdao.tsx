@@ -338,7 +338,7 @@ function ProposalVoting(props: any) {
                     </div>
                   </div>
 
-                  <Row className='justify-content-center mt-4'>
+                  {/* <Row className='justify-content-center mt-4'>
                     <Col lg={8}>
                       {(!isVoted &&
                         state?.mintedMemberShipCount ==0
@@ -355,11 +355,11 @@ function ProposalVoting(props: any) {
                           </Button>
                         </div>}
                         </>
-                        } 
+                         }  
                         </Col>
-                  </Row>
+                  </Row> */}
 
-                  {isVoted && <div className=' pt-2 px-4 pb-4 success-vote'>
+                  {/* {isVoted && <div className=' pt-2 px-4 pb-4 success-vote'>
                     <div className='d-flex status-section justify-content-center align-items-center py-3'>
                       <span className='icon success-icon me-2'></span>
                       <div>
@@ -367,7 +367,7 @@ function ProposalVoting(props: any) {
                           {(selectedObject?.option ? selectedObject?.option : state?.selectedOption) || (proposarDetailas?.data?.isAbstainStatus === true && "Abstain")}</span>
                         </p>
                       </div>
-                    </div></div>}
+                    </div></div>} */}
                 </>
               </div>
             </>}

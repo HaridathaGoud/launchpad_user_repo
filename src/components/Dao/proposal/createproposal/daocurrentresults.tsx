@@ -1,36 +1,183 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
 import styles from "./dao.module.css";
-import RadioInput from '../../../inputs/radioinput';
-import SecondaryButtonLg from '../../../button/secondarylg';
-import CancelButton from '../button/cancel';
-import PrimaryButtonMd from '../button/primarymd';
-import SecondaryButtonMd from '../button/secondarymd';
-import { useSelector } from 'react-redux';
+import { useAccount } from 'wagmi';
+import { connect, useSelector } from 'react-redux';
+import { useParams } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from '../../../../ui/Button';
 import { Modal, modalActions } from '../../../../ui/Modal';
-import votesuccess from '../../../../assets/images/vote-success.gif'
+import votesuccess from   '../../../../assets/images/vote-success.gif'
+import { useVotingContract } from '../../../../contracts/useContract';
+import { getProposalViewData, saveVoting, getCustomeVoted, getVotersGrid } from '../../../../reducers/votingReducer';
+import MintContract from '../../../../contracts/seichi.json';
+import { readContract } from 'wagmi/actions';
+import { getCustomerDetails } from '../../../../reducers/authReducer';
+import OutletContextModel from '../../../../layout/context/model';
+import outletContext from '../../../../layout/context/outletContext';
 
-const   DaoCurrentResults: NextPage = (props) => {
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [saveBtn,setsaveBtn] = useState(true);
-    const [editBtn,seteditBtn] = useState(false);
-    const proposarDetailas = useSelector((state: any) => state?.vtg?.fetchproposalviewdata);
+const reducers = (state: any, action: any) => {
+    switch (action.type) {
+      case 'copied':
+        return { ...state, copied: action.payload };
+      case 'isNoButtonLoading':
+        return { ...state, isNoButtonLoading: action.payload };
+      case 'isButtonLoading':
+        return { ...state, isButtonLoading: action.payload };
+      case 'mintedMemberShipCount':
+        return { ...state, mintedMemberShipCount: action.payload };
+      case 'errorMsg':
+        return { ...state, errorMsg: action.payload };
+      case 'selectedOption':
+        return { ...state, selectedOption: action.payload };
+      case 'selectedhash':
+        return { ...state, selectedhash: action.payload };
+    }
+  }
+const   DaoCurrentResults: NextPage = (props: any) => {
+  const [saveBtn,setsaveBtn] = useState(true);
+  const [editBtn,seteditBtn] = useState(false);
+  const { isConnected, address } = useAccount();
+  const proposarDetailas = useSelector((state: any) => state?.vtg?.fetchproposalviewdata);
+  const savevoterddata = useSelector((state: any) => state?.vtg?.savevoterddata);
+  const getCustomerData = useSelector((state: any) => state?.oidc?.user);
+  const [isVoted, setisVoted] = useState<any>(false);
+  
+  const params = useParams();
+  const { castVote, parseError } = useVotingContract();
+  const [optionVotingHashs, setOptionVotingHashs] = useState([])
+  const scrollableRef = useRef<any>(null);
+  const [state, dispatch] = useReducer(reducers, {
+    copied: false, isButtonLoading: false, isNoButtonLoading: false,
+    mintedMemberShipCount: null, errorMsg: null, selectedOption: null, selectedhash: null
+  })
+  const [loading, setLoading] = useState(false)
+  const {setErrorMessage} :OutletContextModel=useContext(outletContext) 
+  const {setToaster} :OutletContextModel=useContext(outletContext) 
+  const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
+  const mintingKrijiContractAddress: any = process.env.REACT_APP_MINTING_KEIJI_CONTRACTOR;
+  const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
+  const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
+  const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
+  const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
+  const [daoVoteName, setDaoVoteName] = useState();
+
+  useEffect(() => {
+    scrollableRef?.current?.scrollIntoView(0, 0);
+    getDaoItem()
+    if (isConnected) {
+      setLoading(true)
+      getOptionHashes()
+      setErrorMessage?.("")
+      dispatch({ type: 'errorMsg', payload: null })
+    }
+    getCustomer();
+    if (address && isVoted) {
+      window.location.reload();
+    }
+  }, [isConnected, address])
+
+  const getDaoItem = () => {
+    let daoData = DaoDetail?.find((item) => item?.daoId == selectedDaoData?.daoId)
+    setDaoVoteName(daoData?.name)
+    getBalanceCount(daoData?.name, address)
+  }
+  async function getBalanceCount(daoName, address) {
+    let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+    let balance: any = await readContract({
+      address: contractAddress,
+      abi: MintContract.abi,
+      functionName: "balanceOf",
+      args: [address]
+    });
+    balance = Number(balance);
+    dispatch({ type: 'mintedMemberShipCount', payload: balance })
+  }
+  const getCustomer = () => {
+    props.customers(address, (callback: any) => {
+      setLoading(true)
+      if (callback) {
+        props.proposalViewData(params?.id, callback?.data?.data?.id, (callback: any) => {
+          if (callback) {
+            setLoading(false)
+          }
+        });
+      } else {
+        setLoading(false)
+      }
+    });
+  }
+
     const handleChange = (e: any) => {
         dispatch({ type: 'selectedOption', payload: e?.option })
         dispatch({ type: 'selectedhash', payload: e?.optionHash })
       }
       const handleRedirectVotingScreen = () => {
-        if (selectedOption === 'yes') {
+        if (state?.selectedOption ) {
             modalActions('agreeModel','open')
-                   
-          } else if (selectedOption === 'no') {
-            modalActions('castYourVote','open')
-          }
+           }else{
+            setErrorMessage?.("Please select your option")
+           }
     }
-    const handleCheckBoxChange = (event) => {
-        setSelectedOption(event.target.value);
+    const getOptionHashes = () => {
+        let hashes = proposarDetailas?.data?.options;
+        for (let i in hashes) {
+          let _obj = hashes[i];
+          optionVotingHashs.push(_obj?.optionHash);
+        }
+      }
+      useEffect(() => {
+        setTimeout(() => {
+          if (getCustomerData?.id) {
+            props.getCustomeVoted(params?.id, getCustomerData?.id, (callback: any) => {
+              setisVoted(callback?.data?.data?.isVoted);
+            })
+          }
+        }, 500);
+      }, [getCustomerData, savevoterddata])
+
+      const saveVote = async (value: any) => {
+        getOptionHashes()
+        if (value && !state?.selectedOption) {
+            setErrorMessage?.("Please select your option")
+        } else {
+          dispatch({ type: 'errorMsg', payload: null })
+          dispatch({ type: 'isButtonLoading', payload: value })
+          dispatch({ type: 'isNoButtonLoading', payload: !value })
+          let obj = {
+            "proposalId": params?.id,
+            "walletAddress": address,
+            "Options": state?.selectedOption,
+            "TransactionHash": state?.selectedhash,
+            "Status": ((value && "Voted") || "Abstain")
+          }
+          let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+          try {
+            const response = await castVote(contractAddress, proposarDetailas?.data?.titleHash, state?.selectedhash);
+            if (response) {
+              props.saveVotersData(obj, (callback: any) => {
+                if (callback?.data?.ok) {
+                  props.proposalViewData(params?.id, getCustomerData?.id);
+                  props.getVotersGrid(1, 10, params?.id);
+                  dispatch({ type: 'isButtonLoading', payload: false })
+                  dispatch({ type: 'isNoButtonLoading', payload: false })
+                  setToaster?.("Your vote was cast successfully.")
+                  seteditBtn(true);
+                } else {
+                  dispatch({ type: 'isButtonLoading', payload: false })
+                  dispatch({ type: 'isNoButtonLoading', payload: false })
+                }
+              });
+            }
+          } catch (error) {
+            dispatch({ type: 'isButtonLoading', payload: false })
+            dispatch({ type: 'isNoButtonLoading', payload: false })
+            setsaveBtn(true);
+            seteditBtn(false);
+            setOptionVotingHashs([])
+            setErrorMessage?.(parseError(error))
+          }
+        }
       };
     const handleCancel = () => {
         modalActions('agreeModel','close')
@@ -43,13 +190,12 @@ const   DaoCurrentResults: NextPage = (props) => {
     const handleConfirmVote=()=>{
         modalActions('castYourVote','close')
         setsaveBtn(false);
-        if (selectedOption === 'no') {
+        if (state?.selectedOption) {
+            saveVote(true)
             setsaveBtn(true);
             seteditBtn(false);
-             // saveVote(true)
         }else{
             seteditBtn(true)
-            // saveVote(true)
         }
     }
     const handleEditVote=()=>{
@@ -77,33 +223,41 @@ const   DaoCurrentResults: NextPage = (props) => {
                    </div>
                    <div>
                    <p className='text-secondary truncate'>23k The Saf...</p>
-                   {editBtn &&  <img src={votesuccess} alt="" className='mt-2 w-[90px]' />}
+                   {editBtn && <> 
+                    <img src={votesuccess} alt="" className='mt-2 w-[90px]' />
+                    </>}
                    </div>
                  </div>
+                 {!editBtn &&
+                 <div>
                  <h2 className='text-base font-semibold mb-2 text-secondary'>Cast Your Vote</h2>
                   <div className="flex gap-8 mb-9">
                   <div className='flex gap-2'>
-
-                  <label><input type="radio" name="radio-1"
-                  value="yes"
-                  checked={selectedOption === 'yes'}
-                  onChange={handleCheckBoxChange}
-                   className="radio mr-1" /></label>
-
-                    {/* <RadioInput/> */}
-                    <p className='font-medium text-secondary'>Yes</p>
-                   </div>
-                   <div className='flex gap-2'>
-                   <label><input type="radio" name="radio-1"
-                   value="no"
-                   checked={selectedOption === 'no'}
-                   onChange={handleCheckBoxChange}
-                    className="radio mr-1" /></label>
-
-                    {/* <RadioInput/> */}
-                    <p className='font-medium text-secondary'>No</p>
+                  {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
+                          <div className='d-flex flex-wrap-align voting-card-opt'>
+                            {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
+                              <input type="radio" name="radio-1" className="radio mr-1" 
+                              key={item?.option}
+                              value={item?.option}
+                              aria-label={`radio ${item?.option}`}
+                              disabled={isVoted && item?.isSelect === false}
+                              onClick={() => handleChange(item)}
+                              checked={item?.isSelect ? item?.isSelect : state?.selectedOption === item?.option}
+                              />
+                              <Form.Label className='text-secondary'>{item?.option}</Form.Label>
+                            </Form.Check>
+                            ))}
+                          </div>
+                        </div>}
                    </div>
                   </div>
+                 </div> }
+                <div>
+                {editBtn && <> 
+                    <p className=' text-secondary my-4'>Your vote was cast successfully.
+                        </p>
+                    </>}
+                </div>
                     {saveBtn &&
                         <div className='mb-2'>
                             <Button children={'Vote Now'} handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full' />
@@ -122,23 +276,7 @@ const   DaoCurrentResults: NextPage = (props) => {
                   
                 </div>
             </div>
-            {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
-                          <p className='text-base font-semibold mt-3 text-secondary'>choose your option</p>
-                          <div className='d-flex flex-wrap-align voting-card-opt'>
-                            {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
-                              <Form.Check.Input
-                                type="radio"
-                                className='c-pointer'
-                                key={item?.option}
-                                value={item?.option}
-                                aria-label={`radio ${item?.option}`}
-                                disabled={isVoted && item?.isSelect === false}
-                                // onClick={() => handleChange(item)}
-                                // checked={item?.isSelect ? item?.isSelect : state?.selectedOption === item?.option}
-                              /><Form.Label className='text-secondary'>{item?.option}</Form.Label>
-                            </Form.Check>))}
-                          </div>
-                        </div>} */}
+           
 
                         <Modal id='agreeModel' modalClass='max-w-[510px]'>
                     <div >
@@ -173,11 +311,10 @@ const   DaoCurrentResults: NextPage = (props) => {
                     <div >
                         <div className="flex justify-between items-center  mb-5">
                             <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
-                            {/* <span className={`icon ${styles.closeIcon}`} onClick={handleCancel}></span> */}
                         </div>
                         <div className='flex justify-between items-center mb-3'>
                             <p className={`text-sm ${styles.lightColor}`}>Choice</p>
-                            <p> {selectedOption} </p>
+                            <p> {state?.selectedOption} </p>
                         </div>
                         <div className='flex justify-between items-center mb-3'>
                             <p className={`text-sm ${styles.lightColor}`}>DOTT</p>
@@ -207,5 +344,24 @@ const   DaoCurrentResults: NextPage = (props) => {
         </>
     );
 };
+const connectDispatchToProps = (dispatch: any) => {
+    return {
+      proposalViewData: (sub: any, custId: any, callback: any) => {
+        dispatch(getProposalViewData(sub, custId, callback));
+      },
+      getVotersGrid: (pageNo: any, pageSize: any, id: any) => {
+        dispatch(getVotersGrid(pageNo, pageSize, id));
+      },
+      saveVotersData: (obj: any, callback: any) => {
+        dispatch(saveVoting(obj, callback));
+      },
+      getCustomeVoted: (proposalId: any, getCustomerData: any, callback: any) => {
+        dispatch(getCustomeVoted(proposalId, getCustomerData, callback));
+      },
+      customers: (address: any, callback: any) => {
+        dispatch(getCustomerDetails(address, callback));
+      },
+    }
+  }
 
-export default DaoCurrentResults;
+export default connect(null, connectDispatchToProps) (DaoCurrentResults);

@@ -63,11 +63,12 @@ import ProposalTabbedContent from './proposalTabs';
             <div className='md:col-span-3'>
               <Status></Status>
               <div>
-                <DaoCurrentResults/>
+                <DaoCurrentResults />
               </div>
             </div>
             <div className='md:col-span-9'>
-              <VotingDao></VotingDao>
+              <VotingDao/>
+              {/* <VotingDao ></VotingDao> */}
               <div>
                 <ProposalTabbedContent/>
               {/* <Voters></Voters> */}
