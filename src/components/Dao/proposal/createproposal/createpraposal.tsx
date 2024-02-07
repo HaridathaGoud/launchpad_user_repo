@@ -244,6 +244,9 @@ function CreatePraposal(props: any) {
     newFields[index].options = value
     setOptions(newFields)
   }
+  const handleBlur = (field, value) => {
+    setField(field, value.trim());
+  };
   const setField = (field: any, value: any) => {
     setForm({ ...form, [field]: value })
     if (!!errors[field]) {
@@ -345,7 +348,8 @@ function CreatePraposal(props: any) {
                             maxLength={250}
                             value={form?.proposal || ''}
                             isInvalid={!!errors.proposal}
-                            onChange={(e) => { setField('proposal', e.currentTarget.value?.trim()) }}
+                            onBlur={(e) => handleBlur('proposal', e.currentTarget.value)}
+                            onChange={(e) => { setField('proposal', e.currentTarget.value) }}
                           />
                           <label className='text-sm font-normal text-red-600 ml-4'>{errors.proposal}</label>
                         </div>
@@ -358,7 +362,8 @@ function CreatePraposal(props: any) {
                             name='summary'
                             value={form?.summary || ''}
                             isInvalid={!!errors.summary}
-                            onChange={(e) => { setField('summary', e.currentTarget.value?.trim()) }}
+                            onBlur={(e) => handleBlur('summary', e.currentTarget.value)}
+                            onChange={(e) => { setField('summary', e.currentTarget.value) }}
                           />
                           <label className='text-sm font-normal text-red-600 ml-4'>{errors.summary}</label>
                         </div>
