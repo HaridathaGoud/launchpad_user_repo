@@ -11,14 +11,15 @@ import { useNavigate } from "react-router-dom";
 import OutletContextModel from "../../layout/context/model";
 import outletContext from "../../layout/context/outletContext";
 import sumsubStyling from "./sumsubStyling";
-import Button from "../../ui/Button";
+import Spinner from "../loaders/spinner";
 const SumSub = () => {
   const [state, setState] = useState({
     loading: true,
     sumSubConfirm: false,
     showConnect: false,
   });
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
+  const { setToaster, setErrorMessage }: OutletContextModel =
+    useContext(outletContext);
   const { isConnected, address } = useAccount();
   const user = useSelector((state: any) => state?.auth?.user);
   const navigate = useNavigate();
@@ -57,11 +58,10 @@ const SumSub = () => {
   };
 
   const launchWebSdk = async () => {
-    console.log(profile?.kycStatus);
     if (profile?.kycStatus?.toLowerCase() === "completed") {
       return navigate("/profile");
     }
-    setState({ ...state, loading: true, showConnect: false });
+    setState({ ...state, loading: true });
     try {
       const response = await getKyc(
         `Sumsub/AccessToken1?applicantId=${user?.id}&levelName=sumsub-signin-demo-level`
@@ -78,32 +78,27 @@ const SumSub = () => {
           .onMessage((type: string, payload: any) => {
             if (type === "idCheck.onReady") {
               setState({ ...state, loading: false });
-            } else if (type === "idCheck.applicantReviewComplete") {
-              setState({ ...state, loading: true });
-              // put(`User/${user?.id}/KYC`, null).then((responce: any) => {
-              //   setState({ ...state, loading: false });
-
-              // });
-
-              navigate("/profile");
-            } else if (type === "idCheck.onStepInitiated") {
-              console.log(type, payload);
             } else if (type === "idCheck.onStepCompleted") {
-              console.log(type, payload);
-            } else if (type === "idCheck.onApplicantLoaded") {
-              console.log(type, payload);
-            } else if (type === "idCheck.onApplicantSubmitted") {
-              console.log(type, payload);
-            } else if (type === "idCheck.onApplicantStatusChanged") {
-              console.log(type, payload);
+              if (payload.idDocSetType === "SELFIE") {
+                setState({ ...state, loading: true });
+                setToaster?.(
+                  "Details Submitted, Verification Under Process!",
+                  () => {
+                    navigate("/dashboard");
+                    setState({ ...state, loading: false });
+                  },
+                  1000
+                );
+              }
             } else if (type === "idCheck.onUploadError") {
-              console.log(type, payload);
+              console.log(payload.errors[0] ? payload.errors[0]:payload);
             } else if (type === "idCheck.onUploadWarning") {
-              console.log(type, payload);
+              console.log(payload.errors[0] ? payload.errors[0]:payload);
             }
           })
           .build();
         snsWebSdkInstance.launch("#sumsub-websdk-container");
+        setState({ ...state, loading: false, showConnect: false });
       } else {
         setErrorMessage?.(response);
       }
@@ -116,13 +111,9 @@ const SumSub = () => {
 
   return (
     <>
-      {!state.showConnect && (
-        <>
-          <Button type="primary" handleClick={() => navigate("/dashboard")}>
-            Back to Dashboard
-          </Button>
-          <div id="sumsub-websdk-container"></div>
-        </>
+      {state.loading && <Spinner />}
+      {!state.showConnect && !state.loading && (
+        <div id="sumsub-websdk-container"></div>
       )}
       {state.showConnect && <ConnectToWallet />}
     </>
