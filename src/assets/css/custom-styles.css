@@ -159,6 +159,7 @@ input[type=radio]:checked+span{ display: inline-block;background: var(--darkthem
 .rating-half.rating-lg input:not(.rating-hidden){width: 1rem !important;}
 .dot-green{background:#6cdb00}
 .dot-red{background:red}
+.dot-white{background:#fff}
 .dot-orange{background:#e97307}
 .profile-size:hover .cam-position{cursor:pointer;visibility:visible}
 .cam-position{position:absolute;right:40%;top:40%;visibility:hidden;z-index:999}
