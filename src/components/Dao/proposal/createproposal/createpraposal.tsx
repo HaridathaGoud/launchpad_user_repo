@@ -587,8 +587,9 @@ function CreatePraposal(props: any) {
                             ))}
                           </div>
                         </div>
+                        <div className="grid grid-cols-2 gap-4">
                         <div className="mt-4" >
-                          <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Start Date & Time (Local time zone)</label>
+                          <label className='text-dark inline-block text-sm font-normal p-0 mb-2 label ml-5'>Start Date & Time <span className='text-xs'>(Local time zone)</span></label>
                           <input
                             type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.startingDate) ? " " : (isMobile && state?.startingDate ? " " : "")}`}
                             placeholder='Start Date'
@@ -600,7 +601,7 @@ function CreatePraposal(props: any) {
                           <label className='text-sm font-normal text-red-600 ml-4'  >{errors.startdate}</label>
                         </div>
                         <div className="mt-4" >
-                          <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>End Date & Time (Local time zone)</label>
+                          <label className='text-dark inline-block text-sm font-normal p-0 mb-2 label ml-5'>End Date & Time <span className='text-xs'>(Local time zone)</span></label>
                           <input
                             type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.endingDate) ? " " : (isMobile && state?.endingDate ? " " : "")}`} placeholder='End Date'
                             name="enddate"
@@ -609,7 +610,9 @@ function CreatePraposal(props: any) {
                             onChange={(e) => endDate(e)}
                           />
                           <label className='text-sm font-normal text-red-600 ml-4'>{errors.enddate}</label>
-                        </div></>}
+                        </div>
+                        </div>
+                        </>}
                         {state?.currentStep === 2 &&
                     <>
                       <div className=''>
