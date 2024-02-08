@@ -28,6 +28,12 @@ import Button from '../../../../ui/Button';
 import outletContext from '../../../../layout/context/outletContext';
 import OutletContextModel from '../../../../layout/context/model';
 
+import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
+import Moment from 'react-moment';
+import { useVotingContract } from '../../../../contracts/useContract';
+import { waitForTransaction } from 'wagmi/actions';
+import apiCalls from '../../../../utils/api';
+
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case 'startingDate':
@@ -40,6 +46,8 @@ const reducers = (state: any, action: any) => {
       return { ...state, endingTime: action.payload };
     case 'modalShow':
       return { ...state, modalShow: action.payload };
+    case 'nextStep':
+      return { ...state, nextStep: action.payload };
     case 'epochStartData':
       return { ...state, epochStartData: action.payload };
     case 'epochEndData':
@@ -48,6 +56,8 @@ const reducers = (state: any, action: any) => {
       return { ...state, modalError: action.payload };
     case 'isChecked':
       return { ...state, isChecked: action.payload };
+    case 'currentStep':
+      return { ...state, currentStep: action.payload };
   }
 }
 function CreatePraposal(props: any) {
@@ -64,8 +74,23 @@ function CreatePraposal(props: any) {
   const currentDate = new Date().toISOString().slice(0, 16);
   const [loader, setLoader] = useState(false)
   const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
+  const contractData = useSelector((state: any) => state?.proposal?.contractDetails)
+  const proposalDetails = useSelector((state: any) => state?.proposal?.proposalDetails);
+  const saveProposal = useSelector((state: any) => state?.proposal?.saveProposal)
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [optionVotingHashs, setOptionVotingHashs] = useState([])
+  const [custmerKYC,setCustomerKYC] = useState<any>(false);
+  const [daoName, setDaoName] = useState();
+  const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
+  const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
+  const { addQuestion, parseError } = useVotingContract();
+  const [startDateEpoch,setStartDateEpoch] = useState<any>()
+  const [endDateEpoch,setEndDateEpoch] = useState<any>()
+  const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
+  const [loading, setLoading] = useState(true);
+  
   const [state, dispatch] = useReducer(reducers, {
-    startingDate: null, endingDate: null, startingTime: null, endingTime: null, modalShow: false,
+    startingDate: null, endingDate: null, startingTime: null, endingTime: null, modalShow: false,nextStep:false,currentStep:1,
     epochStartTime: null, epochEndData: null, modalError: false, isChecked: false
   })
   const getCustomerId = useSelector((state: any) => state?.oidc?.user?.id);
@@ -109,16 +134,18 @@ function CreatePraposal(props: any) {
 
   const openModalPopUp = () => {
      dispatch({ type: 'modalShow', payload: true })
-     modalActions("modalShow","open")
+    //  modalActions("modalShow","open")
     dispatch({ type: 'modalError', payload: null })
   };
 
   const handleClose = () => {
     resetProperties();
      dispatch({ type: 'modalShow', payload: false })
-     modalActions("modalShow","close")
+    //  modalActions("modalShow","close")
   };
-
+  const handleNext = () => {
+    // setCurrentStep(prevStep => prevStep + 1);
+  };
   const optionSave = () => {
     let isUpdate = false;
     let _properties = [...options];
@@ -153,7 +180,7 @@ function CreatePraposal(props: any) {
 
     if (isUpdate) {
        dispatch({ type: 'modalShow', payload: false });
-       modalActions("modalShow","close")
+      //  modalActions("modalShow","close")
     }
   };
 
@@ -198,11 +225,118 @@ function CreatePraposal(props: any) {
         formData.customerId = getCustomerId
         formData.TitleHash = ethers?.utils?.keccak256(ethers?.utils?.toUtf8Bytes(form?.proposal))
         store.dispatch(proposalData(formData));
-        router(`/dao/${params?.id}/publishproposal`)
+        // router(`/dao/${params?.id}/publishproposal`)
+        dispatch({ type: 'currentStep', payload: 2 })
       }
     }
   }
 
+  useEffect(() => {
+    if(isConnected){
+    let localDate1 = new Date(proposalDetails?.startdate); 
+    let utcDate = localDate1?.toISOString();   
+    let utcDateObject = new Date(utcDate); 
+    let startEpochTime = utcDateObject?.getTime(); 
+    let stEpochTime = startEpochTime/1000
+    setStartDateEpoch(stEpochTime);   
+    
+    let localDate2 = new Date(proposalDetails?.enddate); 
+    let utcDate2 = localDate2?.toISOString();   
+    let utcDateObject2 = new Date(utcDate2); 
+    let endEpochTime = utcDateObject2?.getTime(); 
+    let enEpochTime = endEpochTime/1000
+    setEndDateEpoch(enEpochTime); 
+
+    // props?.contractDetails(params);
+    // setErrorMessage?.(props?.proposal?.contractDetails?.error)
+    getDaoItem()
+    }
+  }, [getCustomerId])
+
+  useEffect(()=>{
+    if(address && isConnected){
+      setLoader(true)
+      props?.customerDetails(address,(callback:any)=>{      
+        if(callback?.data?.data?.kycStatus?.toLowerCase() === "completed"){
+          setLoader(false)
+          setCustomerKYC(callback?.data?.data)
+        }else{
+          router(`/user/kyc`)      
+        }
+      })
+    }
+  },[address])
+ 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer); // Cleanup the timer
+}, []);
+
+  const getDaoItem = () => {
+    let daoData = DaoDetail?.find((item) => item?.daoId == params?.id)
+    setDaoName(daoData?.name)
+  }
+  const getOptionHashes = () => {
+    let hashes = proposalDetails?.ProposalOptionDetails;
+    for (let i in hashes) {
+      let _obj = hashes[i];
+      optionVotingHashs.push(_obj?.optionhash);
+    }
+  }
+  const publishProposal = async () => {
+    setBtnLoader(true)
+    getOptionHashes()
+    let localDate = new Date(proposalDetails?.startdate); 
+    let stUTC= localDate.toISOString(); 
+    let stDateData = stUTC?.slice(0, 19)
+    
+    let localDate2 = new Date(proposalDetails?.enddate); 
+    let endUTC = localDate2.toISOString(); 
+    let endDateData  = endUTC?.slice(0, 19)    
+    const obj = {
+      id: "00000000-0000-0000-0000-000000000000",
+      customerId: getCustomerId || custmerKYC.id || proposalDetails.customerId,
+      daoId: params.id,
+      title: proposalDetails?.proposal,
+      description: proposalDetails?.summary,
+      titleHash: proposalDetails.TitleHash,
+      startTime: stDateData,
+      endTime: endDateData,
+      proposalType: proposalDetails?.proposalType,
+      proposalOptionDetails: proposalDetails?.ProposalOptionDetails
+    }
+    let contractAddress = daoName == "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+    try {
+      const response = await addQuestion(contractAddress, proposalDetails.TitleHash, optionVotingHashs, startDateEpoch,endDateEpoch);
+      const txResponse = await waitForTransaction({ hash: response.hash });
+      if (txResponse && txResponse.status === 0) {
+        setErrorMessage?.("transaction failed");
+        setBtnLoader(false)
+      }else{
+        props?.saveProposalData(obj, (callback: any) => {
+          if (callback?.data.id) {
+            // router(`/dao/success/${params?.id}`)
+            dispatch({ type: 'currentStep', payload: 3 })
+            setBtnLoader(false)
+          } else {
+            setErrorMessage?.(apiCalls.isErrorDispaly(callback));
+            window.scroll(0, 0);
+            setBtnLoader(false)
+          }
+        })
+      }
+  
+    } catch (error) {
+      setOptionVotingHashs([])
+      setErrorMessage?.(apiCalls.isErrorDispaly(error));
+      setBtnLoader(false)
+      window.scroll(0, 0);
+      dispatch({ type: 'currentStep', payload: 3 })
+    }
+
+  }
   const convertTo24HourFormat = (time) => {
     const [timeStr, amPm] = time.split(' ');
     const [hours, minutes] = timeStr.split(':');
@@ -310,7 +444,7 @@ function CreatePraposal(props: any) {
       {isConnected ?
         <>
           <div className=''>
-            {!state?.modalShow &&
+            {state.currentStep === 1 &&
               <>
                 <div className='flex items-center justify-between mb-7'>
                   <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
@@ -319,13 +453,6 @@ function CreatePraposal(props: any) {
                 <div className=''>
                   <StartedSteps formSteps={33} stepsOne={1} number={1} />
                   <div className=''>
-                    {/* 
-                {errorMsg && (<div className='cust-error-bg'>
-                  <div className='mr-4'><Image src={error} alt="" /></div>
-                  <div>
-                    <p className='error-title error-red'>Error</p>
-                    <p className="error-desc">{errorMsg}</p></div>
-                </div>)} */}
                     {!loader ?
                       <form noValidate onSubmit={(e) => handleRedirectToPublishProposalScreen(e)}>
                         <div className='mt-4 '>
@@ -392,6 +519,53 @@ function CreatePraposal(props: any) {
                           {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
 
                         </div>
+                      {state?.modalShow &&
+                        <div>
+                          <div className="flex justify-between items-center mb-7">
+                            <h4 className='text-xl font-semibold text-secondary'>Add Your Options</h4>
+                            <span className='icon closeIcon' onClick={handleClose}></span>
+                          </div>
+                          {state?.modalError && (<div className='cust-error-bg'>
+                            <div className='mr-4'><img src={error} alt="" /></div>
+                            <div>
+                              <p className='error-title error-red'>Error</p>
+                              <p className="error-desc">{state?.modalError}</p></div>
+                          </div>)}
+                          <div >
+                            <div className='text-end mb-4'>
+                              <Button type="primary" btnClassName="text-center fill-btn" handleClick={addOption}>
+                                <span className='icon add'></span>Add new option
+                              </Button>
+                            </div>
+                            <div>
+                              {options.map((option: any, index: any) => (<>
+                                <div>
+                                  <div className='d-flex align-items-center add-block relative mt-4' key={index}>
+                                    <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">{option?.index ? (option?.index && option?.index + ".") : "A."}</label>
+                                    <input
+                                      type="text"
+                                      className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
+                                      placeholder='Enter your option'
+                                      maxLength={50}
+                                      onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
+                                      value={option.options ? option.options : ""}
+                                    />
+                                    <span className='icon delete-icon top-10 absolute right-6 cursor-pointer' onClick={() => deleteOption(index)}></span>
+                                  </div>
+                                </div>
+                              </>))}
+                            </div>
+                          </div>
+                          <div className="flex justify-center gap-5 items-center mt-16">
+                            <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
+                              Cancel
+                            </Button>
+                            <Button type="secondary" btnClassName="fill-btn m-0 submit-spinner" handleClick={optionSave}>
+                              Save
+                            </Button>
+                          </div>
+                        </div>
+                      } 
                         <div className='mt-4'>
                           <div className='flex'>
                             {attributes?.map((item) => (
@@ -440,56 +614,108 @@ function CreatePraposal(props: any) {
                       </form> : <PlaceHolder contenthtml={PublishShimmers} />}
                   </div>
                 </div>
-              </>}
+              </>
+               } 
               
-            {state?.modalShow &&
-              <div>
-                <div className="flex justify-between items-center mb-7">
-                <h4 className='text-xl font-semibold text-secondary'>Add Your Options</h4>
-                <span className='icon closeIcon' onClick={handleClose}></span>
-                </div>
-                {state?.modalError && (<div className='cust-error-bg'>
-                  <div className='mr-4'><img src={error} alt="" /></div>
-                  <div>
-                    <p className='error-title error-red'>Error</p>
-                    <p className="error-desc">{state?.modalError}</p></div>
-                </div>)}
-                <div >
-                  <div className='text-end mb-4'>
-                    <Button type="primary" btnClassName="text-center fill-btn" handleClick={addOption}>
-                      <span className='icon add'></span>Add new option
-                    </Button>
-                  </div>
-                  <div>
-                    {options.map((option: any, index: any) => (<>
-                      <div>
-                        <div className='d-flex align-items-center add-block relative mt-4' key={index}>
-                          <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">{option?.index ? (option?.index && option?.index + ".") : "A."}</label>
-                          <input
-                            type="text"
-                            className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
-                            placeholder='Enter your option'
-                            maxLength={50}
-                            onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
-                            value={option.options ? option.options : ""}
-                          />
-                          <span className='icon delete-icon top-10 absolute right-6 cursor-pointer' onClick={() => deleteOption(index)}></span>
+            {state?.currentStep === 2 &&
+              //  <PublishPraposal/>
+              <div className='container mx-auto pt-5'>
+                {loader && <PublishProposalShimmer />}
+                {!loader && (
+                  <>
+                    {/* <Link to={`/dao/${params.id}/createpraposal`} className='title-width-fit'>  <span className='mb-0 back-text'>Create Proposal</span></Link>
+        <hr className='custom-hr' />  */}
+                    <>
+                      <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>
+                        {/* <div className='md:col-span-4'>
+                      <StartedSteps formSteps={66} stepsOne={1} stepsTwo={2} number={2} />
+                    </div> */}
+
+                        <div className='md:col-span-8'>
+                          <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
+                            {!contractData?.loading && !loader ?
+                              <div className=''>
+                                <div className=''>
+                                  <span className='mb-0 me-2 text-base font-semibold text-secondary'>{proposalDetails?.proposal}</span>
+                                  <p className='mt-2'>{proposalDetails?.summary}</p>
+                                </div>
+                                <hr className='my-3' />
+                                <div className=''>
+                                  <div className='flex items-center justify-between'>
+                                    <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>
+                                  </div>
+                                  <div>
+                                    <p>Your proposal options</p>
+                                    {proposalDetails?.ProposalOptionDetails?.map((item) => (
+                                      <>
+                                        <p className=''>{item?.index || "A"}. {item?.options}</p>
+                                      </>
+                                    ))}
+                                  </div>
+                                </div><hr className='my-3' />
+                                <div className=''>
+                                  <h3 className='mb-3 text-base font-semibold text-secondary'>Duration </h3>
+                                  <div className='flex items-center justify-between mb-4'>
+                                    <p className=''>Start Date & Time</p>
+                                    <p className=''>
+                                      <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
+                                        {proposalDetails?.startdate}
+                                      </Moment>
+                                    </p>
+                                  </div>
+                                  <div className='flex items-center justify-between mb-4'>
+                                    <p className=''>End Date & Time</p>
+                                    <p className=''>
+                                      <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
+                                        {proposalDetails?.enddate}
+                                      </Moment>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className='text-end mt-2'>
+                                  <Button type='primary' disabled={btnLoader} handleClick={publishProposal} >
+                                    <span>{(saveProposal?.loading || btnLoader) && <span className="loading loading-spinner loading-sm"></span>} </span>
+                                    Publish Proposal
+                                  </Button>
+                                </div>
+                              </div>
+                              : <PlaceHolder contenthtml={PublishShimmers} />}
+                          </div>
                         </div>
                       </div>
-                    </>))}
-                  </div>
-                </div>
-                <div className="flex justify-center gap-5 items-center mt-16">
-                  <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
-                    Cancel
-                  </Button>
-                  <Button type="secondary" btnClassName="fill-btn m-0 submit-spinner" handleClick={optionSave}>
-                    Save
-                  </Button>
-                </div>
+                    </>
+                  </>)}
               </div>
+            }  
+            {state.currentStep === 3 && 
+            // <Success/>
+            <>
+              <div className='container mx-auto pt-5'>
+                {loading ? (
+                  <PublishProposalShimmer />
+                ) : (<>
+                  {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
+            <hr /> */}
+                  <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
+                    {/* <div className='md:col-span-4'>
+                                    <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3} />
+                                </div> */}
+
+                    <div className='md:col-span-8'>
+                      <div className='text-center'>
+                        <img src={success} className='mx-auto'></img>
+                        <h1 className='text-success font-bold text-lg mt-3 cursor-pointer'>Thank You</h1>
+                        <p className='mb-5 text-secondary'>Your proposal is submitted successfully!</p>
+                        <Button type="primary" handleClick={handleRedirect}>
+                          Back to publish proposal summary
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </>)}
+              </div>
+            </>
             }
-            
             {/* <Modal
               show={state?.modalShow}
               size="lg"

@@ -41,9 +41,10 @@ export default function Success() {
                             {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
             <hr /> */}
                             <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
-                                <div className='md:col-span-4'>
+                                {/* <div className='md:col-span-4'>
                                     <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3} />
-                                </div>
+                                </div> */}
+                                
                                 <div className='md:col-span-8'>
                                     <div className='text-center'>
                                         <img src={success} className='mx-auto'></img>

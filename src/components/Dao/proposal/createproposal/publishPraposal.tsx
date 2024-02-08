@@ -160,17 +160,12 @@ function PublishProposal(props: any) {
         <hr className='custom-hr' />  */}
                 <>
                   <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>
-                    <div className='md:col-span-4'>
+                    {/* <div className='md:col-span-4'>
                       <StartedSteps formSteps={66} stepsOne={1} stepsTwo={2} number={2} />
-                    </div>
+                    </div> */}
+                    
                     <div className='md:col-span-8'>
                       <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
-                        {/* {errorMsg && (<div className='cust-error-bg'>
-                <div className='mr-4'><Image src={error} alt="" /></div>
-                <div>
-                  <p className='error-title error-red'>Error</p>
-                  <p className="error-desc">{errorMsg}</p></div>
-              </div>)} */}
                         {!contractData?.loading && !loader ?
                           <div className=''>
                             <div className=''>
@@ -220,6 +215,7 @@ function PublishProposal(props: any) {
                           : <PlaceHolder contenthtml={PublishShimmers} />}
                       </div>
                     </div>
+
                   </div>
                 </>
               </>)}

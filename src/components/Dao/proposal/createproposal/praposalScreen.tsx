@@ -33,9 +33,9 @@ function CommonCreateProposal() {
           <>
               <BannerCarousel images={projectCarousel} className='h-52' />  
     <div className='mt-5 mb-4'>
-  {/* <BreadCrumb/> */}
+  <BreadCrumb/>
   <div className='mb-12 mt-4'>
-  {/* <ProjectViewTabs/> */}
+  <ProjectViewTabs/>
   </div>
   </div> 
      
