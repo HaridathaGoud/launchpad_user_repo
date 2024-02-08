@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 // import Button from 'react-bootstrap/Button';
 import user from '../../../../assets/images/praposal-user.png';
+import success from '../../../../assets/images/thank-you.svg';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { proposalData } from '../proposlaReducer/proposlaReducer'
@@ -71,7 +72,7 @@ function CreatePraposal(props: any) {
   const [options, setOptions] = useState<any>([{ options: null, Id: "00000000-0000-0000-0000-000000000000", optionhash: null }]);
   const [attributes, setAttributes] = useState([]);
   const [copied, setCopied] = useState(false);
-  const currentDate = new Date().toISOString().slice(0, 16);
+  const currentDate = new Date()?.toISOString().slice(0, 16);
   const [loader, setLoader] = useState(false)
   const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
   const contractData = useSelector((state: any) => state?.proposal?.contractDetails)
@@ -109,20 +110,20 @@ function CreatePraposal(props: any) {
   };
 
 
-  useEffect(() => {
-    if (isConnected) {
-      if (address) {
-        setLoader(true)
-        props?.customerDetails(address, (callback: any) => {
-          if (callback?.data?.data?.kycStatus?.toLowerCase() === "completed") {
-            setLoader(false)
-          } else {
-            router(`/dao/kyc`)
-          }
-        })
-      }
-    }
-  }, [address])
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     if (address) {
+  //       setLoader(true)
+  //       props?.customerDetails(address, (callback: any) => {
+  //         if (callback?.data?.data?.kycStatus?.toLowerCase() === "completed") {
+  //           setLoader(false)
+  //         } else {
+  //           router(`/dao/kyc`)
+  //         }
+  //       })
+  //     }
+  //   }
+  // }, [address])
   const deleteOption = (index: any) => {
     const updatedOptions = options.filter((_, i) => i !== index);
     if (updatedOptions.length === 0) {
@@ -143,8 +144,17 @@ function CreatePraposal(props: any) {
      dispatch({ type: 'modalShow', payload: false })
     //  modalActions("modalShow","close")
   };
-  const handleNext = () => {
-    // setCurrentStep(prevStep => prevStep + 1);
+  const handleNextStep = (event) => {
+    switch(state.currentStep){
+      case 1: handleRedirectToPublishProposalScreen(event)
+      break;
+      case 2:publishProposal()
+      break;
+      case 3: router(`/dao/${params.id}`)
+      break;
+      default:
+        break;
+    }
   };
   const optionSave = () => {
     let isUpdate = false;
@@ -204,6 +214,7 @@ function CreatePraposal(props: any) {
       window.scroll(0, 0);
     } 
     else if (!state?.isChecked || attributes.length == 0) {
+      console.log(state.isChecked , attributes)
       setErrorMessage?.("Please select proposal type")
       window.scroll(0, 0);
     } 
@@ -226,13 +237,13 @@ function CreatePraposal(props: any) {
         formData.TitleHash = ethers?.utils?.keccak256(ethers?.utils?.toUtf8Bytes(form?.proposal))
         store.dispatch(proposalData(formData));
         // router(`/dao/${params?.id}/publishproposal`)
-        dispatch({ type: 'currentStep', payload: 2 })
+        dispatch({ type: 'currentStep', payload: 2 });
       }
     }
   }
 
   useEffect(() => {
-    if(isConnected){
+    if(isConnected && Object.keys(proposalDetails).length>0){
     let localDate1 = new Date(proposalDetails?.startdate); 
     let utcDate = localDate1?.toISOString();   
     let utcDateObject = new Date(utcDate); 
@@ -251,7 +262,7 @@ function CreatePraposal(props: any) {
     // setErrorMessage?.(props?.proposal?.contractDetails?.error)
     getDaoItem()
     }
-  }, [getCustomerId])
+  }, [proposalDetails])
 
   useEffect(()=>{
     if(address && isConnected){
@@ -260,9 +271,10 @@ function CreatePraposal(props: any) {
         if(callback?.data?.data?.kycStatus?.toLowerCase() === "completed"){
           setLoader(false)
           setCustomerKYC(callback?.data?.data)
-        }else{
-          router(`/user/kyc`)      
         }
+        // else{
+        //   router(`/user/kyc`)      
+        // }
       })
     }
   },[address])
@@ -444,18 +456,17 @@ function CreatePraposal(props: any) {
       {isConnected ?
         <>
           <div className=''>
-            {state.currentStep === 1 &&
               <>
                 <div className='flex items-center justify-between mb-7'>
                   <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
                   <span className={`icon closeIcon`} onClick={props?.close} ></span>
                 </div>
                 <div className=''>
-                  <StartedSteps formSteps={33} stepsOne={1} number={1} />
                   <div className=''>
-                    {!loader ?
+                    {
                       <form noValidate onSubmit={(e) => handleRedirectToPublishProposalScreen(e)}>
-                        <div className='mt-4 '>
+                        {state.currentStep===1 && <>
+                          <div className='mt-4 '>
                           <label className='mb-0 inline-block ml-5'>Author</label>
                           <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center'>
                             <img src={user} className='mr-3'></img><span >{address}</span>
@@ -599,41 +610,15 @@ function CreatePraposal(props: any) {
                             onChange={(e) => endDate(e)}
                           />
                           <label className='text-sm font-normal text-red-600 ml-4'>{errors.enddate}</label>
-                        </div>
-                        <div className='flex justify-center gap-5 items-center mt-16'>
-                          <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={props?.close} type='cancel' /> </Link>
-
-                          <Button
-                            type="secondary"
-                            btnClassName="flex gap-2"
-                            handleClick={(e) => handleRedirectToPublishProposalScreen(e)}
-                            disabled={toasterMessage || state.buttonLoader}
-                          > Next
-                          </Button>
-                        </div>
-                      </form> : <PlaceHolder contenthtml={PublishShimmers} />}
-                  </div>
-                </div>
-              </>
-               } 
-              
-            {state?.currentStep === 2 &&
-              //  <PublishPraposal/>
-              <div className='container mx-auto pt-5'>
-                {loader && <PublishProposalShimmer />}
-                {!loader && (
-                  <>
-                    {/* <Link to={`/dao/${params.id}/createpraposal`} className='title-width-fit'>  <span className='mb-0 back-text'>Create Proposal</span></Link>
-        <hr className='custom-hr' />  */}
+                        </div></>}
+                        {state?.currentStep === 2 &&
                     <>
                       <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>
-                        {/* <div className='md:col-span-4'>
-                      <StartedSteps formSteps={66} stepsOne={1} stepsTwo={2} number={2} />
-                    </div> */}
+
 
                         <div className='md:col-span-8'>
                           <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
-                            {!contractData?.loading && !loader ?
+                            {!contractData?.loading && Object.keys(proposalDetails).length>0 ?
                               <div className=''>
                                 <div className=''>
                                   <span className='mb-0 me-2 text-base font-semibold text-secondary'>{proposalDetails?.proposal}</span>
@@ -672,23 +657,14 @@ function CreatePraposal(props: any) {
                                     </p>
                                   </div>
                                 </div>
-                                <div className='text-end mt-2'>
-                                  <Button type='primary' disabled={btnLoader} handleClick={publishProposal} >
-                                    <span>{(saveProposal?.loading || btnLoader) && <span className="loading loading-spinner loading-sm"></span>} </span>
-                                    Publish Proposal
-                                  </Button>
-                                </div>
                               </div>
                               : <PlaceHolder contenthtml={PublishShimmers} />}
                           </div>
                         </div>
                       </div>
                     </>
-                  </>)}
-              </div>
             }  
             {state.currentStep === 3 && 
-            // <Success/>
             <>
               <div className='container mx-auto pt-5'>
                 {loading ? (
@@ -697,18 +673,11 @@ function CreatePraposal(props: any) {
                   {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
             <hr /> */}
                   <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
-                    {/* <div className='md:col-span-4'>
-                                    <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3} />
-                                </div> */}
-
                     <div className='md:col-span-8'>
                       <div className='text-center'>
                         <img src={success} className='mx-auto'></img>
                         <h1 className='text-success font-bold text-lg mt-3 cursor-pointer'>Thank You</h1>
                         <p className='mb-5 text-secondary'>Your proposal is submitted successfully!</p>
-                        <Button type="primary" handleClick={handleRedirect}>
-                          Back to publish proposal summary
-                        </Button>
                       </div>
                     </div>
                   </div>
@@ -716,6 +685,26 @@ function CreatePraposal(props: any) {
               </div>
             </>
             }
+                        <div className='flex justify-center gap-5 items-center mt-16'>
+                          <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={props?.close} type='cancel' /> </Link>
+
+                          <Button
+                            type="secondary"
+                            btnClassName="flex gap-2"
+                            handleClick={(e) => handleNextStep(e)}
+                            disabled={toasterMessage || state.buttonLoader}
+                          > {state?.currentStep===1 && 'Next'}
+                          {state?.currentStep===2 && 'Publish'}
+                          {state?.currentStep===3 && 'Back to proposals summary'}
+                          </Button>
+                        </div>
+                      </form>}
+                  </div>
+                </div>
+              </>
+
+              
+         
             {/* <Modal
               show={state?.modalShow}
               size="lg"
