@@ -127,51 +127,51 @@ function ProposalVoting(props: any) {
     }, 500);
   }, [getCustomerData, savevoterddata])
 
-  const saveVote = async (value: any) => {
-    getOptionHashes()
-    if (value && !state?.selectedOption) {
-      dispatch({ type: 'errorMsg', payload: "Please select your option" })
-      window.scrollTo(0, 0)
-    } else {
-      dispatch({ type: 'errorMsg', payload: null })
-      dispatch({ type: 'isButtonLoading', payload: value })
-      dispatch({ type: 'isNoButtonLoading', payload: !value })
-      let obj = {
-        "proposalId": params?.id,
-        "walletAddress": address,
-        "Options": state?.selectedOption,
-        "TransactionHash": state?.selectedhash,
-        "Status": ((value && "Voted") || "Abstain")
-      }
-      let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
-      try {
-        const response = await castVote(contractAddress, proposarDetailas?.data?.titleHash, state?.selectedhash);
-        if (response) {
-          props.saveVotersData(obj, (callback: any) => {
-            if (callback?.data?.ok) {
-              props.proposalViewData(params?.id, getCustomerData?.id);
-              props.getVotersGrid(1, 10, params?.id);
-              dispatch({ type: 'isButtonLoading', payload: false })
-              dispatch({ type: 'isNoButtonLoading', payload: false })
-              window.location.reload("_blank")
-            } else {
-              dispatch({ type: 'isButtonLoading', payload: false })
-              dispatch({ type: 'isNoButtonLoading', payload: false })
-              window.scrollTo(0, 0)
-            }
-          });
-        }
-      } catch (error) {
-        dispatch({ type: 'isButtonLoading', payload: false })
-        dispatch({ type: 'isNoButtonLoading', payload: false })
-        window.scrollTo(0, 0)
-        setOptionVotingHashs([])
-        dispatch({ type: 'errorMsg', payload: parseError(error) })
+  // const saveVote = async (value: any) => {
+  //   getOptionHashes()
+  //   if (value && !state?.selectedOption) {
+  //     dispatch({ type: 'errorMsg', payload: "Please select your option" })
+  //     window.scrollTo(0, 0)
+  //   } else {
+  //     dispatch({ type: 'errorMsg', payload: null })
+  //     dispatch({ type: 'isButtonLoading', payload: value })
+  //     dispatch({ type: 'isNoButtonLoading', payload: !value })
+  //     let obj = {
+  //       "proposalId": params?.id,
+  //       "walletAddress": address,
+  //       "Options": state?.selectedOption,
+  //       "TransactionHash": state?.selectedhash,
+  //       "Status": ((value && "Voted") || "Abstain")
+  //     }
+  //     let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+  //     try {
+  //       const response = await castVote(contractAddress, proposarDetailas?.data?.titleHash, state?.selectedhash);
+  //       if (response) {
+  //         props.saveVotersData(obj, (callback: any) => {
+  //           if (callback?.data?.ok) {
+  //             props.proposalViewData(params?.id, getCustomerData?.id);
+  //             props.getVotersGrid(1, 10, params?.id);
+  //             dispatch({ type: 'isButtonLoading', payload: false })
+  //             dispatch({ type: 'isNoButtonLoading', payload: false })
+  //             window.location.reload("_blank")
+  //           } else {
+  //             dispatch({ type: 'isButtonLoading', payload: false })
+  //             dispatch({ type: 'isNoButtonLoading', payload: false })
+  //             window.scrollTo(0, 0)
+  //           }
+  //         });
+  //       }
+  //     } catch (error) {
+  //       dispatch({ type: 'isButtonLoading', payload: false })
+  //       dispatch({ type: 'isNoButtonLoading', payload: false })
+  //       window.scrollTo(0, 0)
+  //       setOptionVotingHashs([])
+  //       dispatch({ type: 'errorMsg', payload: parseError(error) })
 
-      }
-    }
+  //     }
+  //   }
 
-  }
+  // }
   const handleCopy = () => {
     dispatch({ type: 'copied', payload: true })
     setTimeout(() => {
@@ -213,14 +213,14 @@ function ProposalVoting(props: any) {
 
       <div ref={scrollableRef}></div>
       <div className='py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg'>
-        {(proposarDetailas?.error || savevoterddata?.error || state?.errorMsg) && (
+        {/* {(proposarDetailas?.error || savevoterddata?.error || state?.errorMsg) && (
           <div className='cust-error-bg'>
             <div className='mr-4'><Image src={error} alt="" /></div>
             <div>
               <p className='error-title error-red'>Error</p>
               <p className="error-desc">{proposarDetailas?.error || savevoterddata?.error || state?.errorMsg}</p></div>
           </div>
-        )}
+        )} */}
         <div>
           {loading ?
             <>
@@ -314,7 +314,7 @@ function ProposalVoting(props: any) {
                           {readMore && (<button onClick={()=>handleShowMore('less')} className="hover:text-primary text-secondary">Show Less</button>)}
                         </p>
                       </div>
-                      {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>
+                      {/* {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>
                         <h2 className='common-heading'>Votes</h2>
                         <div>
                           <ProgressBar className='custom-progress'>
@@ -334,7 +334,7 @@ function ProposalVoting(props: any) {
                             <li>{proposarDetailas?.data?.noPercentage} </li>
                             <li>{proposarDetailas?.data?.TokenName}</li>
                           </ul>
-                        </div></>}
+                        </div></>} */}
                     </div>
                   </div>
 

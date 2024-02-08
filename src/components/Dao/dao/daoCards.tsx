@@ -9,6 +9,7 @@ function DaoCards(props: any) {
     const [cardSeeMoreHide, setCardSeeMoreHide] = useState<boolean>(false);
     const [totalCardData, setTotalCardData] = useState<any[]>([]);
     const [pageNo, setPageNo] = useState(1);
+    const pageSize = 10;
     const [search, setSearch] = useState(null);
     const [loadeMessage, setLoaderMessage] = useState('');
     const [loader, setLoader] = useState(false);
@@ -55,7 +56,11 @@ function DaoCards(props: any) {
             
             <div className='grid grid-cols-4 gap-4'>
                 {props?.loading ?
-                   <div> <DaoCardShimmer/> </div>
+                   [...Array(props.daoData?.data?.length || 4)].map((_, index) => (
+                    <div key={index}>
+                        <DaoCardShimmer />
+                    </div>
+                ))
                     : (<>
                         {props?.daoData?.data?.map((item: any) => (
                            <>
@@ -75,8 +80,14 @@ function DaoCards(props: any) {
                                     </div>)}
                            </>
                         ))}
-                        {/* {props?.daoData?.data && <div className='text-center mt-4' > <span onClick={fetchMoreData} className='cursor-pointer text-base text-primary font-semibold'>See More</span><span onClick={fetchMoreData} className='mx-auto block icon see-more cursor-pointer mt-[-4px]'></span> </div>} */}
                     </>)}
+            </div>
+            <div className='text-center mt-4' >
+            {/* {!props?.daoData?.data && <span className="loading loading-spinner loading-sm"></span> } */}
+            {/* {props?.daoData?.data && <div>
+                    <span onClick={fetchMoreData} className='cursor-pointer text-base text-primary font-semibold'>See More</span>
+                    <span onClick={fetchMoreData} className='mx-auto block icon see-more cursor-pointer mt-[-4px]'></span>
+                </div> } */}
             </div>
         </div>
         </div></>
