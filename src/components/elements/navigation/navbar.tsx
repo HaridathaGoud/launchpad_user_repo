@@ -60,6 +60,7 @@ function HeaderNavbar() {
       { path: "/tiers", content: "Tiers" },
       { path: "#", content: "Streaming" },
        { path: "/dao", content: "DAOs" },
+      //  { path: "/marketplace", content: "Marketplace" },
     ];
     const navBarDropDownMenu = [
       {

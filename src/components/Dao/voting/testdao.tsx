@@ -269,14 +269,14 @@ function ProposalVoting(props: any) {
                               </div>
                             </div>
                             <div className='flex items-center gap-4'>
-                              <h2 className='text-base font-semibold text-secondary'>Created  By</h2>
-                              <div className='flex items-center bg-accent rounded-[50px] p-1.5'>
+                              <h2 className='text-base font-semibold text-secondary whitespace-nowrap'>Created  By</h2>
+                              <div className='flex items-center bg-accent rounded-[50px] p-1.5 truncate'>
                                 <img src={user} className='w-[24px] mr-3' />
-                                <span className=''> {proposarDetailas?.data?.walletAddress === address ? "YOU" : proposarDetailas?.data?.createdBy ? proposarDetailas?.data?.createdBy : proposarDetailas?.data?.walletAddress}</span>
+                                <span className='truncate'> {proposarDetailas?.data?.walletAddress === address ? "YOU" : proposarDetailas?.data?.createdBy ? proposarDetailas?.data?.createdBy : proposarDetailas?.data?.walletAddress}</span>
                                 <CopyToClipboard text={proposarDetailas?.data?.walletAddress} options={{ format: 'text/plain' }}
                                   onCopy={() => handleCopy()}
                                 >
-                                  <span className={!state?.copied ? 'icon md copy-icon c-pointer' : 'icon copy-check c-pointer'} />
+                                  <span className={!state?.copied ? 'icon md copy-icon c-pointer shrink-0' : 'icon copy-check c-pointer shrink-0'} />
                                 </CopyToClipboard>
                               </div>
                             </div>

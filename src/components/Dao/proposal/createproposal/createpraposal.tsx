@@ -72,7 +72,7 @@ function CreatePraposal(props: any) {
   const [options, setOptions] = useState<any>([{ options: null, Id: "00000000-0000-0000-0000-000000000000", optionhash: null }]);
   const [attributes, setAttributes] = useState([]);
   const [copied, setCopied] = useState(false);
-  const currentDate = new Date()?.toISOString().slice(0, 16);
+  // const currentDate = new Date()?.toISOString().slice(0, 16);
   const [loader, setLoader] = useState(false)
   const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
   const contractData = useSelector((state: any) => state?.proposal?.contractDetails)
@@ -389,6 +389,7 @@ function CreatePraposal(props: any) {
     const newFields = [...options];
     newFields[index].options = value
     setOptions(newFields)
+    optionSave()
   }
   const handleBlur = (field, value) => {
     setField(field, value.trim());
@@ -467,7 +468,7 @@ function CreatePraposal(props: any) {
                       <form noValidate onSubmit={(e) => handleRedirectToPublishProposalScreen(e)}>
                         {state.currentStep===1 && <>
                           <div className='mt-4 '>
-                          <label className='mb-0 inline-block ml-5'>Author</label>
+                          <label className='mb-0 inline-block ml-5 mb-2'>Author</label>
                           <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center'>
                             <img src={user} className='mr-3'></img><span >{address}</span>
                             <CopyToClipboard text={address} options={{ format: 'text/plain' }}
@@ -511,7 +512,7 @@ function CreatePraposal(props: any) {
                 </div>  */}
                         <div className='mt-4'>
                           {/* <span className='icon check-icon-ps'></span> */}
-                          <label className='text-dark text-sm font-normal p-0 label ml-5'>Select Your Proposal Type</label>
+                          <label className='text-dark text-sm font-normal p-0 label ml-5 mb-2'>Select Your Proposal Type</label>
                           <div className='flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-6 py-3 '>
                             <label className='cursor-pointer relative inline-block mt-1'>
                               <span>
@@ -530,11 +531,9 @@ function CreatePraposal(props: any) {
                           {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
 
                         </div>
-                      {state?.modalShow &&
                         <div>
                           <div className="flex justify-between items-center mb-7">
-                            <h4 className='text-xl font-semibold text-secondary'>Add Your Options</h4>
-                            <span className='icon closeIcon' onClick={handleClose}></span>
+                            <h4 className='text-xl font-semibold text-secondary mt-4'>Add Your Options</h4>
                           </div>
                           {state?.modalError && (<div className='cust-error-bg'>
                             <div className='mr-4'><img src={error} alt="" /></div>
@@ -567,21 +566,21 @@ function CreatePraposal(props: any) {
                               </>))}
                             </div>
                           </div>
-                          <div className="flex justify-center gap-5 items-center mt-16">
+                          {/* <div className="flex justify-center gap-5 items-center mt-16">
                             <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
                               Cancel
                             </Button>
                             <Button type="secondary" btnClassName="fill-btn m-0 submit-spinner" handleClick={optionSave}>
                               Save
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
-                      } 
+               
                         <div className='mt-4'>
-                          <div className='flex'>
+                          <div className='flex gap-3 flex-wrap'>
                             {attributes?.map((item) => (
                               <>
-                                <div className='pl-5 text-secondary font-medium'>
+                                <div className='px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200'>
                                   <span className='mb-0'>{item?.index || "A"}. {item?.options}</span>
                                 </div>
                               </>
@@ -594,7 +593,7 @@ function CreatePraposal(props: any) {
                             type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.startingDate) ? " " : (isMobile && state?.startingDate ? " " : "")}`}
                             placeholder='Start Date'
                             name='startdate'
-                            min={currentDate}
+                            // min={currentDate}
                             isInvalid={!!errors.startdate}
                             onChange={(e) => startDate(e)}
                           />
@@ -605,7 +604,7 @@ function CreatePraposal(props: any) {
                           <input
                             type="datetime-local" className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${(isMobile && !state?.endingDate) ? " " : (isMobile && state?.endingDate ? " " : "")}`} placeholder='End Date'
                             name="enddate"
-                            min={currentDate}
+                            // min={currentDate}
                             isInvalid={!!errors.enddate}
                             onChange={(e) => endDate(e)}
                           />
@@ -613,11 +612,7 @@ function CreatePraposal(props: any) {
                         </div></>}
                         {state?.currentStep === 2 &&
                     <>
-                      <div className='grid md:grid-cols-12 gap-4 max-md:px-3'>
-
-
-                        <div className='md:col-span-8'>
-                          <div className='bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4'>
+                      <div className=''>
                             {!contractData?.loading && Object.keys(proposalDetails).length>0 ?
                               <div className=''>
                                 <div className=''>
@@ -625,23 +620,21 @@ function CreatePraposal(props: any) {
                                   <p className='mt-2'>{proposalDetails?.summary}</p>
                                 </div>
                                 <hr className='my-3' />
-                                <div className=''>
-                                  <div className='flex items-center justify-between'>
-                                    <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>
-                                  </div>
+                                <div className=''>                                  
+                                    <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>                                
                                   <div>
-                                    <p>Your proposal options</p>
+                                    <p className='text-sm text-secondary opacity-50 mb-2'>Your proposal options</p>
                                     {proposalDetails?.ProposalOptionDetails?.map((item) => (
-                                      <>
-                                        <p className=''>{item?.index || "A"}. {item?.options}</p>
-                                      </>
+                                      <div className='flex items-center flex-wrap gap-3'>
+                                        <p className='px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200'>{item?.index || "A"}. {item?.options}</p>
+                                      </div>
                                     ))}
                                   </div>
                                 </div><hr className='my-3' />
                                 <div className=''>
                                   <h3 className='mb-3 text-base font-semibold text-secondary'>Duration </h3>
                                   <div className='flex items-center justify-between mb-4'>
-                                    <p className=''>Start Date & Time</p>
+                                    <p className='text-sm text-secondary opacity-50'>Start Date & Time</p>
                                     <p className=''>
                                       <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
                                         {proposalDetails?.startdate}
@@ -649,7 +642,7 @@ function CreatePraposal(props: any) {
                                     </p>
                                   </div>
                                   <div className='flex items-center justify-between mb-4'>
-                                    <p className=''>End Date & Time</p>
+                                    <p className='text-sm text-secondary opacity-50'>End Date & Time</p>
                                     <p className=''>
                                       <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
                                         {proposalDetails?.enddate}
@@ -660,8 +653,6 @@ function CreatePraposal(props: any) {
                               </div>
                               : <PlaceHolder contenthtml={PublishShimmers} />}
                           </div>
-                        </div>
-                      </div>
                     </>
             }  
             {state.currentStep === 3 && 
@@ -672,15 +663,15 @@ function CreatePraposal(props: any) {
                 ) : (<>
                   {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
             <hr /> */}
-                  <div className='grid md:grid-cols-12 gap-4 max-md:px-3 '>
-                    <div className='md:col-span-8'>
+                 
+                    
                       <div className='text-center'>
                         <img src={success} className='mx-auto'></img>
                         <h1 className='text-success font-bold text-lg mt-3 cursor-pointer'>Thank You</h1>
                         <p className='mb-5 text-secondary'>Your proposal is submitted successfully!</p>
                       </div>
-                    </div>
-                  </div>
+                   
+                 
                 </>)}
               </div>
             </>

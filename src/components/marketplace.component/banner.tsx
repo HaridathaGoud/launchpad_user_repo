@@ -72,7 +72,7 @@ export default function Banner() {
        <div className="flex justify-center">
        <div className='loading-overlay'>
         <div className="text-center image-container">
-       <Image
+       <img
                  className=""
                  src={loadimg}
                  alt=""
@@ -80,8 +80,8 @@ export default function Banner() {
      </div></div>
      </div>
      || <>
-      <div className="container">
-        <div className="row banner-top">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-2">
           {errorMessage && (
             <div className='cust-error-bg'>
                  <div className='mr-4'><Image src={error} alt="" /></div>
@@ -90,8 +90,8 @@ export default function Banner() {
                  <p className="error-desc">{errorMessage}</p></div>
             </div>
           )}
-          <div className="col-md-7 banner-inside">
-            <h4 className="banner-subtitle">BUILD ON YOUR OWN NFTs </h4>
+          <div className="">
+            <h4 className="text-[28px] font-semibold ">Built on your own NFTs </h4>
             <h2 className="banner-title">Rock the world</h2>
             <h3 className="second-title">Explore, collect & sell </h3>
             <h1 className="gradient-title">NFTs</h1>
