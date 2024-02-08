@@ -236,7 +236,7 @@ const   DaoCurrentResults: NextPage = (props: any) => {
                   {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
                           <div className='d-flex flex-wrap-align voting-card-opt'>
                             {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
-                              <input type="radio" name="radio-1" className="radio mr-1" 
+                              <input type="radio" name="radio-1" className="radio mr-1 align-middle" 
                               key={item?.option}
                               value={item?.option}
                               aria-label={`radio ${item?.option}`}

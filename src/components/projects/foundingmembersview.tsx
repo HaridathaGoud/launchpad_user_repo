@@ -74,7 +74,7 @@ const FoundingMembersView = () => {
                         </div>
                         <div className={`w-px bg-base-200 opacity-20`}></div>
                         <div className='text-right flex-1 overflow-hidden'>
-                        <h1 className='font-semibold mb-3'>{item.walletAddress?.slice(0, 4) + '.......' + item.walletAddress?.substring(item.walletAddress.length - 4, item.walletAddress.length)}</h1>
+                        <h1 className='font-semibold mb-3'>{item.walletAddress?.slice(0, 4) + '....' + item.walletAddress?.substring(item.walletAddress.length - 4, item.walletAddress.length)}</h1>
                             <p className='font-semibold mb-3 truncate'>1k Matic</p>
                             <p className='font-semibold mb-3 truncate'>19.3k </p>
                         </div>

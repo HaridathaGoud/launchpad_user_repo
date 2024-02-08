@@ -24,8 +24,8 @@ function ProjectdetailsCard(props: any) {
       };
       const statusColourList: any = {
         ongoing: 'dot-green',
-        closed : 'dot-red ',
-        Closed : 'dot-red ',
+        closed : 'dot-white ',
+        Closed : 'dot-white ',
         upcoming: 'dot-orange',
       };
     return (
@@ -92,9 +92,9 @@ function ProjectdetailsCard(props: any) {
                            
                             <div className="flex mt-6 ">
                               <div className='flex gap-3 justify-between items-center'>
-                              <div className="bg-[#8B8989] py-1 rounded px-3">
+                              <div className="bg-[#ff0000] py-1 rounded px-3">
                                 <p className="text-sm font-medium text-base-100">
-                                  <span className={`inline-block w-2 h-2 rounded-full mr-2 ${statusColourList[props.currentPjct]}`}></span>
+                                  <span className={`inline-block w-3 h-3 rounded-full mr-2 ${statusColourList[props.currentPjct]}`}></span>
                                   {pjctTypes[props.currentPjct]}
                                 </p>
                               </div>
@@ -163,7 +163,7 @@ function ProjectdetailsCard(props: any) {
                               {props.pjctInfo?.privateEndDate ? moment(props.pjctInfo?.privateEndDate).format("DD-MM-YYYY HH:mm") : "--"}(UTC)</p>
                             </div>
                           </div>
-                          <div className="bg-[#8B8989] py-1 rounded px-3 absolute top-[-17px] right-6">
+                          <div className="bg-[#ff0000] py-1 rounded px-3 absolute top-[-17px] right-6">
                             <p className="text-base mb-0 text-base-100">
                               <span className={`inline-block w-3 h-3 ${statusColourList[props.pjctInfo?.privateStatus?.toLowerCase()]} rounded-full mr-2 `}></span>
                               {(props.pjctInfo?.privateStatus === 'Ongoing' && 'Ongoing') ||
@@ -186,7 +186,7 @@ function ProjectdetailsCard(props: any) {
                               {props.pjctInfo?.publicEndDate ? moment(props.pjctInfo?.publicEndDate).format("DD-MM-YYYY HH:mm") : "--"}(UTC)</p>
                             </div>
                           </div>
-                          <div className="bg-[#8B8989] py-1 rounded px-3 absolute top-[-17px] right-6">
+                          <div className="bg-[#ff0000] py-1 rounded px-3 absolute top-[-17px] right-6">
                             <p className="text-base mb-0 text-base-100">
                             <span className={`inline-block w-3 h-3 ${statusColourList[props.pjctInfo?.publicStatus?.toLowerCase()]} rounded-full mr-2 `}></span>
                               {(props.pjctInfo?.publicStatus === 'Ongoing' && 'Ongoing') ||
