@@ -285,7 +285,7 @@ function ProposalCards(props: any) {
 
                             <div className='grid md:grid-cols-5 gap-2'>
 
-                                <select className='border rounded-[30px] formselect-arrow max-sm:w-full px-2.5' aria-label="Default select example" onChange={(e) => getApprovedProposalData(e)}>
+                                <select className='border rounded-[30px] formselect-arrow max-sm:w-full px-2.5 h-[46px]' aria-label="Default select example" onChange={(e) => getApprovedProposalData(e)}>
                                     {state?.statusLu?.map((item: any) => (
                                         <option value={item?.name} >{item?.name}</option>
                                     ))}
