@@ -60,14 +60,11 @@ const TopSeller = () => {
     <>
       {topSeller?.length > 0 && (
         <>
-          <div className="container">
-            <div className="top-seller-header">
-              <div>
-              <h2>Top Sellers</h2>
-              <hr className='top-seller-hr' />
-              </div>
+          <div className="container mx-auto">
+            <div className="">             
+              <h2 className='mb-4 text-2xl font-semibold'>Top Sellers</h2>  
             </div>
-            <div className="top-seller">
+            <div className="">
               {errorMessage && (
                 <Alert variant="danger">
                   <Image className='validation-error' src={validError} />
@@ -88,29 +85,27 @@ const TopSeller = () => {
               
                 </div>}</div>
               {!loader && (
-                <Carousel pauseOnHover infinite responsive={responsive}>
+                <div className='carousel container mx-auto gap-3'>
                   {topSeller.map((item: any, idx: any) => (
-                    <div key={idx} onClick={() => handleTopSellerList(item)}>
-                      <div className="sell-card">
-                        <div className="top-seller-img">
-                          <Image
+                    <div key={idx} onClick={() => handleTopSellerList(item)} className="carousel-item md:inline-block w-[380px]">
+                      <div className="flex items-center bg-info-content py-4 px-2.5 rounded-[15px] gap-5">
+                        <div className="shrink-0">
+                          <img
                             src={item?.logo || defaultlogo}
-                            width={100}
-                            height={100}
+                            width={122}
+                            height={129}
                             alt=""
+                            className='rounded-[15px] object-cover w-[122px] h-[129px]'
                             onClick={() => handleTopSellerList(item)}
                           />
                         </div>
-                        <div className="seller-detail my-auto pb-35">
-                          <div className="d-flex">
-                            {' '}
-                            <h4>{item?.name || item?.walletAddress}</h4>
-                          </div>
+                        <div className='truncate'>
+                            <h4 className='truncate text-lg font-semibold capitalize'>{item?.name || item?.walletAddress}</h4>
                         </div>
                       </div>
                     </div>
                   ))}
-                </Carousel>
+                </div>
               )}
             </div>
           </div>
