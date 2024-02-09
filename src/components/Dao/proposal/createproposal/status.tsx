@@ -83,7 +83,7 @@ import styles from "./dao.module.css";
           {loading  ? <PlaceHolder contenthtml={Cardstransactions} /> :
          (<> 
         <div className=''>      
-          <div className='py-3'>
+          <div className=''>
          <h2 className='text-lg font-semibold pb-3 text-secondary'>Information</h2>
               {/* <p>
              {(user?.data?.status=="Pending" || user?.data?.status=="Publishing") ? <span className='icon pending-icon'/> : user?.data?.status=="declined" ? <span className='icon reject-icon'/> : <span className='icon failed-close'/>}{" "} 
