@@ -5,6 +5,8 @@ interface LinkProps {
   children?: any;
   type?: string;
   className?: string;
+  target?:string;
+  rel?:string;
 }
 
 const LinkStylings = {
@@ -12,11 +14,13 @@ const LinkStylings = {
     "block font-semibold text-base hover:text-primary hover:bg-transparent",
   footerNav: "text-secondary hover:text-primary opacity-60",
 };
-const NaviLink = ({ path, children, type, className }: LinkProps) => {
+const NaviLink = ({ path, children, type, className,target,rel }: LinkProps) => {
   const location = useLocation();
   return (
     <Link
       to={path}
+      target={target}
+      rel={rel}
       className={`!p-0 ${className} ${
         location.pathname === path ? "active menu-active" : ""
       } ${

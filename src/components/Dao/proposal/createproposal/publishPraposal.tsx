@@ -77,9 +77,10 @@ function PublishProposal(props: any) {
         if(callback?.data?.data?.kycStatus?.toLowerCase() === "completed"){
           setLoader(false)
           setCustomerKYC(callback?.data?.data)
-        }else{
-          router(`/user/kyc`)      
         }
+        // else{
+        //   router(`/user/kyc`)      
+        // }
       })
     }
   },[address])

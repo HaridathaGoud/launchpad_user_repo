@@ -1,10 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import logo from "../../../assets/images/yb-logo.svg";
 import { connect, useSelector } from "react-redux";
 import WalletConnect from "../../modules/ConnectButton/connect.wallet";
@@ -58,8 +53,14 @@ function HeaderNavbar() {
       { path: "/projects", content: "Projects" },
       { path: "/staking", content: "Staking" },
       { path: "/tiers", content: "Tiers" },
-      { path: "#", content: "Streaming" },
-       { path: "/dao", content: "DAOs" },
+      {
+        path: "https://ybstreaming.azurewebsites.net/",
+        content: "Streaming",
+        target: "_blank",
+        rel: "noopener noreferrer",
+      },
+      { path: "/dao", content: "DAOs" },
+      { path: "/marketplace", content: "Marketplace" },
     ];
     const navBarDropDownMenu = [
       {
@@ -146,10 +147,10 @@ function HeaderNavbar() {
                   className="drawer-overlay"
                 ></label>
                 <ul className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 h-screen min-w-[200px]">
-                  {navMenuList.map(({ path, content }) => {
+                  {navMenuList.map(({ path, content,target,rel }) => {
                     return (
                       <li className="group" key={path}>
-                        <NaviLink path={path} type="primary">
+                        <NaviLink path={path} type="primary" target={target} rel={rel}>
                           {content}
                         </NaviLink>
                       </li>
@@ -167,13 +168,14 @@ function HeaderNavbar() {
 
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal pl-[24px]">
-              {navMenuList.map(({ path, content }) => {
+              {navMenuList.map(({ path, content,target,rel }) => {
                 return (
                   <li className="group" key={path}>
                     <NaviLink
                       path={path}
                       type="primary"
                       className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                      target={target} rel={rel}
                     >
                       {content}
                     </NaviLink>
