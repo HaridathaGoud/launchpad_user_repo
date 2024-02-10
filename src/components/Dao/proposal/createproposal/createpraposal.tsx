@@ -126,10 +126,12 @@ function CreatePraposal(props: any) {
   // }, [address])
   const deleteOption = (index: any) => {
     const updatedOptions = options.filter((_, i) => i !== index);
+    const updatedAttributes = attributes.filter((_, i) => i !== index);
     if (updatedOptions.length === 0) {
       dispatch({ type: 'modalError', payload: "Please provide at least one option to continue." })
     } else {
       setOptions(updatedOptions);
+      setAttributes(updatedAttributes);
     }
   };
 
@@ -214,7 +216,6 @@ function CreatePraposal(props: any) {
       window.scroll(0, 0);
     } 
     else if (!state?.isChecked || attributes.length == 0) {
-      console.log(state.isChecked , attributes)
       setErrorMessage?.("Please select proposal type")
       window.scroll(0, 0);
     } 
@@ -345,7 +346,7 @@ function CreatePraposal(props: any) {
       setErrorMessage?.(apiCalls.isErrorDispaly(error));
       setBtnLoader(false)
       window.scroll(0, 0);
-      dispatch({ type: 'currentStep', payload: 3 })
+      // dispatch({ type: 'currentStep', payload: 3 })
     }
 
   }
@@ -394,6 +395,9 @@ function CreatePraposal(props: any) {
   const handleBlur = (field, value) => {
     setField(field, value.trim());
   };
+  const handleCheckBoxChecked=()=>{
+    dispatch({ type: 'isChecked', payload: true })
+  }
   const setField = (field: any, value: any) => {
     setForm({ ...form, [field]: value })
     if (!!errors[field]) {
@@ -519,8 +523,8 @@ function CreatePraposal(props: any) {
                                 <input
                                   className='checkbox checkbox-error opacity-0 rounded-[28px]'
                                   type='checkbox'
-                                  checked={attributes?.length !== 0 ? state?.isChecked : ""}
-                                  onChange={checkBoxChecked}
+                                  checked={ state?.isChecked }
+                                  // onChange={checkBoxChecked}
                                   onClick={openModalPopUp}
                                 />
                                 <span className=''></span>
@@ -559,6 +563,7 @@ function CreatePraposal(props: any) {
                                       maxLength={50}
                                       onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
                                       value={option.options ? option.options : ""}
+                                      onBlur={handleCheckBoxChecked}
                                     />
                                     <span className='icon delete-icon top-10 absolute right-6 cursor-pointer' onClick={() => deleteOption(index)}></span>
                                   </div>
