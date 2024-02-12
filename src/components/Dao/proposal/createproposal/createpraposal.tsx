@@ -2,21 +2,22 @@ import React, { useEffect, useState, useReducer, useContext } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import StartedSteps from './steps';
+import { Modal, modalActions } from '../../../../ui/Modal';
+import Image from 'react-bootstrap/Image';
 // import Button from 'react-bootstrap/Button';
+// import { Modal } from 'react-bootstrap';
+
 import user from '../../../../assets/images/praposal-user.png';
 import success from '../../../../assets/images/thank-you.svg';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { proposalData } from '../proposlaReducer/proposlaReducer'
+import { contractDetailsData, proposalData, saveProposalCall } from '../proposlaReducer/proposlaReducer'
 import { store } from '../../../../store';
 import { validateContentRule } from "../../../../utils/validation";
 import { useParams } from 'react-router-dom';
-import StartedSteps from './steps';
 import { ethers } from 'ethers/lib';
-// import { Modal } from 'react-bootstrap';
-import { Modal, modalActions } from '../../../../ui/Modal';
 import error from '../../../../assets/images/error.svg';
-import Image from 'react-bootstrap/Image';
 import { useAccount } from 'wagmi';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { isMobile } from 'react-device-detect'
@@ -28,7 +29,6 @@ import WalletText from '../../../../utils/walletText';
 import Button from '../../../../ui/Button';
 import outletContext from '../../../../layout/context/outletContext';
 import OutletContextModel from '../../../../layout/context/model';
-
 import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
 import Moment from 'react-moment';
 import { useVotingContract } from '../../../../contracts/useContract';
@@ -69,10 +69,10 @@ function CreatePraposal(props: any) {
   const [errors, setErrors] = useState<any>({});
   const params = useParams()
   // const [errorMsg, setErrorMessage] = useState<any>(false);
+    // const currentDate = new Date()?.toISOString().slice(0, 16);
   const [options, setOptions] = useState<any>([{ options: null, Id: "00000000-0000-0000-0000-000000000000", optionhash: null }]);
   const [attributes, setAttributes] = useState([]);
   const [copied, setCopied] = useState(false);
-  // const currentDate = new Date()?.toISOString().slice(0, 16);
   const [loader, setLoader] = useState(false)
   const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
   const contractData = useSelector((state: any) => state?.proposal?.contractDetails)
@@ -144,7 +144,6 @@ function CreatePraposal(props: any) {
   const handleClose = () => {
     resetProperties();
      dispatch({ type: 'modalShow', payload: false })
-    //  modalActions("modalShow","close")
   };
   const handleNextStep = (event) => {
     switch(state.currentStep){
@@ -192,7 +191,6 @@ function CreatePraposal(props: any) {
 
     if (isUpdate) {
        dispatch({ type: 'modalShow', payload: false });
-      //  modalActions("modalShow","close")
     }
   };
 
@@ -456,6 +454,9 @@ function CreatePraposal(props: any) {
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
   }
+  const handlecloseDrawer=()=>{
+    props?.close();
+  }
   return (
     <>
       {isConnected ?
@@ -464,7 +465,7 @@ function CreatePraposal(props: any) {
               <>
                 <div className='flex items-center justify-between mb-7'>
                   <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
-                  <span className={`icon closeIcon`} onClick={props?.close} ></span>
+                  <span className={`icon closeIcon`} onClick={handlecloseDrawer} ></span>
                 </div>
                 <div className=''>
                   <div className=''>
@@ -685,14 +686,14 @@ function CreatePraposal(props: any) {
             </>
             }
                         <div className='flex justify-center gap-5 items-center mt-16'>
-                          <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={props?.close} type='cancel' /> </Link>
-
+                          <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={handlecloseDrawer} type='cancel' /> </Link>
+                          
                           <Button
                             type="secondary"
                             btnClassName="flex gap-2"
                             handleClick={(e) => handleNextStep(e)}
                             disabled={toasterMessage || state.buttonLoader}
-                          > {state?.currentStep===1 && 'Next'}
+                          >{btnLoader &&<span className="loading loading-spinner loading-sm"></span>} {state?.currentStep===1 && 'Next'}
                           {state?.currentStep===2 && 'Publish'}
                           {state?.currentStep===3 && 'Back to proposals summary'}
                           </Button>
@@ -771,6 +772,12 @@ const connectStateToProps = ({ oidc, proposal }: any) => {
 };
 const connectDispatchToProps = (dispatch: any) => {
   return {
+    contractDetails: (params: any) => {
+      dispatch(contractDetailsData(params));
+    },
+    saveProposalData: (obj: any, callback: any) => {
+      dispatch(saveProposalCall(obj, callback))
+    },
     customerDetails: (address: any, callback: any) => {
       dispatch(getCustomerDetails(address, callback));
     }

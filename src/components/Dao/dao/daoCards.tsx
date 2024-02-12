@@ -65,7 +65,7 @@ function DaoCards(props: any) {
                                         <span className='text-base-200 text-base font-semibold'>Name:</span>  {item?.name} 
                                         </div>
                                         <div className='text-base font-normal text-secondary mb-1'>
-                                        <span className='text-base-200 text-base font-semibold'> Members:</span>  {item?.members.toLocaleString()}
+                                        <span className='text-base-200 text-base font-semibold'> Members:</span>  {item?.members?.toLocaleString()}
                                         </div>
                                     </div>
                                 </div> 

@@ -162,6 +162,7 @@ const   DaoCurrentResults: NextPage = (props: any) => {
                   dispatch({ type: 'isButtonLoading', payload: false })
                   dispatch({ type: 'isNoButtonLoading', payload: false })
                   setToaster?.("Your vote was cast successfully.")
+                  setsaveBtn(false);
                   seteditBtn(true);
                 } else {
                   dispatch({ type: 'isButtonLoading', payload: false })
@@ -189,14 +190,7 @@ const   DaoCurrentResults: NextPage = (props: any) => {
     }
     const handleConfirmVote=()=>{
         modalActions('castYourVote','close')
-        setsaveBtn(false);
-        if (state?.selectedOption) {
-            saveVote(true)
-            setsaveBtn(true);
-            seteditBtn(false);
-        }else{
-            seteditBtn(true)
-        }
+        saveVote(true)
     }
     const handleEditVote=()=>{
         modalActions('agreeModel','open')
