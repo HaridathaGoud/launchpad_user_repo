@@ -235,8 +235,7 @@ export default function useContractMethods() {
     const wallet = new ethers.Wallet(private_key, _provider());
     const signHash = await wallet.signMessage(msgHash);
     const signature = ethers.utils.splitSignature(signHash);
-    console.log(amount,signature,nonce,poolID)
-    // return { signature, nonce };
+    return { signature, nonce };
   }
   async function stackRewards(callback: Function,amount:any,contract:any) {
     const details: any = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getTierIdFromUser", args: [address] });
