@@ -111,8 +111,8 @@ const SumSub = () => {
 
   return (
     <>
-      {state.loading && <Spinner />}
-      {!state.showConnect && !state.loading && (
+      {state.loading && <div className="text-center"><Spinner /></div>}
+      {!state.showConnect && (
         <div id="sumsub-websdk-container"></div>
       )}
       {state.showConnect && <ConnectToWallet />}
