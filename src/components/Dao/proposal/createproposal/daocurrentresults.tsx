@@ -42,7 +42,7 @@ const   DaoCurrentResults: NextPage = (props: any) => {
   const savevoterddata = useSelector((state: any) => state?.vtg?.savevoterddata);
   const getCustomerData = useSelector((state: any) => state?.oidc?.user);
   const [isVoted, setisVoted] = useState<any>(false);
-  
+  const user = useSelector((state: any) => isConnected ? state?.oidc?.fetchproposalviewdata : state?.proposal?.proViewData);
   const params = useParams();
   const { castVote, parseError } = useVotingContract();
   const [optionVotingHashs, setOptionVotingHashs] = useState([])
@@ -156,7 +156,7 @@ const   DaoCurrentResults: NextPage = (props: any) => {
             const response = await castVote(contractAddress, proposarDetailas?.data?.titleHash, state?.selectedhash);
             if (response) {
               props.saveVotersData(obj, (callback: any) => {
-                if (callback?.data?.ok) {
+                if (callback?.data) {
                   props.proposalViewData(params?.id, getCustomerData?.id);
                   props.getVotersGrid(1, 10, params?.id);
                   dispatch({ type: 'isButtonLoading', payload: false })

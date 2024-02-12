@@ -263,7 +263,7 @@ function ProposalVoting(props: any) {
                                 <img src={user} className='' />
                               </div>
                               <p className='mr-2 text-secondary opacity-50'>Stargate DAO by</p>
-                              <p className='text-base font-semibold mr-4 text-secondary'>Harsha</p>
+                              {/* <p className='text-base font-semibold mr-4 text-secondary'>Harsha</p> */}
                               <div>
                                 <span className={`text-base-100 font-semibold px-3 py-1 rounded bg-success`}>Active</span>
                               </div>

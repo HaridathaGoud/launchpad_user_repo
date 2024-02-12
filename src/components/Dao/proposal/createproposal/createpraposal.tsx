@@ -456,6 +456,7 @@ function CreatePraposal(props: any) {
   }
   const handlecloseDrawer=()=>{
     props?.close();
+    window.location.reload();
   }
   return (
     <>
@@ -632,12 +633,12 @@ function CreatePraposal(props: any) {
                                 <div className=''>                                  
                                     <h1 className='mb-2 text-base font-semibold text-secondary'>Voting </h1>                                
                                   <div>
-                                    <p className='text-sm text-secondary opacity-50 mb-2'>Your proposal options</p>
-                                    <div className='flex items-center flex-wrap gap-3'>
+                                    {/* <p className='text-sm text-secondary opacity-50 mb-2'>Your proposal options</p> */}
+                                    {/* <div className='flex items-center flex-wrap gap-3'>
                                     {proposalDetails?.ProposalOptionDetails?.map((item) => (                                      
                                         <p className='px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200'>{item?.index || "A"}. {item?.options}</p>                                    
                                     ))}
-                                      </div>
+                                      </div> */}
                                   </div>
                                 </div><hr className='my-3' />
                                 <div className=''>

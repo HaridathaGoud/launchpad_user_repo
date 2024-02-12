@@ -59,7 +59,7 @@ function DaoCards(props: any) {
                            <>
                                 {state?.initialData ? 
                                 <div className='shadow rounded me-3 mt-md-0 mt-3 sm-m-0 cursor-pointer rounded-lg transform transition-transform duration-500 hover:scale-[1.03]' onClick={() => props?.goToHome(item)}>
-                                    <img src={item?.logo} className='w-full rounded-t-lg h-[350px] object-cover' />
+                                    <img src={item?.image} className='w-full rounded-t-lg h-[350px] object-cover' />
                                     <div className='p-2 rounded-b-lg'>
                                         <div className='text-base font-normal text-secondary !mb-0'>
                                         <span className='text-base-200 text-base font-semibold'>Name:</span>  {item?.name} 

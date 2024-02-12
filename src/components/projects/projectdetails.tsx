@@ -156,6 +156,7 @@ function Projectdetails(props: any) {
                         projectFeedRef={projectFeedRef}
                         allocationRef={allocationRef}
                         buyMembershipRef={buyMembershipRef}
+                        pjctInfo={pjctInfo}
                       />
                     </div>
                       <ProjectFeed pjctFeed={pjctFeed} />
