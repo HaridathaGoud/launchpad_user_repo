@@ -7,7 +7,8 @@ const API_VERSION = 'api/v1/';
 const MINTING_API_END_POINT=process.env.REACT_APP_API_MINTING_END_POINT
 const API_SIGNER_END_POINT= process.env.REACT_APP_API_SIGNATURE
 const API_END_POINT_CUSTOMER=process.env.REACT_APP_API_END_POINT_CUSTOMER
-const API_END_POINT_DAO = process.env.REACT_APP_API_DAO_END_POINT + "/api/v1/";
+const API_END_POINT_DAO = process.env.REACT_APP_API_DAO_END_POINT + "api/v1/";
+const API_END_POINT_DAO_CARDS = process.env.REACT_APP_API_END_POINT + "api/v1/";
 const MARKETPLACE_API_END_POINT=process.env.REACT_APP_MARKETPLACE_END_POINT
 
 export function getToken() {
@@ -160,7 +161,7 @@ export async function getKyc(url: string) {
 }
 
 const getDaoDetails=async(take:any,skip:any)=> {
-  return await axios.get(API_END_POINT_DAO + ApiControllers.user +`DaoDetails/${take}/${skip}`,{
+  return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${take}/${skip}`,{
     headers: {
       Authorization:
       store.getState().auth?.user?.token || store.getState().auth?.token },

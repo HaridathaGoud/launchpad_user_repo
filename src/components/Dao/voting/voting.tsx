@@ -48,7 +48,9 @@ import ProposalTabbedContent from './proposalTabs';
     return (
         <>
         {loading ? (
-            <PublishProposalShimmer/> 
+            <div className="container mx-auto">
+              <PublishProposalShimmer/> 
+            </div>
                 ) : ( <>
         {isConnected && 
         <div className='container mx-auto max-md:px-3'>
@@ -80,8 +82,8 @@ import ProposalTabbedContent from './proposalTabs';
           </div>
         </div>}
         
-        {!isConnected && <div className='container mx-auto'>
-          <span className='mb-0 back-text c-pointer' onClick={handleback}>Voting</span>
+        {!isConnected && <div className='container mx-auto mt-4'>
+          {/* <span className='mb-0 back-text c-pointer' onClick={handleback}>Voting</span> */}
           <div className='grid grid-cols-12 gap-[30px]'>
             <div className='col-span-3'>
               <Status></Status>

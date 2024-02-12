@@ -34,7 +34,7 @@ const Carousel = ({
           className={`carousel w-full carousel-end ${className || ""}`}
           ref={carouselRef}
         >
-          {data.map((image) => {
+          {data?.map((image) => {
             return (
               <div
                 id={image.image}
@@ -105,7 +105,7 @@ const Carousel = ({
         <div
           className={`flex justify-center w-full py-2 gap-2 absolute bottom-6`}
         >
-          {data.map((image, index) => (
+          {data?.map((image, index) => (
             <button
               key={image.url + image?.name}
               onClick={() => handleIndicatorClick(index)}

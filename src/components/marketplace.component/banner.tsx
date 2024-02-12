@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
-import Carousel from 'react-bootstrap/Carousel';
+// import Carousel from 'react-bootstrap/Carousel';
 import { Link, useNavigate } from 'react-router-dom';
 import { getMarketplace, getTopNft } from '../../utils/api';
 import Modal from 'react-bootstrap/Modal';
@@ -10,6 +10,8 @@ import { useAccount } from 'wagmi';
 import error from '../../assets/images/error.svg';
 import WalletConnect from '../shared/connect.wallet';
 import loadimg from '../../assets/images/loader.svg';
+import Button from '../../ui/Button';
+import Carousel from '../../ui/Carousel';
 
 export default function Banner() {
   const [show, setShow] = useState(false);
@@ -80,8 +82,8 @@ export default function Banner() {
      </div></div>
      </div>
      || <>
-      <div className="container mx-auto">
-        <div className="grid grid-cols-2">
+      <div className="container mx-auto pt-5">
+        <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	">
           {errorMessage && (
             <div className='cust-error-bg'>
                  <div className='mr-4'><Image src={error} alt="" /></div>
@@ -91,13 +93,15 @@ export default function Banner() {
             </div>
           )}
           <div className="">
-            <h4 className="text-[28px] font-semibold ">Built on your own NFTs </h4>
-            <h2 className="banner-title">Rock the world</h2>
-            <h3 className="second-title">Explore, collect & sell </h3>
-            <h1 className="gradient-title">NFTs</h1>
+            <h4 className="text-[18px] font-semibold text-primary">Built on your own NFTs </h4>
+            <h2 className="text-[52px] font-bold leading-[1.2]">Rock the world <br />
+               Explore, collect & sell 
+            </h2>
+          
+            <h1 className="text-[62px] font-semibold text-primary">NFTs</h1>
             <div className="banner-btns">
             <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => {}} onWalletClose={() => setModalShow(false)} />
-              <Button className="custom-btn" onClick={handleExplore}>
+              <Button type='secondary' handleClick={handleExplore}>
                 Explore
               </Button>{' '}
             </div>
@@ -125,15 +129,13 @@ export default function Banner() {
               </Modal.Body>
             </Modal>
           </div>
-          <div className="col-md-5 banner-right-section banner-inside">
-            <div className="banner-image"></div>
-
-            <Carousel>
+          <div className="">
+            <Carousel data={topNftDetails}>
               {topNftDetails?.map((item) => (
-                <Carousel.Item interval={1500}>
+                <div>
                   <div className='new-banner'>
                     <div className="banner-image">
-                      <Image
+                      <img className='h-[594px]'
                         src={
                           item?.image && !item?.image?.includes('null')
                           && `${getNFTImageUrl(item?.image)}`
@@ -149,10 +151,12 @@ export default function Banner() {
                       </div>
                     </div>
                   </div>
-                </Carousel.Item>
+                </div>
               ))}
 
             </Carousel>
+
+           
           </div>
         </div>
       </div>

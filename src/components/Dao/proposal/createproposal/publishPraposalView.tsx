@@ -52,9 +52,9 @@ function TestingPraposalflow(props:any) {
                        <div className=''><span className='text-2xl font-semibold text-secondary'>{proposalView?.data?.title}</span>
                        {locationSplit[2] !== "voting" && <span className=' text-secondary'> (Published by <span className=' text-secondary'>you</span>)</span>}
                        </div>
-                        <div className=''>
+                        {/* <div className=''>
                 {(locationSplit[2] === "voting" && showButton) && <Button className='yes-btn' onClick={() => setModalShow(true)}>VOTE</Button>}
-            </div>
+            </div> */}
             </div> <p className='mt-0 mb-2  text-secondary'>{proposalView?.data?.description}</p>
                     </div>
                     <hr />
