@@ -69,7 +69,17 @@ export default function useContractMethods() {
     });
     return request;
   }
-  async function requestForProjectContract(funName, args, caddr) {
+  async function requestForProjectContract(funName, args, caddr,ether=0n) {
+    if(funName==='buyToken'){
+      const { request } = await prepareWriteContract({
+        address: caddr,
+        abi: project.abi,
+        functionName: funName,
+        value:ether,
+        args,
+      });
+      return request;
+    }
     const { request } = await prepareWriteContract({
       address: caddr,
       abi: project.abi,
@@ -225,10 +235,12 @@ export default function useContractMethods() {
     const wallet = new ethers.Wallet(private_key, _provider());
     const signHash = await wallet.signMessage(msgHash);
     const signature = ethers.utils.splitSignature(signHash);
-    return { signature, nonce };
+    console.log(amount,signature,nonce,poolID)
+    // return { signature, nonce };
   }
   async function stackRewards(callback: Function,amount:any,contract:any) {
     const details: any = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getTierIdFromUser", args: [address] });
+    console.log(amount)
     const _amt = ethers.utils.parseUnits(amount.toString(), decimalPoints);
     const poolId = Number(details[1])
     const tierId = Number(details[0])
@@ -246,13 +258,14 @@ export default function useContractMethods() {
       callback({ ok: false, error });
     }
   }
-  async function buyTokens(amount: any, contractAddress: any) {
-    const _amount = ethers.utils.parseUnits(amount, decimalPoints);
-    const request = await requestForProjectContract("buyToken", [_amount], contractAddress)
+  async function buyTokens(ether,amount: any, contractAddress: any) {
+    const value= ethers.utils.parseUnits(ether.toString(),decimalPoints);
+    // const value=BigNumber(ether*10**decimalPoints);
+    const request = await requestForProjectContract("buyToken", [amount], contractAddress,value.toString());
     return writeContract(request);
   }
   async function claimTokens(contractAddress: any) {
-    const request = await requestForProjectContract("claimToken", [], contractAddress)
+    const request = await requestForProjectContract("claimToken", [], contractAddress) 
     return writeContract(request);
   }
   function getParticipants() {

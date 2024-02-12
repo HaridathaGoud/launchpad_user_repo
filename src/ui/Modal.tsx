@@ -1,5 +1,9 @@
 import React from "react";
-
+interface ModalProps {
+  id: string;
+  children: any;
+  modalClass?: string;
+}
 export function modalActions(id, action) {
   const modal = document.getElementById(id);
   if (action === "open") {
@@ -10,10 +14,12 @@ export function modalActions(id, action) {
     modal?.classList.remove("modal-open");
   }
 }
-export function Modal({ id, children,modalClass }) {
+export function Modal({ id, children, modalClass }: ModalProps) {
   return (
     <dialog id={id} className="modal">
-      <div className={`modal-box w-11/12 max-w-2xl rounded-[15px] ${modalClass}`}>
+      <div
+        className={`modal-box w-11/12 max-w-2xl rounded-[15px] ${modalClass}`}
+      >
         <form method="dialog">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
