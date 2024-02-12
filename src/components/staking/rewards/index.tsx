@@ -38,7 +38,7 @@ const RewardsComponent = () => {
         (res: any) => {
           callbackRewards(res);
         },
-        rewardAmount,
+        rewardAmount.toFixed(8),
         true
       );
     }

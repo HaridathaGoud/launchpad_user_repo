@@ -239,8 +239,7 @@ export default function useContractMethods() {
   }
   async function stackRewards(callback: Function,amount:any,contract:any) {
     const details: any = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getTierIdFromUser", args: [address] });
-    console.log(amount)
-    const _amt = ethers.utils.parseUnits(amount.toString(), decimalPoints);
+    const _amt = ethers.utils.parseUnits(amount, decimalPoints);
     const poolId = Number(details[1])
     const tierId = Number(details[0])
     const {
