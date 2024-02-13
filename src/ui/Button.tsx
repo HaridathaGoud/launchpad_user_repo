@@ -22,6 +22,8 @@ const BtnStylings = {
     "bg-primary rounded-[28px] lg:py-2 px-6 inline-block text-base font-semibold text-base-100",
   stakingDisabled:
     "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold cursor-not-allowed",
+    create:
+    "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold",
 };
 const Button = ({
   handleClick,

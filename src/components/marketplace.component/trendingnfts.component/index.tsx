@@ -73,7 +73,7 @@ function TrendingNfts(props) {
     router(`/marketplace/accounts/${item.creatorWalletAddress || address}`);
   };
 
-  const handleBuyModal = (item: any) => {
+  const handleBuyModal = (item: any) => { 
     if(isConnected){
       setErrorMessage(null)
       setTrendingData(item);
@@ -118,7 +118,7 @@ function TrendingNfts(props) {
     <>
       {todaytrending.length > 0 && (
         <>
-          <div className="container trending-section">
+          <div className="container mx-auto mt-5">
             <h2 className="section-title text-left text-md-center mb-3">Today Trending NFTs</h2>
             <hr className='trending-nfts-hr' />
             {errorMessage && (

@@ -83,7 +83,7 @@ export default function Banner() {
      </div>
      || <>
       <div className="container mx-auto pt-5">
-        <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	">
+        <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	items-center">
           {errorMessage && (
             <div className='cust-error-bg'>
                  <div className='mr-4'><Image src={error} alt="" /></div>
@@ -98,12 +98,29 @@ export default function Banner() {
                Explore, collect & sell 
             </h2>
           
-            <h1 className="text-[62px] font-semibold text-primary">NFTs</h1>
+            <h1 className="text-[62px] font-semibold text-secondary leading-[1.1]">NFTs</h1>
+            <div className="flex gap-[30px] items-center my-6">
+              <div>
+                <h2 className='text-[30px] text-secondary font-semibold leading-none'>200+</h2>
+                <p className='text-base font-medium text-primary'>User Active</p>
+              </div>
+              <div>
+              <h2 className='text-[30px] text-secondary font-semibold leading-none'>40+</h2>
+                <p className='text-base font-medium text-primary'>Art Works</p>
+              </div>
+              <div>
+              <h2 className='text-[30px] text-secondary font-semibold leading-none'>32+</h2>
+                <p className='text-base font-medium text-primary'>Artist</p>
+              </div>
+            </div>
             <div className="banner-btns">
             <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => {}} onWalletClose={() => setModalShow(false)} />
-              <Button type='secondary' handleClick={handleExplore}>
+              <Button type='primary' btnClassName='!px-12' handleClick={handleExplore}>
                 Explore
               </Button>{' '}
+              <Button type='create' btnClassName='!px-12 !h-[42px] ml-[18px]' handleClick={handleExplore}>
+                Create
+              </Button>
             </div>
             <Modal size="lg" centered show={show} onHide={handleClose} className="wallet-popup create-item-modal">
               <Modal.Header className="p-0">
@@ -129,7 +146,7 @@ export default function Banner() {
               </Modal.Body>
             </Modal>
           </div>
-          <div className="">
+          <div className='w-[400px] mx-auto'>
             <Carousel data={topNftDetails}>
               {topNftDetails?.map((item) => (
                 <div>

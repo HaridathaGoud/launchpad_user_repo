@@ -88,7 +88,7 @@ const TopSeller = () => {
                 <div className='carousel container mx-auto gap-3'>
                   {topSeller.map((item: any, idx: any) => (
                     <div key={idx} onClick={() => handleTopSellerList(item)} className="carousel-item md:inline-block w-[380px]">
-                      <div className="flex items-center bg-info-content py-4 px-2.5 rounded-[15px] gap-5">
+                      <div className="flex items-center bg-base-content py-4 px-2.5 rounded-[15px] gap-5">
                         <div className="shrink-0">
                           <img
                             src={item?.logo || defaultlogo}
@@ -100,7 +100,15 @@ const TopSeller = () => {
                           />
                         </div>
                         <div className='truncate'>
-                            <h4 className='truncate text-lg font-semibold capitalize'>{item?.name || item?.walletAddress}</h4>
+                            <h4 className='truncate text-xl font-semibold capitalize text-white'>{item?.name || item?.walletAddress}</h4>
+                            <div className='mt-3 mb-2'>
+                              <p className='text-info'>Flour Price</p>
+                              <p className='text-[16px] text-white'>888.95 Matic</p>
+                            </div>
+                            <div>
+                              <p className='text-info'>Volume</p>
+                              <p className='text-[16px] text-white'>888.95 Matic</p>
+                            </div>
                         </div>
                       </div>
                     </div>
