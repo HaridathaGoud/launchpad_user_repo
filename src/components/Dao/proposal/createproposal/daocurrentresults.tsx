@@ -14,6 +14,7 @@ import { readContract } from 'wagmi/actions';
 import { getCustomerDetails } from '../../../../reducers/authReducer';
 import OutletContextModel from '../../../../layout/context/model';
 import outletContext from '../../../../layout/context/outletContext';
+import Spinner from '../../../loaders/spinner';
 
 const reducers = (state: any, action: any) => {
     switch (action.type) {
@@ -139,11 +140,13 @@ const   DaoCurrentResults = (props: any) => {
 
       const saveVote = async (value: any) => {
         getOptionHashes()
+        dispatch({ type: 'isButtonLoading', payload: true })
         if (value && !state?.selectedOption) {
             setErrorMessage?.("Please select your option")
+            dispatch({ type: 'isButtonLoading', payload: false })
         } else {
           dispatch({ type: 'errorMsg', payload: null })
-          dispatch({ type: 'isButtonLoading', payload: value })
+          // dispatch({ type: 'isButtonLoading', payload: false })
           dispatch({ type: 'isNoButtonLoading', payload: !value })
           let obj = {
             "proposalId": params?.id,
@@ -264,7 +267,10 @@ const   DaoCurrentResults = (props: any) => {
                 </div>
                     {saveBtn &&
                         <div className='mb-2'>
-                            <Button children={'Vote Now'} handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full' />
+                          
+                            <Button handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full flex justify-center gap-2'>
+                            <span>{state?.isButtonLoading && <Spinner/>} </span>{" "}{'Vote Now'}
+                            </Button>
                         </div>
                     }
                     {editBtn &&
