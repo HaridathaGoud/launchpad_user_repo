@@ -214,13 +214,13 @@ const   DaoCurrentResults = (props: any) => {
                 <div className='flex justify-between gap-5 mb-5'>
                    <div className='shrink-0'>
                    <div className='mb-2'>
-                        <span className={`${styles.greenDot} mr-2 align-middle`}></span>
-                  {user?.data?.options?.map((data: any) => (<div className='text-secondary'>
+                    <span className={`${styles.greenDot} mr-2 align-middle`}></span>
+                  {/* {user?.data?.options?.map((data: any) => (<div className='text-secondary'>
                     <div key={data?.id}>
                     <span className='text-secondary' >{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
                     </span>
                   </div>
-                       </div>))}
+                       </div>))} */}
                         <span className='text-base text-secondary'>Yes - 100%</span>
                     </div>
                     <div>
