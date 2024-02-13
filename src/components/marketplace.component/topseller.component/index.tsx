@@ -60,7 +60,7 @@ const TopSeller = () => {
     <>
       {topSeller?.length > 0 && (
         <>
-          <div className="container mx-auto">
+          <div className="container mx-auto mt-5">
             <div className="">             
               <h2 className='mb-4 text-2xl font-semibold'>Top Sellers</h2>  
             </div>
@@ -87,7 +87,7 @@ const TopSeller = () => {
               {!loader && (
                 <div className='carousel container mx-auto gap-3'>
                   {topSeller.map((item: any, idx: any) => (
-                    <div key={idx} onClick={() => handleTopSellerList(item)} className="carousel-item md:inline-block w-[380px]">
+                    <div key={idx} onClick={() => handleTopSellerList(item)} className="carousel-item inline-block max-sm:w-full md:w-[380px]">
                       <div className="flex items-center bg-base-content py-4 px-2.5 rounded-[15px] gap-5">
                         <div className="shrink-0">
                           <img
@@ -115,6 +115,10 @@ const TopSeller = () => {
                   ))}
                 </div>
               )}
+            </div>
+            <div className='mt-5'>
+              <span className='icon carousal-left-arrow cursor-pointer mr-1'></span>
+              <span className='icon carousal-right-arrow cursor-pointer'></span>
             </div>
           </div>
         </>

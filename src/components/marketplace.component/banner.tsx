@@ -146,7 +146,7 @@ export default function Banner() {
               </Modal.Body>
             </Modal>
           </div>
-          <div className='w-[400px] mx-auto'>
+          <div className='lg:w-[400px] mx-auto'>
             <Carousel data={topNftDetails}>
               {topNftDetails?.map((item) => (
                 <div>

@@ -111,7 +111,7 @@ function HeaderNavbar() {
 
   return (
     <div className=" sticky top-0 z-50 bg-success-content header-shadow">
-      <div className="navbar bg-success-content container mx-auto md:px-0 px-3">
+      <div className="navbar bg-success-content container mx-auto lg:px-0 px-3">
         <div className="navbar-start">
           <div className="pr-4 border-r border-gray-300 hidden lg:flex shrink-0">
             <NaviLink path={"/dashboard"} type="primary">

@@ -12,11 +12,13 @@ scrollableRef?.current?.scrollIntoView(0,0);
   },[])
   return (
     <>
-     <div ref={scrollableRef}></div>
+    <div className='md:mb-[90px] px-3 lg:px-0 max-sm:mb-5'>
+    <div ref={scrollableRef}></div>
       <Banner />
       <TopSeller />
       <TrendingNfts />
       <HotCollections />
+    </div>
       {/* We are using these are in Feature */}
       {/* <Category />  */} 
       {/* <Subscribe /> */}

@@ -231,6 +231,12 @@ select{background:url(https://devdottstoragespace.blob.core.windows.net/dottimag
 .icon.add{background-position: -477px -161px !important;}
 .icon.delete-icon{background-position: -522px -8px !important;}
 .copy-check{background-position: -460px -9px !important;}
+.icon.carousal-left-arrow{background-position: -288px -470px !important;  width: 30px;  height: 30px;}
+.icon.carousal-left-arrow:hover{background-position: -288px -501px !important;  width: 30px;  height: 30px;}
+.icon.carousal-right-arrow{background-position: -323px -470px !important;  width: 30px;  height: 30px;}
+.icon.carousal-right-arrow:hover{background-position: -323px -501px !important;  width: 30px;  height: 30px;}
+.trending-card{width: 300px;}
+button.opacity-100{opacity: 1 !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
