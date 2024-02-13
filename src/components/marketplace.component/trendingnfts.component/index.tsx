@@ -218,7 +218,7 @@ function TrendingNfts(props) {
                   todaytrending?.map((item: any, idx: any) => (
                    <div className='carousel-item w-full md:w-[340px]'>
                      <div
-                      className={`card !bg-base-100 border border-slate-200 w-full ${todaytrending?.length === 3
+                      className={`card bg-primary-content border border-slate-200 w-full ${todaytrending?.length === 3
                         ? idx === previosImageChagne + 1
                           ? 'trending-card centerd-card lg:scale-[1.2]'
                           : 'trending-card '
