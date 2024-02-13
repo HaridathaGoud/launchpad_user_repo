@@ -94,11 +94,11 @@ export default function Banner() {
           )}
           <div className="">
             <h4 className="text-[18px] font-semibold text-primary">Built on your own NFTs </h4>
-            <h2 className="text-[52px] font-bold leading-[1.2]">Rock the world <br />
+            <h2 className="text-[52px] font-bold leading-[1.2] text-secondary">Rock the world <br />
                Explore, collect & sell 
             </h2>
           
-            <h1 className="text-[62px] font-semibold text-secondary leading-[1.1]">NFTs</h1>
+            <h1 className="text-[62px] font-semibold text-primary leading-[1.1]">NFTs</h1>
             <div className="flex gap-[30px] items-center my-6">
               <div>
                 <h2 className='text-[30px] text-secondary font-semibold leading-none'>200+</h2>

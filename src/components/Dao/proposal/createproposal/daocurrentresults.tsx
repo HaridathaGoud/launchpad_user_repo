@@ -4,7 +4,6 @@ import styles from "./dao.module.css";
 import { useAccount } from 'wagmi';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
 import Button from '../../../../ui/Button';
 import { Modal, modalActions } from '../../../../ui/Modal';
 import votesuccess from   '../../../../assets/images/vote-success.gif'
@@ -238,11 +237,10 @@ const   DaoCurrentResults = (props: any) => {
                  {!editBtn &&
                  <div>
                  <h2 className='text-base font-semibold mb-2 text-secondary'>Cast Your Vote</h2>
-                  <div className="flex gap-8 mb-9">
-                  <div className='flex gap-2'>
+                  <div className="mb-9">
                   {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
-                          <div className='d-flex flex-wrap-align voting-card-opt'>
-                            {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
+                          <div className='flex flex-wrap gap-2'>
+                            {proposarDetailas?.data?.options?.map((item: any) => (<div className='me-4 break-all'>
                               <input type="radio" name="radio-1" className="radio mr-1 align-middle" 
                               key={item?.option}
                               value={item?.option}
@@ -251,17 +249,16 @@ const   DaoCurrentResults = (props: any) => {
                               onClick={() => handleChange(item)}
                               checked={item?.isSelect ? item?.isSelect : state?.selectedOption === item?.option}
                               />
-                              <Form.Label className='text-secondary'>{item?.option}</Form.Label>
-                            </Form.Check>
+                              <label className='text-secondary'>{item?.option}</label>
+                            </div>
                             ))}
                           </div>
                         </div>}
-                   </div>
                   </div>
                  </div> }
                 <div>
                 {editBtn && <> 
-                    <p className=' text-secondary my-4'>Your vote was cast successfully.
+                    <p className=' text-secondary my-4 text-center'>Your vote was cast successfully.
                         </p>
                     </>}
                 </div>

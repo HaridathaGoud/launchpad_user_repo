@@ -247,8 +247,8 @@ function ProposalVoting(props: any) {
                 <div className=''>
                   <span className='text-2xl font-semibold text-secondary'>{proposarDetailas?.data?.title}</span>
                 </div>
-                {isVoted && <div className='ms-auto mt-lg-2'>
-                  <Button className='yes-btn c-default'>VOTED</Button>
+                {isVoted && <div className='ml-auto'>
+                  <span className='bg-primary text-white px-4 py-2 rounded rounded-[33px]'>VOTED</span>
                 </div>}
               </div>
               <div>
