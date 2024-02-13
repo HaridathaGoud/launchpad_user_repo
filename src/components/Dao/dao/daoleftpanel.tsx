@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Createpraposal from '../proposal/createproposal/createpraposal';
 
-const DaoLeftPanel = () => {
+const DaoLeftPanel = (props) => {
     const [isChecked, setIsChecked] = useState(false)
    
     const router = useNavigate();
@@ -61,7 +61,7 @@ const DaoLeftPanel = () => {
                     <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay" onClick={handleCancel}></label>
                     <div className="menu p-4 md:w-80 min-h-full bg-white text-base-content pt-24">
                        
-                       <Createpraposal close={handleCancel}/>
+                       <Createpraposal close={handleCancel} pjctInfo={props?.pjctInfo}/>
                     </div>
                 </div>
             </div>}

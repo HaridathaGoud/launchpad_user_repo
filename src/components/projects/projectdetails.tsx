@@ -21,6 +21,7 @@ import Allocations from "./allocations";
 import Claims from "./claims";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
+import CommonCreateProposal from '../Dao/./proposal/createproposal/praposalScreen';
 
 function Projectdetails(props: any) {
   const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
@@ -36,11 +37,13 @@ function Projectdetails(props: any) {
   const [currentProject, setCurrentProject] = useState('');
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
+  const dao = useRef(null);
   const buyMembershipRef = useRef(null);
   const [foundingmems, setFoundingMems] = useState([]);
   const [foundingmemLoader, setfoundingMemsLoader] = useState(false);
   const shouldLog = useRef(true);
   const { setErrorMessage }: OutletContextModel = useContext(outletContext);
+  const [daotab,setdaotab]=useState(false)
   useEffect(() => {
     window.scroll(0, 0);
     if (pid) {
@@ -157,76 +160,95 @@ function Projectdetails(props: any) {
                         allocationRef={allocationRef}
                         buyMembershipRef={buyMembershipRef}
                         pjctInfo={pjctInfo}
+                        dao={'dao'}
+                        setdaotab={setdaotab}
                       />
                     </div>
-                      <ProjectFeed pjctFeed={pjctFeed} />
-                    <h4
-                      className={`text-base font-semibold text-secondary mb-2 mt-8`}
-                    >
-                      Founding Members
-                    </h4>
-                    {!foundingmemLoader && foundingmems && (
-                      <FoundingMember
-                        foundingmemsData={foundingmems}
-                        pjctId={pid}
-                      />
-                    )}
-                    {foundingmemLoader && (
-                      <div className="animate-pulse space-x-1">
-                        <div className="rounded-full bg-slate-200 h-20 w-20"></div>
-                        <div className="flex-1 space-y-5 py-1">
-                          <div className="h-2 bg-slate-200 rounded"></div>
-                          <div className="grid grid-cols-3 gap-4">
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+
+                      {!daotab && <div>
+                        <ProjectFeed pjctFeed={pjctFeed} />
+                        <h4
+                          className={`text-base font-semibold text-secondary mb-2 mt-8`}
+                        >
+                          Founding Members
+                        </h4>
+                        {!foundingmemLoader && foundingmems && (
+                          <FoundingMember
+                            foundingmemsData={foundingmems}
+                            pjctId={pid}
+                          />
+                        )}
+                        {foundingmemLoader && (
+                          <div className="animate-pulse space-x-1">
+                            <div className="rounded-full bg-slate-200 h-20 w-20"></div>
+                            <div className="flex-1 space-y-5 py-1">
+                              <div className="h-2 bg-slate-200 rounded"></div>
+                              <div className="grid grid-cols-3 gap-4">
+                                <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                                <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    )}
-                    <h4
-                      className={`text-base font-semibold text-secondary mb-2 mt-8`}
-                    >
-                      Cast & Crew
-                    </h4>
-                    {!loader && (
-                      <CastAndCrewMember
-                        castCrewsData={pjctInfo.cast_Crews}
-                        pjctId={pid}
-                      />
-                    )}
-                    {loader && (
-                      <div className="animate-pulse space-x-1">
-                        <div className="rounded-full bg-slate-200 h-20 w-20"></div>
-                        <div className="flex-1 space-y-5 py-1">
-                          <div className="h-2 bg-slate-200 rounded"></div>
-                          <div className="grid grid-cols-3 gap-4">
-                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                        )}
+                        <h4
+                          className={`text-base font-semibold text-secondary mb-2 mt-8`}
+                        >
+                          Cast & Crew
+                        </h4>
+                        {!loader && (
+                          <CastAndCrewMember
+                            castCrewsData={pjctInfo.cast_Crews}
+                            pjctId={pid}
+                          />
+                        )}
+                        {loader && (
+                          <div className="animate-pulse space-x-1">
+                            <div className="rounded-full bg-slate-200 h-20 w-20"></div>
+                            <div className="flex-1 space-y-5 py-1">
+                              <div className="h-2 bg-slate-200 rounded"></div>
+                              <div className="grid grid-cols-3 gap-4">
+                                <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                                <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    )}
-                    <hr className="my-5" />
-                  </div>
-                  <div
-                    id="allocationClaim"
-                    ref={allocationRef}
-                    className="project-detail"
-                  >
-                    <div>
-                      <Allocations pjctInfo={pjctInfo} pid={pid} />
-                      <Claims pjctInfo={pjctInfo} pid={pid} />
+                        )}
+                        <hr className="my-5" />
+                      </div>}
+
                     </div>
-                  </div>
+
+                    {!daotab && <>
+                      <div
+                        id="allocationClaim"
+                        ref={allocationRef}
+                        className="project-detail"
+                      >
+                        <div>
+                          <Allocations pjctInfo={pjctInfo} pid={pid} />
+                          <Claims pjctInfo={pjctInfo} pid={pid} />
+                        </div>
+                      </div>
+                      <div
+                        id="buyMembership"
+                        ref={buyMembershipRef}
+                        className="mt-6"
+                      >
+                        <BuyMembership />
+                      </div>
+                    </>}
+
+                  {daotab && 
                   <div
-                    id="buyMembership"
-                    ref={buyMembershipRef}
+                    id="dao"
+                    // ref={dao}
                     className="mt-6"
                   >
-                    <BuyMembership />
-                  </div>
-                </div>
+                    <CommonCreateProposal pjctInfo={pjctInfo} />
+                  </div> }
 
+                  </div>
+        
                 <ProjectDetailsCard
                   pjctInfo={pjctInfo}
                   currentPjct={currentProject}

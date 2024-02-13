@@ -151,7 +151,8 @@ const   DaoCurrentResults: NextPage = (props: any) => {
             "TransactionHash": state?.selectedhash,
             "Status": ((value && "Voted") || "Abstain")
           }
-          let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+          // let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+          let contractAddress = votingSeicheContractAddress;
           try {
             const response = await castVote(contractAddress, proposarDetailas?.data?.titleHash, state?.selectedhash);
             if (response) {
@@ -199,6 +200,10 @@ const   DaoCurrentResults: NextPage = (props: any) => {
         seteditBtn(false);
         setsaveBtn(true);
     }
+    const getRecorderValue = (recorder) => {
+      const recorderValues = ["A", "B", "C", "D", "E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+      return recorderValues[recorder - 1];
+    };
     return (
         <>
             <div>
@@ -208,6 +213,12 @@ const   DaoCurrentResults: NextPage = (props: any) => {
                    <div className='shrink-0'>
                    <div className='mb-2'>
                         <span className={`${styles.greenDot} mr-2 align-middle`}></span>
+                  {user?.data?.options?.map((data: any) => (<div className='text-secondary'>
+                    <div key={data?.id}>
+                    <span className='text-secondary' >{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
+                    </span>
+                  </div>
+                       </div>))}
                         <span className='text-base text-secondary'>Yes - 100%</span>
                     </div>
                     <div>
