@@ -243,7 +243,7 @@ const Projectscomponent = (props) => {
                           to={`/projects/projectdetails/${props.pjctType}/${item?.id}`}
                         >
                           <div className="">
-                            <span className="text-lg font-semibold text-[#fff]">
+                            <span className="text-lg font-semibold text-secondary">
                               {item?.projectName}
                             </span>
                             <div className=" flex gap-6">

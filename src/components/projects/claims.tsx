@@ -2,14 +2,13 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import Button from "../../ui/Button";
 import nodata from "../../assets/images/no-data.png";
 import useContract from "../../hooks/useContract";
-// import { isErrorDispaly } from '../../utils/errorHandling';
 import { get } from "../../utils/api";
 import { store } from "../../store";
 import { connect } from "react-redux";
-// import error from '../../assets/images/error.svg';
 import Spinner from "../loaders/spinner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
+import moment from "moment";
 
 const Claims = (props) => {
   const [claimsLoader, setclaimsLoader] = useState<any>(false);
@@ -17,9 +16,7 @@ const Claims = (props) => {
   const [claimsData, setClaimsData] = useState<{ [key: string]: any }>([]);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
   const [claimIndex, setClaimIndex] = useState<any>(null);
-  // const [claimErrorMsg, setClaimErrorMsg] = useState<any>(null);
   const { claimTokens } = useContract();
-  const [scuess, setSucess] = useState(false);
   const shouldLog = useRef(true);
   const { setToaster, setErrorMessage }: OutletContextModel =
     useContext(outletContext);
@@ -39,7 +36,7 @@ const Claims = (props) => {
       .then((response: any) => {
         setClaimsData(response.data);
         setclaimsLoader(false);
-        if (response.data?.length != 0) {
+        if (response.data?.length !== 0) {
           setClaimHide(false);
         } else {
           setClaimHide(true);
@@ -64,20 +61,14 @@ const Claims = (props) => {
             setClaimBtnLoader(false);
             // getProjectClaimsDetails('allocations');
             setToaster?.("Claimed successfully");
-            setSucess(true);
-            setTimeout(function () {
-              setSucess(false);
-            }, 2000);
           })
           .catch((error: any) => {
             setClaimBtnLoader(false);
-            window.scroll(0, 0);
             setErrorMessage?.(error.reason || error);
           });
       })
       .catch((error: any) => {
         setClaimBtnLoader(false);
-        window.scroll(0, 0);
         setErrorMessage?.(error.shortMessage || error);
       });
   };
@@ -111,15 +102,6 @@ const Claims = (props) => {
           )}
           {!claimHide && (
             <div className="">
-              {/* {claimErrorMsg && (
-                            <div className="cust-error-bg my-4">
-                                <img src={error} alt="" width={32} height={32} className="me-2" />
-                                <div>
-                                    <p className="error-title error-red">Error</p>
-                                    <p className="error-desc">{claimErrorMsg}</p>
-                                </div>
-                            </div>
-                        )} */}
               <div>
                 <h2 className="text-2xl font-medium">
                   <span className="text-secondary">Cl</span>
@@ -182,17 +164,7 @@ const Claims = (props) => {
                               }
                               handleClick={() => handleClaim(index)}
                             >
-                              {claimBtnLoader && index == claimIndex && (
-                                <Spinner
-                                  className="space-right  text-base-100"
-                                  as="span"
-                                  animation="border"
-                                  variant="dark"
-                                  size="sm"
-                                  role="status"
-                                  aria-hidden="true"
-                                ></Spinner>
-                              )}{" "}
+                              {claimBtnLoader && index === claimIndex &&  <span><Spinner /></span>}
                               Claim
                             </Button>
                           )}
@@ -214,9 +186,9 @@ const Claims = (props) => {
                   ))}
                 </table>
               </div>
-              {claimsData?.length == 0 && (
+              {claimsData?.length === 0 && (
                 <div className="text-center">
-                  <img width={120} className="mx-auto" src={nodata} />
+                  <img width={120} className="mx-auto" src={nodata} alt="No Data" />
                   <p className="text-secondary text-center">No data found</p>
                 </div>
               )}

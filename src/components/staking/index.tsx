@@ -19,7 +19,7 @@ import TrendingProjects from "./trendingCarousel";
 import ConnectToWallet from "../ConnectToWallet";
 const Staking = () => {
   const [state, dispatch] = useReducer(stakingReducer, initialStakingState);
-  const { getStakedAmount, getUnstakedAmount, getRewards } = useContract();
+  const { getStakedAmount, getUnstakedAmount, getRewards,getUserStakeDetails } = useContract();
   const { errorMessage,setErrorMessage }: OutletContextModel = useContext(OutletContext);
   const { isConnected, address } = useAccount();
   const user= useSelector(

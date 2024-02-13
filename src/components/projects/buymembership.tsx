@@ -93,7 +93,7 @@ const BuyMembership = () => {
                     : "text-secondary opacity-80 "
                 } text-base font-semibold`}
               >
-                Buy Now {membership.price}MATIC
+                Buy Now {membership.price}{" "}MATIC
               </span>
             </div>
           </div>
