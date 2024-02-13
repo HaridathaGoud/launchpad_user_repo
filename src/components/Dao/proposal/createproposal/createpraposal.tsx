@@ -309,7 +309,7 @@ function CreatePraposal(props: any) {
     const obj = {
       id: "00000000-0000-0000-0000-000000000000",
       customerId: getCustomerId || custmerKYC.id || proposalDetails.customerId,
-      daoId: params.id,
+      daoId: props?.pjctInfo?.daoId ,//|| params.id ,
       title: proposalDetails?.proposal,
       description: proposalDetails?.summary,
       titleHash: proposalDetails.TitleHash,
@@ -465,7 +465,7 @@ function CreatePraposal(props: any) {
           <div className=''>
               <>
                 <div className='flex items-center justify-between mb-7'>
-                  <Link to={`/dao/${params.id}`} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
+                  <Link to={''} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
                   <span className={`icon closeIcon`} onClick={handlecloseDrawer} ></span>
                 </div>
                 <div className=''>

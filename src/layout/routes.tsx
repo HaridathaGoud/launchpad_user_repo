@@ -260,8 +260,16 @@ const Routes = () => {
             </React.Suspense>
           ),
         },
+        // {
+        //   path: "/dao/voting/:id",
+        //   element: (
+        //     <React.Suspense>
+        //       <Voting />
+        //     </React.Suspense>
+        //   ),
+        // },
         {
-          path: "/dao/voting/:id",
+          path: "/projects/projectdetails/:projectstatus/:pid/voting/:id",
           element: (
             <React.Suspense>
               <Voting />

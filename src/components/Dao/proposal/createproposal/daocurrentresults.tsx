@@ -34,7 +34,7 @@ const reducers = (state: any, action: any) => {
         return { ...state, selectedhash: action.payload };
     }
   }
-const   DaoCurrentResults: NextPage = (props: any) => {
+const   DaoCurrentResults = (props: any) => {
   const [saveBtn,setsaveBtn] = useState(true);
   const [editBtn,seteditBtn] = useState(false);
   const { isConnected, address } = useAccount();
@@ -78,12 +78,13 @@ const   DaoCurrentResults: NextPage = (props: any) => {
   }, [isConnected, address])
 
   const getDaoItem = () => {
-    let daoData = DaoDetail?.find((item) => item?.daoId == selectedDaoData?.daoId)
+    let daoData = DaoDetail?.find((item) => item?.daoId == props?.pjctInfo?.daoId) //selectedDaoData?.daoId)
     setDaoVoteName(daoData?.name)
     getBalanceCount(daoData?.name, address)
   }
   async function getBalanceCount(daoName, address) {
-    let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+    // let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+    let contractAddress = daoName=  mintingContractAddress
     let balance: any = await readContract({
       address: contractAddress,
       abi: MintContract.abi,
@@ -114,7 +115,8 @@ const   DaoCurrentResults: NextPage = (props: any) => {
       }
       const handleRedirectVotingScreen = () => {
         if (state?.selectedOption ) {
-            modalActions('agreeModel','open')
+            // modalActions('agreeModel','open')
+            saveVote(true)
            }else{
             setErrorMessage?.("Please select your option")
            }

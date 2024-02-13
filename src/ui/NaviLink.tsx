@@ -22,7 +22,7 @@ const NaviLink = ({ path, children, type, className,target,rel }: LinkProps) => 
       target={target}
       rel={rel}
       className={`!p-0 ${className} ${
-        location.pathname === path ? "active menu-active" : ""
+        location.pathname.includes(path) ? "active menu-active" : ""
       } ${
         type
           ? LinkStylings[type]

@@ -1,27 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef,dao,setdaotab,pjctInfo}) => {
-    const [active,setActive]=useState('projectFeed')
+    const [active,setActive]=useState('')
     const router = useNavigate();
     const params = useParams();
+
+    useEffect(()=>{
+        if(params?.id){
+            setActive('dao')
+        }else{
+            setActive('projectFeed')
+        }
+    },[])
     const handleTabClick=(tab)=>{
         setActive(tab)
         let ref;
         if(tab==='projectFeed'){
+            if(params?.id){
+             router(`/projects/projectdetails/${params?.projectstatus}/${params?.pid}`)
+            }else{
             ref=projectFeedRef?.current
-            setdaotab(false);
+            setdaotab?.(false);
+            }
         }
         else if(tab==='allocationClaim'){
             ref=allocationRef?.current
-            setdaotab(false);
+            setdaotab?.(false);
         }
         else if(tab==='buyMembership'){
             ref=buyMembershipRef?.current;
-            setdaotab(false);
+            setdaotab?.(false);
         }
         else if(tab==='dao'){
-            setdaotab(true);
+            setdaotab?.(true);
             // ref=dao?.current;  
         }
 

@@ -212,10 +212,11 @@ function ProposalCards(props: any) {
         }
     }
     const handleVotingScreen = (id: any) => {
-        router(`/dao/voting/${id}`)
+        // router(`/dao/voting/${id}`)
+        router(`/projects/projectdetails/${params?.projectstatus}/${params?.pid}/voting/${id}`)
     }
     const handledashboard = () => {
-        router('/dao')
+        // router('/dao')
     }
 
     const addProposalList = () => {
@@ -384,6 +385,12 @@ function ProposalCards(props: any) {
                                                                             <div>
                                                                                 <span className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>
                                                                                 <span className='text-base text-secondary'>Yes - 100%</span>
+                                                                                {/* {user?.data?.options?.map((data:any) => (<div className='text-secondary'>
+                                                                                    <div key={data?.id}>
+                                                                                        <p className='text-secondary'>{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>))} */}
                                                                             </div>
                                                                             <div>
                                                                                 <span className={`bg-primary h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>

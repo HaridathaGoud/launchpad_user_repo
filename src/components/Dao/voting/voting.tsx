@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import styles from "../dao/dao.module.css"  //"./dao.module.css";
+import React, { useContext, useEffect, useState } from 'react';
 import Status from '../proposal/createproposal/status';
 import VotingDao from './testdao';
-import Voters from './votersgrid';
+import { useParams } from 'react-router-dom';
 import {  useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -13,22 +9,37 @@ import TestingPraposalflow from '../proposal/createproposal/publishPraposalView'
 import { useAccount} from 'wagmi';
 import {getCustomerDetails } from '../../../reducers/authReducer';
 import { connect } from "react-redux";
-import ProjectCarousal from '../dao/projectCarousal';
-import BreadCrumb from '../../../ui/breadcrumb';
 import ProjectViewTabs from '../dao/projecttabs';
 import DaoCurrentResults from '../proposal/createproposal/daocurrentresults';
-import Discussions from '../proposal/createproposal/discussions';
 import BannerCarousel from '../../../ui/BannerCarousal';
 import aquaman from '../../../assets/images/aquaman.png';
-import Button from '../../../ui/Button';
 import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
 import ProposalTabbedContent from './proposalTabs';
+import { get } from "../../../utils/api";
+import { store } from '../../../store';
+import OutletContextModel from '../../../layout/context/model';
+import outletContext from '../../../layout/context/outletContext';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import styles from "../dao/dao.module.css"  //"./dao.module.css";
+import Button from '../../../ui/Button';
+import Voters from './votersgrid';
+import ProjectCarousal from '../dao/projectCarousal';
+import BreadCrumb from '../../../ui/breadcrumb';
+import Discussions from '../proposal/createproposal/discussions';
+
 // import { Button } from 'react-bootstrap';
   function Voting() {
     const router = useNavigate();
+    const params = useParams();
     const dispatch = useDispatch();
+    const user = store.getState().auth;
     const { isConnected } = useAccount();
+    const [loader, setLoader] = useState(false);
     const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
+    const { setErrorMessage }: OutletContextModel = useContext(outletContext);
+    const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
     const [loading, setLoading] = useState(true);
     const handleback =()=>{
         router(`/dao/${selectedDaoData?.daoId}`)
@@ -42,9 +53,26 @@ import ProposalTabbedContent from './proposalTabs';
     useEffect(() => {
       const timer = setTimeout(() => {
           setLoading(false);
+          getPjctDetails();
       }, 2000);
-      return () => clearTimeout(timer); // Cleanup the timer
+      return () => clearTimeout(timer);
   }, []);
+  const getPjctDetails = async () => {
+    setLoader(true);
+    const userId =
+      user?.user?.id && user?.user?.id != ""
+        ? user?.user?.id
+        : "00000000-0000-0000-0000-000000000000";
+    const res = await get("User/TokenInformation/" + params?.pid + "/" + userId)
+      .then((res: any) => {
+        setPjctInfo(res.data);
+      })
+      .catch((error: any) => {
+        setErrorMessage?.(error);
+        setLoader(false);
+      });
+  };
+
     return (
         <>
         {loading ? (
@@ -65,11 +93,11 @@ import ProposalTabbedContent from './proposalTabs';
             <div className='md:col-span-3'>
               <Status></Status>
               <div>
-                <DaoCurrentResults />
+                <DaoCurrentResults pjctInfo={pjctInfo}/>
               </div>
             </div>
             <div className='md:col-span-9'>
-              <VotingDao/>
+              <VotingDao pjctInfo={pjctInfo}/>
               {/* <VotingDao ></VotingDao> */}
               <div>
                 <ProposalTabbedContent/>
