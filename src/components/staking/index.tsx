@@ -19,7 +19,7 @@ import TrendingProjects from "./trendingCarousel";
 import ConnectToWallet from "../ConnectToWallet";
 const Staking = () => {
   const [state, dispatch] = useReducer(stakingReducer, initialStakingState);
-  const { getStakedAmount, getUserStakeDetails, getRewards } = useContract();
+  const { getStakedAmount, getUnstakedAmount, getRewards } = useContract();
   const { errorMessage,setErrorMessage }: OutletContextModel = useContext(OutletContext);
   const { isConnected, address } = useAccount();
   const user= useSelector(
@@ -44,7 +44,7 @@ const Staking = () => {
 
   const getAmountDetails = async () => {
     let stakedAmount = await stakeAmountData(getStakedAmount);
-    let unstakedAmount = await unstakeAmtData(getUserStakeDetails);
+    let unstakedAmount = await unstakeAmtData(getUnstakedAmount);
     let rewardAmount = await rewardsData(getRewards);
     let amounts = { stakedAmount, unstakedAmount, rewardAmount };
     dispatch({ type: "setAmounts", payload: amounts });
@@ -104,7 +104,7 @@ const Staking = () => {
         });
       },
       unStakeAmtData: async () => {
-        let unstakedAmount = await unstakeAmtData(getUserStakeDetails);
+        let unstakedAmount = await unstakeAmtData(getUnstakedAmount);
         dispatch({
           type: "setAmounts",
           payload: { ...state.amounts, unstakedAmount: unstakedAmount },

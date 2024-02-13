@@ -7,9 +7,10 @@ export const stakeAmountData = async (getStakedAmount: Function) => {
     return parseFloat(ethers.utils.formatEther(_amt));
   }
 };
-export const unstakeAmtData = async (getUserStakeDetails: Function) => {
-  let response = await getUserStakeDetails();
-  let _amt = response?.unstakeAmount.toString();
+export const unstakeAmtData = async (getUnstakedAmount: Function) => {
+  debugger;
+  let response = await getUnstakedAmount();
+  let _amt = response.toString();
   if (_amt) {
     return parseFloat(ethers.utils.formatEther(_amt));
   }

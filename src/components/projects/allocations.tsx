@@ -396,13 +396,10 @@ const Allocations = (props) => {
                 </Button>
                 <Button
                   type="secondary"
-                  btnClassName="min-w-[150px]"
+                  btnClassName="flex gap-2"
                   handleClick={() => handleOk()}
                 >
-                  {btnLoader && (
-                    <Spinner />
-                  )}{" "}
-                  Confirm
+                  <span>{btnLoader && <Spinner />} </span> Confirm
                 </Button>
               </div>
             </div>

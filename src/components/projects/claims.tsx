@@ -146,75 +146,71 @@ const Claims = (props) => {
                     </tr>
                   </thead>
                   {claimsData?.map((claims: any, index: any) => (
-                    <>
-                      <tbody key={index}>
-                        <tr>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              {index + 1}
-                            </p>{" "}
-                          </td>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              {claims.allocation.toLocaleString()}
-                            </p>{" "}
-                          </td>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              {claims.date
-                                ? moment(claims.date).format("DD-MM-YYYY HH:mm")
-                                : "--"}
-                              {claims.date ? `(UTC)` : "--"}
-                            </p>{" "}
-                          </td>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              {claims?.claimedValue?.toLocaleString() || "0"}
-                            </p>{" "}
-                          </td>
-                          <td className="!p-2 text-right">
-                            {" "}
-                            {!claims?.isBuy && (
+                    <tbody key={index}>
+                      <tr>
+                        <td>
+                          <p className="font-normal text-sm text-secondary">
+                            {index + 1}
+                          </p>{" "}
+                        </td>
+                        <td>
+                          <p className="font-normal text-sm text-secondary">
+                            {claims.allocation.toLocaleString()}
+                          </p>{" "}
+                        </td>
+                        <td>
+                          <p className="font-normal text-sm text-secondary">
+                            {claims.date
+                              ? moment(claims.date).format("DD-MM-YYYY HH:mm")
+                              : "--"}
+                            {claims.date ? `(UTC)` : "--"}
+                          </p>{" "}
+                        </td>
+                        <td>
+                          <p className="font-normal text-sm text-secondary">
+                            {claims?.claimedValue?.toLocaleString() || "0"}
+                          </p>{" "}
+                        </td>
+                        <td className="!p-2 text-right">
+                          {" "}
+                          {!claims?.isBuy && (
+                            <Button
+                              type="primary"
+                              btnClassName="!py-0 px-6"
+                              disabled={
+                                claims.allocation === 0 || claims?.isBuy
+                              }
+                              handleClick={() => handleClaim(index)}
+                            >
+                              {claimBtnLoader && index == claimIndex && (
+                                <Spinner
+                                  className="space-right  text-base-100"
+                                  as="span"
+                                  animation="border"
+                                  variant="dark"
+                                  size="sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                ></Spinner>
+                              )}{" "}
+                              Claim
+                            </Button>
+                          )}
+                          {claims?.isBuy && (
+                            <>
+                              {" "}
                               <Button
                                 type="primary"
                                 btnClassName="!py-0 px-6"
-                                disabled={
-                                  claims.allocation === 0 || claims?.isBuy
-                                }
-                                handleClick={() => handleClaim(index)}
+                                disabled={claims?.isBuy}
                               >
-                                {claimBtnLoader && index == claimIndex && (
-                                  <>
-                                    <Spinner
-                                      className="space-right  text-base-100"
-                                      as="span"
-                                      animation="border"
-                                      variant="dark"
-                                      size="sm"
-                                      role="status"
-                                      aria-hidden="true"
-                                    ></Spinner>
-                                  </>
-                                )}{" "}
-                                Claim
+                                Claimed
                               </Button>
-                            )}
-                            {claims?.isBuy && (
-                              <>
-                                {" "}
-                                <Button
-                                  type="primary"
-                                  btnClassName="!py-0 px-6"
-                                  disabled={claims?.isBuy}
-                                >
-                                  Claimed
-                                </Button>
-                              </>
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
                   ))}
                 </table>
               </div>

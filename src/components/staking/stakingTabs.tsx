@@ -26,7 +26,6 @@ const StakingTabs = () => {
     stakingTabsInitialState
   );
   useEffect(()=>{
-    console.log(tabState.tabError)
     setErrorMessage?.(tabState?.tabError,()=>dispatch({type:'setTabError',payload:''}))
   },[tabState?.tabError])  // eslint-disable-line react-hooks/exhaustive-deps
   const tabsContextValue: StakingTabsContextModel = useMemo(() => {

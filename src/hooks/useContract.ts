@@ -164,6 +164,11 @@ export default function useContractMethods() {
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getStakedAmount", args: [address] });
     return _result;
   }
+  async function getUnstakedAmount() {
+    debugger
+    const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getUnStakedAmount", args: [address] });
+    return _result;
+  }
   async function getRewards() {
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getRewards", args: [address] });
     return _result;
@@ -173,6 +178,7 @@ export default function useContractMethods() {
     return _result;
   }
   async function getUserStakeDetails() {
+    debugger
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getDetails", args: [address] });
     return _result;
   }
@@ -245,7 +251,7 @@ export default function useContractMethods() {
     const {
       signature: { v, r, s },
       nonce,
-    } = await getSign(_amt, poolId, tierId,false,amount);
+    } = await getSign(_amt, poolId, 0,false,amount);
     
     try {
       const request = await requestForStakingContract("stake", [_amt,poolId, [v, r, s, nonce],contract])
@@ -259,7 +265,7 @@ export default function useContractMethods() {
   async function buyTokens(ether,amount: any, contractAddress: any) {
     const value= ethers.utils.parseUnits(ether.toString(),decimalPoints);
     // const value=BigNumber(ether*10**decimalPoints);
-    const request = await requestForProjectContract("buyToken", [amount], contractAddress,value.toString());
+    const request = await requestForProjectContract("buyToken", [amount], contractAddress,value);
     return writeContract(request);
   }
   async function claimTokens(contractAddress: any) {
@@ -353,6 +359,7 @@ export default function useContractMethods() {
     readAllowence,
     verifySign,
     getStakedAmount,
+    getUnstakedAmount,
     getUserStakeDetails,
     getTotalStakers,
     getTotalStaked,

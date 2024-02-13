@@ -21,7 +21,7 @@ const RewardsComponent = () => {
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
-  const { stackRewards } = useContract();
+  const { stackRewards,approve } = useContract();
   useEffect(() => {
     tabContextValues?.resetTab?.()
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -35,15 +35,33 @@ const RewardsComponent = () => {
       tabContextValues?.setButtonLoader?.(false);
     } else {
       stackRewards(
-        (res: any) => {
-          callbackRewards(res);
-        },
-        rewardAmount.toFixed(8),
-        true
-      );
-    }
+              (res: any) => {
+                callbackRewards(res);
+              },
+              rewardAmount.toFixed(8),
+              true
+            );
+            }
+    //   approve((res: any) => {
+    //     approveStake(res);
+    //   }, parseFloat(rewardAmount.toFixed(8)));
+    // }
   };
-
+  // const approveStake = (res: any) => {
+  //   if (res.ok) {
+  //     tabContextValues.setButtonLoader?.(false);
+  //     stackRewards(
+  //       (res: any) => {
+  //         callbackRewards(res);
+  //       },
+  //       rewardAmount.toFixed(8),
+  //       true
+  //     );
+  //   } else {
+  //     tabContextValues.setButtonLoader?.(false);
+  //     tabContextValues?.setTabError?.(res.error.shortMessage || res);
+  //   }
+  // }
   const callbackRewards = async (res: any) => {
     const obj = {
       address: address,
