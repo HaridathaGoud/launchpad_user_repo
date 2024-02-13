@@ -10,7 +10,7 @@ import aquaman from '../../../../assets/images/aquaman.png';
 import BannerCarousel from '../../../../ui/BannerCarousal';
 import ProposalCardShimmer from '../../shimmers/proposalcardshimmer';
 
-function CommonCreateProposal() {
+function CommonCreateProposal(props) {
   const projectCarousel=[
     {url:aquaman,alt:'spider man web series'},
     {url:aquaman,alt:'captain web series'}
@@ -26,33 +26,33 @@ function CommonCreateProposal() {
   return (
     
     <>
-    
-    <div className="container mx-auto max-sm:px-3 md:mt-3"> 
-    {loading && <ProposalCardShimmer />}
+
+      <div className="container mx-auto max-sm:px-3 md:mt-3">
+        {loading && <ProposalCardShimmer />}
         {!loading && (
           <>
-              <BannerCarousel images={projectCarousel} className='h-52' />  
-    <div className='mt-5 mb-4'>
-  {/* <BreadCrumb/> */}
-  <div className='mb-12 mt-4'>
-  <ProjectViewTabs/>
-  </div>
-  </div> 
-     
-      <div className='container mx-auto md:grid lg:grid-cols-4 gap-7 mt-14'>
-     <div className='shrink-0'>
-     <DaoLeftPanel/>     
-     </div>
-     <div className='mt-5 md:mt-0 lg:col-span-3'>     
-      <ProposalCards  />
-    <div className='mt-10'>
-    {/* <Discussions/> */}
-    </div>
-     </div>
-     </div>
-            </>
-          )}
-    </div>
+            {/* <BannerCarousel images={projectCarousel} className='h-52' /> */}
+            <div className='mt-5 mb-4'>
+              {/* <BreadCrumb/> */}
+              <div className='mb-12 mt-4'>
+                {/* <ProjectViewTabs/> */}
+              </div>
+            </div>
+
+            <div className='container mx-auto md:grid lg:grid-cols-4 gap-7 mt-14'>
+              <div className='shrink-0'>
+                <DaoLeftPanel pjctInfo={props?.pjctInfo}/>
+              </div>
+              <div className='mt-5 md:mt-0 lg:col-span-3'>
+                <ProposalCards pjctInfo={props?.pjctInfo}/>
+                <div className='mt-10'>
+                  {/* <Discussions/> */}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </>
   )
 }

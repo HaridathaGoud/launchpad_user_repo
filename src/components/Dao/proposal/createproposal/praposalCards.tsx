@@ -4,6 +4,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import loadimg from '../../../../assets/images/loader.svg';
+import { Placeholder } from 'react-bootstrap';
+import ProposalCardShimmer from '../../shimmers/proposalcardshimmer'
 import { useNavigate } from 'react-router-dom';
 import WalletModal from "../../../../utils/walletModal";
 import { useParams } from 'react-router-dom';
@@ -15,15 +18,12 @@ import nodata from '../../../../assets/images/no-data.png';
 import Moment from 'react-moment';
 import error from '../../../../assets/images/error.svg';
 import Image from 'react-bootstrap/Image';
-import loadimg from '../../../../assets/images/loader.svg';
-import { Placeholder } from 'react-bootstrap';
 import { readContract } from 'wagmi/actions';
 import MintContract from '../../../../contracts/seichi.json';
 import { isMobile } from 'react-device-detect'
 import { Spinner } from 'react-bootstrap';
 import daocardProfile from "../../../../assets/images/daocard-profile.png";
 import daoimg from '../../../../assets/images/dao-img.png';
-import ProposalCardShimmer from '../../shimmers/proposalcardshimmer'
 const reducers = (state: any, action: any) => {
     switch (action.type) {
         case 'modalShow':
@@ -112,20 +112,20 @@ function ProposalCards(props: any) {
         } else if (data) {
             if (!state?.dateStatus && data != "all") {
                 let pageNo = 1
-                props.proposalDetailsList(pageNo, pageSize, params.id, data.toLowerCase(), search, startDate, endDate, (callback) => {
+                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, data.toLowerCase(), search, startDate, endDate, (callback) => {
                     if (callback) {
                         setShimmerLoading(false)
                     }
                 });
             } else if (data && state?.dateStatus) {
                 let pageNo = 1
-                props.proposalDetailsList(pageNo, pageSize, params.id, data.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
+                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, data.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
                     if (callback) {
                         setShimmerLoading(false)
                     }
                 });
             } else {
-                props.proposalDetailsList(pageNo, pageSize, params.id, data.toLowerCase(), search, startDate, endDate, (callback) => {
+                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, data.toLowerCase(), search, startDate, endDate, (callback) => {
                     let _pageNo = pageNo + 1;
                     setPageNo(_pageNo);
                     if (callback) {
@@ -149,7 +149,7 @@ function ProposalCards(props: any) {
             setShimmerLoading(true)
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, params.id, status, search, stData, state.dateStatus, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, stData, state.dateStatus, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -158,7 +158,7 @@ function ProposalCards(props: any) {
             setShimmerLoading(true)
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, params.id, status, search, stData, state.dateStatus, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, stData, state.dateStatus, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -179,7 +179,7 @@ function ProposalCards(props: any) {
         } else if (state?.date && endData && status) {
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, params.id, status, search, state?.date, endData, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, state?.date, endData, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -191,7 +191,7 @@ function ProposalCards(props: any) {
         } else if (!endData && state?.date && status) {
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, params.id, status, search, state?.date, endData, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, state?.date, endData, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -225,7 +225,7 @@ function ProposalCards(props: any) {
         if (state?.date && state?.dateStatus) {
             let _pageNo = pageNo + 1;
             setPageNo(_pageNo);
-            props.proposalDetailsList(pageNo, pageSize, params.id, status.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
+            props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, status.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
                 if (callback) {
                     setLoadMore(false)
                     setHide(false)
@@ -237,7 +237,7 @@ function ProposalCards(props: any) {
         } else {
             let _pageNo = pageNo + 1;
             setPageNo(_pageNo);
-            props.proposalDetailsList(pageNo, pageSize, params.id, status.toLowerCase(), search, startDate, endDate, (callback) => {
+            props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, status.toLowerCase(), search, startDate, endDate, (callback) => {
                 if (callback) {
                     setLoadMore(false)
                     setHide(false)
@@ -250,6 +250,14 @@ function ProposalCards(props: any) {
         const recorderValues = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
         return recorderValues[recorder - 1];
     };
+    function calculateTimeDifference(startingDate, endingDate) {
+        const startTime = new Date(startingDate).getTime();
+        const endTime = new Date(endingDate).getTime();
+        const difference = endTime - startTime;
+        const weeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
+        return `${weeks}`;
+      }
+      
     return (
         <>
 
@@ -371,7 +379,7 @@ function ProposalCards(props: any) {
                                                                         </div>))}
                                                                     </div>
                                                                     <div className="md:flex justify-between items-center mt-2">
-                                                                        <p className='text-base font-semibold mb-2 md:mb-0 text-secondary'>Ends In 1 week</p>
+                                                                        <p className='text-base font-semibold mb-2 md:mb-0 text-secondary'>Ends In {calculateTimeDifference(item?.startDate,item?.endDate)} week</p>
                                                                         <div className='flex gap-5'>
                                                                             <div>
                                                                                 <span className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}></span>

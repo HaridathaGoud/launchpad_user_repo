@@ -282,11 +282,11 @@ function CreatePraposal(props: any) {
     const timer = setTimeout(() => {
         setLoading(false);
     }, 2000);
-    return () => clearTimeout(timer); // Cleanup the timer
+    return () => clearTimeout(timer);
 }, []);
 
   const getDaoItem = () => {
-    let daoData = DaoDetail?.find((item) => item?.daoId == params?.id)
+    let daoData = DaoDetail?.find((item) => item?.daoId == props?.pjctInfo?.daoId)
     setDaoName(daoData?.name)
   }
   const getOptionHashes = () => {
@@ -318,7 +318,8 @@ function CreatePraposal(props: any) {
       proposalType: proposalDetails?.proposalType,
       proposalOptionDetails: proposalDetails?.ProposalOptionDetails
     }
-    let contractAddress = daoName == "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+    // let contractAddress = daoName == "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
+    let contractAddress = votingSeicheContractAddress;
     try {
       const response = await addQuestion(contractAddress, proposalDetails.TitleHash, optionVotingHashs, startDateEpoch,endDateEpoch);
       const txResponse = await waitForTransaction({ hash: response.hash });
@@ -327,7 +328,7 @@ function CreatePraposal(props: any) {
         setBtnLoader(false)
       }else{
         props?.saveProposalData(obj, (callback: any) => {
-          if (callback?.data.id) {
+          if (callback?.data) {
             // router(`/dao/success/${params?.id}`)
             dispatch({ type: 'currentStep', payload: 3 })
             setBtnLoader(false)
@@ -338,7 +339,6 @@ function CreatePraposal(props: any) {
           }
         })
       }
-  
     } catch (error) {
       setOptionVotingHashs([])
       setErrorMessage?.(apiCalls.isErrorDispaly(error));
@@ -685,10 +685,10 @@ function CreatePraposal(props: any) {
                 </>)}
               </div>
             </>
-            }
+            }  
+            {state?.currentStep !=3 && <> 
                         <div className='flex justify-center gap-5 items-center mt-16'>
                           <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={handlecloseDrawer} type='cancel' /> </Link>
-                          
                           <Button
                             type="secondary"
                             btnClassName="flex gap-2"
@@ -696,9 +696,10 @@ function CreatePraposal(props: any) {
                             disabled={toasterMessage || state.buttonLoader}
                           >{btnLoader &&<span className="loading loading-spinner loading-sm"></span>} {state?.currentStep===1 && 'Next'}
                           {state?.currentStep===2 && 'Publish'}
-                          {state?.currentStep===3 && 'Back to proposals summary'}
+                          {/* {state?.currentStep===3 && 'Back to proposals summary'} */}
                           </Button>
-                        </div>
+                        </div> 
+                        </>}
                       </form>}
                   </div>
                 </div>

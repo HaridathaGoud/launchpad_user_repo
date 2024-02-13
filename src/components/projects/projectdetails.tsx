@@ -21,6 +21,7 @@ import Allocations from "./allocations";
 import Claims from "./claims";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
+import CommonCreateProposal from '../Dao/./proposal/createproposal/praposalScreen';
 
 function Projectdetails(props: any) {
   const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
@@ -36,6 +37,7 @@ function Projectdetails(props: any) {
   const [currentProject, setCurrentProject] = useState('');
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
+  const dao = useRef(null);
   const buyMembershipRef = useRef(null);
   const [foundingmems, setFoundingMems] = useState([]);
   const [foundingmemLoader, setfoundingMemsLoader] = useState(false);
@@ -157,8 +159,10 @@ function Projectdetails(props: any) {
                         allocationRef={allocationRef}
                         buyMembershipRef={buyMembershipRef}
                         pjctInfo={pjctInfo}
+                        dao={dao}
                       />
                     </div>
+                    
                       <ProjectFeed pjctFeed={pjctFeed} />
                     <h4
                       className={`text-base font-semibold text-secondary mb-2 mt-8`}
@@ -208,6 +212,7 @@ function Projectdetails(props: any) {
                     )}
                     <hr className="my-5" />
                   </div>
+                  
                   <div
                     id="allocationClaim"
                     ref={allocationRef}
@@ -225,8 +230,15 @@ function Projectdetails(props: any) {
                   >
                     <BuyMembership />
                   </div>
-                </div>
-
+                  <div
+                    id="dao"
+                    ref={dao}
+                    className="mt-6"
+                  >
+                    <CommonCreateProposal pjctInfo={pjctInfo} />
+                  </div>
+                  </div>
+        
                 <ProjectDetailsCard
                   pjctInfo={pjctInfo}
                   currentPjct={currentProject}

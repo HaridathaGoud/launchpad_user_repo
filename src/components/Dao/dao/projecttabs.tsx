@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef,pjctInfo}) => {
+const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef,dao,pjctInfo}) => {
     const [active,setActive]=useState('projectFeed')
     const router = useNavigate();
     const params = useParams();
@@ -18,7 +18,7 @@ const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef,pjctInfo
             ref=buyMembershipRef?.current;
         }
         else if(tab==='dao'){
-            router(`/dao/${pjctInfo?.daoId}`)  
+            ref=dao?.current;  
         }
 
         ref?.scrollIntoView({ behavior: "smooth", block: "center" })

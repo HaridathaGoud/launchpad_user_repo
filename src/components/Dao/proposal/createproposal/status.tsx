@@ -141,7 +141,7 @@ import styles from "./dao.module.css";
             <hr />         
            
         </div>
-          <div className='my-4'>
+          {/* <div className='my-4'>
           <h2 className='text-secondary text-base font-semibold my-3 text-secondary '>Proposal options</h2>
                       {user?.data?.options?.map((data:any) => (<div className='text-secondary'>
                        <div key={data?.id}>
@@ -149,7 +149,7 @@ import styles from "./dao.module.css";
                        </p>
                        </div>
                </div>))}     
-          </div>
+          </div> */}
           </>)}
           
         </>
