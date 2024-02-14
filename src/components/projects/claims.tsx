@@ -49,20 +49,19 @@ const Claims = (props) => {
       });
   };
   const handleClaim = (index: any) => {
-    debugger;
     setErrorMessage?.(null);
     setClaimIndex(index);
     setClaimBtnLoader(true);
     claimTokens(props.pjctInfo?.contractAddress)
       .then((res: any) => {
-        debugger;
         // res.wait()
         _provider()
           .waitForTransaction(res?.hash)
           .then((receipt: any) => {
             setClaimBtnLoader(false);
             // getProjectClaimsDetails('allocations');
-            setToaster?.("Claimed successfully");
+            setToaster?.("Tokens claim successful!");
+            window.location.reload();
           })
           .catch((error: any) => {
             setClaimBtnLoader(false);

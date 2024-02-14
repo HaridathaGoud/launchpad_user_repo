@@ -151,7 +151,7 @@ const Allocations = (props) => {
             setBtnLoader(false);
             setIsChecked(false);
             getProjectClaimsDetails("allocations");
-            setToaster?.("Buy successfully");
+            setToaster?.("Tokens buy successful!");
             window.location.reload();
             setIsconfirm(false);
           })
