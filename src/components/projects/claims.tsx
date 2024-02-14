@@ -9,9 +9,9 @@ import Spinner from "../loaders/spinner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
 import moment from "moment";
-
+import { ethers } from 'ethers';
 const Claims = (props) => {
-  const [claimsLoader, setclaimsLoader] = useState<any>(false);
+  const [claimsLoader, setClaimsLoader] = useState<any>(false);
   const [claimHide, setClaimHide] = useState(true);
   const [claimsData, setClaimsData] = useState<{ [key: string]: any }>([]);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
@@ -35,7 +35,7 @@ const Claims = (props) => {
     await get("User/Claims/" + props.pid + "/" + userId)
       .then((response: any) => {
         setClaimsData(response.data);
-        setclaimsLoader(false);
+        setClaimsLoader(false);
         if (response.data?.length !== 0) {
           setClaimHide(false);
         } else {
@@ -45,15 +45,17 @@ const Claims = (props) => {
       })
       .catch((error: any) => {
         setErrorMessage?.(error?.reason || error);
-        setclaimsLoader(false);
+        setClaimsLoader(false);
       });
   };
   const handleClaim = (index: any) => {
+    debugger;
     setErrorMessage?.(null);
     setClaimIndex(index);
     setClaimBtnLoader(true);
     claimTokens(props.pjctInfo?.contractAddress)
       .then((res: any) => {
+        debugger;
         // res.wait()
         _provider()
           .waitForTransaction(res?.hash)

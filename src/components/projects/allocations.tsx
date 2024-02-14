@@ -164,7 +164,6 @@ const Allocations = (props) => {
           });
       })
       .catch((error: any) => {
-        console.log(error)
         setIsChecked(true);
         setIsconfirm(false);
         setErrorMessage?.(error?.shortMessage || error?.reason || error);
