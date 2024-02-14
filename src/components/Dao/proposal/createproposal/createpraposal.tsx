@@ -456,7 +456,9 @@ function CreatePraposal(props: any) {
   }
   const handlecloseDrawer=()=>{
     props?.close();
-    window.location.reload();
+    if(state?.currentStep==3){
+      window.location.reload();
+    }
   }
   return (
     <>
@@ -688,7 +690,7 @@ function CreatePraposal(props: any) {
             }  
             {state?.currentStep !=3 && <> 
                         <div className='flex justify-center gap-5 items-center mt-16'>
-                          <Link to={`/dao/${params?.id}`}>  <Button children={'Cancel'} handleClick={handlecloseDrawer} type='cancel' /> </Link>
+                          <Link to={''}>  <Button children={'Cancel'} handleClick={handlecloseDrawer} type='cancel' /> </Link>
                           <Button
                             type="secondary"
                             btnClassName="flex gap-2"
