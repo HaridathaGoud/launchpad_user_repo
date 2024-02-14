@@ -20,6 +20,7 @@ import Channels from "../components/streaming/Channels/channels";
 import ChannelView from "../components/streaming/Channels/channeldetailview";
 import Movies from "../components/streaming/Movies/movies";
 import SumSub from "../components/sumsub";
+import ComingSoon from "../components/shared/comingSoon";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -321,6 +322,11 @@ const Routes = () => {
           element: <Navigate to="/dashboard" />,
           errorElement: <ErrorPage />,
         },
+        {
+          path:'/comingsoon',
+          element:<ComingSoon/>,
+          errorElement:<ErrorPage/>
+        }
       ],
     },
     {
