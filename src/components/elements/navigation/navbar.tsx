@@ -59,7 +59,7 @@ function HeaderNavbar() {
         target: "_blank",
         rel: "noopener noreferrer",
       },
-      // { path: "/dao", content: "DAOs" },
+      { path: "/dao", content: "DAOs" },
       { path: "/marketplace", content: "Marketplace" },
     ];
     const navBarDropDownMenu = [

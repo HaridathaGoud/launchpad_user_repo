@@ -230,7 +230,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/dao/:id",
+          path: "/dao/:daoId",
           element: (
             <React.Suspense>
               <ProposalList />
@@ -261,16 +261,16 @@ const Routes = () => {
             </React.Suspense>
           ),
         },
-        // {
-        //   path: "/dao/voting/:id",
-        //   element: (
-        //     <React.Suspense>
-        //       <Voting />
-        //     </React.Suspense>
-        //   ),
-        // },
         {
-          path: "/projects/projectdetails/:projectstatus/:pid/voting/:id",
+          path: "/dao/voting/:proposalId",
+          element: (
+            <React.Suspense>
+              <Voting />
+            </React.Suspense>
+          ),
+        },
+        {
+          path: "/projects/projectdetails/:projectstatus/:pid/voting/:proposalId",
           element: (
             <React.Suspense>
               <Voting />

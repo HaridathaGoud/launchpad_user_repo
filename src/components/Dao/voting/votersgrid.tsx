@@ -25,7 +25,7 @@ import styles from "../proposal/createproposal/dao.module.css";
   const [loading,setloading] = useState(true);
    useEffect(() => {
     Load()
-     props.getVotersGrid(pageNo, pageSize, params.id,
+     props.getVotersGrid(pageNo, pageSize, params?.proposalId,
        (callback: any) => {
          if (callback) {
            setErrorMsg(apiCalls.isErrorDispaly(callback))
@@ -48,7 +48,7 @@ import styles from "../proposal/createproposal/dao.module.css";
   const fetchMoreData = () => {
     let _pageNo = pageNo + 1;
     setPageNo(_pageNo);
-     props.getVotersGrid(pageNo,pageSize,params.id );
+     props.getVotersGrid(pageNo,pageSize,params?.proposalId );
   };
   const handleCopy = (data) => {
     setSelection(data)

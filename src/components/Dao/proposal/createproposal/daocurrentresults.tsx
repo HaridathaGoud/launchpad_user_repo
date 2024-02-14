@@ -78,7 +78,7 @@ const   DaoCurrentResults = (props: any) => {
   }, [isConnected, address])
 
   const getDaoItem = () => {
-    let daoData = DaoDetail?.find((item) => item?.daoId == props?.pjctInfo?.daoId) //selectedDaoData?.daoId)
+    let daoData = DaoDetail?.find((item) => item?.daoId == selectedDaoData?.daoId||props?.pjctInfo?.daoId ) //selectedDaoData?.daoId)
     setDaoVoteName(daoData?.name)
     getBalanceCount(daoData?.name, address)
   }
@@ -98,7 +98,7 @@ const   DaoCurrentResults = (props: any) => {
     props.customers(address, (callback: any) => {
       setLoading(true)
       if (callback) {
-        props.proposalViewData(params?.id, callback?.data?.data?.id, (callback: any) => {
+        props.proposalViewData(params?.proposalId, callback?.data?.data?.id, (callback: any) => {
           if (callback) {
             setLoading(false)
           }
@@ -131,7 +131,7 @@ const   DaoCurrentResults = (props: any) => {
       useEffect(() => {
         setTimeout(() => {
           if (getCustomerData?.id) {
-            props.getCustomeVoted(params?.id, getCustomerData?.id, (callback: any) => {
+            props.getCustomeVoted(params?.proposalId, getCustomerData?.id, (callback: any) => {
               setisVoted(callback?.data?.data?.isVoted);
             })
           }
@@ -149,7 +149,7 @@ const   DaoCurrentResults = (props: any) => {
           // dispatch({ type: 'isButtonLoading', payload: false })
           dispatch({ type: 'isNoButtonLoading', payload: !value })
           let obj = {
-            "proposalId": params?.id,
+            "proposalId": params?.proposalId,
             "walletAddress": address,
             "Options": state?.selectedOption,
             "TransactionHash": state?.selectedhash,
@@ -162,8 +162,8 @@ const   DaoCurrentResults = (props: any) => {
             if (response) {
               props.saveVotersData(obj, (callback: any) => {
                 if (callback?.data) {
-                  props.proposalViewData(params?.id, getCustomerData?.id);
-                  props.getVotersGrid(1, 10, params?.id);
+                  props.proposalViewData(params?.proposalId, getCustomerData?.id);
+                  props.getVotersGrid(1, 10, params?.proposalId);
                   dispatch({ type: 'isButtonLoading', payload: false })
                   dispatch({ type: 'isNoButtonLoading', payload: false })
                   setToaster?.("Your vote was cast successfully.")

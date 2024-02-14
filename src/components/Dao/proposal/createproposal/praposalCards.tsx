@@ -73,11 +73,12 @@ function ProposalCards(props: any) {
     }, [])
 
     const getDaoItem = () => {
-        let daoData = DaoDetail?.find((item) => item?.daoId == params?.id)
+        let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId)
         getBalanceCount(daoData?.name, address)
     }
     async function getBalanceCount(daoName, address) {
-        let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+        // let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+        let contractAddress = daoName = mintingContractAddress;
         let balance: any = await readContract({
             address: contractAddress,
             abi: MintContract.abi,
@@ -112,20 +113,20 @@ function ProposalCards(props: any) {
         } else if (data) {
             if (!state?.dateStatus && data != "all") {
                 let pageNo = 1
-                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, data.toLowerCase(), search, startDate, endDate, (callback) => {
+                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId||params?.daoId, data.toLowerCase(), search, startDate, endDate, (callback) => {
                     if (callback) {
                         setShimmerLoading(false)
                     }
                 });
             } else if (data && state?.dateStatus) {
                 let pageNo = 1
-                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, data.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
+                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId||params?.daoId, data.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
                     if (callback) {
                         setShimmerLoading(false)
                     }
                 });
             } else {
-                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, data.toLowerCase(), search, startDate, endDate, (callback) => {
+                props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId||params?.daoId, data.toLowerCase(), search, startDate, endDate, (callback) => {
                     let _pageNo = pageNo + 1;
                     setPageNo(_pageNo);
                     if (callback) {
@@ -149,7 +150,7 @@ function ProposalCards(props: any) {
             setShimmerLoading(true)
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, stData, state.dateStatus, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, stData, state.dateStatus, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -158,7 +159,7 @@ function ProposalCards(props: any) {
             setShimmerLoading(true)
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, stData, state.dateStatus, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, stData, state.dateStatus, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -179,7 +180,7 @@ function ProposalCards(props: any) {
         } else if (state?.date && endData && status) {
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, state?.date, endData, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, state?.date, endData, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -191,7 +192,7 @@ function ProposalCards(props: any) {
         } else if (!endData && state?.date && status) {
             setErrorMsg(null)
             setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId, status, search, state?.date, endData, (callback) => {
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, state?.date, endData, (callback) => {
                 if (callback) {
                     setShimmerLoading(false);
                 }
@@ -212,8 +213,11 @@ function ProposalCards(props: any) {
         }
     }
     const handleVotingScreen = (id: any) => {
-        // router(`/dao/voting/${id}`)
+        if(params?.daoId){
+        router(`/dao/voting/${id}`)
+        }else{
         router(`/projects/projectdetails/${params?.projectstatus}/${params?.pid}/voting/${id}`)
+        }
     }
     const handledashboard = () => {
         // router('/dao')
@@ -226,7 +230,7 @@ function ProposalCards(props: any) {
         if (state?.date && state?.dateStatus) {
             let _pageNo = pageNo + 1;
             setPageNo(_pageNo);
-            props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, status.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
+            props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId||params?.daoId, status.toLowerCase(), search, state?.date, state?.dateStatus, (callback) => {
                 if (callback) {
                     setLoadMore(false)
                     setHide(false)
@@ -238,7 +242,7 @@ function ProposalCards(props: any) {
         } else {
             let _pageNo = pageNo + 1;
             setPageNo(_pageNo);
-            props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId, status.toLowerCase(), search, startDate, endDate, (callback) => {
+            props.proposalDetailsList(pageNo, pageSize, props?.pjctInfo?.daoId||params?.daoId, status.toLowerCase(), search, startDate, endDate, (callback) => {
                 if (callback) {
                     setLoadMore(false)
                     setHide(false)

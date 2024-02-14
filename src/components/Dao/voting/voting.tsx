@@ -58,6 +58,7 @@ import Discussions from '../proposal/createproposal/discussions';
       return () => clearTimeout(timer);
   }, []);
   const getPjctDetails = async () => {
+    if(params?.pid){
     setLoader(true);
     const userId =
       user?.user?.id && user?.user?.id != ""
@@ -71,7 +72,8 @@ import Discussions from '../proposal/createproposal/discussions';
         setErrorMessage?.(error);
         setLoader(false);
       });
-  };
+  }
+};
 
     return (
         <>
@@ -86,7 +88,7 @@ import Discussions from '../proposal/createproposal/discussions';
           <div className='mt-5 mb-4'>
             {/* <BreadCrumb /> */}
             <div className='mb-12 mt-4'>
-              <ProjectViewTabs />
+              {params?.pid&& <ProjectViewTabs />}
             </div>
           </div>
           <div className='md:grid md:grid-cols-12 gap-[30px]'>

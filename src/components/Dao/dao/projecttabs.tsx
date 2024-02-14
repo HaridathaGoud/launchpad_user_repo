@@ -7,7 +7,7 @@ const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef,dao,setd
     const params = useParams();
 
     useEffect(()=>{
-        if(params?.id){
+        if(params?.proposalId){
             setActive('dao')
         }else{
             setActive('projectFeed')
@@ -17,7 +17,7 @@ const ProjectViewTabs = ({projectFeedRef,allocationRef,buyMembershipRef,dao,setd
         setActive(tab)
         let ref;
         if(tab==='projectFeed'){
-            if(params?.id){
+            if(params?.proposalId){
              router(`/projects/projectdetails/${params?.projectstatus}/${params?.pid}`)
             }else{
             ref=projectFeedRef?.current

@@ -84,7 +84,7 @@ function ProposalVoting(props: any) {
     props.customers(address, (callback: any) => {
       setLoading(true)
       if (callback) {
-        props.proposalViewData(params?.id, callback?.data?.data?.id, (callback: any) => {
+        props.proposalViewData(params?.proposalId, callback?.data?.data?.id, (callback: any) => {
           if (callback) {
             setLoading(false)
           }
@@ -100,7 +100,8 @@ function ProposalVoting(props: any) {
     getBalanceCount(daoData?.name, address)
   }
   async function getBalanceCount(daoName, address) {
-    let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+    // let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+    let contractAddress = daoName = mintingContractAddress
     let balance: any = await readContract({
       address: contractAddress,
       abi: MintContract.abi,
@@ -120,7 +121,7 @@ function ProposalVoting(props: any) {
   useEffect(() => {
     setTimeout(() => {
       if (getCustomerData?.id) {
-        props.getCustomeVoted(params?.id, getCustomerData?.id, (callback: any) => {
+        props.getCustomeVoted(params?.proposalId, getCustomerData?.id, (callback: any) => {
           setisVoted(callback?.data?.data?.isVoted);
         })
       }

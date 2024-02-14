@@ -9,6 +9,7 @@ import DaoLeftPanel from '../../dao/daoleftpanel';
 import aquaman from '../../../../assets/images/aquaman.png';
 import BannerCarousel from '../../../../ui/BannerCarousal';
 import ProposalCardShimmer from '../../shimmers/proposalcardshimmer';
+import { useParams } from 'react-router-dom';
 
 function CommonCreateProposal(props) {
   const projectCarousel=[
@@ -16,7 +17,7 @@ function CommonCreateProposal(props) {
     {url:aquaman,alt:'captain web series'}
   ]
   const [loading, setLoading] = useState(true);
-
+  const params = useParams()
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -31,7 +32,7 @@ function CommonCreateProposal(props) {
         {loading && <ProposalCardShimmer />}
         {!loading && (
           <>
-            {/* <BannerCarousel images={projectCarousel} className='h-52' /> */}
+            {params?.daoId && <BannerCarousel images={projectCarousel} className='h-52' />}
             <div className='mt-5 mb-4'>
               {/* <BreadCrumb/> */}
               <div className='mb-12 mt-4'>
