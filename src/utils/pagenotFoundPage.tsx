@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import Button from '../ui/Button';
+
 const Pageerror = () => {
   const router = useNavigate();
  const goToDashBoard=()=>{
@@ -8,14 +9,14 @@ const Pageerror = () => {
   }
   return (
     <>
-    <div className='page-notfound d-flex align-items-center justify-content-center'>
+    <div className='flex items-center justify-center h-screen'>
     <div>
     <div className='text-center text-dark'>
-     <h1 className='section-title '>Page not found!</h1>
-     <p className='mt-5 '>We can't find the page that you're  <br/>looking for</p>
+     <h1 className='text-3xl font-semibold'>Page not found!</h1>
+     <p className='mt-5 text-base'>We can't find the page that you're  <br/>looking for</p>
      </div>
-     <div className='text-center'>
-     <Button className='custom-btn' onClick={()=>goToDashBoard()}>Back</Button>
+     <div className='text-center mt-2'>
+     <Button type='primary' handleClick={()=>goToDashBoard()}>Back</Button>
      </div>
     </div>
     </div>
