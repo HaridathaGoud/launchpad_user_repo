@@ -1,8 +1,11 @@
 import React from 'react'
+import comingsoon from '../../assets/images/coming.jpg'
 
 const ComingSoon = () => {
   return (
-    <div>ComingSoon</div>
+    <div className='text-center'>
+      <img src={comingsoon} alt="" className='mx-auto'width='100%' />     
+    </div>
   )
 }
 

@@ -19,7 +19,7 @@ const FoundingMember = (props) => {
                     </div>
                         <p className={`text-base font-normal  text-secondary text-center`}>{item.userName ? item.userName : '-'}</p>
                         <p className={`text-base font-semibold text-secondary text-center `}>
-                            {item.walletAddress?.slice(0, 4) + '.......' + item.walletAddress?.substring(item.walletAddress.length - 4, item.walletAddress.length)}
+                            {item.walletAddress?.slice(0, 4) + '....' + item.walletAddress?.substring(item.walletAddress.length - 4, item.walletAddress.length)}
                         </p>
                         </div>:'') )}
 

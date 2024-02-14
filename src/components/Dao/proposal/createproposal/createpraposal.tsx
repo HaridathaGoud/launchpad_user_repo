@@ -34,6 +34,7 @@ import Moment from 'react-moment';
 import { useVotingContract } from '../../../../contracts/useContract';
 import { waitForTransaction } from 'wagmi/actions';
 import apiCalls from '../../../../utils/api';
+import connectwallet from '../../../../assets/images/connect-wallet.png'
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -766,7 +767,12 @@ function CreatePraposal(props: any) {
             </Modal> */}
       
           </div>
-        </> : <WalletText />}
+        </> : 
+        <div className='pt-10'>
+          <img src={connectwallet} alt="" width={300} className='mx-auto' />
+          <WalletText />
+        </div>
+        }
 
     </>
   );
