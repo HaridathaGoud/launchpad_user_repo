@@ -96,7 +96,7 @@ const getCustomerDetails = (address, callback) => {
 }
 const getDaoData = () => {
     return async (dispatch) => {
-        const response = await apiCalls.getDaoDetails(10, 0);
+        const response = await apiCalls.getDaoDetails(8, 0);
         if (response) {
             dispatch(fetchDaoDetails(response.data))
         }
@@ -113,7 +113,7 @@ const saveVoting = (obj) => {
 
 const getDaoCardDetails = () => {
     return async (dispatch) => {
-        const response = await apiCalls.getDaoDetails(10, 0);
+        const response = await apiCalls.getDaoDetails(8, 0);
         if (response) {
             dispatch(setDaoDetails(response.data))
         }

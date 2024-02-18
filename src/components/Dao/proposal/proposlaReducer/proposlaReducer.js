@@ -57,7 +57,7 @@ const setConDetailsData = (payload) => {
   const walletAddressChecking = (callback) => {
     return async (dispatch) => {
       dispatch(setCustomerWalletAddress({ key: 'getWalletAddressChecking', loading: true, data: {} }));
-      const res = await apiCalls.getDaoDetails(10, 0);
+      const res = await apiCalls.getDaoDetails(8, 0);
       if (res) {
         dispatch(setCustomerWalletAddress({ key: 'getWalletAddressChecking', loading: false, data: res.data, error: null }));
         if (callback){
