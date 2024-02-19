@@ -22,6 +22,9 @@ function DaoCards(props: any) {
     const {setErrorMessage}:OutletContextModel=useContext(outletContext)
     useEffect(() => {
         dispatch({ type: 'initialData', payload: props?.daoData?.data || [] })
+        if( props?.daoData?.data?.length < take){
+            dispatch({ type: 'hideButton', payload: true})
+        }
     }, [props?.daoData]);
 
     const fetchMoreData = () => {
