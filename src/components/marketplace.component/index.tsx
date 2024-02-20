@@ -4,6 +4,7 @@ import HotCollections from '../marketplace.component/hotcollections.component/in
 import TopSeller from '../marketplace.component/topseller.component/index';
 import TrendingNfts from '../marketplace.component/trendingnfts.component/index';
 import Banner from './banner';
+import BrowseByCategory from './browsebycategory.component';
 
 export default function DashBoard() {
   const scrollableRef = useRef<any>(null);
@@ -18,6 +19,7 @@ scrollableRef?.current?.scrollIntoView(0,0);
       <TopSeller />
       <TrendingNfts />
       <HotCollections />
+      <BrowseByCategory/>
     </div>
       {/* We are using these are in Feature */}
       {/* <Category />  */} 
