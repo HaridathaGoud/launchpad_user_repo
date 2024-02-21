@@ -1,11 +1,11 @@
-import { Row, Col, Button,  Card, Tabs, Tab, Container } from 'react-bootstrap';
+import { Row, Col, Card, Tabs, Tab, Container } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useParams } from 'react-router-dom';
-import React, { useEffect, useState ,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { getMarketplace, postMarketplace } from '../../../utils/api';
@@ -30,12 +30,13 @@ import UserContract from '../../../contracts/user721contract.json';
 import WalletConnect from '../../shared/connect.wallet';
 import loadimg from '../../../assets/images/loader.svg';
 import successimg from '../../../assets/images/success.svg';
+import Button from '../../../ui/Button';
 
 
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
- 
+
   const [show, setShow] = useState(false);
   const [showBid, setShowBid] = useState(false);
   const [showBuyModal, setShowBuyModal] = useState(false);
@@ -58,7 +59,7 @@ const DetailPage = (props: any) => {
   const [moreCollection, setmoreCollection] = useState<any[]>([]);
   const [fav, setFav] = useState(false);
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useBalance({address: address})
+  const { data, isError, isLoading } = useBalance({ address: address })
   const router = useNavigate();
   const [validated, setValidated] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
@@ -67,16 +68,17 @@ const DetailPage = (props: any) => {
   const [acceptbtnLoader, setAcceptbtnLoader] = useState(false);
   const { tokenId, collectionAddress, nftId } = useParams();
   const [isCopied, handleCopy] = useCopyToClipboard();
-  const { getSignatureForBid, acceptBid, getBidConfirmation, setApprovalForAll,parseError } = useCollectionDeployer();
+  const { getSignatureForBid, acceptBid, getBidConfirmation, setApprovalForAll, parseError } = useCollectionDeployer();
   const [validationError, setValidationError] = useState(null);
   const [bidValue, setBidValue] = useState();
   const [updateSaleAmount, setUpdateSaleAmount] = useState();
   const [success, setSuccess] = useState(null);
   const [scuess, setSucess] = useState(false);
-  const [putanAction,setisPutOnAction]=useState(null);
-  const [putanSale,setisPutOnSale]=useState(null);
+  const [putanAction, setisPutOnAction] = useState(null);
+  const [putanSale, setisPutOnSale] = useState(null);
   const [percentageValue, setPercentageValue] = useState();
   const [totalBuyValue, setTotalBuyValue] = useState();
+  const [count, setCount] = useState(1);
   const [confirmations, setConfirmations] = useState({
     showModal: false,
     titles: [
@@ -123,6 +125,12 @@ const DetailPage = (props: any) => {
     setSaveObj({ tokenId: '', customerId: '', value: 0, crypto: '', saleType: '' });
     setSaleErrorMsg(false);
   };
+  const updateCounter = () => {
+    setCount(count + 1);
+  };
+  const deCounter = () => {
+    setCount(count - 1);
+  };
   function initialize() {
     loadNftDetails();
     loadFavoritesCount();
@@ -134,13 +142,13 @@ const DetailPage = (props: any) => {
     setSuccessMsg(null)
     setErrorMsg(null)
   }
-  const getPlaceABid = async ()=>{
+  const getPlaceABid = async () => {
     let response = await getMarketplace(`User/nfttype/${nftId}`);
-    if(response){
+    if (response) {
       setisPutOnAction(response.data.isPutOnAuction)
       setisPutOnSale(response.data.isPutOnSale)
     }
-   }
+  }
   useEffect(() => {
     if (address) {
       setSuccessMsg(null)
@@ -152,7 +160,7 @@ const DetailPage = (props: any) => {
     }
   }, [tokenId, collectionAddress, nftId, isConnected]);
   useEffect(() => {
-    window.scroll(0,0);
+    window.scroll(0, 0);
   }, []);
   const loadNftDetails = async () => {
     setLoader(true);
@@ -171,7 +179,7 @@ const DetailPage = (props: any) => {
       });
   };
   const percentage = (details) => {
-    const buyValue = details.price 
+    const buyValue = details.price
     let percentage = (buyValue * 1) / 100
     setPercentageValue(percentage)
     let totalValue = buyValue + percentage
@@ -181,7 +189,7 @@ const DetailPage = (props: any) => {
     let morenftRes = await getMarketplace(`User/GetMoreNftsByCollection/${data.collectionId}/${data.creatorId}/${tokenId}/${props?.auth?.user?.id}`);
     if (morenftRes) {
       setmoreCollection(morenftRes.data);
-      scrollableRef.current?.scrollIntoView(0,0);
+      scrollableRef.current?.scrollIntoView(0, 0);
     } else {
       setErrorMsg(isErrorDispaly(morenftRes));
       scrollableRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -217,13 +225,13 @@ const DetailPage = (props: any) => {
       return objValue.response?.data?.title || objValue.reason;
     } else if (objValue.originalError && typeof objValue.originalError.message === 'string') {
       return objValue.originalError.message;
-    } else if(objValue.shortMessage){
-      if(objValue.shortMessage?.includes("The total cost")){
+    } else if (objValue.shortMessage) {
+      if (objValue.shortMessage?.includes("The total cost")) {
         return "Low balance"
-      }else{
-       return objValue.shortMessage
-      }    
-    }else {
+      } else {
+        return objValue.shortMessage
+      }
+    } else {
       return 'Something went wrong please try again!';
     }
   };
@@ -279,7 +287,7 @@ const DetailPage = (props: any) => {
             }
           } else {
             setSaleLoader(false);
-            setSaleErrorMsg(isErrorDispaly (response));
+            setSaleErrorMsg(isErrorDispaly(response));
             if (type == 'Sale') {
               setShow(false);
               setBtnLoader(false)
@@ -311,17 +319,17 @@ const DetailPage = (props: any) => {
       setErrorMsg(isErrorDispaly(response));
     }
   };
-  const gotoFavorite=(val: any)=>{
-    if(isConnected){
+  const gotoFavorite = (val: any) => {
+    if (isConnected) {
       savefavroite(val)
-    }else{
+    } else {
       setModalShow(true)
     }
   }
-  const gotoFev=(item: any)=>{
-    if(isConnected){
+  const gotoFev = (item: any) => {
+    if (isConnected) {
       moreCollectionSavefavroite(item)
-    }else{
+    } else {
       setModalShow(true)
     }
   }
@@ -336,11 +344,11 @@ const DetailPage = (props: any) => {
     }
   };
   const moreCollectionSavefavroite = async (item: any) => {
-    let obj = { 
-      nftId: item.id, 
+    let obj = {
+      nftId: item.id,
       customerId: props.auth.user?.id,
-       isFavourite: item.isFavourite ? false : true
-       };
+      isFavourite: item.isFavourite ? false : true
+    };
     let response = await postMarketplace(`User/SaveFavorite`, obj);
     if (response) {
       loadNftDetails();
@@ -352,7 +360,7 @@ const DetailPage = (props: any) => {
   const cancelAuctionorsale = async (val: any) => {
     setCancelType(val);
     setCancelShow(true);
-    };
+  };
   const handleCancelConfirm = () => {
     setCancelShow(false);
   };
@@ -365,7 +373,7 @@ const DetailPage = (props: any) => {
         setSucess(true)
         setBtnLoader(false)
         setSuccess(cancelType == "sale" ? "Sale cancelled successfully" : "Auction cancelled successfully")
-         setTimeout(() => {
+        setTimeout(() => {
           setSucess(false)
         }, 2000);
         loadNftDetails();
@@ -405,10 +413,10 @@ const DetailPage = (props: any) => {
       window.scrollTo(0, 0)
     }
   };
-  const getCheckPlaceBid=()=>{
-    if(isConnected){
+  const getCheckPlaceBid = () => {
+    if (isConnected) {
       handleShowBid();
-    }else{
+    } else {
       setModalShow(true)
     }
   }
@@ -423,7 +431,7 @@ const DetailPage = (props: any) => {
       value: parseFloat(bidValue),
       crypto: 'WMATIC',
     };
-  
+
 
     if (form.checkValidity() === true && validationError == null) {
       try {
@@ -431,33 +439,33 @@ const DetailPage = (props: any) => {
         await getBidConfirmation(obj.value);
         setConfirmations({ ...confirmations, showModal: true, currentStep: 2 });
         const signature = await getSignatureForBid(collectionAddress, tokenId, obj.value, nftDetails.supply);
-        obj.signature = signature;        
-        if(putanAction || putanSale){
-        let response = await postMarketplace(`User/SaveNftBid`, obj);
-        if (response) {
-          setValidated(true);
-          setBtnLoader(false);
-          setSucess(true)
-          setSuccess("Bid has been placed successfully")
-          setTimeout(() => {
-            setSucess(false)
-            getbidData();
-          }, 2000);
-          setShowBid(false);
-          setConfirmations({ ...confirmations, showModal: false });          
+        obj.signature = signature;
+        if (putanAction || putanSale) {
+          let response = await postMarketplace(`User/SaveNftBid`, obj);
+          if (response) {
+            setValidated(true);
+            setBtnLoader(false);
+            setSucess(true)
+            setSuccess("Bid has been placed successfully")
+            setTimeout(() => {
+              setSucess(false)
+              getbidData();
+            }, 2000);
+            setShowBid(false);
+            setConfirmations({ ...confirmations, showModal: false });
+          } else {
+            setBtnLoader(false);
+            setValidated(false);
+            setShowBid(false);
+            setErrorMsg(isErrorDispaly(error));
+            setSuccessMsg(null);
+            setConfirmations({ ...confirmations, showModal: false });
+            setErrorMsg(isErrorDispaly(response));
+          }
         } else {
           setBtnLoader(false);
-          setValidated(false);
-          setShowBid(false);
-          setErrorMsg(isErrorDispaly(error));
-          setSuccessMsg(null);
           setConfirmations({ ...confirmations, showModal: false });
-          setErrorMsg(isErrorDispaly(response));
         }
-      }else{
-        setBtnLoader(false);
-        setConfirmations({ ...confirmations, showModal: false });
-      }
       } catch (error) {
         setConfirmations({ ...confirmations, showModal: false });
         setBtnLoader(false);
@@ -474,12 +482,12 @@ const DetailPage = (props: any) => {
       setSuccessMsg(null);
       setConfirmations({ ...confirmations, showModal: false });
     }
-  
+
   };
-  const getCheckBuy=(item: any)=>{
-    if(isConnected){
+  const getCheckBuy = (item: any) => {
+    if (isConnected) {
       handleShowBuy();
-    }else{
+    } else {
       setModalShow(true)
     }
   }
@@ -487,7 +495,7 @@ const DetailPage = (props: any) => {
     if (isConnected) {
       setShowBuyModal(true);
     } else {
-     // setMetaConnectionError("Please connect your wallet...;;")
+      // setMetaConnectionError("Please connect your wallet...;;")
       window.scrollTo(0, 0)
     }
   };
@@ -514,7 +522,7 @@ const DetailPage = (props: any) => {
       crypto: 'WMATIC',
       buyerAddress: item.bidderAddress,
       BidId: item.bidId,
-      TransactionHash:collectionAddress,
+      TransactionHash: collectionAddress,
     };
     try {
       const acceptBidObj = await acceptBid(
@@ -536,7 +544,7 @@ const DetailPage = (props: any) => {
         }, 2000);
         setErrorMsg(null)
         setAcceptbtnLoader(false);
-        setConfirmations({ ...confirmations, showModal: false });     
+        setConfirmations({ ...confirmations, showModal: false });
       } else {
         setAcceptbtnLoader(false);
         setConfirmations({ ...confirmations, showModal: false });
@@ -575,15 +583,15 @@ const DetailPage = (props: any) => {
           `/marketplace/assets/${item.tokenId}/${item?.collectionContractAddress || item?.creatorWalletAddress}/${item.id}`,
         );
         // window.scroll(0, 0)
-        scrollableRef.current.scrollIntoView(0,0);
+        scrollableRef.current.scrollIntoView(0, 0);
       })
       .catch((error: any) => {
         setErrorMsg(isErrorDispaly(error));
       });
   }
 
-  const notConnectCollectionClick = (item) =>{
-    scrollableRef.current.scrollIntoView(0,0);
+  const notConnectCollectionClick = (item) => {
+    scrollableRef.current.scrollIntoView(0, 0);
     router(
       `/marketplace/assets/${item.tokenId}/${item?.collectionContractAddress || item?.creatorWalletAddress}/${item.id}`,
     );
@@ -591,19 +599,19 @@ const DetailPage = (props: any) => {
 
   return (
     <>
-     <div ref={scrollableRef}></div>
-      <Container>
-      {errorMsg && (
+      <div ref={scrollableRef}></div>
+      <div className='container mx-auto px-3 lg-px-0'>
+        {errorMsg && (
           // <Alert variant="danger">
           //   <Image className='validation-error' src={validError} />
           //   <span>{errorMsg}</span>
           // </Alert>
           <div className='cust-error-bg'>
-          <div className='mr-4'><Image src={error} alt="" /></div>
-          <div>
-            <p className='error-title error-red'>Error</p>
-            <p className="error-desc">{errorMsg}</p></div>
-        </div>
+            <div className='mr-4'><img src={error} alt="" /></div>
+            <div>
+              <p className='error-title error-red'>Error</p>
+              <p className="error-desc">{errorMsg}</p></div>
+          </div>
         )}
         {placeABidError && (
           // <Alert variant="danger">
@@ -611,10 +619,10 @@ const DetailPage = (props: any) => {
           //   <span>{placeABidError}</span>
           // </Alert>
           <div className='cust-error-bg'>
-          <div className='mr-4'><Image src={error} alt="" /></div>
-          <div>
-          <p className='error-title error-red'>Error</p>
-          <p className="error-desc">{placeABidError}</p></div>
+            <div className='mr-4'><img src={error} alt="" /></div>
+            <div>
+              <p className='error-title error-red'>Error</p>
+              <p className="error-desc">{placeABidError}</p></div>
           </div>
         )}
         {metaConnectionError && (
@@ -623,10 +631,10 @@ const DetailPage = (props: any) => {
           //   <span>{metaConnectionError}</span>
           // </Alert>
           <div className='cust-error-bg'>
-          <div className='mr-4'><Image src={error} alt="" /></div>
-          <div>
-          <p className='error-title error-red'>Error</p>
-          <p className="error-desc">{metaConnectionError}</p></div>
+            <div className='mr-4'><img src={error} alt="" /></div>
+            <div>
+              <p className='error-title error-red'>Error</p>
+              <p className="error-desc">{metaConnectionError}</p></div>
           </div>
         )}
         {successMsg && (
@@ -635,75 +643,193 @@ const DetailPage = (props: any) => {
           //   <Image className='validation-error' src={validSuccess} />
           //   <span>{successMsg && 'Bid successful'}</span>{' '}
           // </Alert>
-         <div className='cust-error-bg'>
-         <div className='mr-4'><Image src={successimg} alt="" /></div>
-         <div>
-         <p className='error-title'>Congratulations !</p>
-         <p className="error-desc">{successMsg && 'Bid successful'}</p></div>
-         </div>
+          <div className='cust-error-bg'>
+            <div className='mr-4'><img src={successimg} alt="" /></div>
+            <div>
+              <p className='error-title'>Congratulations !</p>
+              <p className="error-desc">{successMsg && 'Bid successful'}</p></div>
+          </div>
         )}
         {/* {loader && <div className='d-flex align-items-center justify-content-center loader-center'><Spinner></Spinner></div>} */}
-        {loader && 
-        <>
-               <div className="flex justify-center">
-       <div className='loading-overlay'><div className="text-center image-container">
-       <Image
-                 className=""
-                 src={loadimg}
-                 alt=""
-               />
-     </div></div>
-     </div>
-        </>
-        || 
+        {loader &&
+          <>
+            <div className="flex justify-center">
+              <div className='loading-overlay'><div className="text-center image-container">
+                <img
+                  className=""
+                  src={loadimg}
+                  alt=""
+                />
+              </div></div>
+            </div>
+          </>
+          ||
           <>
             <section className="mt-5">
-              <Row>
-                <Col lg={6} sm={12}>
-                  <div className="detail-image-card">
-                    <div className="detail-icons">
+              <div className='grid md:grid-cols-12 gap-[40px]'>
+                <div className='md:col-span-5'>
+                  <div className="relative">
+                    <div className="flex justify-between items-center absolute top-5 w-full px-5">
                       <div>
-                        <span className="icon polygon transfonrm-icon"></span>
+                        <span className="icon matic-detail "></span>
                       </div>
-                      <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => {}} onWalletClose={() => setModalShow(false)} />
-                    <div>
-                        <span className="detail-count">{favCount}</span>
-                        <div className="like-icon-bg c-pointer">
+                      <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => { }} onWalletClose={() => setModalShow(false)} />
+                      <div className='flex items-center'>
+
+                        <div className="bg-black cursor-pointer rounded-full px-2">
+                          <span className="text-white align-middle">{favCount}</span>
                           <span
-                            className={`icon detail-like ${nftDetails?.isFavorite ? 'active' : ''}`}
+                            className={`icon like-white ${nftDetails?.isFavorite ? 'active' : ''}`}
                             onClick={() => gotoFavorite(nftDetails?.isFavorite)}
                           ></span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="card-fixes detail-card-fixes">
-                      <Image
-                       src={
-                        nftDetails?.image && !nftDetails?.image?.includes('null')
-                          ? `${getNFTImageUrl(nftDetails?.image)}`
-                          : defaultlogo
-                      }
+                    <div className="">
+                      <img
+                        src={
+                          nftDetails?.image && !nftDetails?.image?.includes('null')
+                            ? `${getNFTImageUrl(nftDetails?.image)}`
+                            : defaultlogo
+                        }
                         //src={nftDetails?.image ? nftDetails?.image: defaultlogo }
                         alt=""
                         // className="detail-image"
                         className={`${nftDetails?.isUnlockPurchased && address?.toLowerCase() !== nftDetails?.creatorWalletAddress?.toLowerCase()
-                            ? 'detail-image blur-image'
-                            : 'detail-image'
+                          ? 'w-full object-cover rounded-2xl'
+                          : 'w-full object-cover rounded-2xl'
                           }`}
-                        width="100"
-                        height="100"
+
                       />
                     </div>
                     {/* <Image src={detailimage} alt="" className="detail-image" /> */}
                   </div>
-                </Col>
-                <Col lg={6} sm={12}>
-                  <div className="detail-text-card p-0">
+                  <div className='shadow rounded-lg bg-primary-content mt-4'>
+                    <div className='px-2.5 py-2'>
+                      <div className='flex justify-between items-center mb-7'>
+                        <h1 className='text-2xl font-semibold text-secondary'>Overview</h1>
+                        <p className="text-secondary text-base font-semibold">
+                          {'By'}
+                          <span className='text-neutral ml-1'>
+                            {nftDetails?.creatorName ||
+                              nftDetails?.creatorWalletAddress?.slice(0, 4) +
+                              '....' +
+                              nftDetails?.creatorWalletAddress?.substring(
+                                nftDetails?.creatorWalletAddress?.length - 4,
+                                nftDetails?.creatorWalletAddress?.length,
+                              )}
+                            <span className="copy-space">
+                              {!nftDetails?.creatorName && nftDetails?.creatorWalletAddress && (
+                                <span
+                                  className={`${!isCopied ? 'icon md copy-icon c-pointer ms-0' : 'icon md check-icon'
+                                    }`}
+                                  onClick={() => handleCopy(nftDetails?.creatorWalletAddress)}
+                                />
+                              )}
+                            </span>
+                          </span>
+                        </p>
+                      </div>
+
+                      {nftDetails?.description && (
+                        <>
+                          <h3 className="text-base font-semibold text-secondary mb-4">Description</h3>
+                          <p className="text-secondary">{nftDetails?.description}</p>
+                        </>
+                      )}
+                    </div>
+                    <hr className='mt-[22px] mb-3' />
+                    <div className='px-2.5 pt-2 pb-6'>
+                      <h1 className='text-base font-semibold text-secondary mb-4'>Details</h1>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="font-semibold text-secondary">Contract Address</label>
+                          {nftcontractDetails?.contractAddress != null && (
+                            <h4 className="text-neutral font-semibold break-all">
+                              {nftcontractDetails?.contractAddress?.slice(0, 4) +
+                                '....' +
+                                nftcontractDetails?.contractAddress?.substring(
+                                  nftcontractDetails?.contractAddress.length - 4,
+                                  nftcontractDetails?.contractAddress.length,
+                                )}{' '}
+                              <span className="copy-space">
+                                {nftcontractDetails?.contractAddress && (
+                                  <span
+                                    className={`${!isCopied ? 'icon md copy-icon c-pointer ms-0' : 'icon md check-icon'
+                                      }`}
+                                    onClick={() => handleCopy(nftcontractDetails?.contractAddress)}
+                                  />
+                                )}
+                              </span>
+                            </h4>
+                          )}
+
+                          {nftcontractDetails?.contractAddress == null && (
+                            <h4 className="text-neutral font-semibold break-all">
+                              {collectionAddress}
+                              <span className="copy-space">
+                                {collectionAddress && nftcontractDetails?.contractAddress == null && (
+                                  <span
+                                    className={`${!isCopied ? 'icon md copy-icon c-pointer ms-0' : 'icon md check-icon'
+                                      }`}
+                                    onClick={() => handleCopy(collectionAddress)}
+                                  />
+                                )}
+                              </span>
+                            </h4>
+                          )}
+                        </div>
+                        <div>
+                          <label className="font-semibold text-secondary">Token ID</label>
+                          <h4 className="text-neutral font-semibold break-all">{nftcontractDetails?.tokenId || "--"}</h4>
+                        </div>
+                        <div>
+                          <label className="font-semibold text-secondary">Token Standard</label>
+                          <h4 className="text-neutral font-semibold break-all">{nftcontractDetails?.tokenStandard || "--"}</h4>
+                        </div>
+                        <div>
+                          <label className="font-semibold text-secondary">Chain</label>
+                          <h4 className="text-neutral font-semibold break-all">Polygon</h4>
+                          {/* <h4 className="overview-value">{nftcontractDetails?.blockChain}</h4> */}
+                        </div>
+                        <div>
+                          <label className="font-semibold text-secondary">Last Updated</label>
+                          <h4 className="text-neutral font-semibold break-all">{getDate(nftcontractDetails?.date)}</h4>
+                        </div>
+                        <div>
+                          <label className="font-semibold text-secondary">Creator Earnings</label>
+                          <h4 className="text-neutral font-semibold break-all">{nftcontractDetails?.creatorEarning || "0%"}</h4>
+                        </div>
+                        {nftcontractDetails?.externalLink &&
+                          <div>
+                            <label className="font-semibold text-secondary">External Link</label>
+                            {nftcontractDetails?.externalLink && (
+                              <h4
+                                className="text-neutral font-semibold break-all"
+
+                              >
+                                <span onClick={() => window.open(nftcontractDetails?.externalLink, '_blank')} className=' c-pointer'>{(!nftcontractDetails?.externalLink && '-') || nftcontractDetails?.externalLink}</span>
+                              </h4>
+                            )}
+                            {!nftcontractDetails?.externalLink && (
+                              <h4>
+                                {"-"}
+                              </h4>)}
+                            {/* <h4 className="overview-value mt-2">{nftcontractDetails?.externalLink}</h4> */}
+                          </div>
+                        }
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div className='md:col-span-7'>
+                  <div className="p-0">
                     <div className="">
-                      <div className="d-flex justify-content-between align-items-start mb-3 sm-mt-2">
-                        <h1 className="detail-title mb-0">
-                          {nftDetails?.name} 
+                      <div className="flex justify-between items-start mb-3 sm:mt-2">
+                        <h1 className="text-3xl text-secondary font-semibold mb-3">
+                          {nftDetails?.name}
                         </h1>
 
                         {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && (
@@ -752,7 +878,7 @@ const DetailPage = (props: any) => {
                   )} */}
                       {show && (
                         <PutOnSale
-                        refresh={loadNftDetails}
+                          refresh={loadNftDetails}
                           nftDetails={nftDetails}
                           handleClose={() => setShow(false)}
                           showModal={show}
@@ -777,7 +903,7 @@ const DetailPage = (props: any) => {
 
                       <Modal centered show={showAuction} onHide={handleClose} className="wallet-popup checkout-modal confirmaton-modal">
                         <Modal.Header className="p-4 justify-content-between">
-                        <h2 className="section-title mt-0 mb-0">Checkout</h2>
+                          <h2 className="section-title mt-0 mb-0">Checkout</h2>
                           <span className="icon close c-pointer" onClick={handleClose}></span>
                         </Modal.Header>
                         {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div> */}
@@ -789,17 +915,17 @@ const DetailPage = (props: any) => {
                             //   <span>{saleErrorMsg}</span>
                             // </Alert>
                             <div className='cust-error-bg'>
-                            <div className='mr-4'><Image src={error} alt="" /></div>
-                            <div>
-                              <p className='error-title error-red text-start'>Error</p>
-                              <p className="error-desc text-start">{saleErrorMsg}</p></div>
-                          </div>
+                              <div className='mr-4'><Image src={error} alt="" /></div>
+                              <div>
+                                <p className='error-title error-red text-start'>Error</p>
+                                <p className="error-desc text-start">{saleErrorMsg}</p></div>
+                            </div>
                           )}
-                          
+
                           <p className="common-text mb-4 text-start">
-                          NFT Marketplace is the platform where users can purchase NFT assets directly from creator, 
-                          Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
-                           User can purchase NFT also through bidding, where creator will accept a price from the user
+                            NFT Marketplace is the platform where users can purchase NFT assets directly from creator,
+                            Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
+                            User can purchase NFT also through bidding, where creator will accept a price from the user
                           </p>
                           {/* <div className="balance-card">
                         <div className="bal-feild">
@@ -860,97 +986,143 @@ const DetailPage = (props: any) => {
                         </Modal>
                       </div>
                       {/* modal  */}
-                      <div className="nft-details">
+                      <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                          <label className="detail-label">Creator</label>
+                          <label className="font-semibold text-secondary">Creator</label>
                           <div
-                           
-                            className="detail-creator-title"
+
+                            className="text-neutral font-semibold"
                           >
-                           <span  onClick={() => goToAccount(nftDetails, 'creator')} className=' c-pointer'> 
-                           {nftDetails?.creatorName ||
-                              (nftDetails?.creatorWalletAddress
-                                ? nftDetails?.creatorWalletAddress?.slice(0, 4) +
-                                '....' +
-                                nftDetails?.creatorWalletAddress?.substring(
-                                  nftDetails?.creatorWalletAddress?.length - 4,
-                                )
-                                : 'Un named')}</span>
+                            <span onClick={() => goToAccount(nftDetails, 'creator')} className=' cursor-pointer'>
+                              {nftDetails?.creatorName ||
+                                (nftDetails?.creatorWalletAddress
+                                  ? nftDetails?.creatorWalletAddress?.slice(0, 4) +
+                                  '....' +
+                                  nftDetails?.creatorWalletAddress?.substring(
+                                    nftDetails?.creatorWalletAddress?.length - 4,
+                                  )
+                                  : 'Un named')}</span>
                           </div>
                         </div>
                         <div>
-                          <label className="detail-label">Current Owner</label>
+                          <label className="font-semibold text-secondary">Current Owner</label>
                           <div
-                            
-                            className="detail-creator-title "
+
+                            className="text-neutral font-semibold "
                           >
-                          <span onClick={() => goToAccount(nftDetails, 'currentOwner')} className='c-pointer'> {nftDetails?.ownerName ||
+                            <span onClick={() => goToAccount(nftDetails, 'currentOwner')} className='cursor-pointer'> {nftDetails?.ownerName ||
                               (nftDetails?.ownerAddress
                                 ? nftDetails?.ownerAddress?.slice(0, 4) +
                                 '....' +
                                 nftDetails?.ownerAddress?.substring(nftDetails?.ownerAddress?.length - 4)
-                                : 'Un named')}</span> 
+                                : 'Un named')}</span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="details-favour">
-                      <span className="icon detail-view-eye ml-2"> </span>
-                      <span className="detail-view-label">{viewsCount} views</span>
-                      <span className="icon favourite-filled"></span>
-                      <span className="detail-view-label">{favCount} favorites</span>
-                      {/* <span className="icon art"></span>
-                      <span className="detail-view-label">{nftDetails?.categoryName || '-'}</span> */}
-                    </div>
-                    <hr className="detail-border" />
-                    {nftDetails?.price && (
+                    <div className="flex gap-6 mt-8">
                       <div>
-                        <h3 className="price-title">Current Price</h3>
-                        <h1 className="detail-value">
-                          {nftDetails?.price} {nftDetails?.currency?.toUpperCase()}
-                        </h1>
+                        <span className="icon eye"> </span>
+                        <span className="text-secondary font-semibold opacity-60">{viewsCount} views</span>
                       </div>
-                    )}
+                      <div>
+                        <span className="icon gray-love"></span>
+                        <span className="text-secondary font-semibold opacity-60">{favCount} favorites</span>
+                      </div>
+                      <div>
+                        <span className="icon art"></span>
+                        <span className="text-secondary font-semibold opacity-60">{nftDetails?.categoryName || '-'}</span>
+                      </div>
+                    </div>
+                    <hr className="mt-[18px] mb-2.5" />
+                    <div className='md:flex justify-between gap-4'>
+                      {nftDetails?.price && (
+                        <div>
+                          <h3 className="text-secondary text-2xl mb-3 opacity-60">Current Price</h3>
+                          <h1 className="text-3xl text-secondary font-semibold mb-5 break-all">
+                            {nftDetails?.price} {nftDetails?.currency?.toUpperCase()}
+                          </h1>
+                          <p className='text-secondary mt-7 text-base opacity-60'>$1,072.29</p>
+                        </div>
+                      )}
+                      <div className='max-sm:mt-4'>
+                        <p className='font-semibold text-secondary break-all'>View proof of authenticity</p>
+                        <p className='text-neutral my-3 break-all'>View on Maticscan</p>
+                        <p className='text-neutral break-all'>View on IPFS</p>
+                        <p></p>
+                      </div>
+                    </div>
                   </div>
 
-                  {nftDetails?.ownerAddress != address && (
-                    <>
-                      {nftDetails?.saleType == 'sale' ||
-                        (nftDetails?.saleType == 'Sale' && nftDetails?.ownerAddress?.toLowerCase() != address?.toLowerCase() && (
-                          <div className="detail-buttons">
-                            <button className="detail-btn" onClick={getCheckBuy}>
+                  <div className='md:flex items-center justify-between mt-4'>
+                    {nftDetails?.ownerAddress != address && (
+                      <div>
+                        {nftDetails?.saleType == 'sale' ||
+                          (nftDetails?.saleType == 'Sale' && nftDetails?.ownerAddress?.toLowerCase() != address?.toLowerCase() && (
+
+                            <Button type="secondary" btnClassName='mr-2.5' handleClick={getCheckBuy}>
                               Buy Now
-                            </button>
-                          </div>
-                        ))}
-                      {nftDetails?.saleType == 'sale' ||
-                        (nftDetails?.saleType == 'Sale' && nftDetails?.ownerAddress?.toLowerCase() != address?.toLowerCase() && (
-                          <div className="mt-3">
-                            <button className="place-btn" onClick={getCheckPlaceBid}>
+                            </Button>
+
+                          ))}
+                        {nftDetails?.saleType == 'sale' ||
+                          (nftDetails?.saleType == 'Sale' && nftDetails?.ownerAddress?.toLowerCase() != address?.toLowerCase() && (
+
+                            <Button type="cancel" handleClick={getCheckPlaceBid}>
                               Place a bid
-                            </button>
-                          </div>
-                        ))}
-                      {nftDetails?.saleType == 'auction' ||
-                        (nftDetails?.saleType == 'Auction' && nftDetails?.ownerAddress?.toLowerCase() != address?.toLowerCase() && (
-                          <div className="mt-3">
-                            <button className="place-btn" onClick={getCheckPlaceBid}>
+                            </Button>
+
+                          ))}
+                        {nftDetails?.saleType == 'auction' ||
+                          (nftDetails?.saleType == 'Auction' && nftDetails?.ownerAddress?.toLowerCase() != address?.toLowerCase() && (
+
+                            <Button type="cancel" handleClick={getCheckPlaceBid}>
                               Place a bid
-                            </button>
-                          </div>
-                        ))}
-                    </>
-                  )}
-                </Col>
+                            </Button>
+
+                          ))}
+                      </div>
+                    )}
+                    <div className={`max-sm:mt-4 border border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}>
+                      <span className={`detail-minus icon cursor-pointer`} onClick={deCounter}></span>
+                      <p className='font-semibold text-secondary'>{count}</p>
+                      <span className={`detail-plus icon cursor-pointer`} onClick={updateCounter}></span>
+
+                    </div>
+                  </div>
+                  <h2 className='text-base font-semibold text-secondary mt-9 mb-3.5'>Properties</h2>
+                  <div className="grid md:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
+                      <p className='text-neutral font-semibold'>OG Wearables Charge</p>
+                      <p className='text-secondary font-semibold my-1'>Used</p>
+                      <p className='text-secondary'>7% have this trait</p>
+                    </div>
+                    <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
+                      <p className='text-neutral font-semibold'>OG Wearables Charge</p>
+                      <p className='text-secondary font-semibold my-1'>Used</p>
+                      <p className='text-secondary'>7% have this trait</p>
+                    </div>
+                    <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
+                      <p className='text-neutral font-semibold'>OG Wearables Charge</p>
+                      <p className='text-secondary font-semibold my-1'>Used</p>
+                      <p className='text-secondary'>7% have this trait</p>
+                    </div>
+                    <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
+                      <p className='text-neutral font-semibold'>OG Wearables Charge</p>
+                      <p className='text-secondary font-semibold my-1'>Used</p>
+                      <p className='text-secondary'>7% have this trait</p>
+                    </div>
+                  </div>
+                </div>
                 <Modal centered show={showBid} onHide={handleCloseBid} className="wallet-popup checkout-modal confirmaton-modal">
                   <Modal.Header className='light-bg p-3 justify-content-between'>
-                  <h2 className="section-title text-center mt-0 mb-0">Place a Bid</h2>
+                    <h2 className="section-title text-center mt-0 mb-0">Place a Bid</h2>
                     <span className="icon close c-pointer" onClick={handleCloseBid}></span>
                   </Modal.Header>
 
                   <Form noValidate validated={validated} onSubmit={(e) => placeBid(e)}>
                     <Modal.Body className="p-3">
-                      
+
                       <div className="mb-4 input d-flex align-items-center justify-content-between">
                         <label className="input-label">Price</label>
                         <h6 className="mb-0 ms-2">
@@ -1001,7 +1173,7 @@ const DetailPage = (props: any) => {
                           </Form.Select>
                           {/* <span className="icon select-arrow"></span> */}
                         </div>
-                      </InputGroup>                   
+                      </InputGroup>
                       {/* <InputGroup className="mb-5 input name-feild">
                     <Form.Label className="input-label">Buy Price</Form.Label>
                     <Form.Control placeholder="0.01 WETH" aria-label="Username" className="input-style" />
@@ -1010,7 +1182,7 @@ const DetailPage = (props: any) => {
                         <div className="bid-balance">
                           <label>Your balance</label>
                           <h6 className="mb-0">
-                           <span className='matic-bal'> {data?.formatted}</span> <span className='regular-text'>{nftDetails?.currency}</span>
+                            <span className='matic-bal'> {data?.formatted}</span> <span className='regular-text'>{nftDetails?.currency}</span>
                           </h6>
                         </div>
                         {/* <div className="bal-feild">
@@ -1030,210 +1202,53 @@ const DetailPage = (props: any) => {
                       </div>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button className="custom-btn cancel-btn c-pointer"  onClick={handleCloseBid}>
+                      <Button className="custom-btn cancel-btn c-pointer" onClick={handleCloseBid}>
                         Cancel
                       </Button>
                       <Button className="custom-btn c-pointer ms-3" type="submit" disabled={btnLoader}>
                         <span>{btnLoader && <Spinner size="sm" />} </span>
-                        Place a bid 
+                        Place a bid
                       </Button>
                     </Modal.Footer>
                   </Form>
                 </Modal>
-              </Row>
-            </section>
-            <section>
-              <Row className="tab-section">
-                <Col lg={6} sm={12}>
-                  <div className="creator-tabs">
-                    <Tabs className="tab-border" defaultActiveKey="first">
-                      <Tab eventKey="first" title="Overview">
-                        <div>
-                          <h3 className=" overview-space">
-                            <span className='address-label'>By{' '}</span>
-                            <span className='overview-value'>
-                              {nftDetails?.creatorName ||
-                                nftDetails?.creatorWalletAddress?.slice(0, 4) +
-                                '....' +
-                                nftDetails?.creatorWalletAddress?.substring(
-                                  nftDetails?.creatorWalletAddress?.length - 4,
-                                  nftDetails?.creatorWalletAddress?.length,
-                                )}
-                              <span className="copy-space">
-                                {!nftDetails?.creatorName && nftDetails?.creatorWalletAddress && (
-                                  <span
-                                    className={`${!isCopied ? 'icon md copy-icon c-pointer ms-0' : 'icon md check-icon'
-                                      }`}
-                                    onClick={() => handleCopy(nftDetails?.creatorWalletAddress)}
-                                  />
-                                )}
-                              </span>
-                            </span>
-                          </h3>
-                          {nftDetails?.description && (
-                            <>
-                              <h3 className="address-label">Description</h3>
-                              <p className="overview-text">{nftDetails?.description}</p>
-                            </>
-                          )}
-                        </div>
-                      </Tab>
-                      <Tab eventKey="second" title=" Details">
-                        <div>
-                          <Row className="mt-4">
-                            <Col lg={4}>
-                              <label className="address-label">Token ID</label>
-                              <h4 className="overview-value">{nftcontractDetails?.tokenId ||"--"}</h4>
-                            </Col>
-                            <Col lg={4}>
-                              <label className="address-label">Token Standard</label>
-                              <h4 className="overview-value">{nftcontractDetails?.tokenStandard ||"--"}</h4>
-                            </Col>
-                            <Col lg={4}>
-                              <label className="address-label">Chain</label>
-                              <h4 className="overview-value">Polygon</h4>
-                              {/* <h4 className="overview-value">{nftcontractDetails?.blockChain}</h4> */}
-                            </Col>
-                          </Row>
-                          <Row className="mt-4 update-address">
-
-                            <Col lg={4}>
-                              <label className="address-label">Last Updated</label>
-                              <h4 className="overview-value">{getDate(nftcontractDetails?.date)}</h4>
-                            </Col>
-                            <Col lg={4}>
-                              <label className="address-label">Creator Earnings</label>
-                              <h4 className="overview-value">{nftcontractDetails?.creatorEarning || "0%"}</h4>
-                            </Col>
-                          </Row>
-                          <Row className="mt-4 update-address">
-                            <Col lg={12}>
-                              <label className="address-label">Contract Address</label>
-                              {nftcontractDetails?.contractAddress != null && (
-                                <h4 className="mb-breack overview-value">
-                                  {nftcontractDetails?.contractAddress?.slice(0, 4) +
-                                    '....' +
-                                    nftcontractDetails?.contractAddress?.substring(
-                                      nftcontractDetails?.contractAddress.length - 4,
-                                      nftcontractDetails?.contractAddress.length,
-                                    )}{' '}
-                                  <span className="copy-space">
-                                    {nftcontractDetails?.contractAddress && (
-                                      <span
-                                        className={`${!isCopied ? 'icon md copy-icon c-pointer ms-0' : 'icon md check-icon'
-                                          }`}
-                                        onClick={() => handleCopy(nftcontractDetails?.contractAddress)}
-                                      />
-                                    )}
-                                  </span>
-                                </h4>
-                              )}
-
-                              {nftcontractDetails?.contractAddress == null && (
-                                <h4 className="overview-value">
-                                  {collectionAddress}
-                                  <span className="copy-space">
-                                    {collectionAddress && nftcontractDetails?.contractAddress == null && (
-                                      <span
-                                        className={`${!isCopied ? 'icon md copy-icon c-pointer ms-0' : 'icon md check-icon'
-                                          }`}
-                                        onClick={() => handleCopy(collectionAddress)}
-                                      />
-                                    )}
-                                  </span>
-                                </h4>
-                              )}
-                            </Col>
-                          </Row>
-                          <Row className="mt-3 update-address">
-                            <Col lg={12}>
-                              <label className="address-label">Description</label>
-                              <h4 className="overview-text">{nftcontractDetails?.description}</h4>
-                            </Col>
-                          </Row>
-                         {nftcontractDetails?.externalLink && < Row className="mt-4 update-address">
-                            <Col lg={12}>
-                              <label className="address-label">External Link</label>
-                              {nftcontractDetails?.externalLink && (
-                                <h4
-                                  className="overview-value text-blue text-green"
-                                  
-                                >
-                                  <span onClick={() => window.open(nftcontractDetails?.externalLink, '_blank')} className=' c-pointer'>{(!nftcontractDetails?.externalLink && '-') || nftcontractDetails?.externalLink}</span>
-                                </h4>
-                                )}
-                              {!nftcontractDetails?.externalLink && (
-                                <h4>
-                                  {"-"}
-                                </h4>)}
-                              {/* <h4 className="overview-value mt-2">{nftcontractDetails?.externalLink}</h4> */}
-                            </Col>
-                          </Row>}
-                        </div>
-                      </Tab>
-                    </Tabs>
-                  </div>
-                </Col>
-                <Col lg={6} sm={12} className="ps-2">
-                  <div className="ps-lg-4">
-                    {nftPropAttributes.length > 0 && (
-                      <h3 className="property-title overview-space text-lg-start">Properties</h3>
-                    )}
-                    <Row>
-                      {nftPropAttributes?.map((attr) => (
-                        <Col lg={4} md={4} sm={6} xs={6}>
-                          <div className="property-card mb-4 d-flex align-items-center justify-content-center">
-                            <div className="text-overflow-ellipse">
-                              <span className="overview-title-color detail-card-label text-overflow-ellipse">
-                                {attr.Avathar || attr.trait_type}
-                              </span>
-                              <span className="detail-card-label text-overflow-ellipse">{attr.value}</span>
-                              {/* <span className="card-sub-label">7% have this trait</span> */}
-                            </div>
-                          </div>
-                        </Col>
-                      ))}
-                    </Row>
-                  </div>
-                </Col>
-              </Row>
-            </section>
-            <h3 className="mb-2  mt-5 sub-title text-black">Bidding Details</h3>
-            <hr className="top-seller-hr"/>
-            <div className="responsive-table ">
-              <div>
-               
               </div>
-              <table className="table activity-table mt-4 ">
+            </section>
+
+            <h3 className="text-[24px] font-semibold text-secondary mb-1 mt-6">Bidding Details</h3>
+
+            <div className="max-sm:w-full overflow-auto px-1">
+
+              <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px]  ">
                 <thead>
-                  <tr className="claim-head ">
-                    <th className="pool-data">S.No</th>
-                    <th className="pool-data">Date</th>
-                    <th className="pool-data">Buyer Address</th>
-                    <th className="pool-data">Bidding Amount</th>
-                    <th className="pool-data">Creator Name</th>
-                    <th className="pool-data"></th>
+                  <tr className="">
+                    <th className="text-left text-base text-secondary font-bold">S.No</th>
+                    <th className="text-left text-base text-secondary font-bold">Date</th>
+                    <th className="text-left text-base text-secondary font-bold">Buyer Address</th>
+                    <th className="text-left text-base text-secondary font-bold">Bidding Amount</th>
+                    <th className="text-left text-base text-secondary font-bold">Creator Name</th>
+                    <th className="text-left text-base text-secondary font-bold"></th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <>
                     {bidData?.map((item: any, idx: any) => (
-                      <tr className="black-bg" key={idx}>
-                        <td scope="row" className="pool-data">
+                      <tr className="" key={idx}>
+                        <td scope="row" className="font-normal text-sm text-secondary">
                           {idx + 1}
                         </td>
-                        <td className="pool-data">
+                        <td className="font-normal text-sm text-secondary">
                           <Moment format="DD-MM-YYYY " className="blue-text">
                             {item.bidDate || '--'}
                           </Moment>
                         </td>
-                        <td className="pool-data">{item.bidderAddress || '--'}</td>
-                        <td className="pool-data">
+                        <td className="font-normal text-sm text-secondary">{item.bidderAddress || '--'}</td>
+                        <td className="font-normal text-sm text-secondary">
                           {item.biddingAmount + ' ' || '--'}
                           {item.crypto ? item.crypto : ''}
                         </td>
-                        <td className="pool-data">{item.creatorName || '--'}</td>
+                        <td className="font-normal text-sm text-secondary">{item.creatorName || '--'}</td>
 
                         <td>
                           {/* <Button
@@ -1252,7 +1267,7 @@ const DetailPage = (props: any) => {
                             Accept Bid
                           </Button> */}{' '}
                           {nftDetails?.ownerAddress.toLowerCase() === address?.toLowerCase() && (
-                            <Button className="custom-btn" onClick={() => executeBid(item)}>
+                            <Button btnClassName="px-5 lg:px-5" handleClick={() => executeBid(item)}>
                               Accept Bid {/* <span>{acceptbtnLoader && <Spinner size="sm" />} </span> */}
                             </Button>
                           )}
@@ -1264,93 +1279,96 @@ const DetailPage = (props: any) => {
               </table>
               {bidData.length == 0 && (
                 <>
-                  <div className="nodata-text db-no-data">
-                    <Image src={nodata} alt=""></Image>
-                    <h3 className="text-center">No data found</h3>
+                  <div className="text-center">
+                    <img src={nodata} alt="" className='mx-auto w-[80px]' />
+                    <h3 className="text-center text-secondary">No data found</h3>
                   </div>
                 </>
               )}
             </div>
-            <section className="mt-5 detail-corousel detail-page pb-60">
-              <h2 className="sub-title text-dark">More from this collection</h2>
-              <hr className="top-seller-hr"/>
-              <div className="corousel">
-                <Carousel autoPlaySpeed={1000} infinite responsive={responsive} className="corousel-arrows">
+            <section className="mt-5 ">
+              <h2 className="text-[24px] font-semibold text-secondary mb-1 mt-6">More from this collection</h2>
+              <div className='relative'>
+                <div className='carousel gap-4 flex py-2 px-2 md:px-14'>
                   {moreCollection?.map((item) => (
-                    <div className="creator-card">
+                    <div className="carousel-item shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]">
                       {/* <Link className="nav-link" href={`/assets/${item.tokenId}/${item.collectionContractAddress}/${item.id}`}> */}
-                      <Card className="creator-bg detail-view-card">
-                      <div className="creator-like zindex-view c-pointer">
-                          <span
-                            className={`icon md creator-icon ${item?.isFavourite ? 'active' : ''}`}
-                            onClick={() =>gotoFev(item)}
-                          ></span>
-                        </div>
-                        <div className="account-card-img c-pointer" 
-                        onClick={isConnected ? () => moreCollectionClick(item) : () =>notConnectCollectionClick(item)}
-                        >                       
-                          <Image
-                            //src={ item?.image ? item?.image: defaultlogo}
+                      <div>
+                        <div className="cursor-pointer"
+                          onClick={isConnected ? () => moreCollectionClick(item) : () => notConnectCollectionClick(item)}
+                        >
+                          <img
                             src={item?.image ? `${getNFTImageUrl(item?.image)}` : defaultlogo}
-                            //className="creator-img card-img"
-                            className={`${item?.isUnlockPurchased && address?.toLowerCase() !== item?.walletAddress?.toLowerCase()
-                              ? 'creator-img card-img blur-image'
-                              : 'creator-img card-img'
+                            className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg ${item?.isUnlockPurchased && address?.toLowerCase() !== item?.walletAddress?.toLowerCase()
+                              ? ''
+                              : ''
                               }`}
                             alt=""
-                            height="100"
-                            width="100"
                           />
                         </div>
-                        <Card.Body className='pt-2'>
-                          <Card.Text className="title-wrap"></Card.Text>
-                          <Card.Title className="title-wrap mt-0">
-                            {item.name} 
-                          </Card.Title>
-                        </Card.Body>
-                        <div className="card-footer">
-                          <div className="footer-price">
-                            <span className="card-text ms-0">Price</span>
-                            <div className="cardfooter-ellipse">
+                        <div className="cursor-pointer bg-black top-3 absolute cursor-pointer right-3 rounded-full">
+                          <span className={`icon like-white  ${item?.isFavourite ? 'active' : ''}`} onClick={() => gotoFev(item)} ></span>
+                        </div>
+                        <div className='px-2 py-2.5'>
+                          <p className='text-xs text-secondary truncate'>Avengers</p>
+                          <h1 className="mb-2.5 text-base font-semibold truncate text-secondary"> {item.name}   </h1>
+                          <div className="flex justify-between truncate mb-3 gap-2">
+                            <p className="opacity-60 truncate text-secondary flex-1">Price</p>
+                            <p className="font-semibold text-secondary flex-1 truncate text-right">
                               {item.price ? item.price : "--"} {item.price ? item.currency || process.env.REACT_APP_CURRENCY_SYMBOL : ""}
-                            </div>
+                            </p>
                           </div>
-
-                          <div className="footer-price mt-2">
-                            <span className="card-text ms-0">Highest bid</span>
-                            <div className="cardfooter-ellipse">
+                          <div className="flex justify-between gap-2">
+                            <p className="opacity-60 text-secondary flex-1">Highest bid</p>
+                            <p className="font-semibold text-secondary flex-1 text-right truncate">
                               {item.highestBid ? item.highestBid : "--"} {item.highestBid ? item.currency || process.env.REACT_APP_CURRENCY_SYMBOL : ""}
-                            </div>
+                            </p>
                           </div>
                         </div>
-                      </Card>
+                        <hr />
+                        <div className='px-2.5 py-4 flex justify-between'>
+                          <div className='flex add-cart cursor-pointer'>
+                            <span className='icon card-cart'></span>
+                            <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Add to Cart</span>
+                          </div>
+                          <div className='w-px border'></div>
+                          <div className='flex shop-card cursor-pointer'>
+                            <span className='icon card-shop'></span>
+                            <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Buy Now</span>
+                          </div>
+                        </div>
+                      </div>
                       {/* </Link> */}
                     </div>
                   ))}
-                </Carousel>
+                </div>
+                <div className='md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4'>
+                  <span className='icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1'></span>
+                  <span className='icon carousal-right-arrow cursor-pointer lg:scale-[1.4]'></span>
+                </div>
               </div>
               {moreCollection.length == 0 && (
                 <>
-                  <div className="nodata-text db-no-data">
-                    <Image src={nodata} alt=""></Image>
-                    <h3 className="text-center">No data found</h3>
+                  <div className="">
+                    <img src={nodata} alt="" className='mx-auto w-[80px]' />
+                    <h3 className="text-center text-secondary">No data found</h3>
                   </div>
                 </>
               )}
             </section>
           </>
-        } 
-      </Container>
+        }
+      </div>
       <Confirmations {...confirmations} />
       <div className='p-absolute toaster-center'>
-      <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
-              <Toast show={scuess} className="text-center toster-component">
-                <Toast.Body className="toaster-cust">
-                <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>
-                </Toast.Body>
-              </Toast>
-            </ToastContainer>
-            </div>
+        <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
+          <Toast show={scuess} className="text-center toster-component">
+            <Toast.Body className="toaster-cust">
+              <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>
+            </Toast.Body>
+          </Toast>
+        </ToastContainer>
+      </div>
     </>
   );
 };

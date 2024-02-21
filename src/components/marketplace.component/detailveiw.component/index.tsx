@@ -42,10 +42,10 @@ export default function DetailView() {
 
   return (
     <>
-      <Container>
+      <div className='container mx-auto'>
         <section className="mt-5">
-          <Row>
-            <Col lg={6} sm={12}>
+          <div className='grid md:grid-cols-2'>
+            <div>
               <div className="detail-image-card">
                 <div className="detail-icons">
                   <div>
@@ -62,8 +62,8 @@ export default function DetailView() {
                   <Image src={detailimage} alt="" className="detail-image" />
                 </div>
               </div>
-            </Col>
-            <Col lg={6} sm={12}>
+            </div>
+            <div >
               <div className="detail-text-card">
                 <div className="detail-heading-card">
                   <h1 className="detail-title mb-0">Dooplicator #1654</h1>
@@ -108,7 +108,7 @@ export default function DetailView() {
                   </button>
                 </div>
               </div>
-            </Col>
+            </div>
             <Modal show={show} onHide={handleClose} className="wallet-popup checkout-modal">
               <Modal.Header>
                 <span></span>
@@ -159,7 +159,7 @@ export default function DetailView() {
                 <Button className="custom-btn active">Place a bid</Button>
               </Modal.Footer>
             </Modal>
-          </Row>
+          </div>
         </section>
         <section>
           <Row className="tab-section">
@@ -409,7 +409,7 @@ export default function DetailView() {
             </Carousel>
           </div>
         </section>
-      </Container>
+      </div>
     </>
   );
 }

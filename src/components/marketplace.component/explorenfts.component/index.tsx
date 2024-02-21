@@ -174,7 +174,7 @@ const gotoFavorite=(item: any)=>{
     <>
      <div className="flex justify-center">
        <div className='loading-overlay'><div className="text-center image-container">
-       <Image
+       <img
                  className=""
                  src={loadimg}
                  alt=""
@@ -183,19 +183,18 @@ const gotoFavorite=(item: any)=>{
      </div>
     </>
     ||<>
-      <div className="container explore-nfts pb-60">
-        <h2 className="explore-title createnft-title ">Explore NFTs</h2>
-        <hr className='top-seller-hr' />
+      <div className="container mx-auto pt-5 px-3 lg:px-0">
+        <h2 className="text-[24px] text-secondary font-semibold">Explore NFTs</h2>
+        
         {errorMessage && (
-         
-          <div className='cust-error-bg'>
-          <div className='mr-4'><Image src={error} alt="" /></div>
+          <div className=''>
+          <div className='mr-4'><img src={error} alt="" /></div>
           <div>
-          <p className='error-title error-red'>Error</p>
-          <p className="error-desc">{errorMessage}</p></div>
+          <p className=''>Error</p>
+          <p className="">{errorMessage}</p></div>
      </div>
         )}
-        <Form className="explore-search mb-4"  >
+        {/* <Form className="explore-search mb-4"  >
           <div className="p-relative">
             <Form className="d-flex nav-search hide-mobile ">
              
@@ -209,73 +208,80 @@ const gotoFavorite=(item: any)=>{
                 <i className="icon md search-angle icon-space " onClick={()=>handleSearchIcon(search)}></i>
             </Form>
           </div>
-        </Form>
-          <div className="row creator-card create-by-row explorenft-card">
+        </Form> */}
+          <div className="grid gap-4 lg:grid-cols-5 md:grid-cols-3">
                 {nftDatafilter.length > 0 ? (
                   nftDatafilter?.map((item: any, idx: any) => (
-                    <div className="col-md-6 col-lg-3 space-x mt-3" key={idx}>
-                      <Card className="creator-bg c-pointer" >
+                    <div className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]" key={idx}>
+                      <div className="cursor-pointer" >
                         <div   onClick={isConnected ? () => saveViews(item) :  () => metaSaveView(item)}>
-                          <div className="account-card-img">
+                          <div className="">
                             {' '}
-                            <Image
+                            <img
                               src={
                                 item?.image && !item?.image?.includes('null')
                                   ? item.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
                                   : defaultlogo
                               }
-                              width={200}
-                              height={200}
-                              alt=""
-                              style={{ cursor: 'pointer' }}
-                              className={`${
+                             
+                              alt=""                            
+                              className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${
                                 item?.isUnlockPurchased && address !== item?.walletAddress ? 'blur-image' : ''
                               }`}
                             />
                           </div>
                         </div>
                         <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => {}} onWalletClose={() => setModalShow(false)} />
-                        <div className="creator-like">
+                        <div className="cursor-pointer bg-black top-3 absolute cursor-pointer right-3 rounded-full">
                           <span
-                            className={`icon md creator-icon ${item?.isFavourite ? 'active' : ''}`}
+                            className={`icon like-white   ${item?.isFavourite ? 'active' : ''}`}
                              onClick={() =>gotoFavorite(item)}
                           ></span>
                         </div>
-                        <div onClick={isConnected ? () => saveViews(item) :  () => metaSaveView(item)}>
-                          <div className="card-body">
-                            <div className='label-height'><label className="card-text">{item.creator}</label></div>
-                            <Card.Title className="card-title">
-                              {item.name} 
-                            </Card.Title>
-                          </div>
-                          <div className="card-footer explore-footer">
-                            <div className="footer-price">
-                              <label className="card-text">Price</label>
-                              <h5 className="">
+                        <div className='px-2 py-2.5' onClick={isConnected ? () => saveViews(item) :  () => metaSaveView(item)}>
+                              <p className="text-xs text-secondary truncate">{item.creator}</p>
+                            <h1 className="mb-2.5 text-base font-semibold truncate text-secondary"> {item.name}  </h1>                         
+                          
+                            <div className="flex justify-between truncate mb-3 gap-2">
+                              <label className="opacity-60 truncate text-secondary flex-1">Price</label>
+                              <p className="font-semibold text-secondary flex-1 truncate text-right">
                                 {item.price?item.price:"--"}{" "}{(item.currency&&item.price) ? item.currency.toUpperCase():" "}
-                              </h5>
-                              <label className="card-text mt-2">Highest bid</label>
-                              <h5 className="">
+                              </p>
+                              </div>
+                              <div className='flex justify-between gap-2'>
+                              <label className="opacity-60 truncate text-secondary flex-1">Highest bid</label>
+                              <p className="font-semibold text-secondary flex-1 truncate text-right">
                                  {item.highestBid?item.highestBid:"--"}{" "}{(item.currency&&item.highestBid) ? item.currency.toUpperCase():" "}
-                              </h5>
-                            </div>
+                              </p>
+                            </div>                         
+                        </div>
+                        <hr />
+                        <div className='px-2.5 py-4 flex justify-between'>
+                          <div className='flex add-cart cursor-pointer'>
+                            <span className='icon card-cart'></span>
+                            <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Add to Cart</span>
+                          </div>
+                          <div className='w-px border'></div>
+                          <div className='flex shop-card cursor-pointer'>
+                            <span className='icon card-shop'></span>
+                            <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Buy Now</span>
                           </div>
                         </div>
-                      </Card>
+                      </div>
                     </div>
                   ))
                 ) : (
-                  <div className="nodata-text db-no-data">
-                    <Image src={nodata} alt=""></Image>
+                  <div className="">
+                    <img src={nodata} alt="" className='mx-auto w-[80px]'/>
                     <h3 className="text-center">No data found</h3>
                   </div>
                 )}
           </div>
           {loadDara&&<div className="category-more">
           {seeHide && <>
-            <div className="text-center addmore-title">
-          <span onClick={loadmore} className='c-pointer d-block'>See More</span>         
-            <i className="icon md double-arrow c-pointer" onClick={loadmore}></i>
+            <div className="text-center mt-5">
+          <span onClick={loadmore} className='cursor-pointer text-base text-primary font-semibold'>See More</span>         
+            <i className="icon block mx-auto see-more cursor-pointer" onClick={loadmore}></i>
           </div></>}
         </div>}
       </div>
