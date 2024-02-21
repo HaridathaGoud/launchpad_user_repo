@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // import Image from 'next/legacy/image';
 import Image from 'react-bootstrap/Image';
 import CommentShimmer from '../Loaders/CommentsShimmer';
+import Button from '../../../ui/Button';
 const   CommentsComponent = () => {
 const [isToggle,setIsToggle] =useState(false);
 
@@ -55,7 +56,18 @@ const data = [
                            
                            <span className='flex items-center gap-1'> <span className={`icon like cursor-pointer`}></span><span className='font-semibold text-secondary text-sm'>24</span></span>
                        </div>
-                       
+                       <div className='mt-3'>
+<div className='flex gap-3 '>
+<div className="w-9 h-9 rounded-full shrink-0">
+<img className='rounded-full' src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt=''/>
+</div>
+<input type="text" placeholder="Type here" className="input w-full h-9 outline-none focus:outline-none border-1 border-neutral-content focus:border-neutral-content rounded-[30px] text-base font-normal" />
+</div>
+<div className='flex gap-2 items-center mt-[10px]'>
+<Button type='reply' children={"Reply"} />
+<Button type='replyCancel' children={"Cancel"} />
+</div>
+</div>
                    </div>
                </div>
                     </>
