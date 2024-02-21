@@ -425,7 +425,7 @@ function ProposalCards(props: any) {
                                     </>}
                             </div>
                         </div>
-                        : <CreateFirstPraposal daoId={params.id} memberShipCount={mintedMemberShipCount} />}
+                        : <CreateFirstPraposal pjctInfo={ props?.pjctInfo} daoId={params.id} memberShipCount={mintedMemberShipCount} />}
 
                 </>
             </Container>
