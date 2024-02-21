@@ -600,7 +600,7 @@ const DetailPage = (props: any) => {
   return (
     <>
       <div ref={scrollableRef}></div>
-      <div className='container mx-auto'>
+      <div className='container mx-auto px-3 lg-px-0'>
         {errorMsg && (
           // <Alert variant="danger">
           //   <Image className='validation-error' src={validError} />
@@ -1289,7 +1289,7 @@ const DetailPage = (props: any) => {
             <section className="mt-5 ">
               <h2 className="text-[24px] font-semibold text-secondary mb-1 mt-6">More from this collection</h2>
               <div className='relative'>
-                <div className='carousel gap-4 flex py-2 md:px-14'>
+                <div className='carousel gap-4 flex py-2 px-2 md:px-14'>
                   {moreCollection?.map((item) => (
                     <div className="carousel-item shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]">
                       {/* <Link className="nav-link" href={`/assets/${item.tokenId}/${item.collectionContractAddress}/${item.id}`}> */}
