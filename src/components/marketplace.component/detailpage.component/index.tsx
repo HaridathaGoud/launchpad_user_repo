@@ -33,6 +33,7 @@ import successimg from '../../../assets/images/success.svg';
 import Button from '../../../ui/Button';
 import DetailpageShimmer from '../loaders/detailpageShimmer';
 import { Modal,modalActions } from '../../../ui/Modal';
+import DropdownMenus from '../../../ui/DropdownMenus';
 
 
 const DetailPage = (props: any) => {
@@ -111,17 +112,19 @@ const DetailPage = (props: any) => {
   };
 
   const handleClose = () => {
-    setShow(false);
-    setShowAuction(false);
+    // setShow(false);
+    modalActions('putonsale','close')
+    modalActions('putonauction','close')
     setSaleErrorMsg(false);
     setShowBuyModal(false);
     setSaveObj({ tokenId: '', customerId: '', value: 0, crypto: '', saleType: '' });
   };
   const handleShow = (type: any) => {
     if (type == 'sale') {
-      setShow(true);
+      // setShow(true);
+      modalActions('putonsale','open')
     } else if (type == 'auction') {
-      setShowAuction(true);
+      modalActions('putonauction','open')
     }
     setSaveObj({ tokenId: '', customerId: '', value: 0, crypto: '', saleType: '' });
     setSaleErrorMsg(false);
@@ -360,10 +363,11 @@ const DetailPage = (props: any) => {
   };
   const cancelAuctionorsale = async (val: any) => {
     setCancelType(val);
-    setCancelShow(true);
+    // setCancelShow(true);
+    modalActions('cancelsale','open')
   };
   const handleCancelConfirm = () => {
-    setCancelShow(false);
+    modalActions('cancelsale','close')
   };
   const cancelSaleConfirm = async (type: any) => {
     setBtnLoader(true)
@@ -602,7 +606,12 @@ const DetailPage = (props: any) => {
       `/marketplace/assets/${item.tokenId}/${item?.collectionContractAddress || item?.creatorWalletAddress}/${item.id}`,
     );
   }
-
+  const dropdownList = [
+    { name: "Put on sale", action: () => handleShow('sale'), isActive: false },
+    { name: " Put on auction", action: () => handleShow('auction'), isActive: false },    
+    { name: "Cancel auction", action: () => cancelAuctionorsale('auction'), isActive: false },    
+    { name: "Cancel sale", action: () => cancelAuctionorsale('sale'), isActive: false },    
+  ];
   return (
     <>
       <div ref={scrollableRef}></div>
@@ -829,40 +838,43 @@ const DetailPage = (props: any) => {
                         <h1 className="text-3xl text-secondary font-semibold mb-3">
                           {nftDetails?.name}
                         </h1>
+                        <DropdownMenus btnContent={<><span className='icon dots transform rotate-90'></span></>} dropdownList={dropdownList}>
+                          
 
-                        {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && (
+                          </DropdownMenus>
+                        {/* {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
                           <NavDropdown
                             title={<span className="icon more-nav"></span>}
                             id="basic-nav-dropdown"
                             className="detailpage-navmenu"
                           >
-                            {!nftDetails?.isPutonSale &&
+                            {/* {!nftDetails?.isPutonSale &&
                               !nftDetails?.isPutOnAuction &&
-                              nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && (
+                              nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
                                 <NavDropdown.Item href="" onClick={() => handleShow('sale')}>
                                   Put on sale
                                 </NavDropdown.Item>
-                              )}
-                            {!nftDetails?.isPutOnAuction && !nftDetails?.isPutonSale && (
+                              {/* )} */}
+                            {/* {!nftDetails?.isPutOnAuction && !nftDetails?.isPutonSale && ( */}
                               <NavDropdown.Item href="" onClick={() => handleShow('auction')}>
                                 Put on auction
                               </NavDropdown.Item>
-                            )}
+                            {/* )} */}
 
-                            {nftDetails?.saleType == 'auction' ||
-                              (nftDetails?.saleType == 'Auction' && (
+                            {/* {nftDetails?.saleType == 'auction' ||
+                              (nftDetails?.saleType == 'Auction' && ( */}
                                 <NavDropdown.Item href="" onClick={() => cancelAuctionorsale('auction')}>
                                   Cancel auction
                                 </NavDropdown.Item>
-                              ))}
-                            {nftDetails?.saleType == 'sale' ||
-                              (nftDetails?.saleType == 'Sale' && (
+                              {/* ))} */}
+                            {/* {nftDetails?.saleType == 'sale' ||
+                              (nftDetails?.saleType == 'Sale' && ( */}
                                 <NavDropdown.Item href="" onClick={() => cancelAuctionorsale('sale')}>
                                   Cancel Sale
                                 </NavDropdown.Item>
-                              ))}
+                              {/* ))} */}
                           </NavDropdown>
-                        )}
+                        {/* )} */}
                       </div>
                       {/* modal  */}
 
@@ -874,7 +886,7 @@ const DetailPage = (props: any) => {
                       handleClose={() => setShow(false)}
                     ></SaleComponent>
                   )} */}
-                      {show && (
+                     
                         <PutOnSale
                           refresh={loadNftDetails}
                           nftDetails={nftDetails}
@@ -888,7 +900,7 @@ const DetailPage = (props: any) => {
                             collectionAddress: collectionAddress,
                           }}
                         ></PutOnSale>
-                      )}
+                     
 
                       {nftDetails !== undefined && (
                         <BuyComponent
@@ -898,23 +910,22 @@ const DetailPage = (props: any) => {
                           collectionAddress={collectionAddress}
                         ></BuyComponent>
                       )}
-
-                      {/* <Modal centered show={showAuction} onHide={handleClose} className="wallet-popup checkout-modal confirmaton-modal">
-                        <Modal.Header className="p-4 justify-content-between">
+                      <Modal id='putonauction'>
+                      <div className="p-4 justify-content-between">
                           <h2 className="section-title mt-0 mb-0">Checkout</h2>
                           <span className="icon close c-pointer" onClick={handleClose}></span>
-                        </Modal.Header>
+                        </div>
                         <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                         {!saleLoader && (
-                        <Modal.Body className='p-4 pb-2'>
+                        <div className='p-4 pb-2'>
                           {saleErrorMsg && (
                             
                             <div className='cust-error-bg'>
-                              <div className='mr-4'><Image src={error} alt="" /></div>
-                              <div><Alert variant="danger">
-                              <Image className='validation-error' src={validError} />
+                              <div className='mr-4'><img src={error} alt="" /></div>
+                              <div><div >
+                              <img className='validation-error' src={validError} />
                               <span>{saleErrorMsg}</span>
-                            </Alert>
+                            </div>
                                 <p className='error-title error-red text-start'>Error</p>
                                 <p className="error-desc text-start">{saleErrorMsg}</p></div>
                             </div>
@@ -940,50 +951,44 @@ const DetailPage = (props: any) => {
                               onChange={(value) => handleChange(value)}
                             />
                           </InputGroup>
-                        </Modal.Body>
+                        </div>
                          )} 
-                        <Modal.Footer className='p-4'>
-                          <Button className="custom-btn" disabled={saleLoader} onClick={() => placeONSaleorAuction('Auction')}>
+                        <div className='p-4'>
+                          <Button btnClassName="custom-btn" disabled={saleLoader} handleClick={() => placeONSaleorAuction('Auction')}>
                             <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span>  Put on Auction
                           </Button>
-                        </Modal.Footer>
-                      </Modal> */}
-                      <div className="modal show" style={{ display: 'block', position: 'initial' }}>
-                        {/* <Modal
-                          centered
-                          show={cancelShow}
-                          onHide={handleCancelConfirm}
-                          className="wallet-popup Confirmation confirmaton-modal"
-                        >
-                          <Modal.Header className='justify-content-between'>
-                            <Modal.Title className='section-title mt-0'>Confirmation</Modal.Title>
+                        </div>
+                      </Modal>
+                     
+                      <Modal id='cancelsale'>
+                      <div className=''>
+                            <div className='text-lg text-dark font-semibold'>Confirmation</div>
                             <div>
-                              <span
+                              {/* <span
                                 className="icon close c-pointer modal-position"
                                 onClick={handleCancelConfirm}
-                              ></span>
+                              ></span> */}
                             </div>
-                          </Modal.Header>
+                          </div>
 
-                          <Modal.Body>
-                            <p className="common-text mb-0 py-3 text-start">Are you sure, Do you want to cancel {cancelType}?</p>
-                          </Modal.Body>
-
-                          <Modal.Footer className='border-footertop'>
-                            <Button variant="secondary" onClick={() => cancelSaleConfirm('No')} className="custom-btn border-btn">
+                          <div>
+                            <p className="text-dark my-8">Are you sure, Do you want to cancel {cancelType}?</p>
+                          </div>
+                            <hr className='mb-4' />
+                          <div className='flex justify-center'>
+                            <Button type="cancel" handleClick={() => cancelSaleConfirm('No')}>
                               No
                             </Button>
                             <Button
-                              variant="primary"
-                              onClick={() => cancelSaleConfirm('Yes')}
-                              className="custom-btn ms-2"
+                              type="secondary"
+                              handleClick={() => cancelSaleConfirm('Yes')}
+                              btnClassName="custom-btn ms-2"
                             >
                               <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Yes
                             </Button>
-                          </Modal.Footer>
-                        </Modal> */}
-                      </div>
-                      {/* modal  */}
+                          </div>
+                      </Modal>
+                     
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <label className="font-semibold text-secondary">Creator</label>
