@@ -172,15 +172,7 @@ const gotoFavorite=(item: any)=>{
     <div ref={scrollableRef}></div>
     {loader && 
     <>
-     <div className="flex justify-center">
-       <div className='loading-overlay'><div className="text-center image-container">
-       <img
-                 className=""
-                 src={loadimg}
-                 alt=""
-               />
-     </div></div>
-     </div>
+     
     </>
     ||<>
       <div className="container mx-auto pt-5 px-3 lg:px-0">

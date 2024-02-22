@@ -6,7 +6,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useState, useRef } from 'react';
-import Modal from 'react-bootstrap/Modal';
+// import Modal from 'react-bootstrap/Modal';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { getMarketplace, postMarketplace } from '../../../utils/api';
 import { Spinner } from 'react-bootstrap';
@@ -31,7 +31,8 @@ import WalletConnect from '../../shared/connect.wallet';
 import loadimg from '../../../assets/images/loader.svg';
 import successimg from '../../../assets/images/success.svg';
 import Button from '../../../ui/Button';
-
+import DetailpageShimmer from '../loaders/detailpageShimmer';
+import { Modal,modalActions } from '../../../ui/Modal';
 
 
 const DetailPage = (props: any) => {
@@ -488,12 +489,14 @@ const DetailPage = (props: any) => {
     if (isConnected) {
       handleShowBuy();
     } else {
-      setModalShow(true)
+      // setModalShow(true)
+      modalActions('marketplace-wallet-connect','open')
     }
   }
   const handleShowBuy = () => {
     if (isConnected) {
-      setShowBuyModal(true);
+      // setShowBuyModal(true);
+      modalActions('marketplace-buy-now','open')
     } else {
       // setMetaConnectionError("Please connect your wallet...;;")
       window.scrollTo(0, 0)
@@ -653,18 +656,10 @@ const DetailPage = (props: any) => {
         {/* {loader && <div className='d-flex align-items-center justify-content-center loader-center'><Spinner></Spinner></div>} */}
         {loader &&
           <>
-            <div className="flex justify-center">
-              <div className='loading-overlay'><div className="text-center image-container">
-                <img
-                  className=""
-                  src={loadimg}
-                  alt=""
-                />
-              </div></div>
-            </div>
+           <DetailpageShimmer/>
           </>
           ||
-          <>
+          <>           
             <section className="mt-5">
               <div className='grid md:grid-cols-12 gap-[40px]'>
                 <div className='md:col-span-5'>
@@ -892,7 +887,7 @@ const DetailPage = (props: any) => {
                         ></PutOnSale>
                       )}
 
-                      {showBuyModal && nftDetails !== undefined && (
+                      {nftDetails !== undefined && (
                         <BuyComponent
                           showModal={showBuyModal}
                           handleClose={() => setShowBuyModal(false)}
@@ -901,22 +896,22 @@ const DetailPage = (props: any) => {
                         ></BuyComponent>
                       )}
 
-                      <Modal centered show={showAuction} onHide={handleClose} className="wallet-popup checkout-modal confirmaton-modal">
+                      {/* <Modal centered show={showAuction} onHide={handleClose} className="wallet-popup checkout-modal confirmaton-modal">
                         <Modal.Header className="p-4 justify-content-between">
                           <h2 className="section-title mt-0 mb-0">Checkout</h2>
                           <span className="icon close c-pointer" onClick={handleClose}></span>
                         </Modal.Header>
-                        {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div> */}
-                        {/* {!saleLoader && ( */}
+                        <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
+                        {!saleLoader && (
                         <Modal.Body className='p-4 pb-2'>
                           {saleErrorMsg && (
-                            // <Alert variant="danger">
-                            //   <Image className='validation-error' src={validError} />
-                            //   <span>{saleErrorMsg}</span>
-                            // </Alert>
+                            
                             <div className='cust-error-bg'>
                               <div className='mr-4'><Image src={error} alt="" /></div>
-                              <div>
+                              <div><Alert variant="danger">
+                              <Image className='validation-error' src={validError} />
+                              <span>{saleErrorMsg}</span>
+                            </Alert>
                                 <p className='error-title error-red text-start'>Error</p>
                                 <p className="error-desc text-start">{saleErrorMsg}</p></div>
                             </div>
@@ -927,12 +922,12 @@ const DetailPage = (props: any) => {
                             Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
                             User can purchase NFT also through bidding, where creator will accept a price from the user
                           </p>
-                          {/* <div className="balance-card">
+                          <div className="balance-card">
                         <div className="bal-feild">
                           <label>Service fee</label>
                           <h6>0.0000 ETH</h6>
                         </div>
-                      </div> */}
+                      </div>
                           <InputGroup className="input name-feild mb-4">
                             <Form.Label className="input-label">Auction Price</Form.Label>
                             <Form.Control
@@ -943,15 +938,15 @@ const DetailPage = (props: any) => {
                             />
                           </InputGroup>
                         </Modal.Body>
-                        {/* )} */}
+                         )} 
                         <Modal.Footer className='p-4'>
                           <Button className="custom-btn" disabled={saleLoader} onClick={() => placeONSaleorAuction('Auction')}>
                             <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span>  Put on Auction
                           </Button>
                         </Modal.Footer>
-                      </Modal>
+                      </Modal> */}
                       <div className="modal show" style={{ display: 'block', position: 'initial' }}>
-                        <Modal
+                        {/* <Modal
                           centered
                           show={cancelShow}
                           onHide={handleCancelConfirm}
@@ -983,7 +978,7 @@ const DetailPage = (props: any) => {
                               <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Yes
                             </Button>
                           </Modal.Footer>
-                        </Modal>
+                        </Modal> */}
                       </div>
                       {/* modal  */}
                       <div className="grid md:grid-cols-2 gap-4">
@@ -1114,7 +1109,7 @@ const DetailPage = (props: any) => {
                     </div>
                   </div>
                 </div>
-                <Modal centered show={showBid} onHide={handleCloseBid} className="wallet-popup checkout-modal confirmaton-modal">
+                {/* <Modal centered show={showBid} onHide={handleCloseBid} className="wallet-popup checkout-modal confirmaton-modal">
                   <Modal.Header className='light-bg p-3 justify-content-between'>
                     <h2 className="section-title text-center mt-0 mb-0">Place a Bid</h2>
                     <span className="icon close c-pointer" onClick={handleCloseBid}></span>
@@ -1143,13 +1138,13 @@ const DetailPage = (props: any) => {
                       </div>
                       <InputGroup className="mb-4 input name-feild">
                         <Form.Label className="input-label">Your Bid *</Form.Label>
-                        {/* <Form.Control
+                        <Form.Control
                           placeholder="Bidding Amount"
                           aria-label="Username"
                           className="input-style"
                           name="value"
                           required
-                        /> */}
+                        />
                         <Form.Control
                           type="text"
                           name="value"
@@ -1168,16 +1163,16 @@ const DetailPage = (props: any) => {
                         <Form.Label className="input-label mt-2">Crypto Type</Form.Label>
                         <div className="p-relative ">
                           <Form.Select aria-label="Default select example" className="form-select select-coin mb-2">
-                            {/* <option>MATIC</option> */}
+                            <option>MATIC</option>
                             <option value="1">WMATIC</option>
                           </Form.Select>
-                          {/* <span className="icon select-arrow"></span> */}
+                          <span className="icon select-arrow"></span>
                         </div>
                       </InputGroup>
-                      {/* <InputGroup className="mb-5 input name-feild">
+                      <InputGroup className="mb-5 input name-feild">
                     <Form.Label className="input-label">Buy Price</Form.Label>
                     <Form.Control placeholder="0.01 WETH" aria-label="Username" className="input-style" />
-                  </InputGroup> */}
+                  </InputGroup>
                       <div className="balance-card">
                         <div className="bid-balance">
                           <label>Your balance</label>
@@ -1185,11 +1180,11 @@ const DetailPage = (props: any) => {
                             <span className='matic-bal'> {data?.formatted}</span> <span className='regular-text'>{nftDetails?.currency}</span>
                           </h6>
                         </div>
-                        {/* <div className="bal-feild">
+                        <div className="bal-feild">
                           <label>Your bidding balance</label>
                           <h6>0.0025 Matic</h6>
-                        </div> */}
-                        {/* <div className="bal-feild">
+                        </div>
+                        <div className="bal-feild">
                           <label>Service fee</label>
                           <h6 className="text-end">0.0025 WMatic</h6>
                         </div>
@@ -1198,7 +1193,7 @@ const DetailPage = (props: any) => {
                           <h6 className="text-end">
                             {0.0025 + data?.formatted} {nftDetails?.currency}
                           </h6>
-                        </div> */}
+                        </div>
                       </div>
                     </Modal.Body>
                     <Modal.Footer>
@@ -1211,7 +1206,7 @@ const DetailPage = (props: any) => {
                       </Button>
                     </Modal.Footer>
                   </Form>
-                </Modal>
+                </Modal> */}
               </div>
             </section>
 

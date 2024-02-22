@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-bootstrap/Modal';
+// import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
@@ -15,6 +15,7 @@ import error from '../assets/images/error.svg';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Toast from 'react-bootstrap/Toast';
 import validSuccess from '../assets/images/success.png';
+import { Modal,modalActions } from '../ui/Modal';
 const BuyComponent = (props: any) => {
   const [show, setShow] = useState(props.showModal);
   const router = useNavigate();
@@ -115,13 +116,11 @@ debugger
   };
   return (
     <>
-      <Modal centered show={show} onHide={props.handleClose} className="wallet-popup checkout-modal confirmaton-modal">
-        
-        <Form onSubmit={(e) => buyNow(e)}>
-          <Modal.Header className="p-3 justify-content-between">
+    <Modal id='marketplace-buy-now'>
+    <Form onSubmit={(e) => buyNow(e)}>
+          <div className="p-3 justify-content-between">
           <h2 className="section-title text-center mt-0 mb-0">Checkout</h2>
-            <span className="icon close c-pointer" onClick={props.handleClose}></span>
-          </Modal.Header>
+           </div>
           {/* {errorMsg && (
           <Alert variant="danger">
             <Image className='validation-error' src={validError} />
@@ -142,7 +141,7 @@ debugger
           {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                     {!saleLoader && ( */}
 
-          <Modal.Body className='p-3'>
+          <div className='p-3'>
             {/* {saleErrorMsg && (
                           <Alert variant="danger">
                             <Image className='validation-error' src={validError} />
@@ -188,14 +187,14 @@ debugger
                 //onChange={(value) => handleChange(value)}
               />
             </InputGroup> */}
-          </Modal.Body>
+          </div>
 
           {/* )} */}
-          <Modal.Footer>
+          <div>
             <Button className="custom-btn" type="submit" disabled={btnLoader}>
             <span> {btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Buy Now
             </Button>
-          </Modal.Footer>
+          </div>
         </Form> 
         <div className='p-absolute toaster-center'>
         <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
@@ -205,8 +204,8 @@ debugger
                 </Toast.Body>
               </Toast>
             </ToastContainer>
-            </div>      
-      </Modal>      
+            </div> 
+    </Modal>  
     </>
   );
 };

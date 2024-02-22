@@ -12,6 +12,7 @@ import WalletConnect from '../shared/connect.wallet';
 import loadimg from '../../assets/images/loader.svg';
 import Button from '../../ui/Button';
 import Carousel from '../../ui/Carousel';
+import DashboardShimmer from './loaders/carouselShimmer';
 
 export default function Banner() {
   const [show, setShow] = useState(false);
@@ -71,16 +72,7 @@ export default function Banner() {
   return (
     <>
      {loader && 
-       <div className="flex justify-center">
-       <div className='loading-overlay'>
-        <div className="text-center image-container">
-       <img
-                 className=""
-                 src={loadimg}
-                 alt=""
-               />
-     </div></div>
-     </div>
+       <DashboardShimmer/>
      || <>
       <div className="container mx-auto pt-5">
         <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	items-center">
