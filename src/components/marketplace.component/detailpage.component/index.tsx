@@ -403,6 +403,7 @@ const DetailPage = (props: any) => {
 
   const handleShowBid = () => {
     if (isConnected) {
+      modalActions('placebid','open')
       setSuccessMsg(null);
       getPlaceABid();
       setPlaceABidError(null)
@@ -418,7 +419,9 @@ const DetailPage = (props: any) => {
     if (isConnected) {
       handleShowBid();
     } else {
-      setModalShow(true)
+      // setModalShow(true)
+     
+      modalActions('marketplace-wallet-connect','open')
     }
   }
   const placeBid = async (e: any) => {
@@ -1109,47 +1112,40 @@ const DetailPage = (props: any) => {
                     </div>
                   </div>
                 </div>
-                {/* <Modal centered show={showBid} onHide={handleCloseBid} className="wallet-popup checkout-modal confirmaton-modal">
-                  <Modal.Header className='light-bg p-3 justify-content-between'>
-                    <h2 className="section-title text-center mt-0 mb-0">Place a Bid</h2>
-                    <span className="icon close c-pointer" onClick={handleCloseBid}></span>
-                  </Modal.Header>
+                <Modal id='placebid'>
+                <div className=''>
+                    <h2 className="text-lg text-dark font-semibold mb-4">Place a Bid</h2>
+                    {/* <span className="icon close c-pointer" onClick={handleCloseBid}></span> */}
+                  </div>
 
-                  <Form noValidate validated={validated} onSubmit={(e) => placeBid(e)}>
-                    <Modal.Body className="p-3">
+                  <form noValidate validated={validated} onSubmit={(e) => placeBid(e)}>
+                    <div className="">
 
-                      <div className="mb-4 input d-flex align-items-center justify-content-between">
-                        <label className="input-label">Price</label>
-                        <h6 className="mb-0 ms-2">
+                      <div className="mb-4 flex items-center justify-between">
+                        <p className="text-sm shrink-0 text-secondary opacity-50">Price</p>
+                        <p className="truncate text-secondary">
                           {nftDetails?.price} <span>{nftDetails?.currency}</span>
-                        </h6>
+                        </p>
                       </div>
-                      <div className="mb-4 input d-flex align-items-center justify-content-between">
-                        <label className="input-label">Buyer Fee</label>
-                        <h6 className="mb-0 ms-2">
+                      <div className="mb-4 flex items-center justify-between">
+                        <p className="text-sm shrink-0 text-secondary opacity-50">Buyer Fee</p>
+                        <p className="truncate text-secondary">
                           {percentageValue} <span>{nftDetails?.currency}</span>
-                        </h6>
+                        </p>
                       </div>
-                      <div className="mb-4 input d-flex align-items-center justify-content-between">
-                        <label className="input-label">Total Price</label>
-                        <h6 className="mb-0 ms-2">
+                      <div className="mb-4 flex items-center justify-between">
+                        <p className="text-sm shrink-0 text-secondary opacity-50">Total Price</p>
+                        <p className="truncate text-secondary">
                           {totalBuyValue} <span>{nftDetails?.currency}</span>
-                        </h6>
+                        </p>
                       </div>
-                      <InputGroup className="mb-4 input name-feild">
-                        <Form.Label className="input-label">Your Bid *</Form.Label>
-                        <Form.Control
-                          placeholder="Bidding Amount"
-                          aria-label="Username"
-                          className="input-style"
-                          name="value"
-                          required
-                        />
-                        <Form.Control
+                      <div className="mb-4">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Your Bid *</label>                       
+                        <input
                           type="text"
                           name="value"
                           aria-label="Username"
-                          className="input-style mb-0"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
                           placeholder="Bidding Amount"
                           onChange={(e) => handleChange(e, 'bid')}
                           isInvalid={!!validationError}
@@ -1157,56 +1153,58 @@ const DetailPage = (props: any) => {
                           required
                           maxLength={13}
                         />
-                        <Form.Control.Feedback type="invalid">Please provide valid Bid Value.</Form.Control.Feedback>
-                      </InputGroup>
-                      <InputGroup className="mb-4 input name-feild">
-                        <Form.Label className="input-label mt-2">Crypto Type</Form.Label>
-                        <div className="p-relative ">
-                          <Form.Select aria-label="Default select example" className="form-select select-coin mb-2">
+                        {validationError && <> <p type="invalid">Please provide valid Bid Value.</p></> }
+                       
+                      </div>
+                      <div className="mb-4">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Crypto Type</label>
+                        <div className="relative ">
+                          <select aria-label="Default select example" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5">
                             <option>MATIC</option>
                             <option value="1">WMATIC</option>
-                          </Form.Select>
-                          <span className="icon select-arrow"></span>
-                        </div>
-                      </InputGroup>
-                      <InputGroup className="mb-5 input name-feild">
-                    <Form.Label className="input-label">Buy Price</Form.Label>
-                    <Form.Control placeholder="0.01 WETH" aria-label="Username" className="input-style" />
-                  </InputGroup>
-                      <div className="balance-card">
-                        <div className="bid-balance">
-                          <label>Your balance</label>
-                          <h6 className="mb-0">
-                            <span className='matic-bal'> {data?.formatted}</span> <span className='regular-text'>{nftDetails?.currency}</span>
-                          </h6>
-                        </div>
-                        <div className="bal-feild">
-                          <label>Your bidding balance</label>
-                          <h6>0.0025 Matic</h6>
-                        </div>
-                        <div className="bal-feild">
-                          <label>Service fee</label>
-                          <h6 className="text-end">0.0025 WMatic</h6>
-                        </div>
-                        <div className="bal-feild">
-                          <label>Total bid amount</label>
-                          <h6 className="text-end">
-                            {0.0025 + data?.formatted} {nftDetails?.currency}
-                          </h6>
+                          </select>                         
                         </div>
                       </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button className="custom-btn cancel-btn c-pointer" onClick={handleCloseBid}>
+                      <div className="mb-5">
+                    <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Buy Price</label>
+                    <input placeholder="0.01 WETH" aria-label="Username"  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5" />
+                  </div>
+                      <div className="">
+                        <div className="mb-4 flex items-center justify-between">
+                          <p className='text-sm shrink-0 text-secondary opacity-50'>Your balance</p>
+                          <p className="truncate text-secondary">
+                            <span className=''> {data?.formatted}</span> <span className=''>{nftDetails?.currency}</span>
+                          </p>
+                        </div>
+                        <div className="mb-4 flex items-center justify-between">
+                          <p className='text-sm shrink-0 text-secondary opacity-50'>Your bidding balance</p>
+                          <p className="truncate text-secondary">0.0025 Matic</p>
+                        </div>
+                        <div className="mb-4 flex items-center justify-between">
+                          <p className='text-sm shrink-0 text-secondary opacity-50'>Service fee</p>
+                          <p className="text-end truncate text-secondary">0.0025 WMatic</p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className='text-sm shrink-0 text-secondary opacity-50'>Total bid amount</p>
+                          <p className="text-end truncate text-secondary">
+                            {0.0025 + data?.formatted} {nftDetails?.currency}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr className='mt-4' />
+                    <div className='mt-4 flex justify-center items-center'>
+                      <Button btnClassName="custom-btn cancel-btn c-pointer" type='cancel' handleClick={handleCloseBid}>
                         Cancel
                       </Button>
-                      <Button className="custom-btn c-pointer ms-3" type="submit" disabled={btnLoader}>
+                      <Button btnClassName="custom-btn c-pointer ms-3" type="secondary" disabled={btnLoader}>
                         <span>{btnLoader && <Spinner size="sm" />} </span>
                         Place a bid
                       </Button>
-                    </Modal.Footer>
-                  </Form>
-                </Modal> */}
+                    </div>
+                  </form>
+                </Modal>
+                
               </div>
             </section>
 
