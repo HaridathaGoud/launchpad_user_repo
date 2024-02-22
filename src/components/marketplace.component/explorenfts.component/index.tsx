@@ -189,7 +189,7 @@ function ExploreNfts(props: any) {
                       </h1>
 
                       <div className="flex justify-between truncate mb-3 gap-2">
-                        <p className="opacity-60 truncate text-secondary flex-1">
+                        <p className="opacity-60 truncate text-secondary">
                           Price
                         </p>
                         <p className="font-semibold text-secondary flex-1 truncate text-right">
@@ -200,7 +200,7 @@ function ExploreNfts(props: any) {
                         </p>
                       </div>
                       <div className="flex justify-between gap-2">
-                        <p className="opacity-60 truncate text-secondary flex-1">
+                        <p className="opacity-60 truncate text-secondary">
                           Highest bid
                         </p>
                         <p className="font-semibold text-secondary flex-1 truncate text-right">
