@@ -18,6 +18,7 @@ const rootReducerState = combineReducers({
   oidc: authReducer,
   proposal:proposalReducer,
  vtg: votingReducer,
+ marketPlaceDashboard:marketPlaceReducer.marketPlaceDashboardReducer,
  exploreNfts:marketPlaceReducer.exploreNtfsReducer,
  });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);

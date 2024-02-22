@@ -169,7 +169,7 @@ const DetailPage = (props: any) => {
   const loadNftDetails = async () => {
     setLoader(true);
     setBtnLoader(false);
-    let response = await getMarketplace(`User/NFTDetails/${nftId}/${props.auth.user.id}`)
+    let response = await getMarketplace(`User/NFTDetails/${nftId}/${props.auth.user.id || ''}`)
       .then((response: any) => {
         setNftDetails(response.data);
         percentage(response.data)
@@ -318,7 +318,7 @@ const DetailPage = (props: any) => {
     let response = await getMarketplace(`User/NFTProperties/${tokenId}/${collectionAddress}`);
     if (response) {
       setNFTProperties(response.data);
-      setnftAttributes(JSON.parse(response.data?.attributes));
+      response.data?.attributes && setnftAttributes(JSON.parse(response.data?.attributes));
     } else {
       setErrorMsg(isErrorDispaly(response));
     }
@@ -629,10 +629,6 @@ const DetailPage = (props: any) => {
           </div>
         )}
         {placeABidError && (
-          // <Alert variant="danger">
-          //   <Image className='validation-error' src={validError} />
-          //   <span>{placeABidError}</span>
-          // </Alert>
           <div className='cust-error-bg'>
             <div className='mr-4'><img src={error} alt="" /></div>
             <div>

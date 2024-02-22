@@ -4,7 +4,6 @@ import nodata from "../../../assets/images/no-data.png";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
-import WalletConnect from "../../shared/connect.wallet";
 import { clearNfts, fetchNfts } from "../../../reducers/marketPlaceReducer";
 import { store } from "../../../store";
 import outletContext from "../../../layout/context/outletContext";
@@ -14,10 +13,11 @@ import Button from "../../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
 import Spinner from "../../loaders/spinner";
 import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
+import WalletConnect from "../../modules/ConnectButton/connect.wallet";
+import { Modal,modalActions } from "../../../ui/Modal"
 const pageSize = 10;
 const search = null;
 function ExploreNfts(props: any) {
-  const [modalShow, setModalShow] = React.useState(false);
   const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
   const navigate = useNavigate();
@@ -44,12 +44,11 @@ function ExploreNfts(props: any) {
     if (isConnected) {
       saveFavoriteNft(item);
     } else {
-      setModalShow(true);
+      modalActions('connect-wallet-model-exploreNfts','open')
     }
   };
   const saveFavoriteNft = async (item: any) => {
     setErrorMessage?.(null);
-    setModalShow(false);
     localDispatch({
       type: "setFavoriteLoader",
       payload: { id: item.id, loading: true },
@@ -107,11 +106,16 @@ function ExploreNfts(props: any) {
         <h2 className="text-[24px] text-secondary font-semibold">
           Explore NFTs
         </h2>
-        <WalletConnect
-          showWalletModal={modalShow}
-          onWalletConect={(addr) => {}}
-          onWalletClose={() => setModalShow(false)}
-        />
+        {
+                <Modal id={"connect-wallet-model-exploreNfts"}>
+                  <WalletConnect
+                    onWalletConect={() => {}}
+                    onWalletClose={() => {
+                      modalActions("connect-wallet-model-exploreNfts", "close");
+                    }}
+                  />
+                </Modal>
+              }
         <div className="grid gap-4 lg:grid-cols-5 md:grid-cols-3">
           {data && !localState?.loader && 
             data?.map((item: any) => (
