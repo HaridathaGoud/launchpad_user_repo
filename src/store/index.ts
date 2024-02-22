@@ -7,6 +7,7 @@ import proposalReducer from "../components/Dao/proposal/proposlaReducer/proposla
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import votingReducer from '../reducers/votingReducer';
+import marketPlaceReducer from '../reducers/marketPlaceReducer';
 const persistConfig = {
   key: 'root',
   storage,
@@ -16,7 +17,8 @@ const rootReducerState = combineReducers({
   auth: rootReducer,
   oidc: authReducer,
   proposal:proposalReducer,
- vtg: votingReducer
+ vtg: votingReducer,
+ exploreNfts:marketPlaceReducer.exploreNtfsReducer,
  });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];

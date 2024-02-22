@@ -26,6 +26,7 @@ const BtnStylings = {
     "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold",
     reply: `!h-[32px] !min-h-[32px] lg:px-3 rounded-[28px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-sm btn hover:opacity-80`,
     replyCancel: `!h-[32px] !min-h-[32px] lg:px-3 rounded-[28px] border-solid  border-[#DFDBDB] bg-[#DFDBDB] hover:border-0 border-0 hover:bg-[#DFDBDB] text-secondary font-semibold text-sm btn hover:opacity-80`,
+    plain:"bg-transparent border-0 text-white"
 };
 const Button = ({
   handleClick,
@@ -39,11 +40,11 @@ const Button = ({
       type="button"
       onClick={(e) => handleClick?.(e)}
       disabled={disabled}
-      className={`${btnClassName} ${
+      className={`${
         type
           ? BtnStylings[type]
           : " lg:p-2 lg:px-3 rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-sm btn"
-      }`}
+      } ${btnClassName}`}
     >
       {children}
     </button>
