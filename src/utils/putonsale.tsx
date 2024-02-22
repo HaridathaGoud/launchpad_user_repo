@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Modal from 'react-bootstrap/Modal';
-import { Button } from 'react-bootstrap';
+// import Modal from 'react-bootstrap/Modal';
+// import { Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
@@ -15,6 +15,8 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import validSuccess from '../../src/assets/images/success.png';
 import Toast from 'react-bootstrap/Toast';
 import error from '../assets/images/error.svg'
+import { Modal,modalActions } from '../ui/Modal';
+import Button from '../ui/Button';
 const PutOnSale = (props: any) => {
   const [show, setShow] = useState(props.showModal);
   const [saleErrorMsg, setSaleErrorMsg] = useState<any>(null);
@@ -137,48 +139,70 @@ const PutOnSale = (props: any) => {
   };
   return (
     <>
-      <Modal centered show={show} onHide={props.handleClose} className="wallet-popup checkout-modal confirmaton-modal">
-        <Modal.Header className='p-3 justify-content-between'>
-        <h2 className="section-title mt-0 mb-0">Put on sale</h2>
-          <span className="icon close c-pointer" onClick={props.handleClose}></span>
-        </Modal.Header>
-        <Modal.Body>
+     <Modal id='putonsale'>
+     <div>
+        <h2 className="text-lg text-secondary font-semibold mb-4">Put on sale</h2>
+          {/* <span className="icon close c-pointer" onClick={props.handleClose}></span> */}
+        </div>
+        <div>
          
-          <div className="sale-switch">
-            {saleErrorMsg && (
-              // <Alert variant="danger">
-              //   <Image className='validation-error' src={validError} />
-              //   <span>{saleErrorMsg}</span>
-              // </Alert>
+          <div>
+            {saleErrorMsg && (<>
+              <div>
+                <img  src={validError} />
+                <span>{saleErrorMsg}</span>
+              </div>
                <div className='cust-error-bg'>
-              <div className='mr-4'><Image src={error} alt="" /></div>
+              <div className='mr-4'><img src={error} alt="" /></div>
               <div>
                 <p className='error-title error-red text-start'>Error</p>
                 <p className="error-desc text-start">{saleErrorMsg}</p></div>
-            </div>
+            </div></>
             )}
-            <Form noValidate validated={validated}>
-              {/* <div className="d-flex justify-content-between">
+            <form noValidate validated={validated}>
+              <div className="flex justify-between mb-4">
                 <div>
                   <label className="">Put on sale</label>
                   <p>you'll receive bids on this item</p>
                 </div>
-                <Form.Check type="switch" id="custom-switch" checked disabled/>
+                <label className="cursor-pointer relative inline-block mt-2">
+                  <span>
+                    <input
+                      type="checkbox"
+                      id="custom-switch"
+                      className="checkbox checkbox-error opacity-0"
+                    />
+
+                    <span></span>
+                  </span>
+                </label>
+                {/* <Form.Check type="switch" id="custom-switch"  /> */}
               </div>
-              <div className="d-flex justify-content-between cust-my">
+              <div className="flex justify-between">
                 <div>
                   <label className="">Instant sale price</label>
                   <p>Enter the price for which the item will be instantly sold</p>
                 </div>
-                <Form.Check type="switch" id="custom-switch" disabled/>
-              </div> */}
+                <label className="cursor-pointer relative inline-block mt-2">
+                  <span>
+                    <input
+                      type="checkbox"
+                      id="custom-switch"
+                      className="checkbox checkbox-error opacity-0"
+                    />
 
-              <div className="  cust-suffix-left my-4">
-                <div className='d-flex'>
-                  <Form.Control
+                    <span></span>
+                  </span>
+                </label>
+                {/* <Form.Check type="switch" id="custom-switch" disabled/> */}
+              </div>
+
+              <div className="my-4">
+                <div className='flex relative'>
+                  <input
                     aria-label="Username"
                     type="text"
-                    className="input-style mb-0"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
                     placeholder="Enter the price"
                     onChange={(value) => handleChange(value)}
                     isInvalid={!!validationError}
@@ -186,46 +210,57 @@ const PutOnSale = (props: any) => {
                     maxLength={13}
                     required
                   />
-                  <InputGroup.Text id="basic-addon3" className="input-style input-rightradius px-3">
+                  <div id="basic-addon3" className="absolute right-5 top-3">
                     {props.nftDetails?.currency ? props.nftDetails?.currency : process.env.REACT_APP_CURRENCY_SYMBOL}
-                  </InputGroup.Text>
+                  </div>
                 </div>
-                {validationError && <Form.Text className="cust-validmsg">Please provide valid sale price.</Form.Text>}
+                {validationError && <p className="text-error">Please provide valid sale price.</p>}
               </div>
-              {/* <div className="d-flex justify-content-between">
+              <div className="flex justify-between">
                 <div>
                   <label className="">Unlock once purchased</label>
                   <p>Content will be unlocked after successful transaction</p>
                 </div>
-                <Form.Check type="switch" id="custom-switch" disabled/>
-              </div> */}
-            </Form>
+                <label className="cursor-pointer relative inline-block mt-2">
+                  <span>
+                    <input
+                      type="checkbox"
+                      id="custom-switch"
+                      className="checkbox checkbox-error opacity-0"
+                    />
+
+                    <span></span>
+                  </span>
+                </label>
+                {/* <Form.Check type="switch" id="custom-switch" disabled/> */}
+              </div>
+            </form>
           </div>
           
            
           
-        </Modal.Body>
-        <Modal.Footer>
-        <div className='text-end'> <Button
-              className="custom-btn"
-              onClick={(e) => placeONSaleorAuction(e, 'Sale')}
-
+        </div>
+       <hr className='my-5' />
+        <div className='text-center'> <Button
+              type='secondary'
+             handleClick ={(e) => placeONSaleorAuction(e, 'Sale')}
               disabled={saleLoader}
             >
               <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Put on sale
             </Button>
             </div>
-        </Modal.Footer>
+        
         <div className='p-absolute toaster-center'>
-      <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
+      {/* <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
               <Toast show={scuess} className="text-center toster-component">
                 <Toast.Body className="toaster-cust">
                 <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>
                 </Toast.Body>
               </Toast>
-            </ToastContainer>
+            </ToastContainer> */}
             </div>  
-      </Modal>
+     </Modal>
+     
     </>
   );
 };

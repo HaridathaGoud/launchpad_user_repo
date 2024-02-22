@@ -237,6 +237,7 @@ select{background:url(https://devdottstoragespace.blob.core.windows.net/dottimag
 .icon.carousal-right-arrow:hover{background-position: -323px -501px !important;  width: 30px;  height: 30px;}
 .trending-card{width: 300px;}
 button.opacity-100{opacity: 1 !important;}
+.dots{background-position: -333px -211px !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
