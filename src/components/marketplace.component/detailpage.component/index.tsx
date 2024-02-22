@@ -961,22 +961,22 @@ const DetailPage = (props: any) => {
                       </Modal>
                      
                       <Modal id='cancelsale'>
-                      <div className='justify-content-between'>
-                            <div className='section-title mt-0'>Confirmation</div>
+                      <div className=''>
+                            <div className='text-lg text-dark font-semibold'>Confirmation</div>
                             <div>
-                              <span
+                              {/* <span
                                 className="icon close c-pointer modal-position"
                                 onClick={handleCancelConfirm}
-                              ></span>
+                              ></span> */}
                             </div>
                           </div>
 
                           <div>
-                            <p className="common-text mb-0 py-3 text-start">Are you sure, Do you want to cancel {cancelType}?</p>
+                            <p className="text-dark my-8">Are you sure, Do you want to cancel {cancelType}?</p>
                           </div>
-
-                          <div className='border-footertop'>
-                            <Button type="cancel" handleClick={() => cancelSaleConfirm('No')} btnClassName="custom-btn border-btn">
+                            <hr className='mb-4' />
+                          <div className='flex justify-center'>
+                            <Button type="cancel" handleClick={() => cancelSaleConfirm('No')}>
                               No
                             </Button>
                             <Button
