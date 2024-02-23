@@ -93,12 +93,12 @@ const ProjectDetailsCard = (props: any) => {
             <div className="">
               <div className="flex mt-6 ">
                 <div className="flex gap-3 justify-between items-center">
-                  <div className="bg-[#ff0000] py-1 rounded px-3">
+                  <div className={` py-1 rounded px-3 ${
+                          statusColourList[props.currentPjct]
+                        }`}>
                     <p className="text-sm font-medium text-base-100">
                       <span
-                        className={`inline-block w-3 h-3 rounded-full mr-2 ${
-                          statusColourList[props.currentPjct]
-                        }`}
+                        className={`inline-block w-3 h-3 rounded-full mr-2 bg-white`}
                       ></span>
                       {pjctTypes[props.currentPjct]}
                     </p>
@@ -206,14 +206,14 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                 </div>
               </div>
-              <div className="bg-[#ff0000] py-1 rounded px-3 absolute top-[-17px] right-6">
-                <p className="text-base mb-0 text-base-100">
-                  <span
-                    className={`inline-block w-3 h-3 ${
+              <div className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
                       statusColourList[
                         props.pjctInfo?.privateStatus?.toLowerCase()
                       ]
-                    } rounded-full mr-2 `}
+                    }`}>
+                <p className="text-base mb-0 text-base-100">
+                  <span
+                    className={`inline-block w-3 h-3 bg-white rounded-full mr-2 `}
                   ></span>
                   {(props.pjctInfo?.privateStatus === "Ongoing" && "Ongoing") ||
                     (props.pjctInfo?.privateStatus === "Upcoming" &&
@@ -252,14 +252,14 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                 </div>
               </div>
-              <div className="bg-[#ff0000] py-1 rounded px-3 absolute top-[-17px] right-6">
-                <p className="text-base mb-0 text-base-100">
-                  <span
-                    className={`inline-block w-3 h-3 ${
+              <div className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
                       statusColourList[
                         props.pjctInfo?.publicStatus?.toLowerCase()
                       ]
-                    } rounded-full mr-2 `}
+                    }`}>
+                <p className="text-base mb-0 text-base-100">
+                  <span
+                    className={`inline-block w-3 h-3 bg-white  rounded-full mr-2 `}
                   ></span>
                   {(props.pjctInfo?.publicStatus === "Ongoing" && "Ongoing") ||
                     (props.pjctInfo?.publicStatus === "Upcoming" &&
