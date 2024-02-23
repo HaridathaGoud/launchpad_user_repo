@@ -7,14 +7,14 @@ import nodata from "../../assets/images/no-data.png";
 const CastAndCrewMember = (props) => {
   return (
     <div
-      className={`md:gap-4 flex gap-6 justify-between items-start overflow-x-auto`}
+      className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}
     >
       {props.castCrewsData?.map((item, index) =>
         index < 5 ? (
-          <div className="max-lg:min-w-[128px]" key={item.image}>
+          <div className="lg:w-[140px] break-words shrink-0	" key={item.image}>
             {" "}
             <div
-              className={`relative w-20 h-20 mx-auto overflow-hidden rounded-full`}
+              className={`relative w-20 h-20 mx-auto overflow-hidden rounded-full mb-3`}
             >
               <img
                 src={item.image ? item.image : member}

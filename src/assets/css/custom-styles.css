@@ -75,7 +75,7 @@ input[type=checkbox]:checked+span{ display: inline-block;background: var(--darkt
 /* .icon.confirmationActive{} */
 .icon.warning{background-position:-187px -212px !important;}
 .card{box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);}
-.progress-bar{background-color: #078805 !important;height: 10px;border-radius: 8px;}
+.progress-bar{background-color: #078805 !important;height: 6px;border-radius: 8px;}
 ::-webkit-scrollbar{width:12px;height:10px;background-color:#eee}::-webkit-scrollbar-thumb{background-color:#000;border-radius:20px}
 .scrollbar-hidden::-webkit-scrollbar { display: none;}
 .scrollbar-hidden { -ms-overflow-style: none;   scrollbar-width: none; }

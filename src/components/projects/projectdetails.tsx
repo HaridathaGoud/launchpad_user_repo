@@ -166,6 +166,11 @@ function Projectdetails(props: any) {
                     </div>
 
                       {!daotab && <div>
+                        <h4
+                          className={`text-base font-semibold text-secondary mb-2 mt-8`}
+                        >
+                          About Project
+                        </h4>
                         <ProjectFeed pjctFeed={pjctFeed} />
                         <h4
                           className={`text-base font-semibold text-secondary mb-2 mt-8`}

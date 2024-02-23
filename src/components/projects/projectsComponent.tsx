@@ -150,7 +150,7 @@ const Projectscomponent = (props) => {
                     <input
                       type="text"
                       placeholder="Search IGO"
-                      className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5"
+                      className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"
                       onKeyUp={(value) => handleSearch(value)}
                       ref={endedIgosRef}
                     />
