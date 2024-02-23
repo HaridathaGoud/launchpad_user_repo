@@ -60,7 +60,10 @@ function ExploreNfts(props: any) {
         isFavourite: !item.isFavourite,
       };
       const { status, error } = await saveFavorite(obj);
-      if (status) setToaster?.("Nft added to Favorites!");
+      if (status){
+        setToaster?.("Nft added to Favorites!");
+        store.dispatch(fetchNfts(data,1,'all',null,props.auth.user?.id,data.length))
+      }
       if (error) setErrorMessage?.(error);
     } catch (error) {
       setErrorMessage?.("Something went wrong, please try again!");
@@ -162,7 +165,7 @@ function ExploreNfts(props: any) {
                       {localState?.favoriteLoader?.id !== item.id && (
                         <span
                           className={`icon like-white ${
-                            !item?.isFavourite ? "active" : ""
+                            item?.isFavourite ? "active" : ""
                           }`}
                         ></span>
                       )}
