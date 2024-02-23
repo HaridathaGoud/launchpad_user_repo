@@ -11,7 +11,7 @@ const ErrorMessage = ({ errorMessage,setErrorMessage,onCloseCallback }) => {
       value==="less" && setReadMore(false);
   }
   return (
-    <div className="fixed top-15 left-[50%] right-[50%] translate-x-[-50%] z-[99999] cust-error-bg w-[25rem] max-w-[30rem] min-w-[400px] my-4 flex justify-between items-start container mx-auto box-border">
+    <div className="fixed top-15 left-[50%] right-[50%] translate-x-[-50%] z-[99999] cust-error-bg w-[25rem] w-[95%] md:max-w-[30rem] md:min-w-[400px] my-4 flex justify-between items-start box-border">
      <div className="flex">
       <img src={error} alt="" width={32} height={32} className="me-2" />
       {/* <span className={`icon erroricon shrink-0`}></span> */}

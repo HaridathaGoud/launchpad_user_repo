@@ -83,7 +83,7 @@ import Discussions from '../proposal/createproposal/discussions';
             </div>
                 ) : ( <>
         {isConnected && 
-        <div className='container mx-auto max-md:px-3'>
+        <div className='container mx-auto max-md:px-3 mt-3'>
         <BannerCarousel images={projectCarousel} className='h-52' />
           <div className='mt-5 mb-4'>
             {/* <BreadCrumb /> */}
@@ -91,7 +91,7 @@ import Discussions from '../proposal/createproposal/discussions';
               {params?.pid&& <ProjectViewTabs />}
             </div>
           </div>
-          <div className='md:grid md:grid-cols-12 gap-[30px]'>
+          <div className='grid md:grid-cols-12 gap-[30px]'>
             <div className='md:col-span-3'>
               <Status></Status>
               <div>

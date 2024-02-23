@@ -103,7 +103,7 @@ const Carousel = ({
           })}
         </div>
         <div
-          className={`flex justify-center w-full py-2 gap-2 absolute bottom-6`}
+          className={`flex justify-center w-full py-2 gap-2 absolute bottom-6 max-sm:bottom-4`}
         >
           {data?.map((image, index) => (
             <button

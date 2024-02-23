@@ -15,7 +15,7 @@ const ReplayOpen = () => {
         <>
             <div className=''>
                 
-                <div className="flex gap-4 mb-9">
+                <div className="flex gap-4 mb-9 mt-[40px]">
                     <div className='w-12 h-12 shrink-0'>
                         <Image src={discussionProfile} />
                     </div>

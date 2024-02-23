@@ -415,7 +415,7 @@ function ProposalCards(props: any) {
                                                         <div className='addmore-title' onClick={addProposalList}>
                                                             {!hide && <>
                                                                 <p className='text-center text-primary text-base font-medium mb-0 cursor-pointer'>See More</p>
-                                                                <span className='icon blue-doublearrow c-pointer'></span>
+                                                                <span className='icon block mx-auto see-more cursor-pointer'></span>
                                                             </>}
                                                         </div></>)}
                                             </>
