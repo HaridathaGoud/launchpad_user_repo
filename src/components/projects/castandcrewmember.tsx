@@ -14,7 +14,7 @@ const CastAndCrewMember = (props) => {
           <div className="lg:w-[140px] break-words shrink-0	" key={item.image}>
             {" "}
             <div
-              className={`relative w-20 h-20 mx-auto overflow-hidden rounded-full`}
+              className={`relative w-20 h-20 mx-auto overflow-hidden rounded-full mb-3`}
             >
               <img
                 src={item.image ? item.image : member}
