@@ -1,9 +1,11 @@
 import React from "react";
+import wallet from '../assets/images/connect-wallet.png'
 const ConnectToWallet = () => {
   return (
-      <div className="proceedKyc mt-5 pb-5 mb-5">
+      <div className="my-10 text-center">
         <div>
-          <h1 className="mb-4 text-xl text-center">
+          <img src={wallet} alt="" className="mx-auto md:w-[30%]" />
+          <h1 className="md:text-2xl mt-2 text-secondary font-semibold">
           Please Click the <span className="text-primary">Connect Wallet</span> Button
           <br /> To Continue
           </h1>
