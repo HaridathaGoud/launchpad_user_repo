@@ -41,7 +41,7 @@ const FoundingMembersView = () => {
       };
     return (
         <>
-            <div className='container mx-auto max-sm:px-3 md:mt-3'>  
+            <div className='container mx-auto max-sm:px-3 mt-3'>  
                 {/* {errorMsg && (
                     <div className="cust-error-bg my-4">
                         <img src={error} alt="" width={32} height={32} className="me-2" />

@@ -465,7 +465,7 @@ function CreatePraposal(props: any) {
     <>
       {isConnected ?
         <>
-          <div className=''>
+          <div className='max-sm:w-full'>
               <>
                 <div className='flex items-center justify-between mb-7'>
                   <Link to={''} className=''>  <span className='text-xl font-semibold text-secondary'>Create Proposal</span></Link>
@@ -478,12 +478,12 @@ function CreatePraposal(props: any) {
                         {state.currentStep===1 && <>
                           <div className='mt-4 '>
                           <label className='mb-0 inline-block ml-5 mb-2'>Author</label>
-                          <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center'>
+                          <div className='border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center truncate copy-clip'>
                             <img src={user} className='mr-3'></img><span >{address}</span>
                             <CopyToClipboard text={address} options={{ format: 'text/plain' }}
                               onCopy={() => handleCopy()}
                             >
-                              <span className={!copied ? 'icon md copy-icon c-pointer' : 'icon copy-check c-pointer ms-2'} />
+                              <span className={!copied ? 'icon md copy-icon c-pointer shrink-0' : 'icon copy-check c-pointer ms-2 shrink-0'} />
                             </CopyToClipboard>
                           </div>
                         </div>

@@ -257,6 +257,8 @@ button.opacity-100{opacity: 1 !important;}
   .container {max-width: 1320px!important;}
   }
 @media (max-width: 767.98px){
+  .drawer-side::-webkit-scrollbar{scrollbar-width: 0;display: none;}
   #mySidebar{position: absolute;z-index: 999;background: #fff;height: 100%;}
   #main{margin-left: 0 !important;padding: 0;}
+  .copy-clip img+span{overflow: hidden;text-overflow: ellipsis;}
 }

@@ -51,10 +51,10 @@ function DaoCards(props: any) {
         }
     };
     return (
-        <><div><div className='container mx-auto max-sm:px-3 md:mt-3 mt-4'>
+        <><div><div className='container mx-auto max-sm:px-3 mt-3 mt-4'>
             <h5 className='font-semibold text-2xl text-secondary'>DAO’s</h5>
             
-            <div className='grid grid-cols-4 gap-4'>
+            <div className='grid md:grid-cols-4 gap-4'>
             { props.loading || state?.loader ? ([...Array( 4)].map((_, index) => (
                     <div key={index}><DaoCardShimmer /></div>)) 
                 ):(

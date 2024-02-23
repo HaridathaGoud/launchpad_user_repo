@@ -6,7 +6,7 @@ const AllProjects = () => {
   const params = useParams();
 
   return (
-    <div className="container mx-auto max-sm:px-3 md:mt-3 lg:mt-6">
+    <div className="container mx-auto max-sm:px-3 mt-3 lg:mt-6">
       <Projectscomponent pageSize="9" pjctType={params.type} />
     </div>
   );

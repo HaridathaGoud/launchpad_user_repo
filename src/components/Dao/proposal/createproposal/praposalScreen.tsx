@@ -28,7 +28,7 @@ function CommonCreateProposal(props) {
     
     <>
 
-      <div className="container mx-auto max-sm:px-3 md:mt-3">
+      <div className="container mx-auto max-sm:px-3 mt-3">
         {loading && <ProposalCardShimmer />}
         {!loading && (
           <>

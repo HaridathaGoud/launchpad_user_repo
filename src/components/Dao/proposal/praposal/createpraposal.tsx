@@ -31,7 +31,7 @@ export default function CreateFirstPraposal(props:any) {
                 </div>
                 <div className="drawer-side z-10">
                     <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay" onClick={handleCancel}></label>
-                    <div className="menu p-4 md:w-80 min-h-full bg-white text-base-content pt-24">
+                    <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-24">
                        
                        <Createpraposal close={handleCancel} pjctInfo={props?.pjctInfo}/>
                     </div>
