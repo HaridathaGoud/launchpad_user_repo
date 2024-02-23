@@ -179,7 +179,7 @@ input[type=radio]:checked+span{ display: inline-block;background: var(--darkthem
 .add-cart:hover .icon.card-cart{background-position: -242px -293px !important;}
 .shop-card:hover .icon.card-shop{background-position: -317px -293px !important;}
 .like-white.icon{background-position:-268px -273px !important;}
-.like-white.icon:hover{background-position: -247px -240px !important;scale: 0.8;}
+.like-white.icon:hover,.like-white.icon.active{background-position: -247px -240px !important;scale: 0.8;}
 .add-cart:hover span,.shop-card:hover span{color: #D60000 !important;}
 div.tabs:has(> input:checked) {display: grid !important;}
 .tabs{display: flex !important;}

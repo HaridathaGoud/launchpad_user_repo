@@ -61,7 +61,7 @@ function ExploreNfts(props: any) {
       };
       const { status, error } = await saveFavorite(obj);
       if (status){
-        setToaster?.("Nft added to Favorites!");
+        setToaster?.(`Nft ${item.isFavourite? 'removed from' : 'added to'} Favorites!`);
         store.dispatch(fetchNfts(data,1,'all',null,props.auth.user?.id,data.length))
       }
       if (error) setErrorMessage?.(error);
