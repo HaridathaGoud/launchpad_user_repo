@@ -141,7 +141,7 @@ const PutOnSale = (props: any) => {
     <>
      <Modal id='putonsale'>
      <div>
-        <h2 className="text-lg text-secondary font-semibold mb-4">Put on sale</h2>
+        <h2 className="text-lg text-dark font-semibold mb-4">Put on sale</h2>
           {/* <span className="icon close c-pointer" onClick={props.handleClose}></span> */}
         </div>
         <div>

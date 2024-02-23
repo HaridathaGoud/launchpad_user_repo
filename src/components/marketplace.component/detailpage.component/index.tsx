@@ -908,8 +908,8 @@ const DetailPage = (props: any) => {
                       )}
                       <Modal id='putonauction'>
                       <div className="p-4 justify-content-between">
-                          <h2 className="section-title mt-0 mb-0">Checkout</h2>
-                          <span className="icon close c-pointer" onClick={handleClose}></span>
+                          <h2 className="text-lg text-dark font-semibold">Checkout</h2>
+                          {/* <span className="icon close c-pointer" onClick={handleClose}></span> */}
                         </div>
                         <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                         {!saleLoader && (
@@ -927,30 +927,29 @@ const DetailPage = (props: any) => {
                             </div>
                           )}
 
-                          <p className="common-text mb-4 text-start">
+                          <p className="text-dark">
                             NFT Marketplace is the platform where users can purchase NFT assets directly from creator,
                             Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
                             User can purchase NFT also through bidding, where creator will accept a price from the user
                           </p>
-                          <div className="balance-card">
-                        <div className="bal-feild">
-                          <label>Service fee</label>
-                          <h6>0.0000 ETH</h6>
-                        </div>
+                          <div className="flex justify-between items-center gap-4 my-4">                        
+                          <label className='text-sm shrink-0 text-secondary opacity-50'>Service fee</label>
+                          <p className='text-secondary truncate'>0.0000 ETH</p>                        
                       </div>
-                          <InputGroup className="input name-feild mb-4">
-                            <Form.Label className="input-label">Auction Price</Form.Label>
-                            <Form.Control
+                          <div className="mb-4">
+                            <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block">Auction Price</label>
+                            <input
                               placeholder="Ex: 0.01 WMATIC"
                               aria-label="Username"
-                              className="input-style"
+                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
                               onChange={(value) => handleChange(value)}
                             />
-                          </InputGroup>
+                          </div>
                         </div>
                          )} 
-                        <div className='p-4'>
-                          <Button btnClassName="custom-btn" disabled={saleLoader} handleClick={() => placeONSaleorAuction('Auction')}>
+                         <hr className='mb-4' />
+                        <div className='text-center'>
+                          <Button btnClassName="custom-btn" type='secondary' disabled={saleLoader} handleClick={() => placeONSaleorAuction('Auction')}>
                             <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span>  Put on Auction
                           </Button>
                         </div>
