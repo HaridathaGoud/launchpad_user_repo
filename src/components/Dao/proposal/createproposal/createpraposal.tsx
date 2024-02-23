@@ -287,7 +287,7 @@ function CreatePraposal(props: any) {
 }, []);
 
   const getDaoItem = () => {
-    let daoData = DaoDetail?.find((item) => item?.daoId == props?.pjctInfo?.daoId)
+    let daoData = DaoDetail?.find((item) => item?.daoId == props?.pjctInfo?.daoId || params.daoId)
     setDaoName(daoData?.name)
   }
   const getOptionHashes = () => {
@@ -310,7 +310,7 @@ function CreatePraposal(props: any) {
     const obj = {
       id: "00000000-0000-0000-0000-000000000000",
       customerId: getCustomerId || custmerKYC.id || proposalDetails.customerId,
-      daoId: props?.pjctInfo?.daoId ,//|| params.id ,
+      daoId: props?.pjctInfo?.daoId || params.id ,
       title: proposalDetails?.proposal,
       description: proposalDetails?.summary,
       titleHash: proposalDetails.TitleHash,
