@@ -19,9 +19,9 @@ const BtnStylings = {
   applynow:
     "h-[42px] lg:p-2 lg:px-[44px] rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-base btn hover:opacity-80 !leading-5",
   stakingPrimary:
-    "bg-primary rounded-[28px] lg:py-2 px-6 inline-block text-base font-semibold text-base-100",
+    "bg-primary rounded-[28px] lg:py-2 px-6 inline-block text-base font-semibold text-base-100 h-[42px]",
   stakingDisabled:
-    "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold cursor-not-allowed",
+    "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold cursor-not-allowed h-[42px]",
     create:
     "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold",
     reply: `!h-[32px] !min-h-[32px] lg:px-3 rounded-[28px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-sm btn hover:opacity-80`,

@@ -144,11 +144,11 @@ const Staking = () => {
   //   return <KycStatusPage isConnected={isConnected}/>
   // }
   return (
-    <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 md:mt-3">
+    <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 mt-3">
       <div>
         <TrendingProjects/>
         <StakingProvider value={contextValue}>
-          <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4">
+          <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
             <div className="pr-5">
               <div className="flex items-center gap-3 col">
                 <div className="w-12 h-12 ">
