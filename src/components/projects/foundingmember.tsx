@@ -8,11 +8,11 @@ import nodata from '../../assets/images/no-data.png';
 const FoundingMember = (props) => {
     return (<>
 
-        <div className={`md:gap-4 flex gap-6 justify-between items-start overflow-x-auto`}>
+        <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
             {props.foundingmemsData
                 ?.stakersData?.map((item, index) => 
                     (index < 5 ? 
-                    <div className='max-lg:min-w-[128px]'> 
+                    <div className='lg:w-[140px] break-words'> 
                     <div className={`relative w-20 h-20 mx-auto `}>
                         <img src={item.image ? item.image : member} className={`rounded-full h-full w-full object-cover`} alt='' />
                         <span className={` text-base-100 text-xs font-semibold inline-flex items-center justify-center w-6 h-6 bg-primary rounded-[50%] text-center absolute right-[-5px] bottom-0.5 border border-white`}>3%</span>
