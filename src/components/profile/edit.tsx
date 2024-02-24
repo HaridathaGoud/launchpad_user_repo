@@ -110,7 +110,7 @@ const ProfileEdit = ({
         ></label>
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
           <div className="flex items-center justify-between">
-            <p className="text-xl text-secondary font-medium">Edit Profile</p>
+            <p className="text-xl text-secondary font-semibold">Edit Profile</p>
             <button
               className="icon close cursor-pointer"
               onClick={handleDrawerClose}

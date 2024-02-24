@@ -12,7 +12,7 @@ interface LinkProps {
 const LinkStylings = {
   primary:
     "block font-semibold text-base hover:text-primary hover:bg-transparent",
-  footerNav: "text-secondary hover:text-primary opacity-60",
+  footerNav: "text-secondary hover:text-primary opacity-60 hover:opacity-100",
 };
 const NaviLink = ({ path, children, type, className,target,rel }: LinkProps) => {
   const location = useLocation();
