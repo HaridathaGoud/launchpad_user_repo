@@ -215,19 +215,15 @@ const   DaoCurrentResults = (props: any) => {
                 <div  className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
                 <div className='flex justify-between gap-5 mb-5'>
                    <div className='shrink-0'>
-                   <div className='mb-2'>
-                    <span className={`${styles.greenDot} mr-2 align-middle`}></span>
-                  {/* {user?.data?.options?.map((data: any) => (<div className='text-secondary'>
-                    <div key={data?.id}>
-                    <span className='text-secondary' >{getRecorderValue(data?.recorder)}. {data?.option} {`(${data?.votersCount || "0"})`}
+                   <div className='mb-2'>           
+                  {user?.data?.options?.map((data: any,index) => (<div className='text-secondary' key={data?.id}>
+                    <div >
+                    <span className={`${data?.votersCount ? styles.greenDot : styles.redDot} mr-2 align-middle`}></span>
+                    <span className='text-secondary' >{data?.option} {`(${data?.votersCount || "0"})`}
                     </span>
                   </div>
-                       </div>))} */}
-                        <span className='text-base text-secondary'>Yes - 100%</span>
-                    </div>
-                    <div>
-                        <span className={`${styles.redDot} mr-2 align-middle`}></span>
-                        <span className='text-base text-secondary'>No - 0%</span>
+                       </div>))}
+                        
                     </div>
                    </div>
                    <div>
