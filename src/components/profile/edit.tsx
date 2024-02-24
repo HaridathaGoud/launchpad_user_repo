@@ -125,7 +125,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileFirstName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               placeholder="First Name"
               name="firstName"
@@ -158,7 +158,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileLastName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               placeholder="Last Name"
               name="lastName"
@@ -191,7 +191,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileEmail"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               name="email"
               maxLength={50}
@@ -291,7 +291,7 @@ const ProfileEdit = ({
             </label>
             <select
               id="profileCountry"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               aria-label="Default select example"
               value={state.formData?.country ? state.formData?.country : ""}
               onChange={(e) => {
@@ -322,7 +322,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileDiscordId"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               value={state.formData?.discordId ? state.formData?.discordId : ""}
               onChange={(e) => {
@@ -347,17 +347,17 @@ const ProfileEdit = ({
           </div>
           {/* <div className="mt-4 relative" >
                 <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Referral Code</label>
-                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5 disabled:bg-accent disabled:border-accent'
+                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 disabled:bg-accent disabled:border-accent'
                   type="text"
                   value={form?.referralCode}
                       placeholder="Referral Code"
                       maxLength={6}
                     onChange={(e) => { setField('referralCode', e.target.value) }}
                       disabled={profile?.referralCode !=null }
-                 
+
                 />
                 {!touched?.isReferral &&
-              <span className='text-primary text-sm absolute bottom-[-22px] right-3' 
+              <span className='text-primary text-sm absolute bottom-[-22px] right-3'
               onClick={() => getIsExistingReferralCOde()}>
               <span>{referralloader && <Spinner className='text-sm-100' size="sm" />} </span> Verify
               </span>}

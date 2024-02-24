@@ -31,7 +31,7 @@ const handleSummary =()=>{
 const handleSuccess =()=>{
   setShowSuccess(true);
 }
-  
+
   return (
     <>
      <div className="container mx-auto px-3 lg:px-0">
@@ -128,7 +128,7 @@ const handleSuccess =()=>{
             <div>
                   {isChecked && <div className="drawer drawer-end bg-primary-content sm:w-96 md:w-80 lg:w-96 xl:w-112">
                     <input id="my-drawer-4" type="checkbox" className="drawer-toggle" checked={isChecked} />
-                    <div className="drawer-content">                    
+                    <div className="drawer-content">
                     </div>
                     <div className="drawer-side z-[99]">
                       <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay" onClick={handleCancel}></label>
@@ -137,24 +137,24 @@ const handleSuccess =()=>{
                           <span className='icon close cursor-pointer' onClick={handleCancel}></span>
                         </div>
                         <div className='flex justify-between flex-col gap-4 min-h-[600px] pt-20'>
-                         
-                          {showSuccess && <div className='text-center relative'>            
+
+                          {showSuccess && <div className='text-center relative'>
                         <div className='z-[1] relative'>
                         <img src={success} alt="" className='w-[124px] mx-auto' />
                         <h1 className='text-[28px] text-[#15AB3D] font-semibold mt-3'>Congratulations!</h1>
                         <p className='text-[18px] font-semibold text-secondary mt-4'>You Won this NFT</p>
                         </div>
                         <img src={successgif} alt="" className='h-[262px] mx-auto mt-[-200px]' />
-                        <div className="flex gap-4 items-center mt-[-25px] justify-center">                         
+                        <div className="flex gap-4 items-center mt-[-25px] justify-center">
                          <img src="https://i.pinimg.com/736x/88/7f/94/887f94b606965ff9bed58d1b53dd6731.jpg" alt="" className='w-[110px] h-[110px] object-cover rounded-lg' />
                           <div>
                             <h1 className='text-secondary text-[28px] font-semibold mb-4'>Hanuman Gada</h1>
                             <p className='text-secondary opacity-60 text-lg text-left'>Current Price</p>
                             <p className='text-secondary text-[22px] font-semibold text-left'>0.003 Matic</p>
-                          </div>                         
-                        </div> 
+                          </div>
+                        </div>
                         </div>}
-                          
+
                        {!showSuccess && <>
                        <div className="flex gap-4 items-center">
                           <img src="https://i.pinimg.com/736x/88/7f/94/887f94b606965ff9bed58d1b53dd6731.jpg" alt="" className='w-[110px] h-[110px] object-cover rounded-lg' />
@@ -163,7 +163,7 @@ const handleSuccess =()=>{
                             <p className='text-secondary opacity-60 text-lg'>Current Price</p>
                             <p className='text-secondary text-[22px] font-semibold'>0.003 Matic</p>
                           </div>
-                        </div> 
+                        </div>
                         {summary &&
                           <div className='bg-base-300 px-6 py-8 rounded-[20px] my-20'>
                           <div className="flex justify-between items-center">
@@ -172,7 +172,7 @@ const handleSuccess =()=>{
                           </div>
                             <div className="mt-5" >
                               <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Your Bid *</label>
-                              <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
+                              <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4'
                                 type="text"
                                 placeholder="Proposal Title"
                                 name="proposal"
@@ -185,16 +185,16 @@ const handleSuccess =()=>{
                         <option selected>WMATIC</option>
                         <option>Tether</option>
                         <option>USDT</option>
-                      </select>                      
+                      </select>
                     </div>
-                    <div className="mt-5" >                      
+                    <div className="mt-5" >
                       <div className='w-full flex justify-between py-3 px-5 rounded-[28px] border border-[#A5A5A5] bg-info-content'>
                        <p className='text-black'>Your balance</p>
                        <p className='text-black font-medium'>2.3598125 WMATIC</p>
                       </div>
                     </div>
                         </div>
-                        
+
                       }
                         <div className='md:px-20'>
                           <Button type='' btnClassName='!bg-accent text-secondary w-full !text-[18px] drawer-bid' handleClick={handleSummary}>Place A Bid</Button>
@@ -207,12 +207,12 @@ const handleSuccess =()=>{
                   </div>}
             <Button type='secondary'  btnClassName='mr-2.5 ' handleClick={handleEditProfile}>Buy Now</Button>
             <Button type='cancel' btnClassName='leading-6 place-bid  text-base' handleClick={handleEditProfile}>Place A Bid</Button>
-            </div>       
+            </div>
                  <div className={`max-sm:mt-4 border border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}>
                     <span className={`detail-minus icon cursor-pointer`} onClick={deCounter}></span>
                     <p className='font-semibold text-secondary'>{count}</p>
                     <span className={`detail-plus icon cursor-pointer`} onClick={updateCounter}></span>
-                 
+
                 </div>
             </div>
           </div>

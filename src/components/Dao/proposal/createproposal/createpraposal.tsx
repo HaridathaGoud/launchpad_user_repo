@@ -543,7 +543,7 @@ function CreatePraposal(props: any) {
                         <label className="mb-0 inline-block ml-5 mb-2">
                           Author
                         </label>
-                        <div className="border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center truncate copy-clip">
+                        <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip">
                           <img src={user} className="mr-3"></img>
                           <span>{address}</span>
                           <CopyToClipboard
@@ -566,7 +566,7 @@ function CreatePraposal(props: any) {
                           Proposal Title
                         </label>
                         <input
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                           type="text"
                           placeholder="Proposal Title"
                           name="proposal"
@@ -625,7 +625,7 @@ function CreatePraposal(props: any) {
                                 checked={state?.isChecked}
                                 onChange={handleCheckBoxChecked}
                                 onClick={openModalPopUp}
-                                
+
                               />
                               <span className=""></span>
                             </span>
@@ -653,7 +653,7 @@ function CreatePraposal(props: any) {
                           </div>
                         </div>
                         <div>
-                          
+
                           <div>
                             {options.map((option: any, index: any) => (
                               <div key={index}>
@@ -665,7 +665,7 @@ function CreatePraposal(props: any) {
                                   </label>
                                   <input
                                     type="text"
-                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                                     placeholder="Enter your option"
                                     maxLength={50}
                                     onChange={(e) => {

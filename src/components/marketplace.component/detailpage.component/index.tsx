@@ -424,7 +424,7 @@ const DetailPage = (props: any) => {
       handleShowBid();
     } else {
       // setModalShow(true)
-     
+
       modalActions('marketplace-wallet-connect','open')
     }
   }
@@ -608,9 +608,9 @@ const DetailPage = (props: any) => {
   }
   const dropdownList = [
     { name: "Put on sale", action: () => handleShow('sale'), isActive: false },
-    { name: " Put on auction", action: () => handleShow('auction'), isActive: false },    
-    { name: "Cancel auction", action: () => cancelAuctionorsale('auction'), isActive: false },    
-    { name: "Cancel sale", action: () => cancelAuctionorsale('sale'), isActive: false },    
+    { name: " Put on auction", action: () => handleShow('auction'), isActive: false },
+    { name: "Cancel auction", action: () => cancelAuctionorsale('auction'), isActive: false },
+    { name: "Cancel sale", action: () => cancelAuctionorsale('sale'), isActive: false },
   ];
   return (
     <>
@@ -667,7 +667,7 @@ const DetailPage = (props: any) => {
            <DetailpageShimmer/>
           </>
           ||
-          <>           
+          <>
             <section className="mt-5">
               <div className='grid md:grid-cols-12 gap-[40px]'>
                 <div className='md:col-span-5'>
@@ -835,7 +835,7 @@ const DetailPage = (props: any) => {
                           {nftDetails?.name}
                         </h1>
                         <DropdownMenus btnContent={<><span className='icon dots transform rotate-90'></span></>} dropdownList={dropdownList}>
-                          
+
 
                           </DropdownMenus>
                         {/* {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
@@ -882,7 +882,7 @@ const DetailPage = (props: any) => {
                       handleClose={() => setShow(false)}
                     ></SaleComponent>
                   )} */}
-                     
+
                         <PutOnSale
                           refresh={loadNftDetails}
                           nftDetails={nftDetails}
@@ -896,7 +896,7 @@ const DetailPage = (props: any) => {
                             collectionAddress: collectionAddress,
                           }}
                         ></PutOnSale>
-                     
+
 
                       {nftDetails !== undefined && (
                         <BuyComponent
@@ -915,7 +915,7 @@ const DetailPage = (props: any) => {
                         {!saleLoader && (
                         <div className='p-4 pb-2'>
                           {saleErrorMsg && (
-                            
+
                             <div className='cust-error-bg'>
                               <div className='mr-4'><img src={error} alt="" /></div>
                               <div><div >
@@ -932,21 +932,21 @@ const DetailPage = (props: any) => {
                             Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
                             User can purchase NFT also through bidding, where creator will accept a price from the user
                           </p>
-                          <div className="flex justify-between items-center gap-4 my-4">                        
+                          <div className="flex justify-between items-center gap-4 my-4">
                           <label className='text-sm shrink-0 text-secondary opacity-50'>Service fee</label>
-                          <p className='text-secondary truncate'>0.0000 ETH</p>                        
+                          <p className='text-secondary truncate'>0.0000 ETH</p>
                       </div>
                           <div className="mb-4">
                             <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block">Auction Price</label>
                             <input
                               placeholder="Ex: 0.01 WMATIC"
                               aria-label="Username"
-                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                               onChange={(value) => handleChange(value)}
                             />
                           </div>
                         </div>
-                         )} 
+                         )}
                          <hr className='mb-4' />
                         <div className='text-center'>
                           <Button btnClassName="custom-btn" type='secondary' disabled={saleLoader} handleClick={() => placeONSaleorAuction('Auction')}>
@@ -954,7 +954,7 @@ const DetailPage = (props: any) => {
                           </Button>
                         </div>
                       </Modal>
-                     
+
                       <Modal id='cancelsale'>
                       <div className=''>
                             <div className='text-lg text-dark font-semibold'>Confirmation</div>
@@ -983,7 +983,7 @@ const DetailPage = (props: any) => {
                             </Button>
                           </div>
                       </Modal>
-                     
+
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <label className="font-semibold text-secondary">Creator</label>
@@ -1140,12 +1140,12 @@ const DetailPage = (props: any) => {
                         </p>
                       </div>
                       <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Your Bid *</label>                       
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Your Bid *</label>
                         <input
                           type="text"
                           name="value"
                           aria-label="Username"
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                           placeholder="Bidding Amount"
                           onChange={(e) => handleChange(e, 'bid')}
                           isInvalid={!!validationError}
@@ -1154,20 +1154,20 @@ const DetailPage = (props: any) => {
                           maxLength={13}
                         />
                         {validationError && <> <p type="invalid">Please provide valid Bid Value.</p></> }
-                       
+
                       </div>
                       <div className="mb-4">
                         <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Crypto Type</label>
                         <div className="relative ">
-                          <select aria-label="Default select example" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5">
+                          <select aria-label="Default select example" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4">
                             <option>MATIC</option>
                             <option value="1">WMATIC</option>
-                          </select>                         
+                          </select>
                         </div>
                       </div>
                       <div className="mb-5">
                     <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Buy Price</label>
-                    <input placeholder="0.01 WETH" aria-label="Username"  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5" />
+                    <input placeholder="0.01 WETH" aria-label="Username"  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4" />
                   </div>
                       <div className="">
                         <div className="mb-4 flex items-center justify-between">
@@ -1204,7 +1204,7 @@ const DetailPage = (props: any) => {
                     </div>
                   </form>
                 </Modal>
-                
+
               </div>
             </section>
 

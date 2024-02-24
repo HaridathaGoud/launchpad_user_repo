@@ -93,10 +93,10 @@ const PutOnSale = (props: any) => {
                 // setShow(false);
                 props.handleClose();
                 props.refresh()
-              }, 2000); 
+              }, 2000);
               setSaleLoader(false);
               //  props.updateAmount(response.data.value);
-            
+
             } else {
               setSaleLoader(false);
               setBtnLoader(false)
@@ -130,7 +130,7 @@ const PutOnSale = (props: any) => {
         return "Low balance"
       }else{
        return objValue.shortMessage
-      }    
+      }
     } else if (objValue.originalError && typeof objValue.originalError.message === 'string') {
       return objValue.originalError.message;
     } else {
@@ -145,7 +145,7 @@ const PutOnSale = (props: any) => {
           {/* <span className="icon close c-pointer" onClick={props.handleClose}></span> */}
         </div>
         <div>
-         
+
           <div>
             {saleErrorMsg && (<>
               <div>
@@ -202,7 +202,7 @@ const PutOnSale = (props: any) => {
                   <input
                     aria-label="Username"
                     type="text"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                     placeholder="Enter the price"
                     onChange={(value) => handleChange(value)}
                     isInvalid={!!validationError}
@@ -236,9 +236,9 @@ const PutOnSale = (props: any) => {
               </div>
             </form>
           </div>
-          
-           
-          
+
+
+
         </div>
        <hr className='my-5' />
         <div className='text-center'> <Button
@@ -249,7 +249,7 @@ const PutOnSale = (props: any) => {
               <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Put on sale
             </Button>
             </div>
-        
+
         <div className='p-absolute toaster-center'>
       {/* <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
               <Toast show={scuess} className="text-center toster-component">
@@ -258,9 +258,9 @@ const PutOnSale = (props: any) => {
                 </Toast.Body>
               </Toast>
             </ToastContainer> */}
-            </div>  
+            </div>
      </Modal>
-     
+
     </>
   );
 };

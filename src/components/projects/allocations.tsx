@@ -317,7 +317,7 @@ const Allocations = (props) => {
                   <input
                     type="text"
                     placeholder="Enter Token Count To Buy"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                     id="amount"
                     defaultValue={allocationVolume || buyBalance}
                     maxLength={20}

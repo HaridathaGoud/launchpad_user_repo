@@ -25,7 +25,7 @@ const DaoLeftPanel = (props) => {
             <div>
                 <div className='flex items-center gap-3'>
                     <div className='w-12 h-12 '>
-                        <img src={user?.profilePicUrl || defaultAvatar} alt="Dao profile" className='rounded-full object-cover' />
+                        <img src={user?.profilePicUrl || defaultAvatar} alt="Dao profile" className='w-12 h-12 rounded-full object-cover' />
                     </div>
                     <div>
                   <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">

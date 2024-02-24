@@ -41,7 +41,7 @@ const Staking = () => {
     }
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    
+
     async function getDetails() {
       let response = await getUserStakeDetails();
       if (response) {
@@ -167,7 +167,7 @@ const Staking = () => {
                   <img
                     src={user?.profilePicUrl || defaultAvatar}
                     alt="Dao Profile"
-                    className="rounded-full object-cover"
+                    className="w-12 h-12 rounded-full object-cover"
                   />
                 </div>
                 <div>
