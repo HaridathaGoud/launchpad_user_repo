@@ -664,7 +664,7 @@ function CreatePraposal(props: any) {
                               </label>
                               <input
                                 type="text"
-                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cust-delete-box pr-[50px]"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cust-delete-box pr-[36px]"
                                 placeholder="Enter your option"
                                 maxLength={50}
                                 onChange={(e) => {
@@ -676,7 +676,7 @@ function CreatePraposal(props: any) {
                                 value={option.options ? option.options : ""}
                               />
                               <span
-                                className="icon delete-icon top-[36px] absolute right-6 cursor-pointer scale-95"
+                                className="icon delete-icon top-[36px] absolute right-2.5 cursor-pointer scale-75 w-7 h-7"
                                 onClick={() => deleteOption(index)}
                               ></span>
                             </div>
@@ -691,7 +691,6 @@ function CreatePraposal(props: any) {
                             </Button>
                           </div> */}
                       </div>
-
                       <div className="mt-4">
                         <div className="flex gap-3 flex-wrap">
                           {attributes?.map((item) => (
