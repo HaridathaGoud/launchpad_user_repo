@@ -115,12 +115,12 @@ import styles from "./dao.module.css";
                       </CopyToClipboard>
               </span> */}
 
-              {/* <div className='flex gap-5 justify-between items-center mb-4 shrink-0'>
+              <div className='flex gap-5 justify-between items-center mb-4 shrink-0'>
                     <p className={`text-sm text-secondary opacity-50`}>Strategies(s)</p>
                     <div className='w-9 h-9 mr-2'>
-                        <Image src={daocardProfile} className='rounded-full object-cover' alt='profile'/>
+                       {user.strategy || "--"}
                     </div>
-                </div> */}
+                </div>
                 {/* <div className='flex gap-5 justify-between items-center mb-4'>
                 <p className={`text-sm shrink-0 text-secondary opacity-50`}>IPFS</p>
                 <p className='truncate text-secondary'>#bafkrei</p>
