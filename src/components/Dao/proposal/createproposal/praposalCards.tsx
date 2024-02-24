@@ -174,7 +174,7 @@ function ProposalCards(props: any) {
     if (stData && state.dateStatus < stData) {
       setErrorMessage?.("Start date cannot be greater than the end date.");
       setLookUpError(true);
-      
+
       setShimmerLoading(false);
     } else if (state?.dateStatus) {
       setShimmerLoading(true);
@@ -223,7 +223,7 @@ function ProposalCards(props: any) {
     if (endData && endData < state?.date) {
       setErrorMessage?.("Start date cannot be greater than the end date.");
       setLookUpError(true);
-      
+
       setShimmerLoading(false);
     } else if (state?.date && endData && status) {
       setErrorMessage?.('');
@@ -567,31 +567,27 @@ function ProposalCards(props: any) {
                                     </b>
                                   </p>
                                 </div>
-                                <div className="flex gap-4 mt-2">
                                   {item?.options?.map((data: any) => (
                                     <div
-                                      className="text-secondary"
+                                      className="text-secondary flex gap-1 mt-2 items-center"
                                       key={data?.id}
                                     >
-                                      <div>
-                                        {data.votersCount ? (
-                                          <span
-                                            className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}
-                                          ></span>
-                                        ) : (
-                                          <span
-                                            className={`bg-primary h-4 w-4 inline-block rounded-full mr-2 align-middle`}
-                                          ></span>
-                                        )}
-                                        <span className="text-secondary">
-                                          {/* {getRecorderValue(data?.recorder)}.{" "} */}
-                                          {data?.option}{" "}
-                                          {`(${data?.votersCount || "0"})`}
-                                        </span>
-                                      </div>
+                                      {data.votersCount ? (
+                                        <span
+                                          className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}
+                                        ></span>
+                                      ) : (
+                                        <span
+                                          className={`bg-primary h-4 w-4 inline-block rounded-full mr-2 align-middle`}
+                                        ></span>
+                                      )}
+                                      <span className="text-secondary">
+                                        {/* {getRecorderValue(data?.recorder)}.{" "} */}
+                                        {data?.option}{" "}
+                                        {`(${data?.votersCount || "0"})`}
+                                      </span>
                                     </div>
                                   ))}
-                                </div>
                                 <div className="md:flex justify-between items-center mt-2">
                                   <p className="text-base font-semibold mb-2 md:mb-0 text-secondary">
                                     {calculateTimeDifference(item?.endDate)}
