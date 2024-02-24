@@ -1,105 +1,136 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
-import user from '../../../assets/images/praposal-user.png';
-import { getProposalViewData, saveVoting, getCustomeVoted, getVotersGrid } from '../../../reducers/votingReducer';
-import { getCustomerDetails } from '../../../reducers/authReducer';
+import React, { useState, useEffect, useRef, useReducer } from "react";
+import user from "../../../assets/images/praposal-user.png";
+import {
+  getProposalViewData,
+  saveVoting,
+  getCustomeVoted,
+  getVotersGrid,
+} from "../../../reducers/votingReducer";
+import { getCustomerDetails } from "../../../reducers/authReducer";
 import { connect } from "react-redux";
-import { useAccount } from 'wagmi';
+import { useAccount } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useParams } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { useVotingContract } from '../../../contracts/useContract';
-import Placeholder from 'react-bootstrap/Placeholder';
-import moment from 'moment';
-import MintContract from '../../../contracts/seichi.json';
-import { readContract } from 'wagmi/actions';
+import { useSelector } from "react-redux";
+import { useVotingContract } from "../../../contracts/useContract";
+import Placeholder from "react-bootstrap/Placeholder";
+import moment from "moment";
+import MintContract from "../../../contracts/seichi.json";
+import defaultBG from "../../../assets/images/default-bg.png";
+import { readContract } from "wagmi/actions";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
-    case 'copied':
+    case "copied":
       return { ...state, copied: action.payload };
-    case 'isNoButtonLoading':
+    case "isNoButtonLoading":
       return { ...state, isNoButtonLoading: action.payload };
-    case 'isButtonLoading':
+    case "isButtonLoading":
       return { ...state, isButtonLoading: action.payload };
-    case 'mintedMemberShipCount':
+    case "mintedMemberShipCount":
       return { ...state, mintedMemberShipCount: action.payload };
-    case 'errorMsg':
+    case "errorMsg":
       return { ...state, errorMsg: action.payload };
-    case 'selectedOption':
+    case "selectedOption":
       return { ...state, selectedOption: action.payload };
-    case 'selectedhash':
+    case "selectedhash":
       return { ...state, selectedhash: action.payload };
   }
-}
+};
 function ProposalVoting(props: any) {
   const { isConnected, address } = useAccount();
-  const proposarDetailas = useSelector((state: any) => state?.vtg?.fetchproposalviewdata);
-  const savevoterddata = useSelector((state: any) => state?.vtg?.savevoterddata);
+  const proposarDetailas = useSelector(
+    (state: any) => state?.vtg?.fetchproposalviewdata
+  );
+  const savevoterddata = useSelector(
+    (state: any) => state?.vtg?.savevoterddata
+  );
   const getCustomerData = useSelector((state: any) => state?.oidc?.user);
   const [isVoted, setisVoted] = useState<any>(false);
-  const [readMore, setReadMore] = useState(false)
+  const [readMore, setReadMore] = useState(false);
   const params = useParams();
   const { castVote, parseError } = useVotingContract();
-  const [optionVotingHashs, setOptionVotingHashs] = useState([])
+  const [optionVotingHashs, setOptionVotingHashs] = useState([]);
   const scrollableRef = useRef<any>(null);
   const [state, dispatch] = useReducer(reducers, {
-    copied: false, isButtonLoading: false, isNoButtonLoading: false,
-    mintedMemberShipCount: null, errorMsg: null, selectedOption: null, selectedhash: null
-  })
+    copied: false,
+    isButtonLoading: false,
+    isNoButtonLoading: false,
+    mintedMemberShipCount: null,
+    errorMsg: null,
+    selectedOption: null,
+    selectedhash: null,
+  });
   const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
   // const mintingKrijiContractAddress: any = process.env.REACT_APP_MINTING_KEIJI_CONTRACTOR;
   // const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
   // const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
-  const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
-  const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
+  const DaoDetail = useSelector(
+    (state: any) => state?.proposal?.getWalletAddressChecking?.data
+  );
+  const selectedDaoData = useSelector(
+    (state: any) => state?.oidc?.fetchSelectingDaoData
+  );
   const [daoVoteName, setDaoVoteName] = useState();
-  const loading1 = useSelector((state: any) => state?.vtg?.fetchproposalviewdata.loading)
-  const [loading, setLoading] = useState(false)
-  const userDetails = useSelector((state: any) => isConnected ? state?.oidc?.fetchproposalviewdata : state?.proposal?.proViewData);
+  const loading1 = useSelector(
+    (state: any) => state?.vtg?.fetchproposalviewdata.loading
+  );
+  const [loading, setLoading] = useState(false);
+  const userDetails = useSelector((state: any) =>
+    isConnected
+      ? state?.oidc?.fetchproposalviewdata
+      : state?.proposal?.proViewData
+  );
   const startDate = new Date(proposarDetailas?.data?.startDate);
   useEffect(() => {
     scrollableRef?.current?.scrollIntoView(0, 0);
-    getDaoItem()
+    getDaoItem();
     if (isConnected) {
-      setLoading(true)
-      getOptionHashes()
-      dispatch({ type: 'errorMsg', payload: null })
+      setLoading(true);
+      getOptionHashes();
+      dispatch({ type: "errorMsg", payload: null });
     }
     getCustomer();
     if (address && isVoted) {
       window.location.reload();
     }
-  }, [isConnected, address])
+  }, [isConnected, address]);
 
   const getCustomer = () => {
     props.customers(address, (callback: any) => {
-      setLoading(true)
+      setLoading(true);
       if (callback) {
-        props.proposalViewData(params?.proposalId, callback?.data?.data?.id, (callback: any) => {
-          if (callback) {
-            setLoading(false)
+        props.proposalViewData(
+          params?.proposalId,
+          callback?.data?.data?.id,
+          (callback: any) => {
+            if (callback) {
+              setLoading(false);
+            }
           }
-        });
+        );
       } else {
-        setLoading(false)
+        setLoading(false);
       }
     });
-  }
+  };
   const getDaoItem = () => {
-    let daoData = DaoDetail?.find((item) => item?.daoId == selectedDaoData?.daoId)
-    setDaoVoteName(daoData?.name)
-    getBalanceCount(daoData?.name, address)
-  }
+    let daoData = DaoDetail?.find(
+      (item) => item?.daoId == selectedDaoData?.daoId
+    );
+    setDaoVoteName(daoData?.name);
+    getBalanceCount(daoData?.name, address);
+  };
   async function getBalanceCount(daoName, address) {
     // let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
-    let contractAddress = daoName = mintingContractAddress
+    let contractAddress = (daoName = mintingContractAddress);
     let balance: any = await readContract({
       address: contractAddress,
       abi: MintContract.abi,
       functionName: "balanceOf",
-      args: [address]
+      args: [address],
     });
     balance = Number(balance);
-    dispatch({ type: 'mintedMemberShipCount', payload: balance })
+    dispatch({ type: "mintedMemberShipCount", payload: balance });
   }
   const getOptionHashes = () => {
     let hashes = proposarDetailas?.data?.options;
@@ -107,16 +138,20 @@ function ProposalVoting(props: any) {
       let _obj = hashes[i];
       optionVotingHashs.push(_obj?.optionHash);
     }
-  }
+  };
   useEffect(() => {
     setTimeout(() => {
       if (getCustomerData?.id) {
-        props.getCustomeVoted(params?.proposalId, getCustomerData?.id, (callback: any) => {
-          setisVoted(callback?.data?.data?.isVoted);
-        })
+        props.getCustomeVoted(
+          params?.proposalId,
+          getCustomerData?.id,
+          (callback: any) => {
+            setisVoted(callback?.data?.data?.isVoted);
+          }
+        );
       }
     }, 500);
-  }, [getCustomerData, savevoterddata])
+  }, [getCustomerData, savevoterddata]);
 
   // const saveVote = async (value: any) => {
   //   getOptionHashes()
@@ -164,46 +199,46 @@ function ProposalVoting(props: any) {
 
   // }
   const handleCopy = () => {
-    dispatch({ type: 'copied', payload: true })
+    dispatch({ type: "copied", payload: true });
     setTimeout(() => {
-      dispatch({ type: 'copied', payload: false })
+      dispatch({ type: "copied", payload: false });
     }, 1000);
-  }
+  };
   const handleChange = (e: any) => {
-    dispatch({ type: 'selectedOption', payload: e?.option })
-    dispatch({ type: 'selectedhash', payload: e?.optionHash })
-  }
+    dispatch({ type: "selectedOption", payload: e?.option });
+    dispatch({ type: "selectedhash", payload: e?.optionHash });
+  };
 
   let currentDate = moment(new Date()).utc().format("YYYY-MM-DDTHH:mm:ss");
   const createdDate = moment(proposarDetailas?.data?.startDate).format("X");
   const ended = moment(proposarDetailas?.data?.endDate).format("X");
-  const presentDate = moment(currentDate).format("X")
+  const presentDate = moment(currentDate).format("X");
 
-  const selectedObject = proposarDetailas?.data?.options?.find((obj: any) => obj?.isSelect === true);
+  const selectedObject = proposarDetailas?.data?.options?.find(
+    (obj: any) => obj?.isSelect === true
+  );
 
   const showVotingOptions = presentDate >= createdDate && presentDate <= ended;
 
-
   const beforeStartDateandTime = () => {
-
     let stDateData = moment(new Date()).utc().format("YYYY-MM-DDTHH:mm:ss");
-    let epochStart = moment(stDateData).format("X")
-    let edDataData = proposarDetailas?.data?.startDate
-    let epochEnd = moment(edDataData).format("X")
+    let epochStart = moment(stDateData).format("X");
+    let edDataData = proposarDetailas?.data?.startDate;
+    let epochEnd = moment(edDataData).format("X");
 
-    const timeDifference = moment(proposarDetailas?.data?.startDate).format("X") == moment(stDateData).format("X")
-    return timeDifference
-  }
-  const handleShowMore = (value:string)=>{
-    value==="more" && setReadMore(true);
-    value==="less" && setReadMore(false);
-  }
+    const timeDifference =
+      moment(proposarDetailas?.data?.startDate).format("X") ==
+      moment(stDateData).format("X");
+    return timeDifference;
+  };
+  const handleShowMore = (value: string) => {
+    value === "more" && setReadMore(true);
+    value === "less" && setReadMore(false);
+  };
   return (
-
     <>
-
       <div ref={scrollableRef}></div>
-      <div className='py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg'>
+      <div className="py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg">
         {/* {(proposarDetailas?.error || savevoterddata?.error || state?.errorMsg) && (
           <div className='cust-error-bg'>
             <div className='mr-4'><Image src={error} alt="" /></div>
@@ -213,76 +248,124 @@ function ProposalVoting(props: any) {
           </div>
         )} */}
         <div>
-          {loading ?
+          {loading ? (
             <>
               <Placeholder xs={12} animation="glow">
-                <Placeholder xs={1} className='me-3 shimmer-icon' />
+                <Placeholder xs={1} className="me-3 shimmer-icon" />
                 <Placeholder xs={5} />
               </Placeholder>
               <hr />
               <Placeholder as="p" animation="wave">
-                <Placeholder style={{ width: '25%' }} /><br />
-                <Placeholder className="w-75" /><br />
-                <Placeholder style={{ width: '25%' }} /><br />
+                <Placeholder style={{ width: "25%" }} />
+                <br />
+                <Placeholder className="w-75" />
+                <br />
+                <Placeholder style={{ width: "25%" }} />
+                <br />
                 <Placeholder className="w-75" />
               </Placeholder>
               <Placeholder xs={12} animation="glow">
-                <Placeholder xs={1} className='me-3 shimmer-icon' />
-                <Placeholder xs={2} className='me-3' />
-                <Placeholder xs={1} className='me-3 shimmer-icon' />
-                <Placeholder xs={2} className='me-3' />
+                <Placeholder xs={1} className="me-3 shimmer-icon" />
+                <Placeholder xs={2} className="me-3" />
+                <Placeholder xs={1} className="me-3 shimmer-icon" />
+                <Placeholder xs={2} className="me-3" />
               </Placeholder>
-            </> :
+            </>
+          ) : (
             <>
-              <div className='flex justify-between items-start'>
-                <div className=''>
-                  <span className='text-2xl font-semibold text-secondary'>{proposarDetailas?.data?.title}</span>
+              <div className="flex justify-between items-start">
+                <div className="">
+                  <span className="text-2xl font-semibold text-secondary">
+                    {proposarDetailas?.data?.title}
+                  </span>
                 </div>
-                {isVoted && <div className='ml-auto'>
-                  <span className='bg-primary text-white px-4 py-2 rounded rounded-[33px]'>VOTED</span>
-                </div>}
+                {isVoted && (
+                  <div className="ml-auto">
+                    <span className="bg-primary text-white px-4 py-2 rounded rounded-[33px]">
+                      VOTED
+                    </span>
+                  </div>
+                )}
               </div>
               <div>
+                <div>
                   <div>
-                    <div >
-                      <div className='pt-2'>
-                        <div>
-                          <div className="md:flex justify-between items-center mb-3.5">
-                            <div className="flex items-center flex-wrap">
-                              <div className='w-9 h-9 mr-2'>
-                                <img src={user} className='' />
-                              </div>
-                              <p className='mr-2 text-secondary opacity-50'>Stargate DAO by</p>
-                              {/* <p className='text-base font-semibold mr-4 text-secondary'>Harsha</p> */}
-                              <div>
-                                <span className={`text-base-100 font-semibold px-3 py-1 rounded bg-success`}>Active</span>
-                              </div>
+                    <div className="pt-2">
+                      <div>
+                        <div className="md:flex justify-between items-center mb-3.5">
+                          <div className="flex items-center flex-wrap">
+                            <div className="w-9 h-9 mr-2">
+                              <img src={user} className="" />
                             </div>
-                            <div className='flex items-center gap-4'>
-                              <h2 className='text-base font-semibold text-secondary whitespace-nowrap'>Created  By</h2>
-                              <div className='flex items-center bg-accent rounded-[50px] p-1.5 truncate'>
-                                <img src={user} className='w-[24px] mr-3' alt='created By' />
-                                <span className='truncate'> {proposarDetailas?.data?.walletAddress === address ? "YOU" : proposarDetailas?.data?.createdBy ? proposarDetailas?.data?.createdBy : proposarDetailas?.data?.walletAddress}</span>
-                                <CopyToClipboard text={proposarDetailas?.data?.walletAddress} options={{ format: 'text/plain' }}
-                                  onCopy={() => handleCopy()}
-                                >
-                                  <span className={!state?.copied ? 'icon md copy-icon  cursor-pointer shrink-0' : 'icon copy-check c-pointer shrink-0  cursor-pointer'} />
-                                </CopyToClipboard>
-                              </div>
+                            <p className="mr-2 text-secondary opacity-50">
+                              Stargate DAO by
+                            </p>
+                            {/* <p className='text-base font-semibold mr-4 text-secondary'>Harsha</p> */}
+                            <div>
+                              <span
+                                className={`text-base-100 font-semibold px-3 py-1 rounded bg-success`}
+                              >
+                                Active
+                              </span>
                             </div>
                           </div>
-                          <div className={`shrink-0 h-64`}>
-                            <img src={selectedDaoData.image} className='rounded-lg object-cover w-full h-64' alt='project' />
+                          <div className="flex items-center gap-4">
+                            <h2 className="text-base font-semibold text-secondary whitespace-nowrap">
+                              Created By
+                            </h2>
+                            <div className="flex items-center bg-accent rounded-[50px] p-1.5 truncate">
+                              <img
+                                src={user}
+                                className="w-[24px] mr-3"
+                                alt="created By"
+                              />
+                              <span className="truncate">
+                                {" "}
+                                {proposarDetailas?.data?.walletAddress ===
+                                address
+                                  ? "YOU"
+                                  : proposarDetailas?.data?.createdBy
+                                  ? proposarDetailas?.data?.createdBy
+                                  : proposarDetailas?.data?.walletAddress}
+                              </span>
+                              <CopyToClipboard
+                                text={proposarDetailas?.data?.walletAddress}
+                                options={{ format: "text/plain" }}
+                                onCopy={() => handleCopy()}
+                              >
+                                <span
+                                  className={
+                                    !state?.copied
+                                      ? "icon md copy-icon  cursor-pointer shrink-0"
+                                      : "icon copy-check c-pointer shrink-0  cursor-pointer"
+                                  }
+                                />
+                              </CopyToClipboard>
+                            </div>
                           </div>
-                          <h2 className='text-base font-semibold mt-3 text-secondary'>Project Overview</h2>
-                          <p className='text-secondary break-all'>
-                            {(!readMore && proposarDetailas?.data?.description?.length>30)
-                              ? proposarDetailas?.data?.description?.slice(0, 30)+" ..."
-                              : proposarDetailas?.data?.description}
-                          </p>
                         </div>
+                        <div className={`shrink-0 h-64`}>
+                          <img
+                            src={selectedDaoData.image || defaultBG}
+                            className="rounded-lg object-cover w-full h-64"
+                            alt="project"
+                          />
+                        </div>
+                        <h2 className="text-base font-semibold mt-3 text-secondary">
+                          Project Overview
+                        </h2>
+                        <p className="text-secondary break-all">
+                          {!readMore &&
+                          proposarDetailas?.data?.description?.length > 30
+                            ? proposarDetailas?.data?.description?.slice(
+                                0,
+                                30
+                              ) + " ..."
+                            : proposarDetailas?.data?.description}
+                        </p>
+                      </div>
 
-                        {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
+                      {/* {proposarDetailas?.data?.options?.length != 0 && <div className='mt-5'>
                           <p className='text-base font-semibold mt-3 text-secondary'>choose your option</p>
                           <div className='d-flex flex-wrap-align voting-card-opt'>
                             {proposarDetailas?.data?.options?.map((item: any) => (<Form.Check className='me-4 options-width'>
@@ -299,12 +382,27 @@ function ProposalVoting(props: any) {
                             </Form.Check>))}
                           </div>
                         </div>} */}
-                        <p className='text-center'>
-                          {(!readMore && proposarDetailas?.data?.description?.length>30) && (<button onClick={()=>handleShowMore('more')} className='hover:text-primary text-secondary'>Show More</button>)}
-                          {readMore && (<button onClick={()=>handleShowMore('less')} className="hover:text-primary text-secondary">Show Less</button>)}
-                        </p>
-                      </div>
-                      {/* {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>
+                      <p className="text-center">
+                        {!readMore &&
+                          proposarDetailas?.data?.description?.length > 30 && (
+                            <button
+                              onClick={() => handleShowMore("more")}
+                              className="hover:text-primary text-secondary"
+                            >
+                              Show More
+                            </button>
+                          )}
+                        {readMore && (
+                          <button
+                            onClick={() => handleShowMore("less")}
+                            className="hover:text-primary text-secondary"
+                          >
+                            Show Less
+                          </button>
+                        )}
+                      </p>
+                    </div>
+                    {/* {proposarDetailas?.data?.options?.length == 0 && <><div className='mt-3'>
                         <h2 className='common-heading'>Votes</h2>
                         <div>
                           <ProgressBar className='custom-progress'>
@@ -325,10 +423,10 @@ function ProposalVoting(props: any) {
                             <li>{proposarDetailas?.data?.TokenName}</li>
                           </ul>
                         </div></>} */}
-                    </div>
                   </div>
+                </div>
 
-                  {/* <Row className='justify-content-center mt-4'>
+                {/* <Row className='justify-content-center mt-4'>
                     <Col lg={8}>
                       {(!isVoted &&
                         state?.mintedMemberShipCount ==0
@@ -349,7 +447,7 @@ function ProposalVoting(props: any) {
                         </Col>
                   </Row> */}
 
-                  {/* {isVoted && <div className=' pt-2 px-4 pb-4 success-vote'>
+                {/* {isVoted && <div className=' pt-2 px-4 pb-4 success-vote'>
                     <div className='d-flex status-section justify-content-center align-items-center py-3'>
                       <span className='icon success-icon me-2'></span>
                       <div>
@@ -359,7 +457,8 @@ function ProposalVoting(props: any) {
                       </div>
                     </div></div>} */}
               </div>
-            </>}
+            </>
+          )}
         </div>
       </div>
     </>
@@ -382,6 +481,6 @@ const connectDispatchToProps = (dispatch: any) => {
     customers: (address: any, callback: any) => {
       dispatch(getCustomerDetails(address, callback));
     },
-  }
-}
+  };
+};
 export default connect(null, connectDispatchToProps)(ProposalVoting);
