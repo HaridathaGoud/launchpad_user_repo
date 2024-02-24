@@ -32,7 +32,7 @@ import loadimg from '../../../assets/images/loader.svg';
 import successimg from '../../../assets/images/success.svg';
 import Button from '../../../ui/Button';
 import DetailpageShimmer from '../loaders/detailpageShimmer';
-import { Modal,modalActions } from '../../../ui/Modal';
+import { Modal, modalActions } from '../../../ui/Modal';
 import DropdownMenus from '../../../ui/DropdownMenus';
 
 
@@ -113,8 +113,8 @@ const DetailPage = (props: any) => {
 
   const handleClose = () => {
     // setShow(false);
-    modalActions('putonsale','close')
-    modalActions('putonauction','close')
+    modalActions('putonsale', 'close')
+    modalActions('putonauction', 'close')
     setSaleErrorMsg(false);
     setShowBuyModal(false);
     setSaveObj({ tokenId: '', customerId: '', value: 0, crypto: '', saleType: '' });
@@ -122,9 +122,9 @@ const DetailPage = (props: any) => {
   const handleShow = (type: any) => {
     if (type == 'sale') {
       // setShow(true);
-      modalActions('putonsale','open')
+      modalActions('putonsale', 'open')
     } else if (type == 'auction') {
-      modalActions('putonauction','open')
+      modalActions('putonauction', 'open')
     }
     setSaveObj({ tokenId: '', customerId: '', value: 0, crypto: '', saleType: '' });
     setSaleErrorMsg(false);
@@ -364,10 +364,10 @@ const DetailPage = (props: any) => {
   const cancelAuctionorsale = async (val: any) => {
     setCancelType(val);
     // setCancelShow(true);
-    modalActions('cancelsale','open')
+    modalActions('cancelsale', 'open')
   };
   const handleCancelConfirm = () => {
-    modalActions('cancelsale','close')
+    modalActions('cancelsale', 'close')
   };
   const cancelSaleConfirm = async (type: any) => {
     setBtnLoader(true)
@@ -407,7 +407,7 @@ const DetailPage = (props: any) => {
 
   const handleShowBid = () => {
     if (isConnected) {
-      modalActions('placebid','open')
+      modalActions('placebid', 'open')
       setSuccessMsg(null);
       getPlaceABid();
       setPlaceABidError(null)
@@ -425,7 +425,7 @@ const DetailPage = (props: any) => {
     } else {
       // setModalShow(true)
 
-      modalActions('marketplace-wallet-connect','open')
+      modalActions('marketplace-wallet-connect', 'open')
     }
   }
   const placeBid = async (e: any) => {
@@ -497,13 +497,13 @@ const DetailPage = (props: any) => {
       handleShowBuy();
     } else {
       // setModalShow(true)
-      modalActions('marketplace-wallet-connect','open')
+      modalActions('marketplace-wallet-connect', 'open')
     }
   }
   const handleShowBuy = () => {
     if (isConnected) {
       // setShowBuyModal(true);
-      modalActions('marketplace-buy-now','open')
+      modalActions('marketplace-buy-now', 'open')
     } else {
       // setMetaConnectionError("Please connect your wallet...;;")
       window.scrollTo(0, 0)
@@ -664,7 +664,7 @@ const DetailPage = (props: any) => {
         {/* {loader && <div className='d-flex align-items-center justify-content-center loader-center'><Spinner></Spinner></div>} */}
         {loader &&
           <>
-           <DetailpageShimmer/>
+            <DetailpageShimmer />
           </>
           ||
           <>
@@ -837,39 +837,39 @@ const DetailPage = (props: any) => {
                         <DropdownMenus btnContent={<><span className='icon dots transform rotate-90'></span></>} dropdownList={dropdownList}>
 
 
-                          </DropdownMenus>
+                        </DropdownMenus>
                         {/* {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
-                          <NavDropdown
-                            title={<span className="icon more-nav"></span>}
-                            id="basic-nav-dropdown"
-                            className="detailpage-navmenu"
-                          >
-                            {/* {!nftDetails?.isPutonSale &&
+                        <NavDropdown
+                          title={<span className="icon more-nav"></span>}
+                          id="basic-nav-dropdown"
+                          className="detailpage-navmenu"
+                        >
+                          {/* {!nftDetails?.isPutonSale &&
                               !nftDetails?.isPutOnAuction &&
                               nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
-                                <NavDropdown.Item href="" onClick={() => handleShow('sale')}>
-                                  Put on sale
-                                </NavDropdown.Item>
-                              {/* )} */}
-                            {/* {!nftDetails?.isPutOnAuction && !nftDetails?.isPutonSale && ( */}
-                              <NavDropdown.Item href="" onClick={() => handleShow('auction')}>
-                                Put on auction
-                              </NavDropdown.Item>
-                            {/* )} */}
+                          <NavDropdown.Item href="" onClick={() => handleShow('sale')}>
+                            Put on sale
+                          </NavDropdown.Item>
+                          {/* )} */}
+                          {/* {!nftDetails?.isPutOnAuction && !nftDetails?.isPutonSale && ( */}
+                          <NavDropdown.Item href="" onClick={() => handleShow('auction')}>
+                            Put on auction
+                          </NavDropdown.Item>
+                          {/* )} */}
 
-                            {/* {nftDetails?.saleType == 'auction' ||
+                          {/* {nftDetails?.saleType == 'auction' ||
                               (nftDetails?.saleType == 'Auction' && ( */}
-                                <NavDropdown.Item href="" onClick={() => cancelAuctionorsale('auction')}>
-                                  Cancel auction
-                                </NavDropdown.Item>
-                              {/* ))} */}
-                            {/* {nftDetails?.saleType == 'sale' ||
+                          <NavDropdown.Item href="" onClick={() => cancelAuctionorsale('auction')}>
+                            Cancel auction
+                          </NavDropdown.Item>
+                          {/* ))} */}
+                          {/* {nftDetails?.saleType == 'sale' ||
                               (nftDetails?.saleType == 'Sale' && ( */}
-                                <NavDropdown.Item href="" onClick={() => cancelAuctionorsale('sale')}>
-                                  Cancel Sale
-                                </NavDropdown.Item>
-                              {/* ))} */}
-                          </NavDropdown>
+                          <NavDropdown.Item href="" onClick={() => cancelAuctionorsale('sale')}>
+                            Cancel Sale
+                          </NavDropdown.Item>
+                          {/* ))} */}
+                        </NavDropdown>
                         {/* )} */}
                       </div>
                       {/* modal  */}
@@ -883,19 +883,19 @@ const DetailPage = (props: any) => {
                     ></SaleComponent>
                   )} */}
 
-                        <PutOnSale
-                          refresh={loadNftDetails}
-                          nftDetails={nftDetails}
-                          handleClose={() => setShow(false)}
-                          showModal={show}
-                          updateAmount={handleUpdateAmount}
-                          reqFields={{
-                            tokenId: tokenId,
-                            data: data,
-                            auth: props.auth,
-                            collectionAddress: collectionAddress,
-                          }}
-                        ></PutOnSale>
+                      <PutOnSale
+                        refresh={loadNftDetails}
+                        nftDetails={nftDetails}
+                        handleClose={() => setShow(false)}
+                        showModal={show}
+                        updateAmount={handleUpdateAmount}
+                        reqFields={{
+                          tokenId: tokenId,
+                          data: data,
+                          auth: props.auth,
+                          collectionAddress: collectionAddress,
+                        }}
+                      ></PutOnSale>
 
 
                       {nftDetails !== undefined && (
@@ -907,47 +907,47 @@ const DetailPage = (props: any) => {
                         ></BuyComponent>
                       )}
                       <Modal id='putonauction'>
-                      <div className="p-4 justify-content-between">
+                        <div className="p-4 justify-content-between">
                           <h2 className="text-lg text-dark font-semibold">Checkout</h2>
                           {/* <span className="icon close c-pointer" onClick={handleClose}></span> */}
                         </div>
                         <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                         {!saleLoader && (
-                        <div className='p-4 pb-2'>
-                          {saleErrorMsg && (
+                          <div className='p-4 pb-2'>
+                            {saleErrorMsg && (
 
-                            <div className='cust-error-bg'>
-                              <div className='mr-4'><img src={error} alt="" /></div>
-                              <div><div >
-                              <img className='validation-error' src={validError} />
-                              <span>{saleErrorMsg}</span>
-                            </div>
-                                <p className='error-title error-red text-start'>Error</p>
-                                <p className="error-desc text-start">{saleErrorMsg}</p></div>
-                            </div>
-                          )}
+                              <div className='cust-error-bg'>
+                                <div className='mr-4'><img src={error} alt="" /></div>
+                                <div><div >
+                                  <img className='validation-error' src={validError} />
+                                  <span>{saleErrorMsg}</span>
+                                </div>
+                                  <p className='error-title error-red text-start'>Error</p>
+                                  <p className="error-desc text-start">{saleErrorMsg}</p></div>
+                              </div>
+                            )}
 
-                          <p className="text-dark">
-                            NFT Marketplace is the platform where users can purchase NFT assets directly from creator,
-                            Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
-                            User can purchase NFT also through bidding, where creator will accept a price from the user
-                          </p>
-                          <div className="flex justify-between items-center gap-4 my-4">
-                          <label className='text-sm shrink-0 text-secondary opacity-50'>Service fee</label>
-                          <p className='text-secondary truncate'>0.0000 ETH</p>
-                      </div>
-                          <div className="mb-4">
-                            <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block">Auction Price</label>
-                            <input
-                              placeholder="Ex: 0.01 WMATIC"
-                              aria-label="Username"
-                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
-                              onChange={(value) => handleChange(value)}
-                            />
+                            <p className="text-dark">
+                              NFT Marketplace is the platform where users can purchase NFT assets directly from creator,
+                              Users need to pay for the gas fee as well as platform fee before purchasing the NFT.
+                              User can purchase NFT also through bidding, where creator will accept a price from the user
+                            </p>
+                            <div className="flex justify-between items-center gap-4 my-4">
+                              <label className='text-sm shrink-0 text-secondary opacity-50'>Service fee</label>
+                              <p className='text-secondary truncate'>0.0000 ETH</p>
+                            </div>
+                            <div className="mb-4">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">Auction Price</label>
+                              <input
+                                placeholder="Ex: 0.01 WMATIC"
+                                aria-label="Username"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+                                onChange={(value) => handleChange(value)}
+                              />
+                            </div>
                           </div>
-                        </div>
-                         )}
-                         <hr className='mb-4' />
+                        )}
+                        <hr className='mb-4' />
                         <div className='text-center'>
                           <Button btnClassName="custom-btn" type='secondary' disabled={saleLoader} handleClick={() => placeONSaleorAuction('Auction')}>
                             <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span>  Put on Auction
@@ -956,32 +956,32 @@ const DetailPage = (props: any) => {
                       </Modal>
 
                       <Modal id='cancelsale'>
-                      <div className=''>
-                            <div className='text-lg text-dark font-semibold'>Confirmation</div>
-                            <div>
-                              {/* <span
+                        <div className=''>
+                          <div className='text-lg text-dark font-semibold'>Confirmation</div>
+                          <div>
+                            {/* <span
                                 className="icon close c-pointer modal-position"
                                 onClick={handleCancelConfirm}
                               ></span> */}
-                            </div>
                           </div>
+                        </div>
 
-                          <div>
-                            <p className="text-dark my-8">Are you sure, Do you want to cancel {cancelType}?</p>
-                          </div>
-                            <hr className='mb-4' />
-                          <div className='flex justify-center'>
-                            <Button type="cancel" handleClick={() => cancelSaleConfirm('No')}>
-                              No
-                            </Button>
-                            <Button
-                              type="secondary"
-                              handleClick={() => cancelSaleConfirm('Yes')}
-                              btnClassName="custom-btn ms-2"
-                            >
-                              <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Yes
-                            </Button>
-                          </div>
+                        <div>
+                          <p className="text-dark my-8">Are you sure, Do you want to cancel {cancelType}?</p>
+                        </div>
+                        <hr className='mb-4' />
+                        <div className='flex justify-center'>
+                          <Button type="cancel" handleClick={() => cancelSaleConfirm('No')}>
+                            No
+                          </Button>
+                          <Button
+                            type="secondary"
+                            handleClick={() => cancelSaleConfirm('Yes')}
+                            btnClassName="custom-btn ms-2"
+                          >
+                            <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Yes
+                          </Button>
+                        </div>
                       </Modal>
 
                       <div className="grid md:grid-cols-2 gap-4">
@@ -1113,7 +1113,7 @@ const DetailPage = (props: any) => {
                   </div>
                 </div>
                 <Modal id='placebid'>
-                <div className=''>
+                  <div className=''>
                     <h2 className="text-lg text-dark font-semibold mb-4">Place a Bid</h2>
                     {/* <span className="icon close c-pointer" onClick={handleCloseBid}></span> */}
                   </div>
@@ -1140,7 +1140,7 @@ const DetailPage = (props: any) => {
                         </p>
                       </div>
                       <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Your Bid *</label>
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">Your Bid *</label>
                         <input
                           type="text"
                           name="value"
@@ -1153,11 +1153,11 @@ const DetailPage = (props: any) => {
                           required
                           maxLength={13}
                         />
-                        {validationError && <> <p type="invalid">Please provide valid Bid Value.</p></> }
+                        {validationError && <> <p type="invalid">Please provide valid Bid Value.</p></>}
 
                       </div>
                       <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Crypto Type</label>
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">Crypto Type</label>
                         <div className="relative ">
                           <select aria-label="Default select example" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4">
                             <option>MATIC</option>
@@ -1166,9 +1166,9 @@ const DetailPage = (props: any) => {
                         </div>
                       </div>
                       <div className="mb-5">
-                    <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">Buy Price</label>
-                    <input placeholder="0.01 WETH" aria-label="Username"  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4" />
-                  </div>
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">Buy Price</label>
+                        <input placeholder="0.01 WETH" aria-label="Username" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4" />
+                      </div>
                       <div className="">
                         <div className="mb-4 flex items-center justify-between">
                           <p className='text-sm shrink-0 text-secondary opacity-50'>Your balance</p>
