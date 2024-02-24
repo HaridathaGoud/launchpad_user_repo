@@ -310,7 +310,7 @@ const Projectscomponent = (props) => {
                                   >
                                     Total Raise
                                   </label>
-                                  <p className=" font-normal text-[#fff]">
+                                  <p className=" font-normal text-secondary">
                                     {item.totalRaised?.toLocaleString()
                                       ? "$"
                                       : ""}
@@ -323,7 +323,7 @@ const Projectscomponent = (props) => {
                                   >
                                     Total Supply
                                   </label>
-                                  <p className="font-normal text-[#fff]">
+                                  <p className="font-normal text-secondary">
                                     {`${
                                       item?.totalSupply?.toLocaleString() || "-"
                                     }`}
@@ -335,7 +335,7 @@ const Projectscomponent = (props) => {
                                   >
                                     Price
                                   </label>
-                                  <p className="font-normal text-[#fff]">
+                                  <p className="">
                                     {item?.tokenVolume} {item?.tokenSymbol} ={" "}
                                     {item?.paymentValue?.toLocaleString()}{" "}
                                     {item?.paymentSymbol}

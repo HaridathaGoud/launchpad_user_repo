@@ -61,7 +61,7 @@ const DashboardSteps = () => {
                       Purchase {process.env.REACT_APP_TOKEN_SYMBOL} Token
                     </h5>
 
-                    <p className="text-neutral-content text-sm font-normal mb-2">
+                    <p className="text-neutral-content text-sm font-normal mb-2 md:min-h-[80px]">
                       {" "}
                       {process.env.REACT_APP_TOKEN_SYMBOL} is YellowBlock’s
                       token that <br className="max-sm:hidden" /> enables its
@@ -85,7 +85,7 @@ const DashboardSteps = () => {
                     <h5 className="font-semibold text-base uppercase mb-2.5 text-secondary">
                       Stake Or Farm Your {process.env.REACT_APP_TOKEN_SYMBOL}{" "}
                     </h5>
-                    <p className="text-neutral-content text-sm font-normal mb-2">
+                    <p className="text-neutral-content text-sm font-normal mb-2 md:min-h-[80px]">
                       {" "}
                       Add your {process.env.REACT_APP_TOKEN_SYMBOL} to one of
                       our staking or <br className="max-sm:hidden" /> farming
