@@ -1,13 +1,4 @@
 import React, { useEffect, useState, useReducer, useContext } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import StartedSteps from './steps';
-import { Modal, modalActions } from '../../../../ui/Modal';
-import Image from 'react-bootstrap/Image';
-// import Button from 'react-bootstrap/Button';
-// import { Modal } from 'react-bootstrap';
-
 import user from '../../../../assets/images/praposal-user.png';
 import success from '../../../../assets/images/thank-you.svg';
 import { Link } from 'react-router-dom';
@@ -310,7 +301,7 @@ function CreatePraposal(props: any) {
     const obj = {
       id: "00000000-0000-0000-0000-000000000000",
       customerId: getCustomerId || custmerKYC.id || proposalDetails.customerId,
-      daoId: props?.pjctInfo?.daoId || params.id ,
+      daoId: props?.pjctInfo?.daoId || params.daoId ,
       title: proposalDetails?.proposal,
       description: proposalDetails?.summary,
       titleHash: proposalDetails.TitleHash,

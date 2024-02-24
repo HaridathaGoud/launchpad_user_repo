@@ -107,6 +107,9 @@ function ProposalCards(props: any) {
     if (address) {
       getDaoItem();
       getApprovedProposalData(state?.status);
+    const getDaoItem = () => {
+        let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId || props?.pjctInfo?.daoId)
+        getBalanceCount(daoData?.name, address)
     }
   }, [address]);
 
@@ -154,6 +157,57 @@ function ProposalCards(props: any) {
           (callback) => {
             if (callback) {
               setShimmerLoading(false);
+        }
+    }
+    const getStartDateProposalData = (e: any) => {
+        setLookUpError(false);
+        let stData = e.target.value;
+        dispatch({ type: 'date', payload: stData })
+        if (stData && state.dateStatus < stData) {
+            setErrorMsg("Start date cannot be greater than the end date.")
+            setLookUpError(true);
+            window.scroll(0, 0);
+            setShimmerLoading(false)
+        } else if (state?.dateStatus) {
+            setShimmerLoading(true)
+            setErrorMsg(null)
+            setPageNo(2)
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, stData, state.dateStatus, (callback) => {
+                if (callback) {
+                    setShimmerLoading(false);
+                }
+            });
+        } else if (!stData && state.dateStatus) {
+            setShimmerLoading(true)
+            setErrorMsg(null)
+            setPageNo(2)
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, stData, state.dateStatus, (callback) => {
+                if (callback) {
+                    setShimmerLoading(false);
+                }
+            });
+        }
+    }
+    const getEndDateProposalData = (e: any) => {
+        setShimmerLoading(true)
+        setLookUpError(false);
+        let endData = e.target.value;
+        dispatch({ type: 'dateStatus', payload: endData })
+        if (endData && endData < state?.date) {
+            setErrorMsg("Start date cannot be greater than the end date.");
+            setLookUpError(true);
+            window.scroll(0, 0);
+            setShimmerLoading(false)
+        } else if (state?.date && endData && status) {
+            setErrorMsg(null)
+            setPageNo(2)
+            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, state?.date, endData, (callback) => {
+                if (callback) {
+                    setShimmerLoading(false);
+                }
+            });
+            if (proposalData) {
+                dispatch({ type: 'dateStatus', payload: endData })
             }
           }
         );
