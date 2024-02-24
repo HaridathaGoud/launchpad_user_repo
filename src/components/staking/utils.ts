@@ -32,7 +32,7 @@ export const checkpointTexts = {
   balaneTexts: [
     `${process.env.REACT_APP_TOKEN_SYMBOL}${" "}available to deposit`,
     `Have an active ${process.env.REACT_APP_TOKEN_SYMBOL} stake`,
-    "7 days waiting period elapsed",
+    `You have unstaked your ${process.env.REACT_APP_TOKEN_SYMBOL}`,
     "Rewards available",
   ],
   maticText: `${process.env.REACT_APP_CURRENCY} available in wallet`,
@@ -40,7 +40,7 @@ export const checkpointTexts = {
   eligibleTexts: [
     "Eligible to stake",
     `Eligible to initiate unstake`,
-    `You have Unstaked your ${process.env.REACT_APP_TOKEN_SYMBOL}`,
+    "7 days waiting period elapsed",
     "Eligible to Stake/Withdraw",
   ],
   eligibleSubTexts: [

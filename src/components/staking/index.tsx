@@ -9,22 +9,20 @@ import { initialStakingState, stakingReducer } from "./reducers";
 import useContract from "../../hooks/useContract";
 import { rewardsData, stakeAmountData, unstakeAmtData } from "./utils";
 import { StakingContextModal } from "./models";
-import { store } from "../../store";
-import { convertUTCToLocalTime, get } from "../../utils/api";
-import OutletContextModel from "../../layout/context/model";
-import OutletContext from "../../layout/context/outletContext";
 import { StakingProvider } from "./context/stakingContext";
 import { navigateToUniswap } from "../../utils/commonNavigations";
 import TrendingProjects from "./trendingCarousel";
 import ConnectToWallet from "../ConnectToWallet";
 const Staking = () => {
   const [state, dispatch] = useReducer(stakingReducer, initialStakingState);
-  const { getStakedAmount, getUnstakedAmount, getRewards,getUserStakeDetails } = useContract();
-  const { errorMessage,setErrorMessage }: OutletContextModel = useContext(OutletContext);
+  const {
+    getStakedAmount,
+    getUnstakedAmount,
+    getRewards,
+    getUserStakeDetails,
+  } = useContract();
   const { isConnected, address } = useAccount();
-  const user= useSelector(
-    (state: any) => state.auth.user
-  );
+  const user = useSelector((state: any) => state.auth.user);
   const { data: maticData } = useBalance({ address }) || {};
   const { data: ybtData } =
     useBalance({
@@ -41,7 +39,16 @@ const Staking = () => {
       getAmountDetails?.();
     }
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  useEffect(() => {
+    
+    async function getDetails() {
+      let response = await getUserStakeDetails();
+      if (response) {
+        dispatch({ type: "setStakeDetails", payload: response });
+      }
+    }
+    getDetails();
+  }, [state.amounts, address]); // eslint-disable-line react-hooks/exhaustive-deps
   const getAmountDetails = async () => {
     let stakedAmount = await stakeAmountData(getStakedAmount);
     let unstakedAmount = await unstakeAmtData(getUnstakedAmount);
@@ -50,44 +57,45 @@ const Staking = () => {
     dispatch({ type: "setAmounts", payload: amounts });
   };
 
-  const GetStakingDetails = async (customer: any) => {
+  const setTimer = (difference, type) => {
     dispatch({ type: "setTimeLoader", payload: true });
-    const user = store.getState().auth;
-    try {
-      let response = await get(
-        `User/GetStakingDetails/${customer?.id || user?.user?.id}`
-      );
-      if (response.statusText.toLowerCase() === "ok") {
-        errorMessage && setErrorMessage?.("");
-        dispatch({ type: "setStakingDetails", payload: response.data });
-        if (new Date(response.data.unstakedDate).getTime() > 0) {
-          const SEVEN_DAYS_IN_MS: any = 5 * 60 * 1000;
-          const NOW_IN_MS = new Date(
-            convertUTCToLocalTime(response.data.unstakedDate)
-          ).getTime();
-          const presentDate = new Date().getTime();
-          const dateTimeAfterSevenDays = NOW_IN_MS + SEVEN_DAYS_IN_MS;
-          if (presentDate <= dateTimeAfterSevenDays) {
-            dispatch({ type: "setIsHideCountDownTimer", payload: true });
-            dispatch({ type: "setTimeLoader", payload: false });
-          } else {
-            dispatch({ type: "setIsHideCountDownTimer", payload: false });
-            dispatch({ type: "setTimeLoader", payload: false });
-          }
-        } else {
-          dispatch({ type: "setTimeLoader", payload: false });
-        }
-      } else {
-        setErrorMessage?.(response);
-        dispatch({ type: "setTimeLoader", payload: false });
-      }
-    } catch (error) {
-      setErrorMessage?.(error);
+    const details = state?.stakeDetails;
+    let initiatedTime = BigInt(0);
+    if (state?.activeTab ===1) {
+      initiatedTime =
+        details?.intialStakingTime[details?.intialStakingTime?.length - 1];
     }
+    if (state?.activeTab === 2) {
+      initiatedTime = details?.unstakeInitiatedTime;
+    }
+    const currentDateMillis = new Date().getTime();
+    const currentDateInSeconds = BigInt(Math.floor(currentDateMillis / 1000));
+    const differenceInSeconds = currentDateInSeconds - initiatedTime;
+    function minutesToSeconds(minutes) {
+      return BigInt(minutes) * 60n;
+    }
+
+    function daysToSeconds(days) {
+      return BigInt(days) * 24n * 60n * 60n;
+    }
+    let timerSeconds = 0n;
+    if (type === "days") {
+      timerSeconds = daysToSeconds(difference);
+    }
+    if (type === "minutes") {
+      timerSeconds = minutesToSeconds(difference);
+    }
+    if (differenceInSeconds >= timerSeconds) {
+      dispatch({ type: "setIsHideCountDownTimer", payload: false });
+    }else {
+      if(state.activeTab!==0) dispatch({ type: "setIsHideCountDownTimer", payload: true });
+    }
+    dispatch({ type: "setTimeLoader", payload: false });
   };
 
   const contextValue: StakingContextModal = useMemo(() => {
     return {
+      stakeDetails: state?.stakeDetails,
       activeTab: state?.activeTab,
       setActiveTab: (payload) =>
         dispatch({ type: "setActiveTab", payload: payload }),
@@ -95,7 +103,6 @@ const Staking = () => {
       setActiveStep: (payload) =>
         dispatch({ type: "setActiveStep", payload: payload }),
       unstakedDate: state?.stakingDetails?.unstakedDate,
-      getStakingDetails: GetStakingDetails,
       stakeAmountData: async () => {
         let stakedAmount = await stakeAmountData(getStakedAmount);
         dispatch({
@@ -128,9 +135,9 @@ const Staking = () => {
       ybtBalance: ybtBalance,
       address: address,
       isConnected: isConnected,
+      setTimers:setTimer
     };
   }, [state, address]); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   // useEffect(() => {
   //   if (user?.id && !user.isReferralPage) {
@@ -146,7 +153,7 @@ const Staking = () => {
   return (
     <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 mt-3">
       <div>
-        <TrendingProjects/>
+        <TrendingProjects />
         <StakingProvider value={contextValue}>
           <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
             <div className="pr-5">
@@ -160,7 +167,7 @@ const Staking = () => {
                 </div>
                 <div>
                   <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
-                    {(user.firstName+" "+user.lastName).toLowerCase()}
+                    {(user.firstName && user.lastName) ?(user.firstName + " " + user.lastName).toLowerCase() : address}
                   </h1>
                   <p className="text-secondary">63k Members</p>
                 </div>

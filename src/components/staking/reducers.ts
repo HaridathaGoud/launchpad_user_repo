@@ -1,6 +1,7 @@
 
 import { StakingStateModel, StakingTabsModel } from "./models";
 export const initialStakingState = {
+  stakeDetails:null,
   activeTab: 0,
   activeStep: 0,
   timeLoader: false,
@@ -22,6 +23,9 @@ export const stakingReducer = (
   action: any
 ) => {
   switch (action.type) {
+    case "setStakeDetails":
+      state = { ...state, stakeDetails: action.payload };
+      break;
     case "setActiveTab":
       state = { ...state, activeTab: action.payload };
       break;

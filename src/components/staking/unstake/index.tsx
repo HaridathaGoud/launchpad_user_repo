@@ -17,6 +17,7 @@ import outletContext from "../../../layout/context/outletContext";
 export default function Unstake() {
   const {setToaster }: OutletContextModel = useContext(outletContext);
   const {
+    stakeDetails,
     activeStep,
     setActiveStep,
     stakeAmountData,
@@ -28,14 +29,15 @@ export default function Unstake() {
     isConnected,
     address,
     maticBalance,
+    setTimers
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
   const { unStack } = useContract();
   useEffect(() => {
     tabContextValues?.resetTab?.()
+    setTimers?.(6,'minutes');
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleNextStep = () => {
     tabContextValues?.tabError && tabContextValues?.setTabError?.("");
     tabContextValues?.setAmountFieldError?.("");
@@ -76,7 +78,6 @@ export default function Unstake() {
         stakeAmountData?.();
         unStakeAmtData?.();
         rewardsData?.();
-        getStakingDetails?.();
       } else {
         tabContextValues?.setButtonLoader?.(false);
         tabContextValues?.setTabError?.(
@@ -109,7 +110,6 @@ export default function Unstake() {
 
   const handleUnStakeAgain = () => {
     tabContextValues?.resetTab?.()
-    getStakingDetails?.();
     stakeAmountData?.();
     unStakeAmtData?.();
     rewardsData?.();
@@ -119,7 +119,8 @@ export default function Unstake() {
       !stakedAmount ||
       maticBalance === "0" ||
       !maticBalance ||
-      isHideCountDownTimer) &&
+      // isHideCountDownTimer ||  
+      stakeDetails?.isUnstakeInitiated) &&
     activeStep === 1;
   return (
     <div className="container">
