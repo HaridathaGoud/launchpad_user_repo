@@ -11,8 +11,8 @@ const pjctTypes = {
 };
 const statusColourList: any = {
   ongoing: "dot-green",
-  closed: "dot-white ",
-  Closed: "dot-white ",
+  closed: "dot-red",
+  Closed: "dot-red",
   upcoming: "dot-orange",
 };
 const ProjectDetailsCard = (props: any) => {

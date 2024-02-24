@@ -120,7 +120,7 @@ const Projectscomponent = (props) => {
   };
   return (
     <>
-      {/* {cardDetails.length > 0 && ( */}
+      {cardDetails.length > 0 && (
         <div className="container mx-auto max-sm:px-3 mt-6">
           <div className="">
             <div
@@ -430,7 +430,7 @@ const Projectscomponent = (props) => {
             )}
           </div>
         </div>
-       {/* )} */}
+       )}
       {cardDetails?.length == 0 && loader && (
         <div className="text-center">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

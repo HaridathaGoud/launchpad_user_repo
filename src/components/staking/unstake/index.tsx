@@ -172,7 +172,7 @@ export default function Unstake() {
                         <Spinner />
                       )}
 
-                      {(activeStep === 0 && "Checkpoints") ||
+                      {(activeStep === 0 && "Proceed") ||
                         (activeStep === 1 && "Amount to Unstake") ||
                         (activeStep === 2 && "Initialize Unstake") ||
                         (activeStep === 3 && "Confirm Unstake")}

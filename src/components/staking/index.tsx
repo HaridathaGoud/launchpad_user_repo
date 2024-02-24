@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useMemo, useReducer } from "react";
+import React, { useEffect, useMemo, useReducer } from "react";
 import { useAccount, useBalance } from "wagmi";
 import { useSelector } from "react-redux";
 // import KycStatusPage from "../../components/sumsub/kycStatus";
-import daoprofile from "../../assets/images/dao-profile.png";
+import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import StakingDetails from "./stakingDetails";
 import StakingTabs from "./stakingTabs";
 import { initialStakingState, stakingReducer } from "./reducers";
@@ -13,6 +13,7 @@ import { StakingProvider } from "./context/stakingContext";
 import { navigateToUniswap } from "../../utils/commonNavigations";
 import TrendingProjects from "./trendingCarousel";
 import ConnectToWallet from "../ConnectToWallet";
+import CopyToClipboard from 'react-copy-to-clipboard';
 const Staking = () => {
   const [state, dispatch] = useReducer(stakingReducer, initialStakingState);
   const {
@@ -58,6 +59,7 @@ const Staking = () => {
   };
 
   const setTimer = (difference, type) => {
+    debugger
     dispatch({ type: "setTimeLoader", payload: true });
     const details = state?.stakeDetails;
     let initiatedTime = BigInt(0);
@@ -92,7 +94,10 @@ const Staking = () => {
     }
     dispatch({ type: "setTimeLoader", payload: false });
   };
-
+  const handleCopy = () => {
+    dispatch({ type: "setAddressCopied", payload: true });
+    setTimeout(() =>dispatch({ type: "setAddressCopied", payload: false }), 1000)
+  }
   const contextValue: StakingContextModal = useMemo(() => {
     return {
       stakeDetails: state?.stakeDetails,
@@ -160,14 +165,25 @@ const Staking = () => {
               <div className="flex items-center gap-3 col">
                 <div className="w-12 h-12 ">
                   <img
-                    src={daoprofile}
+                    src={user?.profilePicUrl || defaultAvatar}
                     alt="Dao Profile"
                     className="rounded-full object-cover"
                   />
                 </div>
                 <div>
                   <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
-                    {(user.firstName && user.lastName) ?(user.firstName + " " + user.lastName).toLowerCase() : address}
+                    {(user.firstName && user.lastName) ? (user.firstName + " " + user.lastName).toLowerCase() : <>
+                    <span className="text-purple-color">
+                            {address?.slice(0, 4)}...{address?.slice(-4)}
+                          </span>
+                          <CopyToClipboard
+                            text={address}
+                            options={{ format: 'text/plain' }}
+                            onCopy={() => handleCopy()}
+                          >
+                            <span className={!state?.addressCopied ? 'icon md copy-icon cursor-pointer ms-0 pl-4' : 'icon md check-icon pl-4'} />
+                          </CopyToClipboard>
+                    </>}
                   </h1>
                   <p className="text-secondary">63k Members</p>
                 </div>

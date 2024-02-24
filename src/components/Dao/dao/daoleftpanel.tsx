@@ -1,22 +1,18 @@
-import React, { useState,useReducer } from 'react';
-import daoprofile from "../../../assets/images/dao-profile.png";
-import Image from 'react-bootstrap/Image'
-import SecondaryButtonLg from '../button/secondarylg';
-import TextInput from '../inputs/textinput';
-import TextArea from '../inputs/textarea';
-import BrowserInput from '../inputs/browserinput';
-import CancelButton from '../button/cancel';
-import SecondaryButtonMd from '../button/secondarybuttonmd';
+import React, { useState } from 'react';
+import defaultAvatar from "../../../assets/images/default-avatar.jpg"
 import { useAccount } from 'wagmi';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Createpraposal from '../proposal/createproposal/createpraposal';
-
+import { useSelector } from 'react-redux';
+import CopyToClipboard from 'react-copy-to-clipboard';
 const DaoLeftPanel = (props) => {
+    const user = useSelector((state: any) => state.auth.user);
+    const {address}=useAccount()
     const [isChecked, setIsChecked] = useState(false)
-
-    const router = useNavigate();
-
+    const [copied,setCopied]=useState(false)
+    const handleCopy = () => {
+        setCopied(true);
+        setTimeout(() =>setCopied(false), 1000)
+      }
     const handleRedirectCreatepraposalScreen = () => {
         setIsChecked(true)
     }
@@ -29,12 +25,25 @@ const DaoLeftPanel = (props) => {
             <div>
                 <div className='flex items-center gap-3'>
                     <div className='w-12 h-12 '>
-                        <Image src={daoprofile} className='rounded-full object-cover' />
+                        <img src={user?.profilePicUrl || defaultAvatar} alt="Dao profile" className='rounded-full object-cover' />
                     </div>
                     <div>
-                        <h1 className='text-lg font-semibold mb-1'>Aquaman</h1>
-                        <p>63k Members</p>
-                    </div>
+                  <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
+                    {(user.firstName && user.lastName) ? (user.firstName + " " + user.lastName).toLowerCase() : <>
+                    <span className="text-purple-color">
+                            {address?.slice(0, 4)}...{address?.slice(-4)}
+                          </span>
+                          <CopyToClipboard
+                            text={address}
+                            options={{ format: 'text/plain' }}
+                            onCopy={() => handleCopy()}
+                          >
+                            <span className={!copied ? 'icon md copy-icon cursor-pointer ms-0 pl-4' : 'icon md check-icon pl-4'} />
+                          </CopyToClipboard>
+                    </>}
+                  </h1>
+                  <p className="text-secondary">63k Members</p>
+                </div>
                 </div>
                 <button onClick={handleRedirectCreatepraposalScreen} className='bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8'>New Proposal</button>
                 <div>
@@ -49,8 +58,6 @@ const DaoLeftPanel = (props) => {
                     </div>
                 </div>
             </div>
-
-
             {isChecked && <div className="drawer drawer-end">
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" checked={isChecked} />
                 <div className="drawer-content">

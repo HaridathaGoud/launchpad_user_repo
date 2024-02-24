@@ -2,20 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ProposalCards from '../createproposal/praposalCards'
 import { connect } from "react-redux";
 import { getCardsProposalList } from '../proposlaReducer/proposlaReducer';
-import ProjectCarousal from '../../dao/projectCarousal';
-import BreadCrumb from '../../../../ui/breadcrumb';
-import ProjectViewTabs from '../../dao/projecttabs';
 import DaoLeftPanel from '../../dao/daoleftpanel';
-import aquaman from '../../../../assets/images/aquaman.png';
-import BannerCarousel from '../../../../ui/BannerCarousal';
 import ProposalCardShimmer from '../../shimmers/proposalcardshimmer';
 import { useParams } from 'react-router-dom';
+import TrendingProjects from '../../../staking/trendingCarousel';
 
 function CommonCreateProposal(props) {
-  const projectCarousel=[
-    {url:aquaman,alt:'spider man web series'},
-    {url:aquaman,alt:'captain web series'}
-  ]
+
   const [loading, setLoading] = useState(true);
   const params = useParams()
   useEffect(() => {
@@ -29,7 +22,7 @@ function CommonCreateProposal(props) {
         {loading && <ProposalCardShimmer />}
         {!loading && (
           <>
-            {params?.daoId && <BannerCarousel images={projectCarousel} className='h-52' />}
+            {params?.daoId && <TrendingProjects/>}
             <div className='mt-5 mb-4'>
               {/* <BreadCrumb/> */}
               <div className='mb-12 mt-4'>

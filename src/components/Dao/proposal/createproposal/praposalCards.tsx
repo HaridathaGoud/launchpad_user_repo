@@ -72,8 +72,6 @@ function ProposalCards(props: any) {
     dateStatus: false,
   });
   const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
-  const mintingKrijiContractAddress: any =
-    process.env.REACT_APP_MINTING_KEIJI_CONTRACTOR;
   const [shimmerLoading, setShimmerLoading] = useState(true);
   useEffect(() => {
     getDaoItem();
@@ -87,11 +85,10 @@ function ProposalCards(props: any) {
   }, []);
 
   const getDaoItem = () => {
-    let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId);
-    getBalanceCount(daoData?.name, address);
+    // let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId);
+    getBalanceCount(address);
   };
-  async function getBalanceCount(daoName, address) {
-    // let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
+  async function getBalanceCount(address) {
     let contractAddress = mintingContractAddress;
     let balance: any = await readContract({
       address: contractAddress,
@@ -152,6 +149,23 @@ function ProposalCards(props: any) {
           state?.date,
           state?.dateStatus,
           (callback) => {
+            if (callback) {
+              setShimmerLoading(false);
+            }
+          }
+        );
+      } else {
+        props.proposalDetailsList(
+          pageNo,
+          pageSize,
+          props?.pjctInfo?.daoId || params?.daoId,
+          data.toLowerCase(),
+          search,
+          startDate,
+          endDate,
+          (callback) => {
+            let _pageNo = pageNo + 1;
+            setPageNo(_pageNo);
             if (callback) {
               setShimmerLoading(false);
             }
@@ -359,38 +373,38 @@ function ProposalCards(props: any) {
     ];
     return recorderValues[recorder - 1];
   };
-  function calculateTimeDifference(startingDate, endingDate) {
+  function calculateTimeDifference(endingDate) {
     const startTime = new Date().getTime();
-    // const startTime = new Date(startingDate).getTime();
     const endTime = new Date(endingDate).getTime();
-
+    
     if (startTime > endTime) {
-      return "Ended";
+        return "Ended";
     }
+
     const difference = endTime - startTime;
     let timeDifference = "Ends in";
 
     if (difference === 0) {
-      timeDifference = "Ended";
+        timeDifference = "Ended";
     } else {
-      const timeUnits = [
-        { unit: "week", divisor: 1000 * 60 * 60 * 24 * 7 },
-        { unit: "day", divisor: 1000 * 60 * 60 * 24 },
-        { unit: "hour", divisor: 1000 * 60 * 60 },
-        { unit: "minute", divisor: 1000 * 60 },
-      ];
+        const timeUnits = [
+            { unit: "week", divisor: 1000 * 60 * 60 * 24 * 7 },
+            { unit: "day", divisor: 1000 * 60 * 60 * 24 },
+            { unit: "hour", divisor: 1000 * 60 * 60 },
+            { unit: "minute", divisor: 1000 * 60 },
+        ];
 
-      for (const { unit, divisor } of timeUnits) {
-        const unitDifference = Math.floor(difference / divisor);
-        if (unitDifference > 0) {
-          timeDifference +=
-            " " + unitDifference + " " + unit + (unitDifference > 1 ? "s" : "");
-          break;
+        for (const { unit, divisor } of timeUnits) {
+            const unitDifference = Math.floor(difference / divisor);
+            if (unitDifference > 0) {
+                timeDifference += " " +
+                    unitDifference + " " + unit + (unitDifference > 1 ? "s" : "");
+                break;
+            }
         }
-      }
     }
-    return timeDifference || "";
-  }
+    return timeDifference;
+}
 
   return (
     <>
@@ -489,20 +503,18 @@ function ProposalCards(props: any) {
                     {proposalData != "" ? (
                       <>
                         {proposalData?.map((item) => (
-                          <div
-                            className="bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4"
-                            key={item.proposalId}
-                          >
+                          <div className="bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4" key={item.creatorAddress || item.id}>
                             <div className="flex justify-between gap-4 items-center">
                               <div className="flex items-center truncate">
                                 <div className="w-9 h-9 mr-2 shrink-0">
-                                  <Image
+                                  <img
                                     src={daocardProfile}
                                     className="rounded-full object-cover"
+                                    alt="dao profile"
                                   />
                                 </div>
                                 <p className="truncate text-secondary">
-                                  {item?.creatorAddress || ""}
+                                  {item.creatorAddress || '--'}
                                 </p>
                               </div>
                               <div>
@@ -540,19 +552,11 @@ function ProposalCards(props: any) {
                             </div>
                             <div className="flex gap-5 flex-col lg:flex-row">
                               <div className="w-full lg:w-52 lg:h-32 shrink-0">
-                                <img
-                                  src={daoimg}
-                                  className="rounded-lg object-cover"
-                                  alt="proposal"
-                                />
+                     
                               </div>
                               <div className="flex-1">
                                 <p className="text-base-200">
-                                  {(item?.description &&
-                                    (item?.description.length > 30
-                                      ? item?.description?.slice(0, 30) + " ..."
-                                      : item.description)) ||
-                                    "--"}
+                                  {(item?.description && (item?.description.length>30 ? item.description.slice(0,30)+" ..." : item.description) )|| "--"}
                                 </p>
                                 <div className="flex align-items-center gap-4">
                                   <p className="text-secondary mt-3 me-3">
@@ -576,11 +580,8 @@ function ProposalCards(props: any) {
                                 </div>
                                 <div className="flex gap-4 mt-2">
                                   {item?.options?.map((data: any) => (
-                                    <div
-                                      className="text-secondary"
-                                      key={data?.id}
-                                    >
-                                      <div>
+                                    <div className="text-secondary" key={data?.id}>
+                                      <div >
                                         <p className="text-secondary">
                                           {getRecorderValue(data?.recorder)}.{" "}
                                           {data?.option}{" "}
@@ -593,7 +594,6 @@ function ProposalCards(props: any) {
                                 <div className="md:flex justify-between items-center mt-2">
                                   <p className="text-base font-semibold mb-2 md:mb-0 text-secondary">
                                     {calculateTimeDifference(
-                                      item?.startDate,
                                       item?.endDate
                                     )}
                                   </p>
@@ -651,7 +651,7 @@ function ProposalCards(props: any) {
                       </>
                     ) : (
                       <div className="text-center">
-                        <img src={nodata} width={60} alt="No Data" />
+                        <img src={nodata} width={60} />
                         <h4 className="text-center no-data-text">
                           No Data Found
                         </h4>

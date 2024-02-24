@@ -8,6 +8,7 @@ export interface StakingStateModel {
   stakingDetails: any;
   amounts: any;
   stakeDetails:any;
+  addressCopied:boolean;
 }
 
 export interface StakingContextModal {

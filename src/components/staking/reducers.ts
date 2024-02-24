@@ -8,6 +8,7 @@ export const initialStakingState = {
   isHideCountDownTimer: false,
   stakingDetails: {},
   amounts: { stakedAmount: null, unstakedAmount: null, rewardAmount: null },
+  addressCopied:false
 };
 
 export const stakingTabsInitialState = {
@@ -44,6 +45,9 @@ export const stakingReducer = (
     case "setAmounts":
       state = { ...state, amounts: action.payload };
       break;
+      case "setAddressCopied":
+        state = { ...state, addressCopied: action.payload };
+        break;
     default:
       state = { ...state };
   }
