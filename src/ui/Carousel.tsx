@@ -70,10 +70,10 @@ const Carousel = ({
                       <h1 className="text-[52px] font-bold text-primary mt-3.5 capitalize">
                         {image.name.toLowerCase()}
                       </h1>
-                      <h2 className="text-[32px] leading-[0.8] mb-[38px] md:text-[42px] text-black">
+                      <h2 className="text-[32px] leading-[0.8] mb-[30px] md:text-[42px] text-black">
                         {/* Web Series */}
                       </h2>
-                      <div className="flex gap-x-8 md:pb-0">
+                      <div className="flex gap-x-8 md:pb-0 mb-2">
                         <div>
                           <p className="text-neutral font-[500] text-base">
                             Public Opens
@@ -87,7 +87,7 @@ const Carousel = ({
                           <p className="text-xl text-black">{`${formatDate(image.publicSaleEndDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
                         </div>
                       </div>
-                      <div className="mt-3.5 max-sm:mb-8 max-sm:text-center">
+                      <div className="mt-8 max-sm:mb-8 max-sm:text-center">
                         <Button
                           type="secondary"
                           handleClick={() => navigateToUniswap()}
