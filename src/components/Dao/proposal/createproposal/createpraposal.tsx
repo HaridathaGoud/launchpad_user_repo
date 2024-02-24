@@ -540,7 +540,7 @@ function CreatePraposal(props: any) {
                   {state.currentStep === 1 && (
                     <>
                       <div className="mt-4 ">
-                        <label className="mb-0 inline-block ml-5 mb-2">
+                        <label className="mb-0 inline-block ml-4 mb-2">
                           Author
                         </label>
                         <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
@@ -618,7 +618,7 @@ function CreatePraposal(props: any) {
                         <label className="text-dark text-sm font-normal p-0 label ml-4 mb-2">
                           Select Your Proposal Type
                         </label>
-                        <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-4 py-2 h-9">
+                        <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-4 py-2 h-10">
                           <label className="cursor-pointer relative inline-block mt-1">
                             <span>
                               <input
@@ -653,39 +653,34 @@ function CreatePraposal(props: any) {
                             </Button>
                           </div>
                         </div>
-                        <div>
-
-                          <div>
-                            {options.map((option: any, index: any) => (
-                              <div key={index}>
-                                <div className="d-flex align-items-center add-block relative mt-4">
-                                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
-                                    {/* {option?.index
+                        <div className="grid grid-cols-2 gap-4">
+                          {options.map((option: any, index: any) => (
+                            <div key={index} className="d-flex align-items-center add-block relative">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                {/* {option?.index
                                       ? option?.index && option?.index + "."
                                       :  */}
-                                    {`${index + 1}.`}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
-                                    placeholder="Enter your option"
-                                    maxLength={50}
-                                    onChange={(e) => {
-                                      setOptionFeild(
-                                        e.currentTarget.value,
-                                        index
-                                      );
-                                    }}
-                                    value={option.options ? option.options : ""}
-                                  />
-                                  <span
-                                    className="icon delete-icon top-10 absolute right-6 cursor-pointer"
-                                    onClick={() => deleteOption(index)}
-                                  ></span>
-                                </div>
+                                {`${index + 1}.`}
+                              </label>
+                              <input
+                                type="text"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cust-delete-box pr-[50px]"
+                                placeholder="Enter your option"
+                                maxLength={50}
+                                onChange={(e) => {
+                                  setOptionFeild(
+                                    e.currentTarget.value,
+                                    index
+                                  );
+                                }}
+                                value={option.options ? option.options : ""}
+                              />
+                              <span
+                                className="icon delete-icon top-[36px] absolute right-6 cursor-pointer scale-95"
+                                onClick={() => deleteOption(index)}
+                              ></span>
                               </div>
-                            ))}
-                          </div>
+                          ))}
                         </div>
                         {/* <div className="flex justify-center gap-5 items-center mt-16">
                             <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
@@ -713,13 +708,13 @@ function CreatePraposal(props: any) {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="mt-4">
-                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-5">
+                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4">
                             Start Date & Time{" "}
                             <span className="text-xs">(Local time zone)</span>
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-9 py-2 ${isMobile && !state?.startingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.startingDate
                               ? " "
                               : isMobile && state?.startingDate
                                 ? " "
@@ -735,13 +730,13 @@ function CreatePraposal(props: any) {
                           </label>
                         </div>
                         <div className="mt-4">
-                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-5">
+                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4">
                             End Date & Time{" "}
                             <span className="text-xs">(Local time zone)</span>
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-9 py-2 ${isMobile && !state?.endingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.endingDate
                               ? " "
                               : isMobile && state?.endingDate
                                 ? " "
@@ -781,9 +776,9 @@ function CreatePraposal(props: any) {
                               </p>
                               <div className="flex items-center flex-wrap gap-3">
                                 {proposalDetails?.ProposalOptionDetails?.map(
-                                  (item,index) => (
+                                  (item, index) => (
                                     <p className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200" key={item.options}>
-                                      {item?.index || index+1}. {item?.options}
+                                      {item?.index || index + 1}. {item?.options}
                                     </p>
                                   )
                                 )}
@@ -852,16 +847,14 @@ function CreatePraposal(props: any) {
                   )}
                   {state?.currentStep !== 3 && (
                     <div className="flex justify-center gap-5 items-center mt-16">
-                      <Link to={""}>
-                        {" "}
-                        <Button handleClick={handlecloseDrawer} type="cancel">
-                          Cancel
-                        </Button>{" "}
-                      </Link>
+                      <Button handleClick={handlecloseDrawer} type="cancel" btnClassName="justify-center min-w-[164px]">
+                        Cancel
+                      </Button>
                       <Button
                         type="secondary"
                         btnClassName="flex gap-2"
                         handleClick={(e) => handleNextStep(e)}
+                        btnClassName="justify-center min-w-[164px]"
                         disabled={toasterMessage || state.buttonLoader}
                       >
                         {btnLoader && (
