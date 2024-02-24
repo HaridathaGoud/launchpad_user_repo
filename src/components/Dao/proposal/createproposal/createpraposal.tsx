@@ -927,7 +927,7 @@ function CreatePraposal(props: any) {
         </div>
       ) : (
         <div className="pt-10">
-          <img src={connectwallet} alt="" width={300} className="mx-auto" />
+          
           <WalletText />
         </div>
       )}
