@@ -851,13 +851,12 @@ function CreatePraposal(props: any) {
                       </Button>
                       <Button
                         type="secondary"
-                        btnClassName="flex gap-2"
+                        btnClassName="flex gap-2 items-center justify-center min-w-[164px]"
                         handleClick={(e) => handleNextStep(e)}
-                        btnClassName="justify-center min-w-[164px]"
                         disabled={toasterMessage || state.buttonLoader}
                       >
                         {btnLoader && (
-                          <span className="loading loading-spinner loading-sm"></span>
+                          <span className="loading loading-spinner loading-sm mr-1"></span>
                         )}{" "}
                         {state?.currentStep === 1 && "Next"}
                         {state?.currentStep === 2 && "Publish"}
