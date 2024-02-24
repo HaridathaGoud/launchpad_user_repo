@@ -280,7 +280,7 @@ const Projectscomponent = (props) => {
                                 alt=""
                               />{" "}
                               <div className="pt-2">
-                                <p className="text-[#fff] text-3lines min-h-[72px]">
+                                <p className="text-secondary text-3lines min-h-[72px]">
                                   {item?.description}
                                 </p>
                                 <div
