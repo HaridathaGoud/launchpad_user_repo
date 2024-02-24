@@ -131,7 +131,7 @@ function CreatePraposal(props: any) {
         options: item.options,
         Id: "00000000-0000-0000-0000-000000000000",
         optionhash: null,
-        index: String.fromCharCode(65 + index),
+        // index: index+1,
       };
     });
     setOptions(optionsArray);
@@ -198,11 +198,11 @@ function CreatePraposal(props: any) {
     for (let i in _properties) {
       let _obj = _properties[i];
       if (_obj.options == "" || _obj.options == null || !_obj.options.trim()) {
-        setErrorMessage?.("Please fill the data.");
+        setErrorMessage?.("Options cannot be empty!");
         return;
-      } else if (validateContentRule("", _obj.options)) {
-        setErrorMessage?.("Please provide valid content.");
-        return
+      } else if (validateContentRule(_obj.options)) {
+        setErrorMessage?.("Please provide valid content for options!");
+        return;
       } else {
         const isDuplicate = _attribute.some(
           (item) =>
@@ -211,8 +211,8 @@ function CreatePraposal(props: any) {
         );
 
         if (isDuplicate) {
-          setErrorMessage?.("Options should be unique.");
-          return ;
+          setErrorMessage?.("Options should be unique!");
+          return;
         } else {
           setErrorMessage?.("");
           isUpdate = true;
@@ -235,11 +235,11 @@ function CreatePraposal(props: any) {
     }
   };
 
-  const checkBoxChecked = (e: any) => {
-    if (attributes.length == 0 && !state.checked) {
-      dispatch({ type: "isChecked", payload: e.target.checked });
-    }
-  };
+  // const checkBoxChecked = (e: any) => {
+  //   if (attributes.length == 0 && !state.checked) {
+  //     dispatch({ type: "isChecked", payload: e.target.checked });
+  //   }
+  // };
 
   const handleRedirectToPublishProposalScreen = (event: any) => {
     setErrorMessage?.(null);
@@ -266,7 +266,7 @@ function CreatePraposal(props: any) {
         setErrorMessage?.("Start time cannot be greater than the end time.");
       } else {
         // let proposalType = state?.isChecked ? "voting" : "decision";
-        let proposalType ="voting";
+        let proposalType = "voting";
         let formData = form;
         formData.ProposalOptionDetails = attributes;
         formData.startDate = state?.epochStartData;
@@ -625,7 +625,6 @@ function CreatePraposal(props: any) {
                                 checked={state?.isChecked}
                                 onChange={handleCheckBoxChecked}
                                 onClick={openModalPopUp}
-                                
                               />
                               <span className=""></span>
                             </span>
@@ -653,15 +652,15 @@ function CreatePraposal(props: any) {
                           </div>
                         </div>
                         <div>
-                          
                           <div>
                             {options.map((option: any, index: any) => (
                               <div key={index}>
                                 <div className="d-flex align-items-center add-block relative mt-4">
                                   <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
-                                    {option?.index
+                                    {/* {option?.index
                                       ? option?.index && option?.index + "."
-                                      : "A."}
+                                      :  */}
+                                    {`${index + 1}.`}
                                   </label>
                                   <input
                                     type="text"
@@ -776,12 +775,18 @@ function CreatePraposal(props: any) {
                               Voting{" "}
                             </h1>
                             <div>
-                              {/* <p className='text-sm text-secondary opacity-50 mb-2'>Your proposal options</p> */}
-                              {/* <div className='flex items-center flex-wrap gap-3'>
-                                    {proposalDetails?.ProposalOptionDetails?.map((item) => (
-                                        <p className='px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200'>{item?.index || "A"}. {item?.options}</p>
-                                    ))}
-                                      </div> */}
+                              <p className="text-sm text-secondary opacity-50 mb-2">
+                                Your proposal options
+                              </p>
+                              <div className="flex items-center flex-wrap gap-3">
+                                {proposalDetails?.ProposalOptionDetails?.map(
+                                  (item,index) => (
+                                    <p className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200" key={item.options}>
+                                      {item?.index || index+1}. {item?.options}
+                                    </p>
+                                  )
+                                )}
+                              </div>
                             </div>
                           </div>
                           <hr className="my-3" />
