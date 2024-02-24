@@ -74,6 +74,7 @@ const WithdrawComponent = () => {
 
   const handleWithdrawAgain = () => {
     tabContextValues?.resetTab?.();
+    window.location.reload()
   };
 
   const activeCondition =

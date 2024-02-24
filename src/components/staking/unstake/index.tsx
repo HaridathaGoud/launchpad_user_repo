@@ -110,6 +110,7 @@ export default function Unstake() {
 
   const handleUnStakeAgain = () => {
     tabContextValues?.resetTab?.()
+    window.location.reload()
     stakeAmountData?.();
     unStakeAmtData?.();
     rewardsData?.();
