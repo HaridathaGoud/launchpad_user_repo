@@ -267,7 +267,6 @@ function CreatePraposal(props: any) {
       } else {
         // let proposalType = state?.isChecked ? "voting" : "decision";
         let proposalType = "voting";
-        let proposalType = "voting";
         let formData = form;
         formData.ProposalOptionDetails = attributes;
         formData.startDate = state?.epochStartData;
