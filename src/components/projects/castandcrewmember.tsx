@@ -10,7 +10,7 @@ const CastAndCrewMember = (props) => {
       className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}
     >
       {props.castCrewsData?.map((item, index) =>
-        index < 5 ? (
+        index < 4 ? (
           <div className="lg:w-[140px] break-words shrink-0	" key={item.image}>
             {" "}
             <div

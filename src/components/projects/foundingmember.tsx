@@ -15,7 +15,7 @@ const FoundingMember = (props) => {
         <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
             {props.foundingmemsData
                 ?.stakersData?.map((item, index) =>
-                (index < 5 ?
+                (index < 4 ?
                     <div className='lg:w-[140px] break-words shrink-0' key={item.walletAddress}>
                         <div className={`relative w-20 h-20 mx-auto mb-3 `}>
                             <img src={item.image ? item.image : member} className={`rounded-full h-full w-full object-cover`} alt={`${'founding member'}`} />
