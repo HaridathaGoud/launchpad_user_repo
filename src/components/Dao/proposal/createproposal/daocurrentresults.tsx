@@ -231,7 +231,7 @@ const   DaoCurrentResults = (props: any) => {
                     </div>
                    </div>
                    <div>
-                   <p className='text-secondary truncate'>23k The Saf...</p>
+                   {/* <p className='text-secondary truncate'>23k The Saf...</p> */}
                    {editBtn && <> 
                     <img src={votesuccess} alt="" className='mt-2 w-[90px]' />
                     </>}
