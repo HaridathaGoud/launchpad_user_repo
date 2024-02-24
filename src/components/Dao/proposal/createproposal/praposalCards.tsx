@@ -650,8 +650,8 @@ function ProposalCards(props: any) {
                       </>
                     ) : (
                       <div className="text-center container">
-                        <img src={nodata} width={60} alt="NO Data" />
-                        <h4 className="text-center no-data-text">
+                        <img src={nodata} width={80} alt="NO Data" className="mx-auto mb-1" />
+                        <h4 className="text-center text-secondary">
                           No Data Found
                         </h4>
                       </div>
