@@ -7,6 +7,7 @@ export interface StakingStateModel {
   isHideCountDownTimer: boolean;
   stakingDetails: any;
   amounts: any;
+  stakeDetails:any;
 }
 
 export interface StakingContextModal {
@@ -29,6 +30,8 @@ export interface StakingContextModal {
   ybtBalance?: string;
   address?: string;
   isConnected?: boolean;
+  stakeDetails?:any;
+  setTimers?:Function
 }
 
 export interface StakingTabsModel {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import CheckPointsComponent from "../checkPoints.tsx";
 import useContract from "../../../hooks/useContract.ts";
 import Spinner from "../../loaders/spinner.tsx";
@@ -11,7 +11,7 @@ import OutletContextModel from "../../../layout/context/model.ts";
 import outletContext from "../../../layout/context/outletContext.ts";
 import { StakingTabsContext } from "../context/stakingTabsContext.tsx";
 const RewardsComponent = () => {
-  const {setToaster }: OutletContextModel = useContext(outletContext);
+  const { setToaster }: OutletContextModel = useContext(outletContext);
   const {
     rewardAmount,
     rewardsData,
@@ -21,9 +21,9 @@ const RewardsComponent = () => {
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
-  const { stackRewards,approve } = useContract();
+  const { stackRewards, approve } = useContract();
   useEffect(() => {
-    tabContextValues?.resetTab?.()
+    tabContextValues?.resetTab?.();
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStakeRewards = () => {
@@ -35,17 +35,16 @@ const RewardsComponent = () => {
       tabContextValues?.setButtonLoader?.(false);
     } else {
       stackRewards(
-              (res: any) => {
-                callbackRewards(res);
-              },
-              rewardAmount.toFixed(8),
-              true
-            );
-            }
-    //   approve((res: any) => {
-    //     approveStake(res);
-    //   }, parseFloat(rewardAmount.toFixed(8)));
-    // }
+        (res: any) => {
+          callbackRewards(res);
+        },
+        rewardAmount.toFixed(8),
+        true
+      );
+      // approve((res: any) => {
+      //   approveStake(res);
+      // }, parseFloat(rewardAmount.toFixed(8)));
+    }
   };
   // const approveStake = (res: any) => {
   //   if (res.ok) {
@@ -71,16 +70,14 @@ const RewardsComponent = () => {
     };
     const response = await post(`User/SaveStakerewards`, obj);
     if (res.ok && response) {
-      setToaster?.('Rewards stake successful!')
+      setToaster?.("Rewards stake successful!");
       tabContextValues?.setButtonLoader?.(false);
       rewardsData?.();
       tabContextValues?.tabError && tabContextValues?.setTabError?.("");
       window.location.reload();
     } else {
       tabContextValues?.setButtonLoader?.(false);
-      tabContextValues?.setTabError?.(
-        res?.error?.shortMessage || res
-      );
+      tabContextValues?.setTabError?.(res?.error?.shortMessage || res);
       tabContextValues?.setCheckboxValue?.(false);
     }
   };

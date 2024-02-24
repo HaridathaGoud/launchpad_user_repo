@@ -1,4 +1,4 @@
-import {StakingContext} from "./context/stakingContext";
+import { StakingContext } from "./context/stakingContext";
 import { StakingContextModal } from "./models";
 import TimeCalculate from "./timeCalculate";
 import React, { useContext } from "react";
@@ -6,13 +6,12 @@ import { checkpointTexts, formatAmount } from "./utils";
 
 const CheckPointsComponent = () => {
   const {
+    stakeDetails,
     activeTab,
     stakedAmount,
     unstakedAmount,
     rewardAmount,
     isHideCountDownTimer,
-    unstakedDate,
-    setIsHideCountDownTimer,
     isConnected,
     ybtBalance,
     maticBalance,
@@ -77,7 +76,7 @@ const CheckPointsComponent = () => {
             <div className="">
               <span
                 className={
-                  balanceFormatted.balance > 0
+                  balanceFormatted.balance > 0 
                     ? "icon active-checkpoint"
                     : "icon checkpoint"
                 }
@@ -145,9 +144,10 @@ const CheckPointsComponent = () => {
                 <span
                   className={
                     (activeTab !== 0 &&
-                      !isHideCountDownTimer &&
+                      // isHideCountDownTimer &&
                       balanceFormatted.balance > 0) ||
-                    (activeTab === 0 && balanceFormatted.balance > 0)
+                    (activeTab === 0 && balanceFormatted.balance > 0) ||
+                    !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)
                       ? "icon active-checkpoint"
                       : "icon checkpoint"
                   }
@@ -165,12 +165,7 @@ const CheckPointsComponent = () => {
                     ? checkpointTexts.eligibleSubTexts[activeTab]
                     : "")}
               </p>
-              {isHideCountDownTimer && (
-                <TimeCalculate
-                  unstakedDate={unstakedDate}
-                  setIsHideCountDownTimer={setIsHideCountDownTimer}
-                ></TimeCalculate>
-              )}
+              {/* {isHideCountDownTimer && <TimeCalculate></TimeCalculate>} */}
             </div>
           </div>
         </div>

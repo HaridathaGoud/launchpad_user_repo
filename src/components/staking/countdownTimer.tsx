@@ -33,7 +33,7 @@ const CountdownTimer = (props: any) => {
     props?.setIsHideCountDownTimer(false);
     return <ExpiredNotice />;
   } else {
-    props?.setIsHideCountDownTimer(true);
+    // props?.setIsHideCountDownTimer(true);
     return <ShowCounter days={days} hours={hours} minutes={minutes} seconds={seconds} />;
   }
 };

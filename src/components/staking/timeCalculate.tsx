@@ -1,18 +1,39 @@
-import React from 'react';
-import CountdownTimer from './countdownTimer';
-import { convertUTCToLocalTime } from '../../utils/api';
-export default function TimeCalculate(props: any) {
+import React, { useContext } from "react";
+import CountdownTimer from "./countdownTimer";
+import { StakingContextModal } from "./models";
+import { StakingContext } from "./context/stakingContext";
+export default function TimeCalculate() {
+  function minutesToSeconds(minutes) {
+    return (minutes) * 60;
+  }
+
+  function daysToSeconds(days) {
+    return (days) * 24 * 60 * 60;
+  }
+  let timerSeconds = 0;
   //const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
-  const SEVEN_DAYS_IN_MS: any = 5 * 60 * 1000;
-  let convertDate = convertUTCToLocalTime(props?.unstakedDate);
-  // let date = moment(convertDate).format("YYYY-MM-DD HH:mm:ss");
-  const NOW_IN_MS = new Date(convertDate).getTime();
+  const { stakeDetails, activeTab ,setIsHideCountDownTimer}: StakingContextModal =
+    useContext(StakingContext);
+  let initiatedTime = 0;
+  if (activeTab === 1) {
+    initiatedTime =
+      Number(stakeDetails?.intialStakingTime[
+        stakeDetails?.intialStakingTime?.length - 1
+      ])
+    timerSeconds = minutesToSeconds(5);
+  }
+  if (activeTab === 2) {
+    initiatedTime = Number(stakeDetails?.unstakeInitiatedTime);
+    timerSeconds = daysToSeconds(7);
+  }
 
-  const dateTimeAfterSevenDays = NOW_IN_MS + SEVEN_DAYS_IN_MS;
-
+  const total = (timerSeconds + initiatedTime)*1000;
   return (
     <div className="d-flex">
-      <CountdownTimer targetDate={dateTimeAfterSevenDays} setIsHideCountDownTimer={props?.setIsHideCountDownTimer} />
+      <CountdownTimer
+        targetDate={total}
+        setIsHideCountDownTimer={setIsHideCountDownTimer}
+      />
     </div>
   );
 }

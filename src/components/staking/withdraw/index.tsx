@@ -20,19 +20,19 @@ const WithdrawComponent = () => {
     unstakedAmount,
     stakeAmountData,
     unStakeAmtData,
-    getStakingDetails,
     isHideCountDownTimer,
     isConnected,
     address,
     maticBalance,
+    setTimers
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
   const { withDrawTokens } = useContract();
   useEffect(() => {
     tabContextValues?.resetTab?.()
+    setTimers?.(7,'days')
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleNextStep = () => {
     tabContextValues?.tabError && tabContextValues?.setTabError?.("");
     if (!tabContextValues?.checkboxValue && activeStep === 0) {
@@ -64,7 +64,6 @@ const WithdrawComponent = () => {
         setActiveStep?.(2);
         stakeAmountData?.();
         unStakeAmtData?.();
-        getStakingDetails?.();
         tabContextValues?.setButtonLoader?.(false);
       }
     } else {
@@ -82,8 +81,9 @@ const WithdrawComponent = () => {
     unstakedAmount === "0" ||
     !unstakedAmount ||
     maticBalance === "0" ||
-    !maticBalance ||
-    isHideCountDownTimer;
+    !maticBalance 
+    // ||
+    // isHideCountDownTimer;
   return (
     <div className="">
       <div className="">

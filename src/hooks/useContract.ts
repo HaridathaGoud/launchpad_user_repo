@@ -165,7 +165,6 @@ export default function useContractMethods() {
     return _result;
   }
   async function getUnstakedAmount() {
-    debugger
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getUnStakedAmount", args: [address] });
     return _result;
   }
@@ -178,7 +177,6 @@ export default function useContractMethods() {
     return _result;
   }
   async function getUserStakeDetails() {
-    debugger
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getDetails", args: [address] });
     return _result;
   }
