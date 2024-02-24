@@ -197,17 +197,12 @@ function CreatePraposal(props: any) {
 
     for (let i in _properties) {
       let _obj = _properties[i];
-
       if (_obj.options == "" || _obj.options == null || !_obj.options.trim()) {
-        return dispatch({
-          type: "modalError",
-          payload: "Please fill the data.",
-        });
+        setErrorMessage?.("Please fill the data.");
+        return;
       } else if (validateContentRule("", _obj.options)) {
-        return dispatch({
-          type: "modalError",
-          payload: "Please provide valid content.",
-        });
+        setErrorMessage?.("Please provide valid content.");
+        return
       } else {
         const isDuplicate = _attribute.some(
           (item) =>
@@ -216,12 +211,10 @@ function CreatePraposal(props: any) {
         );
 
         if (isDuplicate) {
-          return dispatch({
-            type: "modalError",
-            payload: "Options should be unique.",
-          });
+          setErrorMessage?.("Options should be unique.");
+          return ;
         } else {
-          dispatch({ type: "modalError", payload: null });
+          setErrorMessage?.("");
           isUpdate = true;
 
           if (_obj.optionhash == null) {
@@ -256,25 +249,24 @@ function CreatePraposal(props: any) {
       setErrors(formErrors);
     } else if (state?.startingDate && state?.endingDate < state?.startingDate) {
       setErrorMessage?.("Start date cannot be greater than the end date.");
-      window.scroll(0, 0);
     } else if (
       state?.startingDate == state?.endingDate &&
       state?.endingTime == state?.startingTime
     ) {
       setErrorMessage?.("Start time and end time cannot be the same.");
-      window.scroll(0, 0);
-    } else if (!state?.isChecked || attributes.length == 0) {
+    } else if (!state?.isChecked || attributes.length === 0) {
       setErrorMessage?.("Please select proposal type");
-      window.scroll(0, 0);
+    } else if (attributes.length < 2) {
+      setErrorMessage?.("Please select atleast two options");
     } else {
       const startTime = convertTo24HourFormat(state?.startingTime);
       const endTime = convertTo24HourFormat(state?.endingTime);
 
       if (state?.startingDate == state?.endingDate && startTime > endTime) {
         setErrorMessage?.("Start time cannot be greater than the end time.");
-        window.scroll(0, 0);
       } else {
-        let proposalType = state?.isChecked ? "voting" : "decision";
+        // let proposalType = state?.isChecked ? "voting" : "decision";
+        let proposalType ="voting";
         let formData = form;
         formData.ProposalOptionDetails = attributes;
         formData.startDate = state?.epochStartData;
@@ -451,7 +443,7 @@ function CreatePraposal(props: any) {
     setField(field, value.trim());
   };
   const handleCheckBoxChecked = () => {
-    dispatch({ type: "isChecked", payload: true });
+    dispatch({ type: "isChecked", payload: !state.isChecked });
   };
   const setField = (field: any, value: any) => {
     setForm({ ...form, [field]: value });
@@ -631,8 +623,9 @@ function CreatePraposal(props: any) {
                                 className="checkbox checkbox-error opacity-0 rounded-[28px]"
                                 type="checkbox"
                                 checked={state?.isChecked}
-                                // onChange={checkBoxChecked}
+                                onChange={handleCheckBoxChecked}
                                 onClick={openModalPopUp}
+                                
                               />
                               <span className=""></span>
                             </span>
@@ -644,38 +637,27 @@ function CreatePraposal(props: any) {
                         {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
                       </div>
                       <div>
-                        <div className="flex justify-between items-center mb-7">
-                          <h4 className="text-xl font-semibold text-secondary mt-4">
+                        <div className="flex justify-between items-center mb-4 mt-5">
+                          <h4 className="text-xl font-semibold text-secondary">
                             Add Your Options
                           </h4>
-                        </div>
-                        {state?.modalError && (
-                          <div className="cust-error-bg">
-                            <div className="mr-4">
-                              <img src={error} alt="" />
-                            </div>
-                            <div>
-                              <p className="error-title error-red">Error</p>
-                              <p className="error-desc">{state?.modalError}</p>
-                            </div>
-                          </div>
-                        )}
-                        <div>
-                          <div className="text-end mb-4">
+                          <div className="text-end">
                             <Button
                               type="primary"
                               btnClassName="text-center fill-btn"
                               handleClick={addOption}
                             >
-                              <span className="icon add"></span>Add new option
+                              <span className="icon add"></span>
+                              Add
                             </Button>
                           </div>
+                        </div>
+                        <div>
+                          
                           <div>
                             {options.map((option: any, index: any) => (
                               <div key={index}>
-                                <div
-                                  className="d-flex align-items-center add-block relative mt-4"
-                                >
+                                <div className="d-flex align-items-center add-block relative mt-4">
                                   <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
                                     {option?.index
                                       ? option?.index && option?.index + "."
@@ -693,7 +675,6 @@ function CreatePraposal(props: any) {
                                       );
                                     }}
                                     value={option.options ? option.options : ""}
-                                    onBlur={handleCheckBoxChecked}
                                   />
                                   <span
                                     className="icon delete-icon top-10 absolute right-6 cursor-pointer"
@@ -867,11 +848,9 @@ function CreatePraposal(props: any) {
                     <div className="flex justify-center gap-5 items-center mt-16">
                       <Link to={""}>
                         {" "}
-                        <Button
-
-                          handleClick={handlecloseDrawer}
-                          type="cancel"
-                        >Cancel</Button>{" "}
+                        <Button handleClick={handlecloseDrawer} type="cancel">
+                          Cancel
+                        </Button>{" "}
                       </Link>
                       <Button
                         type="secondary"
