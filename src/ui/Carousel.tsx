@@ -71,7 +71,7 @@ const Carousel = ({
                         {image.name.toLowerCase()}
                       </h1>
                       <h2 className="text-[32px] leading-[0.8] mb-[38px] md:text-[42px] text-black">
-                        Web Series
+                        {/* Web Series */}
                       </h2>
                       <div className="flex gap-x-8 md:pb-0">
                         <div>
