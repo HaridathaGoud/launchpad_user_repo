@@ -4,9 +4,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 // import Button from 'react-bootstrap/Button';
 import success from '../../../../assets/images/thank-you.svg';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import StartedSteps from './steps';
 import { useAccount } from 'wagmi';
 import WalletText from '../../../../utils/walletText';
@@ -15,9 +15,9 @@ import PublishProposalShimmer from '../../shimmers/publishproposalshimmer';
 
 export default function Success() {
     const params = useParams()
-    const { isConnected,address } = useAccount();  
+    const { isConnected, address } = useAccount();
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
@@ -26,14 +26,14 @@ export default function Success() {
     }, []);
 
     const router = useNavigate();
-    const handleRedirect =()=>{
+    const handleRedirect = () => {
         router(`/dao/proposalview/${params.id}`)
     }
 
     return (
         <>
-        {isConnected ? 
-        <>
+            {isConnected ?
+                <>
                     <div className='container mx-auto pt-5'>
                         {loading ? (
                             <PublishProposalShimmer />
@@ -44,11 +44,11 @@ export default function Success() {
                                 {/* <div className='md:col-span-4'>
                                     <StartedSteps formSteps={100} stepsTwo={2} stepsOne={1} stepsThree={3} number={3} />
                                 </div> */}
-                                
+
                                 <div className='md:col-span-8'>
                                     <div className='text-center'>
                                         <img src={success} className='mx-auto'></img>
-                                        <h1 className='text-success font-bold text-lg mt-3 cursor-pointer'>Thank You</h1>
+                                        <h1 className='text-success font-bold text-lg mt-3'>Thank You</h1>
                                         <p className='mb-5 text-secondary'>Your proposal is submitted successfully!</p>
                                         <Button type="primary" handleClick={handleRedirect}>
                                             Back to publish proposal summary
@@ -58,7 +58,7 @@ export default function Success() {
                             </div>
                         </>)}
                     </div>
-            </> : <WalletText/>}
+                </> : <WalletText />}
         </>
     );
 }

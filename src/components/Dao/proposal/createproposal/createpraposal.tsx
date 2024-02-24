@@ -674,7 +674,7 @@ function CreatePraposal(props: any) {
                             {options.map((option: any, index: any) => (
                               <div key={index}>
                                 <div
-                                  className="d-flex align-items-center add-block relative mt-4"   
+                                  className="d-flex align-items-center add-block relative mt-4"
                                 >
                                   <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
                                     {option?.index
@@ -797,8 +797,8 @@ function CreatePraposal(props: any) {
                             <div>
                               {/* <p className='text-sm text-secondary opacity-50 mb-2'>Your proposal options</p> */}
                               {/* <div className='flex items-center flex-wrap gap-3'>
-                                    {proposalDetails?.ProposalOptionDetails?.map((item) => (                                      
-                                        <p className='px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200'>{item?.index || "A"}. {item?.options}</p>                                    
+                                    {proposalDetails?.ProposalOptionDetails?.map((item) => (
+                                        <p className='px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200'>{item?.index || "A"}. {item?.options}</p>
                                     ))}
                                       </div> */}
                             </div>
@@ -852,7 +852,7 @@ function CreatePraposal(props: any) {
 
                           <div className="text-center">
                             <img src={success} className="mx-auto"></img>
-                            <h1 className="text-success font-bold text-lg mt-3 cursor-pointer">
+                            <h1 className="text-success font-bold text-lg mt-3">
                               Thank You
                             </h1>
                             <p className="mb-5 text-secondary">
@@ -868,7 +868,7 @@ function CreatePraposal(props: any) {
                       <Link to={""}>
                         {" "}
                         <Button
-                          
+
                           handleClick={handlecloseDrawer}
                           type="cancel"
                         >Cancel</Button>{" "}
