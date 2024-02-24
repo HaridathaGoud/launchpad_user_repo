@@ -509,7 +509,7 @@ function ProposalCards(props: any) {
                                 <div className="w-9 h-9 mr-2 shrink-0">
                                   <img
                                     src={daocardProfile}
-                                    className="rounded-full object-cover"
+                                    className="rounded-full object-cover w-9 h-9"
                                     alt="dao profile"
                                   />
                                 </div>

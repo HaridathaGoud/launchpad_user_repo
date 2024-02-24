@@ -80,7 +80,7 @@ const Allocations = (props) => {
   };
   const DatesCheck = (startDate: any, endDate: any, item: any) => {
     let nowDate = new Date().getTime();
-    let allocationArray:any = [];
+    let allocationArray: any = [];
     if (startDate <= nowDate && nowDate <= endDate) {
       allocationArray.push(item);
       setAllocationsData(allocationArray);
@@ -139,10 +139,10 @@ const Allocations = (props) => {
     return provider;
   }
   const handleOk = async () => {
-    console.log(volumeData,buyBalance)
-    const etherValue=Number(volumeData)*Number(buyBalance)
+    console.log(volumeData, buyBalance)
+    const etherValue = Number(volumeData) * Number(buyBalance)
     setBtnLoader(true);
-    buyTokens(etherValue,Number(buyBalance), props.pjctInfo?.contractAddress)
+    buyTokens(etherValue, Number(buyBalance), props.pjctInfo?.contractAddress)
       .then((res: any) => {
         // res?.wait()
         _provider()
@@ -174,114 +174,114 @@ const Allocations = (props) => {
     <>
       {allocationsLoader && (
         <div className="text-center">
-          <Spinner/>
+          <Spinner />
         </div>
       )}
       {!allocationsLoader && (
-          <div className="">
-            <div>
-              <h2 className="text-2xl font-medium">
-                <span className="text-secondary">Your</span>{" "}
-                <span className="text-primary">Allocations</span>
-              </h2>
-            </div>
-            <div className="">
-              <div className="mb-6 max-sm:w-full overflow-auto">
-                {allocationsData?.length !== 0 && (
-                  <div>
-                    <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
-                      <thead>
-                        <tr>
-                          <th className="text-left text-base text-secondary font-bold">
-                            No.
-                          </th>
-                          <th className="text-left text-base text-secondary font-bold">
-                            Type
-                          </th>
-                          <th className="text-left text-base text-secondary font-bold">
-                            Allocation Volume
-                          </th>
-                          <th className="text-left text-base text-secondary font-bold">
-                            Price Per Token
-                          </th>
-                          <th className="text-left text-base text-secondary font-bold">
-                            Purchase Volume
-                          </th>
-                          <th className="text-left text-base text-secondary font-bold"></th>
-                        </tr>
-                      </thead>
-                        {allocationsData?.map((item: any, idx: any) => (
-                            <tbody key={idx}>
-                              <tr>
-                                <td>
-                                  <p className="font-normal text-sm text-secondary">
-                                    {idx + 1}
-                                  </p>
-                                </td>
-                                <td>
-                                  <p className="font-normal text-sm text-secondary">
-                                    {item.type}
-                                  </p>
-                                </td>
-                                <td>
-                                  <p className="font-normal text-sm text-secondary">
-                                    {item.allocationVolume.toLocaleString()}{" "}
-                                    {item?.paymentSymbol?.toLocaleString() ||
-                                      "--"}
-                                  </p>
-                                </td>
-                                <td>
-                                  <p className="font-normal text-sm text-secondary">
-                                    {item.paymentValue}
-                                  </p>
-                                </td>
-                                <td>
-                                  <p className="font-normal text-sm text-secondary">
-                                    {item.purchaseVolume.toLocaleString()}
-                                  </p>
-                                </td>
-                                <td className="!p-2">
-                                  {!isHide && (
-                                    <div className="text-right">
-                                      {" "}
-                                      <Button
-                                        type="primary"
-                                        btnClassName="!py-0 px-6"
-                                        disabled={
-                                          item.allocationVolume === 0 ||
-                                          item?.allocationVolume <=
-                                            item?.purchaseVolume ||
-                                          (item?.type?.toLowerCase() ===
-                                            "private" &&
-                                            props.pjctInfo?.privateStatus?.toLowerCase() ===
-                                              "closed") ||
-                                          (item?.type?.toLowerCase() ===
-                                            "public" &&
-                                            props.pjctInfo?.publicStatus?.toLowerCase() ===
-                                              "closed")
-                                        }
-                                        handleClick={() => handleBuyNow(item)}
-                                      >
-                                        Buy Now
-                                      </Button>
-                                    </div>
-                                  )}
-                                </td>
-                              </tr>
-                            </tbody>
-                        ))}
-                    </table>
-                  </div>
-                )}
-              </div>
-            </div>
-            {allocationsData?.length == 0 && (
-              <div className="text-center">
-                <img width={120} className="mx-auto" src={nodata} alt="No Data"/>
-                <p className="text-secondary text-center">No data found</p>
-              </div>
-            )}
+        <div className="">
+          <div>
+            <h2 className="text-2xl font-medium">
+              <span className="text-secondary">Your</span>{" "}
+              <span className="text-primary">Allocations</span>
+            </h2>
           </div>
+          <div className="">
+            <div className="mb-6 max-sm:w-full overflow-auto">
+              {allocationsData?.length !== 0 && (
+                <div>
+                  <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
+                    <thead>
+                      <tr>
+                        <th className="text-left text-base text-secondary font-bold">
+                          No.
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold">
+                          Type
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold">
+                          Allocation Volume
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold">
+                          Price Per Token
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold">
+                          Purchase Volume
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold"></th>
+                      </tr>
+                    </thead>
+                    {allocationsData?.map((item: any, idx: any) => (
+                      <tbody key={idx}>
+                        <tr>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {idx + 1}
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {item.type}
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {item.allocationVolume.toLocaleString()}{" "}
+                              {item?.paymentSymbol?.toLocaleString() ||
+                                "--"}
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {item.paymentValue}
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {item.purchaseVolume.toLocaleString()}
+                            </p>
+                          </td>
+                          <td className="!p-2">
+                            {!isHide && (
+                              <div className="text-right">
+                                {" "}
+                                <Button
+                                  type="primary"
+                                  btnClassName="!py-0 px-6"
+                                  disabled={
+                                    item.allocationVolume === 0 ||
+                                    item?.allocationVolume <=
+                                    item?.purchaseVolume ||
+                                    (item?.type?.toLowerCase() ===
+                                      "private" &&
+                                      props.pjctInfo?.privateStatus?.toLowerCase() ===
+                                      "closed") ||
+                                    (item?.type?.toLowerCase() ===
+                                      "public" &&
+                                      props.pjctInfo?.publicStatus?.toLowerCase() ===
+                                      "closed")
+                                  }
+                                  handleClick={() => handleBuyNow(item)}
+                                >
+                                  Buy Now
+                                </Button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    ))}
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+          {allocationsData?.length == 0 && (
+            <div className="text-center">
+              <img width={120} className="mx-auto" src={nodata} alt="No Data" />
+              <p className="text-secondary text-center">No data found</p>
+            </div>
+          )}
+        </div>
       )}
       {/* Buy Now modal start  */}
       {isChecked && (
@@ -311,13 +311,13 @@ const Allocations = (props) => {
 
               <div className="mt-10">
                 <div className="mt-10">
-                  <label htmlFor="amount" className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
+                  <label htmlFor="amount" className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
                     Enter Token Count To Buy *
                   </label>
                   <input
                     type="text"
                     placeholder="Enter Token Count To Buy"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                     id="amount"
                     defaultValue={allocationVolume || buyBalance}
                     maxLength={20}
@@ -347,7 +347,7 @@ const Allocations = (props) => {
                   handleClick={handleBuyToken}
                 >
                   {btnLoader && (
-                      <Spinner/>
+                    <Spinner />
                   )}{" "}
                   Ok
                 </Button>
@@ -385,7 +385,7 @@ const Allocations = (props) => {
 
               <div className="mt-10">
                 <p className="text-secondary text-lg font-medium">
-                Are you really sure you want to buy?
+                  Are you really sure you want to buy?
                 </p>
               </div>
               <div className="flex justify-end gap-4 mt-6">

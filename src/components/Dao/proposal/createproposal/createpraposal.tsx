@@ -267,6 +267,7 @@ function CreatePraposal(props: any) {
       } else {
         // let proposalType = state?.isChecked ? "voting" : "decision";
         let proposalType = "voting";
+        let proposalType = "voting";
         let formData = form;
         formData.ProposalOptionDetails = attributes;
         formData.startDate = state?.epochStartData;
@@ -543,7 +544,7 @@ function CreatePraposal(props: any) {
                         <label className="mb-0 inline-block ml-5 mb-2">
                           Author
                         </label>
-                        <div className="border-[#A5A5A5] border rounded-[28px] px-6 py-2 flex items-center truncate copy-clip">
+                        <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip">
                           <img src={user} className="mr-3"></img>
                           <span>{address}</span>
                           <CopyToClipboard
@@ -562,11 +563,11 @@ function CreatePraposal(props: any) {
                         </div>
                       </div>
                       <div className="mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
                           Proposal Title
                         </label>
                         <input
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                           type="text"
                           placeholder="Proposal Title"
                           name="proposal"
@@ -585,7 +586,7 @@ function CreatePraposal(props: any) {
                         </label>
                       </div>
                       <div className="mb-3 mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-5">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
                           Summary
                         </label>
                         <textarea
@@ -652,6 +653,7 @@ function CreatePraposal(props: any) {
                           </div>
                         </div>
                         <div>
+                          
                           <div>
                             {options.map((option: any, index: any) => (
                               <div key={index}>
@@ -664,7 +666,7 @@ function CreatePraposal(props: any) {
                                   </label>
                                   <input
                                     type="text"
-                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
                                     placeholder="Enter your option"
                                     maxLength={50}
                                     onChange={(e) => {
@@ -716,13 +718,12 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${
-                              isMobile && !state?.startingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${isMobile && !state?.startingDate
                                 ? " "
                                 : isMobile && state?.startingDate
-                                ? " "
-                                : ""
-                            }`}
+                                  ? " "
+                                  : ""
+                              }`}
                             placeholder="Start Date"
                             name="startdate"
                             // min={currentDate}
@@ -739,13 +740,12 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${
-                              isMobile && !state?.endingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${isMobile && !state?.endingDate
                                 ? " "
                                 : isMobile && state?.endingDate
-                                ? " "
-                                : ""
-                            }`}
+                                  ? " "
+                                  : ""
+                              }`}
                             placeholder="End Date"
                             name="enddate"
                             // min={currentDate}
@@ -761,7 +761,7 @@ function CreatePraposal(props: any) {
                   {state?.currentStep === 2 && (
                     <div className="">
                       {!contractData?.loading &&
-                      Object.keys(proposalDetails).length > 0 ? (
+                        Object.keys(proposalDetails).length > 0 ? (
                         <div className="">
                           <div className="">
                             <span className="mb-0 me-2 text-base font-semibold text-secondary">

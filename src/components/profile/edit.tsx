@@ -24,7 +24,7 @@ const ProfileEdit = ({
       formErrors: {},
     };
   }, [profile]);
-  const {toasterMessage,setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
+  const { toasterMessage, setErrorMessage, setToaster }: OutletContextModel = useContext(outletContext)
   const [state, dispatch] = useReducer(editProfileReducer, initialState);
   const setField = (field: any, value: any) => {
     setErrorMessage?.('')
@@ -79,7 +79,7 @@ const ProfileEdit = ({
           if (res.statusText.toLowerCase() === "ok") {
             updateProfile({ ...profile, ...obj });
             store.dispatch(setUserID({ ...profile, ...obj }))
-            setToaster?.('Profile Details Update Successful!',handleDrawerClose,500);
+            setToaster?.('Profile Details Update Successful!', handleDrawerClose, 500);
           } else {
             setErrorMessage?.(res)
           }
@@ -119,13 +119,13 @@ const ProfileEdit = ({
           <div className="mt-4">
             <label
               htmlFor="profileFirstName"
-              className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
               First Name <span className="text-[red]">*</span>
             </label>
             <input
               id="profileFirstName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               placeholder="First Name"
               name="firstName"
@@ -141,7 +141,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              disabled={toasterMessage ||  state.buttonLoader}
+              disabled={toasterMessage || state.buttonLoader}
             />
             {state.formErrors.firstName && (
               <label className="text-sm font-normal text-red-600 ml-4">
@@ -152,13 +152,13 @@ const ProfileEdit = ({
           <div className="mt-4">
             <label
               htmlFor="profileLastName"
-              className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
               Last Name <span className="text-[red]">*</span>
             </label>
             <input
               id="profileLastName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               placeholder="Last Name"
               name="lastName"
@@ -174,7 +174,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              disabled={toasterMessage ||  state.buttonLoader}
+              disabled={toasterMessage || state.buttonLoader}
             />
             {state.formErrors.lastName && (
               <label className="text-sm font-normal text-red-600 ml-4">
@@ -185,13 +185,13 @@ const ProfileEdit = ({
           <div className="mt-4">
             <label
               htmlFor="profileEmail"
-              className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
               Email <span className="text-[red]">*</span>
             </label>
             <input
               id="profileEmail"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               name="email"
               maxLength={50}
@@ -204,7 +204,7 @@ const ProfileEdit = ({
               }}
               required
               placeholder="Email"
-              disabled={ toasterMessage ||  state.buttonLoader}
+              disabled={toasterMessage || state.buttonLoader}
             />
             {state.formErrors.email && (
               <label className="text-sm font-normal text-red-600 ml-4">
@@ -215,7 +215,7 @@ const ProfileEdit = ({
           <div className="mt-4">
             <label
               htmlFor="profilePhone"
-              className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
               Phone No <span className="text-[red]">*</span>
             </label>
@@ -229,7 +229,7 @@ const ProfileEdit = ({
                 onChange={(e) => {
                   setField("countryCode", e.target.value);
                 }}
-                disabled={ toasterMessage ||  state.buttonLoader}
+                disabled={toasterMessage || state.buttonLoader}
               >
                 <option value={""}>Select</option>
                 {jsonCountryCode.map((item) => (
@@ -260,7 +260,7 @@ const ProfileEdit = ({
                 }}
                 required
                 placeholder="Phone number"
-                disabled={ toasterMessage ||  state.buttonLoader}
+                disabled={toasterMessage || state.buttonLoader}
               />
             </div>
             {state.formErrors.countryCode && state.formErrors.phoneNo ? (
@@ -285,19 +285,19 @@ const ProfileEdit = ({
           <div className="mt-4">
             <label
               htmlFor="profileCountry"
-              className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
               Country <span className="text-[red]">*</span>
             </label>
             <select
               id="profileCountry"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               aria-label="Default select example"
               value={state.formData?.country ? state.formData?.country : ""}
               onChange={(e) => {
                 setField("country", e.target.value);
               }}
-              disabled={ toasterMessage ||  state.buttonLoader}
+              disabled={toasterMessage || state.buttonLoader}
             >
               <option value={""}>Select Country</option>
               {jsonCountryCode.map((item) => (
@@ -316,13 +316,13 @@ const ProfileEdit = ({
           <div className="mt-4">
             <label
               htmlFor="profileDiscordId"
-              className="text-dark text-sm font-normal p-0 mb-2 label ml-5 block"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
               Discord ID <span className="text-[red]">*</span>
             </label>
             <input
               id="profileDiscordId"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
               type="text"
               value={state.formData?.discordId ? state.formData?.discordId : ""}
               onChange={(e) => {
@@ -337,7 +337,7 @@ const ProfileEdit = ({
               required
               placeholder="Discord ID"
               maxLength={50}
-              disabled={ toasterMessage ||  state.buttonLoader}
+              disabled={toasterMessage || state.buttonLoader}
             />
             {state.formErrors.discordId && (
               <label className="text-sm font-normal text-red-600 ml-4">
@@ -346,18 +346,18 @@ const ProfileEdit = ({
             )}
           </div>
           {/* <div className="mt-4 relative" >
-                <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Referral Code</label>
-                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5 disabled:bg-accent disabled:border-accent'
+                <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Referral Code</label>
+                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 disabled:bg-accent disabled:border-accent'
                   type="text"
                   value={form?.referralCode}
                       placeholder="Referral Code"
                       maxLength={6}
                     onChange={(e) => { setField('referralCode', e.target.value) }}
                       disabled={profile?.referralCode !=null }
-                 
+
                 />
                 {!touched?.isReferral &&
-              <span className='text-primary text-sm absolute bottom-[-22px] right-3' 
+              <span className='text-primary text-sm absolute bottom-[-22px] right-3'
               onClick={() => getIsExistingReferralCOde()}>
               <span>{referralloader && <Spinner className='text-sm-100' size="sm" />} </span> Verify
               </span>}
@@ -378,7 +378,7 @@ const ProfileEdit = ({
                 type="secondary"
                 btnClassName="flex gap-2"
                 handleClick={(e) => saveDetails(e)}
-                disabled={toasterMessage ||  state.buttonLoader}
+                disabled={toasterMessage || state.buttonLoader}
               >
                 <span>{state.buttonLoader && <Spinner />} </span> Save
               </Button>

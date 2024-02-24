@@ -80,8 +80,8 @@ const ChannelView = () => {
                       <p className='text-secondary text-base font-semibold'>0.00001 WATIC</p>
                     </div>
                     <div className="mt-5" >
-                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Your Bid *</label>
-                      <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
+                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Your Bid *</label>
+                      <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4'
                         type="text"
                         placeholder="Proposal Title"
                         name="proposal"
@@ -89,7 +89,7 @@ const ChannelView = () => {
                       />
                     </div>
                     <div className="mt-5" >
-                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Crypto Type</label>
+                      <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Crypto Type</label>
                       <select className="select select-bordered w-full rounded-[28px] border border-[#A5A5A5] focus:outline-none">
                         <option selected>WMATIC</option>
                         <option>Tether</option>
