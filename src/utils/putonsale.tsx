@@ -15,7 +15,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 import validSuccess from '../../src/assets/images/success.png';
 import Toast from 'react-bootstrap/Toast';
 import error from '../assets/images/error.svg'
-import { Modal,modalActions } from '../ui/Modal';
+import { Modal, modalActions } from '../ui/Modal';
 import Button from '../ui/Button';
 const PutOnSale = (props: any) => {
   const [show, setShow] = useState(props.showModal);
@@ -25,7 +25,7 @@ const PutOnSale = (props: any) => {
   const [validated, setValidated] = useState(false);
   const [success, setSuccess] = useState(null);
   const [scuess, setSucess] = useState(false);
-  const [btnLoader,setBtnLoader]=useState(false)
+  const [btnLoader, setBtnLoader] = useState(false)
   const [saveObj, setSaveObj] = useState({
     tokenId: '',
     customerId: '',
@@ -88,7 +88,7 @@ const PutOnSale = (props: any) => {
               setSucess(true)
               setBtnLoader(false)
               setSuccess("NFT has been successfully put on sale")
-               setTimeout(() => {
+              setTimeout(() => {
                 // setSucess(false)
                 // setShow(false);
                 props.handleClose();
@@ -124,12 +124,12 @@ const PutOnSale = (props: any) => {
   };
   const isErrorDispaly = (objValue: any) => {
     if (objValue.data && typeof objValue.data === 'string' || objValue.reason) {
-      return objValue.data ||  objValue.reason;
-    }else if(objValue.shortMessage){
-      if(objValue.shortMessage?.includes("The total cost")){
+      return objValue.data || objValue.reason;
+    } else if (objValue.shortMessage) {
+      if (objValue.shortMessage?.includes("The total cost")) {
         return "Low balance"
-      }else{
-       return objValue.shortMessage
+      } else {
+        return objValue.shortMessage
       }
     } else if (objValue.originalError && typeof objValue.originalError.message === 'string') {
       return objValue.originalError.message;
@@ -139,9 +139,9 @@ const PutOnSale = (props: any) => {
   };
   return (
     <>
-     <Modal id='putonsale'>
-     <div>
-        <h2 className="text-lg text-dark font-semibold mb-4">Put on sale</h2>
+      <Modal id='putonsale'>
+        <div>
+          <h2 className="text-lg text-dark font-semibold mb-4">Put on sale</h2>
           {/* <span className="icon close c-pointer" onClick={props.handleClose}></span> */}
         </div>
         <div>
@@ -149,15 +149,15 @@ const PutOnSale = (props: any) => {
           <div>
             {saleErrorMsg && (<>
               <div>
-                <img  src={validError} />
+                <img src={validError} />
                 <span>{saleErrorMsg}</span>
               </div>
-               <div className='cust-error-bg'>
-              <div className='mr-4'><img src={error} alt="" /></div>
-              <div>
-                <p className='error-title error-red text-start'>Error</p>
-                <p className="error-desc text-start">{saleErrorMsg}</p></div>
-            </div></>
+              <div className='cust-error-bg'>
+                <div className='mr-4'><img src={error} alt="" /></div>
+                <div>
+                  <p className='error-title error-red text-start'>Error</p>
+                  <p className="error-desc text-start">{saleErrorMsg}</p></div>
+              </div></>
             )}
             <form noValidate validated={validated}>
               <div className="flex justify-between mb-4">
@@ -202,7 +202,7 @@ const PutOnSale = (props: any) => {
                   <input
                     aria-label="Username"
                     type="text"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                     placeholder="Enter the price"
                     onChange={(value) => handleChange(value)}
                     isInvalid={!!validationError}
@@ -240,26 +240,26 @@ const PutOnSale = (props: any) => {
 
 
         </div>
-       <hr className='my-5' />
+        <hr className='my-5' />
         <div className='text-center'> <Button
-              type='secondary'
-             handleClick ={(e) => placeONSaleorAuction(e, 'Sale')}
-              disabled={saleLoader}
-            >
-              <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Put on sale
-            </Button>
-            </div>
+          type='secondary'
+          handleClick={(e) => placeONSaleorAuction(e, 'Sale')}
+          disabled={saleLoader}
+        >
+          <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Put on sale
+        </Button>
+        </div>
 
         <div className='p-absolute toaster-center'>
-      {/* <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
+          {/* <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
               <Toast show={scuess} className="text-center toster-component">
                 <Toast.Body className="toaster-cust">
                 <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>
                 </Toast.Body>
               </Toast>
             </ToastContainer> */}
-            </div>
-     </Modal>
+        </div>
+      </Modal>
 
     </>
   );

@@ -81,7 +81,7 @@ const ChannelView = () => {
                     </div>
                     <div className="mt-5" >
                       <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Your Bid *</label>
-                      <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9'
+                      <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10'
                         type="text"
                         placeholder="Proposal Title"
                         name="proposal"

@@ -125,7 +125,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileFirstName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               placeholder="First Name"
               name="firstName"
@@ -158,7 +158,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileLastName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               placeholder="Last Name"
               name="lastName"
@@ -191,7 +191,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileEmail"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               name="email"
               maxLength={50}
@@ -222,7 +222,7 @@ const ProfileEdit = ({
             <div className="flex">
               <select
                 id="profilePhone"
-                className="input input-bordered w-32 rounded-[28px]  border-[#A5A5A5] focus:outline-none pl-5 rounded-ee-none rounded-se-none"
+                className="input input-bordered w-32 rounded-[28px]  border-[#A5A5A5] focus:outline-none pl-5 rounded-ee-none rounded-se-none h-10"
                 value={
                   state.formData?.countryCode ? state.formData?.countryCode : ""
                 }
@@ -249,7 +249,7 @@ const ProfileEdit = ({
                 ))}
               </select>
               <input
-                className="input rounded-ss-none rounded-es-none input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5"
+                className="input rounded-ss-none rounded-es-none input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5 h-10"
                 type="text"
                 name="phoneNo"
                 maxLength={12}
@@ -291,7 +291,7 @@ const ProfileEdit = ({
             </label>
             <select
               id="profileCountry"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               aria-label="Default select example"
               value={state.formData?.country ? state.formData?.country : ""}
               onChange={(e) => {
@@ -322,7 +322,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileDiscordId"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={state.formData?.discordId ? state.formData?.discordId : ""}
               onChange={(e) => {
@@ -363,11 +363,11 @@ const ProfileEdit = ({
               </span>}
               </div> */}
 
-          <div className="text-end gap-4 flex justify-end mt-16">
+          <div className="text-end gap-4 flex justify-center mt-16">
             <div>
               <Button
                 type="cancel"
-                btnClassName=" "
+                btnClassName="min-w-[164px]"
                 handleClick={handleDrawerClose}
               >
                 Cancel
@@ -376,7 +376,7 @@ const ProfileEdit = ({
             <div>
               <Button
                 type="secondary"
-                btnClassName="flex gap-2"
+                btnClassName="flex gap-2 min-w-[164px] justify-center"
                 handleClick={(e) => saveDetails(e)}
                 disabled={toasterMessage || state.buttonLoader}
               >

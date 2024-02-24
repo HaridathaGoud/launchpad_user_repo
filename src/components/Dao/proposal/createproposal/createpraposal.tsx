@@ -568,7 +568,7 @@ function CreatePraposal(props: any) {
                           Proposal Title
                         </label>
                         <input
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                           type="text"
                           placeholder="Proposal Title"
                           name="proposal"
@@ -679,7 +679,7 @@ function CreatePraposal(props: any) {
                                 className="icon delete-icon top-[36px] absolute right-6 cursor-pointer scale-95"
                                 onClick={() => deleteOption(index)}
                               ></span>
-                              </div>
+                            </div>
                           ))}
                         </div>
                         {/* <div className="flex justify-center gap-5 items-center mt-16">
