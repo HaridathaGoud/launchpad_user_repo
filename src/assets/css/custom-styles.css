@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+::-webkit-scrollbar{width:12px;height:10px;background-color:#eee}::-webkit-scrollbar-thumb{background-color:#000;border-radius:20px}
+.scrollbar-hidden::-webkit-scrollbar { display: none;}
+.scrollbar-hidden { -ms-overflow-style: none;   scrollbar-width: none; }
+html[data-theme="dark"]{background-color: #050129;}
+html[data-theme="dark"] .project-card{border-color: #55536f;}
 .banner-subtitle,.custom-button,.joined-btn,a,body,div,h1,h2,h3,h4,h5,h6,input,p{font-family: 'Roboto', sans-serif;color:#000}
 .icon {display: inline-block;background: var(--darktheme-icons) no-repeat !important;vertical-align: middle;height: 24px;width: 24px;}
 .carousal-banner{  background-image: linear-gradient(#D9CAF5, #EBEDD1, #FFD7D7);}
@@ -76,11 +81,6 @@ input[type=checkbox]:checked+span{ display: inline-block;background: var(--darkt
 .icon.warning{background-position:-187px -212px !important;}
 .card{box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);}
 .progress-bar{background-color: #078805 !important;height: 6px;border-radius: 8px;}
-::-webkit-scrollbar{width:12px;height:10px;background-color:#eee}::-webkit-scrollbar-thumb{background-color:#000;border-radius:20px}
-.scrollbar-hidden::-webkit-scrollbar { display: none;}
-.scrollbar-hidden { -ms-overflow-style: none;   scrollbar-width: none; }
-html[data-theme="dark"]{background-color: #050129;}
-html[data-theme="dark"] .project-card{border-color: #55536f;}
 .profile-tabs .tab:is(input:checked){background: #D60000;border: transparent;color: #fff;}
 .profile-tabs .tab:is(input[type="radio"]):after{font-size: 14px;}
 .profile-tabs .tab:is(input[type="radio"]){border-bottom-right-radius: 12px; border-bottom-left-radius: 12px;}
@@ -160,7 +160,7 @@ input[type=radio]:checked+span{ display: inline-block;background: var(--darkthem
 .dot-green{background:#13B166}
 .dot-red{background:red}
 .dot-white{background:#fff}
-.dot-orange{background:#e97307text-xs font-normal text-primary}
+.dot-orange{background:#e97307}
 .profile-size:hover .cam-position{cursor:pointer;visibility:visible}
 .cam-position{position:absolute;right:40%;top:40%;visibility:hidden;z-index:999}
 .profile-size:hover .cam-position{cursor:pointer;visibility:visible}
