@@ -11,23 +11,17 @@ import {getCustomerDetails } from '../../../reducers/authReducer';
 import { connect } from "react-redux";
 import ProjectViewTabs from '../dao/projecttabs';
 import DaoCurrentResults from '../proposal/createproposal/daocurrentresults';
-import BannerCarousel from '../../../ui/BannerCarousal';
-import aquaman from '../../../assets/images/aquaman.png';
 import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
 import ProposalTabbedContent from './proposalTabs';
 import { get } from "../../../utils/api";
 import { store } from '../../../store';
 import OutletContextModel from '../../../layout/context/model';
 import outletContext from '../../../layout/context/outletContext';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import styles from "../dao/dao.module.css"  //"./dao.module.css";
 import Button from '../../../ui/Button';
 import Voters from './votersgrid';
-import ProjectCarousal from '../dao/projectCarousal';
 import BreadCrumb from '../../../ui/breadcrumb';
 import Discussions from '../proposal/createproposal/discussions';
+import TrendingProjects from '../../staking/trendingCarousel';
 
 // import { Button } from 'react-bootstrap';
   function Voting() {
@@ -46,10 +40,6 @@ import Discussions from '../proposal/createproposal/discussions';
         dispatch({ type: 'savevoterddata', payload: null });
         dispatch({ type: 'proposarDetailas', payload: null });
     }
-    const projectCarousel=[
-      {url:aquaman,alt:'spider man web series'},
-      {url:aquaman,alt:'captain web series'}
-    ]
     useEffect(() => {
       const timer = setTimeout(() => {
           setLoading(false);
@@ -84,7 +74,7 @@ import Discussions from '../proposal/createproposal/discussions';
                 ) : ( <>
         {isConnected && 
         <div className='container mx-auto max-md:px-3 mt-3'>
-        <BannerCarousel images={projectCarousel} className='h-52' />
+        <TrendingProjects/>
           <div className='mt-5 mb-4'>
             {/* <BreadCrumb /> */}
             <div className='mb-12 mt-4'>

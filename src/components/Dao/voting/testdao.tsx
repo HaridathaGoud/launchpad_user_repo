@@ -1,27 +1,17 @@
 import React, { useState, useEffect, useRef, useReducer } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import user from '../../../assets/images/praposal-user.png';
-import voteimg from '../../../assets/images/vote-img.png';
 import { getProposalViewData, saveVoting, getCustomeVoted, getVotersGrid } from '../../../reducers/votingReducer';
 import { getCustomerDetails } from '../../../reducers/authReducer';
 import { connect } from "react-redux";
 import { useAccount } from 'wagmi';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useParams } from "react-router-dom";
-import { Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Form from 'react-bootstrap/Form';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useVotingContract } from '../../../contracts/useContract';
 import Placeholder from 'react-bootstrap/Placeholder';
-import error from '../../../assets/images/error.svg';
-import Image from 'react-bootstrap/Image';
 import moment from 'moment';
 import MintContract from '../../../contracts/seichi.json';
 import { readContract } from 'wagmi/actions';
-import daoimg from '../../../assets/images/dao-img.png';
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case 'copied':
@@ -56,9 +46,9 @@ function ProposalVoting(props: any) {
     mintedMemberShipCount: null, errorMsg: null, selectedOption: null, selectedhash: null
   })
   const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
-  const mintingKrijiContractAddress: any = process.env.REACT_APP_MINTING_KEIJI_CONTRACTOR;
-  const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
-  const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
+  // const mintingKrijiContractAddress: any = process.env.REACT_APP_MINTING_KEIJI_CONTRACTOR;
+  // const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
+  // const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
   const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
   const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
   const [daoVoteName, setDaoVoteName] = useState();
@@ -271,7 +261,7 @@ function ProposalVoting(props: any) {
                             <div className='flex items-center gap-4'>
                               <h2 className='text-base font-semibold text-secondary whitespace-nowrap'>Created  By</h2>
                               <div className='flex items-center bg-accent rounded-[50px] p-1.5 truncate'>
-                                <img src={user} className='w-[24px] mr-3' />
+                                <img src={user} className='w-[24px] mr-3' alt='created By' />
                                 <span className='truncate'> {proposarDetailas?.data?.walletAddress === address ? "YOU" : proposarDetailas?.data?.createdBy ? proposarDetailas?.data?.createdBy : proposarDetailas?.data?.walletAddress}</span>
                                 <CopyToClipboard text={proposarDetailas?.data?.walletAddress} options={{ format: 'text/plain' }}
                                   onCopy={() => handleCopy()}
@@ -281,9 +271,9 @@ function ProposalVoting(props: any) {
                               </div>
                             </div>
                           </div>
-                          {/* <div className={`shrink-0 h-64`}>
-                            <Image src={daoimg} className='rounded-lg object-cover w-full h-64' />
-                          </div> */}
+                          <div className={`shrink-0 h-64`}>
+                            <img src={selectedDaoData.image} className='rounded-lg object-cover w-full h-64' alt='project' />
+                          </div>
                           <h2 className='text-base font-semibold mt-3 text-secondary'>Project Overview</h2>
                           <p className='text-secondary break-all'>
                             {(!readMore && proposarDetailas?.data?.description?.length>30)
