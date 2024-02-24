@@ -276,14 +276,14 @@ function ProposalVoting(props: any) {
                                 <CopyToClipboard text={proposarDetailas?.data?.walletAddress} options={{ format: 'text/plain' }}
                                   onCopy={() => handleCopy()}
                                 >
-                                  <span className={!state?.copied ? 'icon md copy-icon c-pointer shrink-0' : 'icon copy-check c-pointer shrink-0'} />
+                                  <span className={!state?.copied ? 'icon md copy-icon  cursor-pointer shrink-0' : 'icon copy-check c-pointer shrink-0  cursor-pointer'} />
                                 </CopyToClipboard>
                               </div>
                             </div>
                           </div>
-                          <div className={`shrink-0 h-64`}>
+                          {/* <div className={`shrink-0 h-64`}>
                             <Image src={daoimg} className='rounded-lg object-cover w-full h-64' />
-                          </div>
+                          </div> */}
                           <h2 className='text-base font-semibold mt-3 text-secondary'>Project Overview</h2>
                           <p className='text-secondary break-all'>
                             {(!readMore && proposarDetailas?.data?.description?.length>30)
