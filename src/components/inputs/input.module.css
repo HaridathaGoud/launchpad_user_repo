@@ -4,5 +4,7 @@
 .browser{background-position: -99px -11px !important; width: 24px;height: 24px;position: absolute;top: 6px;left: 6px;}
 .add{background-position: -123px -11px !important; width: 24px;height: 24px;}
 .maticInput select{background-image: url(https://storageaccountdott.blob.core.windows.net/dotimages/dropdown-arrow.svg);background-repeat: no-repeat;background-position: 90px 19px;background-size: 20px;}
-.minus{background-position: -69px -11px !important; width: 24px;height: 24px;}
-.plus{background-position: -41px -11px !important; width: 24px;height: 24px;}
+.minus{background-position:-276px -211px !important; width: 24px;height: 24px;}
+.minus:hover{background-position:-276px -237px !important; width: 24px;height: 24px;}
+.plus{background-position: -302px -211px !important; width: 24px;height: 24px;}
+.plus:hover{background-position:-302px -237px !important; width: 24px;height: 24px;}

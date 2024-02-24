@@ -222,12 +222,13 @@ select{background:url(https://devdottstoragespace.blob.core.windows.net/dottimag
 .successicon{width: 43px;height: 43px;background-position: -197px -460px !important;}
 .erroricon{width: 43px;height: 43px;background-position: -242px -460px !important;}
 .icon.see-more{ background-position: -107px -70px !important; height: 16px !important; width: 24px}
+input:focus-visible {border-radius: 30px;}
 /* toaster msg end */
 .channel-bg{background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-aokokFuIEj01QetjCEYS66WIACbMjeWxWg&usqp=CAU);}
 .icon.circle-check{background-position:-344px -267px !important;}
 .icon.channel-check{background-position: -170px -161px !important;}
 .input:disabled{background-color: #e5e5e5 !important;}
-.no-scrollbar::-webkit-scrollbar{display: none;} 
+.no-scrollbar::-webkit-scrollbar{display: none;}
 .icon.add{background-position: -477px -161px !important;}
 .icon.delete-icon{background-position: -522px -8px !important;}
 .copy-check{background-position: -460px -9px !important;}
@@ -253,7 +254,7 @@ button.opacity-100{opacity: 1 !important;}
     max-width: 1140px;
   }
 }
-@media (min-width: 1400px){  
+@media (min-width: 1400px){
   .container {max-width: 1320px!important;}
   }
 @media (max-width: 767.98px){
