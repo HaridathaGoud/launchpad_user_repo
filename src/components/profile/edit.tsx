@@ -222,7 +222,7 @@ const ProfileEdit = ({
             <div className="flex">
               <select
                 id="profilePhone"
-                className="input input-bordered w-32 rounded-[28px]  border-[#A5A5A5] focus:outline-none pl-5 rounded-ee-none rounded-se-none h-10"
+                className="input input-bordered w-32 rounded-[28px]  border-[#A5A5A5] focus:outline-none pl-5 pr-10 rounded-ee-none rounded-se-none h-10"
                 value={
                   state.formData?.countryCode ? state.formData?.countryCode : ""
                 }
@@ -249,7 +249,7 @@ const ProfileEdit = ({
                 ))}
               </select>
               <input
-                className="input rounded-ss-none rounded-es-none input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5 h-10"
+                className="input !rounded-ss-none !rounded-es-none input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5 h-10"
                 type="text"
                 name="phoneNo"
                 maxLength={12}
