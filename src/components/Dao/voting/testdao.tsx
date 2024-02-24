@@ -253,7 +253,6 @@ function ProposalVoting(props: any) {
                 </div>}
               </div>
               <div>
-                <>
                   <div>
                     <div >
                       <div className='pt-2'>
@@ -287,8 +286,8 @@ function ProposalVoting(props: any) {
                           </div>
                           <h2 className='text-base font-semibold mt-3 text-secondary'>Project Overview</h2>
                           <p className='text-secondary break-all'>
-                            {!readMore
-                              ? proposarDetailas?.data?.description?.slice(0, 30)
+                            {(!readMore && proposarDetailas?.data?.description?.length>30)
+                              ? proposarDetailas?.data?.description?.slice(0, 30)+" ..."
                               : proposarDetailas?.data?.description}
                           </p>
                         </div>
@@ -311,7 +310,7 @@ function ProposalVoting(props: any) {
                           </div>
                         </div>} */}
                         <p className='text-center'>
-                          {!readMore && (<button onClick={()=>handleShowMore('more')} className='hover:text-primary text-secondary'>Show More</button>)}
+                          {(!readMore && proposarDetailas?.data?.description?.length>30) && (<button onClick={()=>handleShowMore('more')} className='hover:text-primary text-secondary'>Show More</button>)}
                           {readMore && (<button onClick={()=>handleShowMore('less')} className="hover:text-primary text-secondary">Show Less</button>)}
                         </p>
                       </div>
@@ -369,7 +368,6 @@ function ProposalVoting(props: any) {
                         </p>
                       </div>
                     </div></div>} */}
-                </>
               </div>
             </>}
         </div>

@@ -25,9 +25,6 @@ function CommonCreateProposal(props) {
     return () => clearTimeout(timer);
   }, []);
   return (
-    
-    <>
-
       <div className="container mx-auto max-sm:px-3 mt-3">
         {loading && <ProposalCardShimmer />}
         {!loading && (
@@ -54,7 +51,6 @@ function CommonCreateProposal(props) {
           </>
         )}
       </div>
-    </>
   )
 }
 const connectStateToProps = ({ oidc }: any) => {
