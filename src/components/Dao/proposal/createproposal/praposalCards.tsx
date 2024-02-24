@@ -73,7 +73,7 @@ function ProposalCards(props: any) {
     }, [])
 
     const getDaoItem = () => {
-        let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId)
+        let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId || props?.pjctInfo?.daoId)
         getBalanceCount(daoData?.name, address)
     }
     async function getBalanceCount(daoName, address) {
@@ -166,7 +166,6 @@ function ProposalCards(props: any) {
             });
         }
     }
-
     const getEndDateProposalData = (e: any) => {
         setShimmerLoading(true)
         setLookUpError(false);
