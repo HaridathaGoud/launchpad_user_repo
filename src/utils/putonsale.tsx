@@ -202,7 +202,7 @@ const PutOnSale = (props: any) => {
                   <input
                     aria-label="Username"
                     type="text"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
                     placeholder="Enter the price"
                     onChange={(value) => handleChange(value)}
                     isInvalid={!!validationError}

@@ -125,7 +125,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileFirstName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
               type="text"
               placeholder="First Name"
               name="firstName"
@@ -158,7 +158,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileLastName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
               type="text"
               placeholder="Last Name"
               name="lastName"
@@ -191,7 +191,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileEmail"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
               type="text"
               name="email"
               maxLength={50}
@@ -291,7 +291,7 @@ const ProfileEdit = ({
             </label>
             <select
               id="profileCountry"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
               aria-label="Default select example"
               value={state.formData?.country ? state.formData?.country : ""}
               onChange={(e) => {
@@ -322,7 +322,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileDiscordId"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
               type="text"
               value={state.formData?.discordId ? state.formData?.discordId : ""}
               onChange={(e) => {

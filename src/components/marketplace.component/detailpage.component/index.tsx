@@ -941,7 +941,7 @@ const DetailPage = (props: any) => {
                               <input
                                 placeholder="Ex: 0.01 WMATIC"
                                 aria-label="Username"
-                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
                                 onChange={(value) => handleChange(value)}
                               />
                             </div>
@@ -1145,7 +1145,7 @@ const DetailPage = (props: any) => {
                           type="text"
                           name="value"
                           aria-label="Username"
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
                           placeholder="Bidding Amount"
                           onChange={(e) => handleChange(e, 'bid')}
                           isInvalid={!!validationError}
@@ -1159,7 +1159,7 @@ const DetailPage = (props: any) => {
                       <div className="mb-4">
                         <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">Crypto Type</label>
                         <div className="relative ">
-                          <select aria-label="Default select example" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4">
+                          <select aria-label="Default select example" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9">
                             <option>MATIC</option>
                             <option value="1">WMATIC</option>
                           </select>
@@ -1167,7 +1167,7 @@ const DetailPage = (props: any) => {
                       </div>
                       <div className="mb-5">
                         <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">Buy Price</label>
-                        <input placeholder="0.01 WETH" aria-label="Username" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4" />
+                        <input placeholder="0.01 WETH" aria-label="Username" className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9" />
                       </div>
                       <div className="">
                         <div className="mb-4 flex items-center justify-between">

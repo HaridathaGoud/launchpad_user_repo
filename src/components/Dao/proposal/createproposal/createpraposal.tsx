@@ -543,9 +543,11 @@ function CreatePraposal(props: any) {
                         <label className="mb-0 inline-block ml-5 mb-2">
                           Author
                         </label>
-                        <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip">
-                          <img src={user} className="mr-3"></img>
-                          <span>{address}</span>
+                        <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
+                          <div className="flex items-center">
+                            <img src={user} className="mr-2 w-5 h-5"></img>
+                            <span>{address}</span>
+                          </div>
                           <CopyToClipboard
                             text={address}
                             options={{ format: "text/plain" }}
@@ -554,8 +556,8 @@ function CreatePraposal(props: any) {
                             <span
                               className={
                                 !copied
-                                  ? "icon md copy-icon c-pointer shrink-0"
-                                  : "icon copy-check c-pointer ms-2 shrink-0"
+                                  ? "icon md copy-icon cursor-pointer shrink-0"
+                                  : "icon copy-check cursor-pointer ms-2 shrink-0"
                               }
                             />
                           </CopyToClipboard>
@@ -566,7 +568,7 @@ function CreatePraposal(props: any) {
                           Proposal Title
                         </label>
                         <input
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
                           type="text"
                           placeholder="Proposal Title"
                           name="proposal"
@@ -613,10 +615,10 @@ function CreatePraposal(props: any) {
                 </div>  */}
                       <div className="mt-4">
                         {/* <span className='icon check-icon-ps'></span> */}
-                        <label className="text-dark text-sm font-normal p-0 label ml-5 mb-2">
+                        <label className="text-dark text-sm font-normal p-0 label ml-4 mb-2">
                           Select Your Proposal Type
                         </label>
-                        <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-6 py-3 ">
+                        <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-4 py-2 h-9">
                           <label className="cursor-pointer relative inline-block mt-1">
                             <span>
                               <input
@@ -637,7 +639,7 @@ function CreatePraposal(props: any) {
                         {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
                       </div>
                       <div>
-                        <div className="flex justify-between items-center mb-4 mt-5">
+                        <div className="flex justify-between items-center mb-4 mt-8">
                           <h4 className="text-xl font-semibold text-secondary">
                             Add Your Options
                           </h4>
@@ -648,42 +650,37 @@ function CreatePraposal(props: any) {
                               handleClick={addOption}
                             >
                               <span className="icon add"></span>
-                              Add
+                              Add new Option
                             </Button>
                           </div>
                         </div>
-                        <div>
-
-                          <div>
-                            {options.map((option: any, index: any) => (
-                              <div key={index}>
-                                <div className="d-flex align-items-center add-block relative mt-4">
-                                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                                    {option?.index
-                                      ? option?.index && option?.index + "."
-                                      : "A."}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4"
-                                    placeholder="Enter your option"
-                                    maxLength={50}
-                                    onChange={(e) => {
-                                      setOptionFeild(
-                                        e.currentTarget.value,
-                                        index
-                                      );
-                                    }}
-                                    value={option.options ? option.options : ""}
-                                  />
-                                  <span
-                                    className="icon delete-icon top-10 absolute right-6 cursor-pointer"
-                                    onClick={() => deleteOption(index)}
-                                  ></span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          {options.map((option: any, index: any) => (
+                            <div className="d-flex align-items-center add-block relative" key={index}>
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                {option?.index
+                                  ? option?.index && option?.index + "."
+                                  : "A."}
+                              </label>
+                              <input
+                                type="text"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9"
+                                placeholder="Enter your option"
+                                maxLength={50}
+                                onChange={(e) => {
+                                  setOptionFeild(
+                                    e.currentTarget.value,
+                                    index
+                                  );
+                                }}
+                                value={option.options ? option.options : ""}
+                              />
+                              <span
+                                className="icon delete-icon top-10 absolute right-6 cursor-pointer"
+                                onClick={() => deleteOption(index)}
+                              ></span>
+                            </div>
+                          ))}
                         </div>
                         {/* <div className="flex justify-center gap-5 items-center mt-16">
                             <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
@@ -717,11 +714,11 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${isMobile && !state?.startingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-9 py-2 ${isMobile && !state?.startingDate
+                              ? " "
+                              : isMobile && state?.startingDate
                                 ? " "
-                                : isMobile && state?.startingDate
-                                  ? " "
-                                  : ""
+                                : ""
                               }`}
                             placeholder="Start Date"
                             name="startdate"
@@ -739,11 +736,11 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none ${isMobile && !state?.endingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-9 py-2 ${isMobile && !state?.endingDate
+                              ? " "
+                              : isMobile && state?.endingDate
                                 ? " "
-                                : isMobile && state?.endingDate
-                                  ? " "
-                                  : ""
+                                : ""
                               }`}
                             placeholder="End Date"
                             name="enddate"
