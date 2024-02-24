@@ -14,7 +14,7 @@ import Createpraposal from '../proposal/createproposal/createpraposal';
 
 const DaoLeftPanel = (props) => {
     const [isChecked, setIsChecked] = useState(false)
-   
+
     const router = useNavigate();
 
     const handleRedirectCreatepraposalScreen = () => {
@@ -39,8 +39,8 @@ const DaoLeftPanel = (props) => {
                 <button onClick={handleRedirectCreatepraposalScreen} className='bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8'>New Proposal</button>
                 <div>
                     <h1 className='text-base font-semibold my-5 text-secondary'>Proposals</h1>
-                    <p className={`mb-5 text-secondary opacity-60`}>About </p>
-                    <p className={`mb-5 text-secondary opacity-60`}>Settings</p>
+                    {/* <p className={`mb-5 text-secondary opacity-60`}>About </p>
+                    <p className={`mb-5 text-secondary opacity-60`}>Settings</p> */}
                     <div className='flex gap-2'> <span className={`icon facebook-md `}></span>
                         <span className={`icon instagram-md `}></span>
                         <span className={`icon telegram-md `}></span>
@@ -49,18 +49,18 @@ const DaoLeftPanel = (props) => {
                     </div>
                 </div>
             </div>
-            
+
 
             {isChecked && <div className="drawer drawer-end">
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" checked={isChecked} />
                 <div className="drawer-content">
-                
+
                     {/* <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">Open drawer</label> */}
                 </div>
                 <div className="drawer-side z-10">
                     <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay" onClick={handleCancel}></label>
                     <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-24">
-                       
+
                        <Createpraposal close={handleCancel} pjctInfo={props?.pjctInfo}/>
                     </div>
                 </div>
