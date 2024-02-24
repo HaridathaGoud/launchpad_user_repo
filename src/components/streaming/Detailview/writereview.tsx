@@ -31,7 +31,7 @@ const WriteReview = ({ setActiveTab }) => {
             </div>
             <div className="mt-4" >
                 <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Name</label>
-                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4'
+                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9'
                     type="text"
                     placeholder="Enter Name"
                     name="proposal"
@@ -41,7 +41,7 @@ const WriteReview = ({ setActiveTab }) => {
             </div>
             <div className="mt-4" >
                 <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Email</label>
-                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4'
+                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-9'
                     type="email"
                     placeholder="Enter Email"
                     name="proposal"
