@@ -256,17 +256,18 @@ function CreatePraposal(props: any) {
       setErrors(formErrors);
     } else if (state?.startingDate && state?.endingDate < state?.startingDate) {
       setErrorMessage?.("Start date cannot be greater than the end date.");
-      window.scroll(0, 0);
     } else if (
       state?.startingDate == state?.endingDate &&
       state?.endingTime == state?.startingTime
     ) {
       setErrorMessage?.("Start time and end time cannot be the same.");
-      window.scroll(0, 0);
-    } else if (!state?.isChecked || attributes.length == 0) {
+    } else if (!state?.isChecked || attributes.length === 0) {
       setErrorMessage?.("Please select proposal type");
-      window.scroll(0, 0);
-    } else {
+ 
+    } 
+    else if (attributes.length < 2) {
+      setErrorMessage?.("Please select atleast two options");
+    }else {
       const startTime = convertTo24HourFormat(state?.startingTime);
       const endTime = convertTo24HourFormat(state?.endingTime);
 
