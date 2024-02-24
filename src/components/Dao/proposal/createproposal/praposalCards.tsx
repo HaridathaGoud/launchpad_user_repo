@@ -92,7 +92,7 @@ function ProposalCards(props: any) {
   };
   async function getBalanceCount(daoName, address) {
     // let contractAddress = daoName == "SEIICHI ISHII" ? mintingContractAddress : mintingKrijiContractAddress
-    let contractAddress = (daoName = mintingContractAddress);
+    let contractAddress = mintingContractAddress;
     let balance: any = await readContract({
       address: contractAddress,
       abi: MintContract.abi,
@@ -107,9 +107,6 @@ function ProposalCards(props: any) {
     if (address) {
       getDaoItem();
       getApprovedProposalData(state?.status);
-    const getDaoItem = () => {
-        let daoData = DaoDetail?.find((item) => item?.daoId == params?.daoId || props?.pjctInfo?.daoId)
-        getBalanceCount(daoData?.name, address)
     }
   }, [address]);
 
@@ -155,74 +152,6 @@ function ProposalCards(props: any) {
           state?.date,
           state?.dateStatus,
           (callback) => {
-            if (callback) {
-              setShimmerLoading(false);
-        }
-    }
-    const getStartDateProposalData = (e: any) => {
-        setLookUpError(false);
-        let stData = e.target.value;
-        dispatch({ type: 'date', payload: stData })
-        if (stData && state.dateStatus < stData) {
-            setErrorMsg("Start date cannot be greater than the end date.")
-            setLookUpError(true);
-            window.scroll(0, 0);
-            setShimmerLoading(false)
-        } else if (state?.dateStatus) {
-            setShimmerLoading(true)
-            setErrorMsg(null)
-            setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, stData, state.dateStatus, (callback) => {
-                if (callback) {
-                    setShimmerLoading(false);
-                }
-            });
-        } else if (!stData && state.dateStatus) {
-            setShimmerLoading(true)
-            setErrorMsg(null)
-            setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, stData, state.dateStatus, (callback) => {
-                if (callback) {
-                    setShimmerLoading(false);
-                }
-            });
-        }
-    }
-    const getEndDateProposalData = (e: any) => {
-        setShimmerLoading(true)
-        setLookUpError(false);
-        let endData = e.target.value;
-        dispatch({ type: 'dateStatus', payload: endData })
-        if (endData && endData < state?.date) {
-            setErrorMsg("Start date cannot be greater than the end date.");
-            setLookUpError(true);
-            window.scroll(0, 0);
-            setShimmerLoading(false)
-        } else if (state?.date && endData && status) {
-            setErrorMsg(null)
-            setPageNo(2)
-            props.proposalDetailsList(1, pageSize, props?.pjctInfo?.daoId||params?.daoId, status, search, state?.date, endData, (callback) => {
-                if (callback) {
-                    setShimmerLoading(false);
-                }
-            });
-            if (proposalData) {
-                dispatch({ type: 'dateStatus', payload: endData })
-            }
-          }
-        );
-      } else {
-        props.proposalDetailsList(
-          pageNo,
-          pageSize,
-          props?.pjctInfo?.daoId || params?.daoId,
-          data.toLowerCase(),
-          search,
-          startDate,
-          endDate,
-          (callback) => {
-            let _pageNo = pageNo + 1;
-            setPageNo(_pageNo);
             if (callback) {
               setShimmerLoading(false);
             }
@@ -460,7 +389,7 @@ function ProposalCards(props: any) {
         }
       }
     }
-    return timeDifference;
+    return timeDifference || "";
   }
 
   return (
@@ -573,7 +502,7 @@ function ProposalCards(props: any) {
                                   />
                                 </div>
                                 <p className="truncate text-secondary">
-                                  {item?.creatorAddress}
+                                  {item?.creatorAddress || ""}
                                 </p>
                               </div>
                               <div>
@@ -722,7 +651,7 @@ function ProposalCards(props: any) {
                       </>
                     ) : (
                       <div className="text-center">
-                        <img src={nodata} width={60} alt="No Data"/>
+                        <img src={nodata} width={60} alt="No Data" />
                         <h4 className="text-center no-data-text">
                           No Data Found
                         </h4>
