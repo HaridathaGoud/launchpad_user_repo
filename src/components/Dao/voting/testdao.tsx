@@ -324,9 +324,7 @@ function ProposalVoting(props: any) {
                                 {proposarDetailas?.data?.walletAddress ===
                                 address
                                   ? "YOU"
-                                  : proposarDetailas?.data?.createdBy
-                                  ? proposarDetailas?.data?.createdBy
-                                  : proposarDetailas?.data?.walletAddress}
+                                  : (proposarDetailas?.data?.createdBy || proposarDetailas?.data?.walletAddress)}
                               </span>
                               <CopyToClipboard
                                 text={proposarDetailas?.data?.walletAddress}
@@ -346,7 +344,7 @@ function ProposalVoting(props: any) {
                         </div>
                         <div className={`shrink-0 h-64`}>
                           <img
-                            src={selectedDaoData.image || defaultBG}
+                            src={selectedDaoData.image || props?.pjctInfo?.logo || defaultBG}
                             className="rounded-lg object-cover w-full h-64"
                             alt="project"
                           />
