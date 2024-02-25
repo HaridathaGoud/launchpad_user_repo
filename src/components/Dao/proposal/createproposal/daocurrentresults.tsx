@@ -15,7 +15,8 @@ import { getCustomerDetails } from '../../../../reducers/authReducer';
 import OutletContextModel from '../../../../layout/context/model';
 import outletContext from '../../../../layout/context/outletContext';
 import Spinner from '../../../loaders/spinner';
-
+import useContract from "../../../../hooks/useContract";
+import { ethers } from "ethers";
 const reducers = (state: any, action: any) => {
     switch (action.type) {
       case 'copied':
@@ -61,7 +62,21 @@ const   DaoCurrentResults = (props: any) => {
   const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
   const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
   const [daoVoteName, setDaoVoteName] = useState();
-
+  const { getStakedAmount } = useContract();
+  const [stakedAmount, setStakedAmount] = useState(0);
+  const [stakeAmountLoader,setStakeAmountLoader]=useState(false)
+  const getStakeAmount = async () => {
+    setStakeAmountLoader(true)
+    let response = await getStakedAmount();
+    let _amt = response?.toString();
+    if (_amt) {
+      setStakedAmount(parseFloat(ethers.utils.formatEther(_amt)));
+    }
+    setStakeAmountLoader(false)
+  };
+  useEffect(() => {
+    getStakeAmount();
+  }, [address]);
   useEffect(() => {
     scrollableRef?.current?.scrollIntoView(0, 0);
     getDaoItem()
@@ -233,7 +248,7 @@ const   DaoCurrentResults = (props: any) => {
                     </>}
                    </div>
                  </div>
-                 {!editBtn &&
+                 {!editBtn && !stakeAmountLoader && stakedAmount>=1000 &&
                  <div>
                  <h2 className='text-base font-semibold mb-2 text-secondary'>Cast Your Vote</h2>
                   <div className="mb-9">
@@ -261,7 +276,7 @@ const   DaoCurrentResults = (props: any) => {
                         </p>
                     </>}
                 </div>
-                    {saveBtn &&
+                    {saveBtn && !stakeAmountLoader && stakedAmount>=1000 &&
                         <div className='mb-2'>
                           
                             <Button handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full flex justify-center gap-2'>
