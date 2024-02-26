@@ -10,6 +10,7 @@ import ProjectShimmer from "../../components/loaders/projectcardshimmer";
 import Spinner from "../loaders/spinner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
+import BreadCrumb from "../../ui/breadcrumb";
 
 const Projectscomponent = (props) => {
   const [cardDetails, setCardDetails] = useState<any[]>([]);
@@ -123,6 +124,7 @@ const Projectscomponent = (props) => {
       {cardDetails.length > 0 && (
         <div className="container mx-auto max-sm:px-3 mt-6">
           <div className="">
+            {/* <BreadCrumb/> */}
             <div
               className={`flex justify-between mb-4 md:items-center ${
                 props.pageSize >= 9 ? "max-sm:flex-col gap-3" : ""

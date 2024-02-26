@@ -1,0 +1,17 @@
+
+.textSecondary{color: #959595;}
+.walletPuchase{height: 52px;width: 52px;background-position: -67px -100px !important;}
+.stake{height: 52px;width: 52px;background-position: -7px -100px !important;}
+.completeKyc{height: 52px;width: 52px;background-position:  -195px -102px !important;}
+.check{height: 52px;width: 52px;background-position: -132px -100px !important;}
+.ivosCard{box-shadow: 0px 1px 5px 0px rgba(104, 104, 104, 0.37);}
+.ivoCircleGreen{background-color: #AEECBF;color: #15AB3D;}
+.ivoCircleBrown{background-color: #F2CC93;color: #CD7B00;}
+.ivoCircleRed{background-color: #EEA5A5;color: #D60000;}
+.greenDot{background-color: #15AB3D;width: 10px;height: 10px;border-radius: 50%;display: inline-block;}
+.dateLeftArrow{background-position: -175px -37px !important;width: 30px;height: 30px;}
+.dateRightArrow{background-position: -213px -37px !important;width: 30px;height: 30px;}
+.lineNormal{line-height: normal;}
+@media(min-width: 768px){
+    .borderRight{border-right: 1px solid #959595;}
+}

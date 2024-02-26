@@ -76,7 +76,7 @@ import TrendingProjects from '../../staking/trendingCarousel';
         <div className='container mx-auto max-md:px-3 mt-3'>
         <TrendingProjects/>
           <div className='mt-5 mb-4'>
-            {/* <BreadCrumb /> */}
+            <BreadCrumb />
             <div className='mb-12 mt-4'>
               {params?.pid&& <ProjectViewTabs />}
             </div>

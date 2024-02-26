@@ -6,6 +6,7 @@ import DaoLeftPanel from '../../dao/daoleftpanel';
 import ProposalCardShimmer from '../../shimmers/proposalcardshimmer';
 import { useParams } from 'react-router-dom';
 import TrendingProjects from '../../../staking/trendingCarousel';
+import BreadCrumb from '../../../../ui/breadcrumb';
 
 function CommonCreateProposal(props) {
 
@@ -23,14 +24,14 @@ function CommonCreateProposal(props) {
         {!loading && (
           <>
             {params?.daoId && <TrendingProjects/>}
-            <div className='mt-5 mb-4'>
+            <div className='mt-5'>
               {/* <BreadCrumb/> */}
               <div className='mb-12 mt-4'>
                 {/* <ProjectViewTabs/> */}
               </div>
             </div>
 
-            <div className='container mx-auto md:grid lg:grid-cols-4 gap-7 mt-14'>
+            <div className='container mx-auto md:grid lg:grid-cols-4 gap-7 mt-8'>
               <div className='shrink-0'>
                 <DaoLeftPanel pjctInfo={props?.pjctInfo}/>
               </div>

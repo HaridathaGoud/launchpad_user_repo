@@ -22,6 +22,7 @@ import Claims from "./claims";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
 import CommonCreateProposal from '../Dao/./proposal/createproposal/praposalScreen';
+import BreadCrumb from "../../ui/breadcrumb";
 
 function Projectdetails(props: any) {
   const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
@@ -144,12 +145,12 @@ function Projectdetails(props: any) {
             {loader ? (
               <DetailViewShimmer />
             ) : (
-              <div className="md:grid md:grid-cols-12 mt-5 gap-7">
+              <div className="md:grid md:grid-cols-12 mt-2 gap-7">
                 <div className="md:col-span-8">
                   {/* <BannerCarousel images={projectCarousel} className='h-[380px]' /> */}
                   <ProjectBanner bannerImage={pjctFeed.bannerImage} />
-                  <div className="mt-5 mb-4">
-                    {/* <BreadCrumb /> */}
+                  <div className="mt-2 mb-4">
+                    <BreadCrumb />
                     <div className="mb-2 mt-4">
                       <ProjectViewTabs
                         projectFeedRef={projectFeedRef}

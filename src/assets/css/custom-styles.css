@@ -35,7 +35,7 @@ html[data-theme="dark"] .project-card{border-color: #55536f;}
 .playStore{background-position: -254px -39px !important;height: 24px;width: 24px;}
 .iStore{background-position: -288px -42px !important;height: 24px;width: 24px;}
 .breadcrumbs > ul > li + *::before{content: none;}
-.breadcrumbs > ul > li:not(:last-child)::after{background:url(https://storageaccountdott.blob.core.windows.net/dotimages/dott-lighttheme-icons.svg) no-repeat !important;   background-position:-146px -12px !important;   content: "/";width: fit-content !important;padding-left: 4px;padding-right: 4px; }
+.breadcrumbs > ul > li:not(:last-child)::after{  background-position:-146px -12px !important;   content: "/";width: fit-content !important;padding-left: 4px;padding-right: 4px; }
 .breadcrumbs > ul > li{line-height: normal;}
 .noScrollbar::-webkit-scrollbar{scrollbar-width: none;display: none;}
 .customTabs .tab{line-height: normal;}
