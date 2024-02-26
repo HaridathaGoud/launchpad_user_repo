@@ -39,21 +39,21 @@ const Staking = () => {
   //   dispatch({ type: "setMaticBalance", payload: maticData?.formatted });
   //   dispatch({ type: "setYbtBalance", payload: ybtData?.formatted });
   // };
-
+  async function getDetails() {
+    let response = await getUserStakeDetails();
+    if (response) {
+      dispatch({ type: "setStakeDetails", payload: response });
+    }
+  }
   useEffect(() => {
     if (address) {
       getAmountDetails?.();
-      // getBalances()
     }
-  }, [address, state?.amounts]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    async function getDetails() {
-      let response = await getUserStakeDetails();
-      if (response) {
-        dispatch({ type: "setStakeDetails", payload: response });
-      }
+    if (address) {
+      getDetails();
     }
-    getDetails();
   }, [state.amounts, address]); // eslint-disable-line react-hooks/exhaustive-deps
   const getAmountDetails = async () => {
     let stakedAmount = await stakeAmountData(getStakedAmount);
