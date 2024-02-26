@@ -33,15 +33,17 @@ const Staking = () => {
         | `0x${string}`
         | undefined,
     }) || {};
-  const getBalances = () => {
-    dispatch({ type: "setMaticBalance", payload: maticData?.formatted });
-    dispatch({ type: "setYbtBalance", payload: ybtData?.formatted });
-  };
+    const maticBalance= maticData?.formatted;
+    const ybtBalance=ybtData?.formatted ;
+  // const getBalances = () => {
+  //   dispatch({ type: "setMaticBalance", payload: maticData?.formatted });
+  //   dispatch({ type: "setYbtBalance", payload: ybtData?.formatted });
+  // };
 
   useEffect(() => {
     if (address) {
       getAmountDetails?.();
-      getBalances()
+      // getBalances()
     }
   }, [address, state?.amounts]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -143,8 +145,8 @@ const Staking = () => {
       isHideCountDownTimer: state?.isHideCountDownTimer,
       setIsHideCountDownTimer: (payload) =>
         dispatch({ type: "setIsHideCountDownTimer", payload: payload }),
-      maticBalance: state.maticBalance,
-      ybtBalance: state.ybtBalance,
+      maticBalance: maticBalance,
+      ybtBalance: ybtBalance,
       address: address,
       isConnected: isConnected,
       setTimers: setTimer,
