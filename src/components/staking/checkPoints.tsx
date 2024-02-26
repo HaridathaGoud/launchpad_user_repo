@@ -11,7 +11,7 @@ const CheckPointsComponent = () => {
     stakedAmount,
     unstakedAmount,
     rewardAmount,
-    isHideCountDownTimer,
+    // isHideCountDownTimer,
     isConnected,
     ybtBalance,
     maticBalance,
@@ -44,7 +44,6 @@ const CheckPointsComponent = () => {
     default:
       balanceFormatted = { ...balanceFormatted };
   }
-
   return (
     <div className="">
       <h1 className="mt-2 mb-6 text-lg font-bold text-secondary">
@@ -144,7 +143,7 @@ const CheckPointsComponent = () => {
                 <span
                   className={
                     (activeTab !== 0 &&
-                      // isHideCountDownTimer &&
+                      // !isHideCountDownTimer &&
                       balanceFormatted.balance > 0) ||
                     (activeTab === 0 && balanceFormatted.balance > 0) ||
                     !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)

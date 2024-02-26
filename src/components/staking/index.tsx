@@ -59,28 +59,27 @@ const Staking = () => {
   };
 
   const setTimer = (difference, type) => {
-    debugger
     dispatch({ type: "setTimeLoader", payload: true });
     const details = state?.stakeDetails;
-    let initiatedTime = BigInt(0);
+    let initiatedTime = 0;
     if (state?.activeTab ===1) {
       initiatedTime =
-        details?.intialStakingTime[details?.intialStakingTime?.length - 1];
+        Number(details?.intialStakingTime[details?.intialStakingTime?.length - 1]);
     }
     if (state?.activeTab === 2) {
-      initiatedTime = details?.unstakeInitiatedTime;
+      initiatedTime = Number(details?.unstakeInitiatedTime);
     }
     const currentDateMillis = new Date().getTime();
-    const currentDateInSeconds = BigInt(Math.floor(currentDateMillis / 1000));
+    const currentDateInSeconds = Math.floor(currentDateMillis / 1000);
     const differenceInSeconds = currentDateInSeconds - initiatedTime;
     function minutesToSeconds(minutes) {
-      return BigInt(minutes) * 60n;
+      return minutes * 60;
     }
 
     function daysToSeconds(days) {
-      return BigInt(days) * 24n * 60n * 60n;
+      return days* 24 * 60 * 60;
     }
-    let timerSeconds = 0n;
+    let timerSeconds = 0;
     if (type === "days") {
       timerSeconds = daysToSeconds(difference);
     }
