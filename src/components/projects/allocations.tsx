@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "../../ui/Button";
 import { ethers } from 'ethers';
 import nodata from "../../assets/images/no-data.png";
@@ -10,6 +10,7 @@ import { get } from "../../utils/api";
 import Spinner from "../loaders/spinner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
+import { useAccount } from "wagmi";
 
 const Allocations = (props) => {
   const [allocationsData, setAllocationsData] = useState<{
@@ -26,17 +27,15 @@ const Allocations = (props) => {
   const [btnLoader, setBtnLoader] = useState<boolean>(false);
   const { buyTokens } = useContract();
   const user = store.getState().auth;
-  const shouldLog = useRef(true);
+  const { address } = useAccount();
   const { setToaster, setErrorMessage }: OutletContextModel =
     useContext(outletContext);
   useEffect(() => {
     if (props.pid) {
-      if (shouldLog.current) {
-        shouldLog.current = false;
         getProjectClaimsDetails("allocations");
-      }
+
     }
-  }, [props.pid, user]);//eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.pid, user,address]);//eslint-disable-line react-hooks/exhaustive-deps
 
   const getProjectClaimsDetails = async (e: any) => {
     setAllocationsLoader(true);

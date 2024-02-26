@@ -42,18 +42,14 @@ function Projectdetails(props: any) {
   const buyMembershipRef = useRef(null);
   const [foundingmems, setFoundingMems] = useState([]);
   const [foundingmemLoader, setfoundingMemsLoader] = useState(false);
-  const shouldLog = useRef(true);
   const { setErrorMessage }: OutletContextModel = useContext(outletContext);
   const [daotab,setdaotab]=useState(false)
   useEffect(() => {
     window.scroll(0, 0);
     if (pid) {
-      if (shouldLog.current) {
-        shouldLog.current = false;
         getPjctDetails();
         stakeAmountData();
         getFoundingMembers();
-      }
     }
   }, [pid, projectstatus, address, user]);// eslint-disable-line react-hooks/exhaustive-deps
   const stakeAmountData = () => {
