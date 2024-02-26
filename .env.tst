@@ -16,7 +16,7 @@ REACT_APP_KYC_APP=https://tstkyc.minnapad.com/
 REACT_APP_CURRENCY=MATIC
 REACT_APP_LIQUIDITY_BUY_URL=https://app.uniswap.org/swap?chainId=80001&inputCurrency=ETH&outputCurrency=
 REACT_APP_STAKING_CONTRACT=0xA20D49af4Ca08dD66d022b72f8a035e84A938cCa
-REACT_APP_JSONRPC_URL=https://rpc-mumbai.maticvigil.com
+REACT_APP_JSONRPC_URL=https://polygon-mumbai-pokt.nodies.app
 REACT_APP_DAO_APP=https://minnapad.com/daos/
 REACT_APP_MARKETPLACE_APP=https://tstmarketplace.minnapad.com/
 REACT_APP_BRAND_WEBSITE=https://minnapad.com/
