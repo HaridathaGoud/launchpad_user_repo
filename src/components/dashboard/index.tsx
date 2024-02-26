@@ -6,6 +6,7 @@ import DashboardSteps from "./dashboardSteps";
 
 import ApplyNow from "../applynow";
 import TrendingProjects from "./trendingProjects";
+import LaunchpadIvos from "../projects/launchpadivos";
 export default function Dashboard() {
   return (
     <div className="">
@@ -15,6 +16,7 @@ export default function Dashboard() {
             <TrendingProjects />
             <ProjectInformation />
             <FeaturedIvos />
+            <LaunchpadIvos/>
             <Projectscomponent pjctType="Ongoing" pageSize="3" />
             <Projectscomponent pjctType="Upcoming" pageSize="3" />
             <Projectscomponent pjctType="Closed" pageSize="3" />

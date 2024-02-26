@@ -49,7 +49,8 @@ const BuyMembership = () => {
       <h2 className="text-base font-semibold mb-2 text-secondary">
         Select Your Subscription Plan
       </h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+     <div className="lg:px-[55px]">
+     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
         {memberships.map((membership) => (
           <div
             key={membership.name}
@@ -122,6 +123,7 @@ const BuyMembership = () => {
           </div>
         </div>
       )}
+     </div>
 
       <Modal id={"my_modal_5"}>
         <div className="">
