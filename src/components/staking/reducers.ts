@@ -1,14 +1,15 @@
-
 import { StakingStateModel, StakingTabsModel } from "./models";
 export const initialStakingState = {
-  stakeDetails:null,
+  stakeDetails: null,
   activeTab: 0,
   activeStep: 0,
   timeLoader: false,
   isHideCountDownTimer: false,
   stakingDetails: {},
   amounts: { stakedAmount: null, unstakedAmount: null, rewardAmount: null },
-  addressCopied:false
+  addressCopied: false,
+  maticBalance:0,
+  ybtBalance:0,
 };
 
 export const stakingTabsInitialState = {
@@ -24,6 +25,12 @@ export const stakingReducer = (
   action: any
 ) => {
   switch (action.type) {
+    case "setMaticBalance":
+      state = { ...state, maticBalance: action.payload };
+      break;
+    case "setYbtBalance":
+      state = { ...state, ybtBalance: action.payload };
+      break;
     case "setStakeDetails":
       state = { ...state, stakeDetails: action.payload };
       break;
@@ -45,9 +52,9 @@ export const stakingReducer = (
     case "setAmounts":
       state = { ...state, amounts: action.payload };
       break;
-      case "setAddressCopied":
-        state = { ...state, addressCopied: action.payload };
-        break;
+    case "setAddressCopied":
+      state = { ...state, addressCopied: action.payload };
+      break;
     default:
       state = { ...state };
   }

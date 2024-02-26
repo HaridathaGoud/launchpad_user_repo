@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Button from "../../ui/Button";
 import nodata from "../../assets/images/no-data.png";
 import useContract from "../../hooks/useContract";
@@ -9,23 +9,21 @@ import Spinner from "../loaders/spinner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
 import moment from "moment";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 const Claims = (props) => {
+  const { address } = useAccount();
   const [claimsLoader, setClaimsLoader] = useState<any>(false);
   const [claimHide, setClaimHide] = useState(true);
   const [claimsData, setClaimsData] = useState<{ [key: string]: any }>([]);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
   const [claimIndex, setClaimIndex] = useState<any>(null);
   const { claimTokens } = useContract();
-  const shouldLog = useRef(true);
   const { setToaster, setErrorMessage }: OutletContextModel =
     useContext(outletContext);
   useEffect(() => {
-    if (shouldLog.current) {
-      shouldLog.current = false;
       getClaimsData();
-    }
-  }, [props.pid]);
+  }, [props.pid, address]); //eslint-disable-line react-hooks/exhaustive-deps
   const getClaimsData = async () => {
     const user = store.getState().auth;
     const userId =
@@ -165,7 +163,11 @@ const Claims = (props) => {
                               }
                               handleClick={() => handleClaim(index)}
                             >
-                              {claimBtnLoader && index === claimIndex &&  <span><Spinner /></span>}
+                              {claimBtnLoader && index === claimIndex && (
+                                <span>
+                                  <Spinner />
+                                </span>
+                              )}
                               Claim
                             </Button>
                           )}
@@ -189,7 +191,12 @@ const Claims = (props) => {
               </div>
               {claimsData?.length === 0 && (
                 <div className="text-center">
-                  <img width={120} className="mx-auto" src={nodata} alt="No Data" />
+                  <img
+                    width={120}
+                    className="mx-auto"
+                    src={nodata}
+                    alt="No Data"
+                  />
                   <p className="text-secondary text-center">No data found</p>
                 </div>
               )}
