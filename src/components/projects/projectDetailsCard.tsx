@@ -23,7 +23,7 @@ const ProjectDetailsCard = (props: any) => {
           <div className="">
             <div className="md:flex justify-between">
               <div className="flex gap-2 items-start">
-                <div className="profile-image">
+                <div className="profile-image shrink-0">
                   <img
                     src={props.pjctInfo?.publisherLogo || defaultlogo}
                     className="h-12 w-12 rounded-full object-cover"
@@ -31,9 +31,11 @@ const ProjectDetailsCard = (props: any) => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-semibold text-secondary">
+                 <span className="tooltip" data-tip={props.pjctInfo?.projectName}>
+                 <span className="text-2xl font-semibold text-secondary text-start truncate inline-block md:w-[300px]">
                     {props.pjctInfo?.projectName}
-                  </h3>
+                  </span>
+                 </span>
                   <h4 className="text-sm text-secondary uppercase">
                     {props.pjctInfo?.tokenSymbol}
                   </h4>
@@ -91,7 +93,7 @@ const ProjectDetailsCard = (props: any) => {
               </div>
             </div>
             <div className="">
-              <div className="flex mt-6 ">
+              <div className="flex mt-6 md:pl-14">
                 <div className="flex gap-3 justify-between items-center">
                   <div className={` py-1 rounded px-3 ${
                           statusColourList[props.currentPjct]

@@ -54,7 +54,7 @@ const DaoLeftPanel = (props) => {
                 (user.firstName + " " + user.lastName).toLowerCase()
               ) : (
                 <>
-                  <span className="text-purple-color">
+                  <span className="tooltip" data-tip={address}>
                     {address?.slice(0, 4)}...{address?.slice(-4)}
                   </span>
                   <CopyToClipboard

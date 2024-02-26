@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import praposalImage from "../../../../assets/images/firstpraposal-image.png";
+import praposalImage from "../../../../assets/images/proposal.png";
 import { Link } from "react-router-dom";
 import { useAccount } from "wagmi";
 import Createpraposal from "../../proposal/createproposal/createpraposal";
@@ -34,7 +34,7 @@ export default function CreateFirstPraposal(props: any) {
     <>
       <div className="bg-base-300 py-[18px] px-5 rounded-lg shadow-md text-center">
         <div className="flex justify-center mb-6">
-          <img src={praposalImage} alt="Create Proposal"/>
+          <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
         {isConnected && props?.memberShipCount >= 2 && stakedAmount>=5000 && !loader && (
           <div className="">
