@@ -23,6 +23,7 @@ import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
 import CommonCreateProposal from '../Dao/./proposal/createproposal/praposalScreen';
 import BreadCrumb from "../../ui/breadcrumb";
+import SwipeUpComponent from "./swipeup";
 
 function Projectdetails(props: any) {
   const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
@@ -262,6 +263,7 @@ function Projectdetails(props: any) {
         </div>
       </div>
       <ApplyNow />
+      <SwipeUpComponent/>
     </>
   );
 }
