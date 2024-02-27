@@ -41,13 +41,13 @@ const Carousel = ({
                 key={image.image + image?.name}
                 className={`carousel-item w-full block md:flex items-center md:gap-x-5 overflow-y-hidden ${hasContent ? "lg:min-h-[500px]" : ""}`}
               >
-                <div className={`${hasContent ? "flex-1 lg:h-full " : "w-full"}`}>
+                <div className={`${hasContent ? "flex-1 lg:h-full " : "w-full h-full"}`}>
                   <img
                     src={`${image.image}`}
                     className={`${
                       hasContent
                         ? "lg:h-full w-full h-[200px] lg:w-[500px] object-cover"
-                        : "carosalImage rounded-2xl w-full object-cover"
+                        : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
                   />
