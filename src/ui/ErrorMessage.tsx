@@ -42,9 +42,9 @@ const ErrorMessage = ({ errorMessage, setErrorMessage, onCloseCallback }) => {
           <h2 className={`warning text-[#F05454] text-[24px] font-medium not-italic`}>Oh Error!</h2>
           <p className='text-[#F05454] text-[13px] font-normal not-italic '>{errorMessage.length > 40 ? <>
             {errorMessage.slice(0, 31)}
-            {!readMore && <button onClick={() => handleReadError('more')} className="font-bold text-[#000]"> &nbsp; ...read more</button>}
+            {!readMore && <button onClick={() => handleReadError('more')} className="font-bold text-[#F05454]"> &nbsp; ...read more</button>}
             {readMore && <><span>{errorMessage.slice(31)}</span>
-              <button onClick={() => handleReadError('less')} className="font-bold text-[#000]"> &nbsp; ...read less</button>
+              <button onClick={() => handleReadError('less')} className="font-bold text-[#F05454]"> &nbsp; ...read less</button>
             </>}
           </> : errorMessage}</p>
         </div>
