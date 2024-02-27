@@ -91,7 +91,7 @@ const CheckPointsComponent = () => {
                   {" "}
                   {activeTab !== 3 && "You currently have"}
                 </span>
-                <span className="text-sm font-semibold text-secondary">
+                <span className="text-sm font-semibold text-secondary break-all">
                   {" "}
                   {balanceFormatted.balance > 0
                     ? balanceFormatted.formattedBalance
@@ -126,7 +126,7 @@ const CheckPointsComponent = () => {
                 <span className="text-sm font-semibold text-secondary">
                   {process.env.REACT_APP_CURRENCY} Balance
                 </span>
-                <span className="text-sm font-semibold text-secondary">
+                <span className="text-sm font-semibold text-secondary break-all">
                   {" "}
                   {maticBalanceFormatted.balance
                     ? maticBalanceFormatted.formattedBalance

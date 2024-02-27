@@ -239,6 +239,7 @@ input:focus-visible {border-radius: 30px;}
 .trending-card{width: 300px;}
 button.opacity-100{opacity: 1 !important;}
 .dots{background-position: -333px -211px !important;}
+.tooltip:before{font-size: 12px !important;background-color:#000 !important;color: #fff !important;font-weight: 400 !important;z-index: 9999 !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
