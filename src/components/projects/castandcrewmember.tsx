@@ -11,7 +11,7 @@ const CastAndCrewMember = (props) => {
     >
       {props.castCrewsData?.map((item, index) =>
         index < 4 ? (
-          <div className="lg:w-[140px] break-words shrink-0	" key={item.image}>
+          <div className="w-[140px] break-words shrink-0	" key={item.image}>
             {" "}
             <div
               className={`relative w-20 h-20 mx-auto overflow-hidden rounded-full mb-3`}
