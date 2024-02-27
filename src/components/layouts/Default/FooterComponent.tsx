@@ -24,7 +24,7 @@ const FooterComponent = () => {
               rel="noreferrer"
             >
               {" "}
-              <span className={`telegram icon`}></span>
+              <span className={`twitter icon`}></span>
             </a>
             <a
               href="https://www.facebook.com/YellowblockNet/"
