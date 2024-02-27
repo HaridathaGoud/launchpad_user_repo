@@ -98,6 +98,14 @@ function CreatePraposal(props: any) {
   const { addQuestion, parseError } = useVotingContract();
   const [startDateEpoch, setStartDateEpoch] = useState<any>();
   const [endDateEpoch, setEndDateEpoch] = useState<any>();
+  const user = useSelector((state: any) =>
+    isConnected
+      ? state?.oidc?.fetchproposalviewdata
+      : state?.proposal?.proViewData
+  );
+  const selectedDaoData = useSelector(
+    (state: any) => state?.oidc?.fetchSelectingDaoData
+  );
   const DaoDetail = useSelector(
     (state: any) => state?.proposal?.getWalletAddressChecking?.data
   );
@@ -116,6 +124,7 @@ function CreatePraposal(props: any) {
     modalError: false,
     isChecked: false,
   });
+  const [daoData, setDaoData] = useState<any>(null);
   const getCustomerId = useSelector((state: any) => state?.oidc?.user?.id);
   const addOption = () => {
     const newFields = [
@@ -332,6 +341,7 @@ function CreatePraposal(props: any) {
       (item) => item?.daoId == props?.pjctInfo?.daoId || params.daoId
     );
     setDaoName(daoData?.name);
+    setDaoData(daoData);
   };
   const getOptionHashes = () => {
     let hashes = proposalDetails?.ProposalOptionDetails;
@@ -363,7 +373,12 @@ function CreatePraposal(props: any) {
       proposalOptionDetails: proposalDetails?.ProposalOptionDetails,
     };
     // let contractAddress = daoName == "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
-    let contractAddress = votingSeicheContractAddress;
+    let contractAddress =
+      selectedDaoData?.votingContractAddress ||
+      daoData?.votingContractAddress ||
+      params.votingAddress ||
+      props?.pjctInfo?.votingContractAddress ||
+      "";
     try {
       const response = await addQuestion(
         contractAddress,
@@ -655,7 +670,10 @@ function CreatePraposal(props: any) {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           {options.map((option: any, index: any) => (
-                            <div key={index} className="d-flex align-items-center add-block relative">
+                            <div
+                              key={index}
+                              className="d-flex align-items-center add-block relative"
+                            >
                               <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
                                 {/* {option?.index
                                       ? option?.index && option?.index + "."
@@ -668,10 +686,7 @@ function CreatePraposal(props: any) {
                                 placeholder="Enter your option"
                                 maxLength={50}
                                 onChange={(e) => {
-                                  setOptionFeild(
-                                    e.currentTarget.value,
-                                    index
-                                  );
+                                  setOptionFeild(e.currentTarget.value, index);
                                 }}
                                 value={option.options ? option.options : ""}
                               />
@@ -693,13 +708,13 @@ function CreatePraposal(props: any) {
                       </div>
                       <div className="mt-4">
                         <div className="flex gap-3 flex-wrap">
-                          {attributes?.map((item) => (
+                          {attributes?.map((item, index) => (
                             <div
                               className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200"
                               key={item.options}
                             >
                               <span className="mb-0">
-                                {item?.index || "A"}. {item?.options}
+                                {item?.index || index + 1}. {item?.options}
                               </span>
                             </div>
                           ))}
@@ -713,12 +728,13 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.startingDate
-                              ? " "
-                              : isMobile && state?.startingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
+                              isMobile && !state?.startingDate
+                                ? " "
+                                : isMobile && state?.startingDate
                                 ? " "
                                 : ""
-                              }`}
+                            }`}
                             placeholder="Start Date"
                             name="startdate"
                             // min={currentDate}
@@ -735,12 +751,13 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.endingDate
-                              ? " "
-                              : isMobile && state?.endingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
+                              isMobile && !state?.endingDate
+                                ? " "
+                                : isMobile && state?.endingDate
                                 ? " "
                                 : ""
-                              }`}
+                            }`}
                             placeholder="End Date"
                             name="enddate"
                             // min={currentDate}
@@ -756,7 +773,7 @@ function CreatePraposal(props: any) {
                   {state?.currentStep === 2 && (
                     <div className="">
                       {!contractData?.loading &&
-                        Object.keys(proposalDetails).length > 0 ? (
+                      Object.keys(proposalDetails).length > 0 ? (
                         <div className="">
                           <div className="">
                             <span className="mb-0 me-2 text-base font-semibold text-secondary">
@@ -776,8 +793,12 @@ function CreatePraposal(props: any) {
                               <div className="flex items-center flex-wrap gap-3">
                                 {proposalDetails?.ProposalOptionDetails?.map(
                                   (item, index) => (
-                                    <p className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200" key={item.options}>
-                                      {item?.index || index + 1}. {item?.options}
+                                    <p
+                                      className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200"
+                                      key={item.options}
+                                    >
+                                      {item?.index || index + 1}.{" "}
+                                      {item?.options}
                                     </p>
                                   )
                                 )}
@@ -846,7 +867,11 @@ function CreatePraposal(props: any) {
                   )}
                   {state?.currentStep !== 3 && (
                     <div className="flex justify-center gap-5 items-center mt-16">
-                      <Button handleClick={handlecloseDrawer} type="cancel" btnClassName="justify-center min-w-[164px]">
+                      <Button
+                        handleClick={handlecloseDrawer}
+                        type="cancel"
+                        btnClassName="justify-center min-w-[164px]"
+                      >
                         Cancel
                       </Button>
                       <Button
@@ -927,7 +952,6 @@ function CreatePraposal(props: any) {
         </div>
       ) : (
         <div className="pt-10">
-          
           <WalletText />
         </div>
       )}

@@ -230,7 +230,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/dao/:daoId",
+          path: "/dao/:daoId/:votingAddress",
           element: (
             <React.Suspense>
               <ProposalList />

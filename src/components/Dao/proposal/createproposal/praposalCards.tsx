@@ -366,10 +366,14 @@ function ProposalCards(props: any) {
     ];
     return recorderValues[recorder - 1];
   };
-  function calculateTimeDifference(endingDate) {
-    const startTime = new Date().getTime();
+  function calculateTimeDifference(endingDate) { 
+    let localDate1 = new Date();
+    let utcDate = localDate1?.toISOString();
+    let utcDateObject = new Date(utcDate);
+    let startEpochTime = utcDateObject?.getTime();
+    const startTime = startEpochTime;  
     const endTime = new Date(endingDate).getTime();
-
+    console.log(startTime,endTime)
     if (startTime > endTime) {
       return "Ended";
     }

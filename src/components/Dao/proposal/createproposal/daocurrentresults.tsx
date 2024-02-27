@@ -171,7 +171,8 @@ const   DaoCurrentResults = (props: any) => {
             "Status": ((value && "Voted") || "Abstain")
           }
           // let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
-          let contractAddress = votingSeicheContractAddress;
+          let contractAddress = user?.data?.votingContractAddress;
+          console.log(contractAddress)
           try {
             const response = await castVote(contractAddress, proposarDetailas?.data?.titleHash, state?.selectedhash);
             if (response) {
@@ -276,9 +277,8 @@ const   DaoCurrentResults = (props: any) => {
                         </p>
                     </>}
                 </div>
-                    {saveBtn && !stakeAmountLoader && stakedAmount>=1000 &&
+                    {saveBtn && !stakeAmountLoader && stakedAmount>=1000 && !isVoted && 
                         <div className='mb-2'>
-                          
                             <Button handleClick={handleRedirectVotingScreen} type='secondary' btnClassName='w-full flex justify-center gap-2'>
                             <span>{state?.isButtonLoading && <Spinner/>} </span>{" "}{'Vote Now'}
                             </Button>
