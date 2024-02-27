@@ -86,7 +86,7 @@ const FoundingMembersView = () => {
                 <p className={` opacity-60 truncate`}>Subscribers</p>
               </div>
               <div className={`w-px bg-base-200 opacity-20`}></div>
-              <div className="text-right flex-1">
+              <div className="text-right flex-1 truncate">
                 <h1 className="font-semibold mb-3">
                   {item.walletAddress?.slice(0, 4) +
                     "...." +
@@ -102,7 +102,7 @@ const FoundingMembersView = () => {
                             <span className={copied!==item.walletAddress ? 'icon md copy-icon cursor-pointer ms-0 pl-4' : 'icon md check-icon pl-4'} />
                           </CopyToClipboard>
                 </h1>
-                <p className="font-semibold mb-3 truncate w-[100px]">1k Matic</p>
+                <p className="font-semibold mb-3 truncate">1k Matic</p>
                 <p className="font-semibold mb-3 truncate">19.3k </p>
               </div>
             </div>
