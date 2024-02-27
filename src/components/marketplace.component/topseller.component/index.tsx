@@ -101,13 +101,13 @@ const TopSeller = () => {
             </div>
             <div className="mt-5">
               {(
-                <Button handleClick={() => handleSlideActions("previous")}>
+                <Button handleClick={() => handleSlideActions("previous")} btnClassName="!p-0 !shadow-none !bg-transparent">
                   {" "}
                   <span className="icon carousal-left-arrow cursor-pointer mr-1"></span>
                 </Button>
               )}
               {(
-                <Button handleClick={() => handleSlideActions("next")}>
+                <Button handleClick={() => handleSlideActions("next")} btnClassName="!p-0 !shadow-none !bg-transparent">
                   {" "}
                   <span className="icon carousal-right-arrow cursor-pointer"></span>
                 </Button>

@@ -102,7 +102,7 @@ const FoundingMembersView = () => {
                             <span className={copied!==item.walletAddress ? 'icon md copy-icon cursor-pointer ms-0 pl-4' : 'icon md check-icon pl-4'} />
                           </CopyToClipboard>
                 </h1>
-                <p className="font-semibold mb-3 truncate">1k Matic</p>
+                <p className="font-semibold mb-3 truncate w-[100px]">1k Matic</p>
                 <p className="font-semibold mb-3 truncate">19.3k </p>
               </div>
             </div>
