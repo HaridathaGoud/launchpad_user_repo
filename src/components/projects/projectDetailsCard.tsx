@@ -208,7 +208,7 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                 </div>
               </div>
-              <div className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
+              <div className={`py-1 rounded px-3 absolute top-[-17px] right-6 md:min-w-[103px] ${
                       statusColourList[
                         props.pjctInfo?.privateStatus?.toLowerCase()
                       ]
@@ -254,7 +254,7 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                 </div>
               </div>
-              <div className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
+              <div className={`py-1 rounded px-3 absolute top-[-17px] right-6 md:min-w-[103px] ${
                       statusColourList[
                         props.pjctInfo?.publicStatus?.toLowerCase()
                       ]

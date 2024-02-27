@@ -16,13 +16,13 @@ const FoundingMember = (props) => {
             {props.foundingmemsData
                 ?.stakersData?.map((item, index) =>
                 (index < 4 ?
-                    <div className='lg:w-[140px] break-words shrink-0' key={item.walletAddress}>
+                    <div className='lg:w-[140px] break-words shrink-0 text-center' key={item.walletAddress}>
                         <div className={`relative w-20 h-20 mx-auto mb-3 `}>
                             <img src={item.image ? item.image : member} className={`rounded-full h-full w-full object-cover`} alt={`${'founding member'}`} />
                             {/* <span className={` text-base-100 text-xs font-semibold inline-flex items-center justify-center w-6 h-6 bg-primary rounded-[50%] text-center absolute right-[-5px] bottom-0.5 border border-white`}>3%</span> */}
                         </div>
                         <p className={`text-base font-normal  text-secondary text-center`}>{item.userName ? item.userName : '-'}</p>
-                        <p className={`text-base font-semibold text-secondary text-center tooltip`} data-tip= {item.walletAddress}>
+                        <p className={`text-base font-semibold text-secondary text-center`}>
                             {item.walletAddress?.slice(0, 4) + '....' + item.walletAddress?.substring(item.walletAddress.length - 4, item.walletAddress.length)}
                             <CopyToClipboard
                                 text={item.walletAddress}
@@ -37,7 +37,7 @@ const FoundingMember = (props) => {
 
 
             {props.foundingmemsData?.stakersData?.length !== 0 && <Link to={`/foundingmemebersview/${props.pjctId}`}>
-                <div className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer ml-0 md:ml-10`}>
+                <div className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer `}>
                     <div className={`text-center`}>
                         <span className={`icon ${styles.rightArrow}`}></span>
                         <p className={`text-base-100 text-xs font-normal`}>View All</p>

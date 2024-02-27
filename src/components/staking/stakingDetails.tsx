@@ -17,7 +17,7 @@ const StakingDetails = () => {
     maximumFractionDigits: 8,
   });
   return (
-    <div className="sm:col md:flex justify-between">
+    <div className="sm:col md:flex justify-between items-center">
       <div className="lg:col-span-2">
         {activeTab === 0 && <p className="text-xl font-semibold text-secondary">Staking</p>}
         {activeTab === 1 && <p className="text-xl font-semibold text-secondary">Unstaking</p>}

@@ -84,7 +84,7 @@ const FoundingMembersView = () => {
               </div>
               <div className={`w-px bg-base-200 opacity-20`}></div>
               <div className="text-right flex-1">
-                <h1 className="font-semibold mb-3 tooltip" data-tip={item.walletAddress}>
+                <h1 className="font-semibold mb-3">
                   {item.walletAddress?.slice(0, 4) +
                     "...." +
                     item.walletAddress?.substring(
