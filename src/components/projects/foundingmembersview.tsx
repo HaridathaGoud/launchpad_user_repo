@@ -83,7 +83,7 @@ const FoundingMembersView = () => {
                 <p className={` opacity-60 truncate`}>Subscribers</p>
               </div>
               <div className={`w-px bg-base-200 opacity-20`}></div>
-              <div className="text-right flex-1">
+              <div className="text-right flex-1 truncate">
                 <h1 className="font-semibold mb-3">
                   {item.walletAddress?.slice(0, 4) +
                     "...." +

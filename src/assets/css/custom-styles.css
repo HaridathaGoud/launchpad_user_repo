@@ -222,7 +222,7 @@ select{background:url(https://devdottstoragespace.blob.core.windows.net/dottimag
 .successicon{width: 43px;height: 43px;background-position: -197px -460px !important;}
 .erroricon{width: 43px;height: 43px;background-position: -242px -460px !important;}
 .icon.see-more{ background-position: -107px -70px !important; height: 16px !important; width: 24px}
-input:focus-visible {border-radius: 30px;}
+input:focus-visible {border-radius: 30px;outline: none;}
 /* toaster msg end */
 .channel-bg{background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-aokokFuIEj01QetjCEYS66WIACbMjeWxWg&usqp=CAU);}
 .icon.circle-check{background-position:-344px -267px !important;}
