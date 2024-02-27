@@ -9,8 +9,8 @@ import outletContext from "../../layout/context/outletContext";
 const KycDetails = ({ kycStatus, id }) => {
   const navigate = useNavigate();
   const { setErrorMessage }: OutletContextModel = useContext(outletContext);
-  const [userDetails, setUserDetails] = useState(null);
-  const [identityDetails, setIdentityDetails] = useState(null);
+  const [userDetails, setUserDetails] = useState<any>(null);
+  const [identityDetails, setIdentityDetails] = useState<any>(null);
   const shouldLog = useRef(true);
   useEffect(() => {
     if (id && shouldLog.current) {
@@ -188,17 +188,11 @@ const KycDetails = ({ kycStatus, id }) => {
           {identityDetails?.map(([idType, items]) => (
             <div className="" key={idType}>
               <p className="text-sm font-normal text-secondary opacity-[0.9] mb-1">
-                {idType === "PASSPORT"
-                  ? "Passport"
-                  : idType === "SELFIE"
-                  ? "Selfie"
-                  : idType === "DRIVERS"
-                  ? "Driver's License"
-                  : idType === "ID_CARD"
-                  ? "ID Card"
-                  : idType === "RESIDENCE_PERMIT"
-                  ? "Residence Permit"
-                  : ""}
+                {idType === "PASSPORT" && "Passport"}
+                {idType === "SELFIE" && "Selfie"}
+                {idType === "DRIVERS" && "Driver's License"}
+                {idType === "ID_CARD" && "ID Card"}
+                {idType === "RESIDENCE_PERMIT" && "Residence Permit"}
               </p>
               <div className="">
                 {items?.map((item: any) => (
@@ -206,6 +200,7 @@ const KycDetails = ({ kycStatus, id }) => {
                     className={`${
                       item?.idType === "SELFIE" ? "avatar" : ""
                     } w-full overflow-hidden rounded-xl`}
+                    key={item.idType}
                   >
                     <div
                       className={`w-full md:h-64 rounded-xl max-sm:h-64  ${
