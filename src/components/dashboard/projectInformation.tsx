@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState } from "react";
 import { get } from "../../utils/api";
 import ProjectInformationShimmer from "../loaders/dashboard/projectInformation";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
+import { useDispatch } from "react-redux";
+import { setError } from "../../reducers/layoutReducer";
 
 const ProjectInformation = () => {
-  const  {errorMessage,setErrorMessage}:OutletContextModel=useContext(outletContext)
+  const rootDispatch=useDispatch()
   const [loader, setLoader] = useState(false);
   const [projectDetails, setProjectDetails] = useState<any[]>([]);
   const shouldLog = useRef(true);
@@ -21,12 +21,11 @@ const ProjectInformation = () => {
       let response = await get("/User/getProjectsdetails");
       if (response.statusText.toLowerCase() === "ok") {
         setProjectDetails(response.data);
-        errorMessage && setErrorMessage?.("");
       } else {
-        setErrorMessage?.(response);
+        rootDispatch(setError({message:response}))
       }
     } catch (error) {
-      setErrorMessage?.(error);
+      rootDispatch(setError({message:error}))
     } finally {
       setLoader(false);
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Navigate } from "react-router-dom";
 import { useAccount } from "wagmi";
 import ProfileInfoShimmer from "../loaders/Profileshimmers";
@@ -12,11 +12,11 @@ import ProfileTabs from "./profileTabs";
 import { getKyc } from "../../utils/api";
 import { setUserID } from "../../reducers/rootReducer";
 import { store } from "../../store";
-import OutletContextModel from "../../layout/context/model";
-import outletContext from "../../layout/context/outletContext";
+import { setError } from "../../reducers/layoutReducer";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
+  const rootDispatch=useDispatch()
   const { isConnected, address } = useAccount();
   const [state, dispatch] = useReducer(profileReducer, initialState);
   useEffect(() => {
@@ -33,10 +33,10 @@ const Profile = () => {
           store.dispatch(setUserID(res.data));
           dispatch({ type: "setProfileInfo", payload: res.data });
         } else {
-          setErrorMessage?.(res);
+          rootDispatch(setError({message:res}))
         }
       } catch (error) {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
       }
       finally{
         dispatch({ type: "setLoader", payload: false });

@@ -1,13 +1,11 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { get } from "../../utils/api";
 import { useParams } from "react-router-dom";
-// import { isErrorDispaly } from '../../utils/errorHandling';
 import useContract from "../../hooks/useContract";
 import { store } from "../../store";
 import { useAccount } from "wagmi";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { ethers } from "ethers";
-// import error from '../../assets/images/error.svg';
 import ProjectViewTabs from "../Dao/dao/projecttabs";
 import CastAndCrewMember from "./castandcrewmember";
 import FoundingMember from "./foundingmember";
@@ -19,16 +17,15 @@ import ProjectBanner from "./projectBanner";
 import ProjectFeed from "./projectfeed";
 import Allocations from "./allocations";
 import Claims from "./claims";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
 import CommonCreateProposal from '../Dao/./proposal/createproposal/praposalScreen';
 import BreadCrumb from "../../ui/breadcrumb";
 import SwipeUpComponent from "./swipeup";
+import { setError } from "../../reducers/layoutReducer";
 
 function Projectdetails(props: any) {
+  const rootDispatch=useDispatch()
   const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
   const [pjctFeed, setPjctFeed] = useState<{ [key: string]: any }>({});
-  // const [errorMsg, setErrorMsg] = useState(null);
   const [loader, setLoader] = useState(false);
   const { address } = useAccount();
   const { pid, projectstatus } = useParams();
@@ -43,7 +40,6 @@ function Projectdetails(props: any) {
   const buyMembershipRef = useRef(null);
   const [foundingmems, setFoundingMems] = useState([]);
   const [foundingmemLoader, setfoundingMemsLoader] = useState(false);
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
   const [daotab,setdaotab]=useState(false)
   useEffect(() => {
     window.scroll(0, 0);
@@ -76,7 +72,7 @@ function Projectdetails(props: any) {
         swapProgressBarCalculation(res);
       })
       .catch((error: any) => {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
         setLoader(false);
       });
   };
@@ -88,7 +84,7 @@ function Projectdetails(props: any) {
         setfoundingMemsLoader(false);
       })
       .catch((error: any) => {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
         setfoundingMemsLoader(false);
       });
   };
@@ -104,7 +100,7 @@ function Projectdetails(props: any) {
       setPjctFeed(res.data);
       setLoader(false);
     } else {
-      setErrorMessage?.(res);
+      rootDispatch(setError({message:res}))
       setLoader(false);
     }
   };

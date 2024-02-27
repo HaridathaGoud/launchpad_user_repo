@@ -1,22 +1,19 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { get } from "../../utils/api";
-// import { isErrorDispaly } from '../../utils/errorHandling';
 import moment from "moment";
 import DefaultImg from "../../assets/images/default-bg.png";
 import { Link } from "react-router-dom";
 import nodata from "../../assets/images/no-data.png";
 import ProjectShimmer from "../../components/loaders/projectcardshimmer";
-// import error from '../../assets/images/error.svg';
 import Spinner from "../loaders/spinner";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
-import BreadCrumb from "../../ui/breadcrumb";
+import { setError } from "../../reducers/layoutReducer";
+import { useDispatch } from "react-redux";
 
 const Projectscomponent = (props) => {
+  const rootDispatch=useDispatch()
   const [cardDetails, setCardDetails] = useState<any[]>([]);
   const [cardSeeMoreHide, setCardSeeMoreHide] = useState<boolean>(false);
   const [totalCardData, setTotalCardData] = useState<any[]>([]);
-  // const [errorMsg, setErrorMsg] = useState(null);
   const [pageNo, setPageNo] = useState(1);
   const [search, setSearch] = useState(null);
   const [loadeMessage, setLoaderMessage] = useState("");
@@ -24,8 +21,6 @@ const Projectscomponent = (props) => {
   const [loadData, setLoadData] = useState(false);
   const endedIgosRef = useRef<any>(null);
   const pjctTypes = { Ongoing: "Open", Upcoming: "Upcoming", Closed: "Ended" };
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
-
   const fetchMoreData = () => {
     getPrjectCardDetails(pageNo, props.pageSize, props.pjctType, search);
   };
@@ -64,7 +59,7 @@ const Projectscomponent = (props) => {
       }
       setLoader(false);
     } else {
-      setErrorMessage?.(response);
+      rootDispatch(setError({message:response}))
       setLoader(false);
     }
   };

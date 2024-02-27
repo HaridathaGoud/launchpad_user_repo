@@ -1,25 +1,22 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import foundingimg from "../../assets/images/founding-img.png";
 import FoundingMemberSimmer from "../loaders/foundingmembersshimmer";
 import { useParams } from "react-router-dom";
 import { get } from "../../utils/api";
-// import { isErrorDispaly } from '../../utils/errorHandling';
 import defaultbannerimg from "../../assets/images/default-bg.png";
-// import error from '../../assets/images/error.svg';
 import FoundingMemberBannerSimmer from "../loaders/FoundingBannerShimmer";
 import ProjectBanner from "./projectBanner";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import BreadCrumb from "../../ui/breadcrumb";
+import { setError } from "../../reducers/layoutReducer";
+import { useDispatch } from "react-redux";
 
 const FoundingMembersView = () => {
+  const rootDispatch=useDispatch()
   const [foundingmems, setFoundingMems] = useState<{ [key: string]: any }>({});
   const [foundingmemLoader, setfoundingMemsLoader] = useState(false);
-  // const [errorMsg, setErrorMsg] = useState(null);
   const shouldLog = useRef(true);
   const params = useParams();
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
   const [copied,setCopied]=useState('')
   const handleCopy = (address) => {
       setCopied(address);
@@ -42,7 +39,7 @@ const FoundingMembersView = () => {
         setfoundingMemsLoader(false);
       })
       .catch((error: any) => {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
         setfoundingMemsLoader(false);
       });
   };

@@ -11,9 +11,9 @@ import Button from "../../../ui/Button";
 import CheckBox from "../checkBox";
 import { StakingContext } from "../context/stakingContext";
 import { StakingContextModal, StakingTabsContextModel } from "../models";
-import OutletContextModel from "../../../layout/context/model";
-import OutletContext from "../../../layout/context/outletContext";
 import { StakingTabsContext } from "../context/stakingTabsContext";
+import { useDispatch } from "react-redux";
+import { setToaster } from "../../../reducers/layoutReducer";
 const StakingComponent = () => {
   const navigate = useNavigate();
   const {
@@ -26,7 +26,7 @@ const StakingComponent = () => {
     address,
     isConnected,
   }: StakingContextModal = useContext(StakingContext);
-  const {setToaster }: OutletContextModel = useContext(OutletContext);
+  const rootDispatch=useDispatch()
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
   const { approve, stack } = useContract();
@@ -65,7 +65,7 @@ const StakingComponent = () => {
       };
       const response = await post(`User/SaveStaking`, obj);
       if (response.statusText.toLowerCase() === "ok") {
-        setToaster?.(`Amount stake successful!`);
+        rootDispatch(setToaster({ message: `Amount stake successful!` }));
         setActiveStep?.(3);
         tabContextValues.setButtonLoader?.(false);
         tabContextValues?.setTabData?.(res.data);

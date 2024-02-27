@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useReducer, useContext } from "react";
+import React, { useState, useEffect, useReducer} from "react";
 import Container from "react-bootstrap/Container";
 
 import { useNavigate } from "react-router-dom";
 import WalletModal from "../../../../utils/walletModal";
 import { useParams } from "react-router-dom";
-import { connect, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
   getCardsProposalList,
   getLookUp,
@@ -18,8 +18,7 @@ import MintContract from "../../../../contracts/seichi.json";
 import { isMobile } from "react-device-detect";
 import { Spinner } from "react-bootstrap";
 import daocardProfile from "../../../../assets/images/daocard-profile.png";
-import OutletContextModel from "../../../../layout/context/model";
-import outletContext from "../../../../layout/context/outletContext";
+import { setError } from "../../../../reducers/layoutReducer";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case "modalShow":
@@ -37,10 +36,10 @@ const reducers = (state: any, action: any) => {
 function ProposalCards(props: any) {
   const { isConnected, address } = useAccount();
   const [search, setSearch] = useState(null);
+  const rootDispatch=useDispatch()
   const proposalData = useSelector(
     (state: any) => state.proposal?.proposalDetailsList
   );
-  const {setErrorMessage}:OutletContextModel=useContext(outletContext)
   const loadData = useSelector((state: any) => state.proposal?.isCheckSeeMore);
   const [status, setStatus] = useState("all");
   const pageSize = 10;
@@ -112,7 +111,7 @@ function ProposalCards(props: any) {
     }
     dispatch({ type: "status", payload: data });
     if (lookUpError) {
-      setErrorMessage?.("Start date cannot be greater than the end date.");
+      rootDispatch(setError({message:'Start date cannot be greater than the end date.'}))
       setShimmerLoading(false);
     } else if (data) {
       if (!state?.dateStatus && data != "all") {
@@ -172,13 +171,13 @@ function ProposalCards(props: any) {
     let stData = e.target.value;
     dispatch({ type: "date", payload: stData });
     if (stData && state.dateStatus < stData) {
-      setErrorMessage?.("Start date cannot be greater than the end date.");
+      rootDispatch(setError({message:'Start date cannot be greater than the end date.'}))
       setLookUpError(true);
 
       setShimmerLoading(false);
     } else if (state?.dateStatus) {
       setShimmerLoading(true);
-      setErrorMessage?.('');
+      rootDispatch(setError({message:''}))
       setPageNo(2);
       props.proposalDetailsList(
         1,
@@ -196,7 +195,7 @@ function ProposalCards(props: any) {
       );
     } else if (!stData && state.dateStatus) {
       setShimmerLoading(true);
-      setErrorMessage?.('');
+      rootDispatch(setError({message:''}))
       setPageNo(2);
       props.proposalDetailsList(
         1,
@@ -221,12 +220,12 @@ function ProposalCards(props: any) {
     let endData = e.target.value;
     dispatch({ type: "dateStatus", payload: endData });
     if (endData && endData < state?.date) {
-      setErrorMessage?.("Start date cannot be greater than the end date.");
+      rootDispatch(setError({message:'Start date cannot be greater than the end date.'}))
       setLookUpError(true);
 
       setShimmerLoading(false);
     } else if (state?.date && endData && status) {
-      setErrorMessage?.('');
+      rootDispatch(setError({message:''}))
       setPageNo(2);
       props.proposalDetailsList(
         1,
@@ -246,7 +245,7 @@ function ProposalCards(props: any) {
         dispatch({ type: "dateStatus", payload: endData });
       }
     } else if (!endData && state?.date && status) {
-      setErrorMessage?.('');
+      rootDispatch(setError({message:''}))
       setPageNo(2);
       props.proposalDetailsList(
         1,

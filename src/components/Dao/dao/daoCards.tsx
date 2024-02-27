@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, {useEffect, useReducer } from "react";
 import DaoCardShimmer from "../shimmers/daodashboard";
-import OutletContextModel from "../../../layout/context/model";
-import outletContext from "../../../layout/context/outletContext";
 import apiCalls from "../../../utils/api";
+import { useDispatch } from "react-redux";
+import { setError } from "../../../reducers/layoutReducer";
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -23,8 +23,8 @@ function DaoCards(props: any) {
     loader: false,
     hideButton: false,
   });
+  const rootDispatch=useDispatch()
   const take = 8;
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
   useEffect(() => {
     dispatch({ type: "initialData", payload: props?.daoData?.data || [] });
     if (props?.daoData?.data?.length < take) {
@@ -54,7 +54,7 @@ function DaoCards(props: any) {
         dispatch({ type: "loader", payload: false });
       }
     } catch (error) {
-      setErrorMessage?.(error);
+      rootDispatch(setError({message:error}))
       dispatch({ type: "loader", payload: false });
     }
   };

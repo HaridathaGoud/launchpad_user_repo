@@ -1,12 +1,12 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import metmaskIcon from '../../../assets/images/metamask.svg';
 import walletIcon from '../../../assets/images/walletconnect.svg';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { switchNetwork } from 'wagmi/actions';
-import outletContext from '../../../layout/context/outletContext';
-import OutletContextModel from '../../../layout/context/model';
+import { useDispatch } from 'react-redux';
+import { setToaster } from '../../../reducers/layoutReducer';
 const WalletConnect = ({onWalletConect, onWalletClose, onWalletError }: IWalletConnection) => {
-  const {setToaster}:OutletContextModel=useContext(outletContext)
+  const rootDispatch=useDispatch()
   const { connectAsync, connectors } = useConnect();
   const { isConnected } = useAccount();
   const { disconnectAsync } = useDisconnect();
@@ -39,7 +39,7 @@ const WalletConnect = ({onWalletConect, onWalletClose, onWalletError }: IWalletC
       }
     } catch (error) {
       if (onWalletError) onWalletError(error);
-      setToaster?.(error?.message,undefined,undefined,3000,'error');
+      rootDispatch(setToaster({message:error?.message,timeout:3000,type:'error'}))
     }
   };
   const onAccountsChanged = (account) => {

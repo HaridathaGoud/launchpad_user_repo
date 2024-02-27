@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../ui/Button";
 import { ethers } from 'ethers';
 import nodata from "../../assets/images/no-data.png";
-// import { isErrorDispaly } from '../../utils/errorHandling';
 import useContract from "../../hooks/useContract";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { store } from "../../store";
 import { get } from "../../utils/api";
 import Spinner from "../loaders/spinner";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
 import { useAccount } from "wagmi";
+import { setError, setToaster } from "../../reducers/layoutReducer";
 
 const Allocations = (props) => {
   const [allocationsData, setAllocationsData] = useState<{
@@ -28,8 +26,7 @@ const Allocations = (props) => {
   const { buyTokens } = useContract();
   const user = store.getState().auth;
   const { address } = useAccount();
-  const { setToaster, setErrorMessage }: OutletContextModel =
-    useContext(outletContext);
+    const rootDispatch=useDispatch()
   useEffect(() => {
     if (props.pid) {
         getProjectClaimsDetails("allocations");
@@ -39,7 +36,7 @@ const Allocations = (props) => {
 
   const getProjectClaimsDetails = async (e: any) => {
     setAllocationsLoader(true);
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:""}))
     if (e === "allocations") {
       const user = store.getState().auth;
       const userId =
@@ -59,7 +56,7 @@ const Allocations = (props) => {
         }
         setAllocationsLoader(false);
       } catch (error) {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
         setAllocationsLoader(false);
       }
     }
@@ -86,7 +83,7 @@ const Allocations = (props) => {
     }
   };
   const handleBuyNow = (item: any) => {
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:""}))
     setIsChecked(true);
     setAllocationVolume(item?.allocationVolume);
     setVolumeData(item?.paymentValue);
@@ -94,7 +91,7 @@ const Allocations = (props) => {
   const handleDrawerCancel = () => {
     setIsChecked(false);
     setIsconfirm(false);
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:""}))
   };
   const handleAmount = (e: any) => {
     if (!e.target.value || e.target.value?.match(/^\d{1,}(\.\d{0,8})?$/)) {
@@ -105,14 +102,14 @@ const Allocations = (props) => {
     setIsChecked(false);
     setBuyBalance(null);
     setAmountErrorMsg(null);
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:""}))
     setBtnLoader(false);
   };
   const handleBuyToken = (e: any) => {
     let isUpdate = false;
     const value = allocationVolume?.toString();
     setAmountErrorMsg(null);
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:""}))
     if (value && !buyBalance) {
       isUpdate = true;
     } else {
@@ -150,14 +147,13 @@ const Allocations = (props) => {
             setBtnLoader(false);
             setIsChecked(false);
             getProjectClaimsDetails("allocations");
-            setToaster?.("Tokens buy successful!");
+            rootDispatch(setToaster({message:"Tokens buy successful!"}))
             window.location.reload();
             setIsconfirm(false);
           })
           .catch((error: any) => {
-            console.log(error)
             setIsChecked(true);
-            setErrorMessage?.(error.reason || error);
+            rootDispatch(setError({message:error?.reason || error}))
             setBtnLoader(false);
             setIsconfirm(false);
           });
@@ -165,7 +161,7 @@ const Allocations = (props) => {
       .catch((error: any) => {
         setIsChecked(true);
         setIsconfirm(false);
-        setErrorMessage?.(error?.shortMessage || error?.reason || error);
+        rootDispatch(setError({message:error?.shortMessage || error?.reason || error}))
         setBtnLoader(false);
       });
   };

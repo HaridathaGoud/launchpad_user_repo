@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { get } from "../../utils/api";
 import FeaturedIvosShimmer from "../loaders/dashboard/featuredIvosShimmer";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
+import { useDispatch, useSelector } from "react-redux";
+import { setError } from "../../reducers/layoutReducer";
 interface IVO {
   id: any;
   icon: any;
@@ -10,8 +10,11 @@ interface IVO {
   value: any;
 }
 const FeaturedIvos = () => {
-  const {errorMessage,setErrorMessage}:OutletContextModel=useContext(outletContext)
+  const errorMessage = useSelector(
+    (store: any) => store.layoutReducer.error.message
+  );
   const [loader, setLoader] = useState(false);
+  const rootDispatch = useDispatch();
   const [featuredIvos, setFeaturedIvos] = useState([]);
   const shouldLog = useRef(true);
   useEffect(() => {
@@ -19,28 +22,26 @@ const FeaturedIvos = () => {
       shouldLog.current = false;
       getFeaturedIvos(4, 0);
     }
-  }, []);// eslint-disable-line react-hooks/exhaustive-deps
-  const getFeaturedIvos = async (take:number, skip:number) => {
-    setLoader(true)
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const getFeaturedIvos = async (take: number, skip: number) => {
+    setLoader(true);
     try {
       const response = await get(`User/FeaturedIgos/${take}/${skip}`);
       if (response.statusText.toLowerCase() === "ok") {
         setFeaturedIvos(response.data);
-        errorMessage && setErrorMessage?.("");
+        errorMessage && rootDispatch(setError({ message: "" }));
       } else {
-        setErrorMessage?.(response);
+        rootDispatch(setError({ message: response }));
       }
     } catch (error) {
-      setErrorMessage?.(error);
+      rootDispatch(setError({ message: error }));
     } finally {
       setLoader(false);
     }
   };
   return (
     <div className="max-sm:mt-[30px] lg:mt-[70px]">
-      {loader && (
-          <FeaturedIvosShimmer/>
-      )}
+      {loader && <FeaturedIvosShimmer />}
 
       {!loader && featuredIvos.length === 0 && ""}
       {!loader && featuredIvos.length > 0 && (

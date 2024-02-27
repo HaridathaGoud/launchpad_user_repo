@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CarouselShimmer from "../loaders/dashboard/carouselShimmer";
 import Carousel from "../../ui/Carousel";
 import { get } from "../../utils/api";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
+import { useDispatch } from "react-redux";
+import { setError } from "../../reducers/layoutReducer";
 const TrendingProjects = () => {
-  const { errorMessage, setErrorMessage }: OutletContextModel =
-    useContext(outletContext);
+  const rootDispatch=useDispatch()
   const shouldLog = useRef(true);
   const [loader, setLoader] = useState(false);
   const [trendingProjects,setTrendingProjects]=useState(null)
@@ -23,12 +22,11 @@ const TrendingProjects = () => {
       const response = await get(`User/trendingivos/${take}/${skip}`);
       if (response.statusText.toLowerCase() === "ok") {
         setTrendingProjects(response.data);
-        errorMessage && setErrorMessage?.("");
       } else {
-        setErrorMessage?.(response);
+        rootDispatch(setError({message:response}))
       }
     } catch (error) {
-      setErrorMessage?.(error);
+      rootDispatch(setError({message:error}))
     } finally {
       setLoader(false);
     }

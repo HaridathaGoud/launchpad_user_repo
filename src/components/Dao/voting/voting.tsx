@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Status from '../proposal/createproposal/status';
 import VotingDao from './testdao';
 import { useParams } from 'react-router-dom';
@@ -15,13 +15,12 @@ import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
 import ProposalTabbedContent from './proposalTabs';
 import { get } from "../../../utils/api";
 import { store } from '../../../store';
-import OutletContextModel from '../../../layout/context/model';
-import outletContext from '../../../layout/context/outletContext';
 import Button from '../../../ui/Button';
 import Voters from './votersgrid';
 import BreadCrumb from '../../../ui/breadcrumb';
 import Discussions from '../proposal/createproposal/discussions';
 import TrendingProjects from '../../staking/trendingCarousel';
+import { setError } from '../../../reducers/layoutReducer';
 
 // import { Button } from 'react-bootstrap';
   function Voting() {
@@ -32,7 +31,6 @@ import TrendingProjects from '../../staking/trendingCarousel';
     const { isConnected } = useAccount();
     const [loader, setLoader] = useState(false);
     const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
-    const { setErrorMessage }: OutletContextModel = useContext(outletContext);
     const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
     const [loading, setLoading] = useState(true);
     const handleback =()=>{
@@ -59,7 +57,7 @@ import TrendingProjects from '../../staking/trendingCarousel';
         setPjctInfo(res.data);
       })
       .catch((error: any) => {
-        setErrorMessage?.(error);
+        dispatch(setError({message:error}))
         setLoader(false);
       });
   }

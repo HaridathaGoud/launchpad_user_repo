@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAccount, useBalance } from "wagmi";
 import { get } from "../../utils/api";
 import Button from "../../ui/Button";
 import TiresShimmer from "../loaders/TiresShimmers";
-import OutletContextModel from "../../layout/context/model";
-import outletContext from "../../layout/context/outletContext";
+import { setError } from "../../reducers/layoutReducer";
+import { useDispatch } from "react-redux";
 
 export default function Tiers() {
-  const {errorMessage,setErrorMessage}:OutletContextModel=useContext(outletContext)
+  const rootDispatch=useDispatch()
   const [loader, setLoader] = useState(false);
   const [tiersDetails, setTiersDetails] = useState<any>([]);
   const { isConnected, address } = useAccount();
@@ -36,12 +36,11 @@ export default function Tiers() {
       const response = await get(`User/Tiers`);
       if (response.statusText.toLowerCase() === "ok") {
         setTiersDetails(response.data);
-        errorMessage && setErrorMessage?.("");
       } else {
-        setErrorMessage?.(response);
+        rootDispatch(setError({message:response}))
       }
     } catch (error: any) {
-      setErrorMessage?.(error?.reason || error);
+      rootDispatch(setError({message:error}))
     } finally {
       setLoader(false);
     }

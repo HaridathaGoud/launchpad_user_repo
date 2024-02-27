@@ -12,10 +12,10 @@ import CheckBox from "../checkBox";
 import { StakingContext } from "../context/stakingContext";
 import { StakingContextModal, StakingTabsContextModel } from "../models";
 import { StakingTabsContext } from "../context/stakingTabsContext";
-import OutletContextModel from "../../../layout/context/model";
-import outletContext from "../../../layout/context/outletContext";
+import { useDispatch } from "react-redux";
+import { setToaster } from "../../../reducers/layoutReducer";
 export default function Unstake() {
-  const {setToaster }: OutletContextModel = useContext(outletContext);
+  const rootDispatch=useDispatch()
   const {
     stakeDetails,
     activeStep,
@@ -29,14 +29,14 @@ export default function Unstake() {
     isConnected,
     address,
     maticBalance,
-    setTimers
+    setTimers,
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
   const { unStack } = useContract();
   useEffect(() => {
-    tabContextValues?.resetTab?.()
-    setTimers?.(6,'minutes');
+    tabContextValues?.resetTab?.();
+    setTimers?.(6, "minutes");
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
   const handleNextStep = () => {
     tabContextValues?.tabError && tabContextValues?.setTabError?.("");
@@ -72,7 +72,7 @@ export default function Unstake() {
       const response = await post(`User/SaveUnstaking`, obj);
       if (response) {
         tabContextValues?.setTabData?.(res.response);
-        setToaster?.("Amount unstake Successful!");
+        rootDispatch(setToaster({ message: "Amount unstake Successful!" }));
         setActiveStep?.(4);
         tabContextValues?.setButtonLoader?.(false);
         stakeAmountData?.();
@@ -109,8 +109,8 @@ export default function Unstake() {
   };
 
   const handleUnStakeAgain = () => {
-    tabContextValues?.resetTab?.()
-    window.location.reload()
+    tabContextValues?.resetTab?.();
+    window.location.reload();
     stakeAmountData?.();
     unStakeAmtData?.();
     rewardsData?.();
@@ -120,7 +120,7 @@ export default function Unstake() {
       !stakedAmount ||
       maticBalance === "0" ||
       !maticBalance ||
-      // isHideCountDownTimer ||  
+      // isHideCountDownTimer ||
       stakeDetails?.isUnstakeInitiated) &&
     activeStep === 1;
   return (

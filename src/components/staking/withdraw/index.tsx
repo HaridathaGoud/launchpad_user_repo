@@ -10,10 +10,11 @@ import Button from "../../../ui/Button";
 import { StakingContext } from "../context/stakingContext";
 import { StakingContextModal, StakingTabsContextModel } from "../models";
 import { StakingTabsContext } from "../context/stakingTabsContext";
-import OutletContextModel from "../../../layout/context/model";
-import outletContext from "../../../layout/context/outletContext";
+import { useDispatch } from "react-redux";
+import { setToaster } from "../../../reducers/layoutReducer";
+
 const WithdrawComponent = () => {
-  const { setToaster }: OutletContextModel = useContext(outletContext);
+  const rootDispatch = useDispatch();
   const {
     activeStep,
     setActiveStep,
@@ -24,14 +25,14 @@ const WithdrawComponent = () => {
     isConnected,
     address,
     maticBalance,
-    setTimers
+    setTimers,
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
   const { withDrawTokens } = useContract();
   useEffect(() => {
-    tabContextValues?.resetTab?.()
-    setTimers?.(7,'days')
+    tabContextValues?.resetTab?.();
+    setTimers?.(7, "days");
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
   const handleNextStep = () => {
     tabContextValues?.tabError && tabContextValues?.setTabError?.("");
@@ -59,7 +60,7 @@ const WithdrawComponent = () => {
       };
       let response = await post(`User/SaveWithdraw`, obj);
       if (response) {
-        setToaster?.("Amount withdraw successful!");
+        rootDispatch(setToaster({ message: "Amount withdraw successful!" }));
         tabContextValues?.setTabData?.(res.response);
         setActiveStep?.(2);
         stakeAmountData?.();
@@ -74,7 +75,7 @@ const WithdrawComponent = () => {
 
   const handleWithdrawAgain = () => {
     tabContextValues?.resetTab?.();
-    window.location.reload()
+    window.location.reload();
   };
 
   const activeCondition =
@@ -82,9 +83,9 @@ const WithdrawComponent = () => {
     unstakedAmount === "0" ||
     !unstakedAmount ||
     maticBalance === "0" ||
-    !maticBalance 
-    // ||
-    // isHideCountDownTimer;
+    !maticBalance;
+  // ||
+  // isHideCountDownTimer;
   return (
     <div className="">
       <div className="">

@@ -1,16 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState} from "react";
 import Button from "../../ui/Button";
 import nodata from "../../assets/images/no-data.png";
 import useContract from "../../hooks/useContract";
 import { get } from "../../utils/api";
 import { store } from "../../store";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Spinner from "../loaders/spinner";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
 import moment from "moment";
 import { ethers } from "ethers";
 import { useAccount } from "wagmi";
+import { setError, setToaster } from "../../reducers/layoutReducer";
 const Claims = (props) => {
   const { address } = useAccount();
   const [claimsLoader, setClaimsLoader] = useState<any>(false);
@@ -19,8 +18,7 @@ const Claims = (props) => {
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
   const [claimIndex, setClaimIndex] = useState<any>(null);
   const { claimTokens } = useContract();
-  const { setToaster, setErrorMessage }: OutletContextModel =
-    useContext(outletContext);
+  const rootDispatch=useDispatch()
   useEffect(() => {
       getClaimsData();
   }, [props.pid, address]); //eslint-disable-line react-hooks/exhaustive-deps
@@ -42,12 +40,12 @@ const Claims = (props) => {
         //handleClaimsCheck(response.data);  //calim button private& public end dates check
       })
       .catch((error: any) => {
-        setErrorMessage?.(error?.reason || error);
+        rootDispatch(setError({message:error?.reason || error}))
         setClaimsLoader(false);
       });
   };
   const handleClaim = (index: any) => {
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:''}))
     setClaimIndex(index);
     setClaimBtnLoader(true);
     claimTokens(props.pjctInfo?.contractAddress)
@@ -58,17 +56,17 @@ const Claims = (props) => {
           .then((receipt: any) => {
             setClaimBtnLoader(false);
             // getProjectClaimsDetails('allocations');
-            setToaster?.("Tokens claim successful!");
+            rootDispatch(setToaster({message:"Tokens claim successful!"}))
             window.location.reload();
           })
           .catch((error: any) => {
             setClaimBtnLoader(false);
-            setErrorMessage?.(error.reason || error);
+            rootDispatch(setError({message:error?.reason || error}))
           });
       })
       .catch((error: any) => {
         setClaimBtnLoader(false);
-        setErrorMessage?.(error.shortMessage || error);
+        rootDispatch(setError({message:error}))
       });
   };
   function _provider() {

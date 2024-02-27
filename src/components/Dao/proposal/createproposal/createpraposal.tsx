@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useReducer, useContext } from "react";
-import user from "../../../../assets/images/praposal-user.png";
+import React, { useEffect, useState, useReducer } from "react";
 import success from "../../../../assets/images/thank-you.svg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -12,24 +11,20 @@ import { store } from "../../../../store";
 import { validateContentRule } from "../../../../utils/validation";
 import { useParams } from "react-router-dom";
 import { ethers } from "ethers/lib";
-import error from "../../../../assets/images/error.svg";
 import { useAccount } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { isMobile } from "react-device-detect";
-import { useSelector, connect } from "react-redux";
+import { useSelector, connect, useDispatch } from "react-redux";
 import { getCustomerDetails } from "../../../../reducers/authReducer";
 import shimmers from "../../shimmers/shimmers";
 import PlaceHolder from "../../shimmers/placeholder";
 import WalletText from "../../../../utils/walletText";
 import Button from "../../../../ui/Button";
-import outletContext from "../../../../layout/context/outletContext";
-import OutletContextModel from "../../../../layout/context/model";
 import PublishProposalShimmer from "../../shimmers/publishproposalshimmer";
 import Moment from "react-moment";
 import { useVotingContract } from "../../../../contracts/useContract";
 import { waitForTransaction } from "wagmi/actions";
-import apiCalls from "../../../../utils/api";
-import connectwallet from "../../../../assets/images/connect-wallet.png";
+import { setError } from "../../../../reducers/layoutReducer";
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -59,12 +54,12 @@ const reducers = (state: any, action: any) => {
 };
 function CreatePraposal(props: any) {
   const router = useNavigate();
+  const rootDispatch=useDispatch()
   const { isConnected, address } = useAccount();
   const PublishShimmers = shimmers.PublishProposal(3);
   const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
   const params = useParams();
-  // const [errorMsg, setErrorMessage] = useState<any>(false);
   // const currentDate = new Date()?.toISOString().slice(0, 16);
   const [options, setOptions] = useState<any>([
     {
@@ -76,8 +71,7 @@ function CreatePraposal(props: any) {
   const [attributes, setAttributes] = useState([]);
   const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
-  const { toasterMessage, setErrorMessage, setToaster }: OutletContextModel =
-    useContext(outletContext);
+const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutReducer.toaster.message}))
   const contractData = useSelector(
     (state: any) => state?.proposal?.contractDetails
   );
@@ -207,10 +201,10 @@ function CreatePraposal(props: any) {
     for (let i in _properties) {
       let _obj = _properties[i];
       if (_obj.options == "" || _obj.options == null || !_obj.options.trim()) {
-        setErrorMessage?.("Options cannot be empty!");
+        rootDispatch(setError({message:"Options cannot be empty!"}))
         return;
       } else if (validateContentRule(_obj.options)) {
-        setErrorMessage?.("Please provide valid content for options!");
+        rootDispatch(setError({message:"Please provide valid content for options!"}))
         return;
       } else {
         const isDuplicate = _attribute.some(
@@ -220,10 +214,10 @@ function CreatePraposal(props: any) {
         );
 
         if (isDuplicate) {
-          setErrorMessage?.("Options should be unique!");
+          rootDispatch(setError({message:"Options should be unique!"}))
           return;
         } else {
-          setErrorMessage?.("");
+          rootDispatch(setError({message:""}))
           isUpdate = true;
 
           if (_obj.optionhash == null) {
@@ -251,28 +245,28 @@ function CreatePraposal(props: any) {
   // };
 
   const handleRedirectToPublishProposalScreen = (event: any) => {
-    setErrorMessage?.(null);
+    rootDispatch(setError({message:""}))
     event.preventDefault();
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else if (state?.startingDate && state?.endingDate < state?.startingDate) {
-      setErrorMessage?.("Start date cannot be greater than the end date.");
+      rootDispatch(setError({message:"Start date cannot be greater than the end date."}))
     } else if (
       state?.startingDate == state?.endingDate &&
       state?.endingTime == state?.startingTime
     ) {
-      setErrorMessage?.("Start time and end time cannot be the same.");
+      rootDispatch(setError({message:"Start time and end time cannot be the same."}))
     } else if (!state?.isChecked || attributes.length === 0) {
-      setErrorMessage?.("Please select proposal type");
+      rootDispatch(setError({message:"Please select proposal type"}))
     } else if (attributes.length < 2) {
-      setErrorMessage?.("Please select atleast two options");
+      rootDispatch(setError({message:"Please select atleast two options"}))
     } else {
       const startTime = convertTo24HourFormat(state?.startingTime);
       const endTime = convertTo24HourFormat(state?.endingTime);
 
       if (state?.startingDate == state?.endingDate && startTime > endTime) {
-        setErrorMessage?.("Start time cannot be greater than the end time.");
+        rootDispatch(setError({message:"Start time cannot be greater than the end time."}))
       } else {
         // let proposalType = state?.isChecked ? "voting" : "decision";
         let proposalType = "voting";
@@ -309,7 +303,7 @@ function CreatePraposal(props: any) {
       setEndDateEpoch(enEpochTime);
 
       // props?.contractDetails(params);
-      // setErrorMessage?.(props?.proposal?.contractDetails?.error)
+      // rootDispatch(setError({message:props?.proposal?.contractDetails?.error}))
       getDaoItem();
     }
   }, [proposalDetails]);
@@ -389,7 +383,7 @@ function CreatePraposal(props: any) {
       );
       const txResponse = await waitForTransaction({ hash: response.hash });
       if (txResponse && txResponse.status === 0) {
-        setErrorMessage?.("transaction failed");
+        rootDispatch(setError({message:"Transaction failed!"}))
         setBtnLoader(false);
       } else {
         props?.saveProposalData(obj, (callback: any) => {
@@ -398,15 +392,14 @@ function CreatePraposal(props: any) {
             dispatch({ type: "currentStep", payload: 3 });
             setBtnLoader(false);
           } else {
-            setErrorMessage?.(apiCalls.isErrorDispaly(callback));
-            window.scroll(0, 0);
+            rootDispatch(setError({message:callback}))
             setBtnLoader(false);
           }
         });
       }
     } catch (error) {
       setOptionVotingHashs([]);
-      setErrorMessage?.(apiCalls.isErrorDispaly(error));
+      rootDispatch(setError({message:error}))
       setBtnLoader(false);
       window.scroll(0, 0);
       // dispatch({ type: 'currentStep', payload: 3 })

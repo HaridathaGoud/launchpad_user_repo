@@ -1,23 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import Placeholder from "react-bootstrap/Placeholder";
 import { store } from "../../../store";
 import { fetchTopSellers } from "../../../reducers/marketPlaceReducer";
 import { useSelector } from "react-redux";
-import outletContext from "../../../layout/context/outletContext";
-import OutletContextModel from "../../../layout/context/model";
 import Button from "../../../ui/Button";
 import NaviLink from "../../../ui/NaviLink";
 const pageSize = 10;
 const TopSeller = () => {
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
   const { data, error, loader, currPage } = useSelector(
     (store: any) => store.marketPlaceDashboard.topSellers
   );
   useEffect(() => {
     store.dispatch(fetchTopSellers(1, pageSize));
-    if (error) setErrorMessage?.(error);
+    if (error) srootDispatch(setError({message:error}));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [currentIndex, setCurrentIndex] = useState(0);
   const handleSlideActions = (action: any) => {

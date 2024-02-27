@@ -9,28 +9,32 @@ import { StakingContext } from "./context/stakingContext";
 import { stakingTabsCommonReducer, stakingTabsInitialState } from "./reducers";
 import { StakingTabsProvider } from "./context/stakingTabsContext";
 import formatErrorMessage from "../../utils/formatErrorMessage";
-import OutletContextModel from "../../layout/context/model";
-import outletContext from "../../layout/context/outletContext";
-
+import { useDispatch } from "react-redux";
+import { setError } from "../../reducers/layoutReducer";
 
 const StakingTabs = () => {
-  const {setErrorMessage}:OutletContextModel=useContext(outletContext)
   const {
     activeTab,
     setActiveTab,
     activeStep,
     setActiveStep,
   }: StakingContextModal = useContext(StakingContext);
+  const rootDispatch = useDispatch();
   const [tabState, dispatch] = useReducer(
     stakingTabsCommonReducer,
     stakingTabsInitialState
   );
-  useEffect(()=>{
-    setErrorMessage?.(tabState?.tabError,()=>dispatch({type:'setTabError',payload:''}))
-  },[tabState?.tabError])  // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    rootDispatch(
+      setError({
+        message: tabState?.tabError,
+        onCloseCallback: () => dispatch({ type: "setTabError", payload: "" }),
+      })
+    );
+  }, [tabState?.tabError]); // eslint-disable-line react-hooks/exhaustive-deps
   const tabsContextValue: StakingTabsContextModel = useMemo(() => {
     return {
-      tabError:tabState?.tabError,
+      tabError: tabState?.tabError,
       checkboxValue: tabState?.checkboxValue,
       buttonLoader: tabState?.buttonLoader,
       amountFieldError: tabState?.amountFieldError,
@@ -49,9 +53,10 @@ const StakingTabs = () => {
         dispatch({ type: "setTabAmount", payload: payload }),
       setTabData: (payload: any) =>
         dispatch({ type: "setTabData", payload: payload }),
-      setTabError:(payload:any)=>dispatch({type:'setTabError',payload:payload}),
+      setTabError: (payload: any) =>
+        dispatch({ type: "setTabError", payload: payload }),
       resetTab: () => {
-        tabState?.tabError && dispatch({type:'setTabError',payload:''})
+        tabState?.tabError && dispatch({ type: "setTabError", payload: "" });
         activeStep !== 0 && setActiveStep?.(0);
         tabState?.checkboxValue &&
           dispatch({ type: "setCheckboxValue", payload: false });
@@ -66,7 +71,7 @@ const StakingTabs = () => {
           dispatch({ type: "setTabAmount", payload: null });
       },
     };
-  }, [tabState,activeStep]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tabState, activeStep]); // eslint-disable-line react-hooks/exhaustive-deps
   const tabs = useMemo(
     () => [
       {

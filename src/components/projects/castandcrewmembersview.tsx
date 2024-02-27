@@ -1,23 +1,20 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import foundingimg from "../../assets/images/founding-img.png";
 import FoundingMemberSimmer from "../loaders/foundingmembersshimmer";
 import { useParams } from "react-router-dom";
 import { get } from "../../utils/api";
-// import { isErrorDispaly } from '../../utils/errorHandling';
 import defaultbannerimg from "../../assets/images/default-bg.png";
-// import error from '../../assets/images/error.svg';
 import ProjectBanner from "./projectBanner";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
 import BreadCrumb from "../../ui/breadcrumb";
+import { setError } from "../../reducers/layoutReducer";
+import { useDispatch } from "react-redux";
 
 const CastandCrewMembersView = () => {
   const [castandcrews, setcastandcrews] = useState<{ [key: string]: any }>({});
   const [castcrewsLoader, setcastcrewsLoader] = useState(false);
-  // const [errorMsg, setErrorMsg] = useState(null);
   const params = useParams();
   const shouldLog = useRef(true);
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
+  const rootDispatch=useDispatch()
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -36,7 +33,7 @@ const CastandCrewMembersView = () => {
         setcastcrewsLoader(false);
       })
       .catch((error: any) => {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
         setcastcrewsLoader(false);
       });
   };

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useReducer } from "react";
+import React, { useMemo, useReducer } from "react";
 import Button from "../../ui/Button";
 import Spinner from "../loaders/spinner";
 import jsonCountryCode from "../../utils/countryCode.json";
@@ -6,10 +6,10 @@ import { validateForm } from "./utils";
 import { saveUser } from "../../utils/api";
 import { editProfileReducer } from "./reducers";
 import { EditProfileStateModel } from "./models";
-import OutletContextModel from "../../layout/context/model";
-import outletContext from "../../layout/context/outletContext";
 import { store } from "../../store";
 import { setUserID } from "../../reducers/rootReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setError, setToaster } from "../../reducers/layoutReducer";
 const ProfileEdit = ({
   isChecked,
   profile,
@@ -24,13 +24,13 @@ const ProfileEdit = ({
       formErrors: {},
     };
   }, [profile]);
-  const { toasterMessage, setErrorMessage, setToaster }: OutletContextModel = useContext(outletContext)
+  const toasterMessage=useSelector((store:any)=>store.layoutReducer.toaster.message)
+  const rootDispatch=useDispatch()
   const [state, dispatch] = useReducer(editProfileReducer, initialState);
   const setField = (field: any, value: any) => {
-    setErrorMessage?.('')
-    setErrorMessage?.('')
+    rootDispatch(setError({message:""}))
     if (field === "referralCode" && value.length < 6) {
-      setErrorMessage?.('')
+      rootDispatch(setError({message:""}))
     }
     dispatch({
       type: "setFormData",
@@ -79,12 +79,12 @@ const ProfileEdit = ({
           if (res.statusText.toLowerCase() === "ok") {
             updateProfile({ ...profile, ...obj });
             store.dispatch(setUserID({ ...profile, ...obj }))
-            setToaster?.('Profile Details Update Successful!', handleDrawerClose, 500);
+            rootDispatch(setToaster({message:'Profile Details Update Successful!',callback:handleDrawerClose,callbackTimeout:500}))
           } else {
-            setErrorMessage?.(res)
+            rootDispatch(setError({message:res}))
           }
         } catch (error) {
-          setErrorMessage?.(error)
+          rootDispatch(setError({message:error}))
         } finally {
           dispatch({ type: "setButtonLoader", payload: false });
         }

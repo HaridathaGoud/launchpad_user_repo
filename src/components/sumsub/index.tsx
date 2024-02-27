@@ -1,25 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import snsWebSdk from "@sumsub/websdk";
 import { get, getKyc } from "../../utils/api";
 import { useAccount } from "wagmi";
 import ConnectToWallet from "../ConnectToWallet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserID } from "../../reducers/rootReducer";
 import { store } from "../../store";
 import { useNavigate } from "react-router-dom";
-
-import OutletContextModel from "../../layout/context/model";
-import outletContext from "../../layout/context/outletContext";
 import sumsubStyling from "./sumsubStyling";
 import Spinner from "../loaders/spinner";
+import { setError, setToaster } from "../../reducers/layoutReducer";
 const SumSub = () => {
   const [state, setState] = useState({
     loading: true,
     sumSubConfirm: false,
     showConnect: false,
   });
-  const { setToaster, setErrorMessage }: OutletContextModel =
-    useContext(outletContext);
+  const rootDispatch=useDispatch()
   const { isConnected, address } = useAccount();
   const user = useSelector((state: any) => state?.auth?.user);
   const navigate = useNavigate();
@@ -81,14 +78,10 @@ const SumSub = () => {
             } else if (type === "idCheck.onStepCompleted") {
               if (payload.idDocSetType === "SELFIE") {
                 setState({ ...state, loading: true });
-                setToaster?.(
-                  "Details Submitted, Verification Under Process!",
-                  () => {
-                    navigate("/dashboard");
-                    setState({ ...state, loading: false });
-                  },
-                  1000
-                );
+                rootDispatch(setToaster({ message:"Details Submitted, Verification Under Process!",callback:() => {
+                  navigate("/dashboard");
+                  setState({ ...state, loading: false });
+                },callbackTimeout: 1000}));
               }
             } else if (type === "idCheck.onUploadError") {
               console.log(payload.errors[0] ? payload.errors[0]:payload);
@@ -100,10 +93,10 @@ const SumSub = () => {
         snsWebSdkInstance.launch("#sumsub-websdk-container");
         setState({ ...state, loading: false, showConnect: false });
       } else {
-        setErrorMessage?.(response);
+        rootDispatch(setError({message:response}))
       }
     } catch (error) {
-      setErrorMessage?.(error);
+      rootDispatch(setError({message:error}))
     } finally {
       setState({ ...state, loading: false });
     }

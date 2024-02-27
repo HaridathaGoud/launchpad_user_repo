@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import shimmers from "../../shimmers/shimmers";
 import PlaceHolder from "../../shimmers/placeholder";
@@ -12,28 +9,21 @@ import {
   saveProposalCall,
   contractDetailsData,
 } from "../proposlaReducer/proposlaReducer";
-import StartedSteps from "./steps";
-import apiCalls from "../../../../utils/api";
 import { useAccount } from "wagmi";
 import Moment from "react-moment";
 import { useVotingContract } from "../../../../contracts/useContract";
-import Image from "react-bootstrap/Image";
-import error from "../../../../assets/images/error.svg";
 import { getCustomerDetails } from "../../../../reducers/authReducer";
 import { waitForTransaction } from "wagmi/actions";
 import WalletText from "../../../../utils/walletText";
-import OutletContextModel from "../../../../layout/context/model";
-import outletContext from "../../../../layout/context/outletContext";
 import Button from "../../../../ui/Button";
 import PublishProposalShimmer from "../../shimmers/publishproposalshimmer";
+import { setError } from "../../../../reducers/layoutReducer";
 
 function PublishProposal(props: any) {
   const PublishShimmers = shimmers.PublishProposal(3);
   const { addQuestion, parseError } = useVotingContract();
   const [btnLoader, setBtnLoader] = useState(false);
-  // const [errorMsg, setErrorMessage?.] = useState(null)
-  const { toasterMessage, setErrorMessage, setToaster }: OutletContextModel =
-    useContext(outletContext);
+  const rootDispatch=useDispatch()
   const [optionVotingHashs, setOptionVotingHashs] = useState([]);
   const [startDateEpoch, setStartDateEpoch] = useState<any>();
   const [endDateEpoch, setEndDateEpoch] = useState<any>();
@@ -78,7 +68,7 @@ function PublishProposal(props: any) {
       setEndDateEpoch(enEpochTime);
 
       props?.contractDetails(params);
-      setErrorMessage?.(props?.proposal?.contractDetails?.error);
+      rootDispatch(setError({message:props?.proposal?.contractDetails?.error}))
       getDaoItem();
     }
   }, [getCustomerId]);
@@ -146,7 +136,7 @@ function PublishProposal(props: any) {
       );
       const txResponse = await waitForTransaction({ hash: response.hash });
       if (txResponse && txResponse.status === 0) {
-        setErrorMessage?.("transaction failed");
+        rootDispatch(setError({message:'Transaction failed!'}))
         setBtnLoader(false);
       } else {
         props?.saveProposalData(obj, (callback: any) => {
@@ -154,15 +144,14 @@ function PublishProposal(props: any) {
             router(`/dao/success/${params?.id}`);
             setBtnLoader(false);
           } else {
-            setErrorMessage?.(apiCalls.isErrorDispaly(callback));
-            window.scroll(0, 0);
+            rootDispatch(setError({message:callback}))
             setBtnLoader(false);
           }
         });
       }
     } catch (error) {
       setOptionVotingHashs([]);
-      setErrorMessage?.(apiCalls.isErrorDispaly(error));
+      rootDispatch(setError({message:error}))
       setBtnLoader(false);
       window.scroll(0, 0);
     }

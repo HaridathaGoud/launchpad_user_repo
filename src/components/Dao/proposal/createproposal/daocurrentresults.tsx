@@ -1,8 +1,7 @@
-import { NextPage } from 'next';
-import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
+import React, {  useEffect, useReducer, useRef, useState } from 'react';
 import styles from "./dao.module.css";
 import { useAccount } from 'wagmi';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import Button from '../../../../ui/Button';
 import { Modal, modalActions } from '../../../../ui/Modal';
@@ -12,11 +11,10 @@ import { getProposalViewData, saveVoting, getCustomeVoted, getVotersGrid } from 
 import MintContract from '../../../../contracts/seichi.json';
 import { readContract } from 'wagmi/actions';
 import { getCustomerDetails } from '../../../../reducers/authReducer';
-import OutletContextModel from '../../../../layout/context/model';
-import outletContext from '../../../../layout/context/outletContext';
 import Spinner from '../../../loaders/spinner';
 import useContract from "../../../../hooks/useContract";
 import { ethers } from "ethers";
+import { setError, setToaster } from '../../../../reducers/layoutReducer';
 const reducers = (state: any, action: any) => {
     switch (action.type) {
       case 'copied':
@@ -53,12 +51,8 @@ const   DaoCurrentResults = (props: any) => {
     mintedMemberShipCount: null, errorMsg: null, selectedOption: null, selectedhash: null
   })
   const [loading, setLoading] = useState(false)
-  const {setErrorMessage} :OutletContextModel=useContext(outletContext) 
-  const {setToaster} :OutletContextModel=useContext(outletContext) 
+  const rootDispatch=useDispatch()
   const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
-  const mintingKrijiContractAddress: any = process.env.REACT_APP_MINTING_KEIJI_CONTRACTOR;
-  const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
-  const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
   const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
   const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
   const [daoVoteName, setDaoVoteName] = useState();
@@ -83,7 +77,7 @@ const   DaoCurrentResults = (props: any) => {
     if (isConnected) {
       setLoading(true)
       getOptionHashes()
-      setErrorMessage?.("")
+      rootDispatch(setError({message:''}))
       dispatch({ type: 'errorMsg', payload: null })
     }
     getCustomer();
@@ -133,7 +127,7 @@ const   DaoCurrentResults = (props: any) => {
             // modalActions('agreeModel','open')
             saveVote(true)
            }else{
-            setErrorMessage?.("Please select your option")
+            rootDispatch(setError({message:"Please select your option"}))
            }
     }
     const getOptionHashes = () => {
@@ -157,7 +151,7 @@ const   DaoCurrentResults = (props: any) => {
         getOptionHashes()
         dispatch({ type: 'isButtonLoading', payload: true })
         if (value && !state?.selectedOption) {
-            setErrorMessage?.("Please select your option")
+            rootDispatch(setError({message:"Please select your option"}))
             dispatch({ type: 'isButtonLoading', payload: false })
         } else {
           dispatch({ type: 'errorMsg', payload: null })
@@ -182,7 +176,7 @@ const   DaoCurrentResults = (props: any) => {
                   props.getVotersGrid(1, 10, params?.proposalId);
                   dispatch({ type: 'isButtonLoading', payload: false })
                   dispatch({ type: 'isNoButtonLoading', payload: false })
-                  setToaster?.("Your vote was cast successfully.")
+                  rootDispatch(setToaster({message:"Your vote was cast successfully."}))
                   setsaveBtn(false);
                   seteditBtn(true);
                 } else {
@@ -197,7 +191,7 @@ const   DaoCurrentResults = (props: any) => {
             setsaveBtn(true);
             seteditBtn(false);
             setOptionVotingHashs([])
-            setErrorMessage?.(parseError(error))
+            rootDispatch(setError({message:parseError(error)}))
           }
         }
       };

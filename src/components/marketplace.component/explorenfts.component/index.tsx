@@ -1,20 +1,19 @@
-import React, { useEffect, useRef, useContext, useReducer } from "react";
-import { connect, useSelector } from "react-redux";
+import React, { useEffect, useRef, useReducer } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import nodata from "../../../assets/images/no-data.png";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { clearNfts, fetchNfts } from "../../../reducers/marketPlaceReducer";
 import { store } from "../../../store";
-import outletContext from "../../../layout/context/outletContext";
-import OutletContextModel from "../../../layout/context/model";
 import { saveFavorite, saveViews } from "./services";
 import Button from "../../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
 import Spinner from "../../loaders/spinner";
 import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
 import WalletConnect from "../../modules/ConnectButton/connect.wallet";
-import { Modal,modalActions } from "../../../ui/Modal"
+import { Modal, modalActions } from "../../../ui/Modal";
+import { setError, setToaster } from "../../../reducers/layoutReducer";
 const pageSize = 10;
 const search = null;
 function ExploreNfts(props: any) {
@@ -26,12 +25,12 @@ function ExploreNfts(props: any) {
   const { loader, error, data, pageNo } = useSelector(
     (store: any) => store.exploreNfts
   );
-  const { setErrorMessage, setToaster }: OutletContextModel =
-    useContext(outletContext);
+  const errorMessage=useSelector(((store:any)=>store.layoutReducer.error.message))
+  const rootDispatch = useDispatch();
   useEffect(() => {
     store.dispatch(fetchNfts(data, 1, "all", search, props.auth.user?.id));
     scrollableRef?.current?.scrollIntoView(0, 0);
-    if (error) setErrorMessage?.(error);
+    if (error) rootDispatch(setError({message:error}))
 
     return () => {
       store.dispatch(clearNfts());
@@ -44,11 +43,11 @@ function ExploreNfts(props: any) {
     if (isConnected) {
       saveFavoriteNft(item);
     } else {
-      modalActions('connect-wallet-model-exploreNfts','open')
+      modalActions("connect-wallet-model-exploreNfts", "open");
     }
   };
   const saveFavoriteNft = async (item: any) => {
-    setErrorMessage?.(null);
+    errorMessage && rootDispatch(setError({message:''}))
     localDispatch({
       type: "setFavoriteLoader",
       payload: { id: item.id, loading: true },
@@ -60,13 +59,21 @@ function ExploreNfts(props: any) {
         isFavourite: !item.isFavourite,
       };
       const { status, error } = await saveFavorite(obj);
-      if (status){
-        setToaster?.(`Nft ${item.isFavourite? 'removed from' : 'added to'} Favorites!`);
-        store.dispatch(fetchNfts(data,1,'all',null,props.auth.user?.id,data.length))
+      if (status) {
+        rootDispatch(
+          setToaster({
+            message: `Nft ${
+              item.isFavourite ? "removed from" : "added to"
+            } Favorites!`,
+          })
+        );
+        store.dispatch(
+          fetchNfts(data, 1, "all", null, props.auth.user?.id, data.length)
+        );
       }
-      if (error) setErrorMessage?.(error);
+      if (error) rootDispatch(setError({message:error}));
     } catch (error) {
-      setErrorMessage?.("Something went wrong, please try again!");
+      rootDispatch(setError({message:"Something went wrong, please try again!"}))
     } finally {
       localDispatch({
         type: "setFavoriteLoader",
@@ -92,9 +99,9 @@ function ExploreNfts(props: any) {
       };
       const { status, error } = await saveViews(obj);
       if (status) navigateToAsset(item);
-      if (error) setErrorMessage?.(error);
+      if (error) rootDispatch(setError({message:error}));
     } catch (_) {
-      setErrorMessage?.("Something went wrong, please try again!");
+      rootDispatch(setError({message:"Something went wrong, please try again!"}))
     } finally {
       localDispatch({
         type: "setLoader",
@@ -110,17 +117,18 @@ function ExploreNfts(props: any) {
           Explore NFTs
         </h2>
         {
-                <Modal id={"connect-wallet-model-exploreNfts"}>
-                  <WalletConnect
-                    onWalletConect={() => {}}
-                    onWalletClose={() => {
-                      modalActions("connect-wallet-model-exploreNfts", "close");
-                    }}
-                  />
-                </Modal>
-              }
+          <Modal id={"connect-wallet-model-exploreNfts"}>
+            <WalletConnect
+              onWalletConect={() => {}}
+              onWalletClose={() => {
+                modalActions("connect-wallet-model-exploreNfts", "close");
+              }}
+            />
+          </Modal>
+        }
         <div className="grid gap-4 lg:grid-cols-5 md:grid-cols-3">
-          {data && !localState?.loader && 
+          {data &&
+            !localState?.loader &&
             data?.map((item: any) => (
               <div
                 className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"

@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState } from "react";
 import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import { getKyc } from "../../utils/api";
 import Moment from "react-moment";
-import OutletContextModel from "../../layout/context/model";
-import outletContext from "../../layout/context/outletContext";
+import { setError } from "../../reducers/layoutReducer";
+import { useDispatch } from "react-redux";
 
 const KycDetails = ({ kycStatus, id }) => {
   const navigate = useNavigate();
-  const { setErrorMessage }: OutletContextModel = useContext(outletContext);
+  const rootDispatch=useDispatch()
   const [userDetails, setUserDetails] = useState<any>(null);
   const [identityDetails, setIdentityDetails] = useState<any>(null);
   const shouldLog = useRef(true);
@@ -36,11 +36,10 @@ const KycDetails = ({ kycStatus, id }) => {
         const tableData = result ? Object.entries(result) : null;
         setIdentityDetails(tableData);
       } else {
-        setErrorMessage?.(response);
+        rootDispatch(setError({message:response}))
       }
     } catch (error) {
-      console.log(error);
-      setErrorMessage?.(error);
+      rootDispatch(setError({message:error}))
     }
   };
   const navigateToKyc = () => {

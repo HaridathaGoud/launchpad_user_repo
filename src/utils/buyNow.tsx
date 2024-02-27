@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBalance, useAccount } from "wagmi";
 import { useCollectionDeployer } from "./useCollectionDeployer";
@@ -7,11 +7,9 @@ import { get, post } from "./api";
 import { Modal, modalActions } from "../ui/Modal";
 import Button from "../ui/Button";
 import Spinner from "../components/loaders/spinner";
-import OutletContextModel from "../layout/context/model";
-import outletContext from "../layout/context/outletContext";
+import { setError, setToaster } from "../reducers/layoutReducer";
 const BuyComponent = (props: any) => {
-  const { setErrorMessage, setToaster }: OutletContextModel =
-    useContext(outletContext);
+  const rootDispatch=useDispatch()
   const router = useNavigate();
   const { address } = useAccount();
   // const { data } = useBalance({ address: address });
@@ -62,16 +60,16 @@ const BuyComponent = (props: any) => {
         if (response.data.isPutOnSale) {
           let response = await post(`/User/SaveBuy`, obj);
           if (response) {
-            setToaster?.("NFT purchase successful!", () => {
+            rootDispatch(setToaster({ message: "NFT purchase successful!" ,callback:() => {
               modalActions("marketplace-buy-now", "close");
               router(`/accounts/${address}`);
-            });
+            }}));
           } else {
-            setErrorMessage?.(response);
+            rootDispatch(setError({message:response}))
           }
         }
       } catch (error) {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
       } finally {
         setBtnLoader(false);
       }

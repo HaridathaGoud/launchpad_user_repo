@@ -7,11 +7,11 @@ import CheckBox from "../checkBox.tsx";
 import Button from "../../../ui/Button.tsx";
 import { StakingContext } from "../context/stakingContext.tsx";
 import { StakingContextModal, StakingTabsContextModel } from "../models.ts";
-import OutletContextModel from "../../../layout/context/model.ts";
-import outletContext from "../../../layout/context/outletContext.ts";
 import { StakingTabsContext } from "../context/stakingTabsContext.tsx";
+import { useDispatch } from "react-redux";
+import { setToaster } from "../../../reducers/layoutReducer.ts";
 const RewardsComponent = () => {
-  const { setToaster }: OutletContextModel = useContext(outletContext);
+  const rootDispatch = useDispatch();
   const {
     rewardAmount,
     rewardsData,
@@ -70,7 +70,7 @@ const RewardsComponent = () => {
     };
     const response = await post(`User/SaveStakerewards`, obj);
     if (res.ok && response) {
-      setToaster?.("Rewards stake successful!");
+      rootDispatch(setToaster({ message: "Rewards stake successful!" }));
       tabContextValues?.setButtonLoader?.(false);
       rewardsData?.();
       tabContextValues?.tabError && tabContextValues?.setTabError?.("");

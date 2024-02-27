@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import defaultAvathar from "../../assets/images/default-avatar.jpg";
 import { apiUploadPost } from "../../utils/api";
 import { store } from "../../store";
 import { setUserID } from "../../reducers/rootReducer";
-import outletContext from "../../layout/context/outletContext";
-import OutletContextModel from "../../layout/context/model";
+import { useDispatch } from "react-redux";
+import { setError, setToaster } from "../../reducers/layoutReducer";
 
 const ProfilePicture = ({ profile, updateProfile }) => {
-  const {setErrorMessage,setToaster}:OutletContextModel=useContext(outletContext)
+  const rootDispatch=useDispatch()
   const [loader, setLoader] = useState(false);
   const handleUpload = (event: any, type: any) => {
     if (event.target.files?.[0]) {
@@ -38,26 +38,23 @@ const ProfilePicture = ({ profile, updateProfile }) => {
           body
         );
         if (response.statusText.toLowerCase() === "ok") {
-          setErrorMessage?.("");
+          rootDispatch(setError({message:""}))
           let updatedProfile = { ...profile };
           updatedProfile.profilePicUrl = response.data[0];
           updateProfile(updatedProfile);
-          setToaster?.("Profile picture update successful!");
+          rootDispatch(setToaster({message:"Profile picture update successful!"}))
           store.dispatch(setUserID(updatedProfile));
         } else {
-          setErrorMessage?.(response);
+          rootDispatch(setError({message:response}))
         }
       } catch (error) {
-        setErrorMessage?.(error);
+        rootDispatch(setError({message:error}))
       } finally {
         setLoader(false);
       }
     } else {
-      setErrorMessage?.(
-        "File is not allowed. Please upload only jpg, png, jpeg files!"
-      );
+      rootDispatch(setError({message:"File is not allowed. Please upload only jpg, png, jpeg files!"}))
       event.target.value='';
-      window.scrollTo(0, 0);
       setLoader(false);
     }
   };
