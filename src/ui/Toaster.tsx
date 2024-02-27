@@ -18,13 +18,13 @@ const ToasterMessage = ({
   callbackTimeout = 1000,
 }) => {
   const {background,icon,textColor}=toaster[type];
-  // setTimeout(() => {
-  // closeToaster();
-  // }, timeout);
-  // callback &&
-  //   setTimeout(() => {
-  //     callback();
-  //   }, callbackTimeout);
+  setTimeout(() => {
+  closeToaster();
+  }, timeout);
+  callback &&
+    setTimeout(() => {
+      callback();
+    }, callbackTimeout);
   return (
     <div
       id="toast-top-right"
