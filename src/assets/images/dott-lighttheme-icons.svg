@@ -581,11 +581,11 @@
 		/>
 	<path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M118.251,350.682l12,12"/>
 </g>
-<path fill="#FF3838" d="M306,373c11.598,0,21-9.402,21-21s-9.402-21-21-21s-21,9.402-21,21S294.402,373,306,373z"/>
+<path fill="#FFFFFF" d="M306,373c11.598,0,21-9.402,21-21s-9.402-21-21-21s-21,9.402-21,21S294.402,373,306,373z"/>
 <g>
-	<path fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M312.3,345.7l-12.6,12.6"
+	<path fill="none" stroke="#FF3838" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M312.3,345.7l-12.6,12.6"
 		/>
-	<path fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M299.7,345.7l12.6,12.6"/>
+	<path fill="none" stroke="#FF3838" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M299.7,345.7l12.6,12.6"/>
 </g>
 <g>
 	<path id="Vector_2_" fill="#FFFFFF" d="M173.31,257.615c0.424,0,0.831,0.169,1.131,0.469s0.469,0.707,0.469,1.131
