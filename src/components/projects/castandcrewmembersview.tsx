@@ -9,6 +9,7 @@ import defaultbannerimg from "../../assets/images/default-bg.png";
 import ProjectBanner from "./projectBanner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
+import BreadCrumb from "../../ui/breadcrumb";
 
 const CastandCrewMembersView = () => {
   const [castandcrews, setcastandcrews] = useState<{ [key: string]: any }>({});
@@ -48,6 +49,7 @@ const CastandCrewMembersView = () => {
           />
         )}
       </div>
+      <BreadCrumb/>
       <h1 className="text-base font-semibold mb-3 mt-5">Cast & Crew</h1>
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
         {castandcrews.cast_Crews?.map((item) => (
@@ -68,11 +70,9 @@ const CastandCrewMembersView = () => {
                 <p className={` opacity-60 truncate text-base`}>Description</p>
               </div>
               <div className={`w-px bg-base-200 opacity-20`}></div>
-              <div className="text-right flex-1">
-                <h1 className="font-semibold mb-3">-</h1>
-                <div className="tooltip tooltip-left" data-tip={item.role}>
-                <p className="font-semibold mb-3 truncate w-[120px]">{item.role}</p>
-                </div>
+              <div className="text-right flex-1 truncate">
+                <h1 className="font-semibold mb-3">-</h1>                
+                <p className="font-semibold mb-3 truncate">{item.role}</p>               
                 <p className="font-semibold mb-3 truncate">
                   {item.description || '--'}
                 </p>

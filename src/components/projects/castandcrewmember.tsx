@@ -25,7 +25,7 @@ const CastAndCrewMember = (props) => {
             <p className={`text-base font-normal  text-secondary text-center`}>
               {item.name}
             </p>
-            <p className={`text-info text-base font-normal text-center`}>
+            <p className={`text-info text-base font-normal text-center role-text`}>
               as {item.role}
             </p>
           </div>

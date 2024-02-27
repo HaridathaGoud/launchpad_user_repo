@@ -6,7 +6,7 @@ function ProjectBanner(props: any) {
     return (
             <div className="">
                 {props.bannerImage && <div className="avatar w-full">
-                    <div className="w-full rounded-[15px] h-[380px]">
+                    <div className="w-full rounded-[15px] h-[200px]">
                         <img className='object-cover h-full w-full' src={props.bannerImage || defaultbannerimg} />
                     </div>
                 </div>}
