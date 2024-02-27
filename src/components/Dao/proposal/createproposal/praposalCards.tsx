@@ -373,7 +373,7 @@ function ProposalCards(props: any) {
     let startEpochTime = utcDateObject?.getTime();
     const startTime = startEpochTime;  
     const endTime = new Date(endingDate).getTime();
-    console.log(startTime,endTime)
+
     if (startTime > endTime) {
       return "Ended";
     }
