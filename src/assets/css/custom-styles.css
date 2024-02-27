@@ -249,6 +249,11 @@ button.opacity-100{opacity: 1 !important;}
 .icon.link{background-position: -370px -265px !important;}
 .radio:disabled{opacity: 0.6 !important;}
 .role-text{overflow: hidden;  display: -webkit-box;  -webkit-line-clamp: 2;   -webkit-box-orient: vertical;  text-overflow: ellipsis;}
+.warning{line-height: normal;}
+.erroricon{background-position:-285px -331px !important;width: 42px;height: 42px;}
+.warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
+.successicon{background-position: -159px -330px !important;width: 42px;height: 42px;}
+.closeerror{background-position: -108px -340px !important;width: 34px;height: 34px;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
