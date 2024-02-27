@@ -50,7 +50,7 @@ const CheckPointsComponent = () => {
         To proceed, the following conditions must be met
       </h1>
       <div className=" grid lg:grid-cols-4 md:grid-cols-2 gap-4 sm:grid-cols-1">
-        <div className="">
+        <div className=" lg:border-r border-accent pr-2">
           <div className="flex gap-1">
             <div className="">
               <span
@@ -70,7 +70,7 @@ const CheckPointsComponent = () => {
             </div>
           </div>
         </div>
-        <div className="">
+        <div className=" lg:border-r border-accent pr-2">
           <div className="flex gap-1">
             <div className="">
               <span
@@ -104,7 +104,7 @@ const CheckPointsComponent = () => {
           </div>
         </div>
 
-        <div className="flex gap-1">
+        <div className="flex gap-1  lg:border-r border-accent pr-2">
           <div className="">
             <span
               className={

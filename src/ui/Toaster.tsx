@@ -1,7 +1,7 @@
 import React from "react";
 const toaster = {
-  success: {background:"bg-[#f0fbe6]",icon:"successicon",textColor:"text-[#2b5800]"},
-  error: {background:"bg-[#FFF4F4]",icon:"erroricon",textColor:"text-[#b21919]"},
+  success: {background:"bg-[#f0fbe6]",icon:"successicon scale-[0.8]",textColor:"text-[#2b5800]"},
+  error: {background:"bg-[#FFF4F4]",icon:"erroricon scale-[0.8]",textColor:"text-[#b21919]"},
 };
 const toasterPosition = {
   center: "bottom-5 left-[50%] right-[50%] translate-x-[-50%]",
@@ -18,13 +18,13 @@ const ToasterMessage = ({
   callbackTimeout = 1000,
 }) => {
   const {background,icon,textColor}=toaster[type];
-  setTimeout(() => {
-  closeToaster();
-  }, timeout);
-  callback &&
-    setTimeout(() => {
-      callback();
-    }, callbackTimeout);
+  // setTimeout(() => {
+  // closeToaster();
+  // }, timeout);
+  // callback &&
+  //   setTimeout(() => {
+  //     callback();
+  //   }, callbackTimeout);
   return (
     <div
       id="toast-top-right"
