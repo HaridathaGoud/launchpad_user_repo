@@ -13,7 +13,7 @@ function ProposalTabbedContent() {
 
   return (
     <div>
-      <div className="flex justify-end items-center mt-5">
+      <div className="flex justify-end items-center mt-10">
         <div className={`${styles.customTabs} tabs`}>
           {/* <Button
           type='plain'

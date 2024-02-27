@@ -94,7 +94,7 @@ import styles from "../proposal/createproposal/dao.module.css";
 
     return (
         <>
-        <div className='mt-[40px] mb-2'>
+        <div className='mt-[26px] mb-2'>
 
             {errorMsg && (
           <div className='cust-error-bg'>

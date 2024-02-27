@@ -37,7 +37,7 @@ const CastAndCrewMember = (props) => {
       {props.castCrewsData?.length !== 0 && (
         <Link to={`/castcrewsmembersview/${props.pjctId}`}>
           <div
-            className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer ml-0 md:ml-10`}
+            className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer`}
           >
             <div className={`text-center`}>
               <span className={`icon ${styles.rightArrow}`}></span>

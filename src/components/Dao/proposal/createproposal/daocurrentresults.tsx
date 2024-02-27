@@ -227,7 +227,7 @@ const   DaoCurrentResults = (props: any) => {
     return (
         <>
             <div>
-                <h1 className='text-xl font-semibold mb-2 text-secondary'>Current results</h1>
+                <h1 className='text-xl font-semibold mb-2 text-secondary mt-5'>Current results</h1>
                 <div  className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
                 <div className='flex justify-between gap-5 mb-5'>
                    <div className='shrink-0'>

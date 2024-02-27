@@ -579,7 +579,7 @@ function CreatePraposal(props: any) {
                         </div>
                       </div>
                       <div className="mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
                           Proposal Title
                         </label>
                         <input
@@ -601,12 +601,11 @@ function CreatePraposal(props: any) {
                           {errors.proposal}
                         </label>
                       </div>
-                      <div className="mb-3 mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                      {/* <div className="mb-3 mt-4">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
                           Summary
                         </label>
-                        <textarea
-                          as="textarea"
+                        <textarea                          
                           className="textarea textarea-bordered w-full rounded-[28px] focus:outline-none pl-5"
                           rows={3}
                           placeholder="Summary"
@@ -623,14 +622,50 @@ function CreatePraposal(props: any) {
                         <label className="text-sm font-normal text-red-600 ml-4">
                           {errors.summary}
                         </label>
+                      </div> */}
+                      <div className="form-control mb-3 mt-4">
+                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
+                          Summary
+                        </label>
+                        <textarea className="textarea textarea-bordered w-full resize-none leading-4 rounded-t-[28px] rounded-b-none pl-5 pt-3 focus:outline-none"
+                          rows={5}
+                          placeholder="Summary"
+                          name="summary"
+                          value={form?.summary || ""}
+                          isInvalid={!!errors.summary}
+                          onBlur={(e) =>
+                            handleBlur("summary", e.currentTarget.value)
+                          }
+                          onChange={(e) => {
+                            setField("summary", e.currentTarget.value);
+                          }}
+                        />                       
+                        <label htmlFor="" className={`relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload`}>
+                          <input accept="image/jpg, image/jpeg, image/png" type="file" className="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer" />
+                          <span className='pointer-events-none relative pl-1 text-sm'>
+                            <span className={`fileUploadText text-sm font-normal`}>Attach images by dragging & dropping, selecting or pasting them.</span>
+                          </span>
+                          <span className={`icon addtext`}></span>
+                        </label>
+                        <label className="text-sm font-normal text-red-600 ml-4">
+                          {errors.summary}
+                        </label>
+                        <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[28px] opacity shadow px-2.5 py-3 mt-2">
+                          <div>
+                          <span className="icon link mr-1"></span>
+                          <span className="text-secondary font-medium truncate inline-block w-[200px] align-middle">TSC Company Banner.png.....</span>
+                          </div>
+                          <span className="icon close cursor-pointer scale-[0.9]"></span>
+                        </div>
                       </div>
+                      <p className="text-sm text-neutral mt-3"><span className="text-secondary">*Note:</span> Supported Document Formats : PNG/ JPG/ DOC/ DOCX/ PDF (File Size : Max 20 MB) </p>
 
                       {/* <div className='proposal-type c-pointer'>
                 <span className='icon uncheck-icon-ps'></span><span className='mb-0'>Decision</span>
                 </div>  */}
                       <div className="mt-4">
                         {/* <span className='icon check-icon-ps'></span> */}
-                        <label className="text-dark text-sm font-normal p-0 label ml-4 mb-2">
+                        <label className="text-dark text-sm font-normal p-0 label ml-4 mb-2 star">
                           Select Your Proposal Type
                         </label>
                         <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-4 py-2 h-10">
@@ -728,13 +763,12 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
-                              isMobile && !state?.startingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.startingDate
                                 ? " "
                                 : isMobile && state?.startingDate
-                                ? " "
-                                : ""
-                            }`}
+                                  ? " "
+                                  : ""
+                              }`}
                             placeholder="Start Date"
                             name="startdate"
                             // min={currentDate}
@@ -751,13 +785,12 @@ function CreatePraposal(props: any) {
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
-                              isMobile && !state?.endingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.endingDate
                                 ? " "
                                 : isMobile && state?.endingDate
-                                ? " "
-                                : ""
-                            }`}
+                                  ? " "
+                                  : ""
+                              }`}
                             placeholder="End Date"
                             name="enddate"
                             // min={currentDate}
@@ -773,7 +806,7 @@ function CreatePraposal(props: any) {
                   {state?.currentStep === 2 && (
                     <div className="">
                       {!contractData?.loading &&
-                      Object.keys(proposalDetails).length > 0 ? (
+                        Object.keys(proposalDetails).length > 0 ? (
                         <div className="">
                           <div className="">
                             <span className="mb-0 me-2 text-base font-semibold text-secondary">
