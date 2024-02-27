@@ -46,6 +46,7 @@ const CastandCrewMembersView = () => {
         {castandcrews && (
           <ProjectBanner
             bannerImage={castandcrews?.bannerImage || defaultbannerimg}
+            bannerheight='!h-[200px]'
           />
         )}
       </div>

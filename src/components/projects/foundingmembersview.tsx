@@ -11,6 +11,7 @@ import ProjectBanner from "./projectBanner";
 import outletContext from "../../layout/context/outletContext";
 import OutletContextModel from "../../layout/context/model";
 import CopyToClipboard from 'react-copy-to-clipboard';
+import BreadCrumb from "../../ui/breadcrumb";
 
 const FoundingMembersView = () => {
   const [foundingmems, setFoundingMems] = useState<{ [key: string]: any }>({});
@@ -53,10 +54,12 @@ const FoundingMembersView = () => {
           {foundingmems && (
             <ProjectBanner
               bannerImage={foundingmems?.bannerImage || defaultbannerimg}
+              bannerheight='!h-[200px]'
             />
           )}
         </>
       )}
+      <BreadCrumb/>
       <h1 className="text-base font-semibold mb-3 mt-5">Founding Members</h1>
 
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
