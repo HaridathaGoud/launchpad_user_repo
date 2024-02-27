@@ -48,8 +48,8 @@ const CastAndCrewMember = (props) => {
       )}
       {props.castCrewsData?.length === 0 && (
         <div className="text-center flex-1">
-          <img width={120} className="mx-auto" src={nodata} alt="No Data" />
-          <p className="text-secondary text-center">No data found</p>
+          <img width={95} className="mx-auto" src={nodata} alt="No Data" />
+          <p className="text-secondary text-center mt-2">No data found</p>
         </div>
       )}
     </div>

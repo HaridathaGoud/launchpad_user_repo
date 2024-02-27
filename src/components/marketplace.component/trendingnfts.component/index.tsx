@@ -284,9 +284,9 @@ function TrendingNfts(props) {
                    </div>
                   ))
                 ) : (
-                  <div className="nodata-text db-no-data">
-                    <Image src={nodata} alt=""></Image>
-                    <h3 className="text-center">No data found</h3>
+                  <div>
+                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
+                    <h3 className="text-center text-secondary mt-2">No data found</h3>
                   </div>
                 )}
 

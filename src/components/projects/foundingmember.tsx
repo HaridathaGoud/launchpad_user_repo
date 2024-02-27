@@ -45,8 +45,8 @@ const FoundingMember = (props) => {
                 </div>
             </Link>}
             {props.foundingmemsData?.stakersData?.length === 0 && <div className="text-center flex-1">
-                <img width={120} src={nodata} className='mx-auto' />
-                <p className="text-secondary text-center">No data found</p>
+                <img width={95} src={nodata} className='mx-auto' />
+                <p className="text-secondary text-center mt-2">No data found</p>
             </div>}
         </div>
     );

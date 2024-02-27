@@ -84,7 +84,7 @@ import styles from "../proposal/createproposal/dao.module.css";
         <tbody>
           {html}
           <tr>{votersDetails?.length===0 && 
-          <td colSpan={2} className='ps-0'><div className='text-center'><img src={nodata} width={95} className='mx-auto' alt=""/><h4 className="text-center text-secondary">No data found</h4></div></td>}</tr>
+          <td colSpan={2} className='ps-0'><div className='text-center'><img src={nodata} width={95} className='mx-auto' alt=""/><h4 className="text-center text-secondary mt-2">No data found</h4></div></td>}</tr>
         </tbody>
       </table>
     </div>

@@ -277,8 +277,8 @@ function Referrals(props: any) {
         ) : (
           <div className="text-center">
             <div className="text-center">
-              <img width={120} src={nodata} className="mx-auto" />
-              <p className="text-sm font-normal text-secondary opacity-[0.9]">
+              <img width={95} src={nodata} className="mx-auto" />
+              <p className="text-center text-secondary mt-2">
                 No data found
               </p>
             </div>

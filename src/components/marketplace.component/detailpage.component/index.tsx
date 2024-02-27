@@ -1273,8 +1273,8 @@ const DetailPage = (props: any) => {
               {bidData.length == 0 && (
                 <>
                   <div className="text-center">
-                    <img src={nodata} alt="" className='mx-auto w-[80px]' />
-                    <h3 className="text-center text-secondary">No data found</h3>
+                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
+                    <h3 className="text-center text-secondary mt-2">No data found</h3>
                   </div>
                 </>
               )}
@@ -1343,8 +1343,8 @@ const DetailPage = (props: any) => {
               {moreCollection.length == 0 && (
                 <>
                   <div className="">
-                    <img src={nodata} alt="" className='mx-auto w-[80px]' />
-                    <h3 className="text-center text-secondary">No data found</h3>
+                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
+                    <h3 className="text-center text-secondary mt-2">No data found</h3>
                   </div>
                 </>
               )}

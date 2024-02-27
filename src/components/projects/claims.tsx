@@ -192,12 +192,12 @@ const Claims = (props) => {
               {claimsData?.length === 0 && (
                 <div className="text-center">
                   <img
-                    width={120}
+                    width={95}
                     className="mx-auto"
                     src={nodata}
                     alt="No Data"
                   />
-                  <p className="text-secondary text-center">No data found</p>
+                  <p className="text-secondary text-center mt-2">No data found</p>
                 </div>
               )}
             </div>

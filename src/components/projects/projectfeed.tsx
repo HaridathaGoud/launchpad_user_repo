@@ -12,8 +12,8 @@ const ProjectFeed = (props) => {
                     dangerouslySetInnerHTML={{ __html: props.pjctFeed?.introductionHtml }}
                 ></div> :
                 <div className="text-center mt-6">
-                    <img width={120} className='mx-auto' src={nodata}  alt={'No Data'}/>
-                    <p className="text-secondary text-center">No data found</p>
+                    <img width={95} className='mx-auto' src={nodata}  alt={'No Data'}/>
+                    <p className="text-secondary text-center mt-2">No data found</p>
                 </div>
             } 
 
