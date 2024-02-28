@@ -254,6 +254,7 @@ button.opacity-100{opacity: 1 !important;}
 .warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
 .successicon{background-position: -159px -330px !important;width: 42px;height: 42px;}
 .closeerror{background-position: -108px -340px !important;width: 34px;height: 34px;}
+.text-overlay{background: linear-gradient(180deg, #515151 35.19%, rgba(81, 81, 81, 0.00) 100%);  background-clip: text;  -webkit-background-clip: text;  -webkit-text-fill-color: transparent;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
