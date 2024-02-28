@@ -75,7 +75,7 @@ const CheckPointsComponent = () => {
             <div className="">
               <span
                 className={
-                  balanceFormatted.balance > 0 
+                  balanceFormatted.balance > 0
                     ? "icon active-checkpoint"
                     : "icon checkpoint"
                 }
@@ -86,20 +86,22 @@ const CheckPointsComponent = () => {
                 {activeTab !== undefined &&
                   checkpointTexts.balaneTexts[activeTab]}
               </p>
-              <p>
-                <span className="text-sm font-normal text-info">
-                  {" "}
-                  {activeTab !== 3 && "You currently have"}
-                </span>
+              <div>
+                <p>
+                  <span className="text-sm font-normal text-info">
+                    {" "}
+                    {activeTab !== 3 && "You currently have"}
+                  </span>
+                </p>
                 <span className="text-sm font-semibold text-secondary break-all">
                   {" "}
                   {balanceFormatted.balance > 0
                     ? balanceFormatted.formattedBalance
                     : "0"}{" "}
                   {`${process.env.REACT_APP_TOKEN_SYMBOL}${" "}`}
-                  {activeTab === 1 && `staked`}
                 </span>
-              </p>
+                {activeTab === 1 && <p className="text-sm font-semibold text-secondary">staked</p>}
+              </div>
             </div>
           </div>
         </div>
@@ -144,9 +146,9 @@ const CheckPointsComponent = () => {
                   className={
                     (activeTab !== 0 &&
                       // !isHideCountDownTimer &&
-                      balanceFormatted.balance > 0) ||
-                    (activeTab === 0 && balanceFormatted.balance > 0) ||
-                    !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)
+                      balanceFormatted.balance > 0 &&
+                      !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) ||
+                    (activeTab === 0 && balanceFormatted.balance > 0)
                       ? "icon active-checkpoint"
                       : "icon checkpoint"
                   }
