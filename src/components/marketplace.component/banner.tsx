@@ -110,7 +110,7 @@ export default function Banner() {
               <Button type='primary' btnClassName='!px-12' handleClick={handleExplore}>
                 Explore
               </Button>{' '}
-              <Button type='create' btnClassName='!px-12 !h-[42px] ml-[18px]' handleClick={handleExplore}>
+              <Button type='cancel' btnClassName='!px-12 !h-[42px] ml-[18px]' handleClick={handleExplore}>
                 Create
               </Button>
             </div>

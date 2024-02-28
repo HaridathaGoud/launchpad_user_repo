@@ -88,7 +88,7 @@ const handleTabChange=(e,type)=>{
           <div className='col-span-12 lg:col-span-3'>
             <StatusDetailview activeTab={activeTab}/>
           </div>
-          <div className='col-span-12 lg:col-span-9 grid md:grid-cols-3 xl:grid-cols-4 gap-[16px]'>
+          <div className='col-span-12 lg:col-span-9 grid md:grid-cols-3 xl:grid-cols-3 gap-[16px]'>
           <NftCards setCardDetails={setCardDetails}/>        
           </div>
         </div>}
