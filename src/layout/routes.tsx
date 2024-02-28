@@ -21,6 +21,7 @@ import ChannelView from "../components/streaming/Channels/channeldetailview";
 import Movies from "../components/streaming/Movies/movies";
 import SumSub from "../components/sumsub";
 import ComingSoon from "../components/shared/comingSoon";
+import TopsellerDetailview from "../components/marketplace.component/topsellerdetailview";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -183,6 +184,11 @@ const Routes = () => {
         {
           path: "/marketplace/explorenfts",
           element: <ExploreNfts />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/topsellerdetailview",
+          element: <TopsellerDetailview/>,
           errorElement: <ErrorPage />,
         },
         {
