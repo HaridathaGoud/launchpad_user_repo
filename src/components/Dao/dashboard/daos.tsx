@@ -6,7 +6,7 @@ import { clearDaos, getDaos } from "../../../reducers/proposlaReducer";
 import Button from "../../../ui/Button";
 import { useNavigate } from "react-router-dom";
 const take = 8;
-function Daos(props: any) {
+const Daos = (props: any) => {
   const rootDispatch = useDispatch();
   const navigate = useNavigate();
   const daos = useSelector((store: any) => store.proposal.daos);
@@ -19,9 +19,9 @@ function Daos(props: any) {
   };
   useEffect(() => {
     getDaosList();
-    return ()=>{
-      props.clearDaos()
-    }
+    return () => {
+      props.clearDaos();
+    };
   }, []);
 
   const navigateToProposals = (item: any) => {
@@ -35,13 +35,13 @@ function Daos(props: any) {
         <h5 className="font-semibold text-2xl text-secondary">DAO’s</h5>
 
         <div className="grid md:grid-cols-4 gap-4">
-          {daos?.loading ? (
+          {daos?.loading &&
             [...Array(take)].map((_, index) => (
               <div key={index}>
                 <DaoCardShimmer />
               </div>
-            ))
-          ) : (
+            ))}
+          {!daos?.loading && (
             <>
               {daos?.data?.map((item: any) => (
                 <>
@@ -79,26 +79,27 @@ function Daos(props: any) {
           {daos?.loading && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
-          {(daos?.data?.length && daos?.data?.length === take * daos?.nextPage-1) && (
-            <Button type="plain" handleClick={getDaosList}>
-              <span className="cursor-pointer text-base text-primary font-semibold">
-                See More
-              </span>
-              <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
-            </Button>
-          )}
+          {daos?.data?.length &&
+            daos?.data?.length === take * daos?.nextPage - 1 && (
+              <Button type="plain" handleClick={getDaosList}>
+                <span className="cursor-pointer text-base text-primary font-semibold">
+                  See More
+                </span>
+                <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
+              </Button>
+            )}
         </div>
       </div>
     </div>
   );
-}
+};
 const connectDispatchToProps = (dispatch: any) => {
   return {
     getDaos: (information: any) => {
       dispatch(getDaos(information));
     },
-    clearDaos:()=>{
-      dispatch(clearDaos())
+    clearDaos: () => {
+      dispatch(clearDaos());
     },
     dispatch,
   };

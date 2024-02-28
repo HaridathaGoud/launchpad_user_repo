@@ -1,10 +1,10 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getCustomerDetails } from "../../../reducers/authReducer";
 import { useAccount } from "wagmi";
 import Daos from "./daos";
 
-function Dashboard(props: any) {
+const Dashboard = (props: any) => {
   const { address } = useAccount();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -18,7 +18,7 @@ function Dashboard(props: any) {
       <Daos />
     </div>
   );
-}
+};
 const connectStateToProps = ({ oidc }: any) => {
   return { oidc: oidc };
 };
