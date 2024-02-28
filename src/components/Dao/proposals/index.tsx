@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import ProposalCards from '../createproposal/praposalCards'
+import ProposalCards from './proposals'
 import { connect } from "react-redux";
-import { getCardsProposalList } from '../proposlaReducer/proposlaReducer';
-import DaoLeftPanel from '../../dao/daoleftpanel';
-import ProposalCardShimmer from '../../shimmers/proposalcardshimmer';
+import { getCardsProposalList } from '../../../reducers/proposlaReducer';
+import DaoLeftPanel from './leftPanel';
+import ProposalCardShimmer from '../shimmers/proposalcardshimmer';
 import { useParams } from 'react-router-dom';
-import TrendingProjects from '../../../staking/trendingCarousel';
-import BreadCrumb from '../../../../ui/breadcrumb';
+import TrendingProjects from '../../staking/trendingCarousel';
 
-function CommonCreateProposal(props) {
+function Proposals(props) {
 
   const [loading, setLoading] = useState(true);
   const params = useParams()
@@ -57,4 +56,4 @@ const connectDispatchToProps = (dispatch: any) => {
     }
   }
 }
-export default connect(connectStateToProps, connectDispatchToProps)(CommonCreateProposal);
+export default connect(connectStateToProps, connectDispatchToProps)(Proposals);

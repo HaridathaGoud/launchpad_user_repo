@@ -1,15 +1,11 @@
 import React,{useState,useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import Moment from 'react-moment';
-import Image from 'react-bootstrap/Image';
 import moment from 'moment';
-import shimmers from '../../shimmers/shimmers';
-import PlaceHolder from "../../shimmers/placeholder";
+import shimmers from '../shimmers/shimmers';
+import PlaceHolder from "../shimmers/placeholder";
 import { useAccount } from 'wagmi';
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import daocardProfile from '../../../../../src/assets/images/daocard-profile.png';
-import styles from "./dao.module.css";
- function Status() {
+ function InformationPanel() {
   const { isConnected } = useAccount();
     const user = useSelector((state: any) => isConnected ? state?.oidc?.fetchproposalviewdata : state?.proposal?.proViewData);
     const [remainingTime, setRemainingTime] = useState<any>(null);
@@ -156,4 +152,4 @@ import styles from "./dao.module.css";
     );
 } 
 
-export default (Status);
+export default (InformationPanel);

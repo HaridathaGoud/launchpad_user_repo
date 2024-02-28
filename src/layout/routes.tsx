@@ -13,7 +13,6 @@ import FoundingMembersView from "../components/projects/foundingmembersview";
 import StreamingDashboard from "../components/streaming/Dashboard";
 import StreamingDetailview from "../components/streaming/Detailview";
 import AppLayout from "./AppLayout";
-import Loader from "../ui/Loader";
 import NftCardDetailview from "../components/streaming/Detailview/Nftcarddetailview";
 import Trending from "../components/streaming/Trending/trending";
 import Channels from "../components/streaming/Channels/channels";
@@ -50,23 +49,11 @@ const MyCollections = React.lazy(
 const Marketplace = React.lazy(
   () => import("../components/marketplace.component/index")
 );
-const Dao = React.lazy(() => import("../components/Dao/dao/daoDashboard"));
-const ProposalList = React.lazy(
-  () => import("../components/Dao/proposal/createproposal/praposalScreen")
+const Dao = React.lazy(() => import("../components/Dao/dashboard/index"));
+const Proposals = React.lazy(
+  () => import("../components/Dao/proposals/index")
 );
-const CreatePraposal = React.lazy(
-  () => import("../components/Dao/proposal/createproposal/createpraposal")
-);
-const TestingPraposal = React.lazy(
-  () => import("../components/Dao/proposal/createproposal/publishPraposal")
-);
-const Success = React.lazy(
-  () => import("../components/Dao/proposal/createproposal/thankyou")
-);
-const ProposalView = React.lazy(
-  () => import("../components/Dao/proposal/createproposal/viewProposal")
-);
-const Voting = React.lazy(() => import("../components/Dao/voting/voting"));
+const ProposalView = React.lazy(() => import("../components/Dao/proposal"));
 const ExploreNfts = React.lazy(
   () =>
     import("../components/marketplace.component/explorenfts.component/index")
@@ -233,52 +220,28 @@ const Routes = () => {
           path: "/dao/:daoId/:votingAddress",
           element: (
             <React.Suspense>
-              <ProposalList />
+              <Proposals />
             </React.Suspense>
           ),
         },
-        {
-          path: "/dao/:id/createpraposal",
-          element: (
-            <React.Suspense>
-              <CreatePraposal />
-            </React.Suspense>
-          ),
-        },
-        {
-          path: "/dao/:id/publishproposal",
-          element: (
-            <React.Suspense>
-              <TestingPraposal />
-            </React.Suspense>
-          ),
-        },
-        {
-          path: "/dao/success/:id",
-          element: (
-            <React.Suspense>
-              <Success />
-            </React.Suspense>
-          ),
-        },
+        // {
+        //   path: "/dao/success/:id",
+        //   element: (
+        //     <React.Suspense>
+        //       <Success />
+        //     </React.Suspense>
+        //   ),
+        // },
         {
           path: "/dao/voting/:proposalId",
           element: (
             <React.Suspense>
-              <Voting />
+              <ProposalView />
             </React.Suspense>
           ),
         },
         {
           path: "/projects/projectdetails/:projectstatus/:pid/voting/:proposalId",
-          element: (
-            <React.Suspense>
-              <Voting />
-            </React.Suspense>
-          ),
-        },
-        {
-          path: "/dao/proposalview/:id",
           element: (
             <React.Suspense>
               <ProposalView />

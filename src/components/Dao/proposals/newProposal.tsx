@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import praposalImage from "../../../../assets/images/proposal.png";
+import praposalImage from "../../../assets/images/proposal.png";
 import { Link } from "react-router-dom";
 import { useAccount } from "wagmi";
-import Createpraposal from "../../proposal/createproposal/createpraposal";
+import Createpraposal from "./create";
 import { ethers } from "ethers";
-import useContract from "../../../../hooks/useContract";
+import useContract from "../../../hooks/useContract";
 export default function CreateFirstPraposal(props: any) {
   const { getStakedAmount } = useContract();
   const [isChecked, setIsChecked] = useState(false);

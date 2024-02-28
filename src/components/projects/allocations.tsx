@@ -135,7 +135,6 @@ const Allocations = (props) => {
     return provider;
   }
   const handleOk = async () => {
-    console.log(volumeData, buyBalance)
     const etherValue = Number(volumeData) * Number(buyBalance)
     setBtnLoader(true);
     buyTokens(etherValue, Number(buyBalance), props.pjctInfo?.contractAddress)

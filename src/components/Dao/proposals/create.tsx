@@ -1,30 +1,31 @@
 import React, { useEffect, useState, useReducer } from "react";
-import success from "../../../../assets/images/thank-you.svg";
+import success from "../../../assets/images/thank-you.svg";
+import defaultAvatar from "../../../assets/images/default-avatar.jpg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
   contractDetailsData,
   proposalData,
   saveProposalCall,
-} from "../proposlaReducer/proposlaReducer";
-import { store } from "../../../../store";
-import { validateContentRule } from "../../../../utils/validation";
+} from "../../../reducers/proposlaReducer";
+import { store } from "../../../store";
+import { validateContentRule } from "../../../utils/validation";
 import { useParams } from "react-router-dom";
 import { ethers } from "ethers/lib";
 import { useAccount } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { isMobile } from "react-device-detect";
 import { useSelector, connect, useDispatch } from "react-redux";
-import { getCustomerDetails } from "../../../../reducers/authReducer";
-import shimmers from "../../shimmers/shimmers";
-import PlaceHolder from "../../shimmers/placeholder";
-import WalletText from "../../../../utils/walletText";
-import Button from "../../../../ui/Button";
-import PublishProposalShimmer from "../../shimmers/publishproposalshimmer";
+import { getCustomerDetails } from "../../../reducers/authReducer";
+import shimmers from "../shimmers/shimmers";
+import PlaceHolder from "../shimmers/placeholder";
+import WalletText from "../../../utils/walletText";
+import Button from "../../../ui/Button";
+import PublishProposalShimmer from "../shimmers/publishproposalshimmer";
 import Moment from "react-moment";
-import { useVotingContract } from "../../../../contracts/useContract";
+import { useVotingContract } from "../../../contracts/useContract";
 import { waitForTransaction } from "wagmi/actions";
-import { setError } from "../../../../reducers/layoutReducer";
+import { setError } from "../../../reducers/layoutReducer";
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -54,7 +55,7 @@ const reducers = (state: any, action: any) => {
 };
 function CreatePraposal(props: any) {
   const router = useNavigate();
-  const rootDispatch=useDispatch()
+  const rootDispatch = useDispatch();
   const { isConnected, address } = useAccount();
   const PublishShimmers = shimmers.PublishProposal(3);
   const [form, setForm] = useState<any>({});
@@ -71,7 +72,9 @@ function CreatePraposal(props: any) {
   const [attributes, setAttributes] = useState([]);
   const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
-const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutReducer.toaster.message}))
+  const { toasterMessage } = useSelector((store: any) => ({
+    toasterMessage: store.layoutReducer.toaster.message,
+  }));
   const contractData = useSelector(
     (state: any) => state?.proposal?.contractDetails
   );
@@ -93,9 +96,7 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
   const [startDateEpoch, setStartDateEpoch] = useState<any>();
   const [endDateEpoch, setEndDateEpoch] = useState<any>();
   const user = useSelector((state: any) =>
-    isConnected
-      ? state?.oidc?.fetchproposalviewdata
-      : state?.proposal?.proViewData
+    state.auth.user
   );
   const selectedDaoData = useSelector(
     (state: any) => state?.oidc?.fetchSelectingDaoData
@@ -201,10 +202,12 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
     for (let i in _properties) {
       let _obj = _properties[i];
       if (_obj.options == "" || _obj.options == null || !_obj.options.trim()) {
-        rootDispatch(setError({message:"Options cannot be empty!"}))
+        rootDispatch(setError({ message: "Options cannot be empty!" }));
         return;
       } else if (validateContentRule(_obj.options)) {
-        rootDispatch(setError({message:"Please provide valid content for options!"}))
+        rootDispatch(
+          setError({ message: "Please provide valid content for options!" })
+        );
         return;
       } else {
         const isDuplicate = _attribute.some(
@@ -214,10 +217,10 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
         );
 
         if (isDuplicate) {
-          rootDispatch(setError({message:"Options should be unique!"}))
+          rootDispatch(setError({ message: "Options should be unique!" }));
           return;
         } else {
-          rootDispatch(setError({message:""}))
+          rootDispatch(setError({ message: "" }));
           isUpdate = true;
 
           if (_obj.optionhash == null) {
@@ -245,28 +248,36 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
   // };
 
   const handleRedirectToPublishProposalScreen = (event: any) => {
-    rootDispatch(setError({message:""}))
+    rootDispatch(setError({ message: "" }));
     event.preventDefault();
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else if (state?.startingDate && state?.endingDate < state?.startingDate) {
-      rootDispatch(setError({message:"Start date cannot be greater than the end date."}))
+      rootDispatch(
+        setError({ message: "Start date cannot be greater than the end date." })
+      );
     } else if (
       state?.startingDate == state?.endingDate &&
       state?.endingTime == state?.startingTime
     ) {
-      rootDispatch(setError({message:"Start time and end time cannot be the same."}))
+      rootDispatch(
+        setError({ message: "Start time and end time cannot be the same." })
+      );
     } else if (!state?.isChecked || attributes.length === 0) {
-      rootDispatch(setError({message:"Please select proposal type"}))
+      rootDispatch(setError({ message: "Please select proposal type" }));
     } else if (attributes.length < 2) {
-      rootDispatch(setError({message:"Please select atleast two options"}))
+      rootDispatch(setError({ message: "Please select atleast two options" }));
     } else {
       const startTime = convertTo24HourFormat(state?.startingTime);
       const endTime = convertTo24HourFormat(state?.endingTime);
 
       if (state?.startingDate == state?.endingDate && startTime > endTime) {
-        rootDispatch(setError({message:"Start time cannot be greater than the end time."}))
+        rootDispatch(
+          setError({
+            message: "Start time cannot be greater than the end time.",
+          })
+        );
       } else {
         // let proposalType = state?.isChecked ? "voting" : "decision";
         let proposalType = "voting";
@@ -285,6 +296,21 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
       }
     }
   };
+  // const getContractData = async () => {
+  //   try {
+  //     console.log(params)
+  //     await props?.contractDetails(params);
+  //     props?.proposal?.contractDetails?.error &&
+  //       rootDispatch(
+  //         setError({ message: props?.proposal?.contractDetails?.error })
+  //       );
+  //   } catch (error) {
+  //     rootDispatch(setError({ message: error }));
+  //   }
+  // };
+  // useEffect(() => {
+  //   getContractData();
+  // }, []);
 
   useEffect(() => {
     if (isConnected && Object.keys(proposalDetails).length > 0) {
@@ -302,8 +328,6 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
       let enEpochTime = endEpochTime / 1000;
       setEndDateEpoch(enEpochTime);
 
-      // props?.contractDetails(params);
-      // rootDispatch(setError({message:props?.proposal?.contractDetails?.error}))
       getDaoItem();
     }
   }, [proposalDetails]);
@@ -383,7 +407,7 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
       );
       const txResponse = await waitForTransaction({ hash: response.hash });
       if (txResponse && txResponse.status === 0) {
-        rootDispatch(setError({message:"Transaction failed!"}))
+        rootDispatch(setError({ message: "Transaction failed!" }));
         setBtnLoader(false);
       } else {
         props?.saveProposalData(obj, (callback: any) => {
@@ -392,14 +416,14 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
             dispatch({ type: "currentStep", payload: 3 });
             setBtnLoader(false);
           } else {
-            rootDispatch(setError({message:callback}))
+            rootDispatch(setError({ message: callback }));
             setBtnLoader(false);
           }
         });
       }
     } catch (error) {
       setOptionVotingHashs([]);
-      rootDispatch(setError({message:error}))
+      rootDispatch(setError({ message: error }));
       setBtnLoader(false);
       window.scroll(0, 0);
       // dispatch({ type: 'currentStep', payload: 3 })
@@ -553,7 +577,7 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                         </label>
                         <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
                           <div className="flex items-center">
-                            <img src={user} className="mr-2 w-5 h-5"></img>
+                            <img src={user?.profilePicUrl || defaultAvatar} className="mr-2 w-5 h-5" alt="user"/>
                             <span>{address}</span>
                           </div>
                           <CopyToClipboard
@@ -620,7 +644,8 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                         <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
                           Summary
                         </label>
-                        <textarea className="textarea textarea-bordered w-full resize-none leading-4 rounded-t-[28px] rounded-b-none pl-5 pt-3 focus:outline-none"
+                        <textarea
+                          className="textarea textarea-bordered w-full resize-none leading-4 rounded-t-[28px] rounded-b-none pl-5 pt-3 focus:outline-none"
                           rows={5}
                           placeholder="Summary"
                           name="summary"
@@ -632,11 +657,23 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                           onChange={(e) => {
                             setField("summary", e.currentTarget.value);
                           }}
-                        />                       
-                        <label htmlFor="" className={`relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload`}>
-                          <input accept="image/jpg, image/jpeg, image/png" type="file" className="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer" />
-                          <span className='pointer-events-none relative pl-1 text-sm'>
-                            <span className={`fileUploadText text-sm font-normal`}>Attach images by dragging & dropping, selecting or pasting them.</span>
+                        />
+                        <label
+                          htmlFor=""
+                          className={`relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload`}
+                        >
+                          <input
+                            accept="image/jpg, image/jpeg, image/png"
+                            type="file"
+                            className="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer"
+                          />
+                          <span className="pointer-events-none relative pl-1 text-sm">
+                            <span
+                              className={`fileUploadText text-sm font-normal`}
+                            >
+                              Attach images by dragging & dropping, selecting or
+                              pasting them.
+                            </span>
                           </span>
                           <span className={`icon addtext`}></span>
                         </label>
@@ -645,13 +682,19 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                         </label>
                         <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[28px] opacity shadow px-2.5 py-3 mt-2">
                           <div>
-                          <span className="icon link mr-1"></span>
-                          <span className="text-secondary font-medium truncate inline-block w-[200px] align-middle">TSC Company Banner.png.....</span>
+                            <span className="icon link mr-1"></span>
+                            <span className="text-secondary font-medium truncate inline-block w-[200px] align-middle">
+                              TSC Company Banner.png.....
+                            </span>
                           </div>
                           <span className="icon close cursor-pointer scale-[0.9]"></span>
                         </div>
                       </div>
-                      <p className="text-sm text-neutral mt-3"><span className="text-secondary">*Note:</span> Supported Document Formats : PNG/ JPG/ DOC/ DOCX/ PDF (File Size : Max 20 MB) </p>
+                      <p className="text-sm text-neutral mt-3">
+                        <span className="text-secondary">*Note:</span> Supported
+                        Document Formats : PNG/ JPG/ DOC/ DOCX/ PDF (File Size :
+                        Max 20 MB){" "}
+                      </p>
 
                       {/* <div className='proposal-type c-pointer'>
                 <span className='icon uncheck-icon-ps'></span><span className='mb-0'>Decision</span>
@@ -756,12 +799,13 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.startingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
+                              isMobile && !state?.startingDate
                                 ? " "
                                 : isMobile && state?.startingDate
-                                  ? " "
-                                  : ""
-                              }`}
+                                ? " "
+                                : ""
+                            }`}
                             placeholder="Start Date"
                             name="startdate"
                             // min={currentDate}
@@ -778,12 +822,13 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                           </label>
                           <input
                             type="datetime-local"
-                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${isMobile && !state?.endingDate
+                            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
+                              isMobile && !state?.endingDate
                                 ? " "
                                 : isMobile && state?.endingDate
-                                  ? " "
-                                  : ""
-                              }`}
+                                ? " "
+                                : ""
+                            }`}
                             placeholder="End Date"
                             name="enddate"
                             // min={currentDate}
@@ -799,7 +844,7 @@ const {toasterMessage}=useSelector((store:any)=>({toasterMessage:store.layoutRed
                   {state?.currentStep === 2 && (
                     <div className="">
                       {!contractData?.loading &&
-                        Object.keys(proposalDetails).length > 0 ? (
+                      Object.keys(proposalDetails).length > 0 ? (
                         <div className="">
                           <div className="">
                             <span className="mb-0 me-2 text-base font-semibold text-secondary">

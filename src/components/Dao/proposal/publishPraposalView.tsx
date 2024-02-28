@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import Alert from "react-bootstrap/Alert";
 import { connect } from "react-redux";
-import { proposalViewData } from "../proposlaReducer/proposlaReducer";
+import { proposalViewData } from "../../../reducers/proposlaReducer";
 import { Button } from "react-bootstrap";
-import shimmers from "../../shimmers/shimmers";
-import PlaceHolder from "../../shimmers/placeholder";
+import shimmers from "../shimmers/shimmers";
+import PlaceHolder from "../shimmers/placeholder";
 import { useParams, useLocation } from "react-router-dom";
-import WalletConnect from "../../../shared/connect.wallet";
+import WalletConnect from "../../shared/connect.wallet";
 import moment from "moment";
 import Moment from "react-moment";
 function TestingPraposalflow(props: any) {

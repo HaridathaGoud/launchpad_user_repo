@@ -4,7 +4,7 @@ import Image from 'react-bootstrap/Image';
 import styles from "./dao.module.css";
 import discussionProfile from '../../../../assets/images/discussion-profile.png';
 import voteimg from '../../../../assets/images/creator-profile.png'
-import TextInput from '../../../inputs/textinput';
+import TextInput from '../../inputs/textinput';
 const   Discussions = () => {
 const [isToggle,setIsToggle] =useState(false);
 

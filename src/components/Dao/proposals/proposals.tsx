@@ -2,23 +2,23 @@ import React, { useState, useEffect, useReducer} from "react";
 import Container from "react-bootstrap/Container";
 
 import { useNavigate } from "react-router-dom";
-import WalletModal from "../../../../utils/walletModal";
+import WalletModal from "../../../utils/walletModal";
 import { useParams } from "react-router-dom";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   getCardsProposalList,
   getLookUp,
-} from "../proposlaReducer/proposlaReducer";
+} from "../../../reducers/proposlaReducer";
 import { useAccount } from "wagmi";
-import CreateFirstPraposal from "../praposal/createpraposal";
-import nodata from "../../../../assets/images/no-data.png";
+import CreateFirstPraposal from "./newProposal";
+import nodata from "../../../assets/images/no-data.png";
 import Moment from "react-moment";
 import { readContract } from "wagmi/actions";
-import MintContract from "../../../../contracts/seichi.json";
+import MintContract from "../../../contracts/seichi.json";
 import { isMobile } from "react-device-detect";
 import { Spinner } from "react-bootstrap";
-import daocardProfile from "../../../../assets/images/daocard-profile.png";
-import { setError } from "../../../../reducers/layoutReducer";
+import daocardProfile from "../../../assets/images/daocard-profile.png";
+import { setError } from "../../../reducers/layoutReducer";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case "modalShow":

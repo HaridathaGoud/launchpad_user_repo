@@ -1,20 +1,20 @@
 import React, {  useEffect, useReducer, useRef, useState } from 'react';
-import styles from "./dao.module.css";
+import styles from "../dao.module.css";
 import { useAccount } from 'wagmi';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
-import Button from '../../../../ui/Button';
-import { Modal, modalActions } from '../../../../ui/Modal';
-import votesuccess from   '../../../../assets/images/vote-success.gif'
-import { useVotingContract } from '../../../../contracts/useContract';
-import { getProposalViewData, saveVoting, getCustomeVoted, getVotersGrid } from '../../../../reducers/votingReducer';
-import MintContract from '../../../../contracts/seichi.json';
+import Button from '../../../ui/Button';
+import { Modal, modalActions } from '../../../ui/Modal';
+import votesuccess from   '../../../assets/images/vote-success.gif'
+import { useVotingContract } from '../../../contracts/useContract';
+import { getProposalViewData, saveVoting, getCustomeVoted, getVotersGrid } from '../../../reducers/votingReducer';
+import MintContract from '../../../contracts/seichi.json';
 import { readContract } from 'wagmi/actions';
-import { getCustomerDetails } from '../../../../reducers/authReducer';
-import Spinner from '../../../loaders/spinner';
-import useContract from "../../../../hooks/useContract";
+import { getCustomerDetails } from '../../../reducers/authReducer';
+import Spinner from '../../loaders/spinner';
+import useContract from "../../../hooks/useContract";
 import { ethers } from "ethers";
-import { setError, setToaster } from '../../../../reducers/layoutReducer';
+import { setError, setToaster } from '../../../reducers/layoutReducer';
 const reducers = (state: any, action: any) => {
     switch (action.type) {
       case 'copied':
@@ -33,7 +33,7 @@ const reducers = (state: any, action: any) => {
         return { ...state, selectedhash: action.payload };
     }
   }
-const   DaoCurrentResults = (props: any) => {
+const ProposalResults = (props: any) => {
   const [saveBtn,setsaveBtn] = useState(true);
   const [editBtn,seteditBtn] = useState(false);
   const { isConnected, address } = useAccount();
@@ -379,4 +379,4 @@ const connectDispatchToProps = (dispatch: any) => {
     }
   }
 
-export default connect(null, connectDispatchToProps) (DaoCurrentResults);
+export default connect(null, connectDispatchToProps) (ProposalResults);

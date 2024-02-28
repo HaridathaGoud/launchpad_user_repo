@@ -88,7 +88,6 @@ const userData = {
 //Reducer
 const layoutReducer = (state = userData, action: any) => {
   const { type, payload } = action;
-  console.log(type)
   switch (type) {
     case "SET_BALANCES":
       if (payload.key === "matic") {

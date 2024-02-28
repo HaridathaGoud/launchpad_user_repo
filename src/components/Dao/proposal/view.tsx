@@ -36,7 +36,7 @@ const reducers = (state: any, action: any) => {
       return { ...state, selectedhash: action.payload };
   }
 };
-function ProposalVoting(props: any) {
+function Proposal(props: any) {
   const { isConnected, address } = useAccount();
   const proposarDetailas = useSelector(
     (state: any) => state?.vtg?.fetchproposalviewdata
@@ -481,4 +481,4 @@ const connectDispatchToProps = (dispatch: any) => {
     },
   };
 };
-export default connect(null, connectDispatchToProps)(ProposalVoting);
+export default connect(null, connectDispatchToProps)(Proposal);

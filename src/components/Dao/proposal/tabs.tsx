@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Voters from "./votersgrid"
+import Voters from "./votersGrid"
 // import Discussions from '../proposal/createproposal/discussions'; 
-import styles from "../proposal/createproposal/dao.module.css";
+import styles from "../dao.module.css";
 import Button from '../../../ui/Button';
 
-function ProposalTabbedContent() {
+function ProposalTabs() {
   const [activeTab, setActiveTab] = useState('voters');
 
   const handleTabClick = (tab) => {
@@ -40,4 +40,4 @@ function ProposalTabbedContent() {
   );
 }
 
-export default ProposalTabbedContent;
+export default ProposalTabs;

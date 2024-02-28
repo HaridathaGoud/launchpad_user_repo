@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg";
 import { useAccount } from "wagmi";
-import Createpraposal from "../proposal/createproposal/createpraposal";
+import Createpraposal from "./create";
 import { useSelector } from "react-redux";
 import useContract from "../../../hooks/useContract";
 import CopyToClipboard from "react-copy-to-clipboard";

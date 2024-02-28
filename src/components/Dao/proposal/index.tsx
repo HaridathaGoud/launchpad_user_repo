@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import Status from '../proposal/createproposal/status';
-import VotingDao from './testdao';
+import InformationPanel from './informationPanel';
+import Proposal from './view';
 import { useParams } from 'react-router-dom';
 import {  useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import TestingPraposalflow from '../proposal/createproposal/publishPraposalView';
+import TestingPraposalflow from './publishPraposalView';
 import { useAccount} from 'wagmi';
 import {getCustomerDetails } from '../../../reducers/authReducer';
 import { connect } from "react-redux";
-import ProjectViewTabs from '../dao/projecttabs';
-import DaoCurrentResults from '../proposal/createproposal/daocurrentresults';
+import ProjectViewTabs from '../projecttabs';
+import ProposalResults from './results';
 import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
-import ProposalTabbedContent from './proposalTabs';
+import ProposalTabs from './tabs';
 import { get } from "../../../utils/api";
 import { store } from '../../../store';
-import Button from '../../../ui/Button';
-import Voters from './votersgrid';
 import BreadCrumb from '../../../ui/breadcrumb';
-import Discussions from '../proposal/createproposal/discussions';
 import TrendingProjects from '../../staking/trendingCarousel';
 import { setError } from '../../../reducers/layoutReducer';
 
 // import { Button } from 'react-bootstrap';
-  function Voting() {
+  function ProposalView() {
     const router = useNavigate();
     const params = useParams();
     const dispatch = useDispatch();
@@ -81,20 +78,15 @@ import { setError } from '../../../reducers/layoutReducer';
           </div>
           <div className='grid md:grid-cols-12 gap-[30px]'>
             <div className='md:col-span-3'>
-              <Status></Status>
+              <InformationPanel/>
               <div>
-                <DaoCurrentResults pjctInfo={pjctInfo}/>
+                <ProposalResults pjctInfo={pjctInfo}/>
               </div>
             </div>
             <div className='md:col-span-9'>
-              <VotingDao pjctInfo={pjctInfo}/>
-              {/* <VotingDao ></VotingDao> */}
+              <Proposal pjctInfo={pjctInfo}/>
               <div>
-                <ProposalTabbedContent/>
-              {/* <Voters></Voters> */}
-              </div>
-              <div>
-                {/* <Discussions/> */}
+                <ProposalTabs/>
               </div>
             </div>
           </div>
@@ -104,8 +96,8 @@ import { setError } from '../../../reducers/layoutReducer';
           {/* <span className='mb-0 back-text c-pointer' onClick={handleback}>Voting</span> */}
           <div className='grid grid-cols-12 gap-[30px]'>
             <div className='col-span-3'>
-              <Status></Status>
-              <DaoCurrentResults/>
+              <InformationPanel/>
+              <ProposalResults/>
             </div>
             <div className='col-span-9'>
               <TestingPraposalflow></TestingPraposalflow>
@@ -190,4 +182,4 @@ const connectDispatchToProps = (dispatch: any) => {
       },
     }
   }
-   export default connect(null, connectDispatchToProps)(Voting);
+   export default connect(null, connectDispatchToProps)(ProposalView);

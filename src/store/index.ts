@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import rootReducer from '../reducers/rootReducer';
 import authReducer from '../reducers/authReducer';
-import proposalReducer from "../components/Dao/proposal/proposlaReducer/proposlaReducer"
+import proposalReducer from "../reducers/proposlaReducer"
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import votingReducer from '../reducers/votingReducer';

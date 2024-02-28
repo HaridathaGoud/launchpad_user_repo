@@ -60,7 +60,7 @@ function DaoCards(props: any) {
   };
   return (
     <div>
-      <div className="container mx-auto max-sm:px-3 mt-3 mt-4">
+      <div className="container mx-auto max-sm:px-3 mt-4">
         <h5 className="font-semibold text-2xl text-secondary">DAO’s</h5>
 
         <div className="grid md:grid-cols-4 gap-4">
@@ -74,7 +74,6 @@ function DaoCards(props: any) {
             <>
               {state?.initialData?.map((item: any) => (
                 <>
-                  {/* {state?.initialData ?  */}
                   <div
                     className="shadow rounded mt-md-0 mt-3 sm-m-0 cursor-pointer rounded-lg transform transition-transform duration-500 hover:scale-[1.03]"
                     onClick={() => props?.goToHome(item)}
@@ -82,6 +81,7 @@ function DaoCards(props: any) {
                     <img
                       src={item?.image}
                       className="w-full rounded-t-lg h-[350px] object-cover"
+                      alt={item?.name || 'Dao'}
                     />
                     <div className="p-2 rounded-b-lg">
                       <div className="text-base font-normal text-secondary !mb-0">
@@ -99,10 +99,6 @@ function DaoCards(props: any) {
                       </div>
                     </div>
                   </div>
-                  {/* // : (
-                                //     <div>
-                                //         <DaoCardShimmer/>
-                                //     </div> */}
                 </>
               ))}
             </>

@@ -1,12 +1,10 @@
 import React, { useEffect, useReducer } from "react";
+import {connect, useSelector,useDispatch } from "react-redux";
 import { getCustomerDetails } from "../../../reducers/authReducer";
-import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
-import { walletAddressChecking } from "../proposal/proposlaReducer/proposlaReducer";
-import { useSelector } from "react-redux";
-import DaoCards from "./daoCards";
-import { useDispatch } from "react-redux";
+import { walletAddressChecking } from "../../../reducers/proposlaReducer";
+import DaoCards from "./daos";
 const reducers = (state, action) => {
   switch (action.type) {
     case "daoData":
@@ -20,7 +18,7 @@ function Dashboard(props: any) {
   const router = useNavigate();
   const { address } = useAccount();
   const [state, dispatch] = useReducer(reducers, { daoData: [] });
-  const dispatc = useDispatch();
+  const rootDispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,7 +31,7 @@ function Dashboard(props: any) {
   }, []);
 
   const goToHome = (item: any) => {
-    dispatc({ type: "fetchSelectingDaoData", payload: item });
+    rootDispatch({ type: "fetchSelectingDaoData", payload: item });
     router(`/dao/${item?.daoId}/${item.votingContractAddress}`);
   };
 
@@ -42,7 +40,7 @@ function Dashboard(props: any) {
       <DaoCards
         daoData={state?.daoData}
         loading={loading}
-        goToHome={(item) => goToHome(item)}
+        goToHome={(item:any) => goToHome(item)}
       />
     </div>
   );

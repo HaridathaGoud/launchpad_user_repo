@@ -12,7 +12,6 @@ import error from '../../../assets/images/error.svg';
 import Image from 'react-bootstrap/Image';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Placeholder from 'react-bootstrap/Placeholder';
-import styles from "../proposal/createproposal/dao.module.css";
  function Voters(props : any) {
   const { isConnected, address } = useAccount();
   const [pageNo, setPageNo] = useState(1);

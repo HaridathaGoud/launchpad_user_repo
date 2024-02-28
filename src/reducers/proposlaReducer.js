@@ -1,4 +1,4 @@
-import apiCalls from "../../../../utils/api";
+import apiCalls from "../utils/api";
 const SET_CUSROMER_WALLETADDRESS = "setCustomerWalletAddress";
 const PROPOSAL_DETAILS_LIST = "proposalDetailsList";
 const LOOKUP_CALL = "lookUp";
@@ -128,7 +128,7 @@ const setConDetailsData = (payload) => {
 const contractDetailsData = (dao) => {
   return async (dispatch) => {
       dispatch(setConDetailsData({ key: "contractDetails", loading: true, data: null }));
-      const response = await apiCalls.getContractDetails(dao.id);
+      const response = await apiCalls.getContractDetails(dao.daoId);
       dispatch(setConDetailsData({ key: "contractDetails", loading: false, data: response.data, error: null }));
       if (response) {
           dispatch(setConDetailsData(response.data))
