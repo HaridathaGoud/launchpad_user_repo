@@ -102,7 +102,7 @@ function CreatePraposal(props: any) {
     (state: any) => state?.oidc?.fetchSelectingDaoData
   );
   const DaoDetail = useSelector(
-    (state: any) => state?.proposal?.getWalletAddressChecking?.data
+    (state: any) => state?.proposal?.daos?.data
   );
   const [loading, setLoading] = useState(true);
 

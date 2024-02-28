@@ -50,7 +50,7 @@ const MyCollections = React.lazy(
 const Marketplace = React.lazy(
   () => import("../components/marketplace.component/index")
 );
-const Dao = React.lazy(() => import("../components/Dao/dashboard/index"));
+const Daos = React.lazy(() => import("../components/Dao/dashboard/index"));
 const Proposals = React.lazy(
   () => import("../components/Dao/proposals/index")
 );
@@ -218,7 +218,7 @@ const Routes = () => {
           path: "/dao",
           element: (
             <React.Suspense>
-              <Dao />
+              <Daos />
             </React.Suspense>
           ),
         },

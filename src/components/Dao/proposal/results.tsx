@@ -53,7 +53,7 @@ const ProposalResults = (props: any) => {
   const [loading, setLoading] = useState(false)
   const rootDispatch=useDispatch()
   const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
-  const DaoDetail = useSelector((state: any) => state?.proposal?.getWalletAddressChecking?.data)
+  const DaoDetail = useSelector((state: any) => state?.proposal?.daos?.data)
   const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
   const [daoVoteName, setDaoVoteName] = useState();
   const { getStakedAmount } = useContract();

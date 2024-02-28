@@ -65,7 +65,7 @@ function Proposal(props: any) {
   // const votingSeicheContractAddress: any = process.env.REACT_APP_VOTING_CONTRACTOR;
   // const votingKeijiContractAddress: any = process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
   const DaoDetail = useSelector(
-    (state: any) => state?.proposal?.getWalletAddressChecking?.data
+    (state: any) => state?.proposal?.daos?.data
   );
   const selectedDaoData = useSelector(
     (state: any) => state?.oidc?.fetchSelectingDaoData

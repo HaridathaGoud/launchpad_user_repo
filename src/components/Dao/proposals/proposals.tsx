@@ -54,7 +54,7 @@ function ProposalCards(props: any) {
   const [loading, setLodaing] = useState(false);
   const [mintedMemberShipCount, setMintedMemberShipCount] = useState<any>();
   const DaoDetail = useSelector(
-    (state: any) => state?.proposal?.getWalletAddressChecking?.data
+    (state: any) => state?.proposal?.daos?.data
   );
   const [state, dispatch] = useReducer(reducers, {
     modalShow: false,
