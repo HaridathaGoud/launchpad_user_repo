@@ -76,14 +76,14 @@ export default function Banner() {
      || <>
       <div className="container mx-auto pt-5">
         <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	items-center">
-          {errorMessage && (
+          {/* {errorMessage && (
             <div className='cust-error-bg'>
                  <div className='mr-4'><Image src={error} alt="" /></div>
                  <div>
                  <p className='error-title error-red'>Error</p>
                  <p className="error-desc">{errorMessage}</p></div>
             </div>
-          )}
+          )} */}
           <div className="">
             <h4 className="text-[18px] font-semibold text-primary">Built on your own NFTs </h4>
             <h2 className="text-[52px] font-bold leading-[1.2] text-secondary">Rock the world <br />

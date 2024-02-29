@@ -14,9 +14,10 @@ import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
 import WalletConnect from "../../modules/ConnectButton/connect.wallet";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
+import BreadCrumb from "../../../ui/breadcrumb";
 const pageSize = 10;
 const search = null;
-function ExploreNfts(props: any) {
+function MyCollections(props: any) {
   const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
   const navigate = useNavigate();
@@ -113,9 +114,16 @@ function ExploreNfts(props: any) {
     <>
       <div ref={scrollableRef}></div>
       <div className="container mx-auto pt-5 px-3 lg:px-0">
+        <BreadCrumb/>
+       <div className="flex justify-between items-center mb-[28px]">
+        <div>
         <h2 className="text-[24px] text-secondary font-semibold mb-3">
-          Explore NFTs
+        View my collection
         </h2>
+        <p className="text-secondary opacity-60">Create, curate, and manage collections of unique NFTs to share and sell.</p>
+        </div>
+        <Button type="primary" btnClassName="min-w-[180px]">Create</Button>
+       </div>
         {
           <Modal id={"connect-wallet-model-exploreNfts"}>
             <WalletConnect
@@ -284,4 +292,4 @@ const connectStateToProps = ({ auth }: any) => {
 };
 export default connect(connectStateToProps, (dispatch) => {
   return { dispatch };
-})(ExploreNfts);
+})(MyCollections);

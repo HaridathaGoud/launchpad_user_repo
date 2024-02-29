@@ -61,6 +61,7 @@ function HeaderNavbar() {
       },
       { path: "/dao", content: "DAOs" },
       { path: "/marketplace", content: "Marketplace" },
+      { path: "/mycollections", content: "My Collections" },
     ];
     const navBarDropDownMenu = [
       {
