@@ -167,17 +167,46 @@ const Projectscomponent = (props) => {
                       <ProjectShimmer></ProjectShimmer>
                     ) : (
                       <div className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)]">
-                        <div className="flex justify-between">
+                        <div className="flex gap-4">
                           <img
                             src={
                               item.publisherLogo
                                 ? item.publisherLogo
                                 : DefaultImg
                             }
-                            className="rounded-full w-11 h-11 object-cover"
+                            className="rounded-full w-11 h-11 object-cover shrink-0"
                             alt=""
                           />
-                          <div className="flex gap-2">
+                          <div className="">
+                            <span className="text-lg font-semibold text-secondary">
+                              {item?.projectName}
+                            </span>
+                            <div className=" flex gap-6">
+                              <p className="text-warning-content">
+                                <span
+                                  className={`inline-block w-2 h-2 rounded-full ${
+                                    statusColourList[
+                                      item?.publicOrPrivateStatus
+                                    ]
+                                  }`}
+                                ></span>{" "}
+                                {item?.publicOrPrivateStatus}
+                              </p>
+
+                              <p className="text-warning-content">
+                                <span
+                                  className={`icon  ${
+                                    item?.tokenNetworkLogo ||
+                                    "usdt icon scale-[1.4]"
+                                  } `}
+                                ></span>{" "}
+                                {item?.tokenNetwork
+                                  ? item?.tokenNetwork
+                                  : process.env.REACT_APP_CURRENCY}
+                              </p>
+                            </div>
+                          </div>
+                          {/* <div className="flex gap-2">
                             {item.facebook && (
                               <span
                                 className="icon facebook-md cursor-pointer"
@@ -232,42 +261,14 @@ const Projectscomponent = (props) => {
                                 }
                               ></span>
                             )}
-                          </div>
+                          </div> */}
                         </div>
                         <Link
                           className=""
                           aria-current="page"
                           to={`/projects/projectdetails/${props.pjctType}/${item?.id}`}
                         >
-                          <div className="">
-                            <span className="text-lg font-semibold text-secondary">
-                              {item?.projectName}
-                            </span>
-                            <div className=" flex gap-6">
-                              <p className="text-warning-content">
-                                <span
-                                  className={`inline-block w-2 h-2 rounded-full ${
-                                    statusColourList[
-                                      item?.publicOrPrivateStatus
-                                    ]
-                                  }`}
-                                ></span>{" "}
-                                {item?.publicOrPrivateStatus}
-                              </p>
-
-                              <p className="text-warning-content">
-                                <span
-                                  className={`icon  ${
-                                    item?.tokenNetworkLogo ||
-                                    "usdt icon scale-[1.4]"
-                                  } `}
-                                ></span>{" "}
-                                {item?.tokenNetwork
-                                  ? item?.tokenNetwork
-                                  : process.env.REACT_APP_CURRENCY}
-                              </p>
-                            </div>
-                          </div>
+                          
 
                           <div className="">
                             <div className="">
@@ -280,7 +281,7 @@ const Projectscomponent = (props) => {
                                 <p className="text-secondary text-3lines min-h-[72px]">
                                   {item?.description}
                                 </p>
-                                <div
+                                {/* <div
                                   className={`bg-base-300 rounded-2xl p-2.5 my-2`}
                                 >
                                   <label
@@ -299,9 +300,9 @@ const Projectscomponent = (props) => {
                                         .join(", ")}
                                     </p>
                                   )}
-                                </div>
+                                </div> */}
 
-                                <div className="flex justify-between">
+                                <div className="flex justify-between mt-2">
                                   <label
                                     className={`text-base-200 text-base font-semibold`}
                                   >

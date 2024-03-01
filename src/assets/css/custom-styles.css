@@ -260,6 +260,7 @@ button.opacity-100{opacity: 1 !important;}
 .icon.linkedin{height: 32px;width: 32px;background-position: -401px -465px !important;}
 .icon.twit{height: 32px;width: 32px;background-position: -455px -465px !important;}
 .icon.network{height: 32px;width: 32px;background-position: -498px -465px !important;}
+.bg-banner{background: linear-gradient(to left, rgb(0 0 0 / 48%) 50%, rgba(255, 255, 255, 0) 80%);}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

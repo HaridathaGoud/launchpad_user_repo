@@ -40,9 +40,15 @@ const Carousel = ({
                 id={image.image}
                 key={image.image + image?.name}
                 className={`carousel-item w-full block md:flex items-center md:gap-x-5 overflow-y-hidden ${hasContent ? "lg:min-h-[500px]" : ""}`}
+                style={{
+                  backgroundImage: `url(${image.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
               >
+                  <div className="absolute inset-0 bg-banner" ></div>
                 <div className={`${hasContent ? "flex-1 lg:h-full " : "w-full h-full"}`}>
-                  <img
+                  {/* <img
                     src={`${image.image}`}
                     className={`${
                       hasContent
@@ -50,10 +56,10 @@ const Carousel = ({
                         : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
-                  />
+                  /> */}
                 </div>
                 {hasContent && (
-                  <div className="flex-1">
+                  <div className="flex-1 z-[9]">
                     <div className="flex-1 p-4 md:p-0">
                       <div className="flex gap-4 items-center">
                         <div className={`${statusColourList[image.type]}  px-3 py-1 rounded flex items-center`}>
@@ -64,32 +70,32 @@ const Carousel = ({
                         </div>
                         <div>
                           <span className={`usdt icon scale-[1.4] mr-1`}></span>
-                          <span className="font-medium text-black">{image.tokenNetwork}</span>
+                          <span className="font-medium text-white">{image.tokenNetwork}</span>
                         </div>
                       </div>
                       <h1 className="text-[52px] font-bold text-primary mt-3.5 capitalize">
                         {image.name.toLowerCase()}
                       </h1>
-                      <h2 className="text-[32px] leading-[0.8] mb-[30px] md:text-[42px] text-black">
+                      <h2 className="text-[32px] leading-[0.8] mb-[30px] md:text-[42px] text-white">
                          Animation Web Series
                       </h2>
                       <div className="flex gap-x-8 md:pb-0 mb-2">
                         <div>
-                          <p className="text-neutral font-[500] text-base">
+                          <p className="text-white font-[500] text-base">
                             Public Opens
                           </p>
-                          <p className="text-xl text-black">{`${formatDate(image.publicSaleStartDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
+                          <p className="text-xl text-white">{`${formatDate(image.publicSaleStartDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
                         </div>
                         <div>
-                          <p className="text-neutral font-[500] text-base">
+                          <p className="text-white font-[500] text-base">
                             Public Closes
                           </p>
-                          <p className="text-xl text-black">{`${formatDate(image.publicSaleEndDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
+                          <p className="text-xl text-white">{`${formatDate(image.publicSaleEndDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
                         </div>
                       </div>
                       <div className="mt-8 max-sm:mb-8 max-sm:text-center">
                         <Button
-                          type="secondary"
+                          type="primary"
                           handleClick={() => navigateToUniswap()}
                         >
                           Buy YBT

@@ -114,9 +114,9 @@ function HeaderNavbar() {
     <div className=" sticky top-0 z-50 bg-success-content header-shadow">
       <div className="navbar bg-success-content container mx-auto lg:px-0 px-3">
         <div className="navbar-start">
-          <div className="pr-4 border-r border-gray-300 hidden lg:flex shrink-0">
+          <div className="pr-4 hidden lg:flex shrink-0">
             <NaviLink path={"/dashboard"} type="primary">
-              <img src={logo} alt="YellowBlock" className="w-24 mr-3" />
+              <img src={logo} alt="YellowBlock" className="w-[28px]" />
             </NaviLink>
           </div>
           <div className="flex items-center">
@@ -167,8 +167,8 @@ function HeaderNavbar() {
             </div>
           </div>
 
-          <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal pl-[24px]">
+          <div className="navbar-center hidden lg:flex ">
+            <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 ">
               {navMenuList.map(({ path, content,target,rel }) => {
                 return (
                   <li className="group" key={path}>

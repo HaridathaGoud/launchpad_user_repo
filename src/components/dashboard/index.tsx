@@ -16,7 +16,7 @@ export default function Dashboard() {
             <TrendingProjects />
             <ProjectInformation />
             <FeaturedIvos />
-            <LaunchpadIvos/>
+            {/* <LaunchpadIvos/> */}
             <Projectscomponent pjctType="Ongoing" pageSize="3" />
             <Projectscomponent pjctType="Upcoming" pageSize="3" />
             <Projectscomponent pjctType="Closed" pageSize="3" />
