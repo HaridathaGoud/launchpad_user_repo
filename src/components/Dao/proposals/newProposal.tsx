@@ -36,7 +36,9 @@ export default function CreateFirstPraposal(props: any) {
         <div className="flex justify-center mb-6">
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
-        {isConnected && props?.memberShipCount >= 2 && stakedAmount>=5000 && !loader && (
+        {isConnected && 
+        // props?.memberShipCount >= 2 && 
+        stakedAmount>=5000 && !loader && (
           <div className="">
             <Link
               className="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"

@@ -1,7 +1,8 @@
 import apiCalls from "../utils/api";
 const SET_DAOS = "setDaos";
+const SET_PROPOSALS="setProposals"
 const PROPOSAL_DETAILS_LIST = "proposalDetailsList";
-const LOOKUP_CALL = "lookUp";
+const LOOKUP_CALL = "setProposalStatusLookUp";
 const PROPOSAL_DATA = "proposalData";
 const SAVE_PROPOSAL = "saveProposal";
 const CON_DETAILS_DATA = "setConDetailsData";
@@ -15,6 +16,12 @@ const setDaos = (payload) => {
     payload,
   };
 }
+const setProposals=(payload)=>{
+  return {
+    type:SET_PROPOSALS,
+    payload,
+  }
+}
 const isCheckSeeMore = (payload) => {
   return {
     type: ISCHECKSEEMORE,
@@ -22,7 +29,7 @@ const isCheckSeeMore = (payload) => {
   }
 };
 
-const lookUp = (payload) => {
+const setProposalStatusLookUp = (payload) => {
   return {
     type: LOOKUP_CALL,
     payload
@@ -57,8 +64,19 @@ const setConDetailsData = (payload) => {
 
 const clearDaos=()=>{
   return (dispatch) => {
-    dispatch(setDaos({key:'daos',loading:false,data:null,nextPage:1}))
+    dispatch(setDaos({loading:false,data:null,nextPage:1}))
 }
+}
+const clearProposals=()=>{
+  return (dispatch) => {
+    dispatch(setProposals({loading:false,data:null,nextPage:1}))
+}
+}
+
+const clearLookup=()=>{
+  return (dispatch)=>{
+    dispatch(setProposalStatusLookUp({loading: false, data: ['All'], error: ''}))
+  }
 }
 const getDaos = (information) => {
   const {take,page,data}=information;
@@ -106,39 +124,50 @@ const getReferralData = (id, pageNo, pageSize, callback) => {
   }
 }
 
-const getCardsProposalList = (pageNo, pageSize, dao, status, search, startDate, endDate, callback) => {
-  const skip = pageNo * pageSize - pageSize;
-  const take = pageSize;
-  return async (dispatch) => {
-    dispatch({ type: 'isCheckSeeMore', payload: null, loading: true });
-    const response = await apiCalls.getProposalList(take, skip, dao, status, search, startDate, endDate);
-    if (response) {
-      let MergeGridData = [...response.data];
-      dispatch({ type: 'proposalDetailsList', payload: MergeGridData, pageNo, loading: false, });
-      dispatch({ type: 'isCheckSeeMore', payload: response.data?.length >= 5 ? true : false, loading: false });
-      if (callback) {
-        callback(response)
-      }
-    } else {
-      if (callback) {
-        callback(response)
-      }
-      dispatch({ type: 'proposalDetailsList', payload: [], loading: false });
-    }
-  }
-}
-const getLookUp = (getLookUpCall) => {
-  return async (dispatch) => {
-    dispatch(lookUp({ key: 'lookUp', loading: true, data: {}, error: null }));
-    const response = await apiCalls.getStatusLu();
-    if (response) {
-      dispatch(lookUp(response.data));
-      dispatch(lookUp({ key: 'lookUp', loading: false, data: response.data, error: null }));
-      if (getLookUpCall) {
-        getLookUpCall(response.data)
-      }
-    }
 
+const getProposals=(information)=>{
+  const {take,page,data, daoId, status, search, startDate, endDate}=information;
+  const skip=take*(page)-take;
+  return async (dispatch) => {
+    dispatch(setProposals({loading: true, data: data,error:''}));
+    try{
+      const res = await apiCalls.getProposalList(take, skip, daoId, status, search, startDate, endDate);
+      if (res.status===200) {
+        dispatch(setProposals({ loading: false, data: data ?[...data,...res.data]:res.data, error: '',nextPage:page+1 }));
+      } else {
+        dispatch(
+          setProposals({
+            loading: false,
+            data: data,
+            error: res,
+          }),
+        );
+      }
+    }catch(error){
+      dispatch(
+        setProposals({
+          loading: false,
+          data: data,
+          error: error,
+        }),
+      );
+    } 
+  };
+}
+const getProposalStatusLookup = () => {
+  return async (dispatch) => {
+    dispatch(setProposalStatusLookUp({ loading: true, data: ['All'], error: '' }));
+    try{
+      const response = await apiCalls.getStatusLu();
+      if (response.status===200) {
+        dispatch(setProposalStatusLookUp({loading: false, data: response.data, error: '' }));
+      }else{
+        dispatch(setProposalStatusLookUp({loading: false, data: ['All'], error: response }));
+      }
+    }catch(error){
+      dispatch(setProposalStatusLookUp({ loading: false, data: ['All'], error: error }));
+    }
+    
   }
 }
 const contractDetailsData = (dao) => {
@@ -208,8 +237,8 @@ const saveProposalCall = (saveObj, callback) => {
 }
 let initialState = {
   daos: {loading:false,data:null,nextPage:1},
-  proposalDetailsList: [],
-  lookUp: {},
+  proposals: {loading: false, data: null,error:'',nextPage:1},
+  proposalStatusLookup: {loading:false,data:['All'],error:''},
   proposalDetails: {},
   saveProposal: {},
   contractDetails: {},
@@ -230,18 +259,27 @@ const proposlaReducer = (state, action) => {
   switch (action.type) {
     case SET_DAOS:
       return {
-        ...state, [action.payload.key]: {
+        ...state, daos: {
           data: action.payload.data,
           error: action.payload.error,
           loading: action.payload.loading,
-          nextPage:action.payload.nextPage || state?.[action.payload.key].nextPage
+          nextPage:action.payload.nextPage || state?.['daos'].nextPage
+        },
+      };
+    case SET_PROPOSALS:
+      return {
+        ...state, proposals: {
+          data: action.payload.data,
+          error: action.payload.error,
+          loading: action.payload.loading,
+          nextPage:action.payload.nextPage || state?.['proposals'].nextPage
         },
       };
     case PROPOSAL_DETAILS_LIST:
       state = { ...state, proposalDetailsList: (action.pageNo === 1 ? [...action.payload] : [...state.proposalDetailsList, ...action.payload,]) }//loading:action.payload,error:action.payload
       return state;
     case LOOKUP_CALL:
-      state = { ...state, [action.payload]: { ...state[action.payload.key], ...action.payload } }
+      state = { ...state, proposalStatusLookup: { ...state['proposalStatusLookup'], ...action.payload } }
       return state;
     case ISCHECKSEEMORE:
       state = { ...state, isCheckSeeMore: action.payload }
@@ -272,5 +310,5 @@ const proposlaReducer = (state, action) => {
 export default proposlaReducer;
 export {
   getDaos, getReferralData,
-  setDaos, getCardsProposalList, getLookUp, proposalData, saveProposalCall, proposalViewData, contractDetailsData, isCheckSeeMore,clearDaos
+  setDaos, getProposalStatusLookup, proposalData, saveProposalCall, proposalViewData, contractDetailsData, isCheckSeeMore,clearDaos,getProposals,clearProposals,clearLookup
 };

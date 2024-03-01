@@ -44,33 +44,32 @@ const Daos = (props: any) => {
           {!daos?.loading && (
             <>
               {daos?.data?.map((item: any) => (
-                <>
-                  <div
-                    className="shadow rounded mt-md-0 mt-3 sm-m-0 cursor-pointer rounded-lg transform transition-transform duration-500 hover:scale-[1.03]"
-                    onClick={() => navigateToProposals(item)}
-                  >
-                    <img
-                      src={item?.image}
-                      className="w-full rounded-t-lg h-[350px] object-cover"
-                      alt={item?.name || "Dao"}
-                    />
-                    <div className="p-2 rounded-b-lg">
-                      <div className="text-base font-normal text-secondary !mb-0">
-                        <span className="text-base-200 text-base font-semibold">
-                          Name:
-                        </span>{" "}
-                        {item?.name}
-                      </div>
-                      <div className="text-base font-normal text-secondary mb-1">
-                        <span className="text-base-200 text-base font-semibold">
-                          {" "}
-                          Members:
-                        </span>{" "}
-                        {item?.members?.toLocaleString()}
-                      </div>
+                <div
+                  className="shadow rounded mt-md-0 mt-3 sm-m-0 cursor-pointer rounded-lg transform transition-transform duration-500 hover:scale-[1.03]"
+                  onClick={() => navigateToProposals(item)}
+                  key={item.name+item.daoId}
+                >
+                  <img
+                    src={item?.image}
+                    className="w-full rounded-t-lg h-[350px] object-cover"
+                    alt={item?.name || "Dao"}
+                  />
+                  <div className="p-2 rounded-b-lg">
+                    <div className="text-base font-normal text-secondary !mb-0">
+                      <span className="text-base-200 text-base font-semibold">
+                        Name:
+                      </span>{" "}
+                      {item?.name}
+                    </div>
+                    <div className="text-base font-normal text-secondary mb-1">
+                      <span className="text-base-200 text-base font-semibold">
+                        {" "}
+                        Members:
+                      </span>{" "}
+                      {item?.members?.toLocaleString()}
                     </div>
                   </div>
-                </>
+                </div>
               ))}
             </>
           )}
@@ -79,7 +78,7 @@ const Daos = (props: any) => {
           {daos?.loading && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
-          {daos?.data?.length &&
+          {daos?.data?.length > 0 &&
             daos?.data?.length === take * daos?.nextPage - 1 && (
               <Button type="plain" handleClick={getDaosList}>
                 <span className="cursor-pointer text-base text-primary font-semibold">

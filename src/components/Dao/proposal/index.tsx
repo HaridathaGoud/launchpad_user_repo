@@ -1,111 +1,109 @@
-import React, { useEffect, useState } from 'react';
-import InformationPanel from './informationPanel';
-import Proposal from './view';
-import { useParams } from 'react-router-dom';
-import {  useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import TestingPraposalflow from './publishPraposalView';
-import { useAccount} from 'wagmi';
-import {getCustomerDetails } from '../../../reducers/authReducer';
-import { connect } from "react-redux";
-import ProjectViewTabs from '../projecttabs';
-import ProposalResults from './results';
-import PublishProposalShimmer from '../shimmers/publishproposalshimmer';
-import ProposalTabs from './tabs';
+import React, { useEffect, useState } from "react";
+import InformationPanel from "./informationPanel";
+import Proposal from "./view";
+import { useParams } from "react-router-dom";
+import { connect, useSelector, useDispatch } from "react-redux";
+import TestingPraposalflow from "./publishPraposalView";
+import { useAccount } from "wagmi";
+import { getCustomerDetails } from "../../../reducers/authReducer";
+import ProjectViewTabs from "../projecttabs";
+import ProposalResults from "./results";
+import PublishProposalShimmer from "../shimmers/publishproposalshimmer";
+import ProposalTabs from "./tabs";
 import { get } from "../../../utils/api";
-import { store } from '../../../store';
-import BreadCrumb from '../../../ui/breadcrumb';
-import TrendingProjects from '../../staking/trendingCarousel';
-import { setError } from '../../../reducers/layoutReducer';
+import { store } from "../../../store";
+import BreadCrumb from "../../../ui/breadcrumb";
+import TrendingProjects from "../../staking/trendingCarousel";
+import { setError } from "../../../reducers/layoutReducer";
 
-// import { Button } from 'react-bootstrap';
-  function ProposalView() {
-    const router = useNavigate();
-    const params = useParams();
-    const dispatch = useDispatch();
-    const user = store.getState().auth;
-    const { isConnected } = useAccount();
-    const [loader, setLoader] = useState(false);
-    const selectedDaoData = useSelector((state: any) => state?.oidc?.fetchSelectingDaoData);
-    const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
-    const [loading, setLoading] = useState(true);
-    const handleback =()=>{
-        router(`/dao/${selectedDaoData?.daoId}`)
-        dispatch({ type: 'savevoterddata', payload: null });
-        dispatch({ type: 'proposarDetailas', payload: null });
-    }
-    useEffect(() => {
-      const timer = setTimeout(() => {
-          setLoading(false);
-          getPjctDetails();
-      }, 2000);
-      return () => clearTimeout(timer);
+const ProposalView=()=>{
+  const params = useParams();
+  const dispatch = useDispatch();
+  const user = store.getState().auth;
+  const { isConnected } = useAccount();
+  const [loader, setLoader] = useState(false);
+  const selectedDaoData = useSelector(
+    (state: any) => state?.oidc?.fetchSelectingDaoData
+  );
+  const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+      getPjctDetails();
+    }, 2000);
+    return () => clearTimeout(timer);
   }, []);
   const getPjctDetails = async () => {
-    if(params?.pid){
-    setLoader(true);
-    const userId =
-      user?.user?.id && user?.user?.id != ""
-        ? user?.user?.id
-        : "00000000-0000-0000-0000-000000000000";
-    const res = await get("User/TokenInformation/" + params?.pid + "/" + userId)
-      .then((res: any) => {
-        setPjctInfo(res.data);
-      })
-      .catch((error: any) => {
-        dispatch(setError({message:error}))
-        setLoader(false);
-      });
-  }
-};
+    if (params?.pid) {
+      setLoader(true);
+      const userId =
+        user?.user?.id && user?.user?.id != ""
+          ? user?.user?.id
+          : "00000000-0000-0000-0000-000000000000";
+      const res = await get(
+        "User/TokenInformation/" + params?.pid + "/" + userId
+      )
+        .then((res: any) => {
+          setPjctInfo(res.data);
+        })
+        .catch((error: any) => {
+          dispatch(setError({ message: error }));
+          setLoader(false);
+        });
+    }
+  };
 
-    return (
+  return (
+    <>
+      {loading ? (
+        <div className="container mx-auto">
+          <PublishProposalShimmer />
+        </div>
+      ) : (
         <>
-        {loading ? (
-            <div className="container mx-auto">
-              <PublishProposalShimmer/> 
-            </div>
-                ) : ( <>
-        {isConnected && 
-        <div className='container mx-auto max-md:px-3 mt-3'>
-        <TrendingProjects/>
-          <div className='mt-5 mb-4'>
-            <BreadCrumb />
-            <div className='mb-12 mt-4'>
-              {params?.pid&& <ProjectViewTabs />}
-            </div>
-          </div>
-          <div className='grid md:grid-cols-12 gap-[30px]'>
-            <div className='md:col-span-3'>
-              <InformationPanel/>
-              <div>
-                <ProposalResults pjctInfo={pjctInfo}/>
+          {isConnected && (
+            <div className="container mx-auto max-md:px-3 mt-3">
+              <TrendingProjects />
+              <div className="mt-5 mb-4">
+                <BreadCrumb />
+                <div className="mb-12 mt-4">
+                  {params?.pid && <ProjectViewTabs />}
+                </div>
+              </div>
+              <div className="grid md:grid-cols-12 gap-[30px]">
+                <div className="md:col-span-3">
+                  <InformationPanel />
+                  <div>
+                    <ProposalResults pjctInfo={pjctInfo} />
+                  </div>
+                </div>
+                <div className="md:col-span-9">
+                  <Proposal pjctInfo={pjctInfo} />
+                  <div>
+                    <ProposalTabs />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className='md:col-span-9'>
-              <Proposal pjctInfo={pjctInfo}/>
-              <div>
-                <ProposalTabs/>
+          )}
+
+          {!isConnected && (
+            <div className="container mx-auto mt-4">
+              <div className="grid grid-cols-12 gap-[30px]">
+                <div className="col-span-3">
+                  <InformationPanel />
+                  <ProposalResults />
+                </div>
+                <div className="col-span-9">
+                  <TestingPraposalflow></TestingPraposalflow>
+                </div>
               </div>
             </div>
-          </div>
-        </div>}
-        
-        {!isConnected && <div className='container mx-auto mt-4'>
-          {/* <span className='mb-0 back-text c-pointer' onClick={handleback}>Voting</span> */}
-          <div className='grid grid-cols-12 gap-[30px]'>
-            <div className='col-span-3'>
-              <InformationPanel/>
-              <ProposalResults/>
-            </div>
-            <div className='col-span-9'>
-              <TestingPraposalflow></TestingPraposalflow>
-            </div>
-          </div>
-        </div>}
-        </> )}
-        <> 
+          )}
+        </>
+      )}
+      <>
         {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
         {/* <div className="modal-box p-0">
                <div className='p-5'>
@@ -141,7 +139,7 @@ import { setError } from '../../../reducers/layoutReducer';
                     </form>
                 </div>
             </div> */}
-{/* </dialog>  */}
+        {/* </dialog>  */}
 
         {/* <div>
           <div className="modal-box p-0">
@@ -171,15 +169,15 @@ import { setError } from '../../../reducers/layoutReducer';
             </div>
           </div>
         </div> */}
-        </>
-        </>
-    );
+      </>
+    </>
+  );
 }
 const connectDispatchToProps = (dispatch: any) => {
-    return {
-      customers: (address:any,callback:any) => {
-        dispatch(getCustomerDetails(address,callback));
-      },
-    }
-  }
-   export default connect(null, connectDispatchToProps)(ProposalView);
+  return {
+    customers: (address: any, callback: any) => {
+      dispatch(getCustomerDetails(address, callback));
+    },
+  };
+};
+export default connect(null, connectDispatchToProps)(ProposalView);

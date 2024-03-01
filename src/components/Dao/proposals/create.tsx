@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import success from "../../../assets/images/thank-you.svg";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   contractDetailsData,
   proposalData,
@@ -10,7 +9,6 @@ import {
 } from "../../../reducers/proposlaReducer";
 import { store } from "../../../store";
 import { validateContentRule } from "../../../utils/validation";
-import { useParams } from "react-router-dom";
 import { ethers } from "ethers/lib";
 import { useAccount } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -53,7 +51,7 @@ const reducers = (state: any, action: any) => {
       return { ...state, currentStep: action.payload };
   }
 };
-function CreatePraposal(props: any) {
+const CreatePraposal = (props: any) => {
   const router = useNavigate();
   const rootDispatch = useDispatch();
   const { isConnected, address } = useAccount();
@@ -88,22 +86,14 @@ function CreatePraposal(props: any) {
   const [optionVotingHashs, setOptionVotingHashs] = useState([]);
   const [custmerKYC, setCustomerKYC] = useState<any>(false);
   const [daoName, setDaoName] = useState();
-  const votingSeicheContractAddress: any =
-    process.env.REACT_APP_VOTING_CONTRACTOR;
-  const votingKeijiContractAddress: any =
-    process.env.REACT_APP_VOTING_KEIJI_CONTRACTOR;
-  const { addQuestion, parseError } = useVotingContract();
+  const { addQuestion } = useVotingContract();
   const [startDateEpoch, setStartDateEpoch] = useState<any>();
   const [endDateEpoch, setEndDateEpoch] = useState<any>();
-  const user = useSelector((state: any) =>
-    state.auth.user
-  );
+  const user = useSelector((state: any) => state.auth.user);
   const selectedDaoData = useSelector(
     (state: any) => state?.oidc?.fetchSelectingDaoData
   );
-  const DaoDetail = useSelector(
-    (state: any) => state?.proposal?.daos?.data
-  );
+  const DaoDetail = useSelector((state: any) => state?.proposal?.daos?.data);
   const [loading, setLoading] = useState(true);
 
   const [state, dispatch] = useReducer(reducers, {
@@ -211,7 +201,7 @@ function CreatePraposal(props: any) {
         return;
       } else {
         const isDuplicate = _attribute.some(
-          (item) =>
+          (item:any) =>
             item?.options?.trim().toLowerCase() ===
             _obj?.options?.trim().toLowerCase()
         );
@@ -390,7 +380,6 @@ function CreatePraposal(props: any) {
       proposalType: proposalDetails?.proposalType,
       proposalOptionDetails: proposalDetails?.ProposalOptionDetails,
     };
-    // let contractAddress = daoName == "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
     let contractAddress =
       selectedDaoData?.votingContractAddress ||
       daoData?.votingContractAddress ||
@@ -406,7 +395,7 @@ function CreatePraposal(props: any) {
         endDateEpoch
       );
       const txResponse = await waitForTransaction({ hash: response.hash });
-      if (txResponse && txResponse.status === 0) {
+      if (txResponse) {
         rootDispatch(setError({ message: "Transaction failed!" }));
         setBtnLoader(false);
       } else {
@@ -445,15 +434,15 @@ function CreatePraposal(props: any) {
 
   const validateForm = (obj: any, isChange: any) => {
     const { proposal, summary, startdate, enddate } = isChange ? obj : form;
-    const newErrors = {};
+    const newErrors:any = {};
     if (!proposal || proposal === "") {
       newErrors.proposal = "Is required";
-    } else if (validateContentRule("", proposal)) {
+    } else if (validateContentRule(proposal)) {
       newErrors.proposal = "Please provide valid content";
     }
     if (!summary || summary === "") {
       newErrors.summary = "Is required";
-    } else if (validateContentRule("", summary)) {
+    } else if (validateContentRule(summary)) {
       newErrors.summary = "Please provide valid content";
     }
     if (!startdate || startdate === "") {
@@ -491,7 +480,6 @@ function CreatePraposal(props: any) {
     const dateTimeUtc = new Date(selectedDate).toUTCString();
     const epochStartTime = Math.floor(new Date(dateTimeUtc).getTime() / 1000);
     const selectedTime = datetime.toLocaleTimeString();
-    const d = datetimeString + " " + selectedTime;
     dispatch({ type: "epochStartData", payload: epochStartTime });
     setField("startdate", selectedDate);
     dispatch({ type: "startingDate", payload: datetimeString });
@@ -505,7 +493,6 @@ function CreatePraposal(props: any) {
     const dateTimeUtc = new Date(selectedDate).toUTCString();
     const epochEndTime = Math.floor(new Date(dateTimeUtc).getTime() / 1000);
     const selectedTime = datetime.toLocaleTimeString();
-    const d = datetimeString + " " + selectedTime;
     dispatch({ type: "epochEndData", payload: epochEndTime });
     setField("enddate", selectedDate);
     dispatch({ type: "endingDate", payload: datetimeString });
@@ -557,10 +544,10 @@ function CreatePraposal(props: any) {
                 Create Proposal
               </span>
             </Link>
-            <span
-              className={`icon closeIcon`}
-              onClick={handlecloseDrawer}
-            ></span>
+            <Button type="plain" handleClick={handlecloseDrawer}>
+              {" "}
+              <span className={`icon closeIcon`}></span>
+            </Button>
           </div>
           <div className="">
             <div className="">
@@ -572,12 +559,14 @@ function CreatePraposal(props: any) {
                   {state.currentStep === 1 && (
                     <>
                       <div className="mt-4 ">
-                        <label className="mb-0 inline-block ml-4 mb-2">
-                          Author
-                        </label>
+                        <h4 className="mb-0 inline-block ml-4 mb-2">Author</h4>
                         <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
                           <div className="flex items-center">
-                            <img src={user?.profilePicUrl || defaultAvatar} className="mr-2 w-5 h-5" alt="user"/>
+                            <img
+                              src={user?.profilePicUrl || defaultAvatar}
+                              className="mr-2 w-5 h-5"
+                              alt="user"
+                            />
                             <span>{address}</span>
                           </div>
                           <CopyToClipboard
@@ -596,17 +585,20 @@ function CreatePraposal(props: any) {
                         </div>
                       </div>
                       <div className="mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
+                        <label
+                          htmlFor="proposalTitle"
+                          className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star"
+                        >
                           Proposal Title
                         </label>
                         <input
+                          id="proposalTitle"
                           className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                           type="text"
                           placeholder="Proposal Title"
                           name="proposal"
                           maxLength={250}
                           value={form?.proposal || ""}
-                          isInvalid={!!errors.proposal}
                           onBlur={(e) =>
                             handleBlur("proposal", e.currentTarget.value)
                           }
@@ -618,39 +610,20 @@ function CreatePraposal(props: any) {
                           {errors.proposal}
                         </label>
                       </div>
-                      {/* <div className="mb-3 mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
-                          Summary
-                        </label>
-                        <textarea                          
-                          className="textarea textarea-bordered w-full rounded-[28px] focus:outline-none pl-5"
-                          rows={3}
-                          placeholder="Summary"
-                          name="summary"
-                          value={form?.summary || ""}
-                          isInvalid={!!errors.summary}
-                          onBlur={(e) =>
-                            handleBlur("summary", e.currentTarget.value)
-                          }
-                          onChange={(e) => {
-                            setField("summary", e.currentTarget.value);
-                          }}
-                        />
-                        <label className="text-sm font-normal text-red-600 ml-4">
-                          {errors.summary}
-                        </label>
-                      </div> */}
                       <div className="form-control mb-3 mt-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star">
+                        <label
+                          htmlFor="proposalSummary"
+                          className="text-dark text-sm font-normal p-0 mb-2 label ml-4 star"
+                        >
                           Summary
                         </label>
                         <textarea
+                          id="proposalSummary"
                           className="textarea textarea-bordered w-full resize-none leading-4 rounded-t-[28px] rounded-b-none pl-5 pt-3 focus:outline-none"
                           rows={5}
                           placeholder="Summary"
                           name="summary"
                           value={form?.summary || ""}
-                          isInvalid={!!errors.summary}
                           onBlur={(e) =>
                             handleBlur("summary", e.currentTarget.value)
                           }
@@ -659,10 +632,11 @@ function CreatePraposal(props: any) {
                           }}
                         />
                         <label
-                          htmlFor=""
+                          htmlFor="proposalImage"
                           className={`relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload`}
                         >
                           <input
+                            id="proposalImage"
                             accept="image/jpg, image/jpeg, image/png"
                             type="file"
                             className="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer"
@@ -700,14 +674,17 @@ function CreatePraposal(props: any) {
                 <span className='icon uncheck-icon-ps'></span><span className='mb-0'>Decision</span>
                 </div>  */}
                       <div className="mt-4">
-                        {/* <span className='icon check-icon-ps'></span> */}
-                        <label className="text-dark text-sm font-normal p-0 label ml-4 mb-2 star">
+                        <h4 className="text-dark text-sm font-normal p-0 label ml-4 mb-2 star">
                           Select Your Proposal Type
-                        </label>
+                        </h4>
                         <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-4 py-2 h-10">
-                          <label className="cursor-pointer relative inline-block mt-1">
+                          <label
+                            htmlFor="votingBox"
+                            className="cursor-pointer relative inline-block mt-1"
+                          >
                             <span>
                               <input
+                                id="votingBox"
                                 className="checkbox checkbox-error opacity-0 rounded-[28px]"
                                 type="checkbox"
                                 checked={state?.isChecked}
@@ -721,7 +698,6 @@ function CreatePraposal(props: any) {
                             Voting
                           </span>
                         </div>
-                        {/* {state?.isChecked && (<div className='c-pointer me-3 btn-primary text-center' onClick={openModalPopUp}>Add</div>)} */}
                       </div>
                       <div>
                         <div className="flex justify-between items-center mb-4 mt-8">
@@ -735,7 +711,7 @@ function CreatePraposal(props: any) {
                               handleClick={addOption}
                             >
                               <span className="icon add"></span>
-                              Add new Option
+                              <span>Add new Option</span>
                             </Button>
                           </div>
                         </div>
@@ -746,9 +722,6 @@ function CreatePraposal(props: any) {
                               className="d-flex align-items-center add-block relative"
                             >
                               <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                                {/* {option?.index
-                                      ? option?.index && option?.index + "."
-                                      :  */}
                                 {`${index + 1}.`}
                               </label>
                               <input
@@ -761,25 +734,20 @@ function CreatePraposal(props: any) {
                                 }}
                                 value={option.options ? option.options : ""}
                               />
-                              <span
-                                className="icon delete-icon top-[36px] absolute right-2.5 cursor-pointer scale-75 w-7 h-7"
-                                onClick={() => deleteOption(index)}
-                              ></span>
+                              <Button
+                                type="plain"
+                                handleClick={() => deleteOption(index)}
+                              >
+                                {" "}
+                                <span className="icon delete-icon top-[36px] absolute right-2.5 cursor-pointer scale-75 w-7 h-7"></span>
+                              </Button>
                             </div>
                           ))}
                         </div>
-                        {/* <div className="flex justify-center gap-5 items-center mt-16">
-                            <Button type='cancel' btnClassName="text-center border-btn" handleClick={handleClose}>
-                              Cancel
-                            </Button>
-                            <Button type="secondary" btnClassName="fill-btn m-0 submit-spinner" handleClick={optionSave}>
-                              Save
-                            </Button>
-                          </div> */}
                       </div>
                       <div className="mt-4">
                         <div className="flex gap-3 flex-wrap">
-                          {attributes?.map((item, index) => (
+                          {attributes?.map((item: any, index) => (
                             <div
                               className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200"
                               key={item.options}
@@ -793,7 +761,7 @@ function CreatePraposal(props: any) {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="mt-4">
-                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4">
+                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4 star">
                             Start Date & Time{" "}
                             <span className="text-xs">(Local time zone)</span>
                           </label>
@@ -816,7 +784,7 @@ function CreatePraposal(props: any) {
                           </label>
                         </div>
                         <div className="mt-4">
-                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4">
+                          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4 star">
                             End Date & Time{" "}
                             <span className="text-xs">(Local time zone)</span>
                           </label>
@@ -919,20 +887,19 @@ function CreatePraposal(props: any) {
                       {loading ? (
                         <PublishProposalShimmer />
                       ) : (
-                        <>
-                          {/* <h4 > <Link to={`/dao/${params.id}`} className='mb-0 back-text text-black'> Create Proposal  </Link></h4>
-            <hr /> */}
-
-                          <div className="text-center">
-                            <img src={success} className="mx-auto"></img>
-                            <h1 className="text-success font-bold text-lg mt-3">
-                              Thank You
-                            </h1>
-                            <p className="mb-5 text-secondary">
-                              Your proposal is submitted successfully!
-                            </p>
-                          </div>
-                        </>
+                        <div className="text-center">
+                          <img
+                            src={success}
+                            className="mx-auto"
+                            alt="Successful!"
+                          />
+                          <h1 className="text-success font-bold text-lg mt-3">
+                            Thank You
+                          </h1>
+                          <p className="mb-5 text-secondary">
+                            Your proposal is submitted successfully!
+                          </p>
+                        </div>
                       )}
                     </div>
                   )}
@@ -956,7 +923,6 @@ function CreatePraposal(props: any) {
                         )}{" "}
                         {state?.currentStep === 1 && "Next"}
                         {state?.currentStep === 2 && "Publish"}
-                        {/* {state?.currentStep===3 && 'Back to proposals summary'} */}
                       </Button>
                     </div>
                   )}
@@ -964,62 +930,6 @@ function CreatePraposal(props: any) {
               }
             </div>
           </div>
-
-          {/* <Modal
-              show={state?.modalShow}
-              size="lg"
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-              className="profile-edit add-option">
-              <Modal.Header>
-                <Modal.Title><h4>Add Your Options</h4></Modal.Title>
-                <span className="icon close c-pointer" onClick={handleClose}></span>
-              </Modal.Header>
-              <Modal.Body>
-                {state?.modalError && (<div className='cust-error-bg'>
-                  <div className='mr-4'><Image src={error} alt="" /></div>
-                  <div>
-                    <p className='error-title error-red'>Error</p>
-                    <p className="error-desc">{state?.modalError}</p></div>
-                </div>)}
-                <div >
-                  <Col sm={12} xs={12} md={12} lg={12} xl={12} xxl={12} className='text-end mb-4'>
-                    <Button type="button" className="text-center fill-btn" onClick={addOption}>
-                      <span className='icon add'></span>Add new option
-                    </Button>
-                  </Col>
-                  <Row>
-
-                    {options.map((option: any, index: any) => (<>
-                      <Col sm={12} xs={12} md={6} lg={6} xl={6} xxl={6}>
-                        <div className='d-flex align-items-center add-block' key={index}>
-                          <Form.Label className="mb-0">{option?.index ? (option?.index && option?.index + ".") : "A."}</Form.Label>
-                          <Form.Control
-                            type="text"
-                            className='border-none-modal'
-                            placeholder='Enter your option'
-                            maxLength={50}
-                            onChange={(e) => { setOptionFeild(e.currentTarget.value, index) }}
-                            value={option.options ? option.options : ""}
-                          />
-                          <span className='icon delete-icon' onClick={() => deleteOption(index)}></span>
-                        </div>
-                      </Col>
-                    </>))}
-                  </Row>
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <div className="mt-4 text-end">
-                  <Button type="button" className="text-center border-btn" onClick={handleClose}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" className="fill-btn m-0 ms-3 submit-spinner" onClick={optionSave}>
-                    Save
-                  </Button>
-                </div>
-              </Modal.Footer>
-            </Modal> */}
         </div>
       ) : (
         <div className="pt-10">
@@ -1028,7 +938,7 @@ function CreatePraposal(props: any) {
       )}
     </>
   );
-}
+};
 const connectStateToProps = ({ oidc, proposal }: any) => {
   return { oidc: oidc, proposal: proposal };
 };

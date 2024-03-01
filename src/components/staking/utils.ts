@@ -8,7 +8,6 @@ export const stakeAmountData = async (getStakedAmount: Function) => {
   }
 };
 export const unstakeAmtData = async (getUnstakedAmount: Function) => {
-  debugger;
   let response = await getUnstakedAmount();
   let _amt = response.toString();
   if (_amt) {

@@ -6,7 +6,7 @@ const ProfileTabs = ({ kycStatus,id }) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = useMemo(()=>{
     return [
-      { label: "kyc Details", content: <KycDetails kycStatus={kycStatus} id={id} /> },
+      { label: "KYC Details", content: <KycDetails kycStatus={kycStatus} id={id} /> },
       // { label: "referals", content: <Referrals /> },
     ];
   },[]) // eslint-disable-line react-hooks/exhaustive-deps
