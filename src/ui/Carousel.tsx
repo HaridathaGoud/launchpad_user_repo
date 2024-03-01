@@ -46,7 +46,8 @@ const Carousel = ({
                   backgroundPosition: 'center',
                 }}
               >
-                  <div className="absolute inset-0 bg-banner" ></div>
+                  <div className="absolute inset-0 bg-banner hidden md:block" ></div>
+                  <div className="absolute inset-0 bg-black opacity-50 md:hidden sm:block" ></div>
                 <div className={`${hasContent ? "flex-1 lg:h-full " : "w-full h-full"}`}>
                   {/* <img
                     src={`${image.image}`}
@@ -59,7 +60,7 @@ const Carousel = ({
                   /> */}
                 </div>
                 {hasContent && (
-                  <div className="flex-1 z-[9]">
+                  <div className="flex-1 relative z-[9]">
                     <div className="flex-1 p-4 md:p-0">
                       <div className="flex gap-4 items-center">
                         <div className={`${statusColourList[image.type]}  px-3 py-1 rounded flex items-center`}>
