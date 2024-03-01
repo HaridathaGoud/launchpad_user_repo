@@ -162,7 +162,7 @@ function HeaderNavbar() {
             </div>
             <div className="pr-4 lg:hidden">
               <NaviLink path={"/dashboard"} type="primary">
-                <img src={logo} alt="YellowBlock" className="w-16 mr-3 " />
+                <img src={logo} alt="YellowBlock" className="w-[28px] mr-3 " />
               </NaviLink>
             </div>
           </div>
