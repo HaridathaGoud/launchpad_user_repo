@@ -9,7 +9,7 @@ const FooterComponent = () => {
         className={`footer max-sm:pt-10 md:pt-20 text-base-content container mx-auto max-sm:px-3`}
       >
         <aside>
-          <img src={logo} alt="YellowBlock" className="w-24 mr-3" />
+          <img src={logo} alt="YellowBlock" className="w-8 mr-3" />
           <p className="mt-4 mb-2	text-secondary">
             OTT typically refers to the delivery of
             <br /> media content over the internet
