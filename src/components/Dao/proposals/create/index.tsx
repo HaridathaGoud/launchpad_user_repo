@@ -1,30 +1,30 @@
 import React, { useEffect, useState, useReducer, useRef } from "react";
-import success from "../../../assets/images/thank-you.svg";
-import defaultAvatar from "../../../assets/images/default-avatar.jpg";
+import success from "../../../../assets/images/thank-you.svg";
+import defaultAvatar from "../../../../assets/images/default-avatar.jpg";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   contractDetailsData,
   proposalData,
   saveProposalCall,
-} from "../../../reducers/proposlaReducer";
-import { store } from "../../../store";
-import { validateContentRule } from "../../../utils/validation";
+} from "../../../../reducers/proposlaReducer";
+import { store } from "../../../../store";
+import { validateContentRule } from "../../../../utils/validation";
 import { ethers } from "ethers/lib";
 import { useAccount } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { isMobile } from "react-device-detect";
 import { useSelector, connect, useDispatch } from "react-redux";
-import { getCustomerDetails } from "../../../reducers/authReducer";
-import shimmers from "../shimmers/shimmers";
-import PlaceHolder from "../shimmers/placeholder";
-import WalletText from "../../../utils/walletText";
-import Button from "../../../ui/Button";
-import PublishProposalShimmer from "../shimmers/publishproposalshimmer";
+import { getCustomerDetails } from "../../../../reducers/authReducer";
+import shimmers from "../../shimmers/shimmers";
+import PlaceHolder from "../../shimmers/placeholder";
+import WalletText from "../../../../utils/walletText";
+import Button from "../../../../ui/Button";
+import PublishProposalShimmer from "../../shimmers/publishproposalshimmer";
 import Moment from "react-moment";
-import { useVotingContract } from "../../../contracts/useContract";
+import { useVotingContract } from "../../../../contracts/useContract";
 import { waitForTransaction } from "wagmi/actions";
-import { setError } from "../../../reducers/layoutReducer";
-import FileUploader from "../../../ui/fileUploader";
+import { setError } from "../../../../reducers/layoutReducer";
+import FileUploader from "../../../../ui/fileUploader";
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -113,7 +113,7 @@ const CreatePraposal = (props: any) => {
   const [file, setFile] = useState(null);
   const handleClearImage = () => {
     setFile(null);
-    if (proposalImageRef) proposalImageRef.current.value = null;
+    if (proposalImageRef && proposalImageRef.current) proposalImageRef.current.value = null;
   };
   const [daoData, setDaoData] = useState<any>(null);
   const getCustomerId = useSelector((state: any) => state?.oidc?.user?.id);
@@ -394,7 +394,6 @@ const CreatePraposal = (props: any) => {
       setOptionVotingHashs([]);
       rootDispatch(setError({ message: error }));
       setBtnLoader(false);
-      // dispatch({ type: 'currentStep', payload: 3 })
     }
   };
   const convertTo24HourFormat = (time) => {
@@ -654,7 +653,6 @@ const CreatePraposal = (props: any) => {
                         <span className="text-secondary">*Note:</span> Supported
                         Document Formats : PNG/ JPG/ JPEG (File Size : Max 2MB){" "}
                       </p>
-
                       {/* <div className='proposal-type c-pointer'>
                 <span className='icon uncheck-icon-ps'></span><span className='mb-0'>Decision</span>
                 </div>  */}

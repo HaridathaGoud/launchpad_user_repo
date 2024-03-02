@@ -32,7 +32,6 @@ const isFileAcceptable = (
   size: number | undefined,
   accept: string | undefined
 ) => {
-  debugger;
   const fileSizeInMB = file.size / (1024 * 1024);
   if (accept && !fileTypes[accept][file.type]) {
     return { acceptable: false, error: fileTypes[accept]["errorMessage"] };
@@ -47,8 +46,8 @@ const isFileAcceptable = (
 };
 const FileUploader = ({
   accept,
-  canDragAndDrop,
-  canCopyAndPaste,
+  canDragAndDrop=false,
+  canCopyAndPaste=false,
   inputClass,
   setFile,
   inputRef,
@@ -89,7 +88,6 @@ const FileUploader = ({
     }
   };
   const handleFileChange = (event) => {
-    debugger;
     event.preventDefault();
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -101,6 +99,7 @@ const FileUploader = ({
       if (acceptable) {
         uploadToServer(selectedFile, event);
       } else {
+        if(inputRef) inputRef.current.value=null
         rootDispatch(setError({message:error}));
       }
     }
@@ -119,6 +118,7 @@ const FileUploader = ({
         if (acceptable) {
           uploadToServer(selectedFile, event);
         } else {
+          if(inputRef) inputRef.current.value=null
           rootDispatch(setError({message:error}));
         }
       }
@@ -145,6 +145,7 @@ const FileUploader = ({
         if (acceptable) {
           uploadToServer(pastedFile, event);
         } else {
+          if(inputRef) inputRef.current.value=null
           rootDispatch(setError({message:error}));
         }
       }
