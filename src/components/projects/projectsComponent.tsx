@@ -117,7 +117,7 @@ const Projectscomponent = (props) => {
   return (
     <>
       {cardDetails.length > 0 && (
-        <div className="container mx-auto max-sm:px-3 mt-10">
+        <div className="container mx-auto mt-10">
           <div className="">
             {/* <BreadCrumb/> */}
             <div
