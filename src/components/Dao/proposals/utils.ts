@@ -1,11 +1,10 @@
 export const getProposalStatus = (endingDate) => {
-  let localDate1 = new Date();
-  let utcDate = localDate1?.toISOString();
-  let utcDateObject = new Date(utcDate);
-  let startEpochTime = utcDateObject?.getTime();
-  const startTime = startEpochTime;
-  const endTime = new Date(endingDate).getTime();
-
+  let date = new Date();
+  const startTime = Math.floor(date?.getTime());
+  const givenEndDate = new Date(endingDate);
+  const endTime = new Date(
+    givenEndDate.getTime() - givenEndDate.getTimezoneOffset() * 60000
+  ).getTime();
   if (startTime > endTime) {
     return "Ended";
   }

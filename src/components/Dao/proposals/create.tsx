@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useRef } from "react";
 import success from "../../../assets/images/thank-you.svg";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ import Moment from "react-moment";
 import { useVotingContract } from "../../../contracts/useContract";
 import { waitForTransaction } from "wagmi/actions";
 import { setError } from "../../../reducers/layoutReducer";
+import FileUploader from "../../../ui/fileUploader";
 
 const reducers = (state: any, action: any) => {
   switch (action.type) {
@@ -54,12 +55,12 @@ const reducers = (state: any, action: any) => {
 const CreatePraposal = (props: any) => {
   const router = useNavigate();
   const rootDispatch = useDispatch();
+  const proposalImageRef = useRef(null);
   const { isConnected, address } = useAccount();
   const PublishShimmers = shimmers.PublishProposal(3);
   const [form, setForm] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
   const params = useParams();
-  // const currentDate = new Date()?.toISOString().slice(0, 16);
   const [options, setOptions] = useState<any>([
     {
       options: null,
@@ -109,6 +110,11 @@ const CreatePraposal = (props: any) => {
     modalError: false,
     isChecked: false,
   });
+  const [file, setFile] = useState(null);
+  const handleClearImage = () => {
+    setFile(null);
+    if (proposalImageRef) proposalImageRef.current.value = null;
+  };
   const [daoData, setDaoData] = useState<any>(null);
   const getCustomerId = useSelector((state: any) => state?.oidc?.user?.id);
   const addOption = () => {
@@ -130,21 +136,6 @@ const CreatePraposal = (props: any) => {
     });
     setOptions(optionsArray);
   };
-
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     if (address) {
-  //       setLoader(true)
-  //       props?.customerDetails(address, (callback: any) => {
-  //         if (callback?.data?.data?.kycStatus?.toLowerCase() === "completed") {
-  //           setLoader(false)
-  //         } else {
-  //           router(`/dao/kyc`)
-  //         }
-  //       })
-  //     }
-  //   }
-  // }, [address])
   const deleteOption = (index: any) => {
     const updatedOptions = options.filter((_, i) => i !== index);
     const updatedAttributes = attributes.filter((_, i) => i !== index);
@@ -159,15 +150,8 @@ const CreatePraposal = (props: any) => {
     }
   };
 
-  const openModalPopUp = () => {
-    dispatch({ type: "modalShow", payload: true });
-    //  modalActions("modalShow","open")
-    dispatch({ type: "modalError", payload: null });
-  };
-
   const handleClose = () => {
     resetProperties();
-    dispatch({ type: "modalShow", payload: false });
   };
   const handleNextStep = (event) => {
     switch (state.currentStep) {
@@ -201,7 +185,7 @@ const CreatePraposal = (props: any) => {
         return;
       } else {
         const isDuplicate = _attribute.some(
-          (item:any) =>
+          (item: any) =>
             item?.options?.trim().toLowerCase() ===
             _obj?.options?.trim().toLowerCase()
         );
@@ -225,10 +209,6 @@ const CreatePraposal = (props: any) => {
     }
 
     setAttributes(_attribute);
-
-    if (isUpdate) {
-      dispatch({ type: "modalShow", payload: false });
-    }
   };
 
   // const checkBoxChecked = (e: any) => {
@@ -241,6 +221,7 @@ const CreatePraposal = (props: any) => {
     rootDispatch(setError({ message: "" }));
     event.preventDefault();
     const formErrors = validateForm();
+    console.log(file);
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else if (state?.startingDate && state?.endingDate < state?.startingDate) {
@@ -396,12 +377,8 @@ const CreatePraposal = (props: any) => {
       );
       const txResponse = await waitForTransaction({ hash: response.hash });
       if (txResponse) {
-        rootDispatch(setError({ message: "Transaction failed!" }));
-        setBtnLoader(false);
-      } else {
         props?.saveProposalData(obj, (callback: any) => {
           if (callback?.data) {
-            // router(`/dao/success/${params?.id}`)
             dispatch({ type: "currentStep", payload: 3 });
             setBtnLoader(false);
           } else {
@@ -409,12 +386,14 @@ const CreatePraposal = (props: any) => {
             setBtnLoader(false);
           }
         });
+      } else {
+        rootDispatch(setError({ message: "Transaction failed!" }));
+        setBtnLoader(false);
       }
     } catch (error) {
       setOptionVotingHashs([]);
       rootDispatch(setError({ message: error }));
       setBtnLoader(false);
-      window.scroll(0, 0);
       // dispatch({ type: 'currentStep', payload: 3 })
     }
   };
@@ -434,7 +413,7 @@ const CreatePraposal = (props: any) => {
 
   const validateForm = (obj: any, isChange: any) => {
     const { proposal, summary, startdate, enddate } = isChange ? obj : form;
-    const newErrors:any = {};
+    const newErrors: any = {};
     if (!proposal || proposal === "") {
       newErrors.proposal = "Is required";
     } else if (validateContentRule(proposal)) {
@@ -631,43 +610,46 @@ const CreatePraposal = (props: any) => {
                             setField("summary", e.currentTarget.value);
                           }}
                         />
-                        <label
-                          htmlFor="proposalImage"
-                          className={`relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload`}
-                        >
-                          <input
-                            id="proposalImage"
-                            accept="image/jpg, image/jpeg, image/png"
-                            type="file"
-                            className="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer"
-                          />
-                          <span className="pointer-events-none relative pl-1 text-sm">
-                            <span
-                              className={`fileUploadText text-sm font-normal`}
-                            >
-                              Attach images by dragging & dropping, selecting or
-                              pasting them.
-                            </span>
-                          </span>
-                          <span className={`icon addtext`}></span>
-                        </label>
+                        <FileUploader
+                          accept={"images"}
+                          canDragAndDrop={true}
+                          canCopyAndPaste={true}
+                          setFile={(payload) => setFile(payload)}
+                          inputRef={proposalImageRef}
+                          size={2}
+                          uploaderClass="relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload"
+                          inputClass="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer"
+                        />
                         <label className="text-sm font-normal text-red-600 ml-4">
                           {errors.summary}
                         </label>
                         <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[28px] opacity shadow px-2.5 py-3 mt-2">
-                          <div>
-                            <span className="icon link mr-1"></span>
-                            <span className="text-secondary font-medium truncate inline-block w-[200px] align-middle">
-                              TSC Company Banner.png.....
-                            </span>
-                          </div>
-                          <span className="icon close cursor-pointer scale-[0.9]"></span>
+                          {file && (
+                            <>
+                              <div>
+                                <span className="icon link mr-1"></span>
+                                <span className="text-secondary font-medium truncate inline-block w-[200px] align-middle">
+                                  {file?.name}
+                                </span>
+                              </div>
+                              <Button
+                                type="plain"
+                                handleClick={handleClearImage}
+                              >
+                                <span className="icon close cursor-pointer scale-[0.9]"></span>
+                              </Button>
+                            </>
+                          )}
+                          {!file && (
+                            <p className="text-secondary font-medium text-center grow">
+                              {"Please upload image!"}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <p className="text-sm text-neutral mt-3">
                         <span className="text-secondary">*Note:</span> Supported
-                        Document Formats : PNG/ JPG/ DOC/ DOCX/ PDF (File Size :
-                        Max 20 MB){" "}
+                        Document Formats : PNG/ JPG/ JPEG (File Size : Max 2MB){" "}
                       </p>
 
                       {/* <div className='proposal-type c-pointer'>
@@ -689,7 +671,6 @@ const CreatePraposal = (props: any) => {
                                 type="checkbox"
                                 checked={state?.isChecked}
                                 onChange={handleCheckBoxChecked}
-                                onClick={openModalPopUp}
                               />
                               <span className=""></span>
                             </span>
@@ -776,7 +757,6 @@ const CreatePraposal = (props: any) => {
                             }`}
                             placeholder="Start Date"
                             name="startdate"
-                            // min={currentDate}
                             onChange={(e) => startDate(e)}
                           />
                           <label className="text-sm font-normal text-red-600 ml-4">

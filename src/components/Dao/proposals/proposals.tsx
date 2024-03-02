@@ -20,6 +20,7 @@ import { proposalsReducer, proposalsState } from "./reducers";
 import { getProposalStatus } from "./utils";
 import Spinner from "../../loaders/spinner";
 const take = 10;
+
 const ProposalCards = (props: any) => {
   const { isConnected } = useAccount();
   const rootDispatch = useDispatch();
@@ -247,21 +248,27 @@ const ProposalCards = (props: any) => {
                             <div className="flex align-items-center gap-4">
                               <p className="text-secondary mt-3 me-3">
                                 Start Date:{" "}
-                                <b>
-                                  {" "}
-                                  <Moment format={"DD/MM/YYYY HH:mm"}>
-                                    {item?.startDate}
-                                  </Moment>
-                                </b>
+                                {item?.startDate && (
+                                  <b>
+                                    {" "}
+                                    <Moment format={"DD/MM/YYYY HH:mm"}>
+                                      {item?.startDate}
+                                    </Moment>
+                                    <span>{` (UTC)`}</span>
+                                  </b>
+                                )}
                               </p>
                               <p className="text-secondary mt-3 me-3">
                                 End Date:{" "}
-                                <b>
-                                  {" "}
-                                  <Moment format={"DD/MM/YYYY HH:mm"}>
-                                    {item?.endDate}
-                                  </Moment>
-                                </b>
+                                {item?.endDate && (
+                                  <b>
+                                    {" "}
+                                    <Moment format={"DD/MM/YYYY HH:mm"}>
+                                      {item?.endDate}
+                                    </Moment>
+                                    <span>{` (UTC)`}</span>
+                                  </b>
+                                )}
                               </p>
                             </div>
                             <div className="flex gap-4 mt-2">
