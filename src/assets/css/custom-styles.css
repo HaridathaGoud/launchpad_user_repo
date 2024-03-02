@@ -191,7 +191,7 @@ div.tabs:has(> input:checked) {display: grid !important;}
 .icon.detail-minus{background-position: -276px -211px !important;}
 .icon.detail-minus:hover{background-position: -276px -237px !important;}
 .icon.detail-plus{background-position: -302px -211px !important;}
-.icon.detail-plus:hover{background-position: -302px -237px !important;}
+.icon.detail-plus:hover,.upload-plus{background-position: -302px -237px !important;}
 html[data-theme="dark"] .place-bid{color: #fff ;}
 html[data-theme="dark"] .Overview .text-neutral{color: #9a9a9a;}
 .drawer-side option:checked,.drawer-side option:hover { background-color: #D60000 !important; color: #fff; }
@@ -242,7 +242,6 @@ button.opacity-100{opacity: 1 !important;}
 .tooltip:before{font-size: 12px !important;background-color:#000 !important;color: #fff !important;font-weight: 400 !important;z-index: 9999 !important;}
 .star.label::before{content: '*';color: #ff0000;}
 .star.label{justify-content: inherit;gap: 6px;}
-.fileUpload{border-color: #c6c6c6;margin-top: -8px;border-radius: 0 0 28px 28px;}
 .fileUploadText{color: rgba(0, 0, 0, 0.50);}
 .browser{background-position: -99px -11px !important; width: 24px;height: 24px;position: absolute;top: 6px;left: 6px;}
 .addtext{background-position: -123px -11px !important; width: 24px;height: 24px;}
@@ -261,6 +260,7 @@ button.opacity-100{opacity: 1 !important;}
 .icon.twit{height: 32px;width: 32px;background-position: -455px -465px !important;}
 .icon.network{height: 32px;width: 32px;background-position: -498px -465px !important;}
 .bg-banner{background: linear-gradient(to left, rgb(0 0 0 / 48%) 50%, rgba(255, 255, 255, 0) 80%);}
+.fileupload{background: rgba(164, 170, 187, 0.2);border: 1px dashed rgba(0, 0, 0, 0.2);}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

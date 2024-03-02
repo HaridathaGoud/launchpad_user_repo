@@ -174,12 +174,12 @@ const FileUploader = ({
             }
             onChange={handleFileChange}
           />
+          <p className="fileUploadText">Drag Your  Image  <span className="icon upload-plus"></span></p>
           <span className="pointer-events-none relative pl-1 text-sm">
-            <span className={`fileUploadText text-sm font-normal`}>
+            <span className={`text-secondary text-sm font-normal`}>
               Attach images by dragging & dropping, selecting or pasting them.
             </span>
-          </span>
-          <span className={`icon addtext`}></span>
+          </span>          
         </button>
       )}
       {loader && (

@@ -543,7 +543,7 @@ const CreatePraposal = (props: any) => {
                           <div className="flex items-center">
                             <img
                               src={user?.profilePicUrl || defaultAvatar}
-                              className="mr-2 w-5 h-5"
+                              className="mr-2 w-5 h-5 rounded-full"
                               alt="user"
                             />
                             <span>{address}</span>
@@ -598,7 +598,7 @@ const CreatePraposal = (props: any) => {
                         </label>
                         <textarea
                           id="proposalSummary"
-                          className="textarea textarea-bordered w-full resize-none leading-4 rounded-t-[28px] rounded-b-none pl-5 pt-3 focus:outline-none"
+                          className="textarea textarea-bordered w-full resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
                           rows={5}
                           placeholder="Summary"
                           name="summary"
@@ -610,6 +610,11 @@ const CreatePraposal = (props: any) => {
                             setField("summary", e.currentTarget.value);
                           }}
                         />
+                        
+                        <label className="text-sm font-normal text-red-600 ml-4">
+                          {errors.summary}
+                        </label>
+                        <div className="mt-[18px]">
                         <FileUploader
                           accept={"images"}
                           canDragAndDrop={true}
@@ -617,13 +622,11 @@ const CreatePraposal = (props: any) => {
                           setFile={(payload) => setFile(payload)}
                           inputRef={proposalImageRef}
                           size={2}
-                          uploaderClass="relative flex items-center justify-between border border-t-0 px-3.5 py-4  fileUpload"
+                          uploaderClass="relative flex items-center justify-between border px-3.5 py-4 rounded-[28px] fileupload"
                           inputClass="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer"
                         />
-                        <label className="text-sm font-normal text-red-600 ml-4">
-                          {errors.summary}
-                        </label>
-                        <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[28px] opacity shadow px-2.5 py-3 mt-2">
+                        </div>
+                        <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[28px] opacity shadow px-3 py-3 mt-[18px]">
                           {file && (
                             <>
                               <div>
@@ -647,7 +650,7 @@ const CreatePraposal = (props: any) => {
                           )}
                         </div>
                       </div>
-                      <p className="text-sm text-neutral mt-3">
+                      <p className="text-sm text-neutral pl-4">
                         <span className="text-secondary">*Note:</span> Supported
                         Document Formats : PNG/ JPG/ JPEG (File Size : Max 2MB){" "}
                       </p>
