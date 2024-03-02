@@ -127,7 +127,7 @@ import { useAccount } from 'wagmi';
                 </div>
                 <div className='flex gap-5 justify-between items-center mb-4'>
                 <p className={`text-sm shrink-0 text-secondary opacity-50`}>Start Date </p>
-                <p className='truncate text-secondary'><Moment local={true} format={"DD/MM/YYYY HH:mm"}>{user?.data?.startdate}</Moment> (UTC)</p>
+                <p className='truncate text-secondary'><Moment local={true} format={"DD/MM/YYYY HH:mm"}>{user?.data?.startDate}</Moment> (UTC)</p>
                 </div>
                 <div className='flex gap-5 justify-between items-center mb-4'>
                 <p className={`text-sm shrink-0 text-secondary opacity-50`}>End Date</p>
