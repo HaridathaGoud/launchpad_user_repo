@@ -46,8 +46,8 @@ const isFileAcceptable = (
 };
 const FileUploader = ({
   accept,
-  canDragAndDrop,
-  canCopyAndPaste,
+  canDragAndDrop=false,
+  canCopyAndPaste=false,
   inputClass,
   setFile,
   inputRef,
