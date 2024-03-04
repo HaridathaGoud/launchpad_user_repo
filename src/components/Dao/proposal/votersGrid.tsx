@@ -76,7 +76,7 @@ function Voters(props: any) {
                         <th className="text-left text-base text-secondary font-bold">
                           Opted For
                         </th>
-                        <th className="text-left text-base text-secondary font-bold"></th>
+                       
                       </tr>
                     </thead>
                     <tbody>

@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import Container from "react-bootstrap/Container";
 import { useNavigate, useParams } from "react-router-dom";
 import WalletModal from "../../../utils/walletModal";
+import defaultBG from "../../../assets/images/default-bg.png";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   clearProposals,
@@ -195,7 +196,7 @@ const ProposalCards = (props: any) => {
                           <div className="flex items-center truncate">
                             <div className="w-9 h-9 mr-2 shrink-0">
                               <img
-                                src={daocardProfile}
+                                src={item?.creatorImage || daocardProfile}
                                 className="rounded-full object-cover w-9 h-9"
                                 alt="dao profile"
                               />
@@ -234,9 +235,9 @@ const ProposalCards = (props: any) => {
                           </div>
                         </div>
                         <div className="flex gap-5 flex-col lg:flex-row">
-                          {/* <div className="w-full lg:w-52 lg:h-32 shrink-0">
-                            <img/>
-                              </div> */}
+                          <div className="w-full lg:w-52 lg:h-32 shrink-0">
+                            <img src={item?.image||defaultBG} className="h-[130px] object-cover w-full rounded-lg" alt="proposal-image"/>
+                              </div>
                           <div className="flex-1">
                             <p className="text-base-200">
                               {(item?.description &&

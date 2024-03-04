@@ -67,7 +67,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
           <div className="flex items-center">
             <img
               src={user?.profilePicUrl || defaultAvatar}
-              className="mr-2 w-5 h-5"
+              className="mr-2 w-5 h-5 rounded-full"
               alt="user"
             />
             <span>{address}</span>
@@ -272,7 +272,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="mt-4">
-          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4 star">
+          <label className="text-dark inline-block text-xs font-normal p-0 mb-2 label ml-4 star">
             Start Date & Time <span className="text-xs">(Local time zone)</span>
           </label>
           <input
@@ -294,7 +294,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
           </label>
         </div>
         <div className="mt-4">
-          <label className="text-dark inline-block text-sm font-normal p-0 mb-2 label ml-4 star">
+          <label className="text-dark inline-block text-xs font-normal p-0 mb-2 label ml-4 star">
             End Date & Time <span className="text-xs">(Local time zone)</span>
           </label>
           <input
