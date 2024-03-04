@@ -52,12 +52,7 @@ function Voters(props: any) {
       </div>
 
       {voters?.loading ? (
-        <Placeholder xs={12} animation="glow">
-          <Placeholder xs={1} className="me-3 shimmer-icon" />
-          <Placeholder xs={5} />
-          &emsp;
-          <Placeholder xs={5} />
-        </Placeholder>
+      <div></div>
       ) : (
         <div>
           <div className="">
