@@ -56,7 +56,10 @@ const Projectdetails = (props: any) => {
         );
         const projectFeed = await get("User/ProjectFeed/" + pid);
         const founders = await get("User/stakers/" + pid);
-        const stakedAmount = await getStakedAmount();
+        let stakedAmount:any=null;
+        if(address){
+          stakedAmount = await getStakedAmount();
+        }
         const allocations = await get("User/Allocations/" + pid + "/" + userId);
         const claims = await get("User/Claims/" + pid + "/" + userId);
         if (projectDetails.status === 200) {
@@ -117,6 +120,7 @@ const Projectdetails = (props: any) => {
       }
       setData(details);
     } catch (error) {
+      console.log(error)
       rootDispatch(setError({ message: error }));
     } finally {
       setLoader(false);
