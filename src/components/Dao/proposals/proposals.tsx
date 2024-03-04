@@ -294,7 +294,7 @@ const ProposalCards = (props: any) => {
                             </div>
                             <div className="md:flex justify-between items-center mt-2">
                               <p className="text-base font-semibold mb-2 md:mb-0 text-secondary">
-                                {getProposalStatus(item?.endDate)}
+                                {getProposalStatus(item?.startDate,item?.endDate)}
                               </p>
                             </div>
                           </div>
