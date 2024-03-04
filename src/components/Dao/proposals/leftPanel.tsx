@@ -53,7 +53,7 @@ const DaoLeftPanel = (props) => {
               {user.firstName && user.lastName ? (
                 (user.firstName + " " + user.lastName).toLowerCase()
               ) : (
-                <>
+                address ? <>
                   <span className="tooltip" data-tip={address}>
                     {address?.slice(0, 4)}...{address?.slice(-4)}
                   </span>
@@ -70,10 +70,11 @@ const DaoLeftPanel = (props) => {
                       }
                     />
                   </CopyToClipboard>
-                </>
+                  
+                </> : "Connect your wallet!"
               )}
             </h1>
-            <p className="text-secondary">63k Members</p>
+            {address && <p className="text-secondary">63k Members</p>}    
           </div>
         </div>
        {stakedAmount>=5000 && !loader && <button

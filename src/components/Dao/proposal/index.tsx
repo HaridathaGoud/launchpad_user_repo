@@ -3,8 +3,6 @@ import InformationPanel from "./informationPanel";
 import Proposal from "./view";
 import { useParams } from "react-router-dom";
 import { connect, useDispatch, useSelector } from "react-redux";
-import TestingPraposalflow from "./publishPraposalView";
-import { useAccount } from "wagmi";
 import ProjectViewTabs from "../projecttabs";
 import ProposalResults from "./results";
 import PublishProposalShimmer from "../shimmers/publishproposalshimmer";
@@ -22,15 +20,12 @@ const ProposalView = (props) => {
   const params = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.auth.user);
-  const { isConnected } = useAccount();
   const [loader, setLoader] = useState(false);
   const [projectInfo, setProjectInfo] = useState<{ [key: string]: any }>({});
   useEffect(() => {
-    if (user) {
       params?.pid && getProjectDetails();
-      props.getProposalDetails(params.proposalId, user.id);
-      props.getCustomerVoteStatus(params.proposalId, user.id);
-    }
+      props.getProposalDetails(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
+      props.getCustomerVoteStatus(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
     return () => {
       props.clearVotersList();
     };
@@ -39,7 +34,8 @@ const ProposalView = (props) => {
     setLoader(true);
     try {
       const res = await get(
-        "User/TokenInformation/" + params?.pid + "/" + user.id
+        "User/TokenInformation/" + params?.pid + "/" + user.id ||
+          "00000000-0000-0000-0000-000000000000"
       );
       if (res.status === 200) {
         setProjectInfo(res.data);
@@ -60,46 +56,28 @@ const ProposalView = (props) => {
           <PublishProposalShimmer />
         </div>
       ) : (
-        <>
-          {isConnected && (
-            <div className="container mx-auto max-md:px-3 mt-3">
-              <div className="mt-5 mb-4">
-                <BreadCrumb />
-                <div className="mb-12 mt-4">
-                  {params?.pid && <ProjectViewTabs />}
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-12 gap-[30px]">
-                <div className="md:col-span-3">
-                  <InformationPanel />
-                  <div>
-                    <ProposalResults pjctInfo={projectInfo} />
-                  </div>
-                </div>
-                <div className="md:col-span-9 max-sm:mt-4">
-                  <Proposal pjctInfo={projectInfo} />
-                  <div>
-                    <ProposalTabs />
-                  </div>
-                </div>
+        <div className="container mx-auto max-md:px-3 mt-3">
+          <div className="mt-5 mb-4">
+            <BreadCrumb />
+            <div className="mb-12 mt-4">
+              {params?.pid && <ProjectViewTabs />}
+            </div>
+          </div>
+          <div className="md:grid md:grid-cols-12 gap-[30px]">
+            <div className="md:col-span-3">
+              <InformationPanel />
+              <div>
+                <ProposalResults pjctInfo={projectInfo} />
               </div>
             </div>
-          )}
-
-          {!isConnected && (
-            <div className="container mx-auto mt-4">
-              <div className="grid grid-cols-12 gap-[30px]">
-                <div className="col-span-3">
-                  <InformationPanel />
-                  <ProposalResults />
-                </div>
-                <div className="col-span-9">
-                  <TestingPraposalflow></TestingPraposalflow>
-                </div>
+            <div className="md:col-span-9 max-sm:mt-4">
+              <Proposal pjctInfo={projectInfo} />
+              <div>
+                <ProposalTabs />
               </div>
             </div>
-          )}
-        </>
+          </div>
+        </div>
       )}
       <>
         {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
