@@ -267,7 +267,7 @@ const ProposalResults = (props: any) => {
             !stakeAmountLoader &&
             stakedAmount >= 1000 &&
             !isVoted &&
-            hideVoteButtons && (
+            !hideVoteButtons && (
               <div className="mb-2">
                 <Button
                   handleClick={handleRedirectVotingScreen}
@@ -280,7 +280,7 @@ const ProposalResults = (props: any) => {
               </div>
             )}
           {(editBtn || isVoted) &&
-            hideVoteButtons && (
+            !hideVoteButtons && (
               <div>
                 <div className="mb-2">
                   <Button
