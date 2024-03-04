@@ -3,6 +3,7 @@ const timeUnits = [
   { unit: "day", divisor: 1000 * 60 * 60 * 24 },
   { unit: "hour", divisor: 1000 * 60 * 60 },
   { unit: "minute", divisor: 1000 * 60 },
+  { unit: "second", divisor: 1000 }
 ];
 
 export const getProposalStatus = (startingDate, endingDate) => {

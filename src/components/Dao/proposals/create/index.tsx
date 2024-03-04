@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 import { ethers } from "ethers/lib";
 import {
   contractDetailsData,
+  getProposals,
   saveProposal,
 } from "../../../../reducers/proposlaReducer";
 import { useSelector, connect, useDispatch } from "react-redux";
@@ -142,12 +143,21 @@ const CreateProposal = (props: any) => {
         props?.close();
         break;
       case 2:
-        action==='next' && dispatch({ type: "setCurrentStep", payload: 1 });
-        action==='close' && props?.close();
+        action === "next" && dispatch({ type: "setCurrentStep", payload: 1 });
+        action === "close" && props?.close();
         break;
       case 3:
         props?.close();
-        window.location.reload();
+        props?.getProposals({
+          page: 1,
+          take: 10,
+          daoId: props?.pjctInfo?.daoId || params?.daoId,
+          data: null,
+          status: "all",
+          search: null,
+          startDate: "",
+          endDate: "",
+        });
         break;
       default:
         props?.close();
@@ -167,7 +177,10 @@ const CreateProposal = (props: any) => {
                 {state.currentStep === 3 && "Proposal Submitted!"}
               </span>
             </Link>
-            <Button type="plain" handleClick={()=>handleDrawerAction('close')}>
+            <Button
+              type="plain"
+              handleClick={() => handleDrawerAction("close")}
+            >
               {" "}
               <span className={`icon closeIcon`}></span>
             </Button>
@@ -191,7 +204,7 @@ const CreateProposal = (props: any) => {
                   {state?.currentStep !== 3 && (
                     <div className="flex justify-center gap-5 items-center mt-16">
                       <Button
-                        handleClick={()=>handleDrawerAction('next')}
+                        handleClick={() => handleDrawerAction("next")}
                         type="cancel"
                         btnClassName="justify-center min-w-[164px]"
                       >
@@ -233,6 +246,9 @@ const connectDispatchToProps = (dispatch: any) => {
   return {
     contractDetails: (params: any) => {
       dispatch(contractDetailsData(params));
+    },
+    getProposals: (information: any) => {
+      dispatch(getProposals(information));
     },
   };
 };
