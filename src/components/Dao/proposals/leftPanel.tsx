@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg";
 import { useAccount } from "wagmi";
-import Createpraposal from "./create";
+import CreateProposal from "./create";
 import { useSelector } from "react-redux";
 import useContract from "../../../hooks/useContract";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -117,7 +117,7 @@ const DaoLeftPanel = (props) => {
               onClick={handleCancel}
             ></label>
             <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-24">
-              <Createpraposal close={handleCancel} pjctInfo={props?.pjctInfo} />
+              <CreateProposal close={handleCancel} pjctInfo={props?.pjctInfo} />
             </div>
           </div>
         </div>

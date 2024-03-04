@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import praposalImage from "../../../assets/images/proposal.png";
 import { Link } from "react-router-dom";
 import { useAccount } from "wagmi";
-import Createpraposal from "./create";
+import CreateProposal from "./create";
 import { ethers } from "ethers";
 import useContract from "../../../hooks/useContract";
 export default function CreateFirstPraposal(props: any) {
@@ -74,7 +74,7 @@ export default function CreateFirstPraposal(props: any) {
               onClick={handleCancel}
             ></label>
             <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-24">
-              <Createpraposal close={handleCancel} pjctInfo={props?.pjctInfo} />
+              <CreateProposal close={handleCancel} pjctInfo={props?.pjctInfo} />
             </div>
           </div>
         </div>

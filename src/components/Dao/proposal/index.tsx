@@ -2,61 +2,60 @@ import React, { useEffect, useState } from "react";
 import InformationPanel from "./informationPanel";
 import Proposal from "./view";
 import { useParams } from "react-router-dom";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import TestingPraposalflow from "./publishPraposalView";
 import { useAccount } from "wagmi";
-import { getCustomerDetails } from "../../../reducers/authReducer";
 import ProjectViewTabs from "../projecttabs";
 import ProposalResults from "./results";
 import PublishProposalShimmer from "../shimmers/publishproposalshimmer";
 import ProposalTabs from "./tabs";
 import { get } from "../../../utils/api";
-import { store } from "../../../store";
 import BreadCrumb from "../../../ui/breadcrumb";
-import TrendingProjects from "../../staking/trendingCarousel";
 import { setError } from "../../../reducers/layoutReducer";
+import {
+  clearVoters,
+  getCustomerVoteStatus,
+  getProposalDetails,
+} from "../../../reducers/votingReducer";
 
-const ProposalView=()=>{
+const ProposalView = (props) => {
   const params = useParams();
   const dispatch = useDispatch();
-  const user = store.getState().auth;
+  const user = useSelector((state: any) => state.auth.user);
   const { isConnected } = useAccount();
   const [loader, setLoader] = useState(false);
-  const selectedDaoData = useSelector(
-    (state: any) => state?.oidc?.fetchSelectingDaoData
-  );
-  const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
-  const [loading, setLoading] = useState(true);
+  const [projectInfo, setProjectInfo] = useState<{ [key: string]: any }>({});
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-      getPjctDetails();
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-  const getPjctDetails = async () => {
-    if (params?.pid) {
-      setLoader(true);
-      const userId =
-        user?.user?.id && user?.user?.id != ""
-          ? user?.user?.id
-          : "00000000-0000-0000-0000-000000000000";
+    if (user) {
+      params?.pid && getProjectDetails();
+      props.getProposalDetails(params.proposalId, user.id);
+      props.getCustomerVoteStatus(params.proposalId, user.id);
+    }
+    return () => {
+      props.clearVotersList();
+    };
+  }, [user]);
+  const getProjectDetails = async () => {
+    setLoader(true);
+    try {
       const res = await get(
-        "User/TokenInformation/" + params?.pid + "/" + userId
-      )
-        .then((res: any) => {
-          setPjctInfo(res.data);
-        })
-        .catch((error: any) => {
-          dispatch(setError({ message: error }));
-          setLoader(false);
-        });
+        "User/TokenInformation/" + params?.pid + "/" + user.id
+      );
+      if (res.status === 200) {
+        setProjectInfo(res.data);
+      } else {
+        dispatch(setError({ message: res }));
+      }
+    } catch (error) {
+      dispatch(setError({ message: error }));
+    } finally {
+      setLoader(false);
     }
   };
 
   return (
     <>
-      {loading ? (
+      {loader ? (
         <div className="container mx-auto">
           <PublishProposalShimmer />
         </div>
@@ -64,7 +63,6 @@ const ProposalView=()=>{
         <>
           {isConnected && (
             <div className="container mx-auto max-md:px-3 mt-3">
-              <TrendingProjects />
               <div className="mt-5 mb-4">
                 <BreadCrumb />
                 <div className="mb-12 mt-4">
@@ -75,11 +73,11 @@ const ProposalView=()=>{
                 <div className="md:col-span-3">
                   <InformationPanel />
                   <div>
-                    <ProposalResults pjctInfo={pjctInfo} />
+                    <ProposalResults pjctInfo={projectInfo} />
                   </div>
                 </div>
                 <div className="md:col-span-9">
-                  <Proposal pjctInfo={pjctInfo} />
+                  <Proposal pjctInfo={projectInfo} />
                   <div>
                     <ProposalTabs />
                   </div>
@@ -172,11 +170,17 @@ const ProposalView=()=>{
       </>
     </>
   );
-}
+};
 const connectDispatchToProps = (dispatch: any) => {
   return {
-    customers: (address: any, callback: any) => {
-      dispatch(getCustomerDetails(address, callback));
+    getProposalDetails: (sub: any, custId: any) => {
+      dispatch(getProposalDetails(sub, custId));
+    },
+    getCustomerVoteStatus: (proposalId: any, customerId: any) => {
+      dispatch(getCustomerVoteStatus(proposalId, customerId));
+    },
+    clearVotersList: () => {
+      dispatch(clearVoters());
     },
   };
 };

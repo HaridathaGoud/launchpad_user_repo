@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import Voters from "./votersGrid"
-// import Discussions from '../proposal/createproposal/discussions'; 
+import React, { useState } from "react";
+import Voters from "./votersGrid";
+// import Discussions from '../proposal/createproposal/discussions';
 import styles from "../dao.module.css";
-import Button from '../../../ui/Button';
+import Button from "../../../ui/Button";
 
-function ProposalTabs() {
-  const [activeTab, setActiveTab] = useState('voters');
+const ProposalTabs = () => {
+  const [activeTab, setActiveTab] = useState("voters");
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab:any) => {
     setActiveTab(tab);
   };
 
@@ -23,9 +23,11 @@ function ProposalTabs() {
             Discussions
           </Button> */}
           <Button
-          type='plain'
-            btnClassName={`${styles.tab} ${activeTab === 'voters' ? styles.tabActive : ''} tab`}
-            handleClick={() => handleTabClick('voters')}
+            type="plain"
+            btnClassName={`${styles.tab} ${
+              activeTab === "voters" ? styles.tabActive : ""
+            } tab`}
+            handleClick={() => handleTabClick("voters")}
           >
             Voters
           </Button>
@@ -33,11 +35,11 @@ function ProposalTabs() {
       </div>
 
       <div>
-        {activeTab === 'voters' && <Voters/>}
+        {activeTab === "voters" && <Voters />}
         {/* {activeTab === 'discussions' && <Discussions />} */}
       </div>
     </div>
   );
-}
+};
 
 export default ProposalTabs;

@@ -1,13 +1,10 @@
 import apiCalls from "../utils/api";
 const SET_DAOS = "setDaos";
-const SET_PROPOSALS="setProposals"
-const PROPOSAL_DETAILS_LIST = "proposalDetailsList";
+const SET_PROPOSALS = "setProposals"
 const LOOKUP_CALL = "setProposalStatusLookUp";
 const PROPOSAL_DATA = "proposalData";
-const SAVE_PROPOSAL = "saveProposal";
 const CON_DETAILS_DATA = "setConDetailsData";
 const PROPOSAL_VIEW_DATA = "setProposalViewData";
-const ISCHECKSEEMORE = "isCheckSeeMore";
 const REFERRAL = "referral";
 
 const setDaos = (payload) => {
@@ -16,18 +13,13 @@ const setDaos = (payload) => {
     payload,
   };
 }
-const setProposals=(payload)=>{
+const setProposals = (payload) => {
   return {
-    type:SET_PROPOSALS,
+    type: SET_PROPOSALS,
     payload,
   }
 }
-const isCheckSeeMore = (payload) => {
-  return {
-    type: ISCHECKSEEMORE,
-    payload
-  }
-};
+
 
 const setProposalStatusLookUp = (payload) => {
   return {
@@ -43,12 +35,6 @@ const proposalData = (payload) => {
   }
 };
 
-const saveProposal = (payload) => {
-  return {
-    type: SAVE_PROPOSAL,
-    payload
-  }
-};
 const setProposalViewData = (payload) => {
   return {
     type: PROPOSAL_VIEW_DATA,
@@ -62,31 +48,31 @@ const setConDetailsData = (payload) => {
   }
 };
 
-const clearDaos=()=>{
+const clearDaos = () => {
   return (dispatch) => {
-    dispatch(setDaos({loading:false,data:null,nextPage:1}))
+    dispatch(setDaos({ loading: false, data: null, nextPage: 1 }))
+  }
 }
-}
-const clearProposals=()=>{
+const clearProposals = () => {
   return (dispatch) => {
-    dispatch(setProposals({loading:false,data:null,nextPage:1}))
-}
+    dispatch(setProposals({ loading: false, data: null, nextPage: 1 }))
+  }
 }
 
-const clearLookup=()=>{
-  return (dispatch)=>{
-    dispatch(setProposalStatusLookUp({loading: false, data: ['All'], error: ''}))
+const clearLookup = () => {
+  return (dispatch) => {
+    dispatch(setProposalStatusLookUp({ loading: false, data: ['All'], error: '' }))
   }
 }
 const getDaos = (information) => {
-  const {take,page,data}=information;
-  const skip=take*(page)-take;
+  const { take, page, data } = information;
+  const skip = take * (page) - take;
   return async (dispatch) => {
-    dispatch(setDaos({ key: 'daos', loading: true, data: data}));
-    try{
+    dispatch(setDaos({ key: 'daos', loading: true, data: data }));
+    try {
       const res = await apiCalls.getDaoDetails(take, skip);
-      if (res.status===200) {
-        dispatch(setDaos({ key: 'daos', loading: false, data: data ?[...data,...res.data]:res.data, error: null,nextPage:page+1 }));
+      if (res.status === 200) {
+        dispatch(setDaos({ key: 'daos', loading: false, data: data ? [...data, ...res.data] : res.data, error: null, nextPage: page + 1 }));
       } else {
         dispatch(
           setDaos({
@@ -97,7 +83,7 @@ const getDaos = (information) => {
           }),
         );
       }
-    }catch(error){
+    } catch (error) {
       dispatch(
         setDaos({
           key: 'daos',
@@ -106,7 +92,7 @@ const getDaos = (information) => {
           error: error,
         }),
       );
-    } 
+    }
   };
 }
 
@@ -124,16 +110,15 @@ const getReferralData = (id, pageNo, pageSize, callback) => {
   }
 }
 
-
-const getProposals=(information)=>{
-  const {take,page,data, daoId, status, search, startDate, endDate}=information;
-  const skip=take*(page)-take;
+const getProposals = (information) => {
+  const { take, page, data, daoId, status, search, startDate, endDate } = information;
+  const skip = take * (page) - take;
   return async (dispatch) => {
-    dispatch(setProposals({loading: true, data: data,error:''}));
-    try{
+    dispatch(setProposals({ loading: true, data: data, error: '' }));
+    try {
       const res = await apiCalls.getProposalList(take, skip, daoId, status, search, startDate, endDate);
-      if (res.status===200) {
-        dispatch(setProposals({ loading: false, data: data ?[...data,...res.data]:res.data, error: '',nextPage:page+1 }));
+      if (res.status === 200) {
+        dispatch(setProposals({ loading: false, data: data ? [...data, ...res.data] : res.data, error: '', nextPage: page + 1 }));
       } else {
         dispatch(
           setProposals({
@@ -143,7 +128,7 @@ const getProposals=(information)=>{
           }),
         );
       }
-    }catch(error){
+    } catch (error) {
       dispatch(
         setProposals({
           loading: false,
@@ -151,23 +136,23 @@ const getProposals=(information)=>{
           error: error,
         }),
       );
-    } 
+    }
   };
 }
 const getProposalStatusLookup = () => {
   return async (dispatch) => {
     dispatch(setProposalStatusLookUp({ loading: true, data: ['All'], error: '' }));
-    try{
+    try {
       const response = await apiCalls.getStatusLu();
-      if (response.status===200) {
-        dispatch(setProposalStatusLookUp({loading: false, data: response.data, error: '' }));
-      }else{
-        dispatch(setProposalStatusLookUp({loading: false, data: ['All'], error: response }));
+      if (response.status === 200) {
+        dispatch(setProposalStatusLookUp({ loading: false, data: response.data, error: '' }));
+      } else {
+        dispatch(setProposalStatusLookUp({ loading: false, data: ['All'], error: response }));
       }
-    }catch(error){
+    } catch (error) {
       dispatch(setProposalStatusLookUp({ loading: false, data: ['All'], error: error }));
     }
-    
+
   }
 }
 const contractDetailsData = (dao) => {
@@ -205,45 +190,25 @@ const proposalViewData = (proposalId) => {
   }
 }
 
-const saveProposalCall = (saveObj, callback) => {
-  return async (dispatch) => {
-    dispatch(saveProposal({ key: 'saveProposal', loading: true, data: null, error: null }))
-    let obj = {
-      id: "00000000-0000-0000-0000-000000000000",
-      customerId: saveObj?.customerId,
-      daoId: saveObj?.daoId,
-      title: saveObj?.title,
-      description: saveObj?.description,
-      titleHash: saveObj.titleHash,
-      startTime: saveObj?.startTime,
-      endTime: saveObj?.endTime,
-      membershipsCount: saveObj.membershipsCount,
-      proposalType: saveObj.proposalType,
-      proposalOptionDetails: saveObj?.proposalOptionDetails
-    }
-    let response = await apiCalls.postCreateProposal(obj)
-    if (response) {
-      dispatch(saveProposal({ key: 'saveProposal', loading: false, data: response.data, error: null }));
-      if (callback) {
-        callback({ loading: false, data: response.data, error: null });
-      }
+const saveProposal = async (obj) => {
+  try {
+    const response = await apiCalls.postCreateProposal(obj)
+    if (response.status === 200) {
+      return { status: 'ok', error: '' }
     } else {
-      dispatch(saveProposal({ key: 'saveProposal', loading: false, data: null }));
-      if (callback) {
-        callback({ loading: false, data: response.data, error: null });
-      }
+      return { status: '', error: response }
     }
+  } catch (error) {
+    return { status: '', error: error }
   }
 }
 let initialState = {
-  daos: {loading:false,data:null,nextPage:1},
-  proposals: {loading: false, data: null,error:'',nextPage:1},
-  proposalStatusLookup: {loading:false,data:['All'],error:''},
+  daos: { loading: false, data: null, nextPage: 1 },
+  proposals: { loading: false, data: null, error: '', nextPage: 1 },
+  proposalStatusLookup: { loading: false, data: ['All'], error: '' },
   proposalDetails: {},
-  saveProposal: {},
   contractDetails: {},
   proViewData: {},
-  isCheckSeeMore: false,
   referralData: {}
 };
 
@@ -263,7 +228,7 @@ const proposlaReducer = (state, action) => {
           data: action.payload.data,
           error: action.payload.error,
           loading: action.payload.loading,
-          nextPage:action.payload.nextPage || state?.['daos'].nextPage
+          nextPage: action.payload.nextPage || state?.['daos'].nextPage
         },
       };
     case SET_PROPOSALS:
@@ -272,26 +237,17 @@ const proposlaReducer = (state, action) => {
           data: action.payload.data,
           error: action.payload.error,
           loading: action.payload.loading,
-          nextPage:action.payload.nextPage || state?.['proposals'].nextPage
+          nextPage: action.payload.nextPage || state?.['proposals'].nextPage
         },
       };
-    case PROPOSAL_DETAILS_LIST:
-      state = { ...state, proposalDetailsList: (action.pageNo === 1 ? [...action.payload] : [...state.proposalDetailsList, ...action.payload,]) }//loading:action.payload,error:action.payload
-      return state;
     case LOOKUP_CALL:
       state = { ...state, proposalStatusLookup: { ...state['proposalStatusLookup'], ...action.payload } }
-      return state;
-    case ISCHECKSEEMORE:
-      state = { ...state, isCheckSeeMore: action.payload }
       return state;
     case REFERRAL:
       state = { ...state, referralData: action.payload }
       return state;
     case PROPOSAL_DATA:
       state = { ...state, proposalDetails: action.payload }
-      return state;
-    case SAVE_PROPOSAL:
-      state = { ...state, saveProposal: action.payload }
       return state;
     case PROPOSAL_VIEW_DATA:
       state = { ...state, [action.payload.key]: { ...state[action.payload.key], ...action.payload } };
@@ -310,5 +266,5 @@ const proposlaReducer = (state, action) => {
 export default proposlaReducer;
 export {
   getDaos, getReferralData,
-  setDaos, getProposalStatusLookup, proposalData, saveProposalCall, proposalViewData, contractDetailsData, isCheckSeeMore,clearDaos,getProposals,clearProposals,clearLookup
+  setDaos, getProposalStatusLookup, proposalData, saveProposal, proposalViewData, contractDetailsData, clearDaos, getProposals, clearProposals, clearLookup
 };

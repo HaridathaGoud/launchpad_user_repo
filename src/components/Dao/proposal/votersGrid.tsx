@@ -1,144 +1,170 @@
-import React, { useState, useEffect } from 'react';
-import walletimg from '../../../assets/images/wallet-img.svg';
-import InfinityScroll from '../infinityScroll/infinityScroll';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { connect } from "react-redux";
-import { getVotersGrid } from '../../../reducers/votingReducer';
-import apiCalls from '../../../utils/api';
-import { useAccount } from 'wagmi';
-import nodata from '../../../assets/images/no-data.png';
-import error from '../../../assets/images/error.svg';
-import Image from 'react-bootstrap/Image';
+import { getVoters } from "../../../reducers/votingReducer";
+import nodata from "../../../assets/images/no-data.png";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import Placeholder from 'react-bootstrap/Placeholder';
- function Voters(props : any) {
-  const { isConnected, address } = useAccount();
-  const [pageNo, setPageNo] = useState(1);
-  const [errorMsg,setErrorMsg]=useState(null);
-  const params = useParams()
-  const pageSize = 10;
-  const votersDetails = useSelector((state: any) => state?.vtg?.fetchVotersData);
-  const [copied,setCopy]=useState(false);
-  const [selection,setSelection]=useState(null);
-  const [loading,setloading] = useState(true);
-   useEffect(() => {
-    Load()
-     props.getVotersGrid(pageNo, pageSize, params?.proposalId,
-       (callback: any) => {
-         if (callback) {
-           setErrorMsg(apiCalls.isErrorDispaly(callback))
-         } else {
-           setErrorMsg(null)
-         }
-    })
-    let _pageNo = pageNo + 1;
-    setPageNo(_pageNo);
-    
-  },[isConnected,address])
-
-  const Load = async ()=>{
-    if(votersDetails){
-      await new Promise((resolve) => setTimeout(resolve, 1000)); 
-      setloading(false)
-    }   
-  }
+import Placeholder from "react-bootstrap/Placeholder";
+import Spinner from "../../loaders/spinner";
+import Button from "../../../ui/Button";
+const pageSize = 10;
+function Voters(props: any) {
+  const params = useParams();
+  const voters = useSelector((state: any) => state?.vtg?.voters);
+  const [copied, setCopied] = useState(false);
+  const [selection, setSelection] = useState(null);
+  useEffect(() => {
+    props.getVotersList({
+      page: 1,
+      take: pageSize,
+      id: params?.proposalId,
+      data: voters?.data,
+    });
+  }, []);
 
   const fetchMoreData = () => {
-    let _pageNo = pageNo + 1;
-    setPageNo(_pageNo);
-     props.getVotersGrid(pageNo,pageSize,params?.proposalId );
+    props.getVotersList({
+      page: voters?.nextPage,
+      take: pageSize,
+      id: params?.proposalId,
+      data: voters?.data,
+    });
   };
   const handleCopy = (data) => {
-    setSelection(data)
-    setCopy(true)
+    setSelection(data);
+    setCopied(true);
     setTimeout(() => {
-      setCopy(false);
+      setCopied(false);
     }, 1000);
-	}
+  };
 
-  const generateHTMLContent = () => {
-    const html = votersDetails?.map((item : any) => (
-      <tr>
-        <td className="">
-          <div className="flex ">
-            <div className='flex gap-2 items-center'>
-              <img src={walletimg} alt="" className='mr-3 object-cover' />
-              <span className='truncate'>{item?.walletAddress}</span>{" "}
-            </div>
-            <CopyToClipboard text={item?.walletAddress} options={{ format: 'text/plain' }}
-              onCopy={() => handleCopy(item?.walletAddress)}
-            >
-              <span className={(copied && selection === item?.walletAddress) ? 'icon copy-check c-pointer ms-2' : 'icon md copy-icon c-pointer ms-2'} />
-            </CopyToClipboard>
+  return (
+    <>
+      <div className="mt-[26px] mb-2">
+        <div className="flex justify-between items-center">
+          <div>
+            <span className="text-2xl font-semibold text-secondary">
+              Voters {""}
+            </span>
+            <span className="text-secondary">
+              ({voters?.data?.length} voters)
+            </span>
           </div>
-        </td>
-        <td className=''>{item?.options}</td>
-        <td className='whitespace-nowrap truncate'>23k The Saf...</td>
-      </tr>
-    ));
-
-    return <div className='overflow-x-auto'>     
-      <table className='table allocationtable px-1 border-separate border-spacing-y-4' width='100%'>  
-        <tbody>
-          {html}
-          <tr>{votersDetails?.length===0 && 
-          <td colSpan={2} className='ps-0'><div className='text-center'><img src={nodata} width={95} className='mx-auto' alt=""/><h4 className="text-center text-secondary mt-2">No data found</h4></div></td>}</tr>
-        </tbody>
-      </table>
-    </div>
-  }
-
-  const htmlContent = generateHTMLContent();
-
-    return (
-        <>
-        <div className='mt-[26px] mb-2'>
-
-            {errorMsg && (
-          <div className='cust-error-bg'>
-          <div className='mr-4'><Image src={error} alt="" /></div>
-        <div>
-          <p className='error-title error-red'>Error</p>
-          <p className="error-desc">{errorMsg}</p></div>
         </div>
-        )}
-       <div className="flex justify-between items-center">
-       <div>
-       <span className='text-2xl font-semibold text-secondary'>Voters {""}</span><span className='text-secondary'>({votersDetails?.length} voters)</span>
-       </div>
-        {/* <div className={`${styles.customTabs} tabs`}>
-            <a className={`${styles.tab}  tab tab-active`}>Discussions</a>
-            <a className={`${styles.tab} ${styles.tabActive} tab`}>Voters</a>
-        </div> */}
-              
-        </div>
-       </div>
+      </div>
 
-        {loading ?
+      {voters?.loading ? (
         <Placeholder xs={12} animation="glow">
-          <Placeholder xs={1} className='me-3 shimmer-icon' />
-          <Placeholder xs={5} />&emsp;
+          <Placeholder xs={1} className="me-3 shimmer-icon" />
           <Placeholder xs={5} />
-        </Placeholder> :
+          &emsp;
+          <Placeholder xs={5} />
+        </Placeholder>
+      ) : (
         <div>
-          <InfinityScroll
-            data={votersDetails}
-            htmlContent={htmlContent}
-            hasMore={true}
-            fetchMoreData={fetchMoreData}
-          />
-        </div> }
-        {/* <Discussions/> */}
-
-        </>
-    );
+          <div className="">
+            <div className="mb-6 max-sm:w-full overflow-auto">
+              {voters?.data?.length !== 0 && (
+                <div className="px-1">
+                  <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
+                    <thead>
+                      <tr>
+                        <th className="text-left text-base text-secondary font-bold">
+                          No
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold">
+                          Voter Address
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold">
+                          Opted For
+                        </th>
+                        <th className="text-left text-base text-secondary font-bold"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {voters?.data?.length === 0 && (
+                          <td colSpan={2} className="ps-0">
+                            <div className="text-center">
+                              <img
+                                src={nodata}
+                                width={95}
+                                className="mx-auto"
+                                alt=""
+                              />
+                              <h4 className="text-center text-secondary mt-2">
+                                No data found
+                              </h4>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                      {voters?.data?.map((voter: any, index: any) => (
+                        <tr key={voter.walletAddress + voter.options}>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {index + 1}
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              <CopyToClipboard
+                                text={voter?.walletAddress}
+                                options={{ format: "text/plain" }}
+                                onCopy={() => handleCopy(voter?.walletAddress)}
+                              >
+                                <span
+                                  className={
+                                    copied && selection === voter?.walletAddress
+                                      ? "icon copy-check c-pointer ms-2"
+                                      : "icon md copy-icon c-pointer ms-2"
+                                  }
+                                />
+                              </CopyToClipboard>
+                            </p>
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {voter.options}
+                            </p>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className="flex justify-center">
+                    {voters.loading && (
+                      <span className="text-center">
+                        <Spinner />
+                      </span>
+                    )}
+                    {!voters.loading &&
+                      voters?.data?.length > 0 &&
+                      voters?.data?.length ===
+                        pageSize * voters?.nextPage - 1 && (
+                        <Button handleClick={fetchMoreData} type="plain">
+                          <p className="text-center text-primary text-base font-medium mb-0 cursor-pointer">
+                            See More
+                          </p>
+                          <span className="icon block mx-auto see-more cursor-pointer"></span>
+                        </Button>
+                      )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+      {/* <Discussions/> */}
+    </>
+  );
 }
 const connectDispatchToProps = (dispatch: any) => {
   return {
-    getVotersGrid: (pageNo:any, pageSize:any,id:any,callback:any) => {
-      dispatch(getVotersGrid(pageNo, pageSize,id,callback));
-    }
-  }
-}
- export default connect(null, connectDispatchToProps)(Voters);
+    getVotersList: (information: any) => {
+      dispatch(getVoters(information));
+    },
+  };
+};
+export default connect(null, connectDispatchToProps)(Voters);
