@@ -17,6 +17,7 @@ import Spinner from "../../loaders/spinner";
 import useContract from "../../../hooks/useContract";
 import { ethers } from "ethers";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
+import { getProposalStatus } from "../proposals/utils";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case "copied":
@@ -38,7 +39,7 @@ const reducers = (state: any, action: any) => {
 const ProposalResults = (props: any) => {
   const [saveBtn, setsaveBtn] = useState(true);
   const [editBtn, seteditBtn] = useState(false);
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
   const proposalDetails = useSelector(
     (state: any) => state?.vtg?.proposalDetails
   );
@@ -46,13 +47,21 @@ const ProposalResults = (props: any) => {
   const customerVoteStatus = useSelector(
     (state: any) => state?.vtg?.isCustomerVoted
   );
+  const hideVoteButtons =
+    getProposalStatus(
+      proposalDetails?.data?.startDate,
+      proposalDetails?.data?.endDate
+    )
+      .toLowerCase()
+      .includes("starts") ||
+    getProposalStatus(
+      proposalDetails?.data?.startDate,
+      proposalDetails?.data?.endDate
+    )
+      .toLowerCase()
+      .includes("ended");
   const customer = useSelector((state: any) => state?.auth?.user);
   const isVoted = customerVoteStatus?.data?.isVoted;
-  const user = useSelector((state: any) =>
-    isConnected
-      ? state?.oidc?.fetchproposalviewdata
-      : state?.proposal?.proViewData
-  );
   const params = useParams();
   const { castVote, parseError } = useVotingContract();
   const [state, dispatch] = useReducer(reducers, {
@@ -132,7 +141,12 @@ const ProposalResults = (props: any) => {
           await props.saveVoting(obj);
           if (savedVoter.status === "ok") {
             await props.getProposalDetails(params?.proposalId, customer?.id);
-            await props.getVoters(1, 10, params?.proposalId);
+            await props.getVoters({
+              page: 1,
+              take: 10,
+              id: params?.proposalId,
+              data: null,
+            });
             rootDispatch(
               setToaster({ message: "Your vote was cast successfully." })
             );
@@ -141,8 +155,7 @@ const ProposalResults = (props: any) => {
           }
           if (savedVoter.error)
             rootDispatch(setError({ message: savedVoter.error }));
-        }
-        else{
+        } else {
           rootDispatch(setError({ message: "Something went wrong!" }));
         }
       } catch (error) {
@@ -184,7 +197,7 @@ const ProposalResults = (props: any) => {
           <div className="flex justify-between gap-5 mb-5">
             <div className="shrink-0">
               <div className="mb-2">
-                {user?.data?.options?.map((data: any, index) => (
+                {proposalDetails?.data?.options?.map((data: any) => (
                   <div className="text-secondary" key={data?.id}>
                     <div>
                       <span
@@ -253,7 +266,8 @@ const ProposalResults = (props: any) => {
           {saveBtn &&
             !stakeAmountLoader &&
             stakedAmount >= 1000 &&
-            !isVoted && (
+            !isVoted &&
+            hideVoteButtons && (
               <div className="mb-2">
                 <Button
                   handleClick={handleRedirectVotingScreen}
@@ -265,22 +279,23 @@ const ProposalResults = (props: any) => {
                 </Button>
               </div>
             )}
-          {(editBtn || isVoted) && (
-            <div>
-              <div className="mb-2">
-                <Button
-                  handleClick={handleEditVote}
-                  type="secondary"
-                  btnClassName="w-full"
-                >
-                  Edit Vote
-                </Button>
-              </div>
-              {/* <div className='mb-2'>
+          {(editBtn || isVoted) &&
+            hideVoteButtons && (
+              <div>
+                <div className="mb-2">
+                  <Button
+                    handleClick={handleEditVote}
+                    type="secondary"
+                    btnClassName="w-full"
+                  >
+                    Edit Vote
+                  </Button>
+                </div>
+                {/* <div className='mb-2'>
                                 <Button children={'View Vote'} handleClick={handleViewVote} type='secondary' btnClassName='w-full' />
                             </div> */}
-            </div>
-          )}
+              </div>
+            )}
         </div>
       </div>
 
@@ -408,8 +423,8 @@ const connectDispatchToProps = (dispatch: any) => {
     getProposalDetails: (sub: any, custId: any) => {
       dispatch(getProposalDetails(sub, custId));
     },
-    getVoters: (pageNo: any, pageSize: any, id: any) => {
-      dispatch(getVoters(pageNo, pageSize, id));
+    getVoters: (information: any) => {
+      dispatch(getVoters(information));
     },
     saveVoting: (obj: any) => {
       dispatch(saveVoting(obj));

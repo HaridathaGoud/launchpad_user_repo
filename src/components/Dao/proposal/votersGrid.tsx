@@ -11,8 +11,7 @@ const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
   const voters = useSelector((state: any) => state?.vtg?.voters);
-  const [copied, setCopied] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [copied, setCopied] = useState("");
   useEffect(() => {
     props.getVotersList({
       page: 1,
@@ -30,11 +29,10 @@ function Voters(props: any) {
       data: voters?.data,
     });
   };
-  const handleCopy = (data) => {
-    setSelection(data);
-    setCopied(true);
+  const handleCopy = (address) => {
+    setCopied(address);
     setTimeout(() => {
-      setCopied(false);
+      setCopied("");
     }, 1000);
   };
 
@@ -82,8 +80,40 @@ function Voters(props: any) {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {voters?.data?.length>0 && voters?.data?.map((voter: any, index: any) => (
+                        <tr key={voter.walletAddress + voter.options}>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {index + 1}
+                            </p>
+                          </td>
+                          <td>
+                            <div className="flex justify-between">
+                              <span>{voter?.walletAddress}</span>
+                              <CopyToClipboard
+                            text={voter?.walletAddress}
+                              options={{ format: "text/plain" }}
+                              onCopy={() => handleCopy(voter?.walletAddress)}
+                            >
+                              <span
+                                className={
+                                  copied !== voter?.walletAddress
+                                    ? "icon md copy-icon  cursor-pointer shrink-0"
+                                    : "icon copy-check c-pointer shrink-0  cursor-pointer"
+                                }
+                              />
+                            </CopyToClipboard>
+                            </div>             
+                          </td>
+                          <td>
+                            <p className="font-normal text-sm text-secondary">
+                              {voter.options}
+                            </p>
+                          </td>
+                        </tr>
+                      ))}
                         {voters?.data?.length === 0 && (
+                        <tr>
                           <td colSpan={2} className="ps-0">
                             <div className="text-center">
                               <img
@@ -97,39 +127,8 @@ function Voters(props: any) {
                               </h4>
                             </div>
                           </td>
-                        )}
-                      </tr>
-                      {voters?.data?.map((voter: any, index: any) => (
-                        <tr key={voter.walletAddress + voter.options}>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              {index + 1}
-                            </p>
-                          </td>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              <CopyToClipboard
-                                text={voter?.walletAddress}
-                                options={{ format: "text/plain" }}
-                                onCopy={() => handleCopy(voter?.walletAddress)}
-                              >
-                                <span
-                                  className={
-                                    copied && selection === voter?.walletAddress
-                                      ? "icon copy-check c-pointer ms-2"
-                                      : "icon md copy-icon c-pointer ms-2"
-                                  }
-                                />
-                              </CopyToClipboard>
-                            </p>
-                          </td>
-                          <td>
-                            <p className="font-normal text-sm text-secondary">
-                              {voter.options}
-                            </p>
-                          </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
                   <div className="flex justify-center">
@@ -141,7 +140,7 @@ function Voters(props: any) {
                     {!voters.loading &&
                       voters?.data?.length > 0 &&
                       voters?.data?.length ===
-                        pageSize * voters?.nextPage - 1 && (
+                        pageSize * (voters?.nextPage - 1) && (
                         <Button handleClick={fetchMoreData} type="plain">
                           <p className="text-center text-primary text-base font-medium mb-0 cursor-pointer">
                             See More
