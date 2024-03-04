@@ -62,7 +62,7 @@ function Voters(props: any) {
         <div>
           <div className="">
             <div className="mb-6 max-sm:w-full overflow-auto">
-              <div className="px-1">
+              <div className="px-2">
                 <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
                   <thead>
                     <tr>

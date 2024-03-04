@@ -189,7 +189,7 @@ const ProposalCards = (props: any) => {
                   <div>
                     {proposals?.data?.map((item: any) => (
                       <div
-                        className="bg-base-300 rounded-lg bgDaocard py-2.5 px-4 mb-4"
+                        className="bg-base-300 rounded-lg bgDaocard p-4 mb-4"
                         key={item.creatorAddress || item.id}
                       >
                         <div className="flex justify-between gap-4 items-center">

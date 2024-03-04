@@ -64,7 +64,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
       <div className="mt-4 ">
         <h4 className="inline-block ml-4 mb-2">Author</h4>
         <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
-          <div className="flex items-center">
+          <div className="flex items-center truncate">
             <img
               src={user?.profilePicUrl || defaultAvatar}
               className="mr-2 w-5 h-5 rounded-full"
@@ -205,8 +205,8 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
         </label>
       </div>
       <div>
-        <div className="flex justify-between items-center mb-4 mt-8">
-          <h4 className="text-xl font-semibold text-secondary label star">
+        <div className="md:flex justify-between items-center mb-4 mt-8">
+          <h4 className="text-xl font-semibold text-secondary block label star">
             Add Your Options
           </h4>
           <div className="text-end">
@@ -220,7 +220,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
             </Button>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {state?.form?.options.map((option: any, index: any) => (
             <div
               key={index}

@@ -69,14 +69,14 @@ const ProposalView = (props) => {
                   {params?.pid && <ProjectViewTabs />}
                 </div>
               </div>
-              <div className="grid md:grid-cols-12 gap-[30px]">
+              <div className="md:grid md:grid-cols-12 gap-[30px]">
                 <div className="md:col-span-3">
                   <InformationPanel />
                   <div>
                     <ProposalResults pjctInfo={projectInfo} />
                   </div>
                 </div>
-                <div className="md:col-span-9">
+                <div className="md:col-span-9 max-sm:mt-4">
                   <Proposal pjctInfo={projectInfo} />
                   <div>
                     <ProposalTabs />

@@ -150,7 +150,7 @@ function HeaderNavbar() {
                 <ul className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 h-screen min-w-[200px]">
                   {navMenuList.map(({ path, content,target,rel }) => {
                     return (
-                      <li className="group" key={path}>
+                      <li className="group mb-2" key={path}>
                         <NaviLink path={path} type="primary" target={target} rel={rel}>
                           {content}
                         </NaviLink>
@@ -162,7 +162,7 @@ function HeaderNavbar() {
             </div>
             <div className="pr-4 lg:hidden">
               <NaviLink path={"/dashboard"} type="primary">
-                <img src={logo} alt="YellowBlock" className="w-[28px] mr-3 " />
+                <img src={logo} alt="YellowBlock" className="w-[22px] mr-3 " />
               </NaviLink>
             </div>
           </div>
