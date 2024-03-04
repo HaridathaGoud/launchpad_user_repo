@@ -65,28 +65,7 @@ function Proposal() {
       <div className="py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg">
         <div>
           {proposalDetails?.loading ? (
-            <>
-              <Placeholder xs={12} animation="glow">
-                <Placeholder xs={1} className="me-3 shimmer-icon" />
-                <Placeholder xs={5} />
-              </Placeholder>
-              <hr />
-              <Placeholder as="p" animation="wave">
-                <Placeholder style={{ width: "25%" }} />
-                <br />
-                <Placeholder className="w-75" />
-                <br />
-                <Placeholder style={{ width: "25%" }} />
-                <br />
-                <Placeholder className="w-75" />
-              </Placeholder>
-              <Placeholder xs={12} animation="glow">
-                <Placeholder xs={1} className="me-3 shimmer-icon" />
-                <Placeholder xs={2} className="me-3" />
-                <Placeholder xs={1} className="me-3 shimmer-icon" />
-                <Placeholder xs={2} className="me-3" />
-              </Placeholder>
-            </>
+            <div></div>
           ) : (
             <>
               <div className="flex justify-between items-start">

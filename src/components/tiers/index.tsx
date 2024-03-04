@@ -75,7 +75,14 @@ export default function Tiers() {
                 key={tier.name + tier.volume}
               >
                 <div className="p-6">
-                  <span className="bg-[#FBF1E9] text-[#DA7821] font-semibold text-sm px-2.5 py-1 rounded-[24px]">
+                  <span className={` font-semibold text-sm px-2.5 py-1 rounded-[24px] 
+                  ${tier.name == 'Bronze' ? "bg-[#FBF1E9] text-[#DA7821]":""}
+                  ${tier.name == 'Silver' ? "bg-[#FFE3EC] text-[#620042]":""}
+                  ${tier.name == 'Gold' ? "bg-[#EDE5D0] text-[#A67D13]":""}
+                  ${tier.name == 'Platinum' ? "bg-[#E3F8FF] text-[#035388]":""}
+                  ${tier.name == 'Diamond' ? "bg-[#FFE3EC] text-[#620042]":""}
+                  ${tier.name == 'Blue Diamond' ? "bg-[#E5F0FF] text-[#0068FF]":""}
+                  `}>
                     {tier.name}
                   </span>
                   <div className="">
