@@ -118,13 +118,38 @@ function Proposal() {
                               />
                             </div>
                             <p className="mr-2 text-secondary opacity-50">
-                              Stargate DAO by
+                              Stargate DAO by{" "}
+                              <>
+                                <span>
+                                  {address?.slice(0, 4)}...{address?.slice(-4)}
+                                </span>
+                                <CopyToClipboard
+                                  text={address}
+                                  options={{ format: "text/plain" }}
+                                  onCopy={() => handleCopy()}
+                                >
+                                  <span
+                                    className={
+                                      !state?.copied
+                                        ? "icon md copy-icon cursor-pointer ms-0 pl-4"
+                                        : "icon md check-icon pl-4"
+                                    }
+                                  />
+                                </CopyToClipboard>
+                              </>
                             </p>
                             <div>
                               <span
-                                className={`text-base-100 font-semibold px-3 py-1 rounded bg-success`}
+                                className={`font-semibold px-3 py-1 rounded ${
+                                  proposalDetails?.data?.status === "Pending" ||
+                                  proposalDetails?.data?.status === "Publishing"
+                                    ? "bg-[#ffdc89] text-dark"
+                                    : proposalDetails?.data?.status === "Closed"
+                                    ? "bg-success text-white"
+                                    : ""
+                                }`}
                               >
-                                Active
+                                {proposalDetails?.data?.status}
                               </span>
                             </div>
                           </div>
@@ -175,11 +200,20 @@ function Proposal() {
                         <h2 className="text-base font-semibold mt-3 text-secondary mb-2">
                           Proposal Overview
                         </h2>
-                        <p className={`text-secondary break-all ${(proposalDetails?.data?.description?.length > 400 && !readMore) ? 'text-overlay':''}`}>
+                        <p
+                          className={`text-secondary break-all ${
+                            proposalDetails?.data?.description?.length > 400 &&
+                            !readMore
+                              ? "text-overlay"
+                              : ""
+                          }`}
+                        >
                           {!readMore &&
                           proposalDetails?.data?.description?.length > 400
-                            ? proposalDetails?.data?.description?.slice(0, 400) +
-                              " ..."
+                            ? proposalDetails?.data?.description?.slice(
+                                0,
+                                400
+                              ) + " ..."
                             : proposalDetails?.data?.description}
                         </p>
                       </div>
