@@ -62,25 +62,24 @@ function Voters(props: any) {
         <div>
           <div className="">
             <div className="mb-6 max-sm:w-full overflow-auto">
-              {voters?.data?.length !== 0 && (
-                <div className="px-1">
-                  <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
-                    <thead>
-                      <tr>
-                        <th className="text-left text-base text-secondary font-bold">
-                          No
-                        </th>
-                        <th className="text-left text-base text-secondary font-bold">
-                          Voter Address
-                        </th>
-                        <th className="text-left text-base text-secondary font-bold">
-                          Opted For
-                        </th>
-                       
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {voters?.data?.length>0 && voters?.data?.map((voter: any, index: any) => (
+              <div className="px-1">
+                <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
+                  <thead>
+                    <tr>
+                      <th className="text-left text-base text-secondary font-bold">
+                        No
+                      </th>
+                      <th className="text-left text-base text-secondary font-bold">
+                        Voter Address
+                      </th>
+                      <th className="text-left text-base text-secondary font-bold">
+                        Opted For
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {voters?.data?.length > 0 &&
+                      voters?.data?.map((voter: any, index: any) => (
                         <tr key={voter.walletAddress + voter.options}>
                           <td>
                             <p className="font-normal text-sm text-secondary">
@@ -91,19 +90,19 @@ function Voters(props: any) {
                             <div className="flex justify-between">
                               <span>{voter?.walletAddress}</span>
                               <CopyToClipboard
-                            text={voter?.walletAddress}
-                              options={{ format: "text/plain" }}
-                              onCopy={() => handleCopy(voter?.walletAddress)}
-                            >
-                              <span
-                                className={
-                                  copied !== voter?.walletAddress
-                                    ? "icon md copy-icon  cursor-pointer shrink-0"
-                                    : "icon copy-check c-pointer shrink-0  cursor-pointer"
-                                }
-                              />
-                            </CopyToClipboard>
-                            </div>             
+                                text={voter?.walletAddress}
+                                options={{ format: "text/plain" }}
+                                onCopy={() => handleCopy(voter?.walletAddress)}
+                              >
+                                <span
+                                  className={
+                                    copied !== voter?.walletAddress
+                                      ? "icon md copy-icon  cursor-pointer shrink-0"
+                                      : "icon copy-check c-pointer shrink-0  cursor-pointer"
+                                  }
+                                />
+                              </CopyToClipboard>
+                            </div>
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
@@ -112,45 +111,40 @@ function Voters(props: any) {
                           </td>
                         </tr>
                       ))}
-                        {voters?.data?.length === 0 && (
-                        <tr>
-                          <td colSpan={2} className="ps-0">
-                            <div className="text-center">
-                              <img
-                                src={nodata}
-                                width={95}
-                                className="mx-auto"
-                                alt=""
-                              />
-                              <h4 className="text-center text-secondary mt-2">
-                                No data found
-                              </h4>
-                            </div>
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                  <div className="flex justify-center">
-                    {voters.loading && (
-                      <span className="text-center">
-                        <Spinner />
-                      </span>
-                    )}
-                    {!voters.loading &&
-                      voters?.data?.length > 0 &&
-                      voters?.data?.length ===
-                        pageSize * (voters?.nextPage - 1) && (
-                        <Button handleClick={fetchMoreData} type="plain">
-                          <p className="text-center text-primary text-base font-medium mb-0 cursor-pointer">
-                            See More
-                          </p>
-                          <span className="icon block mx-auto see-more cursor-pointer"></span>
-                        </Button>
-                      )}
+                  </tbody>
+                </table>
+                {!voters.loading && voters?.data?.length === 0 && (
+                  <div className="text-center mt-5">
+                    <img
+                      src={nodata}
+                      width={95}
+                      className="mx-auto"
+                      alt="No Data"
+                    />
+                    <h4 className="text-center text-secondary mt-2">
+                      No data found
+                    </h4>
                   </div>
+                )}
+                <div className="flex justify-center">
+                  {voters.loading && (
+                    <span className="text-center">
+                      <Spinner />
+                    </span>
+                  )}
+                  {!voters.loading &&
+                    voters?.data?.length > 0 &&
+                    voters?.data?.length ===
+                      pageSize * (voters?.nextPage - 1) && (
+                      <Button handleClick={fetchMoreData} type="plain">
+                        <p className="text-center text-primary text-base font-medium mb-0 cursor-pointer">
+                          See More
+                        </p>
+                        <span className="icon block mx-auto see-more cursor-pointer"></span>
+                      </Button>
+                    )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
