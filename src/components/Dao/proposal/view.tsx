@@ -113,7 +113,7 @@ function Proposal() {
                             <div className="w-9 h-9 mr-2">
                               <img
                                 src={user.profilePicUrl || defaultProfile}
-                                className=""
+                                className="rounded-full object-cover"
                                 alt={user.firstName || "user"}
                               />
                             </div>
@@ -138,7 +138,7 @@ function Proposal() {
                                   proposalDetails?.data?.creatorImage ||
                                   defaultProfile
                                 }
-                                className="w-[24px] mr-3"
+                                className="w-[24px] mr-3 rounded-full"
                                 alt="created By"
                               />
                               <span className="truncate">
@@ -175,18 +175,18 @@ function Proposal() {
                         <h2 className="text-base font-semibold mt-3 text-secondary mb-2">
                           Proposal Overview
                         </h2>
-                        <p className="text-secondary break-all">
+                        <p className={`text-secondary break-all ${(proposalDetails?.data?.description?.length > 400 && !readMore) ? 'text-overlay':''}`}>
                           {!readMore &&
-                          proposalDetails?.data?.description?.length > 350
-                            ? proposalDetails?.data?.description?.slice(0, 350) +
+                          proposalDetails?.data?.description?.length > 400
+                            ? proposalDetails?.data?.description?.slice(0, 400) +
                               " ..."
                             : proposalDetails?.data?.description}
                         </p>
                       </div>
 
-                      <p className="text-center">
+                      <p className="text-center mt-2">
                         {!readMore &&
-                          proposalDetails?.data?.description?.length > 30 && (
+                          proposalDetails?.data?.description?.length > 400 && (
                             <button
                               onClick={() => handleShowMore("more")}
                               className="hover:text-primary text-secondary"
