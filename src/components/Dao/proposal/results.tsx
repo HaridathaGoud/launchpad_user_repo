@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import styles from "../dao.module.css";
 import { useAccount } from "wagmi";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -18,35 +18,22 @@ import useContract from "../../../hooks/useContract";
 import { ethers } from "ethers";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import { getProposalStatus } from "../proposals/utils";
-const reducers = (state: any, action: any) => {
-  switch (action.type) {
-    case "copied":
-      return { ...state, copied: action.payload };
-    case "isNoButtonLoading":
-      return { ...state, isNoButtonLoading: action.payload };
-    case "isButtonLoading":
-      return { ...state, isButtonLoading: action.payload };
-    case "mintedMemberShipCount":
-      return { ...state, mintedMemberShipCount: action.payload };
-    case "errorMsg":
-      return { ...state, errorMsg: action.payload };
-    case "selectedOption":
-      return { ...state, selectedOption: action.payload };
-    case "selectedhash":
-      return { ...state, selectedhash: action.payload };
-  }
-};
+import { resultsReducer, resultsState } from "./reducers";
+
 const ProposalResults = (props: any) => {
-  const [saveBtn, setsaveBtn] = useState(true);
-  const [editBtn, seteditBtn] = useState(false);
   const { address } = useAccount();
+  const params = useParams();
+  const { getStakedAmount } = useContract();
+  const { castVote, parseError } = useVotingContract();
+  const [state, dispatch] = useReducer(resultsReducer, resultsState);
+  const rootDispatch = useDispatch();
   const proposalDetails = useSelector(
     (state: any) => state?.vtg?.proposalDetails
   );
-  const savedVoter = useSelector((state: any) => state?.vtg?.savedVoter);
   const customerVoteStatus = useSelector(
     (state: any) => state?.vtg?.isCustomerVoted
   );
+  const customer = useSelector((state: any) => state?.auth?.user);
   const hideVoteButtons =
     getProposalStatus(
       proposalDetails?.data?.startDate,
@@ -60,132 +47,100 @@ const ProposalResults = (props: any) => {
     )
       .toLowerCase()
       .includes("ended");
-  const customer = useSelector((state: any) => state?.auth?.user);
+
   const isVoted = customerVoteStatus?.data?.isVoted;
-  const params = useParams();
-  const { castVote, parseError } = useVotingContract();
-  const [state, dispatch] = useReducer(reducers, {
-    copied: false,
-    isButtonLoading: false,
-    isNoButtonLoading: false,
-    mintedMemberShipCount: null,
-    errorMsg: null,
-    selectedOption: null,
-    selectedhash: null,
-  });
-  const rootDispatch = useDispatch();
-  const { getStakedAmount } = useContract();
-  const [stakedAmount, setStakedAmount] = useState(0);
-  const [stakeAmountLoader, setStakeAmountLoader] = useState(false);
+
+  useEffect(() => {
+    if (address) {
+      getStakeAmount();
+    }
+  }, [address]);
   const getStakeAmount = async () => {
-    setStakeAmountLoader(true);
+    dispatch({ type: "setIsLoading", payload: true });
     let response = await getStakedAmount();
     let _amt = response?.toString();
     if (_amt) {
-      setStakedAmount(parseFloat(ethers.utils.formatEther(_amt)));
+      dispatch({
+        type: "setStakedAmount",
+        payload: parseFloat(ethers.utils.formatEther(_amt)),
+      });
     }
-    setStakeAmountLoader(false);
+    dispatch({ type: "setIsLoading", payload: false });
   };
-  useEffect(() => {
-    getStakeAmount();
-  }, [address]);
-
-  const handleChange = (e: any) => {
-    dispatch({ type: "selectedOption", payload: e?.option });
-    dispatch({ type: "selectedhash", payload: e?.optionHash });
+  const handleChange = (selectedOption: any) => {
+    dispatch({ type: "setSelectedOption", payload: selectedOption });
   };
-  const handleRedirectVotingScreen = () => {
-    if (state?.selectedOption) {
-      // modalActions('agreeModel','open')
-      saveVote(true);
-    } else {
+  const handleVoting = (action: string) => {
+    if (!state?.selectedOption) {
       rootDispatch(setError({ message: "Please select your option" }));
+      return;
     }
-  };
-  const getOptionHashes = () => {
-    let hashes: any = [];
-    let options = proposalDetails?.data?.options;
-    for (let i in options) {
-      let _obj = options[i];
-      hashes.push(_obj?.optionHash);
+    if (isVoted && state?.selectedOption.isSelect) {
+      rootDispatch(setError({ message: "Please select new option" }));
+      return;
     }
-    return hashes;
+    switch (action) {
+      case "new":
+        saveVote(true, "new");
+        break;
+      case "edit":
+        modalActions("editVoting", "open");
+        break;
+      default:
+        break;
+    }
   };
 
-  const saveVote = async (value: any) => {
-    const optionHashes = getOptionHashes();
-    dispatch({ type: "isButtonLoading", payload: true });
-    if (value && !state?.selectedOption) {
-      rootDispatch(setError({ message: "Please select your option" }));
-      dispatch({ type: "isButtonLoading", payload: false });
-    } else {
-      dispatch({ type: "errorMsg", payload: null });
-      // dispatch({ type: 'isButtonLoading', payload: false })
-      dispatch({ type: "isNoButtonLoading", payload: !value });
-      let obj = {
-        proposalId: params?.proposalId,
-        walletAddress: address,
-        Options: state?.selectedOption,
-        TransactionHash: state?.selectedhash,
-        Status: (value && "Voted") || "Abstain",
-      };
-      // let contractAddress = daoVoteName === "SEIICHI ISHII" ? votingSeicheContractAddress : votingKeijiContractAddress
-      let contractAddress = proposalDetails?.data?.votingContractAddress;
-      try {
-        const response = await castVote(
-          contractAddress,
-          proposalDetails?.data?.titleHash,
-          state?.selectedhash
-        );
-        if (response) {
-          await props.saveVoting(obj);
-          if (savedVoter.status === "ok") {
-            await props.getProposalDetails(params?.proposalId, customer?.id);
-            await props.getVoters({
-              page: 1,
-              take: 10,
-              id: params?.proposalId,
-              data: null,
-            });
-            rootDispatch(
-              setToaster({ message: "Your vote was cast successfully." })
-            );
-            setsaveBtn(false);
-            seteditBtn(true);
-          }
-          if (savedVoter.error)
-            rootDispatch(setError({ message: savedVoter.error }));
-        } else {
-          rootDispatch(setError({ message: "Something went wrong!" }));
+  const saveVote = async (value: any, mode: string) => {
+    debugger;
+    dispatch({ type: "setIsSaving", payload: true });
+    let obj = {
+      proposalId: params?.proposalId,
+      walletAddress: address,
+      Options: state?.selectedOption?.option,
+      TransactionHash: state?.selectedOption?.optionHash,
+      Status: (value && "Voted") || "Abstain",
+    };
+    let contractAddress = proposalDetails?.data?.votingContractAddress;
+    try {
+      const response = await castVote(
+        contractAddress,
+        proposalDetails?.data?.titleHash,
+        state?.selectedOption?.optionHash
+      );
+      if (response) {
+        debugger
+        const { status, error } = await saveVoting(obj);
+        if (status === "ok") {
+          await props?.getCustomerVoteStatus(params?.proposalId, customer?.id)
+          await props.getProposalDetails(params?.proposalId, customer?.id);
+          await props.getVoters({
+            page: 1,
+            take: 10,
+            id: params?.proposalId,
+            data: null,
+          });
+          rootDispatch(
+            setToaster({ message: "Your vote was cast successfully." })
+          );
+          mode === "edit" && modalActions("editVoting", "close");
         }
-      } catch (error) {
-        setsaveBtn(true);
-        seteditBtn(false);
-        rootDispatch(setError({ message: parseError(error) }));
-      } finally {
-        dispatch({ type: "isButtonLoading", payload: false });
-        dispatch({ type: "isNoButtonLoading", payload: false });
+        if (error) rootDispatch(setError({ message: error }));
+      } else {
+        rootDispatch(setError({ message: "Something went wrong!" }));
       }
+    } catch (error) {
+      rootDispatch(setError({ message: parseError(error) }));
+    } finally {
+      dispatch({ type: "setIsSaving", payload: false });
     }
   };
-  const handleCancel = () => {
-    modalActions("agreeModel", "close");
-    modalActions("castYourVote", "close");
+  const handleCloseModal = (id: any) => {
+    modalActions(id, "close");
   };
   const handleAgree = () => {
     modalActions("agreeModel", "close");
     modalActions("castYourVote", "open");
-  };
-  const handleConfirmVote = () => {
-    modalActions("castYourVote", "close");
-    saveVote(true);
-  };
-  const handleEditVote = () => {
-    modalActions("agreeModel", "open");
-  };
-  const handleViewVote = () => {
-    seteditBtn(false);
-    setsaveBtn(true);
   };
   return (
     <>
@@ -215,15 +170,15 @@ const ProposalResults = (props: any) => {
             </div>
             <div>
               {/* <p className='text-secondary truncate'>23k The Saf...</p> */}
-              {editBtn && (
+              {isVoted && (
                 <img src={votesuccess} alt="" className="mt-2 w-[90px]" />
               )}
             </div>
           </div>
-          {!editBtn && !stakeAmountLoader && stakedAmount >= 1000 && (
+          {!state?.isLoading && state?.stakedAmount >= 1000 && (
             <div>
               <h2 className="text-base font-semibold mb-2 text-secondary">
-                Cast Your Vote
+                {`${isVoted ? "Edit " : "Cast "}`}Your Vote
               </h2>
               <div className="mb-9">
                 {proposalDetails?.data?.options?.length > 0 && (
@@ -237,12 +192,12 @@ const ProposalResults = (props: any) => {
                             className="radio mr-1 align-middle"
                             value={item?.option}
                             aria-label={`radio ${item?.option}`}
-                            disabled={isVoted && item?.isSelect === false}
+                            disabled={hideVoteButtons}
                             onClick={() => handleChange(item)}
                             checked={
                               item?.isSelect
                                 ? item?.isSelect
-                                : state?.selectedOption === item?.option
+                                : state?.selectedOption?.option === item?.option
                             }
                           />
                           <label className="text-secondary">
@@ -257,45 +212,50 @@ const ProposalResults = (props: any) => {
             </div>
           )}
           <div>
-            {editBtn && (
+            {isVoted && (
               <p className=" text-secondary my-4 text-center">
                 Your vote was cast successfully.
               </p>
             )}
           </div>
-          {saveBtn &&
-            !stakeAmountLoader &&
-            stakedAmount >= 1000 &&
-            !isVoted &&
+          {!state?.isLoading &&
+            state?.stakedAmount >= 1000 &&
             !hideVoteButtons && (
               <div className="mb-2">
                 <Button
-                  handleClick={handleRedirectVotingScreen}
+                  handleClick={
+                    !isVoted
+                      ? () => handleVoting("new")
+                      : () => handleVoting("edit")
+                  }
                   type="secondary"
-                  btnClassName="w-full flex justify-center gap-2"
+                  btnClassName={`w-full ${
+                    !isVoted ? "flex justify-center gap-2" : ""
+                  } `}
+                  disabled={state?.isSaving}
                 >
-                  <span>{state?.isButtonLoading && <Spinner />} </span>{" "}
-                  {"Vote Now"}
+                  <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
+                  {!isVoted && "Vote Now"}
+                  {isVoted && "Edit Vote"}
                 </Button>
               </div>
             )}
-          {(editBtn || isVoted) &&
-            !hideVoteButtons && (
-              <div>
-                <div className="mb-2">
-                  <Button
-                    handleClick={handleEditVote}
-                    type="secondary"
-                    btnClassName="w-full"
-                  >
-                    Edit Vote
-                  </Button>
-                </div>
-                {/* <div className='mb-2'>
-                                <Button children={'View Vote'} handleClick={handleViewVote} type='secondary' btnClassName='w-full' />
-                            </div> */}
+          {/* {(state?.showEditButton || isVoted) && !hideVoteButtons && (
+            <div>
+              <div className="mb-2">
+                <Button
+                  handleClick={() => handleVoting("edit")}
+                  type="secondary"
+                  btnClassName="w-full"
+                >
+                  Edit Vote
+                </Button>
               </div>
-            )}
+              <div className='mb-2'>
+                                <Button children={'View Vote'} handleClick={handleViewVote} type='secondary' btnClassName='w-full' />
+                            </div>
+            </div>
+          )} */}
         </div>
       </div>
 
@@ -338,10 +298,11 @@ const ProposalResults = (props: any) => {
               <div className="mr-5">
                 {" "}
                 <Button
-                  children={"Cancel"}
-                  handleClick={handleCancel}
+                  handleClick={() => handleCloseModal("agreeModal")}
                   type="cancel"
-                />
+                >
+                  Cancel
+                </Button>
               </div>
               <Button
                 children={"I agree"}
@@ -353,17 +314,19 @@ const ProposalResults = (props: any) => {
         </div>
       </Modal>
 
-      <Modal id="castYourVote" modalClass="max-w-[510px]">
+      <Modal id="editVoting" modalClass="max-w-[510px]">
         <div>
           <div>
             <div className="flex justify-between items-center  mb-5">
-              <h3 className="font-semibold text-lg mb-5">Cast your vote</h3>
+              <h3 className="font-semibold text-lg mb-5">
+                Are you sure you want to edit your vote?
+              </h3>
             </div>
             <div className="flex justify-between items-center mb-3">
-              <p className={`text-sm ${styles.lightColor}`}>Choice</p>
-              <p> {state?.selectedOption} </p>
+              <p className={`text-sm ${styles.lightColor}`}>Current Choice</p>
+              <p> {state?.selectedOption?.option} </p>
             </div>
-            <div className="flex justify-between items-center mb-3">
+            {/* <div className="flex justify-between items-center mb-3">
               <p className={`text-sm ${styles.lightColor}`}>DOTT</p>
               <p>
                 31,272,274{" "}
@@ -392,7 +355,7 @@ const ProposalResults = (props: any) => {
                   ></span>
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
           <div
             className={`modal-action justify-center pt-6 mt-2 ${styles.borderTop}`}
@@ -402,15 +365,20 @@ const ProposalResults = (props: any) => {
                 {" "}
                 <Button
                   children={"Cancel"}
-                  handleClick={handleCancel}
+                  handleClick={() => handleCloseModal("editVoting")}
                   type="cancel"
+                  disabled={state?.isSaving}
                 />
               </div>
               <Button
-                children={"Confirm"}
-                handleClick={handleConfirmVote}
+                handleClick={() => saveVote(true, "edit")}
                 type="secondary"
-              />
+                btnClassName="flex justify-center gap-2"
+                disabled={state?.isSaving}
+              >
+                <span>{isVoted && state?.isSaving && <Spinner />} </span>{" "}
+                <span>Confirm</span>
+              </Button>
             </form>
           </div>
         </div>
@@ -425,9 +393,6 @@ const connectDispatchToProps = (dispatch: any) => {
     },
     getVoters: (information: any) => {
       dispatch(getVoters(information));
-    },
-    saveVoting: (obj: any) => {
-      dispatch(saveVoting(obj));
     },
     getCustomerVoteStatus: (proposalId: any, getCustomerData: any) => {
       dispatch(getCustomerVoteStatus(proposalId, getCustomerData));

@@ -136,13 +136,14 @@ const CreateProposal = (props: any) => {
     }
   };
 
-  const handleDrawerAction = () => {
+  const handleDrawerAction = (action) => {
     switch (state?.currentStep) {
       case 1:
         props?.close();
         break;
       case 2:
-        dispatch({ type: "setCurrentStep", payload: 1 });
+        action==='next' && dispatch({ type: "setCurrentStep", payload: 1 });
+        action==='close' && props?.close();
         break;
       case 3:
         props?.close();
@@ -166,7 +167,7 @@ const CreateProposal = (props: any) => {
                 {state.currentStep === 3 && "Proposal Submitted!"}
               </span>
             </Link>
-            <Button type="plain" handleClick={handleDrawerAction}>
+            <Button type="plain" handleClick={()=>handleDrawerAction('close')}>
               {" "}
               <span className={`icon closeIcon`}></span>
             </Button>
@@ -190,7 +191,7 @@ const CreateProposal = (props: any) => {
                   {state?.currentStep !== 3 && (
                     <div className="flex justify-center gap-5 items-center mt-16">
                       <Button
-                        handleClick={handleDrawerAction}
+                        handleClick={()=>handleDrawerAction('next')}
                         type="cancel"
                         btnClassName="justify-center min-w-[164px]"
                       >

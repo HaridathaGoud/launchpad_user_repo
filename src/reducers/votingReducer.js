@@ -1,7 +1,6 @@
 import apiCalls from "../utils/api";
 const FETCH_PROPOSAL_DETAILS = "fetchProposalDetails";
 const FETCH_VOTERS = "fetchVoters";
-const SAVE_VOTER = "saveVoter";
 const FETCH_IS_CUSTOMER_VOTED = "fetchIsCustomerVoted";
 
 const fetchProposalDetails = (payload) => {
@@ -16,12 +15,6 @@ const fetchVoters = (payload) => {
         payload
     }
 };
-const saveVoter = (payload) => {
-    return {
-        type: SAVE_VOTER,
-        payload
-    }
-};
 const fetchIsCustomerVoted = (payload) => {
     return {
         type: FETCH_IS_CUSTOMER_VOTED,
@@ -30,9 +23,9 @@ const fetchIsCustomerVoted = (payload) => {
 }
 const clearVoters = () => {
     return (dispatch) => {
-      dispatch(fetchVoters({ loading: false, data: null, nextPage: 1 }))
+        dispatch(fetchVoters({ loading: false, data: null, nextPage: 1 }))
     }
-  }
+}
 const getProposalDetails = (sub, custId) => {
     return async (dispatch) => {
         dispatch(fetchProposalDetails({ loading: true, data: null, error: '' }));
@@ -51,7 +44,7 @@ const getProposalDetails = (sub, custId) => {
     }
 }
 const getVoters = (information) => {
-    const { take, page, id,data } = information;
+    const { take, page, id, data } = information;
     const skip = take * (page) - take;
     return async (dispatch) => {
         dispatch(fetchVoters({ loading: true, data: data, error: '' }));
@@ -79,21 +72,16 @@ const getVoters = (information) => {
         }
     };
 }
-const saveVoting = (obj) => {
-
-    return async (dispatch) => {
-        dispatch(saveVoter({ loading: true, data: null, error: '', status: '' }));
-        try {
-            const response = await apiCalls.postSaveVote(obj);
-            if (response.status === 200) {
-                dispatch(saveVoter({ loading: false, data: response.data, error: '', status: 'ok' }));
-            } else {
-                dispatch(saveVoter({ loading: false, data: null, error: response, status: '' }));
-            }
-        } catch (error) {
-            dispatch(saveVoter({ loading: false, data: null, error: error, status: '' }));
+const saveVoting = async (obj) => {
+    try {
+        const response = await apiCalls.postSaveVote(obj);
+        if (response.status === 200) {
+            return { data: response.data, status: 'ok', error: '' }
+        } else {
+            return { data: null, status: '', error: response }
         }
-
+    } catch (error) {
+        return { data: null, status: '', error: error }
     }
 }
 const getCustomerVoteStatus = (proposalId, customerId) => {
@@ -113,7 +101,6 @@ const getCustomerVoteStatus = (proposalId, customerId) => {
 }
 let initialState = {
     proposalDetails: { data: null, loading: false, error: '' },
-    savedVoter: { data: null, loading: false, error: '' },
     voters: { data: null, loading: false, error: '', nextPage: 1 },
     isCustomerVoted: null,
 }
@@ -127,7 +114,6 @@ const votingReducer = (state, action) => {
         }
     }
     switch (action.type) {
-
         case FETCH_PROPOSAL_DETAILS:
             state = { ...state, proposalDetails: { ...state.proposalDetails, ...action.payload } };
             return state;
@@ -144,10 +130,6 @@ const votingReducer = (state, action) => {
         case FETCH_IS_CUSTOMER_VOTED:
             state = { ...state, isCustomerVoted: action.payload }
             return state;
-        case SAVE_VOTER:
-            state = { ...state, savedVoter: action.payload }
-            return state;
-
         default:
             return state;
     }
@@ -155,5 +137,5 @@ const votingReducer = (state, action) => {
 export default (votingReducer);
 export {
     getProposalDetails, getVoters, saveVoting, fetchVoters,
-    getCustomerVoteStatus, fetchIsCustomerVoted,clearVoters
+    getCustomerVoteStatus, fetchIsCustomerVoted, clearVoters
 };
