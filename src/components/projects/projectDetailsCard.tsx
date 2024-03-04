@@ -40,50 +40,50 @@ const ProjectDetailsCard = (props: any) => {
                     {props.pjctInfo?.tokenSymbol}
                   </h4>
                   <div className="flex gap-2">
-                    {props.pjctInfo.facebook && (
+                    {props.pjctInfo?.facebook && (
                       <NaviLink
                         className="icon facebook-md cursor-pointer"
-                        path={props.pjctInfo.facebook}
+                        path={props.pjctInfo?.facebook}
                         target="_blank"
                         rel="noopener noreferrer external"
                       />
                     )}
-                    {props.pjctInfo.websiteUrl && (
+                    {props.pjctInfo?.websiteUrl && (
                       <NaviLink
                         className="icon network-md cursor-pointer"
-                        path={props.pjctInfo.websiteUrl}
+                        path={props.pjctInfo?.websiteUrl}
                         target="_blank"
                         rel="noopener noreferrer external"
                       />
                     )}
-                    {props.pjctInfo.twitter && (
+                    {props.pjctInfo?.twitter && (
                       <NaviLink
                         className="icon twitter-md cursor-pointer"
-                        path={props.pjctInfo.twitter}
+                        path={props.pjctInfo?.twitter}
                         target="_blank"
                         rel="noopener noreferrer external"
                       />
                     )}
-                    {props.pjctInfo.instagram && (
+                    {props.pjctInfo?.instagram && (
                       <NaviLink
                         className="icon instagram-md cursor-pointer"
-                        path={props.pjctInfo.instagram}
+                        path={props.pjctInfo?.instagram}
                         target="_blank"
                         rel="noopener noreferrer external"
                       />
                     )}
-                    {props.pjctInfo.telegram && (
+                    {props.pjctInfo?.telegram && (
                       <NaviLink
                         className="icon telegram-md cursor-pointer"
-                        path={props.pjctInfo.telegram}
+                        path={props.pjctInfo?.telegram}
                         target="_blank"
                         rel="noopener noreferrer external"
                       />
                     )}
-                    {props.pjctInfo.discard && (
+                    {props.pjctInfo?.discard && (
                       <NaviLink
                         className="icon discord-md cursor-pointer"
-                        path={props.pjctInfo.discard}
+                        path={props.pjctInfo?.discard}
                         target="_blank"
                         rel="noopener noreferrer external"
                       />
@@ -125,7 +125,7 @@ const ProjectDetailsCard = (props: any) => {
             <div className="grid grid-cols-2 mt-[32px] gap-5">
               <div className="">
                 <h5 className="text-base text-secondary mb-1">
-                  {props.pjctInfo.totalSupply?.toLocaleString()}
+                  {props.pjctInfo?.totalSupply?.toLocaleString()}
                 </h5>
                 <p className="text-base text-secondary opacity-60">
                   Total Supply

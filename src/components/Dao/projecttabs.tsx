@@ -5,7 +5,7 @@ const ProjectViewTabs = ({
   allocationRef,
   buyMembershipRef,
   dao,
-  setdaotab,
+  setDaoTab,
   pjctInfo,
 }) => {
   const [active, setActive] = useState("");
@@ -29,16 +29,16 @@ const ProjectViewTabs = ({
         );
       } else {
         ref = projectFeedRef?.current;
-        setdaotab?.(false);
+        setDaoTab?.(false);
       }
     } else if (tab === "allocationClaim") {
       ref = allocationRef?.current;
-      setdaotab?.(false);
+      setDaoTab?.(false);
     } else if (tab === "buyMembership") {
       ref = buyMembershipRef?.current;
-      setdaotab?.(false);
+      setDaoTab?.(false);
     } else if (tab === "dao") {
-      setdaotab?.(true);
+      setDaoTab?.(true);
       // ref=dao?.current;
     }
 

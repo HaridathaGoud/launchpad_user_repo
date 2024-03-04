@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../ui/Button";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 import nodata from "../../assets/images/no-data.png";
 import useContract from "../../hooks/useContract";
 import { connect, useDispatch } from "react-redux";
-import { store } from "../../store";
-import { get } from "../../utils/api";
 import Spinner from "../loaders/spinner";
-import { useAccount } from "wagmi";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 
 const Allocations = (props) => {
   const [allocationsData, setAllocationsData] = useState<{
     [key: string]: any;
-  }>([]);
+  }>(props.data);
   const [isChecked, setIsChecked] = useState(false);
   const [isconfirm, setIsconfirm] = useState(false);
-  const [allocationsLoader, setAllocationsLoader] = useState<any>(false);
   const [isHide, setIsHide] = useState(true);
   const [allocationVolume, setAllocationVolume] = useState<any>(null);
   const [volumeData, setVolumeData] = useState<any>(null);
@@ -24,45 +20,19 @@ const Allocations = (props) => {
   const [amountErrorMsg, setAmountErrorMsg] = useState<any>(null);
   const [btnLoader, setBtnLoader] = useState<boolean>(false);
   const { buyTokens } = useContract();
-  const user = store.getState().auth;
-  const { address } = useAccount();
-    const rootDispatch=useDispatch()
+  const rootDispatch = useDispatch();
   useEffect(() => {
-    if (props.pid) {
-        getProjectClaimsDetails("allocations");
-
-    }
-  }, [props.pid, user,address]);//eslint-disable-line react-hooks/exhaustive-deps
-
-  const getProjectClaimsDetails = async (e: any) => {
-    setAllocationsLoader(true);
-    rootDispatch(setError({message:""}))
-    if (e === "allocations") {
-      const user = store.getState().auth;
-      const userId =
-        user?.user?.id && user?.user?.id != ""
-          ? user?.user?.id
-          : "00000000-0000-0000-0000-000000000000";
-      try {
-        const res = await get("User/Allocations/" + props.pid + "/" + userId);
-        if (res.statusText.toLowerCase() === "ok") {
-          setAllocationsData(res.data);
-          handlePrivateOrPublic(res.data);
-          if (res.data?.length !== 0) {
-            setIsHide(false);
-          } else {
-            setIsHide(true);
-          }
-        }
-        setAllocationsLoader(false);
-      } catch (error) {
-        rootDispatch(setError({message:error}))
-        setAllocationsLoader(false);
+    if (props.data) {
+      handlePrivateOrPublic(props.data);
+      if (props.data?.length !== 0) {
+        setIsHide(false);
+      } else {
+        setIsHide(true);
       }
     }
-  };
+  }, [props?.data]);
   const handlePrivateOrPublic = (data: any) => {
-    data?.map((item: any) => {
+    data?.forEach((item: any) => {
       if (item.type === "Private") {
         let privateStartDate = new Date(item.startDate).getTime();
         let privateEndDate = new Date(item.endDate).getTime();
@@ -83,7 +53,7 @@ const Allocations = (props) => {
     }
   };
   const handleBuyNow = (item: any) => {
-    rootDispatch(setError({message:""}))
+    rootDispatch(setError({ message: "" }));
     setIsChecked(true);
     setAllocationVolume(item?.allocationVolume);
     setVolumeData(item?.paymentValue);
@@ -91,7 +61,7 @@ const Allocations = (props) => {
   const handleDrawerCancel = () => {
     setIsChecked(false);
     setIsconfirm(false);
-    rootDispatch(setError({message:""}))
+    rootDispatch(setError({ message: "" }));
   };
   const handleAmount = (e: any) => {
     if (!e.target.value || e.target.value?.match(/^\d{1,}(\.\d{0,8})?$/)) {
@@ -102,14 +72,14 @@ const Allocations = (props) => {
     setIsChecked(false);
     setBuyBalance(null);
     setAmountErrorMsg(null);
-    rootDispatch(setError({message:""}))
+    rootDispatch(setError({ message: "" }));
     setBtnLoader(false);
   };
   const handleBuyToken = (e: any) => {
     let isUpdate = false;
     const value = allocationVolume?.toString();
     setAmountErrorMsg(null);
-    rootDispatch(setError({message:""}))
+    rootDispatch(setError({ message: "" }));
     if (value && !buyBalance) {
       isUpdate = true;
     } else {
@@ -135,7 +105,7 @@ const Allocations = (props) => {
     return provider;
   }
   const handleOk = async () => {
-    const etherValue = Number(volumeData) * Number(buyBalance)
+    const etherValue = Number(volumeData) * Number(buyBalance);
     setBtnLoader(true);
     buyTokens(etherValue, Number(buyBalance), props.pjctInfo?.contractAddress)
       .then((res: any) => {
@@ -145,14 +115,13 @@ const Allocations = (props) => {
           .then((receipt: any) => {
             setBtnLoader(false);
             setIsChecked(false);
-            getProjectClaimsDetails("allocations");
-            rootDispatch(setToaster({message:"Tokens buy successful!"}))
-            window.location.reload();
+            props.getAllocations();
+            rootDispatch(setToaster({ message: "Tokens buy successful!" }));
             setIsconfirm(false);
           })
           .catch((error: any) => {
             setIsChecked(true);
-            rootDispatch(setError({message:error?.reason || error}))
+            rootDispatch(setError({ message: error?.reason || error }));
             setBtnLoader(false);
             setIsconfirm(false);
           });
@@ -160,18 +129,20 @@ const Allocations = (props) => {
       .catch((error: any) => {
         setIsChecked(true);
         setIsconfirm(false);
-        rootDispatch(setError({message:error?.shortMessage || error?.reason || error}))
+        rootDispatch(
+          setError({ message: error?.shortMessage || error?.reason || error })
+        );
         setBtnLoader(false);
       });
   };
   return (
     <>
-      {allocationsLoader && (
+      {props.loader && (
         <div className="text-center">
           <Spinner />
         </div>
       )}
-      {!allocationsLoader && (
+      {!props.loader && (
         <div className="">
           <div>
             <h2 className="text-2xl font-medium">
@@ -220,8 +191,7 @@ const Allocations = (props) => {
                           <td>
                             <p className="font-normal text-sm text-secondary">
                               {item.allocationVolume.toLocaleString()}{" "}
-                              {item?.paymentSymbol?.toLocaleString() ||
-                                "--"}
+                              {item?.paymentSymbol?.toLocaleString() || "--"}
                             </p>
                           </td>
                           <td>
@@ -244,15 +214,13 @@ const Allocations = (props) => {
                                   disabled={
                                     item.allocationVolume === 0 ||
                                     item?.allocationVolume <=
-                                    item?.purchaseVolume ||
-                                    (item?.type?.toLowerCase() ===
-                                      "private" &&
+                                      item?.purchaseVolume ||
+                                    (item?.type?.toLowerCase() === "private" &&
                                       props.pjctInfo?.privateStatus?.toLowerCase() ===
-                                      "closed") ||
-                                    (item?.type?.toLowerCase() ===
-                                      "public" &&
+                                        "closed") ||
+                                    (item?.type?.toLowerCase() === "public" &&
                                       props.pjctInfo?.publicStatus?.toLowerCase() ===
-                                      "closed")
+                                        "closed")
                                   }
                                   handleClick={() => handleBuyNow(item)}
                                 >
@@ -269,7 +237,7 @@ const Allocations = (props) => {
               )}
             </div>
           </div>
-          {allocationsData?.length == 0 && (
+          {allocationsData?.length === 0 && (
             <div className="text-center">
               <img width={95} className="mx-auto" src={nodata} alt="No Data" />
               <p className="text-center text-secondary mt-2">No data found</p>
@@ -305,7 +273,10 @@ const Allocations = (props) => {
 
               <div className="mt-10">
                 <div className="mt-10">
-                  <label htmlFor="amount" className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                  <label
+                    htmlFor="amount"
+                    className="text-dark text-sm font-normal p-0 mb-2 label ml-4"
+                  >
                     Enter Token Count To Buy *
                   </label>
                   <input
@@ -340,10 +311,7 @@ const Allocations = (props) => {
                   btnClassName="min-w-[150px]"
                   handleClick={handleBuyToken}
                 >
-                  {btnLoader && (
-                    <Spinner />
-                  )}{" "}
-                  Ok
+                  {btnLoader && <Spinner />} Ok
                 </Button>
               </div>
             </div>

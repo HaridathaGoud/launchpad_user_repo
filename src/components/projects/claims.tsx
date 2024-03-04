@@ -2,48 +2,24 @@ import React, { useEffect, useState} from "react";
 import Button from "../../ui/Button";
 import nodata from "../../assets/images/no-data.png";
 import useContract from "../../hooks/useContract";
-import { get } from "../../utils/api";
-import { store } from "../../store";
 import { connect, useDispatch } from "react-redux";
 import Spinner from "../loaders/spinner";
 import moment from "moment";
 import { ethers } from "ethers";
-import { useAccount } from "wagmi";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 const Claims = (props) => {
-  const { address } = useAccount();
-  const [claimsLoader, setClaimsLoader] = useState<any>(false);
   const [claimHide, setClaimHide] = useState(true);
-  const [claimsData, setClaimsData] = useState<{ [key: string]: any }>([]);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
   const [claimIndex, setClaimIndex] = useState<any>(null);
   const { claimTokens } = useContract();
   const rootDispatch=useDispatch()
   useEffect(() => {
-      getClaimsData();
-  }, [props.pid, address]); //eslint-disable-line react-hooks/exhaustive-deps
-  const getClaimsData = async () => {
-    const user = store.getState().auth;
-    const userId =
-      user?.user?.id && user?.user?.id != ""
-        ? user?.user?.id
-        : "00000000-0000-0000-0000-000000000000";
-    await get("User/Claims/" + props.pid + "/" + userId)
-      .then((response: any) => {
-        setClaimsData(response.data);
-        setClaimsLoader(false);
-        if (response.data?.length !== 0) {
-          setClaimHide(false);
-        } else {
-          setClaimHide(true);
-        }
-        //handleClaimsCheck(response.data);  //calim button private& public end dates check
-      })
-      .catch((error: any) => {
-        rootDispatch(setError({message:error?.reason || error}))
-        setClaimsLoader(false);
-      });
-  };
+      if (props.data?.length !== 0) {
+        setClaimHide(false);
+      } else {
+        setClaimHide(true);
+      }
+  }, [props.data]); //eslint-disable-line react-hooks/exhaustive-deps
   const handleClaim = (index: any) => {
     rootDispatch(setError({message:''}))
     setClaimIndex(index);
@@ -55,9 +31,8 @@ const Claims = (props) => {
           .waitForTransaction(res?.hash)
           .then((receipt: any) => {
             setClaimBtnLoader(false);
-            // getProjectClaimsDetails('allocations');
+            props.getClaims();
             rootDispatch(setToaster({message:"Tokens claim successful!"}))
-            window.location.reload();
           })
           .catch((error: any) => {
             setClaimBtnLoader(false);
@@ -76,7 +51,7 @@ const Claims = (props) => {
   }
   return (
     <>
-      {!claimsLoader && (
+      {!props.loader && (
         <>
           {claimHide && (
             <div className="">
@@ -124,7 +99,7 @@ const Claims = (props) => {
                       <th className="text-left text-base text-secondary font-bold"></th>
                     </tr>
                   </thead>
-                  {claimsData?.map((claims: any, index: any) => (
+                  {props?.data?.map((claims: any, index: any) => (
                     <tbody key={index}>
                       <tr>
                         <td>
@@ -187,7 +162,7 @@ const Claims = (props) => {
                   ))}
                 </table>
               </div>
-              {claimsData?.length === 0 && (
+              {props?.data?.length === 0 && (
                 <div className="text-center">
                   <img
                     width={95}

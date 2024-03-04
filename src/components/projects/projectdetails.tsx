@@ -17,92 +17,115 @@ import ProjectBanner from "./projectBanner";
 import ProjectFeed from "./projectfeed";
 import Allocations from "./allocations";
 import Claims from "./claims";
-import CommonCreateProposal from '../Dao/proposals/index';
+import CommonCreateProposal from "../Dao/proposals/index";
 import BreadCrumb from "../../ui/breadcrumb";
 import SwipeUpComponent from "./swipeup";
 import { setError } from "../../reducers/layoutReducer";
 
-function Projectdetails(props: any) {
-  const rootDispatch=useDispatch()
-  const [pjctInfo, setPjctInfo] = useState<{ [key: string]: any }>({});
-  const [pjctFeed, setPjctFeed] = useState<{ [key: string]: any }>({});
-  const [loader, setLoader] = useState(false);
+const Projectdetails = (props: any) => {
+  const rootDispatch = useDispatch();
+  const { pid } = useParams();
   const { address } = useAccount();
-  const { pid, projectstatus } = useParams();
   const { getStakedAmount } = useContract();
-  const [swapedPercentage, setSwapedPercentage] = useState();
-  const [stakedAmount, setStakedAmount] = useState<any>(null);
   const user = store.getState().auth;
-  const [currentProject, setCurrentProject] = useState('');
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
-  const dao = useRef(null);
   const buyMembershipRef = useRef(null);
-  const [foundingmems, setFoundingMems] = useState([]);
-  const [foundingmemLoader, setfoundingMemsLoader] = useState(false);
-  const [daotab,setdaotab]=useState(false)
+  const [loader, setLoader] = useState(false);
+  const [daoTab, setDaoTab] = useState(false);
+  const [data, setData] = useState<any>(null);
   useEffect(() => {
     window.scroll(0, 0);
     if (pid) {
-        getPjctDetails();
-        stakeAmountData();
-        getFoundingMembers();
+      getDetails("all");
     }
-  }, [pid, projectstatus, address, user]);// eslint-disable-line react-hooks/exhaustive-deps
-  const stakeAmountData = () => {
-    getStakedAmount().then((res: any) => {
-      let _amt = res.toString();
-      if (_amt) {
-        setStakedAmount(parseFloat(ethers.utils.formatEther(_amt)));
-      }
-    });
-  };
-
-  const getPjctDetails = async () => {
-    setLoader(true);
+  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
+  const getDetails = async (fetch) => {
     const userId =
       user?.user?.id && user?.user?.id != ""
         ? user?.user?.id
         : "00000000-0000-0000-0000-000000000000";
-    const res = await get("User/TokenInformation/" + pid + "/" + userId)
-      .then((res: any) => {
-        setPjctInfo(res.data);
-        proStatus(res.data);
-        getPjctFeed();
-        swapProgressBarCalculation(res);
-      })
-      .catch((error: any) => {
-        rootDispatch(setError({message:error}))
-        setLoader(false);
-      });
-  };
-  const getFoundingMembers = async () => {
-    setfoundingMemsLoader(true);
-    const res = await get("User/stakers/" + pid)
-      .then((res: any) => {
-        setFoundingMems(res.data);
-        setfoundingMemsLoader(false);
-      })
-      .catch((error: any) => {
-        rootDispatch(setError({message:error}))
-        setfoundingMemsLoader(false);
-      });
+    setLoader(true);
+    try {
+      let details = data ? { ...data } : {};
+      if (fetch === "all") {
+        let projectStatus = "";
+        let swapPercentage = 0;
+        const projectDetails = await get(
+          "User/TokenInformation/" + pid + "/" + userId
+        );
+        const projectFeed = await get("User/ProjectFeed/" + pid);
+        const founders = await get("User/stakers/" + pid);
+        const stakedAmount = await getStakedAmount();
+        const allocations = await get("User/Allocations/" + pid + "/" + userId);
+        const claims = await get("User/Claims/" + pid + "/" + userId);
+        if (projectDetails.status === 200) {
+          projectStatus = proStatus(projectDetails.data);
+          swapPercentage = swapProgressBarCalculation(projectDetails);
+          details = {
+            ...details,
+            projectDetails: projectDetails.data,
+            projectStatus: projectStatus,
+            swapPercentage: swapPercentage,
+          };
+        } else {
+          rootDispatch(setError({ message: projectDetails }));
+        }
+        if (projectFeed.status === 200) {
+          details = { ...details, projectFeed: projectFeed.data };
+        } else {
+          rootDispatch(setError({ message: projectFeed }));
+        }
+        if (founders.status === 200) {
+          details = { ...details, founders: founders.data };
+        } else {
+          rootDispatch(setError({ message: founders }));
+        }
+        if (allocations.status === 200) {
+          details = { ...details, allocations: allocations.data };
+        } else {
+          rootDispatch(setError({ message: allocations }));
+        }
+        if (claims.status === 200) {
+          details = { ...details, claims: claims.data };
+        } else {
+          rootDispatch(setError({ message: claims }));
+        }
+        if (stakedAmount) {
+          let _amt = stakedAmount.toString();
+          if (_amt) {
+            const amount = parseFloat(ethers.utils.formatEther(_amt));
+            details = { ...details, stakedAmount: amount };
+          }
+        } else {
+          rootDispatch(setError({ message: stakedAmount }));
+        }
+      } else if (fetch === "allocations") {
+        const allocations = await get("User/Allocations/" + pid + "/" + userId);
+        if (allocations.status === 200) {
+          details = { ...details, allocations: allocations.data };
+        } else {
+          rootDispatch(setError({ message: allocations }));
+        }
+      } else if (fetch === "claims") {
+        const claims = await get("User/Allocations/" + pid + "/" + userId);
+        if (claims.status === 200) {
+          details = { ...details, claims: claims.data };
+        } else {
+          rootDispatch(setError({ message: claims }));
+        }
+      }
+      setData(details);
+    } catch (error) {
+      rootDispatch(setError({ message: error }));
+    } finally {
+      setLoader(false);
+    }
   };
   const swapProgressBarCalculation = (res: any) => {
     let swapedData: any =
       (res.data.totalSoldTokens / res.data.totalSupply) * 100;
-    setSwapedPercentage(swapedData);
-  };
-
-  const getPjctFeed = async () => {
-    const res = await get("User/ProjectFeed/" + pid);
-    if (res) {
-      setPjctFeed(res.data);
-      setLoader(false);
-    } else {
-      rootDispatch(setError({message:res}))
-      setLoader(false);
-    }
+    return swapedData;
   };
 
   const proStatus = (data: any) => {
@@ -116,11 +139,11 @@ function Projectdetails(props: any) {
       (currentDate >= privateStDate && currentDate <= publicEndDate) ||
       (currentDate >= publicStDate && currentDate <= privateEndDate)
     ) {
-      setCurrentProject("ongoing");
+      return "ongoing";
     } else if (currentDate < privateStDate || currentDate < publicStDate) {
-      setCurrentProject("upcoming");
+      return "upcoming";
     } else {
-      setCurrentProject("closed");
+      return "closed";
     }
   };
 
@@ -129,23 +152,12 @@ function Projectdetails(props: any) {
       <div className="container mx-auto md:mb-[90px] max-md:px-3 max-sm:mb-5">
         <div className="">
           <div className="container">
-            {/* {errorMsg && (
-              <div className="cust-error-bg my-4">
-                <img src={error} alt="" width={32} height={32} className="me-2" />
-                <div>
-                  <p className="error-title error-red">Error</p>
-                  <p className="error-desc">{errorMsg}</p>
-                </div>
-              </div>
-            )} */}
-
             {loader ? (
               <DetailViewShimmer />
             ) : (
               <div className="md:grid md:grid-cols-12 mt-2 gap-7">
                 <div className="md:col-span-8">
-                  {/* <BannerCarousel images={projectCarousel} className='h-[380px]' /> */}
-                  <ProjectBanner bannerImage={pjctFeed.bannerImage} />
+                  <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
                   <div className="mt-2 mb-4">
                     <BreadCrumb />
                     <div className="mb-2 mt-4">
@@ -153,31 +165,32 @@ function Projectdetails(props: any) {
                         projectFeedRef={projectFeedRef}
                         allocationRef={allocationRef}
                         buyMembershipRef={buyMembershipRef}
-                        pjctInfo={pjctInfo}
-                        dao={'dao'}
-                        setdaotab={setdaotab}
+                        pjctInfo={data?.projectDetails}
+                        dao={"dao"}
+                        setDaoTab={setDaoTab}
                       />
                     </div>
 
-                      {!daotab && <div>
+                    {!daoTab && (
+                      <div>
                         <h4
                           className={`text-base font-semibold text-secondary mb-2 mt-8`}
                         >
                           About Project
                         </h4>
-                        <ProjectFeed pjctFeed={pjctFeed} />
+                        <ProjectFeed pjctFeed={data?.projectFeed} />
                         <h4
                           className={`text-base font-semibold text-secondary mb-2 mt-8`}
                         >
                           Founding Members
                         </h4>
-                        {!foundingmemLoader && foundingmems && (
+                        {!loader && data?.founders && (
                           <FoundingMember
-                            foundingmemsData={foundingmems}
+                            foundingmemsData={data?.founders}
                             pjctId={pid}
                           />
                         )}
-                        {foundingmemLoader && (
+                        {loader && (
                           <div className="animate-pulse space-x-1">
                             <div className="rounded-full bg-slate-200 h-20 w-20"></div>
                             <div className="flex-1 space-y-5 py-1">
@@ -196,7 +209,7 @@ function Projectdetails(props: any) {
                         </h4>
                         {!loader && (
                           <CastAndCrewMember
-                            castCrewsData={pjctInfo.cast_Crews}
+                            castCrewsData={data?.projectDetails?.cast_Crews}
                             pjctId={pid}
                           />
                         )}
@@ -213,19 +226,32 @@ function Projectdetails(props: any) {
                           </div>
                         )}
                         <hr className="my-5" />
-                      </div>}
+                      </div>
+                    )}
+                  </div>
 
-                    </div>
-
-                    {!daotab && <>
+                  {!daoTab && (
+                    <>
                       <div
                         id="allocationClaim"
                         ref={allocationRef}
                         className="project-detail"
                       >
                         <div>
-                          <Allocations pjctInfo={pjctInfo} pid={pid} />
-                          <Claims pjctInfo={pjctInfo} pid={pid} />
+                          <Allocations
+                            pjctInfo={data?.projectDetails}
+                            pid={pid}
+                            data={data?.allocations}
+                            getAllocations={() => getDetails("allocations")}
+                            loader={loader}
+                          />
+                          <Claims
+                            pjctInfo={data?.projectDetails}
+                            pid={pid}
+                            data={data?.claims}
+                            getClaims={() => getDetails("claims")}
+                            loader={loader}
+                          />
                         </div>
                       </div>
                       <div
@@ -235,23 +261,20 @@ function Projectdetails(props: any) {
                       >
                         <BuyMembership />
                       </div>
-                    </>}
+                    </>
+                  )}
 
-                  {daotab && 
-                  <div
-                    id="dao"
-                    // ref={dao}
-                    className="mt-6"
-                  >
-                    <CommonCreateProposal pjctInfo={pjctInfo} />
-                  </div> }
+                  {daoTab && (
+                    <div id="dao" className="mt-6">
+                      <CommonCreateProposal pjctInfo={data?.projectDetails} />
+                    </div>
+                  )}
+                </div>
 
-                  </div>
-        
                 <ProjectDetailsCard
-                  pjctInfo={pjctInfo}
-                  currentPjct={currentProject}
-                  swapedPercentage={swapedPercentage}
+                  pjctInfo={data?.projectDetails}
+                  currentPjct={data?.projectStatus}
+                  swapedPercentage={data?.swapPercentage}
                 />
               </div>
             )}
@@ -259,10 +282,10 @@ function Projectdetails(props: any) {
         </div>
       </div>
       <ApplyNow />
-      <SwipeUpComponent/>
+      <SwipeUpComponent />
     </>
   );
-}
+};
 
 const connectStateToProps = ({ auth }) => {
   return { auth: auth };
