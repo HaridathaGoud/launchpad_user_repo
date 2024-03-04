@@ -177,8 +177,8 @@ function Proposal() {
                         </h2>
                         <p className="text-secondary break-all">
                           {!readMore &&
-                          proposalDetails?.data?.description?.length > 30
-                            ? proposalDetails?.data?.description?.slice(0, 30) +
+                          proposalDetails?.data?.description?.length > 350
+                            ? proposalDetails?.data?.description?.slice(0, 350) +
                               " ..."
                             : proposalDetails?.data?.description}
                         </p>

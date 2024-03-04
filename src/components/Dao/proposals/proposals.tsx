@@ -236,13 +236,13 @@ const ProposalCards = (props: any) => {
                         </div>
                         <div className="flex gap-5 flex-col lg:flex-row">
                           <div className="w-full lg:w-52 lg:h-32 shrink-0">
-                            <img src={item?.image||defaultBG} className="h-[130px] object-cover w-full rounded-lg" alt="proposal-image"/>
+                            <img src={item?.image||defaultBG} className="h-[130px] object-cover w-full rounded-lg" alt={item?.title || 'proposal'}/>
                               </div>
                           <div className="flex-1">
                             <p className="text-base-200">
                               {(item?.description &&
-                                (item?.description.length > 30
-                                  ? item.description.slice(0, 30) + " ..."
+                                (item?.description.length > 75
+                                  ? item.description.slice(0, 75) + " ..."
                                   : item.description)) ||
                                 "--"}
                             </p>
