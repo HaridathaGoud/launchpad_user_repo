@@ -236,8 +236,12 @@ const ProposalCards = (props: any) => {
                         </div>
                         <div className="flex gap-5 flex-col lg:flex-row">
                           <div className="w-full lg:w-52 lg:h-32 shrink-0">
-                            <img src={item?.image||defaultBG} className="h-[130px] object-cover w-full rounded-lg" alt={item?.title || 'proposal'}/>
-                              </div>
+                            <img
+                              src={item?.image || defaultBG}
+                              className="h-[130px] object-cover w-full rounded-lg"
+                              alt={item?.title || "proposal"}
+                            />
+                          </div>
                           <div className="flex-1">
                             <p className="text-base-200">
                               {(item?.description &&
@@ -295,7 +299,10 @@ const ProposalCards = (props: any) => {
                             </div>
                             <div className="md:flex justify-between items-center mt-2">
                               <p className="text-base font-semibold mb-2 md:mb-0 text-secondary">
-                                {getProposalStatus(item?.startDate,item?.endDate)}
+                                {getProposalStatus(
+                                  item?.startDate,
+                                  item?.endDate
+                                )}
                               </p>
                             </div>
                           </div>
@@ -311,7 +318,7 @@ const ProposalCards = (props: any) => {
                       {!proposals.loading &&
                         proposals.data.length > 0 &&
                         proposals.data.length ===
-                          take * proposals?.nextPage - 1 && (
+                          take * (proposals?.nextPage - 1) && (
                           <Button
                             handleClick={handleMoreProposals}
                             type="plain"

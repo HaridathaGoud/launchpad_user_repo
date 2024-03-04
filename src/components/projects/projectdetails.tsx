@@ -163,7 +163,7 @@ const Projectdetails = (props: any) => {
                 <div className="md:col-span-8">
                   <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
                   <div className="mt-2 mb-4">
-                    <BreadCrumb />
+                    {/* <BreadCrumb /> */}
                     <div className="mb-2 mt-4">
                       <ProjectViewTabs
                         projectFeedRef={projectFeedRef}

@@ -47,7 +47,7 @@ const CastandCrewMembersView = () => {
           />
         )}
       </div>
-      <BreadCrumb/>
+      {/* <BreadCrumb/> */}
       <h1 className="text-base font-semibold mb-3 mt-5">Cast & Crew</h1>
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
         {castandcrews.cast_Crews?.map((item) => (

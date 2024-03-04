@@ -47,7 +47,7 @@ const Daos = (props: any) => {
                 <div
                   className="shadow rounded mt-md-0 mt-3 sm-m-0 cursor-pointer rounded-lg transform transition-transform duration-500 hover:scale-[1.03]"
                   onClick={() => navigateToProposals(item)}
-                  key={item.name+item.daoId}
+                  key={item.name + item.daoId}
                 >
                   <img
                     src={item?.image}
@@ -79,7 +79,7 @@ const Daos = (props: any) => {
             <span className="loading loading-spinner loading-sm"></span>
           )}
           {daos?.data?.length > 0 &&
-            daos?.data?.length === take * daos?.nextPage - 1 && (
+            daos?.data?.length === take * (daos?.nextPage - 1) && (
               <Button type="plain" handleClick={getDaosList}>
                 <span className="cursor-pointer text-base text-primary font-semibold">
                   See More

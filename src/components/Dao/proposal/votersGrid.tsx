@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { getVoters } from "../../../reducers/votingReducer";
 import nodata from "../../../assets/images/no-data.png";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import Placeholder from "react-bootstrap/Placeholder";
 import Spinner from "../../loaders/spinner";
 import Button from "../../../ui/Button";
 const pageSize = 10;
