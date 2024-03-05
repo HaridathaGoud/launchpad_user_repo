@@ -79,11 +79,11 @@ const BreadCrumb = () => {
           return (
             <li key={item.path + item.name}>
               {item.path && (
-                <NaviLink path={item.path} className="!font-normal">
+                <NaviLink path={item.path} className="!font-normal !text-black">
                   {item.name}
                 </NaviLink>
               )}
-              {!item.path && <p className="!font-normal">{item.name}</p>}
+              {!item.path && <p className="!font-normal text-primary">{item.name}</p>}
             </li>
           );
         })}

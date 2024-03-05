@@ -8,6 +8,7 @@ import ProjectShimmer from "../../components/loaders/projectcardshimmer";
 import Spinner from "../loaders/spinner";
 import { setError } from "../../reducers/layoutReducer";
 import { useDispatch } from "react-redux";
+import BreadCrumb from "../../ui/breadcrumb";
 
 const Projectscomponent = (props) => {
   const rootDispatch=useDispatch()
@@ -99,11 +100,11 @@ const Projectscomponent = (props) => {
   return (
     <>
       {cardDetails.length > 0 && (
-        <div className="container mx-auto mt-10">
+        <div className="container mx-auto mt-[32px]">
           <div className="">
-            {/* <BreadCrumb/> */}
+            <BreadCrumb/>
             <div
-              className={`flex justify-between mb-4 md:items-center ${
+              className={`flex justify-between mb-4 mt-5 md:items-center ${
                 props.pageSize >= 9 ? "max-sm:flex-col gap-3" : ""
               }`}
             >
