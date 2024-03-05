@@ -75,15 +75,15 @@ const BreadCrumb = () => {
   return (
     <div className="text-sm breadcrumbs">
       <ul>
-        {breadcrumb?.map((item: any) => {
+        {breadcrumb?.map((item: any,index) => {
           return (
             <li key={item.path + item.name}>
               {item.path && (
-                <NaviLink path={item.path} className="!font-normal !text-black">
+                <NaviLink path={item.path} className={`${index===breadcrumb.length-1 ? 'text-primary !font-medium':'!text-secondary'} !font-normal `}>
                   {item.name}
                 </NaviLink>
               )}
-              {!item.path && <p className="!font-normal text-primary">{item.name}</p>}
+              {!item.path && <p className={` ${index===breadcrumb.length-1 ? 'text-primary !font-medium':'!text-secondary'}`}>{item.name}</p>}
             </li>
           );
         })}
