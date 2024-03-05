@@ -234,7 +234,7 @@ const ProposalCards = (props: any) => {
                               }
                               btnClassName="truncate"
                             >
-                              <h4 className="text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start truncate w-1/2">
+                              <h4 className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start  ${item?.title.length>100 ? 'truncate w-1/2':''}`}>
                                 {item?.title}
                               </h4>
                             </Button>
