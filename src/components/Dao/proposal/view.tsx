@@ -89,10 +89,10 @@ function Proposal() {
                       <div>
                         <div className="md:flex justify-between items-center mb-3.5">
                           <div className="flex items-center flex-wrap">
-                            <div className="w-9 h-9 mr-2">
+                            <div className="w-9 h-9 mr-2 shrink-0">
                               <img
                                 src={user.profilePicUrl || defaultProfile}
-                                className="rounded-full object-cover"
+                                className="rounded-full object-cover w-9 h-9"
                                 alt={user.firstName || "user"}
                               />
                             </div>
@@ -142,7 +142,7 @@ function Proposal() {
                                   proposalDetails?.data?.creatorImage ||
                                   defaultProfile
                                 }
-                                className="w-[24px] mr-3 rounded-full"
+                                className="w-[24px] h-[24px] mr-3 rounded-full object-cover"
                                 alt="created By"
                               />
                               <span className="truncate">

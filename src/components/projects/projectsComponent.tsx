@@ -102,7 +102,7 @@ const Projectscomponent = (props) => {
       {cardDetails.length > 0 && (
         <div className="container mx-auto mt-[32px]">
           <div className="">
-            <BreadCrumb/>
+            {props.showBreadcrumb && <BreadCrumb/>}
             <div
               className={`flex justify-between mb-4 mt-5 md:items-center ${
                 props.pageSize >= 9 ? "max-sm:flex-col gap-3" : ""

@@ -222,8 +222,8 @@ const ProposalCards = (props: any) => {
                             </span>
                           </div>
                         </div>
-                        <div className="">
-                          <div className="d-flex align-items-center">
+                        
+                          <div className="truncate">
                             <Button
                               type="plain"
                               handleClick={() =>
@@ -232,13 +232,14 @@ const ProposalCards = (props: any) => {
                                   item?.title
                                 )
                               }
+                              btnClassName="truncate"
                             >
-                              <h4 className="text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer">
+                              <h4 className="text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start truncate w-1/2">
                                 {item?.title}
                               </h4>
                             </Button>
                           </div>
-                        </div>
+                        
                         <div className="flex gap-5 flex-col lg:flex-row">
                           <div className="w-full lg:w-52 lg:h-32 shrink-0">
                             <img
