@@ -274,7 +274,7 @@ const Projectdetails = (props: any) => {
 
                   {daoTab && (
                     <div id="dao" className="mt-6">
-                      <CommonCreateProposal pjctInfo={data?.projectDetails} />
+                      <CommonCreateProposal pjctInfo={data?.projectDetails} showBreadcrumb={false} />
                     </div>
                   )}
                 </div>

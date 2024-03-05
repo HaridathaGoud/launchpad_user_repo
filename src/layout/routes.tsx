@@ -234,7 +234,7 @@ const Routes = () => {
           path: "/daos/:daoName/:daoId/:votingAddress/proposals",
           element: (
             <React.Suspense>
-              <Proposals />
+              <Proposals showBreadcrumb={true}/>
             </React.Suspense>
           ),
         },
