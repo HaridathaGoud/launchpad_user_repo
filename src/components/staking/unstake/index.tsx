@@ -20,16 +20,16 @@ export default function Unstake() {
     stakeDetails,
     activeStep,
     setActiveStep,
-    stakeAmountData,
-    unStakeAmtData,
-    rewardsData,
-    getStakingDetails,
+    getAmounts,
     stakedAmount,
     // isHideCountDownTimer,
     isConnected,
     address,
     maticBalance,
     setTimers,
+    getDetails,
+    getMaticCurrency,
+    getNativeCurrency,
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
@@ -72,12 +72,14 @@ export default function Unstake() {
       const response = await post(`User/SaveUnstaking`, obj);
       if (response) {
         tabContextValues?.setTabData?.(res.response);
+        await getAmounts?.()
         rootDispatch(setToaster({ message: "Amount unstake Successful!" }));
+        await getDetails?.()
+        await getMaticCurrency?.()
+        await getNativeCurrency?.()
         setActiveStep?.(4);
         tabContextValues?.setButtonLoader?.(false);
-        stakeAmountData?.();
-        unStakeAmtData?.();
-        rewardsData?.();
+       
       } else {
         tabContextValues?.setButtonLoader?.(false);
         tabContextValues?.setTabError?.(
@@ -110,10 +112,6 @@ export default function Unstake() {
 
   const handleUnStakeAgain = () => {
     tabContextValues?.resetTab?.();
-    window.location.reload();
-    stakeAmountData?.();
-    unStakeAmtData?.();
-    rewardsData?.();
   };
   const activeCondition =
     (!isConnected ||

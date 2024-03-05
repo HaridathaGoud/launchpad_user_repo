@@ -19,14 +19,16 @@ const StakingComponent = () => {
   const {
     activeStep,
     setActiveStep,
-    stakeAmountData,
-    rewardsData,
+    getAmounts,
     maticBalance,
     ybtBalance,
     address,
     isConnected,
+    getDetails,
+    getMaticCurrency,
+    getNativeCurrency,
   }: StakingContextModal = useContext(StakingContext);
-  const rootDispatch=useDispatch()
+  const rootDispatch = useDispatch();
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
   const { approve, stack } = useContract();
@@ -65,12 +67,14 @@ const StakingComponent = () => {
       };
       const response = await post(`User/SaveStaking`, obj);
       if (response.statusText.toLowerCase() === "ok") {
+        await getAmounts?.();
         rootDispatch(setToaster({ message: `Amount stake successful!` }));
+        await getDetails?.();
+        await getMaticCurrency?.();
+        await getNativeCurrency?.();
+        tabContextValues?.setTabData?.(res.data);
         setActiveStep?.(3);
         tabContextValues.setButtonLoader?.(false);
-        tabContextValues?.setTabData?.(res.data);
-        stakeAmountData?.();
-        rewardsData?.();
       } else {
         tabContextValues.setButtonLoader?.(false);
         tabContextValues?.setTabError?.(res.error?.cause?.reason || res);
@@ -91,11 +95,8 @@ const StakingComponent = () => {
   };
 
   const handleStakeAgain = () => {
-    if(tiresAmount) navigate("/staking");
-    window.location.reload();
-    tabContextValues.resetTab?.()
-    stakeAmountData?.();
-    rewardsData?.();
+    if (tiresAmount) navigate("/staking");
+    tabContextValues.resetTab?.();
   };
 
   const handleAmountToStake = (type: any) => {

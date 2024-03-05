@@ -17,7 +17,7 @@ export interface StakingContextModal {
   activeStep?: number;
   setActiveStep?: Function;
   unstakedDate?: string | Date;
-  getStakingDetails?: Function;
+  getDetails?: Function;
   stakeAmountData?: Function;
   unStakeAmtData?: Function;
   rewardsData?: Function;
@@ -33,6 +33,9 @@ export interface StakingContextModal {
   isConnected?: boolean;
   stakeDetails?: any;
   setTimers?: Function;
+  getAmounts?:Function;
+  getNativeCurrency?:Function;
+  getMaticCurrency?:Function;
 }
 
 export interface StakingTabsModel {

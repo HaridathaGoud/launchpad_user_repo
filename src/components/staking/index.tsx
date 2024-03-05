@@ -11,7 +11,7 @@ import { rewardsData, stakeAmountData, unstakeAmtData } from "./utils";
 import { StakingContextModal } from "./models";
 import { StakingProvider } from "./context/stakingContext";
 import { navigateToUniswap } from "../../utils/commonNavigations";
-import BreadCrumb from "../../ui/breadcrumb"
+import BreadCrumb from "../../ui/breadcrumb";
 import ConnectToWallet from "../ConnectToWallet";
 import CopyToClipboard from "react-copy-to-clipboard";
 const Staking = () => {
@@ -25,20 +25,17 @@ const Staking = () => {
   const { isConnected, address } = useAccount();
 
   const user = useSelector((state: any) => state.auth.user);
-  const { data: maticData } = useBalance({ address }) || {};
-  const { data: ybtData } =
+  const { data: maticData, refetch: getMaticCurrency } =
+    useBalance({ address }) || {};
+  const { data: ybtData, refetch: getNativeCurrency } =
     useBalance({
       address,
       token: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS as
         | `0x${string}`
         | undefined,
     }) || {};
-    const maticBalance= maticData?.formatted;
-    const ybtBalance=ybtData?.formatted ;
-  // const getBalances = () => {
-  //   dispatch({ type: "setMaticBalance", payload: maticData?.formatted });
-  //   dispatch({ type: "setYbtBalance", payload: ybtData?.formatted });
-  // };
+  const maticBalance = maticData?.formatted;
+  const ybtBalance = ybtData?.formatted;
   async function getDetails() {
     let response = await getUserStakeDetails();
     if (response) {
@@ -48,13 +45,9 @@ const Staking = () => {
   useEffect(() => {
     if (address) {
       getAmountDetails?.();
-    }
-  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (address) {
       getDetails();
     }
-  }, [state.amounts, address]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
   const getAmountDetails = async () => {
     let stakedAmount = await stakeAmountData(getStakedAmount);
     let unstakedAmount = await unstakeAmtData(getUnstakedAmount);
@@ -119,11 +112,13 @@ const Staking = () => {
       unstakedDate: state?.stakingDetails?.unstakedDate,
       stakeAmountData: async () => {
         let stakedAmount = await stakeAmountData(getStakedAmount);
+
         dispatch({
           type: "setAmounts",
           payload: { ...state.amounts, stakedAmount: stakedAmount },
         });
       },
+      getAmounts: getAmountDetails,
       unStakeAmtData: async () => {
         let unstakedAmount = await unstakeAmtData(getUnstakedAmount);
         dispatch({
@@ -150,6 +145,9 @@ const Staking = () => {
       address: address,
       isConnected: isConnected,
       setTimers: setTimer,
+      getDetails: getDetails,
+      getMaticCurrency: getMaticCurrency,
+      getNativeCurrency: getNativeCurrency,
     };
   }, [state, address]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -167,8 +165,8 @@ const Staking = () => {
   return (
     <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 mt-3">
       <div>
-      <div className="container m-auto">
-        <BreadCrumb/>
+        <div className="container m-auto">
+          <BreadCrumb />
         </div>
         <StakingProvider value={contextValue}>
           <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">

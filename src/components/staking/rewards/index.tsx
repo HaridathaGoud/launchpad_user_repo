@@ -14,10 +14,13 @@ const RewardsComponent = () => {
   const rootDispatch = useDispatch();
   const {
     rewardAmount,
-    rewardsData,
+    getAmounts,
+    getDetails,
     maticBalance,
     isConnected,
     address,
+    getMaticCurrency,
+    getNativeCurrency
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
@@ -70,11 +73,13 @@ const RewardsComponent = () => {
     };
     const response = await post(`User/SaveStakerewards`, obj);
     if (res.ok && response) {
+      await getAmounts?.();
       rootDispatch(setToaster({ message: "Rewards stake successful!" }));
+      await getDetails?.();
+      await getMaticCurrency?.()
+      await getNativeCurrency?.()
       tabContextValues?.setButtonLoader?.(false);
-      rewardsData?.();
       tabContextValues?.tabError && tabContextValues?.setTabError?.("");
-      window.location.reload();
     } else {
       tabContextValues?.setButtonLoader?.(false);
       tabContextValues?.setTabError?.(res?.error?.shortMessage || res);

@@ -19,8 +19,10 @@ const WithdrawComponent = () => {
     activeStep,
     setActiveStep,
     unstakedAmount,
-    stakeAmountData,
-    unStakeAmtData,
+    getAmounts,
+    getDetails,
+    getMaticCurrency,
+    getNativeCurrency,
     isHideCountDownTimer,
     isConnected,
     address,
@@ -60,11 +62,13 @@ const WithdrawComponent = () => {
       };
       let response = await post(`User/SaveWithdraw`, obj);
       if (response) {
+        await getAmounts?.();
         rootDispatch(setToaster({ message: "Amount withdraw successful!" }));
+        await getDetails?.();
+        await getMaticCurrency?.();
+        await getNativeCurrency?.();
         tabContextValues?.setTabData?.(res.response);
         setActiveStep?.(2);
-        stakeAmountData?.();
-        unStakeAmtData?.();
         tabContextValues?.setButtonLoader?.(false);
       }
     } else {
@@ -75,7 +79,6 @@ const WithdrawComponent = () => {
 
   const handleWithdrawAgain = () => {
     tabContextValues?.resetTab?.();
-    window.location.reload();
   };
 
   const activeCondition =

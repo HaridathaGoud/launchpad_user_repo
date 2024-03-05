@@ -4,7 +4,6 @@ import { StakingContextModal } from "./models";
 import { StakingContext } from "./context/stakingContext";
 
 const StakingDetails = () => {
-
   const { stakedAmount, unstakedAmount, rewardAmount, activeTab }: StakingContextModal =
     useContext(StakingContext);
   let stakedAmt = stakedAmount?.toLocaleString("en-US", {
