@@ -24,7 +24,7 @@ import { setError } from "../../reducers/layoutReducer";
 
 const Projectdetails = (props: any) => {
   const rootDispatch = useDispatch();
-  const { pid } = useParams();
+  const { projectId,projectName } = useParams();
   const { address } = useAccount();
   const { getStakedAmount } = useContract();
   const user = store.getState().auth;
@@ -36,7 +36,7 @@ const Projectdetails = (props: any) => {
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     window.scroll(0, 0);
-    if (pid) {
+    if (projectId) {
       getDetails("all");
     }
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -52,16 +52,16 @@ const Projectdetails = (props: any) => {
         let projectStatus = "";
         let swapPercentage = 0;
         const projectDetails = await get(
-          "User/TokenInformation/" + pid + "/" + userId
+          "User/TokenInformation/" + projectId + "/" + userId
         );
-        const projectFeed = await get("User/ProjectFeed/" + pid);
-        const founders = await get("User/stakers/" + pid);
+        const projectFeed = await get("User/ProjectFeed/" + projectId);
+        const founders = await get("User/stakers/" + projectId);
         let stakedAmount:any=null;
         if(address){
           stakedAmount = await getStakedAmount();
         }
-        const allocations = await get("User/Allocations/" + pid + "/" + userId);
-        const claims = await get("User/Claims/" + pid + "/" + userId);
+        const allocations = await get("User/Allocations/" + projectId + "/" + userId);
+        const claims = await get("User/Claims/" + projectId + "/" + userId);
         if (projectDetails.status === 200) {
           projectStatus = proStatus(projectDetails.data);
           swapPercentage = swapProgressBarCalculation(projectDetails);
@@ -104,14 +104,14 @@ const Projectdetails = (props: any) => {
           rootDispatch(setError({ message: stakedAmount }));
         }
       } else if (fetch === "allocations") {
-        const allocations = await get("User/Allocations/" + pid + "/" + userId);
+        const allocations = await get("User/Allocations/" + projectId + "/" + userId);
         if (allocations.status === 200) {
           details = { ...details, allocations: allocations.data };
         } else {
           rootDispatch(setError({ message: allocations }));
         }
       } else if (fetch === "claims") {
-        const claims = await get("User/Allocations/" + pid + "/" + userId);
+        const claims = await get("User/Allocations/" + projectId + "/" + userId);
         if (claims.status === 200) {
           details = { ...details, claims: claims.data };
         } else {
@@ -163,7 +163,7 @@ const Projectdetails = (props: any) => {
                 <div className="md:col-span-8">
                   <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
                   <div className="mt-2 mb-4">
-                    {/* <BreadCrumb /> */}
+                    <BreadCrumb />
                     <div className="mb-2 mt-4">
                       <ProjectViewTabs
                         projectFeedRef={projectFeedRef}
@@ -191,7 +191,9 @@ const Projectdetails = (props: any) => {
                         {!loader && data?.founders && (
                           <FoundingMember
                             foundingmemsData={data?.founders}
-                            pjctId={pid}
+                            projectId={projectId}
+                            projectName={projectName}
+
                           />
                         )}
                         {loader && (
@@ -214,7 +216,9 @@ const Projectdetails = (props: any) => {
                         {!loader && (
                           <CastAndCrewMember
                             castCrewsData={data?.projectDetails?.cast_Crews}
-                            pjctId={pid}
+                            projectId={projectId}
+                            projectName={projectName}
+                          
                           />
                         )}
                         {loader && (
@@ -244,14 +248,14 @@ const Projectdetails = (props: any) => {
                         <div>
                           <Allocations
                             pjctInfo={data?.projectDetails}
-                            pid={pid}
+                            pid={projectId}
                             data={data?.allocations}
                             getAllocations={() => getDetails("allocations")}
                             loader={loader}
                           />
                           <Claims
                             pjctInfo={data?.projectDetails}
-                            pid={pid}
+                            pid={projectId}
                             data={data?.claims}
                             getClaims={() => getDetails("claims")}
                             loader={loader}

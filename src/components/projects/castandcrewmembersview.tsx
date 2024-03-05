@@ -18,16 +18,16 @@ const CastandCrewMembersView = () => {
 
   useEffect(() => {
     window.scroll(0, 0);
-    if (params.pjctId) {
+    if (params.projectId) {
       if (shouldLog.current) {
         shouldLog.current = false;
         getCastandcrews();
       }
     }
-  }, [params.pjctId]);
+  }, [params.projectId]);
   const getCastandcrews = async () => {
     setcastcrewsLoader(true);
-    const res = await get("User/castandcrews/" + params.pjctId)
+    const res = await get("User/castandcrews/" + params.projectId)
       .then((res: any) => {
         setcastandcrews(res.data);
         setcastcrewsLoader(false);
@@ -47,7 +47,7 @@ const CastandCrewMembersView = () => {
           />
         )}
       </div>
-      {/* <BreadCrumb/> */}
+      <BreadCrumb/>
       <h1 className="text-base font-semibold mb-3 mt-5">Cast & Crew</h1>
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
         {castandcrews.cast_Crews?.map((item) => (

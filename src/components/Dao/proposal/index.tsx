@@ -23,7 +23,7 @@ const ProposalView = (props) => {
   const [loader, setLoader] = useState(false);
   const [projectInfo, setProjectInfo] = useState<{ [key: string]: any }>({});
   useEffect(() => {
-      params?.pid && getProjectDetails();
+      params?.projectId && getProjectDetails();
       props.getProposalDetails(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
       props.getCustomerVoteStatus(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
     return () => {
@@ -34,7 +34,7 @@ const ProposalView = (props) => {
     setLoader(true);
     try {
       const res = await get(
-        "User/TokenInformation/" + params?.pid + "/" + user.id ||
+        "User/TokenInformation/" + params?.projectId + "/" + user.id ||
           "00000000-0000-0000-0000-000000000000"
       );
       if (res.status === 200) {
@@ -58,9 +58,9 @@ const ProposalView = (props) => {
       ) : (
         <div className="container mx-auto max-md:px-3 mt-3">
           <div className="mt-5 mb-4">
-            {/* <BreadCrumb /> */}
+            <BreadCrumb />
             <div className="mb-12 mt-4">
-              {params?.pid && <ProjectViewTabs />}
+              {params?.projectId && <ProjectViewTabs />}
             </div>
           </div>
           <div className="md:grid md:grid-cols-12 gap-[30px]">

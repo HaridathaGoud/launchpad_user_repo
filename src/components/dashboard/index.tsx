@@ -3,10 +3,8 @@ import ProjectInformation from "./projectInformation";
 import FeaturedIvos from "./featuredIvos";
 import Projectscomponent from "../projects/projectsComponent";
 import DashboardSteps from "./dashboardSteps";
-
 import ApplyNow from "../applynow";
 import TrendingProjects from "./trendingProjects";
-import LaunchpadIvos from "../projects/launchpadivos";
 export default function Dashboard() {
   return (
     <div className="">

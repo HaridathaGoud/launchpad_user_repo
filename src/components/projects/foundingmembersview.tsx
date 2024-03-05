@@ -24,16 +24,16 @@ const FoundingMembersView = () => {
     }
   useEffect(() => {
     window.scroll(0, 0);
-    if (params.pjctId) {
+    if (params.projectId) {
       if (shouldLog.current) {
         shouldLog.current = false;
         getFoundingMembers();
       }
     }
-  }, [params.pjctId]);
+  }, [params.projectId]);
   const getFoundingMembers = async () => {
     setfoundingMemsLoader(true);
-    const res = await get("User/stakers/" + params.pjctId)
+    const res = await get("User/stakers/" + params.projectId)
       .then((res: any) => {
         setFoundingMems(res.data);
         setfoundingMemsLoader(false);
@@ -56,7 +56,7 @@ const FoundingMembersView = () => {
           )}
         </>
       )}
-      {/* <BreadCrumb/> */}
+      <BreadCrumb/>
       <h1 className="text-base font-semibold mb-3 mt-5">Founding Members</h1>
 
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
@@ -71,7 +71,7 @@ const FoundingMembersView = () => {
               <img
                 src={item?.image || foundingimg}
                 className="w-full h-[255px] object-cover rounded-t-lg"
-                alt={`{'Founding Member}`}
+                alt={`Founding Member`}
               />
             </div>
             <div className="card-body px-3 py-6 flex flex-row justify-between">

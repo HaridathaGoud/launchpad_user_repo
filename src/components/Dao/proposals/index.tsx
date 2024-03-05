@@ -2,10 +2,12 @@ import React from "react";
 import ProposalCards from "./proposals";
 import { connect } from "react-redux";
 import DaoLeftPanel from "./leftPanel";
+import BreadCrumb from "../../../ui/breadcrumb";
 
-const Proposals = (props) => {
+const Proposals = (props:any) => {
   return (
     <div className="container mx-auto max-sm:px-3 mt-3">
+      <BreadCrumb/>
       <div className="container mx-auto md:grid lg:grid-cols-4 gap-7 mt-8">
         <div className="shrink-0">
           <DaoLeftPanel pjctInfo={props?.pjctInfo} />

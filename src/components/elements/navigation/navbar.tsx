@@ -59,7 +59,7 @@ function HeaderNavbar() {
         target: "_blank",
         rel: "noopener noreferrer",
       },
-      { path: "/dao", content: "DAOs" },
+      { path: "/daos", content: "DAOs" },
       { path: "/marketplace", content: "Marketplace" },
       { path: "/mycollections", content: "My Collections" },
     ];

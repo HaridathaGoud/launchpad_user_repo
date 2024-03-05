@@ -6,9 +6,7 @@ import nodata from "../../assets/images/no-data.png";
 
 const CastAndCrewMember = (props) => {
   return (
-    <div
-      className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}
-    >
+    <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
       {props.castCrewsData?.map((item, index) =>
         index < 4 ? (
           <div className="w-[140px] break-words shrink-0	" key={item.image}>
@@ -25,7 +23,9 @@ const CastAndCrewMember = (props) => {
             <p className={`text-base font-normal  text-secondary text-center`}>
               {item.name}
             </p>
-            <p className={`text-info text-base font-normal text-center role-text`}>
+            <p
+              className={`text-info text-base font-normal text-center role-text`}
+            >
               as {item.role}
             </p>
           </div>
@@ -35,7 +35,9 @@ const CastAndCrewMember = (props) => {
       )}
 
       {props.castCrewsData?.length !== 0 && (
-        <Link to={`/castcrewsmembersview/${props.pjctId}`}>
+        <Link
+          to={`/projects/${props.projectName}/${props.projectId}/castandcrew`}
+        >
           <div
             className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer`}
           >

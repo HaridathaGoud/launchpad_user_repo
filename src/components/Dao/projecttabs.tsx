@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const ProjectViewTabs = ({
   projectFeedRef,
   allocationRef,
@@ -19,18 +19,17 @@ const ProjectViewTabs = ({
       setActive("projectFeed");
     }
   }, []);
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: any) => {
     setActive(tab);
+    if (params?.proposalId) {
+      router(
+        `/projects/${params?.projectName}/${params?.projectId}`
+      );
+    }
     let ref;
     if (tab === "projectFeed") {
-      if (params?.proposalId) {
-        router(
-          `/projects/projectdetails/${params?.projectstatus}/${params?.pid}`
-        );
-      } else {
-        ref = projectFeedRef?.current;
-        setDaoTab?.(false);
-      }
+      ref = projectFeedRef?.current;
+      setDaoTab?.(false);
     } else if (tab === "allocationClaim") {
       ref = allocationRef?.current;
       setDaoTab?.(false);

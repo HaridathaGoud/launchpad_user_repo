@@ -33,7 +33,7 @@ const Projectscomponent = (props) => {
   ) => {
     setLoader(true);
     setCardSeeMoreHide(false);
-    if (cardDetails?.length == 0) {
+    if (cardDetails?.length === 0) {
       setLoader(true);
     }
     const skip = pageNo * props.pageSize - props.pageSize;
@@ -70,24 +70,6 @@ const Projectscomponent = (props) => {
       getPrjectCardDetails(1, props.pageSize, "Ongoing", null);
     }
   }, []);
-
-  const handleWebSiteLinks = (item: any, type: string) => {
-    if (type == "TW") {
-      window.open(item.twitter);
-    } else if (type == "FACEBOOK") {
-      window.open(item.facebook);
-    } else if (type == "INSTAGRAM") {
-      window.open(item.instagram);
-    } else if (type == "NETWORK") {
-      window.open(item.websiteUrl);
-    } else if (type == "LINKDIN") {
-      window.open(item.linkdin);
-    } else if (type == "TELEGRAM") {
-      window.open(item.telegram);
-    } else if (type == "DISCARD") {
-      window.open(item.discord);
-    }
-  };
   const handleSearchIcon = (data: any) => {
     if (!(data == "" || data == null || data.includes("."))) {
       getPrjectCardDetails(1, props.pageSize, "Ongoing", data);
@@ -135,7 +117,7 @@ const Projectscomponent = (props) => {
               </h2>
               {props.pageSize < 9 && (
                 <Link
-                  to={`/allprojects/${props.pjctType}`}
+                  to={`/projects/${props.pjctType}`}
                   className="text-primary text-base font-medium"
                 >
                   View All
@@ -146,7 +128,7 @@ const Projectscomponent = (props) => {
                   <div className="relative">
                     <input
                       type="text"
-                      placeholder="Search IGO"
+                      placeholder="Search IVO"
                       className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"
                       onKeyUp={(value) => handleSearch(value)}
                       ref={endedIgosRef}
@@ -207,7 +189,7 @@ const Projectscomponent = (props) => {
                             </div>
                           </div>
                           {/* <div className="flex gap-2">
-                            {item.facebook && (
+                            {item?.facebook && (
                               <span
                                 className="icon facebook-md cursor-pointer"
                                 onClick={() =>
@@ -215,7 +197,7 @@ const Projectscomponent = (props) => {
                                 }
                               ></span>
                             )}
-                            {item.websiteUrl && (
+                            {item?.websiteUrl && (
                               <span
                                 className="icon network-md cursor-pointer"
                                 onClick={() =>
@@ -223,13 +205,13 @@ const Projectscomponent = (props) => {
                                 }
                               ></span>
                             )}
-                            {item.twitter && (
+                            {item?.twitter && (
                               <span
                                 className="icon twitter-md cursor-pointer"
                                 onClick={() => handleWebSiteLinks(item, "TW")}
                               ></span>
                             )}
-                            {item.instagram && (
+                            {item?.instagram && (
                               <span
                                 className="icon instagram-md cursor-pointer"
                                 onClick={() =>
@@ -237,7 +219,7 @@ const Projectscomponent = (props) => {
                                 }
                               ></span>
                             )}
-                            {item.linkdin && (
+                            {item?.linkdin && (
                               <span
                                 className="icon linkdin cursor-pointer"
                                 onClick={() =>
@@ -245,7 +227,7 @@ const Projectscomponent = (props) => {
                                 }
                               ></span>
                             )}
-                            {item.telegram && (
+                            {item?.telegram && (
                               <span
                                 className="icon telegram-md cursor-pointer"
                                 onClick={() =>
@@ -253,7 +235,7 @@ const Projectscomponent = (props) => {
                                 }
                               ></span>
                             )}
-                            {item.discard && (
+                            {item?.discard && (
                               <span
                                 className="icon discord-md cursor-pointer"
                                 onClick={() =>
@@ -266,7 +248,7 @@ const Projectscomponent = (props) => {
                         <Link
                           className=""
                           aria-current="page"
-                          to={`/projects/projectdetails/${props.pjctType}/${item?.id}`}
+                          to={`/projects/${item?.projectName}/${item?.id}`}
                         >
                           
 
@@ -411,7 +393,7 @@ const Projectscomponent = (props) => {
                 <Spinner className="text-center"></Spinner>
               </div>
             )}
-            {cardDetails?.length != 0 && loadData && !loader && (
+            {cardDetails?.length !== 0 && loadData && !loader && (
               <div className="text-center mt-4">
                 {" "}
                 <span

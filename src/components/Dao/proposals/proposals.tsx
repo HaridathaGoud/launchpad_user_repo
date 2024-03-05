@@ -98,12 +98,14 @@ const ProposalCards = (props: any) => {
       }
     }
   };
-  const handleVotingScreen = (id: any) => {
+  const handleVotingScreen = (id: any, title: any) => {
     if (params?.daoId) {
-      router(`/dao/voting/${id}`);
+      router(
+        `/daos/${params?.daoName}/${params?.daoId}/${params?.votingAddress}/proposals/${title}/${id}`
+      );
     } else {
       router(
-        `/projects/projectdetails/${params?.projectstatus}/${params?.pid}/voting/${id}`
+        `/projects/${params?.projectName}/${params?.projectId}/proposals/${title}/${id}`
       );
     }
   };
@@ -225,7 +227,10 @@ const ProposalCards = (props: any) => {
                             <Button
                               type="plain"
                               handleClick={() =>
-                                handleVotingScreen(item?.proposalId)
+                                handleVotingScreen(
+                                  item?.proposalId,
+                                  item?.title
+                                )
                               }
                             >
                               <h4 className="text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer">

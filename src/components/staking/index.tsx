@@ -11,7 +11,7 @@ import { rewardsData, stakeAmountData, unstakeAmtData } from "./utils";
 import { StakingContextModal } from "./models";
 import { StakingProvider } from "./context/stakingContext";
 import { navigateToUniswap } from "../../utils/commonNavigations";
-import TrendingProjects from "./trendingCarousel";
+import BreadCrumb from "../../ui/breadcrumb"
 import ConnectToWallet from "../ConnectToWallet";
 import CopyToClipboard from "react-copy-to-clipboard";
 const Staking = () => {
@@ -167,7 +167,9 @@ const Staking = () => {
   return (
     <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 mt-3">
       <div>
-        <TrendingProjects />
+      <div className="container m-auto">
+        <BreadCrumb/>
+        </div>
         <StakingProvider value={contextValue}>
           <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
             <div className="pr-5">

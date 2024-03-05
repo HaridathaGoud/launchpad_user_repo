@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers/lib";
 import {
@@ -21,7 +21,6 @@ import validateForm from "./formValidation";
 import { getEpochFormat } from "./utils";
 
 const CreateProposal = (props: any) => {
-  const router = useNavigate();
   const rootDispatch = useDispatch();
   const { isConnected, address } = useAccount();
   const params = useParams();
@@ -51,7 +50,7 @@ const CreateProposal = (props: any) => {
         publishProposal();
         break;
       case 3:
-        router(`/dao/${params.id}`);
+        handleDrawerAction('')
         break;
       default:
         break;
@@ -137,7 +136,7 @@ const CreateProposal = (props: any) => {
     }
   };
 
-  const handleDrawerAction = (action) => {
+  const handleDrawerAction = (action:string) => {
     switch (state?.currentStep) {
       case 1:
         props?.close();

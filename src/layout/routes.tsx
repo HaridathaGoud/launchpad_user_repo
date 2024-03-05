@@ -52,9 +52,7 @@ const Marketplace = React.lazy(
   () => import("../components/marketplace.component/index")
 );
 const Daos = React.lazy(() => import("../components/Dao/dashboard/index"));
-const Proposals = React.lazy(
-  () => import("../components/Dao/proposals/index")
-);
+const Proposals = React.lazy(() => import("../components/Dao/proposals/index"));
 const ProposalView = React.lazy(() => import("../components/Dao/proposal"));
 const ExploreNfts = React.lazy(
   () =>
@@ -127,12 +125,12 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: `/allprojects/:type`,
+          path: `/projects/:type`,
           element: <AllProjects />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/projects/projectdetails/:projectstatus/:pid",
+          path: "/projects/:projectName/:projectId",
           element: <Projectdetails />,
           errorElement: <ErrorPage />,
         },
@@ -143,7 +141,11 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         { path: "/tiers", element: <Tiers />, errorElement: <ErrorPage /> },
-        {path:'/completekyc',element:<SumSub/>,errorElement:<ErrorPage/> },
+        {
+          path: "/completekyc",
+          element: <SumSub />,
+          errorElement: <ErrorPage />,
+        },
         {
           path: "/minting",
           element: <MintingDao />,
@@ -176,12 +178,12 @@ const Routes = () => {
         },
         {
           path: "/topsellerdetailview",
-          element: <TopsellerDetailview/>,
+          element: <TopsellerDetailview />,
           errorElement: <ErrorPage />,
         },
         {
           path: "/mycollections",
-          element: <MycollectionsComponent/>,
+          element: <MycollectionsComponent />,
           errorElement: <ErrorPage />,
         },
         {
@@ -190,7 +192,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/foundingmemebersview/:pjctId",
+          path: "/projects/:projectName/:projectId/foundingmembers",
           element: <FoundingMembersView />,
           errorElement: <ErrorPage />,
         },
@@ -221,7 +223,7 @@ const Routes = () => {
         },
         { path: "/movies", element: <Movies />, errorElement: <ErrorPage /> },
         {
-          path: "/dao",
+          path: "/daos",
           element: (
             <React.Suspense>
               <Daos />
@@ -229,23 +231,15 @@ const Routes = () => {
           ),
         },
         {
-          path: "/dao/:daoId/:votingAddress",
+          path: "/daos/:daoName/:daoId/:votingAddress/proposals",
           element: (
             <React.Suspense>
               <Proposals />
             </React.Suspense>
           ),
         },
-        // {
-        //   path: "/dao/success/:id",
-        //   element: (
-        //     <React.Suspense>
-        //       <Success />
-        //     </React.Suspense>
-        //   ),
-        // },
         {
-          path: "/dao/voting/:proposalId",
+          path: "/daos/:daoName/:daoId/:votingAddress/proposals/:proposalTitle/:proposalId",
           element: (
             <React.Suspense>
               <ProposalView />
@@ -253,7 +247,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/projects/projectdetails/:projectstatus/:pid/voting/:proposalId",
+          path: "/projects/:projectName/:projectId/proposals/:proposalTitle/:proposalId",
           element: (
             <React.Suspense>
               <ProposalView />
@@ -285,7 +279,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/castcrewsmembersview/:pjctId",
+          path: "/projects/:projectName/:projectId/castandcrew",
           element: (
             <React.Suspense>
               <CastandCrewMembersView />
@@ -298,10 +292,10 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path:'/comingsoon',
-          element:<ComingSoon/>,
-          errorElement:<ErrorPage/>
-        }
+          path: "/comingsoon",
+          element: <ComingSoon />,
+          errorElement: <ErrorPage />,
+        },
       ],
     },
     {
