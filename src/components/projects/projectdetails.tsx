@@ -111,7 +111,7 @@ const Projectdetails = (props: any) => {
           rootDispatch(setError({ message: allocations }));
         }
       } else if (fetch === "claims") {
-        const claims = await get("User/Allocations/" + projectId + "/" + userId);
+        const claims = await get("User/Claims/" + projectId + "/" + userId);
         if (claims.status === 200) {
           details = { ...details, claims: claims.data };
         } else {
@@ -120,7 +120,6 @@ const Projectdetails = (props: any) => {
       }
       setData(details);
     } catch (error) {
-      console.log(error)
       rootDispatch(setError({ message: error }));
     } finally {
       setLoader(false);

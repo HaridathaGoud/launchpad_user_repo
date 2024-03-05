@@ -49,7 +49,6 @@ const ProposalResults = (props: any) => {
       .includes("ended");
 
   const isVoted = customerVoteStatus?.data?.isVoted;
-
   useEffect(() => {
     if (address) {
       getStakeAmount();
@@ -71,12 +70,12 @@ const ProposalResults = (props: any) => {
     dispatch({ type: "setSelectedOption", payload: selectedOption });
   };
   const handleVoting = (action: string) => {
-    if (!state?.selectedOption) {
-      rootDispatch(setError({ message: "Please select your option" }));
+    if (!state?.selectedOption && !isVoted) {
+      rootDispatch(setError({ message: "Please select one option!" }));
       return;
     }
-    if (isVoted && state?.selectedOption.isSelect) {
-      rootDispatch(setError({ message: "Please select new option" }));
+    if (isVoted && (state?.selectedOption?.isSelect || !state.selectedOption)) {
+      rootDispatch(setError({ message: "Please choose a different option. You've already voted for this one." }));
       return;
     }
     switch (action) {
@@ -109,10 +108,10 @@ const ProposalResults = (props: any) => {
         state?.selectedOption?.optionHash
       );
       if (response) {
-        debugger
+        debugger;
         const { status, error } = await saveVoting(obj);
         if (status === "ok") {
-          await props?.getCustomerVoteStatus(params?.proposalId, customer?.id)
+          await props?.getCustomerVoteStatus(params?.proposalId, customer?.id);
           await props.getProposalDetails(params?.proposalId, customer?.id);
           await props.getVoters({
             page: 1,
@@ -194,8 +193,8 @@ const ProposalResults = (props: any) => {
                             aria-label={`radio ${item?.option}`}
                             disabled={hideVoteButtons}
                             onClick={() => handleChange(item)}
-                            checked={
-                              item?.isSelect
+                            defaultChecked={
+                              isVoted
                                 ? item?.isSelect
                                 : state?.selectedOption?.option === item?.option
                             }

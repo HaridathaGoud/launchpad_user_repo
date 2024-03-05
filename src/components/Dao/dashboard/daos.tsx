@@ -35,12 +35,6 @@ const Daos = (props: any) => {
         <h5 className="font-semibold text-2xl text-secondary">DAO’s</h5>
 
         <div className="grid md:grid-cols-4 gap-4">
-          {daos?.loading &&
-            [...Array(take)].map((_, index) => (
-              <div key={index}>
-                <DaoCardShimmer />
-              </div>
-            ))}
           {!daos?.loading && (
             <>
               {daos?.data?.map((item: any) => (
@@ -73,6 +67,12 @@ const Daos = (props: any) => {
               ))}
             </>
           )}
+          {daos?.loading &&
+            [...Array(take*daos.nextPage)].map((_, index) => (
+              <div key={index}>
+                <DaoCardShimmer />
+              </div>
+            ))}
         </div>
         <div className="text-center mt-4">
           {daos?.loading && (
@@ -88,6 +88,7 @@ const Daos = (props: any) => {
               </Button>
             )}
         </div>
+        
       </div>
     </div>
   );

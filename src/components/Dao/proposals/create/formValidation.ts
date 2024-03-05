@@ -4,6 +4,7 @@ const validateForm = (form:any) => {
     const { proposal, summary, startDate, endDate, image, options, proposalType } =
       form;
     const newErrors: any = {};
+    const currentDate=new Date().toISOString().slice(0,19);
     if (!proposal || proposal === "") {
       newErrors.proposal = "Is required";
     } else if (validateContentRule(proposal)) {
@@ -19,9 +20,13 @@ const validateForm = (form:any) => {
     }
     if (!startDate || startDate === "") {
       newErrors.startDate = "Is required";
+    }else if(startDate<currentDate){
+      newErrors.startDate = "Must be equal to or after the current date and time"
     }
     if (!endDate || endDate === "") {
       newErrors.endDate = "Is required";
+    }else if(endDate<startDate){
+      newErrors.endDate = "Must be after start date and time"
     }
     if (!image || image === "") {
       newErrors.image = "Is required";
@@ -30,11 +35,11 @@ const validateForm = (form:any) => {
       let optionsError = "";
       const hasError = !options.every((option: any, optionIndex) => {
         if (!option.options || !option.options.trim()) {
-          optionsError = "Options cannot be empty!";
+          optionsError = "Options cannot be empty";
           return false;
         }
         if (validateContentRule(option.options)) {
-          optionsError = "Please provide valid content for options!";
+          optionsError = "Please provide valid content for options";
           return false;
         }
         const isDuplicate = options.some(
@@ -43,7 +48,7 @@ const validateForm = (form:any) => {
               option?.options?.trim().toLowerCase() && index !== optionIndex
         );
         if (isDuplicate) {
-          optionsError = "Options must be unique!";
+          optionsError = "Options must be unique";
           return false;
         } else {
           return true;
@@ -52,7 +57,10 @@ const validateForm = (form:any) => {
       if (hasError) newErrors.options = optionsError;
     }
     if (options.length < 2) {
-      newErrors.options = "Please input atleast two options!";
+      newErrors.options = "Please input atleast two options";
+    }
+    if (options.length >4) {
+      newErrors.options = "You can add up to 4 options only";
     }
     return newErrors;
   };
