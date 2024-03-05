@@ -266,9 +266,9 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
               )
           )}
         </div>
-        <label className="text-sm font-normal text-red-600">
+        <p className="text-sm font-normal text-red-600 ml-4">
           {state?.formErrors.options}
-        </label>
+        </p>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="mt-4">
@@ -289,9 +289,9 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
             value={state?.form?.startDate || ""}
             onChange={(e) => setField("startDate", e.target.value)}
           />
-          <label className="text-sm font-normal text-red-600 ml-4">
+          <p className="text-sm font-normal text-red-600 ml-4">
             {state?.formErrors.startDate}
-          </label>
+          </p>
         </div>
         <div className="mt-4">
           <label className="text-dark inline-block text-xs font-normal p-0 mb-2 label ml-4 star">
@@ -311,9 +311,9 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
             value={state?.form?.endDate || ""}
             onChange={(e) => setField("endDate", e.target.value)}
           />
-          <label className="text-sm font-normal text-red-600 ml-4">
+          <p className="text-sm font-normal text-red-600 ml-4">
             {state?.formErrors.endDate}
-          </label>
+          </p>
         </div>
       </div>
     </div>
