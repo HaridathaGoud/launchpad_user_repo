@@ -56,3 +56,10 @@ export const getProposalStatus = (startingDate, endingDate) => {
   return timeDifference;
 };
 
+export const getProposalStatusBg={
+  "Publishing":'bg-[#F2CC93]',
+  "Pending":'bg-[#F2CC93]',
+  "Approved":'bg-success text-white',
+  "Declined":'bg-primary text-white',
+  "Closed":'bg-primary text-white',
+}

@@ -66,7 +66,7 @@ function Voters(props: any) {
                       <th className="text-left text-base text-secondary font-bold">
                         Voter Address
                       </th>
-                      <th className="text-left text-base text-secondary font-bold">
+                      <th className="text-left text-base text-secondary font-bold text-center">
                         Opted For
                       </th>
                     </tr>
@@ -81,8 +81,8 @@ function Voters(props: any) {
                             </p>
                           </td>
                           <td>
-                            <div className="flex justify-between">
-                              <span>{voter?.walletAddress}</span>
+                            <div className="flex gap-4">
+                              <span className="flex-1 w-20 truncate">{voter?.walletAddress}</span>
                               <CopyToClipboard
                                 text={voter?.walletAddress}
                                 options={{ format: "text/plain" }}
@@ -99,7 +99,7 @@ function Voters(props: any) {
                             </div>
                           </td>
                           <td>
-                            <p className="font-normal text-sm text-secondary">
+                            <p className="font-normal text-center text-sm text-secondary">
                               {voter.options}
                             </p>
                           </td>

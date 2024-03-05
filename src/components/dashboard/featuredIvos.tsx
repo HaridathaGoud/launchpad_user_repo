@@ -54,7 +54,7 @@ const FeaturedIvos = () => {
               Launchpad, Video Streaming Platform - The Best Is Yet To Come!
             </p>
           </div>
-          <div className="overflow-x-hidden mb-10">
+          <div className="overflow-x-hidden mb-10 flex justify-center">
             <div className={`carousel max-sm:gap-4 md:gap-6 featuredIvos`}>
               {featuredIvos?.map((ivo: IVO) => {
                 return (

@@ -18,7 +18,7 @@ import daocardProfile from "../../../assets/images/daocard-profile.png";
 import { setError } from "../../../reducers/layoutReducer";
 import Button from "../../../ui/Button";
 import { proposalsReducer, proposalsState } from "./reducers";
-import { getProposalStatus } from "./utils";
+import { getProposalStatus, getProposalStatusBg } from "./utils";
 import Spinner from "../../loaders/spinner";
 const take = 10;
 
@@ -210,12 +210,7 @@ const ProposalCards = (props: any) => {
                           <div>
                             <span
                               className={`font-semibold px-3 py-1 rounded ${
-                                item?.status === "Pending" ||
-                                item?.status === "Publishing"
-                                  ? "bg-[#ffdc89] text-dark"
-                                  : item?.status === "Closed"
-                                  ? "bg-success text-white"
-                                  : ""
+                              getProposalStatusBg[item?.status]
                               }`}
                             >
                               {item?.status}

@@ -6,6 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Placeholder from "react-bootstrap/Placeholder";
 import defaultBG from "../../../assets/images/default-bg.png";
 import { setError } from "../../../reducers/layoutReducer";
+import { getProposalStatusBg } from "../proposals/utils";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case "copied":
@@ -120,12 +121,7 @@ function Proposal() {
                             <div>
                               <span
                                 className={`font-semibold px-3 py-1 rounded ${
-                                  proposalDetails?.data?.status === "Pending" ||
-                                  proposalDetails?.data?.status === "Publishing"
-                                    ? "bg-[#ffdc89] text-dark"
-                                    : proposalDetails?.data?.status === "Closed"
-                                    ? "bg-success text-white"
-                                    : ""
+                                  getProposalStatusBg[proposalDetails?.data?.status]
                                 }`}
                               >
                                 {proposalDetails?.data?.status}
