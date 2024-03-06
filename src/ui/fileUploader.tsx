@@ -12,6 +12,7 @@ interface FileUploaderProps {
   inputRef: any;
   uploaderClass?: string;
   size?: number;
+  uploadTo?:string;
 }
 const fileTypes = {
   images: {
@@ -53,6 +54,7 @@ const FileUploader = ({
   inputRef,
   uploaderClass,
   size,
+  uploadTo=`Upload/UploadFileNew`,
 }: FileUploaderProps) => {
   const [loader, setLoader] = useState(false);
   const rootDispatch = useDispatch();
@@ -62,7 +64,7 @@ const FileUploader = ({
     body.append("file", file);
     if (accept ? fileTypes[accept][file?.type] : fileTypes["all"]) {
       try {
-        const response = await apiUploadPost(`Upload/UploadFileNew`, body);
+        const response = await apiUploadPost(uploadTo, body);
         if (response.statusText.toLowerCase() === "ok") {
           rootDispatch(setError({ message: "" }));
           const imageURL = response.data[0];
@@ -164,6 +166,7 @@ const FileUploader = ({
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onPaste={handlePaste}
+          className="w-full"
         >
           <input
             id="fileUploader"
@@ -175,10 +178,12 @@ const FileUploader = ({
             }
             onChange={handleFileChange}
           />
-          <p className="fileUploadText">Drag Your  Image  <span className="icon upload-plus"></span></p>
+          <p className="fileUploadText">{accept==='images' && 'Upload Your  Image'} {accept==='videos' && 'Upload Your Video'} {accept==='documents' && 'Upload Your Document'} {accept==='all' && "Upload your File"}  <span className="icon upload-plus"></span></p>
           <span className="pointer-events-none relative pl-1 text-sm">
             <span className={`text-secondary text-sm font-normal`}>
-              Attach images by dragging & dropping, selecting or pasting them.
+              {(canDragAndDrop && !canCopyAndPaste) && "Attach images by dragging & dropping, or by uploading them."}
+              {(!canDragAndDrop && canCopyAndPaste) && "Attach images by selecting and pasting, or by uploading them."}
+              {(canDragAndDrop && canCopyAndPaste) && "Attach images by dragging & dropping, or  selecting and pasting, or by uploading them."}
             </span>
           </span>          
         </button>

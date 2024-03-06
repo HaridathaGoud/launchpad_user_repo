@@ -137,7 +137,6 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
         <FileUploader
           accept={"images"}
           canDragAndDrop={true}
-          canCopyAndPaste={true}
           setFile={(payload: any) => setField("image", payload)}
           inputRef={proposalImageRef}
           size={2}
@@ -169,8 +168,8 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
           {state?.formErrors.image}
         </label>
       </div>
-      <p className="text-sm text-neutral mt-3">
-        <span className="text-secondary">Note:</span> Supported Document Formats
+      <p className="text-[13px] text-neutral mt-3">
+        <span className="text-[14px] text-secondary font-medium">Note:</span> Supported Document Formats
         : PNG/ JPG/ JPEG (File Size : Max 2MB){" "}
       </p>
       {/* <div className='proposal-type c-pointer'>
