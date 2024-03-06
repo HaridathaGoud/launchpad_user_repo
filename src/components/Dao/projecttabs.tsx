@@ -21,7 +21,7 @@ const ProjectViewTabs = ({
   }, []);
   const handleTabClick = (tab: any) => {
     setActive(tab);
-    if (params?.proposalId) {
+    if (params?.proposalId && tab!=='dao') {
       router(
         `/projects/${params?.projectName}/${params?.projectId}`
       );

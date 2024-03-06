@@ -1,80 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import InformationPanel from "./informationPanel";
 import Proposal from "./view";
 import { useParams } from "react-router-dom";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import ProjectViewTabs from "../projecttabs";
 import ProposalResults from "./results";
-import PublishProposalShimmer from "../shimmers/publishproposalshimmer";
 import ProposalTabs from "./tabs";
-import { get } from "../../../utils/api";
 import BreadCrumb from "../../../ui/breadcrumb";
-import { setError } from "../../../reducers/layoutReducer";
 import {
+  clearVoters,
   getCustomerVoteStatus,
   getProposalDetails,
 } from "../../../reducers/votingReducer";
 
 const ProposalView = (props) => {
   const params = useParams();
-  const dispatch = useDispatch();
   const user = useSelector((state: any) => state.auth.user);
-  const [loader, setLoader] = useState(false);
-  const [projectInfo, setProjectInfo] = useState<{ [key: string]: any }>({});
   useEffect(() => {
-      params?.projectId && getProjectDetails();
-      props.getProposalDetails(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
-      props.getCustomerVoteStatus(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
+    props.getProposalDetails(
+      params.proposalId,
+      user.id || "00000000-0000-0000-0000-000000000000"
+    );
+    props.getCustomerVoteStatus(
+      params.proposalId,
+      user.id || "00000000-0000-0000-0000-000000000000"
+    );
+    return () => {
+      props.clearVotersList();
+    };
   }, [user]);
-  const getProjectDetails = async () => {
-    setLoader(true);
-    try {
-      const res = await get(
-        "User/TokenInformation/" + params?.projectId + "/" + user.id ||
-          "00000000-0000-0000-0000-000000000000"
-      );
-      if (res.status === 200) {
-        setProjectInfo(res.data);
-      } else {
-        dispatch(setError({ message: res }));
-      }
-    } catch (error) {
-      dispatch(setError({ message: error }));
-    } finally {
-      setLoader(false);
-    }
-  };
 
   return (
     <>
-      {loader ? (
-        <div className="container mx-auto">
-          <PublishProposalShimmer />
+      <div className="container mx-auto max-md:px-3 mt-3">
+        <div className="mt-5 mb-4">
+          <BreadCrumb />
+          <div className="mb-12 mt-4">
+            {params?.projectId && <ProjectViewTabs />}
+          </div>
         </div>
-      ) : (
-        <div className="container mx-auto max-md:px-3 mt-3">
-          <div className="mt-5 mb-4">
-            <BreadCrumb />
-            <div className="mb-12 mt-4">
-              {params?.projectId && <ProjectViewTabs />}
+        <div className="md:grid md:grid-cols-12 gap-[30px]">
+          <div className="md:col-span-3">
+            <InformationPanel />
+            <div>
+              <ProposalResults />
             </div>
           </div>
-          <div className="md:grid md:grid-cols-12 gap-[30px]">
-            <div className="md:col-span-3">
-              <InformationPanel />
-              <div>
-                <ProposalResults pjctInfo={projectInfo} />
-              </div>
-            </div>
-            <div className="md:col-span-9 max-sm:mt-4">
-              <Proposal pjctInfo={projectInfo} />
-              <div>
-                <ProposalTabs />
-              </div>
+          <div className="md:col-span-9 max-sm:mt-4">
+            <Proposal />
+            <div>
+              <ProposalTabs />
             </div>
           </div>
         </div>
-      )}
+      </div>
       <>
         {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
         {/* <div className="modal-box p-0">
@@ -152,7 +131,10 @@ const connectDispatchToProps = (dispatch: any) => {
     },
     getCustomerVoteStatus: (proposalId: any, customerId: any) => {
       dispatch(getCustomerVoteStatus(proposalId, customerId));
-    }
+    },
+    clearVotersList: () => {
+      dispatch(clearVoters());
+    },
   };
 };
 export default connect(null, connectDispatchToProps)(ProposalView);

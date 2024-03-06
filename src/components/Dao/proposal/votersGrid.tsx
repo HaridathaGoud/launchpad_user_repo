@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { clearVoters, getVoters } from "../../../reducers/votingReducer";
+import {  getVoters } from "../../../reducers/votingReducer";
 import nodata from "../../../assets/images/no-data.png";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Spinner from "../../loaders/spinner";
@@ -18,9 +18,6 @@ function Voters(props: any) {
       id: params?.proposalId,
       data: voters?.data,
     });
-    return () => {
-      props.clearVotersList();
-    };
   }, []);
 
   const fetchMoreData = () => {
@@ -156,9 +153,6 @@ const connectDispatchToProps = (dispatch: any) => {
   return {
     getVotersList: (information: any) => {
       dispatch(getVoters(information));
-    },
-    clearVotersList: () => {
-      dispatch(clearVoters());
     },
   };
 };

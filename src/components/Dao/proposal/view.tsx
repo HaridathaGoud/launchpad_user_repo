@@ -7,6 +7,7 @@ import Placeholder from "react-bootstrap/Placeholder";
 import defaultBG from "../../../assets/images/default-bg.png";
 import { setError } from "../../../reducers/layoutReducer";
 import { getProposalStatusBg } from "../proposals/utils";
+import ProposalCardShimmer from "../shimmers/proposalcardshimmer";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case "copied":
@@ -66,7 +67,7 @@ function Proposal() {
       <div className="py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg">
         <div>
           {proposalDetails?.loading ? (
-            <div></div>
+            <ProposalCardShimmer/>
           ) : (
             <>
               <div className="flex justify-between items-start">
@@ -99,29 +100,29 @@ function Proposal() {
                             </div>
                             <p className="mr-2 text-secondary opacity-50">
                               Stargate DAO by{" "}
-                              <>
-                                <span>
-                                  {address?.slice(0, 4)}...{address?.slice(-4)}
-                                </span>
-                                <CopyToClipboard
-                                  text={address}
-                                  options={{ format: "text/plain" }}
-                                  onCopy={() => handleCopy()}
-                                >
-                                  <span
-                                    className={
-                                      !state?.copied
-                                        ? "icon md copy-icon cursor-pointer ms-0 pl-4"
-                                        : "icon md check-icon pl-4"
-                                    }
-                                  />
-                                </CopyToClipboard>
-                              </>
+                              <span>
+                                {address?.slice(0, 4)}...{address?.slice(-4)}
+                              </span>
+                              <CopyToClipboard
+                                text={address}
+                                options={{ format: "text/plain" }}
+                                onCopy={() => handleCopy()}
+                              >
+                                <span
+                                  className={
+                                    !state?.copied
+                                      ? "icon md copy-icon cursor-pointer ms-0 pl-4"
+                                      : "icon md check-icon pl-4"
+                                  }
+                                />
+                              </CopyToClipboard>
                             </p>
                             <div>
                               <span
                                 className={`font-semibold px-3 py-1 rounded ${
-                                  getProposalStatusBg[proposalDetails?.data?.status]
+                                  getProposalStatusBg[
+                                    proposalDetails?.data?.status
+                                  ]
                                 }`}
                               >
                                 {proposalDetails?.data?.status}
