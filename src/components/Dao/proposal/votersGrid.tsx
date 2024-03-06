@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getVoters } from "../../../reducers/votingReducer";
+import { clearVoters, getVoters } from "../../../reducers/votingReducer";
 import nodata from "../../../assets/images/no-data.png";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Spinner from "../../loaders/spinner";
@@ -18,6 +18,9 @@ function Voters(props: any) {
       id: params?.proposalId,
       data: voters?.data,
     });
+    return () => {
+      props.clearVotersList();
+    };
   }, []);
 
   const fetchMoreData = () => {
@@ -51,7 +54,7 @@ function Voters(props: any) {
       </div>
 
       {voters?.loading ? (
-      <div></div>
+        <div></div>
       ) : (
         <div>
           <div className="">
@@ -82,7 +85,9 @@ function Voters(props: any) {
                           </td>
                           <td>
                             <div className="flex gap-4">
-                              <span className="flex-1 w-20 truncate">{voter?.walletAddress}</span>
+                              <span className="flex-1 w-20 truncate">
+                                {voter?.walletAddress}
+                              </span>
                               <CopyToClipboard
                                 text={voter?.walletAddress}
                                 options={{ format: "text/plain" }}
@@ -151,6 +156,9 @@ const connectDispatchToProps = (dispatch: any) => {
   return {
     getVotersList: (information: any) => {
       dispatch(getVoters(information));
+    },
+    clearVotersList: () => {
+      dispatch(clearVoters());
     },
   };
 };

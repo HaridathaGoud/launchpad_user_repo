@@ -11,7 +11,6 @@ import { get } from "../../../utils/api";
 import BreadCrumb from "../../../ui/breadcrumb";
 import { setError } from "../../../reducers/layoutReducer";
 import {
-  clearVoters,
   getCustomerVoteStatus,
   getProposalDetails,
 } from "../../../reducers/votingReducer";
@@ -26,9 +25,6 @@ const ProposalView = (props) => {
       params?.projectId && getProjectDetails();
       props.getProposalDetails(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
       props.getCustomerVoteStatus(params.proposalId, user.id || "00000000-0000-0000-0000-000000000000");
-    return () => {
-      props.clearVotersList();
-    };
   }, [user]);
   const getProjectDetails = async () => {
     setLoader(true);
@@ -156,10 +152,7 @@ const connectDispatchToProps = (dispatch: any) => {
     },
     getCustomerVoteStatus: (proposalId: any, customerId: any) => {
       dispatch(getCustomerVoteStatus(proposalId, customerId));
-    },
-    clearVotersList: () => {
-      dispatch(clearVoters());
-    },
+    }
   };
 };
 export default connect(null, connectDispatchToProps)(ProposalView);
