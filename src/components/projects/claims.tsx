@@ -41,7 +41,7 @@ const Claims = (props) => {
       })
       .catch((error: any) => {
         setClaimBtnLoader(false);
-        rootDispatch(setError({message:error}))
+        rootDispatch(setError({message:error,from:'contract'}))
       });
   };
   function _provider() {

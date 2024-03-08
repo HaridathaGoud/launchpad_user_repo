@@ -28,7 +28,7 @@ const setError = (payload) => {
   return {
     type: SET_ERROR,
     payload: {
-      message: formatErrorMessage(payload?.message),
+      message: formatErrorMessage(payload?.message,payload?.from),
       onCloseCallback: payload?.onCloseCallback,
     },
   };

@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg";
 import { useAccount } from "wagmi";
 import CreateProposal from "./create";
 import { useSelector } from "react-redux";
-import useContract from "../../../hooks/useContract";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { ethers } from "ethers";
 const DaoLeftPanel = (props) => {
   const user = useSelector((state: any) => state.auth.user);
   const { address } = useAccount();
-  const { getStakedAmount } = useContract();
   const [isChecked, setIsChecked] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [stakedAmount, setStakedAmount] = useState(0);
-  const [loader,setLoader]=useState(false)
-  const getStakeAmount = async () => {
-    setLoader(true)
-    let response = await getStakedAmount();
-    let _amt = response?.toString();
-    if (_amt) {
-      setStakedAmount(parseFloat(ethers.utils.formatEther(_amt)));
-    }
-    setLoader(false)
-  };
-  useEffect(() => {
-    getStakeAmount();
-  }, [address]);
   const handleCopy = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
@@ -77,7 +60,7 @@ const DaoLeftPanel = (props) => {
             {address && <p className="text-secondary">63k Members</p>}    
           </div>
         </div>
-       {stakedAmount>=5000 && !loader && <button
+       {<button
           onClick={handleRedirectCreatepraposalScreen}
           className="bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8"
         >

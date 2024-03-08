@@ -130,7 +130,7 @@ const CreateProposal = (props: any) => {
         rootDispatch(setError({ message: "Transaction failed!" }));
       }
     } catch (error) {
-      rootDispatch(setError({ message: error }));
+      rootDispatch(setError({ message: error,from:"contract" }));
     } finally {
       dispatch({ type: "setIsSaving", payload: false });
     }

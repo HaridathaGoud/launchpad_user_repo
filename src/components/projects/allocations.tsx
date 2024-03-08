@@ -130,7 +130,7 @@ const Allocations = (props) => {
         setIsChecked(true);
         setIsconfirm(false);
         rootDispatch(
-          setError({ message: error?.shortMessage || error?.reason || error })
+          setError({ message: error?.shortMessage || error?.reason || error,from:'contract' })
         );
         setBtnLoader(false);
       });

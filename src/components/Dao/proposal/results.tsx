@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, {  useReducer } from "react";
 import styles from "../dao.module.css";
 import { useAccount } from "wagmi";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -14,8 +14,6 @@ import {
   getCustomerVoteStatus,
 } from "../../../reducers/votingReducer";
 import Spinner from "../../loaders/spinner";
-import useContract from "../../../hooks/useContract";
-import { ethers } from "ethers";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import { getProposalStatus } from "../proposals/utils";
 import { resultsReducer, resultsState } from "./reducers";
@@ -23,7 +21,6 @@ import { resultsReducer, resultsState } from "./reducers";
 const ProposalResults = (props: any) => {
   const { address } = useAccount();
   const params = useParams();
-  const { getStakedAmount } = useContract();
   const { castVote, parseError } = useVotingContract();
   const [state, dispatch] = useReducer(resultsReducer, resultsState);
   const rootDispatch = useDispatch();
@@ -49,23 +46,6 @@ const ProposalResults = (props: any) => {
       .includes("ended");
 
   const isVoted = customerVoteStatus?.data?.isVoted;
-  useEffect(() => {
-    if (address) {
-      getStakeAmount();
-    }
-  }, [address]);
-  const getStakeAmount = async () => {
-    dispatch({ type: "setIsLoading", payload: true });
-    let response = await getStakedAmount();
-    let _amt = response?.toString();
-    if (_amt) {
-      dispatch({
-        type: "setStakedAmount",
-        payload: parseFloat(ethers.utils.formatEther(_amt)),
-      });
-    }
-    dispatch({ type: "setIsLoading", payload: false });
-  };
   const handleChange = (selectedOption: any) => {
     dispatch({ type: "setSelectedOption", payload: selectedOption });
   };
@@ -174,7 +154,7 @@ const ProposalResults = (props: any) => {
               )}
             </div>
           </div>
-          {!state?.isLoading && state?.stakedAmount >= 1000 && (
+          {!state?.isLoading && (
             <div>
               <h2 className="text-base font-semibold mb-2 text-secondary">
                 {`${isVoted ? "Edit " : "Cast "}`}Your Vote
@@ -218,7 +198,6 @@ const ProposalResults = (props: any) => {
             )}
           </div>
           {!state?.isLoading &&
-            state?.stakedAmount >= 1000 &&
             !hideVoteButtons && (
               <div className="mb-2">
                 <Button

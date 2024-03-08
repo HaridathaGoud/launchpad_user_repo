@@ -3,26 +3,9 @@ import praposalImage from "../../../assets/images/proposal.png";
 import { Link } from "react-router-dom";
 import { useAccount } from "wagmi";
 import CreateProposal from "./create";
-import { ethers } from "ethers";
-import useContract from "../../../hooks/useContract";
 export default function CreateFirstPraposal(props: any) {
-  const { getStakedAmount } = useContract();
   const [isChecked, setIsChecked] = useState(false);
-  const { address, isConnected } = useAccount();
-  const [stakedAmount, setStakedAmount] = useState(0);
-  const [loader, setLoader] = useState(false);
-  const getStakeAmount = async () => {
-    setLoader(true);
-    let response = await getStakedAmount();
-    let _amt = response?.toString();
-    if (_amt) {
-      setStakedAmount(parseFloat(ethers.utils.formatEther(_amt)));
-    }
-    setLoader(false);
-  };
-  useEffect(() => {
-    getStakeAmount();
-  }, [address]);
+  const { isConnected } = useAccount();
   useEffect(() => {}, []);
   const handleRedirectCreatepraposalScreen = () => {
     setIsChecked(true);
@@ -36,9 +19,7 @@ export default function CreateFirstPraposal(props: any) {
         <div className="flex justify-center mb-6">
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
-        {isConnected && 
-        // props?.memberShipCount >= 2 && 
-        stakedAmount>=5000 && !loader && (
+        {isConnected && (
           <div className="">
             <Link
               className="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"
