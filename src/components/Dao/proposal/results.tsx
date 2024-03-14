@@ -129,25 +129,25 @@ const ProposalResults = (props: any) => {
         </h1>
         <div className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
           <div className="flex justify-between gap-5 mb-5">
-            <div className="shrink-0">
+            <div className="">
               <div className="mb-2">
                 {proposalDetails?.data?.options?.map((data: any) => (
-                  <div className="text-secondary" key={data?.id}>
-                    <div>
+                  <div className="text-secondary mb-2" key={data?.id}>
+                    <div className="flex items-center">
                       <span
                         className={`${
                           data?.votersCount ? styles.greenDot : styles.redDot
-                        } mr-2 align-middle`}
+                        } mr-2 align-middle shrink-0`}
                       ></span>
-                      <span className="text-secondary">
+                      <p className="text-secondary break-all">
                         {data?.option} {`(${data?.votersCount || "0"})`}
-                      </span>
+                      </p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div>
+            <div className="shrink-0">
               {/* <p className='text-secondary truncate'>23k The Saf...</p> */}
               {isVoted && (
                 <img src={votesuccess} alt="" className="mt-2 w-[90px]" />
@@ -164,7 +164,7 @@ const ProposalResults = (props: any) => {
                   <div className="mt-5">
                     <div className="flex flex-wrap gap-2">
                       {proposalDetails?.data?.options?.map((item: any) => (
-                        <div className="me-4 break-all" key={item.option}>
+                        <div className="me-4 break-all flex items-center" key={item.option}>
                           <input
                             type="radio"
                             name="radio-1"
@@ -179,9 +179,9 @@ const ProposalResults = (props: any) => {
                                 : state?.selectedOption?.option === item?.option
                             }
                           />
-                          <label className="text-secondary">
+                          <p className="text-secondary">
                             {item?.option}
-                          </label>
+                          </p>
                         </div>
                       ))}
                     </div>

@@ -241,7 +241,7 @@ button.opacity-100{opacity: 1 !important;}
 .dots{background-position: -333px -211px !important;}
 .tooltip:before{font-size: 12px !important;background-color:#000 !important;color: #fff !important;font-weight: 400 !important;z-index: 9999 !important;}
 .star.label::before{content: '*';color: #ff0000;}
-.star.label{justify-content: inherit;gap: 6px;}
+.star.label{justify-content: flex-start;gap: 6px;}
 .fileUploadText{color: rgba(0, 0, 0, 0.50);}
 .browser{background-position: -99px -11px !important; width: 24px;height: 24px;position: absolute;top: 6px;left: 6px;}
 .addtext{background-position: -123px -11px !important; width: 24px;height: 24px;}
