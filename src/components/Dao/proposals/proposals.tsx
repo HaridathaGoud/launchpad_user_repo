@@ -101,7 +101,7 @@ const ProposalCards = (props: any) => {
   const handleVotingScreen = (id: any, title: any) => {
     if (params?.daoId) {
       router(
-        `/daos/${params?.daoName}/${params?.daoId}/${params?.votingAddress}/proposals/${title}/${id}`
+        `/daos/${params?.daoName}/${params?.daoId}/proposals/${title}/${id}`
       );
     } else {
       router(

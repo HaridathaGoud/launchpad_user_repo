@@ -2,6 +2,7 @@ import { useAccount, useSignMessage } from 'wagmi';
 import token from '../contracts/token.json';
 import stacking from '../contracts/staking.json';
 import project from '../contracts/project.json';
+import reward from '../contracts/rewards.json'
 import { ethers } from 'ethers';
 import Contract from '../contracts/mint.json';
 import WETHContract from '../contracts/weth.json';
@@ -159,6 +160,10 @@ export default function useContractMethods() {
   }
   async function verifySign() {
     return await signMessageAsync();
+  }
+  async function readRewardBalance(contract:any) {
+    const _result=await readContract({address:contract,abi:reward.abi,functionName:'balanceOf',args:[address]})
+    return _result
   }
   async function getStakedAmount() {
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getStakedAmount", args: [address] });
@@ -369,6 +374,7 @@ export default function useContractMethods() {
     getAllocations,
     isStaker,
     minMultipleNft,
+    readRewardBalance,
     parseError
   };
 }

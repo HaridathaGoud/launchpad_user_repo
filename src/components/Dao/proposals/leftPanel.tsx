@@ -1,11 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg";
 import { useAccount } from "wagmi";
 import CreateProposal from "./create";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CopyToClipboard from "react-copy-to-clipboard";
+import useContract from "../../../hooks/useContract";
+import { getRewardBalance } from "./utils";
+import { setError } from "../../../reducers/layoutReducer";
 const DaoLeftPanel = (props) => {
+  const { readRewardBalance } = useContract();
   const user = useSelector((state: any) => state.auth.user);
+  const rootDispatch=useDispatch();
+  const daoDetails = useSelector(
+    (state: any) => state.proposal.daoDetails.data
+  );
+  const [userBalance, setUserBalance] = useState<any>(null);
+  useEffect(() => {
+    if (daoDetails && daoDetails.membershipTokenAddress) {
+      setBalance();
+    }
+  }, []);
+  const setBalance = async () => {
+    const {amount,error} = await getRewardBalance(readRewardBalance,daoDetails.membershipTokenAddress);
+    if(amount){
+      setUserBalance(amount)
+    }else{
+      rootDispatch(setError({message:error,from:'contract'}))
+    }
+  };
   const { address } = useAccount();
   const [isChecked, setIsChecked] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -13,8 +35,8 @@ const DaoLeftPanel = (props) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
   };
-  const handleRedirectCreatepraposalScreen = () => {
-        setIsChecked(true);
+  const handleProposalCreation = () => {
+    setIsChecked(true);
   };
   const handleCancel = () => {
     setIsChecked(false);
@@ -35,8 +57,8 @@ const DaoLeftPanel = (props) => {
             <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
               {user.firstName && user.lastName ? (
                 (user.firstName + " " + user.lastName).toLowerCase()
-              ) : (
-                address ? <>
+              ) : address ? (
+                <>
                   <span className="tooltip" data-tip={address}>
                     {address?.slice(0, 4)}...{address?.slice(-4)}
                   </span>
@@ -53,19 +75,22 @@ const DaoLeftPanel = (props) => {
                       }
                     />
                   </CopyToClipboard>
-                  
-                </> : "Connect your wallet!"
+                </>
+              ) : (
+                "Connect your wallet!"
               )}
             </h1>
-            {address && <p className="text-secondary">63k Members</p>}    
+            {address && <p className="text-secondary">63k Members</p>}
           </div>
         </div>
-       {<button
-          onClick={handleRedirectCreatepraposalScreen}
-          className="bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8"
-        >
-          New Proposal
-        </button>}
+        {daoDetails.votingContractAddress && userBalance && userBalance > Number(daoDetails?.proposalCreationBalance) && (
+          <button
+            onClick={handleProposalCreation}
+            className="bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8"
+          >
+            New Proposal
+          </button>
+        )}
         <div>
           <h1 className="text-base font-semibold my-5 text-secondary">
             Proposals
@@ -101,7 +126,11 @@ const DaoLeftPanel = (props) => {
               onClick={handleCancel}
             ></label>
             <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-24">
-              <CreateProposal close={handleCancel} pjctInfo={props?.pjctInfo} />
+              <CreateProposal
+                close={handleCancel}
+                pjctInfo={props?.pjctInfo}
+                votingContractAddress={daoDetails.votingContractAddress}
+              />
             </div>
           </div>
         </div>

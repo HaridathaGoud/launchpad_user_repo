@@ -50,7 +50,7 @@ const CreateProposal = (props: any) => {
         publishProposal();
         break;
       case 3:
-        handleDrawerAction('')
+        handleDrawerAction("");
         break;
       default:
         break;
@@ -111,8 +111,7 @@ const CreateProposal = (props: any) => {
       creatorImage: user.profilePicUrl,
       image: state.form?.image?.url,
     };
-    let contractAddress =
-      params.votingAddress || props?.pjctInfo?.votingContractAddress || "";
+    let contractAddress = props?.votingContractAddress;
     try {
       const response = await addQuestion(
         contractAddress,
@@ -130,13 +129,13 @@ const CreateProposal = (props: any) => {
         rootDispatch(setError({ message: "Transaction failed!" }));
       }
     } catch (error) {
-      rootDispatch(setError({ message: error,from:"contract" }));
+      rootDispatch(setError({ message: error, from: "contract" }));
     } finally {
       dispatch({ type: "setIsSaving", payload: false });
     }
   };
 
-  const handleDrawerAction = (action:string) => {
+  const handleDrawerAction = (action: string) => {
     switch (state?.currentStep) {
       case 1:
         props?.close();

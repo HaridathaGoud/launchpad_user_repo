@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { get } from "../../utils/api";
 import { useParams } from "react-router-dom";
-import useContract from "../../hooks/useContract";
 import { store } from "../../store";
 import { useAccount } from "wagmi";
 import { connect, useDispatch } from "react-redux";
-import { ethers } from "ethers";
 import ProjectViewTabs from "../Dao/projecttabs";
 import CastAndCrewMember from "./castandcrewmember";
 import FoundingMember from "./foundingmember";
@@ -26,7 +24,6 @@ const Projectdetails = (props: any) => {
   const rootDispatch = useDispatch();
   const { projectId,projectName } = useParams();
   const { address } = useAccount();
-  const { getStakedAmount } = useContract();
   const user = store.getState().auth;
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
@@ -56,10 +53,6 @@ const Projectdetails = (props: any) => {
         );
         const projectFeed = await get("User/ProjectFeed/" + projectId);
         const founders = await get("User/stakers/" + projectId);
-        let stakedAmount:any=null;
-        if(address){
-          stakedAmount = await getStakedAmount();
-        }
         const allocations = await get("User/Allocations/" + projectId + "/" + userId);
         const claims = await get("User/Claims/" + projectId + "/" + userId);
         if (projectDetails.status === 200) {
@@ -93,15 +86,6 @@ const Projectdetails = (props: any) => {
           details = { ...details, claims: claims.data };
         } else {
           rootDispatch(setError({ message: claims }));
-        }
-        if (stakedAmount) {
-          let _amt = stakedAmount.toString();
-          if (_amt) {
-            const amount = parseFloat(ethers.utils.formatEther(_amt));
-            details = { ...details, stakedAmount: amount };
-          }
-        } else {
-          rootDispatch(setError({ message: stakedAmount }));
         }
       } else if (fetch === "allocations") {
         const allocations = await get("User/Allocations/" + projectId + "/" + userId);
@@ -149,7 +133,7 @@ const Projectdetails = (props: any) => {
       return "closed";
     }
   };
-
+  console.log(data)
   return (
     <>
       <div className="container mx-auto md:mb-[90px] max-md:px-3 max-sm:mb-5">

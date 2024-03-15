@@ -5,7 +5,16 @@ const timeUnits = [
   { unit: "minute", divisor: 1000 * 60 },
   { unit: "second", divisor: 1000 }
 ];
-
+export const getRewardBalance = async (readRewardBalance,address) => {
+  const response = await readRewardBalance(address);
+  if (response) {
+    let _amt = response.toString();
+    if (_amt) {
+      return {amount:_amt,error:null}
+    }
+  }
+    return {error:response,amount:null}
+};
 export const getProposalStatus = (startingDate, endingDate) => {
   let date = new Date();
   const currentTime = Math.floor(date?.getTime());

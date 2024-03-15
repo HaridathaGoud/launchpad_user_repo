@@ -86,9 +86,8 @@ const WithdrawComponent = () => {
     unstakedAmount === "0" ||
     !unstakedAmount ||
     maticBalance === "0" ||
-    !maticBalance;
-  // ||
-  // isHideCountDownTimer;
+    !maticBalance ||
+    isHideCountDownTimer;
   return (
     <div className="">
       <div className="">
@@ -117,7 +116,7 @@ const WithdrawComponent = () => {
                     <div className="max-sm:text-center max-sm:mt-2">
                       <Button
                         type={
-                          activeCondition ? "stakingDisabled" : "stakingPrimary"
+                          (activeCondition|| tabContextValues?.buttonLoader) ? "stakingDisabled" : "stakingPrimary"
                         }
                         btnClassName={`flex items-center gap-2`}
                         handleClick={handleNextStep}

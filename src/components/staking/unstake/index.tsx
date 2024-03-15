@@ -22,7 +22,7 @@ export default function Unstake() {
     setActiveStep,
     getAmounts,
     stakedAmount,
-    // isHideCountDownTimer,
+    isHideCountDownTimer,
     isConnected,
     address,
     maticBalance,
@@ -118,7 +118,7 @@ export default function Unstake() {
       !stakedAmount ||
       maticBalance === "0" ||
       !maticBalance ||
-      // isHideCountDownTimer ||
+      isHideCountDownTimer ||
       stakeDetails?.isUnstakeInitiated) &&
     activeStep === 1;
   return (

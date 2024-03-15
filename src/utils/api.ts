@@ -160,8 +160,16 @@ export async function getKyc(url: string) {
   });
 }
 
-const getDaoDetails=async(take:any,skip:any)=> {
+const getDaos=async(take:any,skip:any)=> {
   return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${take}/${skip}`,{
+    headers: {
+      Authorization:
+      store.getState().auth?.user?.token || store.getState().auth?.token },
+  });
+}
+
+const getDaoDetails=async(id)=> {
+  return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${id}`,{
     headers: {
       Authorization:
       store.getState().auth?.user?.token || store.getState().auth?.token },
@@ -283,7 +291,7 @@ const isErrorDispaly = (objValue) => {
   		}
   	}
   }
-let apiCalls = {getTopNft,getMarketplace,postMarketplace,
+let apiCalls = {getTopNft,getMarketplace,postMarketplace,getDaos,
   getDaoDetails,getMIntDaoDetails,getStatusLu,getProposalView,postCreateProposal,postSaveVote,getProposalList,getContractDetails,
   getProposalVotes,getProposalVoters,customerVoted,isErrorDispaly,uploadErrorDisplay,customerDetails
 }

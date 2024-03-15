@@ -11,7 +11,7 @@ const CheckPointsComponent = () => {
     stakedAmount,
     unstakedAmount,
     rewardAmount,
-    // isHideCountDownTimer,
+    isHideCountDownTimer,
     isConnected,
     ybtBalance,
     maticBalance,
@@ -145,7 +145,7 @@ const CheckPointsComponent = () => {
                 <span
                   className={
                     (activeTab !== 0 &&
-                      // !isHideCountDownTimer &&
+                      !isHideCountDownTimer &&
                       balanceFormatted.balance > 0 &&
                       !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) ||
                     (activeTab === 0 && balanceFormatted.balance > 0)
@@ -166,7 +166,7 @@ const CheckPointsComponent = () => {
                     ? checkpointTexts.eligibleSubTexts[activeTab]
                     : "")}
               </p>
-              {/* {isHideCountDownTimer && <TimeCalculate></TimeCalculate>} */}
+              {isHideCountDownTimer && <TimeCalculate></TimeCalculate>}
             </div>
           </div>
         </div>

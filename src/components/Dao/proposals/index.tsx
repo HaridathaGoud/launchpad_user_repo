@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProposalCards from "./proposals";
 import { connect } from "react-redux";
 import DaoLeftPanel from "./leftPanel";
 import BreadCrumb from "../../../ui/breadcrumb";
-
+import { getDaoDetails } from "../../../reducers/proposlaReducer";
+import { useParams } from "react-router-dom";
 const Proposals = (props:any) => {
+  const {projectId}=useParams()
+  useEffect(()=>{
+    props.getDaoDetails({id:projectId || props.pjctInfo?.id});
+  },[])
   return (
     <div className="container mx-auto max-sm:px-3 mt-3">
      {props.showBreadcrumb && <BreadCrumb/>}
@@ -23,4 +28,11 @@ const Proposals = (props:any) => {
 const connectStateToProps = ({ oidc }: any) => {
   return { oidc: oidc };
 };
-export default connect(connectStateToProps)(Proposals);
+const connectDispatchToProps = (dispatch: any) => {
+  return {
+    getDaoDetails: (information: any) => {
+      dispatch(getDaoDetails(information));
+    }
+  };
+};
+export default connect(connectStateToProps,connectDispatchToProps)(Proposals);
