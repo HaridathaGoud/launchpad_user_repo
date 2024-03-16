@@ -15,7 +15,7 @@ export interface StakingContextModal {
   activeStep?: number;
   setActiveStep?: Function;
   unstakedDate?: string | Date;
-  getDetails?: Function;
+  getStakeDetails?: Function;
   stakeAmountData?: Function;
   unStakeAmtData?: Function;
   rewardsData?: Function;

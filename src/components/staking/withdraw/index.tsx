@@ -20,7 +20,7 @@ const WithdrawComponent = () => {
     setActiveStep,
     unstakedAmount,
     getAmounts,
-    getDetails,
+    getStakeDetails,
     getMaticCurrency,
     getNativeCurrency,
     isHideCountDownTimer,
@@ -64,7 +64,7 @@ const WithdrawComponent = () => {
       if (response) {
         await getAmounts?.();
         rootDispatch(setToaster({ message: "Amount withdraw successful!" }));
-        await getDetails?.();
+        await getStakeDetails?.();
         await getMaticCurrency?.();
         await getNativeCurrency?.();
         tabContextValues?.setTabData?.(res.response);

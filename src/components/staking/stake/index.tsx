@@ -24,7 +24,7 @@ const StakingComponent = () => {
     tokenBalance,
     address,
     isConnected,
-    getDetails,
+    getStakeDetails,
     getMaticCurrency,
     getNativeCurrency,
   }: StakingContextModal = useContext(StakingContext);
@@ -69,7 +69,7 @@ const StakingComponent = () => {
       if (response.statusText.toLowerCase() === "ok") {
         await getAmounts?.();
         rootDispatch(setToaster({ message: `Amount stake successful!` }));
-        await getDetails?.();
+        await getStakeDetails?.();
         await getMaticCurrency?.();
         await getNativeCurrency?.();
         tabContextValues?.setTabData?.(res.data);

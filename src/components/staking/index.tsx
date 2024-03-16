@@ -7,7 +7,13 @@ import StakingDetails from "./stakingDetails";
 import StakingTabs from "./stakingTabs";
 import { initialStakingState, stakingReducer } from "./reducers";
 import useContract from "../../hooks/useContract";
-import { daysToSeconds, minutesToSeconds, rewardsData, stakeAmountData, unstakeAmtData } from "./utils";
+import {
+  daysToSeconds,
+  minutesToSeconds,
+  rewardsData,
+  stakeAmountData,
+  unstakeAmtData,
+} from "./utils";
 import { StakingContextModal } from "./models";
 import { StakingProvider } from "./context/stakingContext";
 import { navigateToUniswap } from "../../utils/commonNavigations";
@@ -44,12 +50,16 @@ const Staking = () => {
   }, [address, isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
   const getDetails = async () => {
     dispatch({ type: "setLoader", payload: true });
+    await getStakeDetails?.();
+    await getAmountDetails?.();
+    dispatch({ type: "setLoader", payload: false });
+  };
+
+  const getStakeDetails = async () => {
     let response = await getUserStakeDetails();
     if (response) {
       dispatch({ type: "setStakeDetails", payload: response });
     }
-    await getAmountDetails?.();
-    dispatch({ type: "setLoader", payload: false });
   };
   const getAmountDetails = async () => {
     let stakedAmount = await stakeAmountData(getStakedAmount);
@@ -139,7 +149,7 @@ const Staking = () => {
       address: address,
       isConnected: isConnected,
       setTimers: setTimer,
-      getDetails: getDetails,
+      getStakeDetails: getStakeDetails,
       getMaticCurrency: getMaticCurrency,
       getNativeCurrency: getNativeCurrency,
     };
@@ -223,7 +233,7 @@ const Staking = () => {
           </div>
         </div>
       )}
-      {state?.loader && <StakingShimmer/>}
+      {state?.loader && <StakingShimmer />}
     </>
   );
 };

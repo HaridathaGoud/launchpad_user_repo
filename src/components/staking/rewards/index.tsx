@@ -15,7 +15,7 @@ const RewardsComponent = () => {
   const {
     rewardAmount,
     getAmounts,
-    getDetails,
+    getStakeDetails,
     maticBalance,
     isConnected,
     address,
@@ -75,7 +75,7 @@ const RewardsComponent = () => {
     if (res.ok && response) {
       await getAmounts?.();
       rootDispatch(setToaster({ message: "Rewards stake successful!" }));
-      await getDetails?.();
+      await getStakeDetails?.();
       await getMaticCurrency?.()
       await getNativeCurrency?.()
       tabContextValues?.setButtonLoader?.(false);

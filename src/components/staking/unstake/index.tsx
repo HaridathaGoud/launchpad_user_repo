@@ -27,7 +27,7 @@ export default function Unstake() {
     address,
     maticBalance,
     setTimers,
-    getDetails,
+    getStakeDetails,
     getMaticCurrency,
     getNativeCurrency,
   }: StakingContextModal = useContext(StakingContext);
@@ -74,7 +74,7 @@ export default function Unstake() {
         tabContextValues?.setTabData?.(res.response);
         await getAmounts?.()
         rootDispatch(setToaster({ message: "Amount unstake Successful!" }));
-        await getDetails?.()
+        await getStakeDetails?.()
         await getMaticCurrency?.()
         await getNativeCurrency?.()
         setActiveStep?.(4);
