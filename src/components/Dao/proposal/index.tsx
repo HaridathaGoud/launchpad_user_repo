@@ -36,7 +36,7 @@ const ProposalView = (props) => {
         <div className="mt-5 mb-4">
           <BreadCrumb />
           <div className="mb-12 mt-4">
-            {params?.projectId && <ProjectViewTabs />}
+            {props?.showTabs && <ProjectViewTabs />}
           </div>
         </div>
         <div className="md:grid md:grid-cols-12 gap-[30px]">

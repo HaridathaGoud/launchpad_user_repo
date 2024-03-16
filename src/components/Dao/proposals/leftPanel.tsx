@@ -9,8 +9,9 @@ import { getRewardBalance } from "./utils";
 import { setError } from "../../../reducers/layoutReducer";
 const DaoLeftPanel = (props) => {
   const { readRewardBalance } = useContract();
+  const { isConnected } = useAccount();
   const user = useSelector((state: any) => state.auth.user);
-  const rootDispatch=useDispatch();
+  const rootDispatch = useDispatch();
   const daoDetails = useSelector(
     (state: any) => state.proposal.daoDetails.data
   );
@@ -21,11 +22,14 @@ const DaoLeftPanel = (props) => {
     }
   }, []);
   const setBalance = async () => {
-    const {amount,error} = await getRewardBalance(readRewardBalance,daoDetails.membershipTokenAddress);
-    if(amount){
-      setUserBalance(amount)
-    }else{
-      rootDispatch(setError({message:error,from:'contract'}))
+    const { amount, error } = await getRewardBalance(
+      readRewardBalance,
+      daoDetails.membershipTokenAddress
+    );
+    if (amount) {
+      setUserBalance(amount);
+    } else {
+      rootDispatch(setError({ message: error, from: "contract" }));
     }
   };
   const { address } = useAccount();
@@ -83,14 +87,17 @@ const DaoLeftPanel = (props) => {
             {address && <p className="text-secondary">63k Members</p>}
           </div>
         </div>
-        {daoDetails.votingContractAddress && userBalance && userBalance > Number(daoDetails?.proposalCreationBalance) && (
-          <button
-            onClick={handleProposalCreation}
-            className="bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8"
-          >
-            New Proposal
-          </button>
-        )}
+        {isConnected &&
+          daoDetails?.votingContractAddress &&
+          userBalance &&
+          userBalance > Number(daoDetails?.proposalCreationBalance) && (
+            <button
+              onClick={handleProposalCreation}
+              className="bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8"
+            >
+              New Proposal
+            </button>
+          )}
         <div>
           <h1 className="text-base font-semibold my-5 text-secondary">
             Proposals

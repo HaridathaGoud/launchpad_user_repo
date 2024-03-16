@@ -19,7 +19,7 @@ const Proposals = (props:any) => {
         </div>
         <div className="mt-5 md:mt-0 lg:col-span-3">
           <ProposalCards pjctInfo={props?.pjctInfo} />
-          <div className="mt-10">{/* <Discussions/> */}</div>
+          {/* <div className="mt-10"><Discussions/></div> */}
         </div>
       </div>
     </div>

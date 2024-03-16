@@ -36,7 +36,7 @@ const InformationPanel = () => {
               </p>
               <p className="truncate text-secondary">
                 {" "}
-                {proposalDetails?.data?.status !== "Closed" && (
+                {(
                   <p className="text-secondary">
                     {" "}
                     {getProposalStatus(

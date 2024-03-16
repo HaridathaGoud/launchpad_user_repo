@@ -4,9 +4,10 @@ export const resultsState = {
   selectedOption: null,
   isLoading: false,
   showEditButton: false,
+  userBalance:null,
 };
 
-export const resultsReducer = (state: any=resultsState, action: any) => {
+export const resultsReducer = (state: any = resultsState, action: any) => {
   switch (action.type) {
     case "setIsLoading":
       return { ...state, isLoading: action.payload };
@@ -18,6 +19,8 @@ export const resultsReducer = (state: any=resultsState, action: any) => {
       return { ...state, selectedOption: action.payload };
     case "setShowEditButton":
       return { ...state, showEditButton: action.payload };
+    case "setUserBalance":
+      return { ...state, userBalance: action.payload };
     default:
       return state;
   }

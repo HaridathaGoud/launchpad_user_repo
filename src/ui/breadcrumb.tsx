@@ -56,7 +56,7 @@ const BreadCrumb = () => {
       } else if (params.daoName && params.proposalTitle) {
         breadcrumbToUpdate = getBreadcrumbList["daoProposal"]({
           daoName: params.daoName,
-          proposalsPath: `/daos/${params.daoName}/${params.daoId}/${params.votingAddress}/proposals`,
+          proposalsPath: `/daos/${params.daoName}/${params.daoId}/${params.projectId}/proposals`,
           proposalTitle: params.proposalTitle,
         });
       } else {

@@ -1,13 +1,38 @@
 import React, { useEffect, useState } from "react";
 import praposalImage from "../../../assets/images/proposal.png";
-import { Link } from "react-router-dom";
 import { useAccount } from "wagmi";
 import CreateProposal from "./create";
+import Button from "../../../ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { getRewardBalance } from "./utils";
+import useContract from "../../../hooks/useContract";
+import { setError } from "../../../reducers/layoutReducer";
 export default function CreateFirstPraposal(props: any) {
+  const { readRewardBalance } = useContract();
   const [isChecked, setIsChecked] = useState(false);
   const { isConnected } = useAccount();
-  useEffect(() => {}, []);
-  const handleRedirectCreatepraposalScreen = () => {
+  const rootDispatch = useDispatch();
+  const daoDetails = useSelector(
+    (state: any) => state.proposal.daoDetails.data
+  );
+  const [userBalance, setUserBalance] = useState<any>(null);
+  useEffect(() => {
+    if (daoDetails && daoDetails.membershipTokenAddress) {
+      setBalance();
+    }
+  }, []);
+  const setBalance = async () => {
+    const { amount, error } = await getRewardBalance(
+      readRewardBalance,
+      daoDetails.membershipTokenAddress
+    );
+    if (amount) {
+      setUserBalance(amount);
+    } else {
+      rootDispatch(setError({ message: error, from: "contract" }));
+    }
+  };
+  const handleProposalCreation = () => {
     setIsChecked(true);
   };
   const handleCancel = () => {
@@ -19,17 +44,20 @@ export default function CreateFirstPraposal(props: any) {
         <div className="flex justify-center mb-6">
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
-        {isConnected && (
-          <div className="">
-            <Link
-              className="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"
-              onClick={handleRedirectCreatepraposalScreen}
-              to={""}
-            >
-              <span className="mt-2 mb-2">Create Your First Proposal</span>
-            </Link>
-          </div>
-        )}
+        {isConnected &&
+          daoDetails?.votingContractAddress &&
+          userBalance &&
+          userBalance > Number(daoDetails?.proposalCreationBalance) && (
+            <div className="">
+              <Button
+                btnClassName="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"
+                handleClick={handleProposalCreation}
+                type="primary"
+              >
+                <span className="mt-2 mb-2">Create Your First Proposal</span>
+              </Button>
+            </div>
+          )}
         <p className="text-secondary mt-3">
           Get your community involved in the decision making process.
           <br />

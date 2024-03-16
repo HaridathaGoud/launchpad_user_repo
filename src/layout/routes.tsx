@@ -239,18 +239,18 @@ const Routes = () => {
           ),
         },
         {
-          path: "/daos/:daoName/:daoId/proposals/:proposalTitle/:proposalId",
+          path: "/daos/:daoName/:daoId/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
             <React.Suspense>
-              <ProposalView />
+              <ProposalView showTabs={false} />
             </React.Suspense>
           ),
         },
         {
-          path: "/projects/:projectName/:projectId/proposals/:proposalTitle/:proposalId",
+          path: "/projects/:projectName/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
             <React.Suspense>
-              <ProposalView />
+              <ProposalView showTabs={true} />
             </React.Suspense>
           ),
         },

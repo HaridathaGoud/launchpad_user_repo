@@ -1,4 +1,4 @@
-import React, {  useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import styles from "../dao.module.css";
 import { useAccount } from "wagmi";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -15,9 +15,9 @@ import {
 } from "../../../reducers/votingReducer";
 import Spinner from "../../loaders/spinner";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-import { getProposalStatus } from "../proposals/utils";
+import { getProposalStatus, getRewardBalance } from "../proposals/utils";
 import { resultsReducer, resultsState } from "./reducers";
-
+import useContract from "../../../hooks/useContract";
 const ProposalResults = (props: any) => {
   const { address } = useAccount();
   const params = useParams();
@@ -31,6 +31,21 @@ const ProposalResults = (props: any) => {
     (state: any) => state?.vtg?.isCustomerVoted
   );
   const customer = useSelector((state: any) => state?.auth?.user);
+  const { readRewardBalance } = useContract();
+  useEffect(() => {
+    setBalance();
+  }, []);
+  const setBalance = async () => {
+    const { amount, error } = await getRewardBalance(
+      readRewardBalance,
+      params.projectToken
+    );
+    if (amount) {
+      dispatch({ type: "setUserBalance", payload: amount });
+    } else {
+      rootDispatch(setError({ message: error, from: "contract" }));
+    }
+  };
   const hideVoteButtons =
     getProposalStatus(
       proposalDetails?.data?.startDate,
@@ -51,11 +66,19 @@ const ProposalResults = (props: any) => {
   };
   const handleVoting = (action: string) => {
     if (!state?.selectedOption && !isVoted) {
-      rootDispatch(setError({ message: "Please select one option!",type:'warning' }));
+      rootDispatch(
+        setError({ message: "Please select one option!", type: "warning" })
+      );
       return;
     }
     if (isVoted && (state?.selectedOption?.isSelect || !state.selectedOption)) {
-      rootDispatch(setError({ message: "Please choose a different option. You've already voted for this one.",type:'warning' }));
+      rootDispatch(
+        setError({
+          message:
+            "Please choose a different option. You've already voted for this one.",
+          type: "warning",
+        })
+      );
       return;
     }
     switch (action) {
@@ -154,42 +177,48 @@ const ProposalResults = (props: any) => {
               )}
             </div>
           </div>
-          {!state?.isLoading && (
-            <div>
-              <h2 className="text-base font-semibold mb-2 text-secondary">
-                {`${isVoted ? "Edit " : "Cast "}`}Your Vote
-              </h2>
-              <div className="mb-9">
-                {proposalDetails?.data?.options?.length > 0 && (
-                  <div className="mt-5">
-                    <div className="flex flex-wrap gap-2">
-                      {proposalDetails?.data?.options?.map((item: any) => (
-                        <div className="me-4 break-all flex items-center" key={item.option}>
-                          <input
-                            type="radio"
-                            name="radio-1"
-                            className="radio mr-1 align-middle"
-                            value={item?.option}
-                            aria-label={`radio ${item?.option}`}
-                            disabled={hideVoteButtons}
-                            onClick={() => handleChange(item)}
-                            defaultChecked={
-                              isVoted
-                                ? item?.isSelect
-                                : state?.selectedOption?.option === item?.option
-                            }
-                          />
-                          <p className="text-secondary">
-                            {item?.option}
-                          </p>
-                        </div>
-                      ))}
+          {!state?.isLoading &&
+            proposalDetails?.votingContractAddress &&
+            !hideVoteButtons &&
+            state.userBalance &&
+            state.userBalance > Number(proposalDetails?.votingBalance) && (
+              <div>
+                <h2 className="text-base font-semibold mb-2 text-secondary">
+                  {`${isVoted ? "Edit " : "Cast "}`}Your Vote
+                </h2>
+                <div className="mb-9">
+                  {proposalDetails?.data?.options?.length > 0 && (
+                    <div className="mt-5">
+                      <div className="flex flex-wrap gap-2">
+                        {proposalDetails?.data?.options?.map((item: any) => (
+                          <div
+                            className="me-4 break-all flex items-center"
+                            key={item.option}
+                          >
+                            <input
+                              type="radio"
+                              name="radio-1"
+                              className="radio mr-1 align-middle"
+                              value={item?.option}
+                              aria-label={`radio ${item?.option}`}
+                              disabled={hideVoteButtons}
+                              onClick={() => handleChange(item)}
+                              defaultChecked={
+                                isVoted
+                                  ? item?.isSelect
+                                  : state?.selectedOption?.option ===
+                                    item?.option
+                              }
+                            />
+                            <p className="text-secondary">{item?.option}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
           <div>
             {isVoted && (
               <p className=" text-secondary my-4 text-center">
@@ -197,27 +226,26 @@ const ProposalResults = (props: any) => {
               </p>
             )}
           </div>
-          {!state?.isLoading &&
-            !hideVoteButtons && (
-              <div className="mb-2">
-                <Button
-                  handleClick={
-                    !isVoted
-                      ? () => handleVoting("new")
-                      : () => handleVoting("edit")
-                  }
-                  type="secondary"
-                  btnClassName={`w-full ${
-                    !isVoted ? "flex justify-center gap-2" : ""
-                  } `}
-                  disabled={state?.isSaving}
-                >
-                  <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
-                  {!isVoted && "Vote Now"}
-                  {isVoted && "Edit Vote"}
-                </Button>
-              </div>
-            )}
+          {!state?.isLoading && !hideVoteButtons && (
+            <div className="mb-2">
+              <Button
+                handleClick={
+                  !isVoted
+                    ? () => handleVoting("new")
+                    : () => handleVoting("edit")
+                }
+                type="secondary"
+                btnClassName={`w-full ${
+                  !isVoted ? "flex justify-center gap-2" : ""
+                } `}
+                disabled={state?.isSaving}
+              >
+                <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
+                {!isVoted && "Vote Now"}
+                {isVoted && "Edit Vote"}
+              </Button>
+            </div>
+          )}
           {/* {(state?.showEditButton || isVoted) && !hideVoteButtons && (
             <div>
               <div className="mb-2">

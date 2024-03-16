@@ -8,6 +8,7 @@ import defaultBG from "../../../assets/images/default-bg.png";
 import { setError } from "../../../reducers/layoutReducer";
 import { getProposalStatusBg } from "../proposals/utils";
 import ProposalCardShimmer from "../shimmers/proposalcardshimmer";
+import ProposalViewCardShimmer from "../shimmers/proposalviewshimmer";
 const reducers = (state: any, action: any) => {
   switch (action.type) {
     case "copied":
@@ -67,7 +68,7 @@ function Proposal() {
       <div className="py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg">
         <div>
           {proposalDetails?.loading ? (
-            <ProposalCardShimmer/>
+            <ProposalViewCardShimmer/>
           ) : (
             <>
               <div className="flex justify-between items-start">
