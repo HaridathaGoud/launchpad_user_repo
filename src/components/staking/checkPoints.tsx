@@ -14,11 +14,11 @@ const CheckPointsComponent = () => {
     isHideCountDownTimer,
     isConnected,
     tokenBalance,
-    maticBalance,
+    currencyBalance,
   }: StakingContextModal = useContext(StakingContext);
   let balanceFormatted: any = { balance: 0, formattedBalance: 0 };
-  const maticBalanceFormatted = maticBalance
-    ? formatAmount(maticBalance, 8)
+  const formattedCurrencyBalance = currencyBalance
+    ? formatAmount(currencyBalance, 8)
     : balanceFormatted;
   switch (activeTab) {
     case 0:
@@ -110,7 +110,7 @@ const CheckPointsComponent = () => {
           <div className="">
             <span
               className={
-                maticBalanceFormatted.balance > 0
+                formattedCurrencyBalance.balance > 0
                   ? "icon active-checkpoint"
                   : "icon checkpoint"
               }
@@ -118,10 +118,10 @@ const CheckPointsComponent = () => {
           </div>
           <div className=" ">
             <p className="text-base font-semibold text-secondary">
-              {checkpointTexts.maticText}
+              {checkpointTexts.currencyText}
             </p>
             <p className="text-sm font-normal text-info">
-              {checkpointTexts.maticSubText}
+              {checkpointTexts.currencySubText}
               <br />
               <span className="">
                 {" "}
@@ -130,8 +130,8 @@ const CheckPointsComponent = () => {
                 </span>
                 <span className="text-sm font-semibold text-secondary break-all">
                   {" "}
-                  {maticBalanceFormatted.balance
-                    ? maticBalanceFormatted.formattedBalance
+                  {formattedCurrencyBalance.balance
+                    ? formattedCurrencyBalance.formattedBalance
                     : "0"}
                 </span>
               </span>

@@ -20,12 +20,12 @@ const StakingComponent = () => {
     activeStep,
     setActiveStep,
     getAmounts,
-    maticBalance,
+    currencyBalance,
     tokenBalance,
     address,
     isConnected,
     getStakeDetails,
-    getMaticCurrency,
+    getCurrency,
     getNativeCurrency,
   }: StakingContextModal = useContext(StakingContext);
   const rootDispatch = useDispatch();
@@ -70,7 +70,7 @@ const StakingComponent = () => {
         await getAmounts?.();
         rootDispatch(setToaster({ message: `Amount stake successful!` }));
         await getStakeDetails?.();
-        await getMaticCurrency?.();
+        await getCurrency?.();
         await getNativeCurrency?.();
         tabContextValues?.setTabData?.(res.data);
         setActiveStep?.(3);
@@ -136,8 +136,8 @@ const StakingComponent = () => {
     !isConnected ||
     tokenBalance === "0" ||
     !tokenBalance ||
-    maticBalance === "0" ||
-    !maticBalance;
+    currencyBalance === "0" ||
+    !currencyBalance;
   return (
     <div className="">
       <div className="sm:col lg:col-span-3">

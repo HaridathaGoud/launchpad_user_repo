@@ -25,10 +25,10 @@ export default function Unstake() {
     isHideCountDownTimer,
     isConnected,
     address,
-    maticBalance,
+    currencyBalance,
     setTimers,
     getStakeDetails,
-    getMaticCurrency,
+    getCurrency,
     getNativeCurrency,
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
@@ -75,7 +75,7 @@ export default function Unstake() {
         await getAmounts?.()
         rootDispatch(setToaster({ message: "Amount unstake Successful!" }));
         await getStakeDetails?.()
-        await getMaticCurrency?.()
+        await getCurrency?.()
         await getNativeCurrency?.()
         setActiveStep?.(4);
         tabContextValues?.setButtonLoader?.(false);
@@ -116,8 +116,8 @@ export default function Unstake() {
   const activeCondition =
     (!isConnected ||
       !stakedAmount ||
-      maticBalance === "0" ||
-      !maticBalance ||
+      currencyBalance === "0" ||
+      !currencyBalance ||
       isHideCountDownTimer ||
       stakeDetails?.isUnstakeInitiated) &&
     activeStep === 1;

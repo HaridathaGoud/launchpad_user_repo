@@ -34,8 +34,8 @@ export const checkpointTexts = {
     `You have unstaked your ${process.env.REACT_APP_TOKEN_SYMBOL}`,
     "Rewards available",
   ],
-  maticText: `${process.env.REACT_APP_CURRENCY} available in wallet`,
-  maticSubText: `${process.env.REACT_APP_CURRENCY} is required to pay transaction fees on the Polygon network.`,
+  currencyText: `${process.env.REACT_APP_CURRENCY} available in wallet`,
+  currencySubText: `${process.env.REACT_APP_CURRENCY} is required to pay transaction fees on the Polygon network.`,
   eligibleTexts: [
     "Eligible to stake",
     `Eligible to initiate unstake`,

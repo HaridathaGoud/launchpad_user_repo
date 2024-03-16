@@ -85,13 +85,13 @@ const Carousel = ({
                           <p className="text-white font-[500] text-base">
                             Public Opens
                           </p>
-                          <p className="text-xl text-white">{`${formatDate(image.publicSaleStartDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
+                          <p className="text-xl text-white">{`${formatDate(image.publicSaleStartDate,'DD/MM/YYYY HH:mm:ss')} (UTC)`}</p>
                         </div>
                         <div>
                           <p className="text-white font-[500] text-base">
                             Public Closes
                           </p>
-                          <p className="text-xl text-white">{`${formatDate(image.publicSaleEndDate,'DD/MM/YYYY HH:mm:ss')}`}</p>
+                          <p className="text-xl text-white">{`${formatDate(image.publicSaleEndDate,'DD/MM/YYYY HH:mm:ss')} (UTC)`}</p>
                         </div>
                       </div>
                       <div className="mt-8 max-sm:mb-8 max-sm:text-center">

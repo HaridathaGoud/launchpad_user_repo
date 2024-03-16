@@ -71,7 +71,10 @@ const FeaturedIvos = () => {
                     </div>
                     <div>
                       <h1 className="text-error-content text-4xl break-all">
-                        {ivo.value} <span className="text-s">Matic</span>
+                        {ivo.value}
+                        <span className="text-base capitalize">
+                        {process.env.REACT_APP_CURRENCY}
+                        </span>
                       </h1>
                       <p className="text-error-content opacity-60 text-lg ">
                         {ivo.name}

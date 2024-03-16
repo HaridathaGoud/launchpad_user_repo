@@ -16,10 +16,10 @@ const RewardsComponent = () => {
     rewardAmount,
     getAmounts,
     getStakeDetails,
-    maticBalance,
+    currencyBalance,
     isConnected,
     address,
-    getMaticCurrency,
+    getCurrency,
     getNativeCurrency
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
@@ -76,7 +76,7 @@ const RewardsComponent = () => {
       await getAmounts?.();
       rootDispatch(setToaster({ message: "Rewards stake successful!" }));
       await getStakeDetails?.();
-      await getMaticCurrency?.()
+      await getCurrency?.()
       await getNativeCurrency?.()
       tabContextValues?.setButtonLoader?.(false);
       tabContextValues?.tabError && tabContextValues?.setTabError?.("");
@@ -101,8 +101,8 @@ const RewardsComponent = () => {
                     !isConnected ||
                     rewardAmount === "0" ||
                     !rewardAmount ||
-                    maticBalance === "0" ||
-                    !maticBalance
+                    currencyBalance === "0" ||
+                    !currencyBalance || tabContextValues?.buttonLoader
                       ? "stakingDisabled"
                       : "stakingPrimary"
                   }
@@ -112,8 +112,8 @@ const RewardsComponent = () => {
                     !isConnected ||
                     rewardAmount === "0" ||
                     !rewardAmount ||
-                    maticBalance === "0" ||
-                    !maticBalance ||
+                    currencyBalance === "0" ||
+                    !currencyBalance ||
                     tabContextValues?.buttonLoader
                   }
                 >

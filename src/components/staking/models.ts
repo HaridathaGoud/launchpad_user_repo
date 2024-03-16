@@ -25,7 +25,7 @@ export interface StakingContextModal {
   loader?: boolean;
   isHideCountDownTimer?: boolean;
   setIsHideCountDownTimer?: Function;
-  maticBalance?: string | number;
+  currencyBalance?: string | number;
   tokenBalance?: string| number;
   address?: string;
   isConnected?: boolean;
@@ -33,7 +33,7 @@ export interface StakingContextModal {
   setTimers?: Function;
   getAmounts?:Function;
   getNativeCurrency?:Function;
-  getMaticCurrency?:Function;
+  getCurrency?:Function;
 }
 
 export interface StakingTabsModel {

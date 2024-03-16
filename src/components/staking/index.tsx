@@ -32,7 +32,7 @@ const Staking = () => {
   const { isConnected, address } = useAccount();
 
   const user = useSelector((state: any) => state.auth.user);
-  const { data: maticData, refetch: getMaticCurrency } =
+  const { data: currency, refetch: getCurrency } =
     useBalance({ address }) || {};
   const { data: tokenData, refetch: getNativeCurrency } =
     useBalance({
@@ -41,7 +41,7 @@ const Staking = () => {
         | `0x${string}`
         | undefined,
     }) || {};
-  const maticBalance = maticData?.formatted;
+  const currencyBalance = currency?.formatted;
   const tokenBalance = tokenData?.formatted;
   useEffect(() => {
     if (address && isConnected) {
@@ -144,13 +144,13 @@ const Staking = () => {
       isHideCountDownTimer: state?.isHideCountDownTimer,
       setIsHideCountDownTimer: (payload) =>
         dispatch({ type: "setIsHideCountDownTimer", payload: payload }),
-      maticBalance: maticBalance,
+      currencyBalance: currencyBalance,
       tokenBalance: tokenBalance,
       address: address,
       isConnected: isConnected,
       setTimers: setTimer,
       getStakeDetails: getStakeDetails,
-      getMaticCurrency: getMaticCurrency,
+      getCurrency: getCurrency,
       getNativeCurrency: getNativeCurrency,
     };
   }, [state, address]); // eslint-disable-line react-hooks/exhaustive-deps

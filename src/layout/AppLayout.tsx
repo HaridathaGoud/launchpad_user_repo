@@ -19,6 +19,7 @@ const AppLayout = () => {
   useEffect(() => {
     error?.message && rootDispatch(setError({ message: "" }));
     toaster?.message && rootDispatch(setToaster({ message: "" }));
+    window.scrollTo(0,0)
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

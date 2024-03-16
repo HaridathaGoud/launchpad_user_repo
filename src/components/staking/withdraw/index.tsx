@@ -21,12 +21,12 @@ const WithdrawComponent = () => {
     unstakedAmount,
     getAmounts,
     getStakeDetails,
-    getMaticCurrency,
+    getCurrency,
     getNativeCurrency,
     isHideCountDownTimer,
     isConnected,
     address,
-    maticBalance,
+    currencyBalance,
     setTimers,
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
@@ -65,7 +65,7 @@ const WithdrawComponent = () => {
         await getAmounts?.();
         rootDispatch(setToaster({ message: "Amount withdraw successful!" }));
         await getStakeDetails?.();
-        await getMaticCurrency?.();
+        await getCurrency?.();
         await getNativeCurrency?.();
         tabContextValues?.setTabData?.(res.response);
         setActiveStep?.(2);
@@ -85,8 +85,8 @@ const WithdrawComponent = () => {
     !isConnected ||
     unstakedAmount === "0" ||
     !unstakedAmount ||
-    maticBalance === "0" ||
-    !maticBalance ||
+    currencyBalance === "0" ||
+    !currencyBalance ||
     isHideCountDownTimer;
   return (
     <div className="">
