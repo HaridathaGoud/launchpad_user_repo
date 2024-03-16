@@ -14,6 +14,7 @@ import { navigateToUniswap } from "../../utils/commonNavigations";
 import BreadCrumb from "../../ui/breadcrumb";
 import ConnectToWallet from "../ConnectToWallet";
 import CopyToClipboard from "react-copy-to-clipboard";
+import StakingShimmer from "../loaders/StakingShimmer";
 const Staking = () => {
   const [state, dispatch] = useReducer(stakingReducer, initialStakingState);
   const {
@@ -36,18 +37,20 @@ const Staking = () => {
     }) || {};
   const maticBalance = maticData?.formatted;
   const ybtBalance = ybtData?.formatted;
-  async function getDetails() {
+  useEffect(() => {
+    if (address && isConnected) {
+      getDetails();
+    }
+  }, [address, isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+  const getDetails = async () => {
+    dispatch({ type: "setLoader", payload: true });
     let response = await getUserStakeDetails();
     if (response) {
       dispatch({ type: "setStakeDetails", payload: response });
     }
-  }
-  useEffect(() => {
-    if (address) {
-      getAmountDetails?.();
-      getDetails();
-    }
-  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
+    await getAmountDetails?.();
+    dispatch({ type: "setLoader", payload: false });
+  };
   const getAmountDetails = async () => {
     let stakedAmount = await stakeAmountData(getStakedAmount);
     let unstakedAmount = await unstakeAmtData(getUnstakedAmount);
@@ -57,7 +60,6 @@ const Staking = () => {
   };
 
   const setTimer = (difference, type) => {
-    dispatch({ type: "setTimeLoader", payload: true });
     const details = state?.stakeDetails;
     let initiatedTime = 0;
     if (state?.activeTab === 1) {
@@ -91,7 +93,6 @@ const Staking = () => {
       if (state.activeTab !== 0)
         dispatch({ type: "setIsHideCountDownTimer", payload: true });
     }
-    dispatch({ type: "setTimeLoader", payload: false });
   };
   const handleCopy = () => {
     dispatch({ type: "setAddressCopied", payload: true });
@@ -104,6 +105,7 @@ const Staking = () => {
     return {
       stakeDetails: state?.stakeDetails,
       activeTab: state?.activeTab,
+      loader: state?.loader,
       setActiveTab: (payload) =>
         dispatch({ type: "setActiveTab", payload: payload }),
       activeStep: state?.activeStep,
@@ -136,7 +138,6 @@ const Staking = () => {
       stakedAmount: state?.amounts?.stakedAmount,
       unstakedAmount: state?.amounts?.unstakedAmount,
       rewardAmount: state?.amounts?.rewardAmount,
-      timeLoader: state?.timeLoader,
       isHideCountDownTimer: state?.isHideCountDownTimer,
       setIsHideCountDownTimer: (payload) =>
         dispatch({ type: "setIsHideCountDownTimer", payload: payload }),
@@ -163,69 +164,74 @@ const Staking = () => {
   //   return <KycStatusPage isConnected={isConnected}/>
   // }
   return (
-    <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 mt-3">
-      <div>
-        <div className="container m-auto">
-          <BreadCrumb />
-        </div>
-        <StakingProvider value={contextValue}>
-          <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
-            <div className="pr-5">
-              <div className="flex items-center gap-3 col">
-                <div className="w-12 h-12 ">
-                  <img
-                    src={user?.profilePicUrl || defaultAvatar}
-                    alt="Dao Profile"
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+    <>
+      {!state?.loader && (
+        <div className="container mx-auto max-sm:px-3 px-2 lg:px-0 mt-3">
+          <div>
+            <div className="container m-auto">
+              <BreadCrumb />
+            </div>
+            <StakingProvider value={contextValue}>
+              <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
+                <div className="pr-5">
+                  <div className="flex items-center gap-3 col">
+                    <div className="w-12 h-12 ">
+                      <img
+                        src={user?.profilePicUrl || defaultAvatar}
+                        alt="Dao Profile"
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
+                        {user.firstName && user.lastName ? (
+                          (user.firstName + " " + user.lastName).toLowerCase()
+                        ) : (
+                          <>
+                            <span className="tooltip" data-tip={address}>
+                              {address?.slice(0, 4)}...{address?.slice(-4)}
+                            </span>
+                            <CopyToClipboard
+                              text={address}
+                              options={{ format: "text/plain" }}
+                              onCopy={() => handleCopy()}
+                            >
+                              <span
+                                className={
+                                  !state?.addressCopied
+                                    ? "icon md copy-icon cursor-pointer ms-0 pl-4"
+                                    : "icon md check-icon pl-4"
+                                }
+                              />
+                            </CopyToClipboard>
+                          </>
+                        )}
+                      </h1>
+                      <p className="text-secondary">63k Members</p>
+                    </div>
+                  </div>
+                  <div className=" mt-4">
+                    <button
+                      className="bg-secondary w-full rounded-[28px] h-[42px] px-6 inline-block text-lg font-semibold text-base-100"
+                      onClick={navigateToUniswap}
+                    >
+                      Buy {process.env.REACT_APP_TOKEN_SYMBOL}
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
-                    {user.firstName && user.lastName ? (
-                      (user.firstName + " " + user.lastName).toLowerCase()
-                    ) : (
-                      <>
-                        <span className="tooltip" data-tip={address}>
-                          {address?.slice(0, 4)}...{address?.slice(-4)}
-                        </span>
-                        <CopyToClipboard
-                          text={address}
-                          options={{ format: "text/plain" }}
-                          onCopy={() => handleCopy()}
-                        >
-                          <span
-                            className={
-                              !state?.addressCopied
-                                ? "icon md copy-icon cursor-pointer ms-0 pl-4"
-                                : "icon md check-icon pl-4"
-                            }
-                          />
-                        </CopyToClipboard>
-                      </>
-                    )}
-                  </h1>
-                  <p className="text-secondary">63k Members</p>
+                <div className="lg:col-span-3">
+                  <StakingDetails />
                 </div>
               </div>
-              <div className=" mt-4">
-                <button
-                  className="bg-secondary w-full rounded-[28px] h-[42px] px-6 inline-block text-lg font-semibold text-base-100"
-                  onClick={navigateToUniswap}
-                >
-                  Buy {process.env.REACT_APP_TOKEN_SYMBOL}
-                </button>
-              </div>
-            </div>
-            <div className="lg:col-span-3">
-              <StakingDetails />
-            </div>
+              <div className="mt-4">
+                <StakingTabs />
+              </div>{" "}
+            </StakingProvider>
           </div>
-          <div className="mt-4">
-            <StakingTabs />
-          </div>{" "}
-        </StakingProvider>
-      </div>
-    </div>
+        </div>
+      )}
+      {state?.loader && <StakingShimmer/>}
+    </>
   );
 };
 export default Staking;

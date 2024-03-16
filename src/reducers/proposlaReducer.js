@@ -237,7 +237,7 @@ const saveProposal = async (obj) => {
   }
 }
 let initialState = {
-  daos: { loading: false, data: null, nextPage: 1 },
+  daos: { loading: true, data: null, nextPage: 1 },
   daoDetails:{loading: false, data: null,error:""},
   proposals: { loading: false, data: null, error: '', nextPage: 1 },
   proposalStatusLookup: { loading: false, data: ['All'], error: '' },

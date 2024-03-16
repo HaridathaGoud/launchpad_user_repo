@@ -1,7 +1,7 @@
 export interface StakingStateModel {
   activeTab: number;
   activeStep: number;
-  timeLoader: boolean;
+  loader: boolean;
   isHideCountDownTimer: boolean;
   stakingDetails: any;
   amounts: any;
@@ -24,7 +24,7 @@ export interface StakingContextModal {
   stakedAmount?: any;
   unstakedAmount?: any;
   rewardAmount?: any;
-  timeLoader?: boolean;
+  loader?: boolean;
   isHideCountDownTimer?: boolean;
   setIsHideCountDownTimer?: Function;
   maticBalance?: string | number;

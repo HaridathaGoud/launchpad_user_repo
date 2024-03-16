@@ -3,7 +3,7 @@ export const initialStakingState = {
   stakeDetails: null,
   activeTab: 0,
   activeStep: 0,
-  timeLoader: false,
+  loader: true,
   isHideCountDownTimer: false,
   stakingDetails: {},
   amounts: { stakedAmount: null, unstakedAmount: null, rewardAmount: null },
@@ -40,8 +40,8 @@ export const stakingReducer = (
     case "setActiveStep":
       state = { ...state, activeStep: action.payload };
       break;
-    case "setTimeLoader":
-      state = { ...state, timeLoader: action.payload };
+    case "setLoader":
+      state = { ...state, loader: action.payload };
       break;
     case "setIsHideCountDownTimer":
       state = { ...state, isHideCountDownTimer: action.payload };

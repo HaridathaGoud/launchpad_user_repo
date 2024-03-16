@@ -13,7 +13,8 @@ const ShowCounter = (props: any) => {
     <div className="show-counter">
       <div>
         <p>
-          Withdrawable in:
+          {props?.activeTab===1 && "Unstake in:"}  
+          {props?.activeTab===2 && "Withdrawable in:"}
           <br />
           {props?.days}
           <span>{'d'}</span> {props?.hours}
@@ -34,7 +35,7 @@ const CountdownTimer = (props: any) => {
     return <ExpiredNotice />;
   } else {
     // props?.setIsHideCountDownTimer(true);
-    return <ShowCounter days={days} hours={hours} minutes={minutes} seconds={seconds} />;
+    return <ShowCounter days={days} hours={hours} minutes={minutes} seconds={seconds} activeTab={props.activeTab}/>;
   }
 };
 

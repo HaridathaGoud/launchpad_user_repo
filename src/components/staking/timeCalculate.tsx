@@ -33,6 +33,7 @@ export default function TimeCalculate() {
       <CountdownTimer
         targetDate={total}
         setIsHideCountDownTimer={setIsHideCountDownTimer}
+        activeTab={activeTab}
       />
     </div>
   );
