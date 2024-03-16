@@ -14,14 +14,14 @@ export default function Tiers() {
   const { isConnected, address } = useAccount();
   const navigate = useNavigate();
   const { data: maticData } = useBalance({ address }) || {};
-  const { data: ybtData } =
+  const { data: tokenData } =
     useBalance({
       address,
       token: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS as `0x${string}` | undefined,
     }) || {};
 
   const maticBalance = maticData?.formatted ? Number(maticData.formatted) : 0;
-  const ybtBalance = ybtData?.formatted ? Number(ybtData.formatted) : 0;
+  const tokenBalance = tokenData?.formatted ? Number(tokenData.formatted) : 0;
   const shouldLog=useRef(true);
   useEffect(() => {
     if(shouldLog.current){
@@ -47,7 +47,7 @@ export default function Tiers() {
   };
 
   const handleStakeAmount = (items: any) => {
-    if (isConnected && maticBalance && ybtBalance) {
+    if (isConnected && maticBalance && tokenBalance) {
       navigate(`/staking/${items.volume}`);
     } else {
       navigate(`/staking`);

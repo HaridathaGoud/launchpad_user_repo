@@ -8,8 +8,6 @@ export const initialStakingState = {
   stakingDetails: {},
   amounts: { stakedAmount: null, unstakedAmount: null, rewardAmount: null },
   addressCopied: false,
-  maticBalance:0,
-  ybtBalance:0,
 };
 
 export const stakingTabsInitialState = {
@@ -25,12 +23,6 @@ export const stakingReducer = (
   action: any
 ) => {
   switch (action.type) {
-    case "setMaticBalance":
-      state = { ...state, maticBalance: action.payload };
-      break;
-    case "setYbtBalance":
-      state = { ...state, ybtBalance: action.payload };
-      break;
     case "setStakeDetails":
       state = { ...state, stakeDetails: action.payload };
       break;

@@ -12,15 +12,17 @@ const ShowCounter = (props: any) => {
   return (
     <div className="show-counter">
       <div>
-        <p>
+        <p className='text-sm font-normal text-info'>
           {props?.activeTab===1 && "Unstake in:"}  
           {props?.activeTab===2 && "Withdrawable in:"}
           <br />
+          <p className='text-sm font-semibold text-secondary'>
           {props?.days}
           <span>{'d'}</span> {props?.hours}
           <span>{'h'}</span> {props?.minutes}
           <span>{'m'}</span> {props?.seconds}
           <span>{'s'}</span>
+          </p>
         </p>
       </div>
     </div>

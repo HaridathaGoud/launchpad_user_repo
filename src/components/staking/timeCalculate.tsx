@@ -2,16 +2,9 @@ import React, { useContext } from "react";
 import CountdownTimer from "./countdownTimer";
 import { StakingContextModal } from "./models";
 import { StakingContext } from "./context/stakingContext";
+import {minutesToSeconds,daysToSeconds} from "./utils"
 export default function TimeCalculate() {
-  function minutesToSeconds(minutes) {
-    return (minutes) * 60;
-  }
-
-  function daysToSeconds(days) {
-    return (days) * 24 * 60 * 60;
-  }
   let timerSeconds = 0;
-  //const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
   const { stakeDetails, activeTab ,setIsHideCountDownTimer}: StakingContextModal =
     useContext(StakingContext);
   let initiatedTime = 0;
@@ -20,7 +13,12 @@ export default function TimeCalculate() {
       Number(stakeDetails?.intialStakingTime[
         stakeDetails?.intialStakingTime?.length - 1
       ])
-    timerSeconds = minutesToSeconds(5);
+    const pool=Number(stakeDetails?.poolLevel[stakeDetails?.poolLevel?.length-1])
+    let remainingTime=0;
+    if(pool===1) remainingTime=1
+    if(pool===2) remainingTime=3
+    if(pool===3) remainingTime=6
+    timerSeconds = minutesToSeconds(remainingTime);
   }
   if (activeTab === 2) {
     initiatedTime = Number(stakeDetails?.unstakeInitiatedTime);

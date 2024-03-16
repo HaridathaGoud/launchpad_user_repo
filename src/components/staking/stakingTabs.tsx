@@ -29,6 +29,7 @@ const StakingTabs = () => {
       setError({
         message: tabState?.tabError,
         onCloseCallback: () => dispatch({ type: "setTabError", payload: "" }),
+        type:'warning'
       })
     );
   }, [tabState?.tabError]); // eslint-disable-line react-hooks/exhaustive-deps

@@ -30,6 +30,7 @@ const AppLayout = () => {
             errorMessage={error?.message}
             setErrorMessage={() => rootDispatch(setError({ message: "" }))}
             onCloseCallback={error?.onCloseCallback}
+            type={error?.type}
           />
         )}
         {toaster?.message && (

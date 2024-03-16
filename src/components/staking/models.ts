@@ -7,8 +7,6 @@ export interface StakingStateModel {
   amounts: any;
   stakeDetails: any;
   addressCopied: boolean;
-  maticBalance: number | string;
-  ybtBalance: number | string;
 }
 
 export interface StakingContextModal {
@@ -28,7 +26,7 @@ export interface StakingContextModal {
   isHideCountDownTimer?: boolean;
   setIsHideCountDownTimer?: Function;
   maticBalance?: string | number;
-  ybtBalance?: string| number;
+  tokenBalance?: string| number;
   address?: string;
   isConnected?: boolean;
   stakeDetails?: any;

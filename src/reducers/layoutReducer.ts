@@ -30,6 +30,7 @@ const setError = (payload) => {
     payload: {
       message: formatErrorMessage(payload?.message,payload?.from),
       onCloseCallback: payload?.onCloseCallback,
+      type:payload.type || 'error',
     },
   };
 };
@@ -41,6 +42,7 @@ const userData = {
   },
   error: {
     message: "",
+    type:'error',
   },
 };
 

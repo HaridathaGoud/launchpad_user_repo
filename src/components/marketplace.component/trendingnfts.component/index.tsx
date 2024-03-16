@@ -53,7 +53,7 @@ function TrendingNfts(props) {
       setShowBuyModal(true);
       loadNftDetails(item);
     } else {
-      rootDispatch(setError({message:"Please connect your wallet!"}))
+      rootDispatch(setError({message:"Please connect your wallet!",type:'warning'}))
     }
   };
   const loadNftDetails = async (item) => {

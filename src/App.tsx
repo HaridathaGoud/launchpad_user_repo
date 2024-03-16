@@ -34,9 +34,9 @@ const config = createConfig({
       options: {
         projectId: walletConnectProjectId,
         metadata: {
-          name: 'YBT Launchpad',
+          name: `${process.env.REACT_APP_TOKEN_SYMBOL} Launchpad`,
           description:
-            "YBT Launchpad is a Create-to-Earn DAOs' launchpad and NFT marketplace that provides access to legendary creators for the wider entertainment community.",
+            `${process.env.REACT_APP_TOKEN_SYMBOL} Launchpad is a Create-to-Earn DAOs' launchpad and NFT marketplace that provides access to legendary creators for the wider entertainment community.`,
           icons: ['https://yellowblock.net/wp-content/uploads/2023/09/YB-Logo.svg'],
           url: 'https://ybdott.azurewebsites.net/dashboard',
         },

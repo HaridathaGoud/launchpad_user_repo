@@ -261,6 +261,8 @@ button.opacity-100{opacity: 1 !important;}
 .icon.network{height: 32px;width: 32px;background-position: -498px -465px !important;}
 .bg-banner{background: linear-gradient(to left, rgb(0 0 0 / 48%) 50%, rgba(255, 255, 255, 0) 80%);}
 .fileupload{background: rgba(164, 170, 187, 0.2);border: 1px dashed rgba(0, 0, 0, 0.2);}
+.warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
+.closewarning{background-position: -7px -340px !important;width: 34px;height: 34px;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

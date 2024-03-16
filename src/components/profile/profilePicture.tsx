@@ -53,7 +53,7 @@ const ProfilePicture = ({ profile, updateProfile }) => {
         setLoader(false);
       }
     } else {
-      rootDispatch(setError({message:"File is not allowed. Please upload only jpg, png, jpeg files!"}))
+      rootDispatch(setError({message:"File is not allowed. Please upload only jpg, png, jpeg files!",type:'warning'}))
       event.target.value='';
       setLoader(false);
     }

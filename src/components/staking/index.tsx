@@ -7,7 +7,7 @@ import StakingDetails from "./stakingDetails";
 import StakingTabs from "./stakingTabs";
 import { initialStakingState, stakingReducer } from "./reducers";
 import useContract from "../../hooks/useContract";
-import { rewardsData, stakeAmountData, unstakeAmtData } from "./utils";
+import { daysToSeconds, minutesToSeconds, rewardsData, stakeAmountData, unstakeAmtData } from "./utils";
 import { StakingContextModal } from "./models";
 import { StakingProvider } from "./context/stakingContext";
 import { navigateToUniswap } from "../../utils/commonNavigations";
@@ -28,7 +28,7 @@ const Staking = () => {
   const user = useSelector((state: any) => state.auth.user);
   const { data: maticData, refetch: getMaticCurrency } =
     useBalance({ address }) || {};
-  const { data: ybtData, refetch: getNativeCurrency } =
+  const { data: tokenData, refetch: getNativeCurrency } =
     useBalance({
       address,
       token: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS as
@@ -36,7 +36,7 @@ const Staking = () => {
         | undefined,
     }) || {};
   const maticBalance = maticData?.formatted;
-  const ybtBalance = ybtData?.formatted;
+  const tokenBalance = tokenData?.formatted;
   useEffect(() => {
     if (address && isConnected) {
       getDetails();
@@ -73,13 +73,6 @@ const Staking = () => {
     const currentDateMillis = new Date().getTime();
     const currentDateInSeconds = Math.floor(currentDateMillis / 1000);
     const differenceInSeconds = currentDateInSeconds - initiatedTime;
-    function minutesToSeconds(minutes) {
-      return minutes * 60;
-    }
-
-    function daysToSeconds(days) {
-      return days * 24 * 60 * 60;
-    }
     let timerSeconds = 0;
     if (type === "days") {
       timerSeconds = daysToSeconds(difference);
@@ -142,7 +135,7 @@ const Staking = () => {
       setIsHideCountDownTimer: (payload) =>
         dispatch({ type: "setIsHideCountDownTimer", payload: payload }),
       maticBalance: maticBalance,
-      ybtBalance: ybtBalance,
+      tokenBalance: tokenBalance,
       address: address,
       isConnected: isConnected,
       setTimers: setTimer,

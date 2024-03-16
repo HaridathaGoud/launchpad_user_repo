@@ -26,8 +26,8 @@ const AmountStakeUnstakeHandler = (props) => {
       setAmountFieldError?.("");
     }
   };
-  let ybtBalance = parseFloat(props?.ybtBalance);
-  let ybtBalanceFormattedNumber = ybtBalance?.toLocaleString("en-US", {
+  let tokenBalance = parseFloat(props?.tokenBalance);
+  let tokenBalanceFormatted = tokenBalance?.toLocaleString("en-US", {
     maximumFractionDigits: 8,
   });
   return (
@@ -54,8 +54,8 @@ const AmountStakeUnstakeHandler = (props) => {
             />
             <button
               onClick={() => {
-                setStakeAmount(ybtBalanceFormattedNumber);
-                setTabAmount?.(props?.ybtBalance?.toString());
+                setStakeAmount(tokenBalanceFormatted);
+                setTabAmount?.(props?.tokenBalance?.toString());
               }}
               className="absolute right-3 top-1.5 text-base text-primary font-bold"
             >
@@ -84,7 +84,7 @@ const AmountStakeUnstakeHandler = (props) => {
               Balance :
             </span>{" "}
             <span className="text-sm font-semibold text-secondary">
-              {props?.ybtBalance > 0 ? ybtBalanceFormattedNumber : "0.0000"}
+              {props?.tokenBalance > 0 ? tokenBalanceFormatted : "0.0000"}
             </span>
           </p>
         </div>

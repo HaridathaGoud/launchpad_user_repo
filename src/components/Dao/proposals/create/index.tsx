@@ -65,20 +65,6 @@ const CreateProposal = (props: any) => {
       dispatch({ type: "setCurrentStep", payload: 2 });
     }
   };
-  // const getContractData = async () => {
-  //   try {
-  //     await props?.contractDetails(params);
-  //     props?.proposal?.contractDetails?.error &&
-  //       rootDispatch(
-  //         setError({ message: props?.proposal?.contractDetails?.error })
-  //       );
-  //   } catch (error) {
-  //     rootDispatch(setError({ message: error }));
-  //   }
-  // };
-  // useEffect(() => {
-  //   getContractData();
-  // }, []);
   const getOptionHashes = () => {
     let options = [...state.form.options];
     const hashes: any = [];

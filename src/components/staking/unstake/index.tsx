@@ -135,7 +135,7 @@ export default function Unstake() {
             {activeStep === 2 && (
               <div>
                 <AmountStakeUnstakeHandler
-                  ybtBalance={stakedAmount}
+                  tokenBalance={stakedAmount}
                   isStaking={false}
                 ></AmountStakeUnstakeHandler>
               </div>

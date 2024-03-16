@@ -13,7 +13,7 @@ const CheckPointsComponent = () => {
     rewardAmount,
     isHideCountDownTimer,
     isConnected,
-    ybtBalance,
+    tokenBalance,
     maticBalance,
   }: StakingContextModal = useContext(StakingContext);
   let balanceFormatted: any = { balance: 0, formattedBalance: 0 };
@@ -22,8 +22,8 @@ const CheckPointsComponent = () => {
     : balanceFormatted;
   switch (activeTab) {
     case 0:
-      balanceFormatted = ybtBalance
-        ? formatAmount(ybtBalance, 8)
+      balanceFormatted = tokenBalance
+        ? formatAmount(tokenBalance, 8)
         : balanceFormatted;
       break;
     case 1:
@@ -166,7 +166,7 @@ const CheckPointsComponent = () => {
                     ? checkpointTexts.eligibleSubTexts[activeTab]
                     : "")}
               </p>
-              {isHideCountDownTimer && <TimeCalculate></TimeCalculate>}
+              {(isHideCountDownTimer &&  !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) && <TimeCalculate></TimeCalculate>}
             </div>
           </div>
         </div>

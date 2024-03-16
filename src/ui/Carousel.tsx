@@ -99,7 +99,7 @@ const Carousel = ({
                           type="primary"
                           handleClick={() => navigateToUniswap()}
                         >
-                          Buy YBT
+                          Buy {process.env.REACT_APP_TOKEN_SYMBOL}
                         </Button>
                       </div>
                     </div>

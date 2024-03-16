@@ -21,7 +21,7 @@ const StakingComponent = () => {
     setActiveStep,
     getAmounts,
     maticBalance,
-    ybtBalance,
+    tokenBalance,
     address,
     isConnected,
     getDetails,
@@ -112,7 +112,7 @@ const StakingComponent = () => {
       tabContextValues.setAmountFieldError?.("Please enter min value of 1000!");
     } else if (
       tabContextValues?.tabAmount &&
-      parseFloat(tabContextValues?.tabAmount) > parseFloat(ybtBalance || "0")
+      parseFloat(tabContextValues?.tabAmount) > parseFloat(tokenBalance?.toString() || "0")
     ) {
       tabContextValues.setAmountFieldError?.("Insufficient balance!");
     } else {
@@ -134,8 +134,8 @@ const StakingComponent = () => {
   };
   const activeCondition =
     !isConnected ||
-    ybtBalance === "0" ||
-    !ybtBalance ||
+    tokenBalance === "0" ||
+    !tokenBalance ||
     maticBalance === "0" ||
     !maticBalance;
   return (
@@ -145,7 +145,7 @@ const StakingComponent = () => {
           {activeStep === 0 && <CheckPointsComponent />}
           {activeStep === 1 && (
             <AmountStakeUnstakeHandler
-              ybtBalance={ybtBalance}
+            tokenBalance={tokenBalance}
               isStaking={true}
             ></AmountStakeUnstakeHandler>
           )}

@@ -51,11 +51,11 @@ const ProposalResults = (props: any) => {
   };
   const handleVoting = (action: string) => {
     if (!state?.selectedOption && !isVoted) {
-      rootDispatch(setError({ message: "Please select one option!" }));
+      rootDispatch(setError({ message: "Please select one option!",type:'warning' }));
       return;
     }
     if (isVoted && (state?.selectedOption?.isSelect || !state.selectedOption)) {
-      rootDispatch(setError({ message: "Please choose a different option. You've already voted for this one." }));
+      rootDispatch(setError({ message: "Please choose a different option. You've already voted for this one.",type:'warning' }));
       return;
     }
     switch (action) {

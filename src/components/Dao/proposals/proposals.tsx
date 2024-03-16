@@ -69,7 +69,8 @@ const ProposalCards = (props: any) => {
       if (value && state.endDate < value) {
         rootDispatch(
           setError({
-            message: "Start date cannot be greater than the end date.",
+            message: "Start date cannot be greater than the end date."
+            ,type:'warning'
           })
         );
         return;
@@ -84,7 +85,8 @@ const ProposalCards = (props: any) => {
       if (value && value < state?.startDate) {
         rootDispatch(
           setError({
-            message: "Start date cannot be greater than the end date.",
+            message: "Start date cannot be greater than the end date."
+            ,type:'warning'
           })
         );
         return;
