@@ -16,7 +16,7 @@ const SumSub = () => {
     sumSubConfirm: false,
     showConnect: false,
   });
-  const rootDispatch=useDispatch()
+  const rootDispatch = useDispatch();
   const { isConnected, address } = useAccount();
   const user = useSelector((state: any) => state?.auth?.user);
   const navigate = useNavigate();
@@ -78,25 +78,40 @@ const SumSub = () => {
             } else if (type === "idCheck.onStepCompleted") {
               if (payload.idDocSetType === "SELFIE") {
                 setState({ ...state, loading: true });
-                rootDispatch(setToaster({ message:"Details Submitted, Verification Under Process!",callback:() => {
-                  navigate("/dashboard");
-                  setState({ ...state, loading: false });
-                },callbackTimeout: 1000}));
+                rootDispatch(
+                  setToaster({
+                    message: "Details Submitted, Verification Under Process!",
+                    callback: () => {
+                      navigate("/dashboard");
+                      setState({ ...state, loading: false });
+                    },
+                    callbackTimeout: 1000,
+                  })
+                );
               }
             } else if (type === "idCheck.onUploadError") {
-              console.log(payload.errors[0] ? payload.errors[0]:payload);
+              rootDispatch(
+                setError({
+                  message: payload.errors[0] ? payload.errors[0] : payload,
+                })
+              );
             } else if (type === "idCheck.onUploadWarning") {
-              console.log(payload.errors[0] ? payload.errors[0]:payload);
+              rootDispatch(
+                setError({
+                  message: payload.errors[0] ? payload.errors[0] : payload,
+                  type: "warning",
+                })
+              );
             }
           })
           .build();
         snsWebSdkInstance.launch("#sumsub-websdk-container");
         setState({ ...state, loading: false, showConnect: false });
       } else {
-        rootDispatch(setError({message:response}))
+        rootDispatch(setError({ message: response }));
       }
     } catch (error) {
-      rootDispatch(setError({message:error}))
+      rootDispatch(setError({ message: error }));
     } finally {
       setState({ ...state, loading: false });
     }
@@ -104,10 +119,12 @@ const SumSub = () => {
 
   return (
     <>
-      {state.loading && <div className="text-center"><Spinner /></div>}
-      {!state.showConnect && (
-        <div id="sumsub-websdk-container"></div>
+      {state.loading && (
+        <div className="text-center">
+          <Spinner />
+        </div>
       )}
+      {!state.showConnect && <div id="sumsub-websdk-container"></div>}
       {state.showConnect && <ConnectToWallet />}
     </>
   );

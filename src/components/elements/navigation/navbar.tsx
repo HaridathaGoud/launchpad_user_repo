@@ -76,18 +76,10 @@ function HeaderNavbar() {
           handleDropdownAction("/dashboard");
         },
       },
-      // { name: "Notifications (3)", action: () => handleDropdownAction("#") },
     ];
     return { navMenuList, navBarDropDownMenu };
   }, [pathname]);
 
-  // const RedirectDao = (key: any) => {
-  //   const _links = {
-  //     dao: process.env.REACT_APP_DAO_APP,
-  //     marketplace: process.env.REACT_APP_MARKETPLACE_APP,
-  //   };
-  //   window.open(_links[key], "_blank");
-  // };
   const getCustomerDetails = async () => {
     if (address) {
       try {

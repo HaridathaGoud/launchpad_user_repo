@@ -98,7 +98,6 @@ const ProposalResults = (props: any) => {
   };
 
   const saveVote = async (value: any, mode: string) => {
-    debugger;
     dispatch({ type: "setIsSaving", payload: true });
     let obj = {
       proposalId: params?.proposalId,
@@ -115,7 +114,6 @@ const ProposalResults = (props: any) => {
         state?.selectedOption?.optionHash
       );
       if (response) {
-        debugger;
         const { status, error } = await saveVoting(obj);
         if (status === "ok") {
           await props?.getCustomerVoteStatus(params?.proposalId, customer?.id);

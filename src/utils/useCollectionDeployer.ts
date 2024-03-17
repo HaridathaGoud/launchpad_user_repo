@@ -124,7 +124,6 @@ export function useCollectionDeployer() {
     creator_address: string,
     quantity: number,
   ) {
-    debugger
     let sign = JSON.parse(signature);
     let unitPrice: any = nft_price;
     let assetOwner = creator_address;

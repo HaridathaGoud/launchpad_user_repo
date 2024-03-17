@@ -231,9 +231,7 @@ export default function useContractMethods() {
     // contractAddress:process.env.REACT_APP_STAKING_CONTRACT
     // }
     // let data=await postSigner(`${'createLaunchPadsignature'}`,obj)
-    
-    // console.log(data)
-    // debugger;
+
     const nonce = Math.floor(new Date().getTime() / 1000);
     const hash = ethers.utils.solidityKeccak256(
       ['address', 'address', 'uint256', 'uint256', 'uint256', 'uint256'],

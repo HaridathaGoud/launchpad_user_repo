@@ -126,7 +126,6 @@ const getDaoCardList = (callback: any) => {
   };
 };
 const getMemberTypes = (isConnected,daoId,customerId,callback) => {
-  debugger
   return async (dispatch: any) => {
     dispatch(handleFetchMemberType({ key: 'memberType', loading: true, data: [], error: null }));
     let connectedAddress=isConnected==true?customerId:""

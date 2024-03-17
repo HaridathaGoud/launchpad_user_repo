@@ -61,7 +61,6 @@ function Dashboard(props: any) {
   const mintingContractAddress: any = process.env.REACT_APP_MINTING_CONTRACTOR;
   const params = useParams()
   useEffect(() => {
-    debugger
     store.dispatch(setIscustomerRegister({ key: 'customerRegisterDetails', data: null }));
     getMemberShipDetails()
     if (isConnected) {
@@ -91,7 +90,6 @@ function Dashboard(props: any) {
   }, [address])
 
   useEffect(() => {
-    console.log(params)
     props.trackMemberType(isConnected,params.daoid, authInfo?.id, (memType) => {
       getMemberShipTypes(memType);
     });
@@ -99,7 +97,6 @@ function Dashboard(props: any) {
   }, [authInfo])
 
   const getMemberShipDetails = () => {
-    debugger
     props.trackMemberType(isConnected,params?.daoid, authInfo?.id, (memType) => {
       getMemberShipTypes(memType);
     });
@@ -112,7 +109,6 @@ function Dashboard(props: any) {
     getNativeMint()
   }
   const getMemberShipTypes = async (getMemberTypes: any) => {
-    debugger
     setMaxMintedNfts(getMemberTypes?.data[0]?.maxMintedNfts)
     setMaxNftCount(getMemberTypes?.data[0]?.maxNftCount)
     setLuData(getMemberTypes?.data[0]?.prices);
