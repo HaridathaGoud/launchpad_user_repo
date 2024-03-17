@@ -9,18 +9,25 @@ import { getRewardBalance } from "./utils";
 import { setError } from "../../../reducers/layoutReducer";
 const DaoLeftPanel = (props) => {
   const { readRewardBalance } = useContract();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const user = useSelector((state: any) => state.auth.user);
   const rootDispatch = useDispatch();
   const daoDetails = useSelector(
     (state: any) => state.proposal.daoDetails.data
   );
   const [userBalance, setUserBalance] = useState<any>(null);
+  const [isChecked, setIsChecked] = useState(false);
+  const [copied, setCopied] = useState(false);
   useEffect(() => {
-    if (daoDetails && daoDetails.membershipTokenAddress) {
+    if (
+      daoDetails &&
+      daoDetails.membershipTokenAddress &&
+      isConnected &&
+      address
+    ) {
       setBalance();
     }
-  }, []);
+  }, [isConnected,address]);
   const setBalance = async () => {
     const { amount, error } = await getRewardBalance(
       readRewardBalance,
@@ -32,9 +39,6 @@ const DaoLeftPanel = (props) => {
       rootDispatch(setError({ message: error, from: "contract" }));
     }
   };
-  const { address } = useAccount();
-  const [isChecked, setIsChecked] = useState(false);
-  const [copied, setCopied] = useState(false);
   const handleCopy = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
@@ -88,6 +92,7 @@ const DaoLeftPanel = (props) => {
           </div>
         </div>
         {isConnected &&
+          address &&
           daoDetails?.votingContractAddress &&
           userBalance &&
           userBalance > Number(daoDetails?.proposalCreationBalance) && (

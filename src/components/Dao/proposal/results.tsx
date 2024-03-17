@@ -23,7 +23,7 @@ import {
 import { resultsReducer, resultsState } from "./reducers";
 import useContract from "../../../hooks/useContract";
 const ProposalResults = (props: any) => {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const params = useParams();
   const { castVote, parseError } = useVotingContract();
   const [state, dispatch] = useReducer(resultsReducer, resultsState);
@@ -37,8 +37,10 @@ const ProposalResults = (props: any) => {
   const customer = useSelector((state: any) => state?.auth?.user);
   const { readRewardBalance } = useContract();
   useEffect(() => {
-    setBalance();
-  }, []);
+    if (isConnected && address) {
+      setBalance();
+    }
+  }, [isConnected, address]);
   const setBalance = async () => {
     const { amount, error } = await getRewardBalance(
       readRewardBalance,
@@ -193,6 +195,8 @@ const ProposalResults = (props: any) => {
               </div>
             </div>
             {!state?.isLoading &&
+              isConnected &&
+              address &&
               proposalDetails?.votingContractAddress &&
               !hideVoteButtons &&
               state.userBalance &&

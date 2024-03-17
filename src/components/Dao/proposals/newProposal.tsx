@@ -10,17 +10,22 @@ import { setError } from "../../../reducers/layoutReducer";
 export default function CreateFirstPraposal(props: any) {
   const { readRewardBalance } = useContract();
   const [isChecked, setIsChecked] = useState(false);
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
   const daoDetails = useSelector(
     (state: any) => state.proposal.daoDetails.data
   );
   const [userBalance, setUserBalance] = useState<any>(null);
   useEffect(() => {
-    if (daoDetails && daoDetails.membershipTokenAddress) {
+    if (
+      daoDetails &&
+      daoDetails.membershipTokenAddress &&
+      isConnected &&
+      address
+    ) {
       setBalance();
     }
-  }, []);
+  }, [isConnected,address]);
   const setBalance = async () => {
     const { amount, error } = await getRewardBalance(
       readRewardBalance,
@@ -45,6 +50,7 @@ export default function CreateFirstPraposal(props: any) {
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
         {isConnected &&
+          address &&
           daoDetails?.votingContractAddress &&
           userBalance &&
           userBalance > Number(daoDetails?.proposalCreationBalance) && (
