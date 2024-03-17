@@ -16,7 +16,7 @@ function Voters(props: any) {
       page: 1,
       take: pageSize,
       id: params?.proposalId,
-      data: voters?.data,
+      data: null,
     });
   }, []);
 

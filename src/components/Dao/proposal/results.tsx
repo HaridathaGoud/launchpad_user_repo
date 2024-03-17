@@ -15,7 +15,11 @@ import {
 } from "../../../reducers/votingReducer";
 import Spinner from "../../loaders/spinner";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-import { getProposalStatus, getRewardBalance } from "../proposals/utils";
+import {
+  getProposalStatus,
+  getRewardBalance,
+  getVotingOptionColor,
+} from "../proposals/utils";
 import { resultsReducer, resultsState } from "./reducers";
 import useContract from "../../../hooks/useContract";
 const ProposalResults = (props: any) => {
@@ -150,103 +154,116 @@ const ProposalResults = (props: any) => {
         <h1 className="text-xl font-semibold mb-2 text-secondary mt-5">
           Current results
         </h1>
-        <div className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
-          <div className="flex justify-between gap-5 mb-5">
-            <div className="">
-              <div className="mb-2">
-                {proposalDetails?.data?.options?.map((data: any) => (
-                  <div className="text-secondary mb-2" key={data?.id}>
-                    <div className="flex items-center">
-                      <span
-                        className={`${
-                          data?.votersCount ? styles.greenDot : styles.redDot
-                        } mr-2 align-middle shrink-0`}
-                      ></span>
-                      <p className="text-secondary break-all">
-                        {data?.option} {`(${data?.votersCount || "0"})`}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+        {proposalDetails?.loading && (
+          <div className="animate-pulse space-x-4 col-span-4">
+            <div className="w-full opacity-1 rounded-xl gap-10 flex items-center p-4 !ml-0 border-1 mt-2">
+              <div className="w-full opacity-1 rounded-xl border-2 p-4">
+                <div className="w-full h-5  rounded-full bg-slate-200  mb-2"></div>
+                <div className="w-full h-5  rounded-full bg-slate-200  mb-2"></div>
+                <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
+                <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
               </div>
             </div>
-            <div className="shrink-0">
-              {/* <p className='text-secondary truncate'>23k The Saf...</p> */}
-              {isVoted && (
-                <img src={votesuccess} alt="" className="mt-2 w-[90px]" />
-              )}
-            </div>
           </div>
-          {!state?.isLoading &&
-            proposalDetails?.votingContractAddress &&
-            !hideVoteButtons &&
-            state.userBalance &&
-            state.userBalance > Number(proposalDetails?.votingBalance) && (
-              <div>
-                <h2 className="text-base font-semibold mb-2 text-secondary">
-                  {`${isVoted ? "Edit " : "Cast "}`}Your Vote
-                </h2>
-                <div className="mb-9">
-                  {proposalDetails?.data?.options?.length > 0 && (
-                    <div className="mt-5">
-                      <div className="flex flex-wrap gap-2">
-                        {proposalDetails?.data?.options?.map((item: any) => (
-                          <div
-                            className="me-4 break-all flex items-center"
-                            key={item.option}
-                          >
-                            <input
-                              type="radio"
-                              name="radio-1"
-                              className="radio mr-1 align-middle"
-                              value={item?.option}
-                              aria-label={`radio ${item?.option}`}
-                              disabled={hideVoteButtons}
-                              onClick={() => handleChange(item)}
-                              defaultChecked={
-                                isVoted
-                                  ? item?.isSelect
-                                  : state?.selectedOption?.option ===
-                                    item?.option
-                              }
-                            />
-                            <p className="text-secondary">{item?.option}</p>
-                          </div>
-                        ))}
+        )}
+        {!proposalDetails?.loading && (
+          <div className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
+            <div className="flex justify-between gap-5 mb-5">
+              <div className="">
+                <div className="mb-2">
+                  {proposalDetails?.data?.options?.map(
+                    (data: any, index: number) => (
+                      <div className="text-secondary mb-2" key={data?.id}>
+                        <div className="flex items-center">
+                          <span
+                            className={`${getVotingOptionColor[index]} mr-2 align-middle  h-4 w-4 inline-block rounded-full`}
+                          ></span>
+                          <p className="text-secondary break-all">
+                            {data?.option} {`(${data?.votersCount || "0"})`}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )
                   )}
                 </div>
               </div>
-            )}
-          <div>
-            {isVoted && (
-              <p className=" text-secondary my-4 text-center">
-                Your vote was cast successfully.
-              </p>
-            )}
-          </div>
-          {!state?.isLoading && !hideVoteButtons && (
-            <div className="mb-2">
-              <Button
-                handleClick={
-                  !isVoted
-                    ? () => handleVoting("new")
-                    : () => handleVoting("edit")
-                }
-                type="secondary"
-                btnClassName={`w-full ${
-                  !isVoted ? "flex justify-center gap-2" : ""
-                } `}
-                disabled={state?.isSaving}
-              >
-                <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
-                {!isVoted && "Vote Now"}
-                {isVoted && "Edit Vote"}
-              </Button>
+              <div className="shrink-0">
+                {/* <p className='text-secondary truncate'>23k The Saf...</p> */}
+                {isVoted && (
+                  <img src={votesuccess} alt="" className="mt-2 w-[90px]" />
+                )}
+              </div>
             </div>
-          )}
-          {/* {(state?.showEditButton || isVoted) && !hideVoteButtons && (
+            {!state?.isLoading &&
+              proposalDetails?.votingContractAddress &&
+              !hideVoteButtons &&
+              state.userBalance &&
+              state.userBalance > Number(proposalDetails?.votingBalance) && (
+                <div>
+                  <h2 className="text-base font-semibold mb-2 text-secondary">
+                    {`${isVoted ? "Edit " : "Cast "}`}Your Vote
+                  </h2>
+                  <div className="mb-9">
+                    {proposalDetails?.data?.options?.length > 0 && (
+                      <div className="mt-5">
+                        <div className="flex flex-wrap gap-2">
+                          {proposalDetails?.data?.options?.map((item: any) => (
+                            <div
+                              className="me-4 break-all flex items-center"
+                              key={item.option}
+                            >
+                              <input
+                                type="radio"
+                                name="radio-1"
+                                className="radio mr-1 align-middle"
+                                value={item?.option}
+                                aria-label={`radio ${item?.option}`}
+                                disabled={hideVoteButtons}
+                                onClick={() => handleChange(item)}
+                                defaultChecked={
+                                  isVoted
+                                    ? item?.isSelect
+                                    : state?.selectedOption?.option ===
+                                      item?.option
+                                }
+                              />
+                              <p className="text-secondary">{item?.option}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            <div>
+              {isVoted && (
+                <p className=" text-secondary my-4 text-center">
+                  Your vote was cast successfully.
+                </p>
+              )}
+            </div>
+            {!state?.isLoading && !hideVoteButtons && (
+              <div className="mb-2">
+                <Button
+                  handleClick={
+                    !isVoted
+                      ? () => handleVoting("new")
+                      : () => handleVoting("edit")
+                  }
+                  type="secondary"
+                  btnClassName={`w-full ${
+                    !isVoted ? "flex justify-center gap-2" : ""
+                  } `}
+                  disabled={state?.isSaving}
+                >
+                  <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
+                  {!isVoted && "Vote Now"}
+                  {isVoted && "Edit Vote"}
+                </Button>
+              </div>
+            )}
+            {/* {(state?.showEditButton || isVoted) && !hideVoteButtons && (
             <div>
               <div className="mb-2">
                 <Button
@@ -262,7 +279,8 @@ const ProposalResults = (props: any) => {
                             </div>
             </div>
           )} */}
-        </div>
+          </div>
+        )}
       </div>
 
       <Modal id="agreeModel" modalClass="max-w-[510px]">

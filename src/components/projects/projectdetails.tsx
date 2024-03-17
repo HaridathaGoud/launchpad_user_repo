@@ -23,7 +23,7 @@ import { setError } from "../../reducers/layoutReducer";
 const Projectdetails = (props: any) => {
   const rootDispatch = useDispatch();
   const { projectId,projectName } = useParams();
-  const { address } = useAccount();
+  const { isConnected,address } = useAccount();
   const user = store.getState().auth;
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
@@ -36,7 +36,7 @@ const Projectdetails = (props: any) => {
     if (projectId) {
       getDetails("all");
     }
-  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [address,isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
   const getDetails = async (fetch) => {
     const userId =
       user?.user?.id && user?.user?.id != ""
@@ -133,7 +133,6 @@ const Projectdetails = (props: any) => {
       return "closed";
     }
   };
-  console.log(data)
   return (
     <>
       <div className="container mx-auto md:mb-[90px] max-md:px-3 max-sm:mb-5">

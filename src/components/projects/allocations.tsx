@@ -114,8 +114,8 @@ const Allocations = (props) => {
           .waitForTransaction(res?.hash)
           .then((receipt: any) => {
             setBtnLoader(false);
-            rootDispatch(setToaster({ message: "Tokens buy successful!" }));
             setIsChecked(false);
+            rootDispatch(setToaster({ message: "Tokens buy successful!" }));
             props.getAllocations();
             setIsconfirm(false);
           })

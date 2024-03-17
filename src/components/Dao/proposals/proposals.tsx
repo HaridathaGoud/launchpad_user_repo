@@ -17,7 +17,7 @@ import daocardProfile from "../../../assets/images/daocard-profile.png";
 import { setError } from "../../../reducers/layoutReducer";
 import Button from "../../../ui/Button";
 import { proposalsReducer, proposalsState } from "./reducers";
-import { getProposalStatus, getProposalStatusBg } from "./utils";
+import { getProposalStatus, getProposalStatusBg, getVotingOptionColor } from "./utils";
 import Spinner from "../../loaders/spinner";
 const take = 10;
 
@@ -277,16 +277,12 @@ const ProposalCards = (props: any) => {
                             </p>
                           </div>
                           <div className="flex gap-4 mt-2">
-                            {item?.options?.map((data: any) => (
+                            {item?.options?.map((data: any,index:number) => (
                               <div className="text-secondary" key={data?.id}>
                                 <div>
-                                  {data.votersCount ? (
+                                  {(
                                     <span
-                                      className={`bg-success h-4 w-4 inline-block rounded-full mr-2 align-middle`}
-                                    ></span>
-                                  ) : (
-                                    <span
-                                      className={`bg-primary h-4 w-4 inline-block rounded-full mr-2 align-middle`}
+                                      className={`${getVotingOptionColor[index]} h-4 w-4 inline-block rounded-full mr-2 align-middle`}
                                     ></span>
                                   )}
                                   <span className="text-secondary">

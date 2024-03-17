@@ -72,3 +72,10 @@ export const getProposalStatusBg={
   "Declined":'bg-primary text-white',
   "Closed":'bg-primary text-white',
 }
+
+export const getVotingOptionColor=[
+  "bg-[#3498db]",
+  "bg-[#2ecc71]",
+  "bg-[#e67e22]",
+  "bg-[#9b59b6]"
+]

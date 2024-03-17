@@ -32,28 +32,28 @@ const ProposalView = (props) => {
 
   return (
     <>
-      <div className="container mx-auto max-md:px-3 mt-3">
-        <div className="mt-5 mb-4">
-          <BreadCrumb />
-          <div className="mb-12 mt-4">
-            {props?.showTabs && <ProjectViewTabs />}
-          </div>
-        </div>
-        <div className="md:grid md:grid-cols-12 gap-[30px]">
-          <div className="md:col-span-3">
-            <InformationPanel />
-            <div>
-              <ProposalResults />
+        <div className="container mx-auto max-md:px-3 mt-3">
+          <div className="mt-5 mb-4">
+            <BreadCrumb />
+            <div className="mb-12 mt-4">
+              {props?.showTabs && <ProjectViewTabs />}
             </div>
           </div>
-          <div className="md:col-span-9 max-sm:mt-4">
-            <Proposal />
-            <div>
-              <ProposalTabs />
+          <div className="md:grid md:grid-cols-12 gap-[30px]">
+            <div className="md:col-span-3">
+              <InformationPanel />
+              <div>
+                <ProposalResults/>
+              </div>
+            </div>
+            <div className="md:col-span-9 max-sm:mt-4">
+              <Proposal/>
+              <div>
+                <ProposalTabs />
+              </div>
             </div>
           </div>
         </div>
-      </div>
       <>
         {/* <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle"> */}
         {/* <div className="modal-box p-0">

@@ -1,18 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Moment from "react-moment";
-import shimmers from "../shimmers/shimmers";
-import PlaceHolder from "../shimmers/placeholder";
 import { getProposalStatus } from "../proposals/utils";
 const InformationPanel = () => {
   const proposalDetails = useSelector(
     (state: any) => state.vtg.proposalDetails
   );
-  const Cardstransactions = shimmers.votingShimmer(3);
   return (
     <>
       {proposalDetails?.loading && (
-        <PlaceHolder contenthtml={Cardstransactions} />
+        <div className="animate-pulse space-x-4 col-span-4">
+          <div className=" w-full opacity-1 rounded-xl gap-10 flex items-center p-4 border-b-1 mb-2">
+            <div className="w-full opacity-1 border-b-2">
+              <div className="w-full h-5  rounded-full bg-slate-200  mb-2"></div>
+              <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
+              <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
+              <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
+            </div>
+          </div>
+        </div>
       )}
       {!proposalDetails?.loading && (
         <div className="">
@@ -36,7 +42,7 @@ const InformationPanel = () => {
               </p>
               <p className="truncate text-secondary">
                 {" "}
-                {(
+                {
                   <p className="text-secondary">
                     {" "}
                     {getProposalStatus(
@@ -44,7 +50,7 @@ const InformationPanel = () => {
                       proposalDetails?.data?.endDate
                     )}
                   </p>
-                )}
+                }
               </p>
             </div>
             <div className="flex gap-5 justify-between items-center mb-4">
