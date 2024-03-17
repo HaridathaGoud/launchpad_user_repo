@@ -359,6 +359,7 @@ const Allocations = (props) => {
                   type="secondary"
                   btnClassName="flex gap-2"
                   handleClick={() => handleOk()}
+                  disabled={btnLoader}
                 >
                   <span>{btnLoader && <Spinner />} </span> Confirm
                 </Button>

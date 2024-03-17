@@ -32,7 +32,6 @@ const Projectdetails = (props: any) => {
   const [daoTab, setDaoTab] = useState(false);
   const [data, setData] = useState<any>(null);
   useEffect(() => {
-    window.scroll(0, 0);
     if (projectId) {
       getDetails("all");
     }
