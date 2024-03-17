@@ -485,7 +485,6 @@ const DetailPage = (props: any) => {
     }
   };
   const placeBid = async (e: any) => {
-    debugger;
     setBtnLoader(true);
     e.preventDefault();
     const form = e.currentTarget;
@@ -576,7 +575,6 @@ const DetailPage = (props: any) => {
     }
   };
   const executeBid = async (item: any) => {
-    debugger;
     setConfirmations({
       titles: [
         {
