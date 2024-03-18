@@ -51,7 +51,7 @@ const Carousel = ({
                     src={`${image.image}`}
                     className={`${
                       hasContent
-                        ? "lg:h-full w-full h-[200px] object-cover"
+                        ? "lg:h-full w-full h-[200px] object-cover max-sm:h-[500px]"
                         : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
