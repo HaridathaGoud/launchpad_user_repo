@@ -149,7 +149,7 @@ const Projectscomponent = (props) => {
                     {loader ? (
                       <ProjectShimmer></ProjectShimmer>
                     ) : (
-                      <div className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)]">
+                      <div className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)]" key={item.id}>
                         <div className="flex gap-4">
                           <img
                             src={

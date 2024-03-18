@@ -39,29 +39,28 @@ const Carousel = ({
               <div
                 id={image.image}
                 key={image.image + image?.name}
-                className={`carousel-item w-full block md:flex items-center md:gap-x-5 overflow-y-hidden ${hasContent ? "lg:min-h-[500px]" : ""}`}
-                style={{
-                  backgroundImage: `url(${image.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
+                className={`carousel-item w-full block overflow-y-hidden ${hasContent ? "lg:min-h-[500px]" : ""}`}
+                // style={{
+                //   backgroundImage: `url(${image.image})`,
+                //   backgroundSize: 'cover',
+                //   backgroundPosition: 'center',
+                // }}
               >
-                  <div className="absolute inset-0 bg-banner hidden md:block" ></div>
-                  <div className="absolute inset-0 bg-black opacity-50 md:hidden sm:block" ></div>
-                <div className={`${hasContent ? "flex-1 lg:h-full " : "w-full h-full"}`}>
-                  {/* <img
+                <div className={`${hasContent ? "flex-1 lg:h-full w-full" : "w-full h-full"} relative`}>
+                  <img
                     src={`${image.image}`}
                     className={`${
                       hasContent
-                        ? "lg:h-full w-full h-[200px] lg:w-[500px] object-cover"
+                        ? "lg:h-full w-full h-[200px] object-cover"
                         : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
-                  /> */}
-                </div>
+                  />
+                   <div className="absolute inset-0 bg-banner hidden md:block"></div>
+                  <div className="absolute w-full h-full top-0 right-0 md:w-[50%] bg-gradient-to-l from-black to-transparent z-[9999] :hidden sm:block" ></div>
                 {hasContent && (
-                  <div className="flex-1 relative z-[9]">
-                    <div className="flex-1 p-4 md:p-0">
+                  <div className="absolute z-[9999] top-[15%] right-[3%]">
+                    <div className="flex-1 p-4 md:p-0 relative">
                       <div className="flex gap-4 items-center">
                         <div className={`${statusColourList[image.type]}  px-3 py-1 rounded flex items-center`}>
                           <span className="align-middle bg-white mr-1 w-3 h-3 rounded-full inline-block mb-[2px]"></span>
@@ -105,12 +104,13 @@ const Carousel = ({
                     </div>
                   </div>
                 )}
+                </div>
               </div>
             );
           })}
         </div>
         <div
-          className={`flex justify-center w-full py-2 gap-2 absolute bottom-6 max-sm:bottom-4`}
+          className={`flex justify-center w-full py-2 gap-2 absolute bottom-6 max-sm:bottom-4 z-[9999]`}
         >
           {data?.map((image, index) => (
             <button
