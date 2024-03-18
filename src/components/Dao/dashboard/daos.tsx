@@ -48,18 +48,18 @@ const Daos = (props: any) => {
                     alt={item?.name || "Dao"}
                   />
                   <div className="p-2 rounded-b-lg">
-                    <div className="text-base font-normal text-secondary !mb-0">
-                      <span className="text-base-200 text-base font-semibold">
+                    <div className="flex gap-1 text-base font-normal text-secondary !mb-1">
+                      <p className="text-base-200 text-base font-semibold">
                         Name:
-                      </span>{" "}
-                      {item?.name}
+                      </p>{" "}
+                     <p className="text-secondary truncate"> {item?.name}</p>
                     </div>
-                    <div className="text-base font-normal text-secondary mb-1">
-                      <span className="text-base-200 text-base font-semibold">
+                    <div className="flex gap-1 text-base font-normal text-secondary mb-1">
+                      <p className="text-base-200 text-base font-semibold">
                         {" "}
                         Members:
-                      </span>{" "}
-                      {item?.members?.toLocaleString()}
+                      </p>{" "}
+                     <p className="text-secondary truncate"> {item?.members?.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
