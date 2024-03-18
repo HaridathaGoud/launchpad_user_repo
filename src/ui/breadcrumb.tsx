@@ -73,7 +73,7 @@ const BreadCrumb = () => {
     setBreadcrumb(breadcrumbToUpdate);
   };
   return (
-    <div className="text-sm breadcrumbs">
+    <div className="text-sm breadcrumbs no-scrollbar">
       <ul>
         {breadcrumb?.map((item: any,index) => {
           return (

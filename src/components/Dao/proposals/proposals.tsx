@@ -276,19 +276,19 @@ const ProposalCards = (props: any) => {
                               )}
                             </p>
                           </div>
-                          <div className="flex gap-4 mt-2">
+                          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                             {item?.options?.map((data: any,index:number) => (
                               <div className="text-secondary" key={data?.id}>
-                                <div>
+                                <div className="flex">
                                   {(
                                     <span
-                                      className={`${getVotingOptionColor[index]} h-4 w-4 inline-block rounded-full mr-2 align-middle`}
+                                      className={`${getVotingOptionColor[index]} shrink-0 mt-1 h-4 w-4 inline-block rounded-full mr-2 align-middle`}
                                     ></span>
                                   )}
-                                  <span className="text-secondary">
+                                  <p className="text-secondary">
                                     {data?.option}{" "}
                                     {`(${data?.votersCount || "0"})`}
-                                  </span>
+                                  </p>
                                 </div>
                               </div>
                             ))}

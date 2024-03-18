@@ -174,9 +174,9 @@ const ProposalResults = (props: any) => {
                   {proposalDetails?.data?.options?.map(
                     (data: any, index: number) => (
                       <div className="text-secondary mb-2" key={data?.id}>
-                        <div className="flex items-center">
+                        <div className="flex">
                           <span
-                            className={`${getVotingOptionColor[index]} mr-2 align-middle  h-4 w-4 inline-block rounded-full`}
+                            className={`${getVotingOptionColor[index]} shrink-0 mt-1 mr-2 align-middle  h-4 w-4 inline-block rounded-full`}
                           ></span>
                           <p className="text-secondary break-all">
                             {data?.option} {`(${data?.votersCount || "0"})`}
