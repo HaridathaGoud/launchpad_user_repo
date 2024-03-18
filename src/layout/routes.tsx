@@ -10,14 +10,7 @@ import { store } from "../store";
 import { getKyc } from "../utils/api";
 import { setToken } from "../reducers/rootReducer";
 import FoundingMembersView from "../components/projects/foundingmembersview";
-import StreamingDashboard from "../components/streaming/Dashboard";
-import StreamingDetailview from "../components/streaming/Detailview";
 import AppLayout from "./AppLayout";
-import NftCardDetailview from "../components/streaming/Detailview/Nftcarddetailview";
-import Trending from "../components/streaming/Trending/trending";
-import Channels from "../components/streaming/Channels/channels";
-import ChannelView from "../components/streaming/Channels/channeldetailview";
-import Movies from "../components/streaming/Movies/movies";
 import SumSub from "../components/sumsub";
 import ComingSoon from "../components/shared/comingSoon";
 import TopsellerDetailview from "../components/marketplace.component/topsellerdetailview";
@@ -61,7 +54,6 @@ const ExploreNfts = React.lazy(
 const Detailpage = React.lazy(
   () => import("../components/marketplace.component/detailpage.component/index")
 );
-const KycPage = React.lazy(() => import("../components/Dao/complete.kyc"));
 const Referral = React.lazy(
   () => import("../components/referral.component/referral")
 );
@@ -94,11 +86,6 @@ const Routes = () => {
         {
           path: "/",
           element: <Navigate replace to={"/dashboard"} />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/StreamingDashboard",
-          element: <StreamingDashboard />,
           errorElement: <ErrorPage />,
         },
         {
@@ -197,32 +184,6 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/streamingdetailview",
-          element: <StreamingDetailview />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/nftdetailview",
-          element: <NftCardDetailview />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/trending",
-          element: <Trending />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/channels",
-          element: <Channels />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/channelview",
-          element: <ChannelView />,
-          errorElement: <ErrorPage />,
-        },
-        { path: "/movies", element: <Movies />, errorElement: <ErrorPage /> },
-        {
           path: "/daos",
           element: (
             <React.Suspense>
@@ -255,14 +216,6 @@ const Routes = () => {
           ),
         },
         {
-          path: "/dao/kyc",
-          element: (
-            <React.Suspense>
-              <KycPage />
-            </React.Suspense>
-          ),
-        },
-        {
           path: "/referrals/:id",
           element: (
             <React.Suspense>
@@ -285,11 +238,6 @@ const Routes = () => {
               <CastandCrewMembersView />
             </React.Suspense>
           ),
-        },
-        {
-          path: "/",
-          element: <Navigate to="/dashboard" />,
-          errorElement: <ErrorPage />,
         },
         {
           path: "/comingsoon",

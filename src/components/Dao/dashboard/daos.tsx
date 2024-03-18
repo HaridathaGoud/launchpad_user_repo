@@ -25,7 +25,6 @@ const Daos = (props: any) => {
   }, []);
 
   const navigateToProposals = (item: any) => {
-    rootDispatch({ type: "fetchSelectingDaoData", payload: item });
     navigate(`/daos/${item?.name}/${item?.daoId}/${item.projectId}/proposals`);
   };
   if (daos?.error) rootDispatch(setError(daos?.error));

@@ -15,7 +15,7 @@ const { chains, publicClient } = configureChains(
   [
     jsonRpcProvider({
       rpc: (chain) => ({
-        http: process.env.REACT_APP_JSONRPC_URL,
+        http: process.env.REACT_APP_JSONRPC_URL || '',
       }),
     }),
   ],
@@ -38,7 +38,7 @@ const config = createConfig({
           description:
             `${process.env.REACT_APP_TOKEN_SYMBOL} Launchpad is a Create-to-Earn DAOs' launchpad and NFT marketplace that provides access to legendary creators for the wider entertainment community.`,
           icons: ['https://yellowblock.net/wp-content/uploads/2023/09/YB-Logo.svg'],
-          url: 'https://ybdott.azurewebsites.net/dashboard',
+          url: 'https://dott.network/dashboard',
         },
       },
     }),
