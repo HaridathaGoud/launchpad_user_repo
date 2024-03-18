@@ -22,8 +22,8 @@ import { setError } from "../../reducers/layoutReducer";
 
 const Projectdetails = (props: any) => {
   const rootDispatch = useDispatch();
-  const { projectId,projectName } = useParams();
-  const { isConnected,address } = useAccount();
+  const { projectId, projectName } = useParams();
+  const { isConnected, address } = useAccount();
   const user = store.getState().auth;
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
@@ -35,7 +35,7 @@ const Projectdetails = (props: any) => {
     if (projectId) {
       getDetails("all");
     }
-  }, [address,isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [address, isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
   const getDetails = async (fetch) => {
     const userId =
       user?.user?.id && user?.user?.id != ""
@@ -52,7 +52,9 @@ const Projectdetails = (props: any) => {
         );
         const projectFeed = await get("User/ProjectFeed/" + projectId);
         const founders = await get("User/stakers/" + projectId);
-        const allocations = await get("User/Allocations/" + projectId + "/" + userId);
+        const allocations = await get(
+          "User/Allocations/" + projectId + "/" + userId
+        );
         const claims = await get("User/Claims/" + projectId + "/" + userId);
         if (projectDetails.status === 200) {
           projectStatus = proStatus(projectDetails.data);
@@ -87,7 +89,9 @@ const Projectdetails = (props: any) => {
           rootDispatch(setError({ message: claims }));
         }
       } else if (fetch === "allocations") {
-        const allocations = await get("User/Allocations/" + projectId + "/" + userId);
+        const allocations = await get(
+          "User/Allocations/" + projectId + "/" + userId
+        );
         if (allocations.status === 200) {
           details = { ...details, allocations: allocations.data };
         } else {
@@ -109,9 +113,10 @@ const Projectdetails = (props: any) => {
     }
   };
   const swapProgressBarCalculation = (res: any) => {
-    let swapedData: any =
-      (res.data.totalSoldTokens / res.data.totalSupply) * 100;
-    return swapedData;
+    if (res.data.totalSoldTokens && res.data.totalSupply) {
+      return (res.data.totalSoldTokens / res.data.totalSupply) * 100;
+    }
+    return 0;
   };
 
   const proStatus = (data: any) => {
@@ -174,7 +179,6 @@ const Projectdetails = (props: any) => {
                             foundingmemsData={data?.founders}
                             projectId={projectId}
                             projectName={projectName}
-
                           />
                         )}
                         {loader && (
@@ -199,7 +203,6 @@ const Projectdetails = (props: any) => {
                             castCrewsData={data?.projectDetails?.cast_Crews}
                             projectId={projectId}
                             projectName={projectName}
-                          
                           />
                         )}
                         {loader && (
@@ -255,7 +258,10 @@ const Projectdetails = (props: any) => {
 
                   {daoTab && (
                     <div id="dao" className="mt-6">
-                      <CommonCreateProposal pjctInfo={data?.projectDetails} showBreadcrumb={false} />
+                      <CommonCreateProposal
+                        pjctInfo={data?.projectDetails}
+                        showBreadcrumb={false}
+                      />
                     </div>
                   )}
                 </div>

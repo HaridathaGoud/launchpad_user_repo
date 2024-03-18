@@ -308,8 +308,8 @@ const ProjectDetailsCard = (props: any) => {
                     {props.swapedPercentage?.toString()?.slice(0, 4)} %
                   </p>
                   <p className="text-xs text-secondary">
-                    {props.pjctInfo?.totalSoldTokens?.toLocaleString()}/
-                    {props.pjctInfo?.intialsupply?.toLocaleString()}
+                    {props.pjctInfo?.totalSoldTokens?.toLocaleString() || 0}/
+                    {props.pjctInfo?.intialsupply?.toLocaleString() || 0}
                   </p>
                 </div>
               </div>
