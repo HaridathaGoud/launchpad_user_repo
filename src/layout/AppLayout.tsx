@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../components/modules/Header/Header";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import FooterComponent from "../components/layouts/Default/FooterComponent";
 import ErrorMessage from "../ui/ErrorMessage";
 import ToasterMessage from "../ui/Toaster";
@@ -9,8 +9,10 @@ import {
   setError,
   setToaster,
 } from "../reducers/layoutReducer";
+import SwipeUpComponent from "../components/projects/swipeup";
 const AppLayout = () => {
   const { pathname } = useLocation();
+  const {projectName,projectId}=useParams()
   const rootDispatch = useDispatch();
   const { error, toaster } = useSelector((store: any) => ({
     error: store.layoutReducer.error,
@@ -21,7 +23,6 @@ const AppLayout = () => {
     toaster?.message && rootDispatch(setToaster({ message: "" }));
     window.scrollTo(0,0)
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <>
       <Header />
@@ -46,6 +47,9 @@ const AppLayout = () => {
           />
         )}
         <Outlet />
+      </div>
+      <div className={`lg:hidden`}>
+      <SwipeUpComponent/>
       </div>
       <FooterComponent />
     </>

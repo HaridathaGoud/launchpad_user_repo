@@ -277,7 +277,9 @@ const Projectdetails = (props: any) => {
         </div>
       </div>
       <ApplyNow />
-      <SwipeUpComponent />
+    <div className="max-md:hidden">
+    <SwipeUpComponent />
+    </div>
     </>
   );
 };
