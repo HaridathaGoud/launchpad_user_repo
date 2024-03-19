@@ -29,7 +29,7 @@ const AppLayout = () => {
         {error?.message && (
           <ErrorMessage
             errorMessage={error?.message}
-            setErrorMessage={() => rootDispatch(setError({ message: "" }))}
+            setErrorMessage={() => rootDispatch(setError({ message: ""}))}
             onCloseCallback={error?.onCloseCallback}
             type={error?.type}
           />

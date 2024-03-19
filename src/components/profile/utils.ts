@@ -51,7 +51,7 @@ export const validateForm = (form: ProfileModel) => {
     "email",
     true,
     (value: string) => emailValidation(value),
-    "Invalid email"
+    "Invalid email address"
   );
   validateField(
     countryCode || "",

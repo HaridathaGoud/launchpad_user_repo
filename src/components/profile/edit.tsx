@@ -222,7 +222,7 @@ const ProfileEdit = ({
             <div className="flex">
               <select
                 id="profilePhone"
-                className="input input-bordered w-32 rounded-[28px] truncate  border-[#A5A5A5] focus:outline-none pl-5 pr-10 rounded-ee-none rounded-se-none h-10"
+                className="input input-bordered w-32 rounded-[28px] truncate  border-[#A5A5A5] focus:outline-none pl-5 pr-10 rounded-ee-none rounded-se-none h-10 cursor-pointer"
                 value={
                   state.formData?.countryCode ? state.formData?.countryCode : ""
                 }
@@ -231,7 +231,7 @@ const ProfileEdit = ({
                 }}
                 disabled={toasterMessage || state.buttonLoader}
               >
-                <option value={""}>Select</option>
+                <option value={""} className="cursor-pointer">Select</option>
                 {jsonCountryCode.map((item) => (
                   <option
                     key={item.name + item.phone_code}
@@ -291,7 +291,7 @@ const ProfileEdit = ({
             </label>
             <select
               id="profileCountry"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
               aria-label="Default select example"
               value={state.formData?.country ? state.formData?.country : ""}
               onChange={(e) => {
@@ -299,7 +299,7 @@ const ProfileEdit = ({
               }}
               disabled={toasterMessage || state.buttonLoader}
             >
-              <option value={""}>Select Country</option>
+              <option value={""} className="cursor-pointer">Select Country</option>
               {jsonCountryCode.map((item) => (
                 <option key={item.name + item.iso3 + item.phone_code}>
                   {item.name}

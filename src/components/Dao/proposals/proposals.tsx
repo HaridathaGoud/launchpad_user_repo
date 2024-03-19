@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import WalletModal from "../../../utils/walletModal";
 import defaultBG from "../../../assets/images/default-bg.png";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,11 @@ import daocardProfile from "../../../assets/images/daocard-profile.png";
 import { setError } from "../../../reducers/layoutReducer";
 import Button from "../../../ui/Button";
 import { proposalsReducer, proposalsState } from "./reducers";
-import { getProposalStatus, getProposalStatusBg, getVotingOptionColor } from "./utils";
+import {
+  getProposalStatus,
+  getProposalStatusBg,
+  getVotingOptionColor,
+} from "./utils";
 import Spinner from "../../loaders/spinner";
 const take = 10;
 
@@ -28,15 +32,11 @@ const ProposalCards = (props: any) => {
   const statusLookup = useSelector(
     (state: any) => state.proposal.proposalStatusLookup
   );
-   const daoDetails = useSelector(
+  const daoDetails = useSelector(
     (state: any) => state.proposal.daoDetails.data
   );
-  const router = useNavigate();
   const params = useParams();
   const [state, dispatch] = useReducer(proposalsReducer, proposalsState);
-  const errorMessage = useSelector(
-    (state: any) => state.layoutReducer.error.message
-  );
   useEffect(() => {
     props.getStatusLookup();
     return () => {
@@ -44,9 +44,7 @@ const ProposalCards = (props: any) => {
     };
   }, []);
   useEffect(() => {
-    if (!errorMessage) {
-      getProposals();
-    }
+    getProposals();
   }, [state]);
   const getProposals = (data = null, page = null) => {
     if (
@@ -277,14 +275,14 @@ const ProposalCards = (props: any) => {
                             </p>
                           </div>
                           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-                            {item?.options?.map((data: any,index:number) => (
+                            {item?.options?.map((data: any, index: number) => (
                               <div className="text-secondary" key={data?.id}>
                                 <div className="flex">
-                                  {(
+                                  {
                                     <span
                                       className={`${getVotingOptionColor[index]} shrink-0 mt-1 h-4 w-4 inline-block rounded-full mr-2 align-middle`}
                                     ></span>
-                                  )}
+                                  }
                                   <p className="text-secondary">
                                     {data?.option}{" "}
                                     {`(${data?.votersCount || "0"})`}
