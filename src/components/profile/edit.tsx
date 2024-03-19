@@ -240,6 +240,7 @@ const ProfileEdit = ({
                         ? item.phone_code
                         : `+${item.phone_code}`
                     }
+                    className="cursor-pointer"
                   >
                     {item.iso3}{" "}
                     {item.phone_code.includes("+")
@@ -301,7 +302,7 @@ const ProfileEdit = ({
             >
               <option value={""} className="cursor-pointer">Select Country</option>
               {jsonCountryCode.map((item) => (
-                <option key={item.name + item.iso3 + item.phone_code}>
+                <option key={item.name + item.iso3 + item.phone_code} className="cursor-pointer">
                   {item.name}
                 </option>
               ))}
