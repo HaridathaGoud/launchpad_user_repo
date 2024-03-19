@@ -139,7 +139,7 @@ const Projectdetails = (props: any) => {
   };
   return (
     <>
-      <div className="container mx-auto md:mb-[90px] max-md:px-3 max-sm:mb-5">
+      <div className="container mx-auto md:mb-[90px] px-3 lg:px-0 max-sm:mb-5">
         <div className="">
           <div className="container">
             {loader ? (

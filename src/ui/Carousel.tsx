@@ -39,7 +39,7 @@ const Carousel = ({
               <div
                 id={image.image}
                 key={image.image + image?.name}
-                className={`carousel-item w-full block overflow-y-hidden ${hasContent ? "lg:min-h-[500px]" : ""}`}
+                className={`carousel-item w-full block overflow-y-hidden ${hasContent ? "md:min-h-[500px]" : ""}`}
                 // style={{
                 //   backgroundImage: `url(${image.image})`,
                 //   backgroundSize: 'cover',
@@ -51,15 +51,15 @@ const Carousel = ({
                     src={`${image.image}`}
                     className={`${
                       hasContent
-                        ? "lg:h-full w-full h-[200px] object-cover max-sm:h-[500px]"
+                        ? "lg:h-full w-full lg: h-[200px] object-cover h-[500px]"
                         : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
                   />
                    <div className="absolute inset-0 bg-banner hidden md:block"></div>
-                  <div className="absolute w-full h-full top-0 right-0 md:w-[50%] bg-gradient-to-l from-black to-transparent z-[9999] :hidden sm:block" ></div>
+                  <div className="absolute w-full h-full top-0 right-0 md:w-[50%] bg-gradient-to-l from-black to-transparent z-[10] :hidden sm:block" ></div>
                 {hasContent && (
-                  <div className="absolute z-[9999] top-[15%] right-[3%]">
+                  <div className="absolute z-[10] top-[15%] right-[3%]">
                     <div className="flex-1 p-4 md:p-0 relative">
                       <div className="flex gap-4 items-center">
                         <div className={`${statusColourList[image.type]}  px-3 py-1 rounded flex items-center`}>
@@ -110,7 +110,7 @@ const Carousel = ({
           })}
         </div>
         <div
-          className={`flex justify-center w-full py-2 gap-2 absolute bottom-6 max-sm:bottom-4 z-[9999]`}
+          className={`flex justify-center w-full py-2 gap-2 absolute bottom-6 max-sm:bottom-4 z-[10]`}
         >
           {data?.map((image, index) => (
             <button

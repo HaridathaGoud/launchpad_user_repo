@@ -44,7 +44,7 @@ const FoundingMembersView = () => {
       });
   };
   return (
-    <div className="container mx-auto max-sm:px-3 mt-3">
+    <div className="container mx-auto px-3 lg:px-0 mt-3">
 
       {!foundingmemLoader && (
         <>

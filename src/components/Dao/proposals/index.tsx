@@ -11,7 +11,7 @@ const Proposals = (props:any) => {
     props.getDaoDetails({id:projectId || props.pjctInfo?.id});
   },[])
   return (
-    <div className="container mx-auto max-sm:px-3 mt-3">
+    <div className="container mx-auto px-3 lg:px-0 mt-3">
      {props.showBreadcrumb && <BreadCrumb/>}
       <div className="container mx-auto md:grid lg:grid-cols-4 gap-7 mt-8">
         <div className="shrink-0">
