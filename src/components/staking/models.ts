@@ -39,7 +39,7 @@ export interface StakingContextModal {
 export interface StakingTabsModel {
   checkboxValue?: boolean;
   buttonLoader?: boolean;
-  tabError?: string;
+  tabError?: any;
   amountFieldError?: string;
   tabAmount?: any;
   tabData?: any;

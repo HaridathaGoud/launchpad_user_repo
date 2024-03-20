@@ -27,9 +27,9 @@ const StakingTabs = () => {
   useEffect(() => {
     rootDispatch(
       setError({
-        message: tabState?.tabError,
+        message: tabState?.tabError?.message,
         onCloseCallback: () => dispatch({ type: "setTabError", payload: "" }),
-        type:'warning'
+        type:tabState?.tabError?.type
       })
     );
   }, [tabState?.tabError]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -54,8 +54,8 @@ const StakingTabs = () => {
         dispatch({ type: "setTabAmount", payload: payload }),
       setTabData: (payload: any) =>
         dispatch({ type: "setTabData", payload: payload }),
-      setTabError: (payload: any) =>
-        dispatch({ type: "setTabError", payload: payload }),
+      setTabError: (payload: any,type:any='error') =>
+        dispatch({ type: "setTabError", payload: {message:payload,type:type} }),
       resetTab: () => {
         tabState?.tabError && dispatch({ type: "setTabError", payload: "" });
         activeStep !== 0 && setActiveStep?.(0);
