@@ -33,7 +33,7 @@ const RewardsComponent = () => {
     tabContextValues?.setButtonLoader?.(true);
     if (!tabContextValues?.checkboxValue) {
       tabContextValues?.setTabError?.(
-        "Please click the checkbox after reading and agreeing to the Terms and Conditions before proceeding."
+        "Please click the checkbox after reading and agreeing to the Terms and Conditions before proceeding.",'warning'
       );
       tabContextValues?.setButtonLoader?.(false);
     } else {

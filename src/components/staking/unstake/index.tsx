@@ -45,7 +45,7 @@ export default function Unstake() {
       setActiveStep?.(1);
     } else if (!tabContextValues?.checkboxValue && activeStep === 1) {
       tabContextValues?.setTabError?.(
-        "Please click the checkbox after reading and agreeing to the Terms and Conditions before proceeding."
+        "Please click the checkbox after reading and agreeing to the Terms and Conditions before proceeding.",'warning'
       );
       return;
     } else if (tabContextValues?.checkboxValue && activeStep === 1) {

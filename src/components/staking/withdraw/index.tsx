@@ -40,7 +40,7 @@ const WithdrawComponent = () => {
     tabContextValues?.tabError && tabContextValues?.setTabError?.("");
     if (!tabContextValues?.checkboxValue && activeStep === 0) {
       tabContextValues?.setTabError?.(
-        "Please click the checkbox after reading and agreeing to the Terms and Conditions before proceeding."
+        "Please click the checkbox after reading and agreeing to the Terms and Conditions before proceeding.",'warning'
       );
     } else if (tabContextValues?.checkboxValue && activeStep === 0) {
       setActiveStep?.(1);
