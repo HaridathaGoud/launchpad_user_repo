@@ -78,7 +78,7 @@ const ProfilePicture = ({ profile, updateProfile }) => {
           </div>
         </div>
       )}
-      <span className="icon camera cam-position cursor-pointer">
+      <span className="icon camera cam-position cursor-pointer max-sm:right-[45%] max-sm:top-[45%]">
         <input
           type="file"
           name="myImage"

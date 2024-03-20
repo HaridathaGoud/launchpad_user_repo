@@ -161,7 +161,7 @@ const ProjectDetailsCard = (props: any) => {
                 </p>
               </div>
 
-              <div className="total-status">
+              <div className="total-status md:col-span-2">
                 <div className="fields-style">
                   <h5 className="text-base text-secondary mb-1">
                     {props.pjctInfo?.launchDate
@@ -178,7 +178,7 @@ const ProjectDetailsCard = (props: any) => {
                 </div>
               </div>
             </div>
-            <div className="border border-neutral-content relative rounded-[5px] py-[18px] px-2">
+            <div className="border border-neutral-content relative rounded-[5px] py-[18px] px-2 mt-4">
               <div className="flex justify-between">
                 <div className="flex-1">
                   <p className="text-xs text-secondary opacity-60 mb-2">
