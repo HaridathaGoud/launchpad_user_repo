@@ -56,6 +56,7 @@ const Allocations = (props) => {
       state.amountError && dispatch({ type: "setAmountError", payload: "" });
       rootDispatch(setError({ message: "" }));
       dispatch({ type: "setIsBuying", payload: false });
+      dispatch({ type: "setDrawerStep", payload: 1 });
     }
     dispatch({ type: "setShouldOpenDrawer", payload: payload });
   };
