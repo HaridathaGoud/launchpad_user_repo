@@ -261,6 +261,7 @@ const Projectdetails = (props: any) => {
                       <CommonCreateProposal
                         pjctInfo={data?.projectDetails}
                         showBreadcrumb={false}
+                        from="project"
                       />
                     </div>
                   )}

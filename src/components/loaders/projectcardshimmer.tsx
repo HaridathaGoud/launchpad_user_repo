@@ -5,7 +5,7 @@ const ProjectShimmer: NextPage = () => {
 
     return (
         <>
-            <div className="border shadow rounded-2xl p-4 w-full mx-auto">
+            <div className="border shadow rounded-2xl p-4 w-full mx-auto mb-2">
                 <div className="animate-pulse flex space-x-4 justify-between">
                     <div className="rounded-full bg-slate-200 h-10 w-10"></div>
                     <div className='flex gap-4'>

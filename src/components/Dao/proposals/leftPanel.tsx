@@ -52,7 +52,8 @@ const DaoLeftPanel = (props) => {
 
   return (
     <>
-      <div>
+      <div className={`${props.from==='project' ? 'md:flex justify-between mb-4': ''}`}>
+        <div>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 ">
             <img
@@ -90,6 +91,7 @@ const DaoLeftPanel = (props) => {
             </h1>
             {address && <p className="text-secondary">63k Members</p>}
           </div>
+         
         </div>
         {isConnected &&
           address &&
@@ -103,13 +105,15 @@ const DaoLeftPanel = (props) => {
               New Proposal
             </button>
           )}
+        </div>
+       
         <div>
-          <h1 className="text-base font-semibold my-5 text-secondary">
+          {/* <h1 className="text-base font-semibold my-5 text-secondary">
             Proposals
-          </h1>
+          </h1> */}
           {/* <p className={`mb-5 text-secondary opacity-60`}>About </p>
                     <p className={`mb-5 text-secondary opacity-60`}>Settings</p> */}
-          <div className="flex gap-2">
+          <div className={`flex gap-2 ${props.from==='project' ? '':'my-5'}`}>
             {" "}
             <span className={`icon facebook-md `}></span>
             <span className={`icon instagram-md `}></span>

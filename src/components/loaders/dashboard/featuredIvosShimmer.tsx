@@ -2,7 +2,7 @@ import React from "react";
 
 const FeaturedIvosShimmer = () => {
   return (
-    <div className={`carousel max-sm:grid max-sm:gap-4 md:gap-6 featuredIvos`}>
+    <div className={`carousel max-sm:grid max-sm:gap-4 md:gap-6 featuredIvos container`}>
       <div className="animate-pulse space-x-4">
         <div className="h-[128px] md:w-[350px] opacity-1 border rounded-xl gap-10 flex items-center py-4 px-8 ">
           <div className="w-[90px] h-[90px] rounded-md bg-slate-200"></div>

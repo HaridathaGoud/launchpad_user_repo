@@ -233,10 +233,10 @@ const ProposalCards = (props: any) => {
                       </div>
 
                       <div className="flex gap-5 flex-col lg:flex-row">
-                        <div className="w-full lg:w-52 lg:h-32 shrink-0">
+                        <div className={` shrink-0 ${props.from==='project' ? 'md:w-[150px]':'w-full lg:w-52 lg:h-32'}`}>
                           <img
                             src={item?.image || defaultBG}
-                            className="h-[130px] object-cover w-full rounded-lg"
+                            className={` object-cover w-full rounded-lg ${props.from === 'project' ? 'h-[130px] md:h-[90px]':'h-[130px]'}`}
                             alt={item?.title || "proposal"}
                           />
                         </div>
