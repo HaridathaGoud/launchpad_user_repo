@@ -263,7 +263,7 @@ button.opacity-100{opacity: 1 !important;}
 .fileupload{background: rgba(164, 170, 187, 0.2);border: 1px dashed rgba(0, 0, 0, 0.2);}
 .warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
 .closewarning{background-position: -7px -340px !important;width: 34px;height: 34px;}
-input[type='date']:disabled{background-color: #e5e5e5 !important;border-radius: 0 28px 28px 0;}
+input[type='date']:disabled{background-color: #e5e5e5 !important;border-radius: 0 28px 28px 0;cursor: not-allowed;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
