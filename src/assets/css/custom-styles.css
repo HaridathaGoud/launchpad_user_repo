@@ -263,6 +263,7 @@ button.opacity-100{opacity: 1 !important;}
 .fileupload{background: rgba(164, 170, 187, 0.2);border: 1px dashed rgba(0, 0, 0, 0.2);}
 .warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
 .closewarning{background-position: -7px -340px !important;width: 34px;height: 34px;}
+input[type='date']:disabled{background-color: #e5e5e5 !important;border-radius: 0 28px 28px 0;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
@@ -283,7 +284,7 @@ button.opacity-100{opacity: 1 !important;}
   }
 @media (max-width: 767.98px){
   .drawer-side::-webkit-scrollbar{scrollbar-width: 0;display: none;}
-  #mySidebar{position: absolute;z-index: 999;background: #fff;height: 100%;}
+  #mySidebar{position: absolute;z-index: 999;background: #cb7c7c;height: 100%;}
   #main{margin-left: 0 !important;padding: 0;}
   .copy-clip img+span{overflow: hidden;text-overflow: ellipsis;}
 }

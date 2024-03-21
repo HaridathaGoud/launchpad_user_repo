@@ -151,7 +151,7 @@ const ProposalCards = (props: any) => {
               </select>
 
               <div className="border flex rounded-[30px] md:w-[318px] md:col-span-2 bg-white">
-                <div className="position-relative border-r">
+                <div className="position-relative border-r flex-1">
                   <input
                     type="date"
                     className={`form-select text-secondary ${
@@ -166,7 +166,7 @@ const ProposalCards = (props: any) => {
                     onChange={(e) => setDate(e.target.value, "startDate")}
                   />
                 </div>
-                <div className="position-relative">
+                <div className="position-relative flex-1">
                   <input
                     type="date"
                     disabled={!state.startDate}
