@@ -149,9 +149,14 @@ const ProposalCards = (props: any) => {
                   </option>
                 ))}
               </select>
-
-              <div className="border flex rounded-[30px] md:w-[318px] md:col-span-2 bg-white">
+                <div className="md:col-span-2">
+                <div className="flex md:hidden mt-2 md:mt-0">
+                <label htmlFor="" className=" flex-1 text-secondary text-sm font-normal p-0 mb-2 label ml-4 block">Start Date</label>
+                <label htmlFor="" className="flex-1 text-secondary text-sm font-normal p-0 mb-2 label ml-4 block">End Date</label>
+                </div>
+              <div className="border flex rounded-[30px] md:w-[318px]  bg-white">                
                 <div className="position-relative border-r flex-1">
+                 
                   <input
                     type="date"
                     className={`form-select text-secondary ${
@@ -183,6 +188,7 @@ const ProposalCards = (props: any) => {
                   />
                 </div>
               </div>
+                </div>
             </div>
 
             <div className={`mt-4`}>
