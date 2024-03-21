@@ -175,7 +175,7 @@ const Staking = () => {
               <BreadCrumb />
             </div>
             <StakingProvider value={contextValue}>
-              <div className="grid lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-1 mt-5 mb-4 gap-4">
                 <div className="pr-5">
                   <div className="flex items-center gap-3 col">
                     <div className="w-12 h-12 ">

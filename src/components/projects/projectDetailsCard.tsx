@@ -93,7 +93,7 @@ const ProjectDetailsCard = (props: any) => {
               </div>
             </div>
             <div className="">
-              <div className="flex mt-6 md:pl-14">
+              <div className="flex mt-6 lg:pl-14">
                 <div className="flex gap-3 justify-between items-center">
                   <div className={` py-1 rounded px-3 ${
                           statusColourList[props.currentPjct]

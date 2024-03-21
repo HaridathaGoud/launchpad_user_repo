@@ -39,13 +39,13 @@ const DashboardSteps = () => {
         <div className="flex-1 flex items-center">
           <div>
             <h1 className="max-sm:text-[36px] md:text-[48px] font-semibold leading-tight text-secondary	">
-              How To Join The <br className="max-sm:hidden" />{" "}
+              How To Join The <br className="hidden lg:block" />{" "}
               <span className="text-primary">Blockchain</span> Movie{" "}
-              <br className="max-sm:hidden" /> Revolution With Us
+              <br className="hidden lg:block" /> Revolution With Us
             </h1>
             <p className="text-secondary mt-3">
               Only 3 little steps are needed for you to start enjoying all
-              <br className="max-sm:hidden" /> the advantages of{" "}
+              <br className="hidden lg:block" /> the advantages of{" "}
               {process.env.REACT_APP_TOKEN_SYMBOL}
             </p>
           </div>

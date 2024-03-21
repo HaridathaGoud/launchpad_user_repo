@@ -68,7 +68,7 @@ export default function Tiers() {
               Join millions of other customers on this platform
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-4 lg:w-[850px] md:mx-auto">
+          <div className="grid md:grid-cols-3 gap-4 lg:w-[850px] md:mx-auto px-3 lg:px-0">
             {tiersDetails.map((tier: any) => (
               <div
                 className={`mb-lg-4 mb-2 tier-card rounded-[16px] text-base-100 bg-primary-content`}

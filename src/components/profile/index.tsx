@@ -50,7 +50,7 @@ const Profile = () => {
     return <Navigate to={"/dashboard"} />;
   }
   return (
-    <div className="container mx-auto max-sm:px-3 md:mt-5 max-sm:mt-3">
+    <div className="container mx-auto px-3 lg:px-0 md:mt-5 max-sm:mt-3">
       {state.loader && <ProfileInfoShimmer />}
       {!state.loader && (
         <>

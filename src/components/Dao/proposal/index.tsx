@@ -32,7 +32,7 @@ const ProposalView = (props) => {
 
   return (
     <>
-        <div className="container mx-auto max-md:px-3 mt-3">
+        <div className="container mx-auto px-3 lg:px-0 mt-3">
           <div className="mt-5 mb-4">
             <BreadCrumb />
             <div className="mb-12 mt-4">
@@ -40,13 +40,13 @@ const ProposalView = (props) => {
             </div>
           </div>
           <div className="md:grid md:grid-cols-12 gap-[30px]">
-            <div className="md:col-span-3">
+            <div className=" md:col-span-12 lg:col-span-3">
               <InformationPanel />
               <div>
                 <ProposalResults/>
               </div>
             </div>
-            <div className="md:col-span-9 max-sm:mt-4">
+            <div className="md:col-span-12 lg:col-span-9 max-sm:mt-4">
               <Proposal/>
               <div>
                 <ProposalTabs />

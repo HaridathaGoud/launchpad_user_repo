@@ -30,10 +30,10 @@ const Daos = (props: any) => {
   if (daos?.error) rootDispatch(setError(daos?.error));
   return (
     <div>
-      <div className="container mx-auto max-sm:px-3 mt-4">
+      <div className="container mx-auto px-3 lg:px-0 mt-4">
         <h5 className="font-semibold text-2xl text-secondary">DAO’s</h5>
 
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {!daos?.loading && (
             <>
               {daos?.data?.map((item: any) => (

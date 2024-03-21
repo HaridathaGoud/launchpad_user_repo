@@ -63,7 +63,7 @@ const Proposal = () => {
                 <div>
                   <div className="pt-2">
                     <div>
-                      <div className="md:flex justify-between items-center mb-3.5">
+                      <div className="lg:flex justify-between items-center mb-3.5">
                         <div className="flex items-center flex-wrap max-sm:gap-2">
                           <div className="w-9 h-9 mr-2 shrink-0">
                             <img

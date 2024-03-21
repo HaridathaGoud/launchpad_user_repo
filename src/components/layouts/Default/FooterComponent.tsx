@@ -6,16 +6,18 @@ const FooterComponent = () => {
   return (
     <>
       <footer
-        className={`footer max-sm:pt-10 md:pt-20 text-base-content container mx-auto max-sm:px-3`}
+        className={`footer grid !lg:grid-cols-7 max-sm:pt-10 md:pt-20 text-base-content container mx-auto px-3 lg:px-0`}
       >
-        <aside>
-          <img src={logo} alt="YellowBlock" className="w-8 mr-3" />
+        <aside className="lg:col-span-2">
+         <div className="lg:flex">
+         <img src={logo} alt="YellowBlock" className="w-8 mr-3" />
           <p className="mt-4 mb-2	text-secondary">
             OTT typically refers to the delivery of
             <br /> media content over the internet
             <br /> without the involvement of traditional <br />
             broadcast or cable television providers.
           </p>
+         </div>
 
           <div className="grid grid-cols-6 gap-3">
             <a
@@ -144,11 +146,11 @@ const FooterComponent = () => {
           </a>
           <span className="text-secondary opacity-60">Ph:+91 8390150032</span>
         </nav>
-        <nav>
+        <nav className="lg:col-span-2">
           <header className="text-secondary font-semibold">DOWNLOAD </header>
-          <div className="grid grid-cols-2">
+          <div className="grid lg:grid-cols-2 gap-2">
             <div className="flex items-center gap-2">
-              <span className={`playStore icon`}></span>
+              <span className={`playStore icon shrink-0`}></span>
               <NaviLink path="/comingsoon" type="footerNav">
                 <p className="text-xs font-semibold text-secondary">
                   GET IT ON
@@ -157,7 +159,7 @@ const FooterComponent = () => {
               </NaviLink>
             </div>
             <div className="flex items-center gap-2">
-              <span className={`iStore icon`}></span>
+              <span className={`iStore icon shrink-0`}></span>
               <NaviLink path="/comingsoon" type="footerNav">
                 <p className="text-xs font-semibold text-secondary">
                   Download on the

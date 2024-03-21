@@ -38,7 +38,7 @@ const CastandCrewMembersView = () => {
       });
   };
   return (
-    <div className="container mx-auto mt-4 px-3 md:px-0">
+    <div className="container mx-auto mt-4 px-3 lg:px-0">
       <div className="">
         {castandcrews && (
           <ProjectBanner
