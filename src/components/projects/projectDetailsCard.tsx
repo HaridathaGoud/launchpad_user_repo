@@ -301,9 +301,9 @@ const ProjectDetailsCard = (props: any) => {
                 <ProgressBar
                   variant="info"
                   now={props.swapedPercentage?.toString()?.slice(0, 3)}
-                  className="rounded-[15px] border bg[#D9D9D9]"
+                  className="rounded-[15px] bg-[#D9D9D9]"
                 />
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start mt-1">
                   <p className="text-xs text-secondary">
                     {props.swapedPercentage?.toString()?.slice(0, 4)} %
                   </p>
