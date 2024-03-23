@@ -57,20 +57,17 @@ const Carousel = ({
                     src={`${image.image}`}
                     className={`${
                       hasContent
-                        ? "lg:h-full w-full lg: h-[200px] object-cover h-[500px]"
+                        ? "lg:h-full w-full object-cover h-[500px]"
                         : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
                   />
-                  <div className="absolute inset-0 bg-banner hidden md:block"></div>
-                  <div className="absolute w-full h-full top-0 right-0 md:w-[50%] bg-gradient-to-l from-black to-transparent z-[10] :hidden sm:block"></div>
+                  {!isWelcome && <div className="absolute inset-0 bg-banner hidden md:block"></div>}
                   {hasContent && (
                     <div
-                      className={`absolute z-[10] top-[15%]  ${
-                        isWelcome ? "md:right-[15%]" : "md:right-[3%]"
-                      }`}
+                      className={`flex flex-col justify-center items-center ${isWelcome ? 'max-sm:justify-end' :'justify-center'} max-sm:items-center bg-gradient-to-l from-black to-transparent max-sm:bg-gradient-to-t absolute z-[10] top-0 right-0 w-full h-full lg:w-[50%]`}
                     >
-                      <div className="flex-1 p-4 md:p-0 relative">
+                      <div className="p-4 md:p-0 relative">
                         {!isWelcome && (
                           <div className="flex gap-4 items-center">
                             <div
@@ -93,23 +90,27 @@ const Carousel = ({
                             </div>
                           </div>
                         )}
-                        <h1 className="text-[32px] md:text-[52px] font-bold text-primary mt-3.5 capitalize">
-                          {!isWelcome && image.name.toLowerCase()}
-                          {isWelcome && (
+                        {!isWelcome &&<h1 className="text-[26px] md:text-[52px] font-bold text-primary mt-3.5 capitalize">
+                          { image.name.toLowerCase()}
+                      
+                        </h1>}
+                        {isWelcome && (
                             <>
-                              <p className="text-[42px] md:text-[52px] font-bold text-white mt-3.5 capitalize">
-                                Welcome To <br className="hidden md:block" />{" "}
+                              <p className="text-[42px] md:text-[52px] font-bold text-white">
+                                Welcome to <br className="hidden md:block" />{" "}
                                 Launchpad
                               </p>
                             </>
                           )}
-                        </h1>
-                        <h2 className="text-[32px] leading-[0.8] mb-[30px] md:text-[42px] text-white">
-                          {!isWelcome &&
-                            (image.category
+                        {!isWelcome && (
+                          <h2 className="text-[26px] leading-[0.8] mb-[30px] md:text-[42px] text-white">
+                            {image.category
                               ? image.category
-                              : "Animation Web Series")}
-                        </h2>
+                              : "Animation Web Series"}
+                          </h2>
+                        )}
+                          {isWelcome &&
+                           <p className="w-full text-[14px] md:text-[16px] text-white mt-3.5 text">Your gateway to innovation with IVO's Initial Video Offerings, <br /> Join us and skyrocket your vision into success!</p>}
                         {!isWelcome && (
                           <div className="flex gap-x-8 md:pb-0 mb-2">
                             <div>
