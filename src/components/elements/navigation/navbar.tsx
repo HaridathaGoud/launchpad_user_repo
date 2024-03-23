@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import logo from "../../../assets/images/yb-logo.svg";
 import { connect, useSelector } from "react-redux";
-import WalletConnect from "../../modules/ConnectButton/connect.wallet";
 import { useAccount, useDisconnect } from "wagmi";
 import { store } from "../../../store";
 import {
@@ -13,13 +12,11 @@ import {
 import { getKyc } from "../../../utils/api";
 import useContract from "../../../hooks/useContract";
 import userImage from "../../../assets/images/avatar.jpg";
-
-import { Modal, modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../../ui/Button";
 import NaviLink from "../../../ui/NaviLink";
 import ConnectWallet from "../../../ui/connectButton";
+import Button from "../../../ui/Button";
 
 function HeaderNavbar() {
   const navigate = useNavigate();
