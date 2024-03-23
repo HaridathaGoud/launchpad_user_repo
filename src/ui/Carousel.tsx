@@ -1,25 +1,30 @@
 import React, { useRef, useState } from "react";
 import Button from "./Button";
+import { useAccount } from "wagmi";
 import { navigateToUniswap } from "../utils/commonNavigations";
 import formatDate from "../utils/formatDate";
+import ConnectWallet from "./connectButton";
 
 interface CarouselProps {
   data: any;
   indicator?: string;
   hasContent?: boolean;
   className?: string;
+  isWelcome?: boolean;
 }
 const statusColourList = {
-  Ongoing: 'dot-green',
-  Closed: 'dot-red',
-  Upcoming: 'dot-orange',
+  Ongoing: "dot-green",
+  Closed: "dot-red",
+  Upcoming: "dot-orange",
 };
 const Carousel = ({
   data,
   indicator,
   hasContent,
   className,
+  isWelcome,
 }: CarouselProps) => {
+  const { isConnected, address } = useAccount();
   const [currentImg, setCurrentImg] = useState(0);
   const carouselRef = useRef(null);
   function handleIndicatorClick(img) {
@@ -39,14 +44,15 @@ const Carousel = ({
               <div
                 id={image.image}
                 key={image.image + image?.name}
-                className={`carousel-item w-full block overflow-y-hidden ${hasContent ? "md:min-h-[500px]" : ""}`}
-                // style={{
-                //   backgroundImage: `url(${image.image})`,
-                //   backgroundSize: 'cover',
-                //   backgroundPosition: 'center',
-                // }}
+                className={`carousel-item w-full block overflow-y-hidden ${
+                  hasContent ? "md:min-h-[500px]" : ""
+                }`}
               >
-                <div className={`${hasContent ? "flex-1 lg:h-full w-full" : "w-full h-full"} relative`}>
+                <div
+                  className={`${
+                    hasContent ? "flex-1 lg:h-full w-full" : "w-full h-full"
+                  } relative`}
+                >
                   <img
                     src={`${image.image}`}
                     className={`${
@@ -56,54 +62,90 @@ const Carousel = ({
                     }`}
                     alt={image.name ? image.name : "carousel-image"}
                   />
-                   <div className="absolute inset-0 bg-banner hidden md:block"></div>
-                  <div className="absolute w-full h-full top-0 right-0 md:w-[50%] bg-gradient-to-l from-black to-transparent z-[10] :hidden sm:block" ></div>
-                {hasContent && (
-                  <div className="absolute z-[10] top-[15%] right-[3%]">
-                    <div className="flex-1 p-4 md:p-0 relative">
-                      <div className="flex gap-4 items-center">
-                        <div className={`${statusColourList[image.type]}  px-3 py-1 rounded flex items-center`}>
-                          <span className="align-middle bg-white mr-1 w-3 h-3 rounded-full inline-block mb-[2px]"></span>
-                          <span className="inline-block text-base-100 text-sm">
-                            {image.type}
-                          </span>
+                  <div className="absolute inset-0 bg-banner hidden md:block"></div>
+                  <div className="absolute w-full h-full top-0 right-0 md:w-[50%] bg-gradient-to-l from-black to-transparent z-[10] :hidden sm:block"></div>
+                  {hasContent && (
+                    <div
+                      className={`absolute z-[10] top-[15%]  ${
+                        isWelcome ? "md:right-[15%]" : "md:right-[3%]"
+                      }`}
+                    >
+                      <div className="flex-1 p-4 md:p-0 relative">
+                        {!isWelcome && (
+                          <div className="flex gap-4 items-center">
+                            <div
+                              className={`${
+                                statusColourList[image.type]
+                              }  px-3 py-1 rounded flex items-center`}
+                            >
+                              <span className="align-middle bg-white mr-1 w-3 h-3 rounded-full inline-block mb-[2px]"></span>
+                              <span className="inline-block text-base-100 text-sm">
+                                {image.type}
+                              </span>
+                            </div>
+                            <div>
+                              <span
+                                className={`usdt icon scale-[1.4] mr-1`}
+                              ></span>
+                              <span className="font-medium text-white">
+                                {image.tokenNetwork}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                        <h1 className="text-[32px] md:text-[52px] font-bold text-primary mt-3.5 capitalize">
+                          {!isWelcome && image.name.toLowerCase()}
+                          {isWelcome && (
+                            <>
+                              <p className="text-[42px] md:text-[52px] font-bold text-white mt-3.5 capitalize">
+                                Welcome To <br className="hidden md:block" />{" "}
+                                Launchpad
+                              </p>
+                            </>
+                          )}
+                        </h1>
+                        <h2 className="text-[32px] leading-[0.8] mb-[30px] md:text-[42px] text-white">
+                          {!isWelcome &&
+                            (image.category
+                              ? image.category
+                              : "Animation Web Series")}
+                        </h2>
+                        {!isWelcome && (
+                          <div className="flex gap-x-8 md:pb-0 mb-2">
+                            <div>
+                              <p className="text-white font-[500] text-base">
+                                Public Opens
+                              </p>
+                              <p className="text-xl text-white">{`${formatDate(
+                                image.publicSaleStartDate,
+                                "DD/MM/YYYY HH:mm:ss"
+                              )} (UTC)`}</p>
+                            </div>
+                            <div>
+                              <p className="text-white font-[500] text-base">
+                                Public Closes
+                              </p>
+                              <p className="text-xl text-white">{`${formatDate(
+                                image.publicSaleEndDate,
+                                "DD/MM/YYYY HH:mm:ss"
+                              )} (UTC)`}</p>
+                            </div>
+                          </div>
+                        )}
+                        <div className="mt-8 max-sm:mb-8 max-sm:text-center">
+                          {isConnected && address && (
+                            <Button
+                              type="primary"
+                              handleClick={() => navigateToUniswap()}
+                            >
+                              Buy {process.env.REACT_APP_TOKEN_SYMBOL}
+                            </Button>
+                          )}
+                          {!isConnected && <ConnectWallet />}
                         </div>
-                        <div>
-                          <span className={`usdt icon scale-[1.4] mr-1`}></span>
-                          <span className="font-medium text-white">{image.tokenNetwork}</span>
-                        </div>
-                      </div>
-                      <h1 className="text-[52px] font-bold text-primary mt-3.5 capitalize">
-                        {image.name.toLowerCase()}
-                      </h1>
-                      <h2 className="text-[32px] leading-[0.8] mb-[30px] md:text-[42px] text-white">
-                         Animation Web Series
-                      </h2>
-                      <div className="flex gap-x-8 md:pb-0 mb-2">
-                        <div>
-                          <p className="text-white font-[500] text-base">
-                            Public Opens
-                          </p>
-                          <p className="text-xl text-white">{`${formatDate(image.publicSaleStartDate,'DD/MM/YYYY HH:mm:ss')} (UTC)`}</p>
-                        </div>
-                        <div>
-                          <p className="text-white font-[500] text-base">
-                            Public Closes
-                          </p>
-                          <p className="text-xl text-white">{`${formatDate(image.publicSaleEndDate,'DD/MM/YYYY HH:mm:ss')} (UTC)`}</p>
-                        </div>
-                      </div>
-                      <div className="mt-8 max-sm:mb-8 max-sm:text-center">
-                        <Button
-                          type="primary"
-                          handleClick={() => navigateToUniswap()}
-                        >
-                          Buy {process.env.REACT_APP_TOKEN_SYMBOL}
-                        </Button>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 </div>
               </div>
             );

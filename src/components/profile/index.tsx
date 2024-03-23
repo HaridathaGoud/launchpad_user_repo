@@ -23,7 +23,7 @@ const Profile = () => {
     if (address) {
       getCustomerDetails();
     }
-  }, [address]);// eslint-disable-line react-hooks/exhaustive-deps
+  }, [address,isConnected]);// eslint-disable-line react-hooks/exhaustive-deps
   const getCustomerDetails = async () => {
     dispatch({ type: "setLoader", payload: true });
     if (address) {

@@ -19,6 +19,7 @@ import DropdownMenus from "../../../ui/DropdownMenus";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../ui/Button";
 import NaviLink from "../../../ui/NaviLink";
+import ConnectWallet from "../../../ui/connectButton";
 
 function HeaderNavbar() {
   const navigate = useNavigate();
@@ -79,15 +80,17 @@ function HeaderNavbar() {
     ];
     return { navMenuList, navBarDropDownMenu };
   }, [pathname]);
-
+  const setData = (res) => {
+    setProfilePic(res?.data?.profilePicUrl);
+    store.dispatch(setUserID(res.data));
+    store.dispatch(walletAddress(address || ""));
+  };
   const getCustomerDetails = async () => {
     if (address) {
       try {
         let res = await getKyc(`User/CustomerDetails/${address}`);
         if (res.statusText.toLowerCase() === "ok") {
-          setProfilePic(res?.data?.profilePicUrl);
-          store.dispatch(setUserID(res.data));
-          store.dispatch(walletAddress(address || ""));
+          setData(res);
         } else {
           console.log(res);
         }
@@ -140,10 +143,15 @@ function HeaderNavbar() {
                   className="drawer-overlay"
                 ></label>
                 <ul className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 h-screen min-w-[200px]">
-                  {navMenuList.map(({ path, content,target,rel }) => {
+                  {navMenuList.map(({ path, content, target, rel }) => {
                     return (
                       <li className="group mb-2" key={path}>
-                        <NaviLink path={path} type="primary" target={target} rel={rel}>
+                        <NaviLink
+                          path={path}
+                          type="primary"
+                          target={target}
+                          rel={rel}
+                        >
                           {content}
                         </NaviLink>
                       </li>
@@ -161,14 +169,15 @@ function HeaderNavbar() {
 
           <div className="navbar-center hidden lg:flex ">
             <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 ">
-              {navMenuList.map(({ path, content,target,rel }) => {
+              {navMenuList.map(({ path, content, target, rel }) => {
                 return (
                   <li className="group" key={path}>
                     <NaviLink
                       path={path}
                       type="primary"
                       className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                      target={target} rel={rel}
+                      target={target}
+                      rel={rel}
                     >
                       {content}
                     </NaviLink>
@@ -180,32 +189,7 @@ function HeaderNavbar() {
         </div>
 
         <div className="navbar-end">
-          {!isConnected && (
-            <>
-              <Button
-                type="primary"
-                handleClick={() => {
-                  modalActions("walletConnectModal", "open");
-                }}
-                btnClassName="flex items-center"
-              >
-                <>
-                  <span>Connect Wallet</span>
-                  <span className={`icon wallet mt-[-3px]`}></span>
-                </>
-              </Button>
-              {
-                <Modal id={"walletConnectModal"}>
-                  <WalletConnect
-                    onWalletConect={() => getCustomerDetails()}
-                    onWalletClose={() => {
-                      modalActions("walletConnectModal", "close");
-                    }}
-                  />
-                </Modal>
-              }
-            </>
-          )}
+          {!isConnected && <ConnectWallet />}
           {isConnected && (
             <DropdownMenus
               btnContent={

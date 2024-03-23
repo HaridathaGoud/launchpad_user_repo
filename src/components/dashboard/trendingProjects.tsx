@@ -3,12 +3,16 @@ import CarouselShimmer from "../loaders/dashboard/carouselShimmer";
 import Carousel from "../../ui/Carousel";
 import { get } from "../../utils/api";
 import { useDispatch } from "react-redux";
+import welcomeBanner from "../../assets/images/welcome-banner.png";
 import { setError } from "../../reducers/layoutReducer";
+const welcomeData=[
+  {image:welcomeBanner}
+]
 const TrendingProjects = () => {
   const rootDispatch=useDispatch()
   const shouldLog = useRef(true);
   const [loader, setLoader] = useState(false);
-  const [trendingProjects,setTrendingProjects]=useState(null)
+  const [trendingProjects,setTrendingProjects]=useState<any>(null)
   useEffect(() => {
     if (shouldLog.current) {
       shouldLog.current = false;
@@ -35,8 +39,9 @@ const TrendingProjects = () => {
     <>
     {loader && <CarouselShimmer/> }
     {!loader && trendingProjects && <Carousel
-      data={trendingProjects}
+      data={trendingProjects?.length>0 ? trendingProjects : welcomeData}
       hasContent={true}
+      isWelcome={trendingProjects?.length===0}
     />}
     </>    
     
