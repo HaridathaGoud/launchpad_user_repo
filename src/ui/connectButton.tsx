@@ -29,7 +29,7 @@ const ConnectWallet = ({text,type}:ConnectWalletProps) => {
           <WalletConnect
             onWalletConect={() =>
               rootDispatch(
-                setToaster({ message: "Wallect connection successful!" })
+                setToaster({ message: "Wallet connection successful!" })
               )
             }
             onWalletClose={() => {
