@@ -17,7 +17,7 @@ const statusColourList: any = {
 };
 const ProjectDetailsCard = (props: any) => {
   return (
-    <div className="md:col-span-4 max-sm:mt-4">
+    <div className="lg:col-span-4 max-sm:mt-4">
       <div className="border bg-primary-content border-neutral-content relative rounded-[15px] py-5 px-3.5 ">
         <div className="">
           <div className="">
@@ -32,7 +32,7 @@ const ProjectDetailsCard = (props: any) => {
                 </div>
                 <div>
                  <span className="tooltip" data-tip={props.pjctInfo?.projectName}>
-                 <span className="text-2xl font-semibold text-secondary text-start truncate inline-block md:w-[300px]">
+                 <span className="text-2xl font-semibold text-secondary text-start lg:truncate inline-block lg:w-[300px] break-all">
                     {props.pjctInfo?.projectName}
                   </span>
                  </span>

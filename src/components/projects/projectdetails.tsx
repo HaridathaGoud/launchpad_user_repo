@@ -145,8 +145,8 @@ const Projectdetails = (props: any) => {
             {loader ? (
               <DetailViewShimmer />
             ) : (
-              <div className="md:grid md:grid-cols-12 mt-2 gap-7">
-                <div className="md:col-span-8">
+              <div className="md:grid lg:grid-cols-12 mt-2 gap-7">
+                <div className="lg:col-span-8">
                   <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
                   <div className="mt-2 mb-4">
                     <BreadCrumb />
