@@ -4,6 +4,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
 import { clearDaos, getDaos } from "../../../reducers/proposlaReducer";
 import Button from "../../../ui/Button";
+import nodata from "../../../assets/images/no-data.png";
 import { useNavigate } from "react-router-dom";
 const take = 8;
 const Daos = (props: any) => {
@@ -52,14 +53,17 @@ const Daos = (props: any) => {
                       <p className="text-base-200 text-base font-semibold">
                         Name:
                       </p>{" "}
-                     <p className="text-secondary truncate"> {item?.name}</p>
+                      <p className="text-secondary truncate"> {item?.name}</p>
                     </div>
                     <div className="flex gap-1 text-base font-normal text-secondary mb-1">
                       <p className="text-base-200 text-base font-semibold">
                         {" "}
                         Members:
                       </p>{" "}
-                     <p className="text-secondary truncate"> {item?.members?.toLocaleString()}</p>
+                      <p className="text-secondary truncate">
+                        {" "}
+                        {item?.members?.toLocaleString()}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -67,7 +71,7 @@ const Daos = (props: any) => {
             </>
           )}
           {daos?.loading &&
-            [...Array(take*daos.nextPage)].map((_, index) => (
+            [...Array(take * daos.nextPage)].map((_, index) => (
               <div key={index}>
                 <DaoCardShimmer />
               </div>
@@ -86,8 +90,13 @@ const Daos = (props: any) => {
                 <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
               </Button>
             )}
+          {!daos.loading && (!daos.data || daos.data?.length === 0) && (
+            <div className="text-center mt-5">
+              <img src={nodata} width={150} className="mx-auto" alt="No Data" />
+              <h4 className="text-center text-secondary mt-2">No data found</h4>
+            </div>
+          )}
         </div>
-        
       </div>
     </div>
   );
