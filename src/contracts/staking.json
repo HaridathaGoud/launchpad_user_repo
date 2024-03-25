@@ -283,6 +283,56 @@
       "type": "event"
     },
     {
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "name": "Users",
+      "outputs": [
+        { "internalType": "uint256", "name": "rewards", "type": "uint256" },
+        {
+          "internalType": "uint256",
+          "name": "lastWithdrawTime",
+          "type": "uint256"
+        },
+        { "internalType": "bool", "name": "isStaker", "type": "bool" },
+        {
+          "internalType": "bool",
+          "name": "isUnstakeInitiated",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "unstakeAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "unstakeInitiatedTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "unstakeLimit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "withdrawStakedAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "withdrawRewardAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalStakeAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         { "internalType": "address", "name": "sender", "type": "address" },
         { "internalType": "uint256", "name": "unStakeValue", "type": "uint256" }
@@ -310,9 +360,9 @@
         {
           "components": [
             {
-              "internalType": "enum StakingContractUpgradeable2.tierLevel[]",
+              "internalType": "uint256[]",
               "name": "tierId",
-              "type": "uint8[]"
+              "type": "uint256[]"
             },
             {
               "internalType": "uint256[]",
@@ -439,15 +489,6 @@
     {
       "inputs": [],
       "name": "getTotalStaked",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        { "internalType": "address", "name": "sender", "type": "address" }
-      ],
-      "name": "getUnStakedAmount",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
