@@ -287,7 +287,7 @@ const Allocations = (props) => {
                         htmlFor="amount"
                         className="text-dark text-sm font-normal p-0 mb-2 label ml-4"
                       >
-                        Enter Token Count To Buy *
+                        Enter Token Count To Buy <span className="text-primary">*</span>
                       </label>
                       <input
                         type="text"

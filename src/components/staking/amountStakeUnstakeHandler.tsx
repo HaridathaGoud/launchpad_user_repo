@@ -80,7 +80,7 @@ const AmountStakeUnstakeHandler = (props) => {
           )}
           <p className="">
             {" "}
-            <span className="text-sm font-normal text-info">
+            <span className="text-sm font-semibold text-secondary">
               Balance :
             </span>{" "}
             <span className="text-sm font-semibold text-secondary">
