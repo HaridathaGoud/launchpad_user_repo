@@ -67,7 +67,7 @@ function Voters(props: any) {
                         Voter Address
                       </th>
                       <th className="text-left text-base text-secondary font-bold text-center">
-                        Opted For
+                      Vote Option
                       </th>
                     </tr>
                   </thead>
