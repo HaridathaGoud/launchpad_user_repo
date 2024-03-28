@@ -90,7 +90,7 @@ const Carousel = ({
                             </div>
                           </div>
                         )}
-                        {!isWelcome &&<h1 className="text-[26px] md:text-[52px] font-bold text-primary mt-3.5 capitalize">
+                        {!isWelcome &&<h1 className="text-[26px] md:text-[52px] font-bold text-primary mt-3.5 capitalize line-clamp-1 overflow-hidden">
                           { image.name.toLowerCase()}
                       
                         </h1>}
