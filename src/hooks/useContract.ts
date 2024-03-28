@@ -165,6 +165,10 @@ export default function useContractMethods() {
     const _result=await readContract({address:contract,abi:reward.abi,functionName:'balanceOf',args:[address]})
     return _result
   }
+  async function getOwner(contract:any) {
+    const _result=await readContract({address:contract,abi:reward.abi,functionName:'owner',args:[]})
+    return _result
+  }
   async function getStakedAmount() {
     const _result = await readContract({ address: process.env.REACT_APP_STAKING_CONTRACT, abi: stacking.abi, functionName: "getStakedAmount", args: [address] });
     return _result;
@@ -265,7 +269,6 @@ export default function useContractMethods() {
   }
   async function buyTokens(ether,amount: any, contractAddress: any) {
     const value= ethers.utils.parseUnits(ether.toString(),decimalPoints);
-    // const value=BigNumber(ether*10**decimalPoints);
     const request = await requestForProjectContract("buyToken", [amount], contractAddress,value);
     return writeContract(request);
   }
@@ -373,6 +376,7 @@ export default function useContractMethods() {
     isStaker,
     minMultipleNft,
     readRewardBalance,
-    parseError
+    parseError,
+    getOwner
   };
 }

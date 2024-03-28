@@ -3,19 +3,30 @@ const timeUnits = [
   { unit: "day", divisor: 1000 * 60 * 60 * 24 },
   { unit: "hour", divisor: 1000 * 60 * 60 },
   { unit: "minute", divisor: 1000 * 60 },
-  { unit: "second", divisor: 1000 }
+  { unit: "second", divisor: 1000 },
 ];
-export const getRewardBalance = async (readRewardBalance,address) => {
+export const getRewardBalance = async (
+  readRewardBalance: Function,
+  address: any
+) => {
   const response = await readRewardBalance(address);
   if (response) {
     let _amt = response.toString();
     if (_amt) {
-      return {amount:_amt,error:null}
+      return { amount: _amt, balanceError: null };
     }
   }
-    return {error:response,amount:null}
+  return { balanceError: response, amount: null };
 };
-export const getProposalStatus = (startingDate, endingDate) => {
+
+export const getOwnerAddress = async (getOwner: Function, address: any) => {
+  const response = await getOwner(address);
+  if (response) {
+    return { ownerAddress: response, error: null };
+  }
+  return { error: response, amount: null };
+};
+export const getProposalStatus = (startingDate: any, endingDate: any) => {
   let date = new Date();
   const currentTime = Math.floor(date?.getTime());
   const givenStartDate = new Date(startingDate);
@@ -65,17 +76,17 @@ export const getProposalStatus = (startingDate, endingDate) => {
   return timeDifference;
 };
 
-export const getProposalStatusBg={
-  "Publishing":'bg-[#F2CC93]',
-  "Pending":'bg-[#F2CC93]',
-  "Approved":'bg-success text-white',
-  "Declined":'bg-primary text-white',
-  "Closed":'bg-primary text-white',
-}
+export const getProposalStatusBg = {
+  Publishing: "bg-[#F2CC93]",
+  Pending: "bg-[#F2CC93]",
+  Approved: "bg-success text-white",
+  Declined: "bg-primary text-white",
+  Closed: "bg-primary text-white",
+};
 
-export const getVotingOptionColor=[
+export const getVotingOptionColor = [
   "bg-[#3498db]",
   "bg-[#2ecc71]",
   "bg-[#e67e22]",
-  "bg-[#9b59b6]"
-]
+  "bg-[#9b59b6]",
+];

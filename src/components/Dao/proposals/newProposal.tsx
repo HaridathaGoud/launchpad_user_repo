@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import praposalImage from "../../../assets/images/proposal.png";
 import { useAccount } from "wagmi";
 import CreateProposal from "./create";
 import Button from "../../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { getRewardBalance } from "./utils";
+import { getOwnerAddress, getRewardBalance } from "./utils";
 import useContract from "../../../hooks/useContract";
 import { setError } from "../../../reducers/layoutReducer";
 export default function CreateFirstPraposal(props: any) {
-  const { readRewardBalance } = useContract();
+  const { readRewardBalance, getOwner } = useContract();
   const [isChecked, setIsChecked] = useState(false);
   const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
   const daoDetails = useSelector(
     (state: any) => state.proposal.daoDetails.data
   );
-  const [userBalance, setUserBalance] = useState<any>(null);
+  const [userDetailsFromContract, setUserDetailsFromContract] =
+    useState<any>(null);
   useEffect(() => {
     if (
       daoDetails &&
@@ -23,18 +24,34 @@ export default function CreateFirstPraposal(props: any) {
       isConnected &&
       address
     ) {
-      setBalance();
+      getDetails();
     }
-  }, [isConnected,address]);
-  const setBalance = async () => {
-    const { amount, error } = await getRewardBalance(
+  }, [isConnected, address]);
+  const getDetails = async () => {
+    const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
       daoDetails.membershipTokenAddress
     );
+    const { ownerAddress, error } = await getOwnerAddress(
+      getOwner,
+      daoDetails.membershipTokenAddress
+    );
+    let detailsToUpdate: any = userDetailsFromContract
+      ? userDetailsFromContract
+      : {};
     if (amount) {
-      setUserBalance(amount);
+      detailsToUpdate = { ...detailsToUpdate, balance: amount };
+      setUserDetailsFromContract({ ...detailsToUpdate, balance: amount });
+    } else {
+      rootDispatch(setError({ message: balanceError, from: "contract" }));
+    }
+    if (ownerAddress) {
+      detailsToUpdate = { ...detailsToUpdate, owner: ownerAddress };
     } else {
       rootDispatch(setError({ message: error, from: "contract" }));
+    }
+    if (Object.keys(detailsToUpdate).length > 0) {
+      setUserDetailsFromContract(detailsToUpdate);
     }
   };
   const handleProposalCreation = () => {
@@ -43,27 +60,35 @@ export default function CreateFirstPraposal(props: any) {
   const handleCancel = () => {
     setIsChecked(false);
   };
+  const isEligibleForProposal = useMemo(() => {
+    return (
+      isConnected &&
+      address &&
+      daoDetails?.votingContractAddress &&
+      userDetailsFromContract &&
+      (userDetailsFromContract?.owner === address ||
+        (userDetailsFromContract?.balance &&
+          userDetailsFromContract?.balance >
+            Number(daoDetails?.proposalCreationBalance)))
+    );
+  }, [address, isConnected, userDetailsFromContract, daoDetails]);
   return (
     <>
       <div className="bg-base-300 py-[18px] px-5 rounded-lg shadow-md text-center">
         <div className="flex justify-center mb-6">
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
-        {isConnected &&
-          address &&
-          daoDetails?.votingContractAddress &&
-          userBalance &&
-          userBalance > Number(daoDetails?.proposalCreationBalance) && (
-            <div className="">
-              <Button
-                btnClassName="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"
-                handleClick={handleProposalCreation}
-                type="primary"
-              >
-                <span className="mt-2 mb-2">Create Your First Proposal</span>
-              </Button>
-            </div>
-          )}
+        {isEligibleForProposal && (
+          <div className="">
+            <Button
+              btnClassName="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"
+              handleClick={handleProposalCreation}
+              type="primary"
+            >
+              <span className="mt-2 mb-2">Create Your First Proposal</span>
+            </Button>
+          </div>
+        )}
         <p className="text-secondary mt-3">
           Get your community involved in the decision making process.
           <br />
