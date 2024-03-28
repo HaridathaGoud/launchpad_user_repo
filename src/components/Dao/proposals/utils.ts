@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 const timeUnits = [
   { unit: "week", divisor: 1000 * 60 * 60 * 24 * 7 },
   { unit: "day", divisor: 1000 * 60 * 60 * 24 },
@@ -13,7 +15,7 @@ export const getRewardBalance = async (
   if (response) {
     let _amt = response.toString();
     if (_amt) {
-      return { amount: _amt, balanceError: null };
+      return { amount:parseFloat(ethers.utils.formatEther(_amt)), balanceError: null };
     }
   }
   return { balanceError: response, amount: null };
