@@ -78,8 +78,6 @@ const DaoLeftPanel = (props) => {
           Number(daoDetails?.proposalCreationBalance)))
     );
   }, [address, isConnected, userDetailsFromContract, daoDetails]);
-  console.log(userDetailsFromContract?.balance,
-    Number(daoDetails?.proposalCreationBalance))
   return (
     <>
       <div
