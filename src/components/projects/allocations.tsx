@@ -64,14 +64,38 @@ const Allocations = (props) => {
     if (!e.target.value || e.target.value?.match(/^\d{1,}(\.\d{0,8})?$/)) {
       dispatch({ type: "setBuyAmount", payload: e.target.value });
     }
+    dispatch({
+      type: "setAmountError",
+      payload: "",
+    });
   };
   const handleBuyToken = (e: any) => {
     let isUpdate = false;
     const value = state.allocationVolume?.toString();
     state.amountError && dispatch({ type: "setAmountError", payload: "" });
     rootDispatch(setError({ message: "" }));
-    if (value && state.buyAmount) {
-      isUpdate = true;
+    if (value && !state.buyAmount) {
+      if (state.buyAmount==='') {
+        dispatch({
+          type: "setAmountError",
+          payload: "Please enter allocation volume to buy.",
+        })
+      }else if (parseFloat(state.buyAmount) === 0) {
+        dispatch({
+          type: "setAmountError",
+          payload: "Please enter allocation volume greater than zero.",
+        });
+      }else if (
+        state.buyAmount &&
+        parseFloat(state.buyAmount) > state.allocationVolume
+      ) {
+        dispatch({
+          type: "setAmountError",
+          payload: "Insufficient Allocation volume.",
+        });
+      }else{
+        isUpdate = true;
+      }
     } else {
       if (!state.buyAmount) {
         dispatch({
