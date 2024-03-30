@@ -70,7 +70,7 @@ const Allocations = (props) => {
     const value = state.allocationVolume?.toString();
     state.amountError && dispatch({ type: "setAmountError", payload: "" });
     rootDispatch(setError({ message: "" }));
-    if (value && !state.buyAmount) {
+    if (value && state.buyAmount) {
       isUpdate = true;
     } else {
       if (!state.buyAmount) {
@@ -299,6 +299,11 @@ const Allocations = (props) => {
                         autoComplete="off"
                         style={{ color: "black" }}
                         onChange={(e) => handleAmount(e)}
+                        onKeyPress={(e) => {
+                          if (!/[0-9]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </div>
                   </div>
