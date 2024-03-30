@@ -197,10 +197,10 @@ const ProposalResults = (props: any) => {
             {!state?.isLoading &&
               isConnected &&
               address &&
-              proposalDetails?.votingContractAddress &&
+              proposalDetails?.data?.votingContractAddress &&
               !hideVoteButtons &&
               state.userBalance &&
-              state.userBalance > Number(proposalDetails?.votingBalance) && (
+              state.userBalance > Number(proposalDetails?.data?.votingBalance) && (
                 <div>
                   <h2 className="text-base font-semibold mb-2 text-secondary">
                     {`${isVoted ? "Edit " : "Cast "}`}Your Vote
@@ -237,7 +237,7 @@ const ProposalResults = (props: any) => {
                     )}
                   </div>
                 </div>
-              )}
+               )}
             <div>
               {isVoted && (
                 <p className=" text-secondary my-4 text-center">
