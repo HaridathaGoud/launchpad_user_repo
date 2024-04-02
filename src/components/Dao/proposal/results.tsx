@@ -200,6 +200,7 @@ const ProposalResults = (props: any) => {
               proposalDetails?.data?.votingContractAddress &&
               !hideVoteButtons &&
               state.userBalance &&
+              proposalDetails.data.status==='Pending' &&
               state.userBalance > Number(proposalDetails?.data?.votingBalance) && (
                 <div>
                   <h2 className="text-base font-semibold mb-2 text-secondary">
@@ -237,7 +238,7 @@ const ProposalResults = (props: any) => {
                     )}
                   </div>
                 </div>
-               )}
+                )}
             <div>
               {isVoted && (
                 <p className=" text-secondary my-4 text-center">
@@ -245,7 +246,16 @@ const ProposalResults = (props: any) => {
                 </p>
               )}
             </div>
-            {!state?.isLoading && !hideVoteButtons && (
+            {!state?.isLoading &&
+              isConnected &&
+              address &&
+              proposalDetails?.data?.votingContractAddress &&
+              !hideVoteButtons &&
+              state.userBalance &&
+              proposalDetails.data.status==='Pending' &&
+              state.userBalance > Number(proposalDetails?.data?.votingBalance) &&
+              !hideVoteButtons&& ( 
+                // {!state?.isLoading && !hideVoteButtons && (
               <div className="mb-2">
                 <Button
                   handleClick={
@@ -264,7 +274,8 @@ const ProposalResults = (props: any) => {
                   {isVoted && "Edit Vote"}
                 </Button>
               </div>
-            )}
+            // )}
+          )}
             {/* {(state?.showEditButton || isVoted) && !hideVoteButtons && (
             <div>
               <div className="mb-2">

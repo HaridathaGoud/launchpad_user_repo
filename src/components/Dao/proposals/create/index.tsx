@@ -97,7 +97,7 @@ const CreateProposal = (props: any) => {
       creatorImage: user.profilePicUrl,
       image: state.form?.image?.url,
     };
-    let contractAddress = props?.votingContractAddress;
+    let contractAddress = props?.proposal?.daoDetails?.data?.votingContractAddress;
     try {
       const response = await addQuestion(
         contractAddress,

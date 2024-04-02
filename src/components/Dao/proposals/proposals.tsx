@@ -214,7 +214,7 @@ const ProposalCards = (props: any) => {
                             />
                           </div>
                           <p className="truncate text-secondary">
-                            {item.creatorAddress || "--"}
+                            {item.createdBy ||  item.creatorAddress || "--"}
                           </p>
                         </div>
                         <div>

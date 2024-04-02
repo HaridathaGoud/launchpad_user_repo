@@ -50,6 +50,10 @@ const Allocations = (props) => {
         type: "setAllocationVolume",
         payload: item?.allocationVolume,
       });
+      dispatch({
+        type: "setBuyAmount",
+        payload: item?.allocationVolume,
+      });
       dispatch({ type: "setVolumeData", payload: item?.paymentValue });
     } else {
       dispatch({ type: "setBuyAmount", payload: null });
@@ -72,6 +76,7 @@ const Allocations = (props) => {
   const handleBuyToken = (e: any) => {
     let isUpdate = false;
     const value = state.allocationVolume?.toString();
+    const decimalRegex = /^\d*\.\d+$/;
     state.amountError && dispatch({ type: "setAmountError", payload: "" });
     rootDispatch(setError({ message: "" }));
     if (value && !state.buyAmount) {
@@ -92,6 +97,11 @@ const Allocations = (props) => {
         dispatch({
           type: "setAmountError",
           payload: "Insufficient Allocation volume.",
+        });
+      }else if (decimalRegex.test(state.buyAmount)) {
+        dispatch({
+            type: "setAmountError",
+            payload: "Decimal values are not allowed.",
         });
       }else{
         isUpdate = true;
@@ -115,6 +125,11 @@ const Allocations = (props) => {
           type: "setAmountError",
           payload: "Insufficient Allocation volume.",
         });
+      }else if (decimalRegex.test(state.buyAmount)) {
+        dispatch({
+            type: "setAmountError",
+            payload: "Decimal values are not allowed.",
+        });
       } else {
         isUpdate = true;
       }
@@ -131,7 +146,7 @@ const Allocations = (props) => {
     return provider;
   }
   const handleOk = async () => {
-    const etherValue = Number(state.volumeData) * Number(state.buyAmount);
+    const etherValue = (Number(state.volumeData) * Number(state.buyAmount)).toFixed(18);
     dispatch({ type: "setIsBuying", payload: true });
     buyTokens(
       etherValue,
@@ -164,6 +179,7 @@ const Allocations = (props) => {
         dispatch({ type: "setIsBuying", payload: false });
       });
   };
+
   return (
     <>
       {props.loader && (
