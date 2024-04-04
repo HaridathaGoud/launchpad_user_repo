@@ -130,7 +130,6 @@ const getMemberTypes = (isConnected,daoId,customerId,callback) => {
     dispatch(handleFetchMemberType({ key: 'memberType', loading: true, data: [], error: null }));
     let connectedAddress=isConnected==true?customerId:""
     getMinting(`User/GetMemberShipType/${daoId}/${connectedAddress}`).then((res) => {
-      console.log(res)
       if (res) {
         dispatch(handleFetchMemberType({ key: 'memberType', loading: false, data: res.data, error: null }));
         if (callback)

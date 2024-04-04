@@ -318,7 +318,7 @@ const Projectscomponent = (props) => {
                                   </label>
                                   <p className="">
                                     {item?.tokenVolume} {item?.tokenSymbol} ={" "}
-                                    {item?.paymentValue?.toLocaleString()}{" "}
+                                    {item?.paymentValue}{" "}
                                     {item?.paymentSymbol}
                                   </p>
                                 </div>
