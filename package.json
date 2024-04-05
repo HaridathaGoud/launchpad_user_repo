@@ -40,7 +40,7 @@
     "sharp": "^0.31.3",
     "viem": "^1.3.0",
     "view": "^1.1.1",
-    "wagmi": "^1.3.9",
+    "wagmi": "pack",
     "web-vitals": "^2.1.4",
     "web3modal": "^1.9.12"
   },
@@ -49,6 +49,7 @@
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build:dev": "env-cmd -f .env.dev react-scripts build",
     "build:tst": "env-cmd -f .env.tst react-scripts build",
+    "build:stg": "env-cmd -f .env.stg react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
