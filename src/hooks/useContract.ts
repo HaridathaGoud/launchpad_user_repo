@@ -63,7 +63,7 @@ export default function useContractMethods() {
   }
   async function requestForTokenContract(funName, args) {
     const { request } = await prepareWriteContract({
-      address: token.contractAdress,
+      address: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS,
       abi: token.abi,
       functionName: funName,
       args,
@@ -155,7 +155,7 @@ export default function useContractMethods() {
     }
   }
   async function readAllowence(callback: Function) {
-    const _allowence = await readContract({ address: token.contractAdress, abi: token.abi, functionName: "allowance", args: [address, address] });
+    const _allowence = await readContract({ address: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS, abi: token.abi, functionName: "allowance", args: [address, address] });
     callback(Number(_allowence).toString());
   }
   async function verifySign() {
