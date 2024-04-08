@@ -138,7 +138,7 @@ const ProposalCards = (props: any) => {
           <>
             <div className="grid md:grid-cols-5 gap-2">
               <select
-                className="border rounded-[30px] formselect-arrow max-sm:w-full px-2.5 h-[46px]"
+                className="border rounded-[30px] formselect-arrow max-sm:w-full px-2.5 h-[46px] cursor-pointer"
                 aria-label="Default select example"
                 value={state.status}
                 onChange={(e) => setStatus(e.target.value)}
