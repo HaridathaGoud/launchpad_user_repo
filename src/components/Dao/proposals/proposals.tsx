@@ -168,6 +168,7 @@ const ProposalCards = (props: any) => {
                     }`}
                     placeholder="Start Date"
                     value={state?.startDate || ""}
+                    max="9999-12-31"
                     onChange={(e) => setDate(e.target.value, "startDate")}
                   />
                 </div>
@@ -184,6 +185,7 @@ const ProposalCards = (props: any) => {
                     }`}
                     placeholder="End date"
                     value={state?.endDate || ""}
+                    max="9999-12-31"
                     onChange={(e) => setDate(e.target.value, "endDate")}
                   />
                 </div>

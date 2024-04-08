@@ -62,7 +62,7 @@ const Daos = (props: any) => {
                       </p>{" "}
                       <p className="text-secondary truncate">
                         {" "}
-                        {item?.members?.toLocaleString()}
+                        {item?.members?.toLocaleString() || 0}
                       </p>
                     </div>
                   </div>

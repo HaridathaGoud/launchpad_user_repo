@@ -24,6 +24,7 @@ export const createProposalState = {
   currentStep: 1,
   isSaving: false,
   isCopied: false,
+  optionError:'',
 };
 
 export const createProposalReducer = (state = createProposalState, action) => {
@@ -45,6 +46,8 @@ export const createProposalReducer = (state = createProposalState, action) => {
       break;
     case "setIsCopied":
       state = { ...state, isCopied: action.payload };
+    case "optionError":
+      state = { ...state, optionError: action.payload };
       break;
     default:
       break;

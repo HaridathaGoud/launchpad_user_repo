@@ -26,19 +26,32 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
   ) => {
     let updatedOptions = state?.form?.options ? [...state.form.options] : [];
     if (action === "add") {
-      const newOption = {
-        options: null,
-        id: "00000000-0000-0000-0000-000000000000",
-        optionHash: null,
-      };
-      updatedOptions = [...updatedOptions, newOption];
+      if (updatedOptions.length >= 4) {
+        dispatch({ type: "optionError", payload: "You can add up to 4 options only" });
+        return;
+      }else{
+        dispatch({ type: "optionError", payload: '' });
+        const newOption = {
+          options: null,
+          id: "00000000-0000-0000-0000-000000000000",
+          optionHash: null,
+        };
+        updatedOptions = [...updatedOptions, newOption];
+      }
     }
     if (action === "delete") {
-      updatedOptions = updatedOptions.filter(
-        (_, index) => index !== optionIndex
-      );
+      if (updatedOptions.length <= 2) {
+        dispatch({ type: "optionError", payload: "Please input atleast two options" });
+        return;
+      }else{
+        dispatch({ type: "optionError", payload: '' });
+        updatedOptions = updatedOptions.filter(
+          (_, index) => index !== optionIndex
+        );
+      }
     }
     if (action === "changeOption" && optionIndex !== undefined) {
+      dispatch({ type: "optionError", payload: '' });
       const optionData = { ...updatedOptions[optionIndex] };
       optionData.options = value;
       if (value) {
@@ -266,7 +279,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
           )}
         </div>
         <p className="text-sm font-normal text-red-600 ml-4">
-          {state?.formErrors.options}
+          {state?.optionError || state?.formErrors.options}
         </p>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -286,6 +299,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
             placeholder="Start Date"
             name="startdate"
             value={state?.form?.startDate || ""}
+            max="9999-12-31T23:59"
             onChange={(e) => setField("startDate", e.target.value)}
           />
           <p className="text-sm font-normal text-red-600 ml-4">
@@ -308,6 +322,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
             placeholder="End Date"
             name="enddate"
             value={state?.form?.endDate || ""}
+            max="9999-12-31T23:59"
             onChange={(e) => setField("endDate", e.target.value)}
           />
           <p className="text-sm font-normal text-red-600 ml-4">
