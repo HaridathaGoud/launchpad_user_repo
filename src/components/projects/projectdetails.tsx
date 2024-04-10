@@ -35,7 +35,7 @@ const Projectdetails = (props: any) => {
     if (projectId) {
       getDetails("all");
     }
-  }, [address, isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user?.user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const getDetails = async (fetch) => {
     const userId =
       user?.user?.id && user?.user?.id != ""
