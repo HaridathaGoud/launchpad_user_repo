@@ -34,7 +34,7 @@ function DaoCards(props: any) {
         }
     }
     return (
-        <><div><div className='container dao-mt'>
+        <div><div className='container dao-mt'>
             <h5 className='mb-1 back-text'>DAO’s</h5>
             <hr className='custom-hr' />
             <Row>
@@ -80,7 +80,7 @@ function DaoCards(props: any) {
                     </>)}
             </Row>
         </div>
-        </div></>
+        </div>
     )
 }
 const connectDispatchToProps = (dispatch: any) => {

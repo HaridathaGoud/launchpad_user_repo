@@ -55,7 +55,7 @@ const Daos = (props: any) => {
                       </p>{" "}
                       <p className="text-secondary truncate"> {item?.name}</p>
                     </div>
-                    <div className="flex gap-1 text-base font-normal text-secondary mb-1">
+                    {/* <div className="flex gap-1 text-base font-normal text-secondary mb-1">
                       <p className="text-base-200 text-base font-semibold">
                         {" "}
                         Members:
@@ -64,7 +64,7 @@ const Daos = (props: any) => {
                         {" "}
                         {item?.members?.toLocaleString() || 0}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}
