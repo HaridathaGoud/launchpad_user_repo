@@ -99,7 +99,7 @@ const Projectscomponent = (props) => {
   };
   return (
     <>
-      {cardDetails.length > 0 && (
+      {/* {cardDetails.length > 0 && ( */}
         <div className="container mx-auto mt-[32px]">
           <div className="">
             {props.showBreadcrumb && <BreadCrumb/>}
@@ -116,7 +116,7 @@ const Projectscomponent = (props) => {
                 </span>{" "}
                 Projects
               </h2>
-              {props.pageSize < 9 && (
+              {props.pageSize < 9 && cardDetails?.length >0 && (
                 <Link
                   to={`/projects/${props.pjctType}`}
                   className="text-primary text-base font-medium"
@@ -411,7 +411,7 @@ const Projectscomponent = (props) => {
             )}
           </div>
         </div>
-       )}
+        {/* )} */}
       {cardDetails?.length == 0 && loader && (
         <div className="text-center">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
