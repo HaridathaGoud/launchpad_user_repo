@@ -15,6 +15,8 @@ const DaoLeftPanel = (props) => {
   const daoDetails = useSelector(
     (state: any) => state.proposal.daoDetails.data
   );
+  const proposals = useSelector((state: any) => state.proposal?.proposals);
+
   const [userDetailsFromContract, setUserDetailsFromContract] =
     useState<any>(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -71,13 +73,14 @@ const DaoLeftPanel = (props) => {
       isConnected &&
       address &&
       daoDetails?.votingContractAddress &&
+      proposals?.data?.length != 0 &&
       userDetailsFromContract &&
       (userDetailsFromContract?.owner === address ||
         (userDetailsFromContract?.balance &&
           userDetailsFromContract?.balance >
           Number(daoDetails?.proposalCreationBalance)))
     );
-  }, [address, isConnected, userDetailsFromContract, daoDetails]);
+  }, [address, isConnected, userDetailsFromContract, daoDetails,proposals]);
   return (
     <>
       <div
