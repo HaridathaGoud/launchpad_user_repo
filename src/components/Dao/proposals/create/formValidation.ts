@@ -1,10 +1,26 @@
 import { validateContentRule } from "../../../../utils/validation";
 
+const convertTo24HourFormat = (time) => {
+  const [timeStr, amPm] = time.split(' ');
+  const [hours, minutes] = timeStr.split(':');
+  let hours24 = parseInt(hours, 10);
+
+  if (amPm?.toLowerCase() === 'pm' && hours24 !== 12) {
+    hours24 += 12;
+  } else if (amPm?.toLowerCase() === 'am' && hours24 === 12) {
+    hours24 = 0;
+  }
+
+  return hours24 * 60 + parseInt(minutes, 10);
+};
+
 const validateForm = (form:any) => {
     const { proposal, summary, startDate, endDate, image, options, proposalType } =
       form;
     const newErrors: any = {};
     const currentDate=new Date().toISOString().slice(0,19);
+    const startTime = convertTo24HourFormat(startDate);
+      const endTime = convertTo24HourFormat(endDate);
     if (!proposal || proposal === "") {
       newErrors.proposal = "Is required";
     } else if (validateContentRule(proposal)) {
@@ -27,7 +43,11 @@ const validateForm = (form:any) => {
       newErrors.endDate = "Is required";
     }else if(endDate<startDate){
       newErrors.endDate = "Must be after start date and time"
-    }
+    }else  if((startDate == endDate) && (startTime > endTime)) {
+      newErrors.endDate = "Must be after start date and time"
+   }else if((startDate == endDate) && startTime == endTime){
+    newErrors.endDate = "Must be after start date and time"
+  }
     if (!image || image === "") {
       newErrors.image = "Is required";
     }
@@ -65,5 +85,4 @@ const validateForm = (form:any) => {
     return newErrors;
   };
 
-  
 export default validateForm
