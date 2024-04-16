@@ -82,7 +82,7 @@ const SumSub = () => {
                   setToaster({
                     message: "Details Submitted, Verification Under Process!",
                     callback: () => {
-                      navigate("/dashboard");
+                      // navigate("/dashboard");
                       setState({ ...state, loading: false });
                     },
                     callbackTimeout: 1000,
