@@ -137,6 +137,28 @@ const Projectdetails = (props: any) => {
       return "closed";
     }
   };
+  const scrollToBuyMembership = () => {
+    const buyMembershipHeader = document.getElementById("buyMembershipHeader");
+    if (buyMembershipHeader) {
+      const navbarHeight = document.querySelector('header')?.clientHeight || 0;
+      const buyMembershipHeaderTop = buyMembershipHeader.getBoundingClientRect().top;
+      const scrollPosition = window.scrollY;
+      const scrollToPosition = scrollPosition + buyMembershipHeaderTop - navbarHeight;
+      const finalScrollPosition = scrollToPosition - navbarHeight -25;
+      window.scrollTo({ top: finalScrollPosition, behavior: "smooth" });
+    }
+  };
+  const scrollToAllocation = () => {
+    const buyMembershipHeader = document.getElementById("allocationClaimHeader");
+    if (buyMembershipHeader) {
+      const navbarHeight = document.querySelector('header')?.clientHeight || 0;
+      const buyMembershipHeaderTop = buyMembershipHeader.getBoundingClientRect().top;
+      const scrollPosition = window.scrollY;
+      const scrollToPosition = scrollPosition + buyMembershipHeaderTop - navbarHeight;
+      const finalScrollPosition = scrollToPosition - navbarHeight -25;
+      window.scrollTo({ top: finalScrollPosition, behavior: "smooth" });
+    }
+  };
   return (
     <>
       <div className="container mx-auto md:mb-[90px] px-3 lg:px-0 max-sm:mb-5">
@@ -158,6 +180,8 @@ const Projectdetails = (props: any) => {
                         pjctInfo={data?.projectDetails}
                         dao={"dao"}
                         setDaoTab={setDaoTab}
+                        scrollToBuyMembership={scrollToBuyMembership}
+                        scrollToAllocation={scrollToAllocation}
                       />
                     </div>
 

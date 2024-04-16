@@ -7,6 +7,8 @@ const ProjectViewTabs = ({
   dao,
   setDaoTab,
   pjctInfo,
+  scrollToBuyMembership,
+  scrollToAllocation
 }) => {
   const [active, setActive] = useState("");
   const router = useNavigate();
@@ -33,15 +35,17 @@ const ProjectViewTabs = ({
     } else if (tab === "allocationClaim") {
       ref = allocationRef?.current;
       setDaoTab?.(false);
+      scrollToAllocation()
     } else if (tab === "buyMembership") {
       ref = buyMembershipRef?.current;
       setDaoTab?.(false);
+      scrollToBuyMembership();
     } else if (tab === "dao") {
       setDaoTab?.(true);
       // ref=dao?.current;
     }
 
-    ref?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // ref?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   return (

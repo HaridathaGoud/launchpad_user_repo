@@ -42,7 +42,7 @@ const BuyMembership = () => {
     modalActions("my_modal_5", "open");
   };
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto" id="buyMembershipHeader">
       <h1 className="font-semibold mb-4 text-2xl text-secondary">
         Buy Memb<span className={`text-primary`}>ership</span>
       </h1>

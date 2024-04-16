@@ -188,7 +188,7 @@ const Allocations = (props) => {
         </div>
       )}
       {!props.loader && (
-        <div className="">
+        <div className="" id="allocationClaimHeader">
           <div>
             <h2 className="text-2xl font-medium">
               <span className="text-secondary">Your</span>{" "}
