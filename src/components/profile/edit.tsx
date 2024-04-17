@@ -69,9 +69,9 @@ const ProfileEdit = ({
         walletAddress: address,
         referralCode: form?.referralCode?.length ? form?.referralCode : null,
         facebook :form?.facebook,
-        instagram :form?.instagram,
+        linkedIn :form?.linkedIn,
         twitter :form?.twitter,
-        websiteUrl  :form?.website,
+        websiteUrl  :form?.websiteUrl,
         discordUrl :form?.discordUrl,
       };
       const formErrors = validateForm(obj);
@@ -351,7 +351,6 @@ const ProfileEdit = ({
               </label>
             )}
           </div>
-          {/* .......... */}
           <div className="mt-4">
             <label
               htmlFor="profilefacebook"
@@ -395,13 +394,13 @@ const ProfileEdit = ({
               id="profileInsta"
               className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
-              value={state.formData?.instagram ? state.formData?.instagram : ""}
+              value={state.formData?.linkedIn ? state.formData?.linkedIn : ""}
               onChange={(e) => {
-                setField("instagram", e.target.value);
+                setField("linkedIn", e.target.value);
               }}
               onBlur={(e) => {
                 setField(
-                  "instagram",
+                  "linkedIn",
                   e.target.value.trim().replace(/\s+/g, " ")
                 );
               }}
@@ -410,9 +409,9 @@ const ProfileEdit = ({
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
-            {state.formErrors.instagram && (
+            {state.formErrors.linkedIn && (
               <label className="text-sm font-normal text-red-600 ml-4">
-                {state.formErrors.instagram}
+                {state.formErrors.linkedIn}
               </label>
             )}
           </div>
@@ -459,13 +458,13 @@ const ProfileEdit = ({
               id="profileWebsite"
               className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
-              value={state.formData?.website ? state.formData?.website : ""}
+              value={state.formData?.websiteUrl ? state.formData?.websiteUrl : ""}
               onChange={(e) => {
-                setField("website", e.target.value);
+                setField("websiteUrl", e.target.value);
               }}
               onBlur={(e) => {
                 setField(
-                  "website",
+                  "websiteUrl",
                   e.target.value.trim().replace(/\s+/g, " ")
                 );
               }}
@@ -474,9 +473,9 @@ const ProfileEdit = ({
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
-            {state.formErrors.website && (
+            {state.formErrors.websiteUrl && (
               <label className="text-sm font-normal text-red-600 ml-4">
-                {state.formErrors.website}
+                {state.formErrors.websiteUrl}
               </label>
             )}
           </div>

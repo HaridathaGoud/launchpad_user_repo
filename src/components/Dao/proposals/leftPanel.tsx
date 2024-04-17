@@ -150,31 +150,32 @@ const DaoLeftPanel = (props) => {
             >
               {" "}
               <NaviLink
-                path="https://www.instagram.com/haridathagoud/"
+                path={user.facebook}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
                 <span className={`icon facebook-md `}></span> </NaviLink>
               <NaviLink
-                path="https://www.instagram.com/haridathagoud/"
+                path={user.linkedIn}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
                 <span className={`icon instagram-md `}></span> </NaviLink>
               <NaviLink
-                path="https://www.instagram.com/haridathagoud/"
+                path={user.twitter}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
                 <span className={`icon telegram-md `}></span> </NaviLink>
-              <NaviLink
-                path="https://www.instagram.com/haridathagoud/"
+              {/* <NaviLink
+                path=""
                 type="footerNav"
                 target="_blank"
-                rel="noreferrer">
-                <span className={`icon discord-md `}></span> </NaviLink>
+                rel="noreferrer"> */}
+                <span className={`icon discord-md `}></span> 
+                {/* </NaviLink> */}
               <NaviLink
-                path="https://www.instagram.com/haridathagoud/"
+                path={user.websiteUrl}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">

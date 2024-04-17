@@ -1,4 +1,4 @@
-import { validateContentRule, emailValidation,validateUrl } from "../../utils/validation";
+import { validateContentRule, emailValidation,validateUrl,acceptOnlyAlphabets } from "../../utils/validation";
 import { ProfileModel } from "./models";
 export const validateForm = (form: ProfileModel) => {
   const {
@@ -10,9 +10,9 @@ export const validateForm = (form: ProfileModel) => {
     country,
     discordId,
     facebook,
-    instagram,
+    linkedIn,
     twitter,
-    website,
+    websiteUrl,
     discordUrl,
   } = form;
   const errors: ProfileModel = {};
@@ -33,14 +33,14 @@ export const validateForm = (form: ProfileModel) => {
     firstName || "",
     "firstName",
     true,
-    (value: string) => validateContentRule(value),
+    (value: string) => acceptOnlyAlphabets(value),
     "Invalid first name"
   );
   validateField(
     lastName || "",
     "lastName",
     true,
-    (value: string) => validateContentRule(value),
+    (value: string) => acceptOnlyAlphabets(value),
     "Invalid last name"
   );
   validateField(
@@ -82,10 +82,10 @@ export const validateForm = (form: ProfileModel) => {
       "Please provide valid content for Facebook"
     );
   }
-  if (instagram !== undefined && instagram !== '') {
+  if (linkedIn !== undefined && linkedIn !== '') {
       validateField(
-        instagram,
-        "instagram",
+        linkedIn,
+        "linkedIn",
         false,
         (value: string) => validateUrl(value),
         "Please provide valid content for Instagram"
@@ -100,10 +100,10 @@ export const validateForm = (form: ProfileModel) => {
         "Please provide valid content for Twitter"
       );
   }
-  if (website !== undefined && website !== '') {
+  if (websiteUrl !== undefined && websiteUrl !== '') {
       validateField(
-        website,
-        "website",
+        websiteUrl,
+        "websiteUrl",
         false,
         (value: string) => validateUrl(value),
         "Please provide valid content for Website"

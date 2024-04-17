@@ -14,10 +14,10 @@ interface ProfileModel{
     kycStatus?: string;
     discordId?:string;
     referralCode?:string;
-    facebook ?:string;
-    instagram ?:string;
-    twitter ?:string;
-    website  ?:string;
+    facebook?:string;
+    linkedIn?:string;
+    twitter?:string;
+    websiteUrl?:string;
     discordUrl?:string;
 }
 

@@ -39,3 +39,12 @@ export const validateUrl =(value:any)=>{
   }
   return true;
 };
+
+export const acceptOnlyAlphabets = (value:any)=>{
+  validateContentRule(value)
+  const reg = /^[a-zA-Z]+$/;
+  if (reg.test(value)) {
+    return false;
+  }
+  return true;
+}

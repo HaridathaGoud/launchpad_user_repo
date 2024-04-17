@@ -109,46 +109,16 @@ const ProfileView = ({ profile, address }) => {
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.facebook || "-"}
-            {
-              <CopyToClipboard
-                text={profile.facebook}
-                options={{ format: "text/plain" }}
-                onCopy={() => handleAddressCopy()}
-              >
-                <span
-                  className={
-                    !addressCopied
-                      ? "icon copy-icon cursor-pointer ms-0"
-                      : "icon check-icon"
-                  }
-                />
-              </CopyToClipboard>
-            }
           </p>
         </div>
         }
-        {profile.instagram &&
+        {profile.linkedIn &&
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
           Insta URL
           </h1>
           <p className="font-medium text-sm text-secondary">
-            {profile.instagram || "-"}
-            {
-              <CopyToClipboard
-                text={profile.instagram}
-                options={{ format: "text/plain" }}
-                onCopy={() => handleAddressCopy()}
-              >
-                <span
-                  className={
-                    !addressCopied
-                      ? "icon copy-icon cursor-pointer ms-0"
-                      : "icon check-icon"
-                  }
-                />
-              </CopyToClipboard>
-            }
+            {profile.linkedIn || "-"}
           </p>
         </div>
         }
@@ -159,21 +129,6 @@ const ProfileView = ({ profile, address }) => {
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.twitter || "-"}
-            {
-              <CopyToClipboard
-                text={profile.twitter}
-                options={{ format: "text/plain" }}
-                onCopy={() => handleAddressCopy()}
-              >
-                <span
-                  className={
-                    !addressCopied
-                      ? "icon copy-icon cursor-pointer ms-0"
-                      : "icon check-icon"
-                  }
-                />
-              </CopyToClipboard>
-            }
           </p>
         </div>
         }
@@ -184,21 +139,6 @@ const ProfileView = ({ profile, address }) => {
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.websiteUrl || "-"}
-            {
-              <CopyToClipboard
-                text={profile.websiteUrl}
-                options={{ format: "text/plain" }}
-                onCopy={() => handleAddressCopy()}
-              >
-                <span
-                  className={
-                    !addressCopied
-                      ? "icon copy-icon cursor-pointer ms-0"
-                      : "icon check-icon"
-                  }
-                />
-              </CopyToClipboard>
-            }
           </p>
         </div>
         }
@@ -209,21 +149,6 @@ const ProfileView = ({ profile, address }) => {
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.discordUrl || "-"}
-            {
-              <CopyToClipboard
-                text={profile.discordUrl}
-                options={{ format: "text/plain" }}
-                onCopy={() => handleAddressCopy()}
-              >
-                <span
-                  className={
-                    !addressCopied
-                      ? "icon copy-icon cursor-pointer ms-0"
-                      : "icon check-icon"
-                  }
-                />
-              </CopyToClipboard>
-            }
           </p>
         </div>
         }

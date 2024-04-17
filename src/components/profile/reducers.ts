@@ -17,6 +17,12 @@ export const initialState: ProfileStateModel = {
     kycStatus: "",
     discordId: "",
     referralCode: "",
+    facebook:"",
+    linkedIn:"",
+    twitter:"",
+    websiteUrl:"",
+    discordUrl:"",
+
   },
   loader: false,
   editProfileDrawer: false,

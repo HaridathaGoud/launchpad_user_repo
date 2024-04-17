@@ -43,7 +43,7 @@ export function KycPost(url: string, obj: Object) {
   return axios.post(API_END_POINT_KYC + `${API_VERSION}${url}`, obj,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token  },
+      store.getState().auth?.token || store.getState().auth?.user?.token  },
   });
 }
 //---------------------marketplace-----------------
@@ -113,7 +113,7 @@ export function get(url: string) {
   return axios.get(API_END_POINT + `${API_VERSION}${url}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 export function getCall(url: string) {
@@ -126,7 +126,7 @@ export function post(url: string, obj: Object) {
   return axios.post(API_END_POINT + `${API_VERSION}${url}`, obj,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token  },
+      store.getState().auth?.token || store.getState().auth?.user?.token  },
   });
 }
 export function put(url: string, obj: any) {
@@ -149,14 +149,14 @@ export async function saveUser(url: string, obj: Object) {
   return axios.post(API_END_POINT_KYC + `${API_VERSION}${url}`, obj, {
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token  },
+      store.getState().auth?.token || store.getState().auth?.user?.token  },
   });
 }
 export async function getKyc(url: string) {
   return await axios.get(API_END_POINT_KYC + `${API_VERSION}${url}`, {
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 
@@ -164,7 +164,7 @@ const getDaos=async(take:any,skip:any)=> {
   return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${take}/${skip}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 
@@ -172,21 +172,21 @@ const getDaoDetails=async(id)=> {
   return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${id}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 const getMIntDaoDetails=async(take:any,skip:any)=> {
   return await axios.get(`https://devmintingapi.minnapad.com/${API_VERSION}` + ApiControllers.user +`DaoDetails/${take}/${skip}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 const getStatusLu = async()=>{
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`StatusLu`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 
@@ -194,7 +194,7 @@ const getProposalView=async(proposalId:any,customerId:any)=> {
    return await axios.get( API_END_POINT_DAO + ApiControllers.user +`proposalview/${proposalId}/${customerId ? customerId : ""}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
    });
   }
 
@@ -202,7 +202,7 @@ const getProposalView=async(proposalId:any,customerId:any)=> {
   return await axios.post(API_END_POINT_DAO + ApiControllers.user +`createproposal`,obj,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   }); 
 }
 
@@ -210,7 +210,7 @@ const postSaveVote=async(obj)=> {
   return await axios.post(API_END_POINT_DAO + ApiControllers.user +`savevote`,obj,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });  
 }
 
@@ -218,7 +218,7 @@ const getProposalList=async(take:any,skip:any,daoId:any,status:any,searchBy:any,
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`ProposalsList/${take}/${skip}/${daoId}/${status}/${searchBy}/${startDate}/${endDate}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   }) 
 }
 
@@ -226,7 +226,7 @@ const getContractDetails=async(daoId:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`ContractDetails/${daoId}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });  
 }
 
@@ -234,7 +234,7 @@ const getProposalVotes=async(proposalId:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`ProposalVotes/${proposalId}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });  
 }
 
@@ -242,7 +242,7 @@ const getProposalVoters=async(take:any,skip:any,proposalId:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`proposalvoters/${take}/${skip}/${proposalId}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   });
 }
 
@@ -250,7 +250,7 @@ const customerVoted = async(proposalId:any,CustomerId:any) => {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user + `isvotedcustomer/${proposalId}/${CustomerId}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   })
 }
 
@@ -258,7 +258,7 @@ const customerDetails = async(address:any) => {
   return await axios.get(API_END_POINT_KYC + API_VERSION + ApiControllers.user + `CustomerDetails/${address}`,{
     headers: {
       Authorization:
-      store.getState().auth?.user?.token || store.getState().auth?.token },
+      store.getState().auth?.token || store.getState().auth?.user?.token },
   })
 }
 const isErrorDispaly = (objValue) => {
