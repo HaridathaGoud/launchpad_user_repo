@@ -58,8 +58,8 @@ function HeaderNavbar() {
         rel: "noopener noreferrer",
       },
       { path: "/daos", content: "DAOs" },
-      { path: "/marketplace", content: "Marketplace" },
-      { path: "/mycollections", content: "My Collections" },
+      // { path: "/marketplace", content: "Marketplace" },
+      // { path: "/mycollections", content: "My Collections" },
     ];
     const navBarDropDownMenu = [
       {

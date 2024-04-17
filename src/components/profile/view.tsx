@@ -125,7 +125,7 @@ const ProfileView = ({ profile, address }) => {
         {profile.twitter && 
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
-          Twitter URL
+          Telegram URL
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.twitter || "-"}
