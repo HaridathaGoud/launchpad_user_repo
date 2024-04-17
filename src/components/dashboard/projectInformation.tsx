@@ -39,7 +39,7 @@ const ProjectInformation = () => {
         return `${value}M${suffix}`;
       }
     } else {
-      const prefix = name === "PROJECTS VOLUME" ? "" : "$";
+      const prefix = name === "RAISED CAPITAL" ? "$" : "";
       const suffix = Number.isInteger(value) ? "+" : "M";
       return `${prefix}${value}${suffix}`;
     }

@@ -114,7 +114,7 @@ const Projectscomponent = (props) => {
                   {" "}
                   {process.env.REACT_APP_OFFERING_TITLE}s
                 </span>{" "}
-                Projects
+                {/* Projects */}
               </h2>
               {props.pageSize < 9 && cardDetails?.length >0 && (
                 <Link
