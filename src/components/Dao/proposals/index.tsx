@@ -15,7 +15,7 @@ const Proposals = (props:any) => {
      {props.showBreadcrumb && <BreadCrumb/>}
       <div className={` ${props.from==='project' ?'':"container mx-auto md:grid lg:grid-cols-4 gap-7 mt-8"}`}>
         <div className="shrink-0">
-          <DaoLeftPanel pjctInfo={props?.pjctInfo} from={props.from} />
+          <DaoLeftPanel pjctInfo={props?.pjctInfo} from={props.from} showHeader={props.showHeader}/>
         </div>
         <div className="mt-5 md:mt-0 lg:col-span-3">
           <ProposalCards pjctInfo={props?.pjctInfo} from={props.from} />

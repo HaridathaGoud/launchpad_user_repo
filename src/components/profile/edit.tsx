@@ -68,6 +68,11 @@ const ProfileEdit = ({
         profilePicUrl: form?.profilePicUrl,
         walletAddress: address,
         referralCode: form?.referralCode?.length ? form?.referralCode : null,
+        facebook :form?.facebook,
+        instagram :form?.instagram,
+        twitter :form?.twitter,
+        websiteUrl  :form?.website,
+        discordUrl :form?.discordUrl,
       };
       const formErrors = validateForm(obj);
       if (Object.keys(formErrors).length > 0) {
@@ -343,6 +348,168 @@ const ProfileEdit = ({
             {state.formErrors.discordId && (
               <label className="text-sm font-normal text-red-600 ml-4">
                 {state.formErrors.discordId}
+              </label>
+            )}
+          </div>
+          {/* .......... */}
+          <div className="mt-4">
+            <label
+              htmlFor="profilefacebook"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
+            >
+              FB URL
+            </label>
+            <input
+              id="profilefacebook"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              type="text"
+              value={state.formData?.facebook ? state.formData?.facebook : ""}
+              onChange={(e) => {
+                setField("facebook", e.target.value);
+              }}
+              onBlur={(e) => {
+                setField(
+                  "facebook",
+                  e.target.value.trim().replace(/\s+/g, " ")
+                );
+              }}
+              required
+              placeholder="FB URL"
+              maxLength={50}
+              disabled={toasterMessage || state.buttonLoader}
+            />
+            {state.formErrors.facebook && (
+              <label className="text-sm font-normal text-red-600 ml-4">
+                {state.formErrors.facebook}
+              </label>
+            )}
+          </div>
+          <div className="mt-4">
+            <label
+              htmlFor="profileInsta"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
+            >
+              Insta URL 
+            </label>
+            <input
+              id="profileInsta"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              type="text"
+              value={state.formData?.instagram ? state.formData?.instagram : ""}
+              onChange={(e) => {
+                setField("instagram", e.target.value);
+              }}
+              onBlur={(e) => {
+                setField(
+                  "instagram",
+                  e.target.value.trim().replace(/\s+/g, " ")
+                );
+              }}
+              required
+              placeholder="Insta URL"
+              maxLength={50}
+              disabled={toasterMessage || state.buttonLoader}
+            />
+            {state.formErrors.instagram && (
+              <label className="text-sm font-normal text-red-600 ml-4">
+                {state.formErrors.instagram}
+              </label>
+            )}
+          </div>
+          <div className="mt-4">
+            <label
+              htmlFor="profileTwitter"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
+            >
+              Twitter URL 
+            </label>
+            <input
+              id="profileTwitter"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              type="text"
+              value={state.formData?.twitter ? state.formData?.twitter : ""}
+              onChange={(e) => {
+                setField("twitter", e.target.value);
+              }}
+              onBlur={(e) => {
+                setField(
+                  "twitter",
+                  e.target.value.trim().replace(/\s+/g, " ")
+                );
+              }}
+              required
+              placeholder="Twitter URL"
+              maxLength={50}
+              disabled={toasterMessage || state.buttonLoader}
+            />
+            {state.formErrors.twitter && (
+              <label className="text-sm font-normal text-red-600 ml-4">
+                {state.formErrors.twitter}
+              </label>
+            )}
+          </div>
+          <div className="mt-4">
+            <label
+              htmlFor="profileDiscordId"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
+            >
+              Website URL 
+            </label>
+            <input
+              id="profileWebsite"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              type="text"
+              value={state.formData?.website ? state.formData?.website : ""}
+              onChange={(e) => {
+                setField("website", e.target.value);
+              }}
+              onBlur={(e) => {
+                setField(
+                  "website",
+                  e.target.value.trim().replace(/\s+/g, " ")
+                );
+              }}
+              required
+              placeholder="Website URL"
+              maxLength={50}
+              disabled={toasterMessage || state.buttonLoader}
+            />
+            {state.formErrors.website && (
+              <label className="text-sm font-normal text-red-600 ml-4">
+                {state.formErrors.website}
+              </label>
+            )}
+          </div>
+          
+          <div className="mt-4">
+            <label
+              htmlFor="profileDiscord"
+              className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
+            >
+              Discord URL
+            </label>
+            <input
+              id="profileDiscord"
+              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              type="text"
+              value={state.formData?.discordUrl ? state.formData?.discordUrl : ""}
+              onChange={(e) => {
+                setField("discordUrl", e.target.value);
+              }}
+              onBlur={(e) => {
+                setField(
+                  "discordUrl",
+                  e.target.value.trim().replace(/\s+/g, " ")
+                );
+              }}
+              required
+              placeholder="Discord URL"
+              maxLength={50}
+              disabled={toasterMessage || state.buttonLoader}
+            />
+            {state.formErrors.discordUrl && (
+              <label className="text-sm font-normal text-red-600 ml-4">
+                {state.formErrors.discordUrl}
               </label>
             )}
           </div>

@@ -7,6 +7,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import useContract from "../../../hooks/useContract";
 import { getOwnerAddress, getRewardBalance } from "./utils";
 import { setError } from "../../../reducers/layoutReducer";
+import NaviLink from "../../../ui/NaviLink";
 const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
   const { isConnected, address } = useAccount();
@@ -88,44 +89,46 @@ const DaoLeftPanel = (props) => {
           }`}
       >
         <div>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 ">
-              <img
-                src={user?.profilePicUrl || defaultAvatar}
-                alt="Dao profile"
-                className="w-12 h-12 rounded-full object-cover"
-              />
+          {props.showHeader &&
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 ">
+                <img
+                  src={user?.profilePicUrl || defaultAvatar}
+                  alt="Dao profile"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+              </div>
+              <div>
+                <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
+                  {user.firstName && user.lastName ? (
+                    (user.firstName + " " + user.lastName).toLowerCase()
+                  ) : address ? (
+                    <>
+                      <span className="tooltip" data-tip={address}>
+                        {address?.slice(0, 4)}...{address?.slice(-4)}
+                      </span>
+                      <CopyToClipboard
+                        text={address}
+                        options={{ format: "text/plain" }}
+                        onCopy={() => handleCopy()}
+                      >
+                        <span
+                          className={
+                            !copied
+                              ? "icon md copy-icon cursor-pointer ms-0 pl-4"
+                              : "icon md check-icon pl-4"
+                          }
+                        />
+                      </CopyToClipboard>
+                    </>
+                  ) : (
+                    "Connect your wallet!"
+                  )}
+                </h1>
+                {/* {address && <p className="text-secondary">63k Members</p>} */}
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
-                {user.firstName && user.lastName ? (
-                  (user.firstName + " " + user.lastName).toLowerCase()
-                ) : address ? (
-                  <>
-                    <span className="tooltip" data-tip={address}>
-                      {address?.slice(0, 4)}...{address?.slice(-4)}
-                    </span>
-                    <CopyToClipboard
-                      text={address}
-                      options={{ format: "text/plain" }}
-                      onCopy={() => handleCopy()}
-                    >
-                      <span
-                        className={
-                          !copied
-                            ? "icon md copy-icon cursor-pointer ms-0 pl-4"
-                            : "icon md check-icon pl-4"
-                        }
-                      />
-                    </CopyToClipboard>
-                  </>
-                ) : (
-                  "Connect your wallet!"
-                )}
-              </h1>
-              {address && <p className="text-secondary">63k Members</p>}
-            </div>
-          </div>
+          }
           {isEligibleForProposal && (
             <button
               onClick={handleProposalCreation}
@@ -135,24 +138,50 @@ const DaoLeftPanel = (props) => {
             </button>
           )}
         </div>
-
-        <div>
-          {/* <h1 className="text-base font-semibold my-5 text-secondary">
+        {props.showHeader &&
+          <div>
+            {/* <h1 className="text-base font-semibold my-5 text-secondary">
             Proposals
           </h1> */}
-          {/* <p className={`mb-5 text-secondary opacity-60`}>About </p>
+            {/* <p className={`mb-5 text-secondary opacity-60`}>About </p>
                     <p className={`mb-5 text-secondary opacity-60`}>Settings</p> */}
-          <div
-            className={`flex gap-2 ${props.from === "project" ? "" : "my-5"}`}
-          >
-            {" "}
-            <span className={`icon facebook-md `}></span>
-            <span className={`icon instagram-md `}></span>
-            <span className={`icon telegram-md `}></span>
-            <span className={`icon discord-md `}></span>
-            <span className={`icon network-md `}></span>
+            <div
+              className={`flex gap-2 ${props.from === "project" ? "" : "my-5"}`}
+            >
+              {" "}
+              <NaviLink
+                path="https://www.instagram.com/haridathagoud/"
+                type="footerNav"
+                target="_blank"
+                rel="noreferrer">
+                <span className={`icon facebook-md `}></span> </NaviLink>
+              <NaviLink
+                path="https://www.instagram.com/haridathagoud/"
+                type="footerNav"
+                target="_blank"
+                rel="noreferrer">
+                <span className={`icon instagram-md `}></span> </NaviLink>
+              <NaviLink
+                path="https://www.instagram.com/haridathagoud/"
+                type="footerNav"
+                target="_blank"
+                rel="noreferrer">
+                <span className={`icon telegram-md `}></span> </NaviLink>
+              <NaviLink
+                path="https://www.instagram.com/haridathagoud/"
+                type="footerNav"
+                target="_blank"
+                rel="noreferrer">
+                <span className={`icon discord-md `}></span> </NaviLink>
+              <NaviLink
+                path="https://www.instagram.com/haridathagoud/"
+                type="footerNav"
+                target="_blank"
+                rel="noreferrer">
+                <span className={`icon network-md `}></span> </NaviLink>
+            </div>
           </div>
-        </div>
+        }
       </div>
       {isChecked && (
         <div className="drawer drawer-end">

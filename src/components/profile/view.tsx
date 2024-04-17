@@ -102,6 +102,131 @@ const ProfileView = ({ profile, address }) => {
             }
           </p>
         </div>
+        {profile.facebook &&
+        <div className="lg:col-span-2">
+          <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
+          FB URL
+          </h1>
+          <p className="font-medium text-sm text-secondary">
+            {profile.facebook || "-"}
+            {
+              <CopyToClipboard
+                text={profile.facebook}
+                options={{ format: "text/plain" }}
+                onCopy={() => handleAddressCopy()}
+              >
+                <span
+                  className={
+                    !addressCopied
+                      ? "icon copy-icon cursor-pointer ms-0"
+                      : "icon check-icon"
+                  }
+                />
+              </CopyToClipboard>
+            }
+          </p>
+        </div>
+        }
+        {profile.instagram &&
+        <div className="lg:col-span-2">
+          <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
+          Insta URL
+          </h1>
+          <p className="font-medium text-sm text-secondary">
+            {profile.instagram || "-"}
+            {
+              <CopyToClipboard
+                text={profile.instagram}
+                options={{ format: "text/plain" }}
+                onCopy={() => handleAddressCopy()}
+              >
+                <span
+                  className={
+                    !addressCopied
+                      ? "icon copy-icon cursor-pointer ms-0"
+                      : "icon check-icon"
+                  }
+                />
+              </CopyToClipboard>
+            }
+          </p>
+        </div>
+        }
+        {profile.twitter && 
+        <div className="lg:col-span-2">
+          <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
+          Twitter URL
+          </h1>
+          <p className="font-medium text-sm text-secondary">
+            {profile.twitter || "-"}
+            {
+              <CopyToClipboard
+                text={profile.twitter}
+                options={{ format: "text/plain" }}
+                onCopy={() => handleAddressCopy()}
+              >
+                <span
+                  className={
+                    !addressCopied
+                      ? "icon copy-icon cursor-pointer ms-0"
+                      : "icon check-icon"
+                  }
+                />
+              </CopyToClipboard>
+            }
+          </p>
+        </div>
+        }
+        {profile.websiteUrl &&
+        <div className="lg:col-span-2">
+          <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
+          Website URL
+          </h1>
+          <p className="font-medium text-sm text-secondary">
+            {profile.websiteUrl || "-"}
+            {
+              <CopyToClipboard
+                text={profile.websiteUrl}
+                options={{ format: "text/plain" }}
+                onCopy={() => handleAddressCopy()}
+              >
+                <span
+                  className={
+                    !addressCopied
+                      ? "icon copy-icon cursor-pointer ms-0"
+                      : "icon check-icon"
+                  }
+                />
+              </CopyToClipboard>
+            }
+          </p>
+        </div>
+        }
+        {profile.discordUrl && 
+        <div className="lg:col-span-2">
+          <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
+          Discord URL
+          </h1>
+          <p className="font-medium text-sm text-secondary">
+            {profile.discordUrl || "-"}
+            {
+              <CopyToClipboard
+                text={profile.discordUrl}
+                options={{ format: "text/plain" }}
+                onCopy={() => handleAddressCopy()}
+              >
+                <span
+                  className={
+                    !addressCopied
+                      ? "icon copy-icon cursor-pointer ms-0"
+                      : "icon check-icon"
+                  }
+                />
+              </CopyToClipboard>
+            }
+          </p>
+        </div>
+        }
       </div>
     </div>
   );

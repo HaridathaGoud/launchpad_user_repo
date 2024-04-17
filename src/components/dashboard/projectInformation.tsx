@@ -30,6 +30,20 @@ const ProjectInformation = () => {
       setLoader(false);
     }
   };
+  const formatDetailValue = (name: string, value: number): string => {
+    if (name === "PROJECTS VOLUME") {
+      if (Number.isInteger(value)) {
+        return `${value}+`;
+      } else {
+        const suffix = Math.abs(value) > 999999 ? "M" : "";
+        return `${value}M${suffix}`;
+      }
+    } else {
+      const prefix = name === "PROJECTS VOLUME" ? "" : "$";
+      const suffix = Number.isInteger(value) ? "+" : "M";
+      return `${prefix}${value}${suffix}`;
+    }
+  };
   return (
     <div className="mt-[26px]">
       {loader && <ProjectInformationShimmer />}
@@ -42,11 +56,7 @@ const ProjectInformation = () => {
             >
               <div>
                 <h3 className="text-secondary font-semibold text-[32px]">
-                  {Number.isInteger(detail.value)
-                    ? `${detail.value}+`
-                    : `$${detail.value}M${
-                        Math.abs(detail.value) > 999999 ? "M" : ""
-                      }`}
+                {formatDetailValue(detail.name, detail.value)}
                 </h3>
                 <p className="text-primary font-medium capitalize">
                   {detail.name.toLowerCase()}

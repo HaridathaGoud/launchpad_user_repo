@@ -286,6 +286,7 @@ const Projectdetails = (props: any) => {
                         pjctInfo={data?.projectDetails}
                         showBreadcrumb={false}
                         from="project"
+                        showHeader={false}
                       />
                     </div>
                   )}

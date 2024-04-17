@@ -30,3 +30,12 @@ export const validateContent = (value: any) => {
   }
   return true;
 };
+
+export const validateUrl =(value:any)=>{
+  validateContentRule(value)
+  const reg = /^(?:(?:https?|ftp|file):\/\/|www\.)[^\s/$.?#].[^\s]*$/;
+  if (reg.test(value)) {
+    return false;
+  }
+  return true;
+};

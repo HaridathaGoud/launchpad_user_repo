@@ -1,4 +1,4 @@
-import { validateContentRule, emailValidation } from "../../utils/validation";
+import { validateContentRule, emailValidation,validateUrl } from "../../utils/validation";
 import { ProfileModel } from "./models";
 export const validateForm = (form: ProfileModel) => {
   const {
@@ -9,6 +9,11 @@ export const validateForm = (form: ProfileModel) => {
     countryCode,
     country,
     discordId,
+    facebook,
+    instagram,
+    twitter,
+    website,
+    discordUrl,
   } = form;
   const errors: ProfileModel = {};
   const validateField = (
@@ -68,6 +73,51 @@ export const validateForm = (form: ProfileModel) => {
     (value: string) => validateContentRule(value),
     "Invalid discord Id"
   );
+  if (facebook !== undefined && facebook !== '') {
+    validateField(
+      facebook,
+      "facebook",
+      false,
+      (value: string) => validateUrl(value),
+      "Please provide valid content for Facebook"
+    );
+  }
+  if (instagram !== undefined && instagram !== '') {
+      validateField(
+        instagram,
+        "instagram",
+        false,
+        (value: string) => validateUrl(value),
+        "Please provide valid content for Instagram"
+      );
+  }
+  if (twitter !== undefined && twitter !== '') {
+      validateField(
+        twitter,
+        "twitter",
+        false,
+        (value: string) => validateUrl(value),
+        "Please provide valid content for Twitter"
+      );
+  }
+  if (website !== undefined && website !== '') {
+      validateField(
+        website,
+        "website",
+        false,
+        (value: string) => validateUrl(value),
+        "Please provide valid content for Website"
+      );
+  }
+  if (discordUrl !== undefined && discordUrl !== '') {
+      validateField(
+        discordUrl,
+        "discordUrl",
+        false,
+        (value: string) => validateUrl(value),
+        "Please provide valid content for Discord URL"
+      );
+  }
   return errors;
 };
 
