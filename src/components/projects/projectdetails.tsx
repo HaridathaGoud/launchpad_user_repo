@@ -20,10 +20,9 @@ import BreadCrumb from "../../ui/breadcrumb";
 import SwipeUpComponent from "./swipeup";
 import { setError } from "../../reducers/layoutReducer";
 
-const Projectdetails = (props: any) => {
+const Projectdetails = () => {
   const rootDispatch = useDispatch();
   const { projectId, projectName } = useParams();
-  const { isConnected, address } = useAccount();
   const user = store.getState().auth;
   const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
@@ -141,10 +140,11 @@ const Projectdetails = (props: any) => {
     const buyMembershipHeader = document.getElementById("buyMembershipHeader");
     if (buyMembershipHeader) {
       const navbarHeight = document.querySelector('header')?.clientHeight || 0;
+      const height=navbarHeight+30
       const buyMembershipHeaderTop = buyMembershipHeader.getBoundingClientRect().top;
       const scrollPosition = window.scrollY;
-      const scrollToPosition = scrollPosition + buyMembershipHeaderTop - navbarHeight;
-      const finalScrollPosition = scrollToPosition - navbarHeight -25;
+      const scrollToPosition = scrollPosition + buyMembershipHeaderTop - height;
+      const finalScrollPosition = scrollToPosition - height -25;
       window.scrollTo({ top: finalScrollPosition, behavior: "smooth" });
     }
   };
@@ -152,10 +152,11 @@ const Projectdetails = (props: any) => {
     const buyMembershipHeader = document.getElementById("allocationClaimHeader");
     if (buyMembershipHeader) {
       const navbarHeight = document.querySelector('header')?.clientHeight || 0;
+      const height=navbarHeight+30
       const buyMembershipHeaderTop = buyMembershipHeader.getBoundingClientRect().top;
       const scrollPosition = window.scrollY;
-      const scrollToPosition = scrollPosition + buyMembershipHeaderTop - navbarHeight;
-      const finalScrollPosition = scrollToPosition - navbarHeight -25;
+      const scrollToPosition = scrollPosition + buyMembershipHeaderTop - height;
+      const finalScrollPosition = scrollToPosition - (height) -25;
       window.scrollTo({ top: finalScrollPosition, behavior: "smooth" });
     }
   };
@@ -172,7 +173,7 @@ const Projectdetails = (props: any) => {
                   <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
                   <div className="mt-2 mb-4">
                     <BreadCrumb />
-                    <div className="mb-2 mt-4 sticky top-[86px] z-10">
+                    <div className="mb-2 sticky top-[73px] z-10">
                       <ProjectViewTabs
                         projectFeedRef={projectFeedRef}
                         allocationRef={allocationRef}
@@ -275,7 +276,7 @@ const Projectdetails = (props: any) => {
                         ref={buyMembershipRef}
                         className="mt-6"
                       >
-                        <BuyMembership />
+                        <BuyMembership daoId={data?.projectDetails?.daoId}/>
                       </div>
                     </>
                   )}

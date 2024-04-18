@@ -94,9 +94,9 @@ export function getCUstomers(url: string) {
   });
 }
 export function getMinting(url: string) {
-  return axios.get(`https://devmintapi.azurewebsites.net/${API_VERSION}${url}/`,{
+  return axios.get(`${MINTING_API_END_POINT}${url}/`,{
     headers: {
-      Authorization: `${getCombineToken()}`}
+      Authorization: `${getToken()}`}
   });
 }
 

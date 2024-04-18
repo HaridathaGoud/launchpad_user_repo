@@ -50,7 +50,7 @@ const ProjectViewTabs = ({
 
   return (
     <div
-      className={`customTabs flex gap-[10px] overflow-x-auto max-sm:pb-2 scrollbar-hidden`}
+      className={`customTabs flex gap-[10px] overflow-x-auto max-sm:pb-2 scrollbar-hidden pt-2 pb-2 bg-base-100`}
     >
       {/* <a href='#projectFeed' className={`tab !bg-primary leading-normal text-base-100 font-semibold rounded-[28px] py-2 px-3.5 whitespace-nowrap`}>Project Feed</a>
                 <a href='#allocationClaim' className={`tab bg-accent leading-normal font-semibold rounded-[28px] py-2 px-3.5 text-black whitespace-nowrap`}>Allocation/Claim</a>

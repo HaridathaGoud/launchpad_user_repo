@@ -31,7 +31,7 @@ const ProjectDetailsCard = (props: any) => {
                   />
                 </div>
                 <div>
-                 <span className="tooltip" data-tip={ props.pjctInfo?.projectName.charAt(0).toUpperCase() + props.pjctInfo?.projectName.slice(1)}>
+                 <span className="tooltip" data-tip={ props.pjctInfo?.projectName?.charAt(0).toUpperCase() + props.pjctInfo?.projectName?.slice(1)}>
                  <span className="text-2xl font-semibold text-secondary text-start lg:truncate inline-block lg:w-[300px] break-all">
                     { props.pjctInfo?.projectName.charAt(0).toUpperCase() + props.pjctInfo?.projectName.slice(1)}
                   </span>

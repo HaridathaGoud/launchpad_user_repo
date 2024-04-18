@@ -35,7 +35,7 @@ const ProposalView = (props) => {
         <div className="container mx-auto px-3 lg:px-0 mt-3">
           <div className="mt-5 mb-4">
             <BreadCrumb />
-            <div className="mb-12 mt-4">
+            <div className="mb-12">
               {props?.showTabs && <ProjectViewTabs />}
             </div>
           </div>

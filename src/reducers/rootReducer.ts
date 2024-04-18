@@ -125,11 +125,10 @@ const getDaoCardList = (callback: any) => {
     }
   };
 };
-const getMemberTypes = (isConnected,daoId,customerId,callback) => {
+const getMemberTypes = (daoId,customerId,callback) => {
   return async (dispatch: any) => {
     dispatch(handleFetchMemberType({ key: 'memberType', loading: true, data: [], error: null }));
-    let connectedAddress=isConnected==true?customerId:""
-    getMinting(`User/GetMemberShipType/${daoId}/${connectedAddress}`).then((res) => {
+    getMinting(`User/GetMemberShipType/${daoId}/${customerId}`).then((res) => {
       if (res) {
         dispatch(handleFetchMemberType({ key: 'memberType', loading: false, data: res.data, error: null }));
         if (callback)
