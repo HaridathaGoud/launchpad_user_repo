@@ -267,6 +267,9 @@ input[type='date']:disabled{background-color: #e5e5e5 !important;border-radius: 
 input::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
+.global-list li:first-child,.global-list li:nth-child(3),.global-list li:nth-child(4),.global-list li:nth-child(2){border-left: 0;}
+.global-list li:nth-child(2){border-right: 0;}
+.global-list li:nth-child(3),.global-list li:last-child{border-bottom: 0;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
@@ -286,6 +289,7 @@ input::-webkit-calendar-picker-indicator {
   .container {max-width: 1320px!important;}
   }
 @media (max-width: 767.98px){
+  .global-list{right: -56px;}
   .drawer-side::-webkit-scrollbar{scrollbar-width: 0;display: none;}
   #mySidebar{position: absolute;z-index: 999;background: #cb7c7c;height: 100%;}
   #main{margin-left: 0 !important;padding: 0;}

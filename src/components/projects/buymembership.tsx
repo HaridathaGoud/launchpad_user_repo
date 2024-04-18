@@ -143,9 +143,9 @@ const BuyMembership = () => {
                 <br /> is Successfull
               </span>{" "}
             </p>
-            <p className={`text-secondary opacity-60`}>
+            {/* <p className={`text-secondary opacity-60`}>
               We will Get back to you Soon.
-            </p>
+            </p> */}
           </div>
         </div>
       </Modal>

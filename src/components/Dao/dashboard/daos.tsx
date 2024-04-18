@@ -92,7 +92,7 @@ const Daos = (props: any) => {
             )}
           {!daos.loading && (!daos.data || daos.data?.length === 0) && (
             <div className="text-center mt-5">
-              <img src={nodata} width={150} className="mx-auto" alt="No Data" />
+              <img src={nodata} width={95} className="mx-auto" alt="No Data" />
               <h4 className="text-center text-secondary mt-2">No data found</h4>
             </div>
           )}

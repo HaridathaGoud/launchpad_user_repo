@@ -96,9 +96,9 @@ const Carousel = ({
                         </h1>}
                         {isWelcome && (
                             <>
-                              <p className="text-[42px] md:text-[52px] font-bold text-white">
-                                Welcome to <br className="hidden md:block" />{" "}
-                                Launchpad
+                              <p className="text-[42px] md:text-[52px] font-bold text-white capitalize">
+                              Invest in the future  <br className="hidden md:block" />{" "}
+                              of Web3
                               </p>
                             </>
                           )}

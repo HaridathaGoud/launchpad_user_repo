@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef} from "react";
-import foundingimg from "../../assets/images/default-avatar.jpg";
+import foundingimg from "../../assets/images/default-nft.png";
 import FoundingMemberSimmer from "../loaders/foundingmembersshimmer";
 import { useParams } from "react-router-dom";
 import { get } from "../../utils/api";

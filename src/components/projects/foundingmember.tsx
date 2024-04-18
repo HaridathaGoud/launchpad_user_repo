@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./projectdetails.module.css";
-import member from "../../assets/images/default-avatar.jpg";
+import member from "../../assets/images/default-nft.png";
 import { Link } from "react-router-dom";
 import nodata from "../../assets/images/no-data.png";
 import CopyToClipboard from "react-copy-to-clipboard";

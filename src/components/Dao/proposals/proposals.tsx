@@ -341,7 +341,7 @@ const ProposalCards = (props: any) => {
             <div className="text-center container mt-10">
               <img
                 src={nodata}
-                width={150}
+                width={95}
                 alt="NO Data"
                 className="mx-auto mb-1"
               />

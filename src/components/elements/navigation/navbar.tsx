@@ -46,7 +46,34 @@ function HeaderNavbar() {
   const handleDropdownAction = useCallback((path: string) => {
     navigate(path);
   }, []);
-  const { navMenuList, navBarDropDownMenu } = useMemo(() => {
+  const { navMenuList, navBarDropDownMenu,globalDropdown } = useMemo(() => {
+    const globalDropdown = [
+      {
+        name: "Streaming",
+        image:
+          "https://dottdevstoragespace.blob.core.windows.net/images/streming.png",
+        action: () => navigate("/home/all"),
+      },
+      // {
+      //   name: "Launchpad",
+      //   image:
+      //     "https://dottdevstoragespace.blob.core.windows.net/images/launchpad 1.png",
+      //   action: () => window.open("https://www.dott.network", "_blank"),
+      // },
+      {
+        name: "Marketplace",
+        image:
+          "https://dottdevstoragespace.blob.core.windows.net/images/marketplace.png",
+        action: () =>
+          window.open("https://www.dott.network/marketplace", "_blank"),
+      },
+      {
+        name: "DAO’s",
+        image:
+          "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
+        action: () => window.open("https://www.dott.network/daos", "_blank"),
+      },
+    ];
     const navMenuList = [
       { path: "/projects", content: "Projects" },
       { path: "/staking", content: "Staking" },
@@ -75,7 +102,7 @@ function HeaderNavbar() {
         },
       },
     ];
-    return { navMenuList, navBarDropDownMenu };
+    return { navMenuList, navBarDropDownMenu,globalDropdown };
   }, [pathname]);
   const setData = (res) => {
     setProfilePic(res?.data?.profilePicUrl);
@@ -101,6 +128,7 @@ function HeaderNavbar() {
       store.dispatch(Staker(res));
     });
   };
+  
 
   return (
     <div className=" sticky top-0 z-50 bg-success-content header-shadow">
@@ -186,36 +214,46 @@ function HeaderNavbar() {
         </div>
 
         <div className="navbar-end">
+        <div className="mr-6">
+              <DropdownMenus
+                btnContent={<span className="icon menu-icon"></span>}
+                dropdownClass="md:dropdown-end"
+                dropdownList={globalDropdown}
+                menuwidth="!min-w-[254px] grid grid-cols-2 global-list"
+                btnCenter="text-center py-4"
+                borderList="border border-t-0"
+              />
+            </div>
           {!isConnected && <ConnectWallet />}
           {isConnected && (
             <DropdownMenus
               btnContent={
                 <span className="relative">
                   <div
-                    className={`p-2 px-2 rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
+                    className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
                   >
-                    <span className="!text-base-100 inline-block text-sm leading-5">
+                    <p className="!text-base-100 inline-block text-sm leading-5 truncate">
                       {address?.slice(0, 4) +
                         "...." +
                         address?.substring(address.length - 4, address.length)}
-                    </span>
+                    </p>
                     {!profilePic && (
-                      <span>
+                      <div className="shrink-0">
                         <img
                           src={userImage}
                           alt="user profile"
                           className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
                         />
-                      </span>
+                      </div>
                     )}
                     {profilePic && (
-                      <span>
+                      <div className="shrink-0">
                         <img
                           src={profilePic}
                           alt="user profile"
                           className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
                         />
-                      </span>
+                      </div>
                     )}
                   </div>
                   {/* <span className='inline-block w-6 h-6 bg-black border rounded-full absolute text-base-100 flex justify-center items-center right-[-4px] top-[-10px]'>3</span> */}

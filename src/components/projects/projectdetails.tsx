@@ -172,7 +172,7 @@ const Projectdetails = (props: any) => {
                   <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
                   <div className="mt-2 mb-4">
                     <BreadCrumb />
-                    <div className="mb-2 mt-4">
+                    <div className="mb-2 mt-4 sticky top-[86px] z-10">
                       <ProjectViewTabs
                         projectFeedRef={projectFeedRef}
                         allocationRef={allocationRef}
@@ -244,7 +244,7 @@ const Projectdetails = (props: any) => {
                         <hr className="my-5" />
                       </div>
                     )}
-                  </div>
+                 
 
                   {!daoTab && (
                     <>
@@ -290,6 +290,7 @@ const Projectdetails = (props: any) => {
                       />
                     </div>
                   )}
+                   </div>
                 </div>
 
                 <ProjectDetailsCard

@@ -383,8 +383,8 @@ const Projectscomponent = (props) => {
               <>
                 {cardSeeMoreHide && (
                   <div className="text-center">
-                    <img width={120} className="mx-auto" src={nodata} />
-                    <p className="text-secondary text-center">{loadeMessage}</p>
+                    <img width={95} className="mx-auto" src={nodata} />
+                    <p className="text-secondary text-center mt-2">{loadeMessage}</p>
                   </div>
                 )}
               </>
