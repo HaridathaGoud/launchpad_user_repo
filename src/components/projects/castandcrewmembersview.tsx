@@ -69,7 +69,7 @@ const CastandCrewMembersView = () => {
               </div>
               <div className={`w-px bg-base-200 opacity-20`}></div>
               <div className="text-right flex-1 truncate">
-                <h1 className="font-semibold mb-3"></h1>            
+                <h1 className="font-semibold mb-3">-</h1>            
                 <p className="font-semibold mb-3 truncate">{item.role}</p>               
                 <p className="font-semibold mb-3 truncate">
                   {item.bio || '--'}
