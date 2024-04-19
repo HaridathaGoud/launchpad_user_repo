@@ -85,7 +85,7 @@ const FooterComponent = () => {
             About Us
           </NaviLink>
           <NaviLink
-            path="https://yellowblock.net/aboutus/"
+            path="https://yellowblock.net/"
             target="_blank"
             rel="noreferrer"
             type="footerNav"
@@ -146,7 +146,8 @@ const FooterComponent = () => {
           </a>
           <span className="text-secondary opacity-60">Ph:+91 8390150032</span>
         </nav>
-        <nav className="lg:col-span-2">
+      {/* as of now we hided dowload section in feature we enable it */}
+        {/* <nav className="lg:col-span-2">
           <header className="text-secondary font-semibold">DOWNLOAD </header>
           <div className="grid lg:grid-cols-2 gap-2">
             <div className="flex items-center gap-2">
@@ -168,7 +169,8 @@ const FooterComponent = () => {
               </NaviLink>
             </div>
           </div>
-        </nav>
+        </nav> */}
+
       </footer>
       <div className="pb-4 pt-12">
         <p className="text-center text-secondary text-xs">
