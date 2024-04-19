@@ -96,9 +96,10 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleMintNfts = async (uri: any, files: any, data: any) => {
-    const price=localState.inputCount*(localState.details?.prices)
+    const {crypto,value}=localState.details?.prices?.[0]
+    const price=localState.inputCount*(value)
     await mintNfts(
-      { uri: uri, files: files, currency: "Matic", price: price, contractAddress: props?.contractAddress},
+      { uri: uri, files: files, currency: crypto, price: price, contractAddress: props?.contractAddress},
       {
         onSucess: onTransaction,
         onError: setErrorMessage,
@@ -109,7 +110,7 @@ const BuyMembership = (props: any) => {
   };
   const handleIpfsUploading = async (data: any) => {
     await uploadToIPFS(
-      { data: data, nftPrice: localState.details?.prices },
+      { data: data, nftPrice: localState.details?.prices?.[0]?.value },
       { onSuccess: handleMintNfts, onError: setErrorMessage }
     );
   };
