@@ -356,7 +356,7 @@ const ProfileEdit = ({
               htmlFor="profilefacebook"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              FB URL
+              FaceBook Link
             </label>
             <input
               id="profilefacebook"
@@ -373,7 +373,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              placeholder="FB URL"
+              placeholder="FaceBook Link"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
@@ -388,7 +388,7 @@ const ProfileEdit = ({
               htmlFor="profileInsta"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Insta URL 
+              Insta Link 
             </label>
             <input
               id="profileInsta"
@@ -405,7 +405,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              placeholder="Insta URL"
+              placeholder="Insta Link"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
@@ -420,7 +420,7 @@ const ProfileEdit = ({
               htmlFor="profileTwitter"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Twitter URL 
+              Telegram Link 
             </label>
             <input
               id="profileTwitter"
@@ -437,7 +437,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              placeholder="Twitter URL"
+              placeholder="Telegram Link"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
@@ -452,7 +452,7 @@ const ProfileEdit = ({
               htmlFor="profileDiscordId"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Website URL 
+              Website Link 
             </label>
             <input
               id="profileWebsite"
@@ -469,7 +469,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              placeholder="Website URL"
+              placeholder="Website Link"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
@@ -485,7 +485,7 @@ const ProfileEdit = ({
               htmlFor="profileDiscord"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Discord URL
+              Discord Link
             </label>
             <input
               id="profileDiscord"
@@ -502,7 +502,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              placeholder="Discord URL"
+              placeholder="Discord Link"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />

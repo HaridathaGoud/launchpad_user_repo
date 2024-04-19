@@ -115,7 +115,7 @@ export const validateForm = (form: ProfileModel) => {
         "discordUrl",
         false,
         (value: string) => validateUrl(value),
-        "Please provide valid content for Discord URL"
+        "Please provide valid content for Discord Link"
       );
   }
   return errors;
