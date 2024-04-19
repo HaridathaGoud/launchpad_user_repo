@@ -3,6 +3,7 @@ import token from '../contracts/token.json';
 import stacking from '../contracts/staking.json';
 import project from '../contracts/project.json';
 import reward from '../contracts/rewards.json'
+import mint from '../contracts/mint.json'
 import { ethers } from 'ethers';
 import Contract from '../contracts/mint.json';
 import WETHContract from '../contracts/weth.json';
@@ -286,7 +287,7 @@ export default function useContractMethods() {
   function getAllocations(contractAddress: any) {
     return readContract({ address: contractAddress, abi: project.abi, functionName: "getAllocation", args: [address] });
   }
-  async function minMultipleNft(uriArr: any, coinDetails: any, nftPrice: any, address) {
+  async function minMultipleNft(uriArr: any, coinDetails: any, nftPrice: any, contractAddress) {
     const private_key: any = PRIVATE_KEY;
     const provider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_ALCHEMY_PROVIDER);
     var aggHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(uriArr[0]));
@@ -307,7 +308,7 @@ export default function useContractMethods() {
         value: ethers.utils.parseUnits(nftPrice.toString(), 18),
         gasLimit: 900000,
         gasPrice: 300000,
-      });
+      },contractAddress);
     } else {
       await approveEth(ethers.utils.parseUnits(nftPrice.toFixed(8).toString(), 18));
       return mintTokenWithWagmi(uriArr, aggHash, { signature: validSign, nonce }, {
@@ -316,9 +317,9 @@ export default function useContractMethods() {
       });
     }
   }
-  async function mintNativeWithWagmi(args1, args2, args3, args4) {
+  async function mintNativeWithWagmi(args1, args2, args3, args4,contractAddress) {
     const { request } = await prepareWriteContract({
-      address: process.env.REACT_APP_MINTING_CONTRACTOR,
+      address:contractAddress,
       abi: Contract.abi,
       functionName: "safeMintMultiple",
       args: [args1, args2, args3],
@@ -353,6 +354,33 @@ export default function useContractMethods() {
     return _message;
   }
 
+  async function readMintBalance(mintingContractAddress:any){
+    const balance=await readContract({
+        address: mintingContractAddress,
+        abi: mint.abi,
+        functionName: "balanceOf",
+        args: [address]
+      });
+    return balance
+  }
+
+  async function getNativeTokenPriceForMint(mintingContractAddress:any){
+    const response=await readContract({
+        address: mintingContractAddress,
+        abi: mint.abi,
+        functionName: "getPriceForNativeMint"
+      });
+    return response
+  }
+
+  async function getMintedCount(mintingContractAddress:any){
+   const response= await readContract({
+        address: mintingContractAddress,
+        abi: mint.abi,
+        functionName: "mintedCount"
+      });
+      return response
+  }
   return {
     approve,
     stack,
@@ -376,6 +404,9 @@ export default function useContractMethods() {
     isStaker,
     minMultipleNft,
     readRewardBalance,
+    readMintBalance,
+    getNativeTokenPriceForMint,
+    getMintedCount,
     parseError,
     getOwner
   };

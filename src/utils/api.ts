@@ -94,9 +94,17 @@ export function getCUstomers(url: string) {
   });
 }
 export function getMinting(url: string) {
-  return axios.get(`${MINTING_API_END_POINT}${url}/`,{
+  return axios.get(`${MINTING_API_END_POINT}${url}`,{
     headers: {
       Authorization: `${getToken()}`}
+  });
+}
+export function putForMinting(url:string,obj:any){
+  const token = getToken();
+  return axios.put(`${MINTING_API_END_POINT}${url}`, obj,{
+    headers:{
+      Authorization:`${token}`
+    }
   });
 }
 

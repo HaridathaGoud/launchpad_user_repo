@@ -7,7 +7,7 @@ import { connect, useDispatch } from "react-redux";
 import ProjectViewTabs from "../Dao/projecttabs";
 import CastAndCrewMember from "./castandcrewmember";
 import FoundingMember from "./foundingmember";
-import BuyMembership from "./buymembership";
+import BuyMembership from "./buyMembership/index";
 import ApplyNow from "../applynow";
 import DetailViewShimmer from "../loaders/DetailViewShimmer";
 import ProjectDetailsCard from "./projectDetailsCard";
@@ -271,7 +271,7 @@ const Projectdetails = () => {
                         ref={buyMembershipRef}
                         className="mt-6"
                       >
-                        <BuyMembership daoId={data?.projectDetails?.daoId}/>
+                        <BuyMembership daoId={data?.projectDetails?.daoId} contractAddress={data?.projectDetails?.contractAddress}/>
                       </div>
                     </>
                   )}

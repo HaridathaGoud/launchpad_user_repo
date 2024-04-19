@@ -221,7 +221,7 @@ const Allocations = (props) => {
                           Price Per Token
                         </th>
                         <th className="text-left text-base text-secondary font-bold">
-                          Purchase Volume
+                          Purchased Volume
                         </th>
                         <th className="text-left text-base text-secondary font-bold"></th>
                       </tr>
