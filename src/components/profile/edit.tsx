@@ -388,7 +388,7 @@ const ProfileEdit = ({
               htmlFor="profileInsta"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Insta Link 
+              Instagram Link 
             </label>
             <input
               id="profileInsta"
@@ -405,7 +405,7 @@ const ProfileEdit = ({
                 );
               }}
               required
-              placeholder="Insta Link"
+              placeholder="Instagram Link"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
             />
@@ -479,8 +479,8 @@ const ProfileEdit = ({
               </label>
             )}
           </div>
-          
-          <div className="mt-4">
+          {/* as of now we hided discord link field */}
+          {/* <div className="mt-4">
             <label
               htmlFor="profileDiscord"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
@@ -511,7 +511,7 @@ const ProfileEdit = ({
                 {state.formErrors.discordUrl}
               </label>
             )}
-          </div>
+          </div> */}
           {/* <div className="mt-4 relative" >
                 <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Referral Code</label>
                 <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 disabled:bg-accent disabled:border-accent'
