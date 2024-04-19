@@ -71,7 +71,7 @@ const BuyMembership = (props: any) => {
       { onSuccess: onMembershipDetails, onError: setError }
     );
     await getDetailsfromContract(
-      { address: props?.contractAddress || process.env.REACT_APP_MINTING_CONTRACTOR },
+      { address: props?.contractAddress || '' },
       {
         onCount: onMintedCount,
         onBalance: onMintBalance,
@@ -96,10 +96,9 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleMintNfts = async (uri: any, files: any, data: any) => {
-    const price=localState.inputCount*(localState.details?.prices || 0.01)
-    console.log(price)
+    const price=localState.inputCount*(localState.details?.prices)
     await mintNfts(
-      { uri: uri, files: files, currency: "Matic", price: price, contractAddress: props?.contractAddress || process.env.REACT_APP_MINTING_CONTRACTOR },
+      { uri: uri, files: files, currency: "Matic", price: price, contractAddress: props?.contractAddress},
       {
         onSucess: onTransaction,
         onError: setErrorMessage,
@@ -110,7 +109,7 @@ const BuyMembership = (props: any) => {
   };
   const handleIpfsUploading = async (data: any) => {
     await uploadToIPFS(
-      { data: data, nftPrice: localState.details?.prices || 0.01 },
+      { data: data, nftPrice: localState.details?.prices },
       { onSuccess: handleMintNfts, onError: setErrorMessage }
     );
   };
@@ -125,7 +124,6 @@ const BuyMembership = (props: any) => {
       }
     );
   };
-  console.log(localState)
   return (
     <div className="container mx-auto" id="buyMembershipHeader">
       <h1 className="font-semibold mb-4 text-2xl text-secondary">
@@ -134,7 +132,7 @@ const BuyMembership = (props: any) => {
       <div className="lg:px-[55px]">
         <div className="mt-7 text-center">
           <h1 className="text-lg font-semibold text-secondary">
-            About {localState.details?.name?.toLowerCase()} membership
+            {localState.details?.name && `About ${localState.details?.name?.toLowerCase()} membership`} 
           </h1>
           <p className="mt-2 mb-6 text-secondary">
             {localState.details?.description}
