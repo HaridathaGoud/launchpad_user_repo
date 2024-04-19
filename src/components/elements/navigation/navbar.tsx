@@ -52,7 +52,7 @@ function HeaderNavbar() {
         name: "Streaming",
         image:
           "https://dottdevstoragespace.blob.core.windows.net/images/streming.png",
-        action: () => navigate("/home/all"),
+          action: () => window.open("https://ybstreaming.azurewebsites.net/", "_blank"),
       },
       // {
       //   name: "Launchpad",
@@ -60,31 +60,31 @@ function HeaderNavbar() {
       //     "https://dottdevstoragespace.blob.core.windows.net/images/launchpad 1.png",
       //   action: () => window.open("https://www.dott.network", "_blank"),
       // },
-      {
-        name: "Marketplace",
-        image:
-          "https://dottdevstoragespace.blob.core.windows.net/images/marketplace.png",
-        action: () =>
-          window.open("https://www.dott.network/marketplace", "_blank"),
-      },
+      // {
+      //   name: "Marketplace",
+      //   image:
+      //     "https://dottdevstoragespace.blob.core.windows.net/images/marketplace.png",
+      //   action: () =>
+      //     window.open("https://www.dott.network/marketplace", "_blank"),
+      // },
       {
         name: "DAO’s",
         image:
           "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
-        action: () => window.open("https://www.dott.network/daos", "_blank"),
+          action: () => navigate("/daos"),
       },
     ];
     const navMenuList = [
       { path: "/projects", content: "Projects" },
       { path: "/staking", content: "Staking" },
       { path: "/tiers", content: "Tiers" },
-      {
-        path: "https://ybstreaming.azurewebsites.net/",
-        content: "Streaming",
-        target: "_blank",
-        rel: "noopener noreferrer",
-      },
-      { path: "/daos", content: "DAOs" },
+      // {
+      //   path: "https://ybstreaming.azurewebsites.net/",
+      //   content: "Streaming",
+      //   target: "_blank",
+      //   rel: "noopener noreferrer",
+      // },
+      // { path: "/daos", content: "DAOs" },
       // { path: "/marketplace", content: "Marketplace" },
       // { path: "/mycollections", content: "My Collections" },
     ];

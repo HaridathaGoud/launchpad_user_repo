@@ -244,6 +244,7 @@ const Projectdetails = () => {
 
                   {!daoTab && (
                     <>
+                    {data?.projectDetails?.tokenType =='ERC-20' && 
                       <div
                         id="allocationClaim"
                         ref={allocationRef}
@@ -265,14 +266,15 @@ const Projectdetails = () => {
                             loader={loader}
                           />
                         </div>
-                      </div>
+                      </div>}
+                      {data?.projectDetails?.tokenType =='ERC-721' &&
                       <div
                         id="buyMembership"
                         ref={buyMembershipRef}
                         className="mt-6"
                       >
                         <BuyMembership daoId={data?.projectDetails?.daoId}/>
-                      </div>
+                      </div>}
                     </>
                   )}
 
