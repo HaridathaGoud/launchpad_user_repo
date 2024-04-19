@@ -179,6 +179,12 @@ const Allocations = (props) => {
         dispatch({ type: "setIsBuying", payload: false });
       });
   };
+  const isBuyButtonDisabled = (item:any) => {
+    const nowDate = new Date().getTime();
+    const claimDate = new Date(item.claimDate).getTime();
+    const isEnable = claimDate == nowDate;
+    return isEnable;
+  };
 
   return (
     <>
@@ -257,6 +263,7 @@ const Allocations = (props) => {
                                   type="primary"
                                   btnClassName="!py-0 px-6"
                                   disabled={
+                                    isBuyButtonDisabled(item) ||
                                     item.allocationVolume === 0 ||
                                     item?.allocationVolume <=
                                       item?.purchaseVolume ||
