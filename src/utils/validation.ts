@@ -34,16 +34,16 @@ export const validateContent = (value: any) => {
 export const validateUrl =(value:any)=>{
   validateContentRule(value)
   const reg = /^(?:(?:https?|ftp|file):\/\/|www\.)[^\s/$.?#].[^\s]*$/;
-  if (reg.test(value)) {
-    return false;
+  if (!reg.test(value) || emojiRejex.test(value)) {
+    return true;
   }
-  return true;
+  return false;
 };
 
 export const acceptOnlyAlphabets = (value:any)=>{
   validateContentRule(value)
   const reg = /^[a-zA-Z]+$/;
-  if (reg.test(value)) {
+  if ( value && reg.test(value) || value.match(emojiRejex)) {
     return false;
   }
   return true;

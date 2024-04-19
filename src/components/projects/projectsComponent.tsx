@@ -116,7 +116,7 @@ const Projectscomponent = (props) => {
                 </span>{" "}
                 {/* Projects */}
               </h2>
-              {props.pageSize < 9 && cardDetails?.length >0 && (
+              {props.pageSize < 9 && cardDetails?.length >=3 && (
                 <Link
                   to={`/projects/${props.pjctType}`}
                   className="text-primary text-base font-medium"

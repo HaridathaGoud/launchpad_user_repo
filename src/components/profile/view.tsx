@@ -105,7 +105,7 @@ const ProfileView = ({ profile, address }) => {
         {profile.facebook &&
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
-          FB URL
+          FaceBook Link
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.facebook || "-"}
@@ -115,7 +115,7 @@ const ProfileView = ({ profile, address }) => {
         {profile.linkedIn &&
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
-          Insta URL
+          Instagram Link
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.linkedIn || "-"}
@@ -125,7 +125,7 @@ const ProfileView = ({ profile, address }) => {
         {profile.twitter && 
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
-          Telegram URL
+          Telegram Link
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.twitter || "-"}
@@ -135,7 +135,7 @@ const ProfileView = ({ profile, address }) => {
         {profile.websiteUrl &&
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
-          Website URL
+          Website Link
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.websiteUrl || "-"}
@@ -145,7 +145,7 @@ const ProfileView = ({ profile, address }) => {
         {profile.discordUrl && 
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
-          Discord URL
+          Discord Link
           </h1>
           <p className="font-medium text-sm text-secondary">
             {profile.discordUrl || "-"}
