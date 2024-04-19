@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 const ProjectViewTabs = ({
-  projectFeedRef,
-  allocationRef,
-  buyMembershipRef,
-  dao,
   setDaoTab,
   pjctInfo,
   scrollToBuyMembership,
@@ -28,26 +24,18 @@ const ProjectViewTabs = ({
         `/projects/${params?.projectName}/${params?.projectId}`
       );
     }
-    let ref;
     if (tab === "projectFeed") {
-      ref = projectFeedRef?.current;
       setDaoTab?.(false);
     } else if (tab === "allocationClaim") {
-      ref = allocationRef?.current;
       setDaoTab?.(false);
       scrollToAllocation()
     } else if (tab === "buyMembership") {
-      ref = buyMembershipRef?.current;
       setDaoTab?.(false);
       scrollToBuyMembership();
     } else if (tab === "dao") {
       setDaoTab?.(true);
-      // ref=dao?.current;
     }
-
-    // ref?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
-
   return (
     <div
       className={`customTabs flex gap-[10px] overflow-x-auto max-sm:pb-2 scrollbar-hidden pt-2 pb-2 bg-base-100`}
@@ -64,6 +52,7 @@ const ProjectViewTabs = ({
       >
         Project Feed
       </button>
+    {pjctInfo?.tokenType =='ERC-20' && 
       <button
         onClick={() => handleTabClick("allocationClaim")}
         className={`${
@@ -74,6 +63,8 @@ const ProjectViewTabs = ({
       >
         Allocation/Claim
       </button>
+     } 
+     {pjctInfo?.tokenType =='ERC-721' && 
       <button
         onClick={() => handleTabClick("buyMembership")}
         className={`${
@@ -84,6 +75,7 @@ const ProjectViewTabs = ({
       >
         Buy Membership
       </button>
+     } 
       <button
         onClick={() => handleTabClick("dao")}
         className={`${

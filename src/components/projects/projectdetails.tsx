@@ -24,7 +24,6 @@ const Projectdetails = () => {
   const rootDispatch = useDispatch();
   const { projectId, projectName } = useParams();
   const user = store.getState().auth;
-  const projectFeedRef = useRef(null);
   const allocationRef = useRef(null);
   const buyMembershipRef = useRef(null);
   const [loader, setLoader] = useState(false);
@@ -175,11 +174,7 @@ const Projectdetails = () => {
                     <BreadCrumb />
                     <div className="mb-2 sticky top-[73px] z-10">
                       <ProjectViewTabs
-                        projectFeedRef={projectFeedRef}
-                        allocationRef={allocationRef}
-                        buyMembershipRef={buyMembershipRef}
                         pjctInfo={data?.projectDetails}
-                        dao={"dao"}
                         setDaoTab={setDaoTab}
                         scrollToBuyMembership={scrollToBuyMembership}
                         scrollToAllocation={scrollToAllocation}
