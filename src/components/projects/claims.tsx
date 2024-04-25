@@ -49,6 +49,12 @@ const Claims = (props) => {
     const provider = new ethers.providers.Web3Provider(_connector);
     return provider;
   }
+  const isBuyButtonDisabled = (claims:any) => {
+    const nowDate = new Date().getTime();
+    const claimDate = moment(claims.date).toDate().getTime();
+    const isEnable = claimDate !== nowDate;
+    return isEnable;
+  };
   return (
     <>
       {!props.loader && (
@@ -132,6 +138,7 @@ const Claims = (props) => {
                               type="primary"
                               btnClassName="!py-0 px-6"
                               disabled={
+                                isBuyButtonDisabled(claims) ||
                                 claims.allocation === 0 || claims?.isBuy
                               }
                               handleClick={() => handleClaim(index)}
