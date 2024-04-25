@@ -181,10 +181,11 @@ const Allocations = (props) => {
   };
   const isBuyButtonDisabled = (item:any) => {
     const nowDate = new Date().getTime();
-    const claimDate = new Date(item.claimDate).getTime();
-    const isEnable = claimDate == nowDate;
+    const claimDate = new Date(item.Date).getTime();
+    const isEnable = claimDate != nowDate;
     return isEnable;
   };
+
 
   return (
     <>
