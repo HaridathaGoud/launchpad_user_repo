@@ -286,7 +286,7 @@ const Projectscomponent = (props) => {
                                 </div> */}
 
                                 <div className="flex justify-between mt-2">
-                                  <label
+                                  <label htmlFor="totalRaise"
                                     className={`text-base-200 text-base font-semibold`}
                                   >
                                     Total Raise
@@ -299,7 +299,7 @@ const Projectscomponent = (props) => {
                                   </p>
                                 </div>
                                 <div className="flex justify-between my-2">
-                                  <label
+                                  <label htmlFor="totalSupply"
                                     className={`text-base-200 text-base font-semibold `}
                                   >
                                     Total Supply
@@ -311,7 +311,7 @@ const Projectscomponent = (props) => {
                                   </p>
                                 </div>
                                 <div className="flex justify-between">
-                                  <label
+                                  <label htmlFor=" price"
                                     className={`text-base-200 text-base font-semibold `}
                                   >
                                     Price

@@ -20,34 +20,34 @@ export const getBreadcrumbList = {
     return [
       { name: "Launchpad", path: "/" },
       { name: "Projects", path: "/projects" },
-      { name: status, path: "" },
+      { name: status.charAt(0).toUpperCase()+status.slice(1), path: "" },
     ];
   },
   launchpadProject: (projectName: any) => {
     return [
       { name: "Launchpad", path: "/" },
       { name: "Projects", path: "/projects" },
-      { name: projectName, path: "" },
+      { name: projectName.charAt(0).toUpperCase()+projectName.slice(1), path: "" },
     ];
   },
   launchpadProjectProposal: (props: any) => {
     return [
       { name: "Launchpad", path: "/" },
       { name: "Projects", path: "/projects" },
-      { name: props.projectName, path: props.projectPath },
-      { name: props.proposalTitle, path: "" },
+      { name: props.projectName.charAt(0).toUpperCase()+props.projectName.slice(1), path: props.projectPath },
+      { name: props.proposalTitle.charAt(0).toUpperCase()+props.proposalTitle.slice(1), path: "" },
     ];
   },
   launchpadProjectFoundingMembers: (project: any) => [
     { name: "Launchpad", path: "/" },
     { name: "Projects", path: "/projects" },
-    { name: project.projectName, path: project.projectPath },
+    { name: project.projectName.charAt(0).toUpperCase()+project.projectName.slice(1), path: project.projectPath },
     { name: "Founding Members", path: "" },
   ],
   launchpadProjectCastAndCrew: (project: any) => [
     { name: "Launchpad", path: "/" },
     { name: "Projects", path: "/projects" },
-    { name: project.projectName, path: project.projectPath },
+    { name: project.projectName.charAt(0).toUpperCase()+project.projectName.slice(1), path: project.projectPath },
     { name: "Cast And Crew", path: "" },
   ],
   daoDashboard: [
@@ -56,13 +56,13 @@ export const getBreadcrumbList = {
   ],
   daoProposals: (daoName: any) => [
     { name: "Daos", path: "/daos" },
-    { name: daoName, path: "" },
+    { name: daoName.charAt(0).toUpperCase()+daoName.slice(1), path: "" },
     { name: "Proposals", path: "" },
   ],
   daoProposal: (props:any) => [
     { name: "Daos", path: "/daos" },
-    { name: props.daoName, path: "" },
+    { name: props.daoName.charAt(0).toUpperCase()+props.daoName.slice(1), path: "" },
     { name: "Proposals", path: props.proposalsPath },
-    { name: props.proposalTitle, path: "" },
+    { name: props.proposalTitle.charAt(0).toUpperCase()+props.proposalTitle.slice(1), path: "" },
   ],
 };
