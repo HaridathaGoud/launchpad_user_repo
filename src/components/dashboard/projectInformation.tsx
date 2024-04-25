@@ -41,7 +41,8 @@ const ProjectInformation = () => {
     }else {
       const prefix = name === "RAISED CAPITAL" ? "$" : "";
       const suffix = Number.isInteger(value) ? "+" : "M";
-      const formattedValue = value.toLocaleString();
+      const intValue = Math.floor(value);
+      const formattedValue = intValue.toLocaleString('en-IN');
       return `${prefix}${formattedValue}${suffix}`;
     }
   };
