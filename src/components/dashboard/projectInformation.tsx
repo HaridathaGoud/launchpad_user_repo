@@ -38,10 +38,11 @@ const ProjectInformation = () => {
         const suffix = Math.abs(value) > 999999 ? "M" : "";
         return `${value}M${suffix}`;
       }
-    } else {
+    }else {
       const prefix = name === "RAISED CAPITAL" ? "$" : "";
       const suffix = Number.isInteger(value) ? "+" : "M";
-      return `${prefix}${value}${suffix}`;
+      const formattedValue = value.toLocaleString();
+      return `${prefix}${formattedValue}${suffix}`;
     }
   };
   return (
