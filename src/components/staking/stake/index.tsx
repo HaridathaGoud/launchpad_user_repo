@@ -72,7 +72,7 @@ const StakingComponent = () => {
         await getStakeDetails?.();
         await getCurrency?.();
         await getNativeCurrency?.();
-        tabContextValues?.setTabData?.(res.data);
+        tabContextValues?.setTabData?.(res.response);
         setActiveStep?.(3);
         tabContextValues.setButtonLoader?.(false);
       } else {
@@ -159,7 +159,7 @@ const StakingComponent = () => {
             <ConfirmationComponent
               isStaking={true}
               amountStake={tabContextValues?.tabAmount}
-              hash={tabContextValues?.tabData?.hash}
+              hash={tabContextValues?.tabData?.transactionHash}
             ></ConfirmationComponent>
           )}
           {activeStep === 3 && (

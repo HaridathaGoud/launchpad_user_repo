@@ -54,11 +54,16 @@ const Allocations = (props) => {
         type: "setBuyAmount",
         payload: item?.allocationVolume,
       });
+      dispatch({
+        type: "setIsPublic",
+        payload: item?.type?.toLowerCase()==='public',
+      });
       dispatch({ type: "setVolumeData", payload: item?.paymentValue });
     } else {
       dispatch({ type: "setBuyAmount", payload: null });
       state.amountError && dispatch({ type: "setAmountError", payload: "" });
       rootDispatch(setError({ message: "" }));
+      dispatch({ type: "setIsPublic", payload: false});
       dispatch({ type: "setIsBuying", payload: false });
       dispatch({ type: "setDrawerStep", payload: 1 });
     }
@@ -146,11 +151,13 @@ const Allocations = (props) => {
     return provider;
   }
   const handleOk = async () => {
-    const etherValue = (Number(state.volumeData) * Number(state.buyAmount)).toFixed(18);
+    const etherValue = (Number(state.volumeData) * Number(state.buyAmount));
     dispatch({ type: "setIsBuying", payload: true });
+    console.log(etherValue,state.buyAmount)
     buyTokens(
       etherValue,
       Number(state.buyAmount),
+      state.isPublic,
       props.pjctInfo?.contractAddress
     )
       .then((res: any) => {

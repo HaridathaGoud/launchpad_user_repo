@@ -118,7 +118,7 @@ export default function Unstake() {
       !stakedAmount ||
       currencyBalance === "0" ||
       !currencyBalance ||
-      isHideCountDownTimer ||
+      (isHideCountDownTimer && process.env.REACT_APP_ENV_VAR!=='dev') ||
       stakeDetails?.isUnstakeInitiated) &&
     activeStep === 1;
   return (
@@ -144,7 +144,7 @@ export default function Unstake() {
             {activeStep === 4 && (
               <ConfirmationComponent
                 isStaking={false}
-                hash={tabContextValues?.tabData?.hash}
+                hash={tabContextValues?.tabData?.transactionHash}
               ></ConfirmationComponent>
             )}
 

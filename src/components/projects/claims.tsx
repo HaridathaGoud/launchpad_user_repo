@@ -50,8 +50,10 @@ const Claims = (props) => {
     return provider;
   }
   const isBuyButtonDisabled = (claims:any) => {
+    console.log(claims)
     const nowDate = new Date().getTime();
     const claimDate = moment(claims.date).toDate().getTime();
+    console.log(nowDate,claimDate)
     const isEnable = claimDate !== nowDate;
     return isEnable;
   };
@@ -138,7 +140,7 @@ const Claims = (props) => {
                               type="primary"
                               btnClassName="!py-0 px-6"
                               disabled={
-                                isBuyButtonDisabled(claims) ||
+                                // isBuyButtonDisabled(claims) ||
                                 claims.allocation === 0 || claims?.isBuy
                               }
                               handleClick={() => handleClaim(index)}

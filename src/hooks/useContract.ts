@@ -268,9 +268,9 @@ export default function useContractMethods() {
       callback({ ok: false, error });
     }
   }
-  async function buyTokens(ether,amount: any, contractAddress: any) {
+  async function buyTokens(ether,amount: any, isPublic:boolean,contractAddress: any) {
     const value= ethers.utils.parseUnits(ether.toString(),decimalPoints);
-    const request = await requestForProjectContract("buyToken", [amount], contractAddress,value);
+    const request = await requestForProjectContract("buyToken", [amount,isPublic], contractAddress,value);
     return writeContract(request);
   }
   async function claimTokens(contractAddress: any) {

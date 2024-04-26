@@ -87,7 +87,7 @@ const WithdrawComponent = () => {
     !unstakedAmount ||
     currencyBalance === "0" ||
     !currencyBalance ||
-    isHideCountDownTimer;
+    (isHideCountDownTimer && process.env.REACT_APP_ENV_VAR!=='dev');
   return (
     <div className="">
       <div className="">
@@ -102,7 +102,7 @@ const WithdrawComponent = () => {
             {activeStep === 2 && (
               <ConfirmationComponent
                 isWithdrawal={true}
-                hash={tabContextValues?.tabData?.hash}
+                hash={tabContextValues?.tabData?.transactionHash}
               ></ConfirmationComponent>
             )}
 

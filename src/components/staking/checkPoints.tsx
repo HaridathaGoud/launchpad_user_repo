@@ -5,6 +5,7 @@ import React, { useContext } from "react";
 import { checkpointTexts, formatAmount } from "./utils";
 
 const CheckPointsComponent = () => {
+  console.log(process.env.REACT_APP_ENV_VAR)
   const {
     stakeDetails,
     activeTab,
@@ -145,7 +146,7 @@ const CheckPointsComponent = () => {
                 <span
                   className={
                     (activeTab !== 0 &&
-                      !isHideCountDownTimer &&
+                      !(isHideCountDownTimer && process.env.REACT_APP_ENV_VAR!=='dev') &&
                       balanceFormatted.balance > 0 &&
                       !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) ||
                     (activeTab === 0 && balanceFormatted.balance > 0)
@@ -166,7 +167,7 @@ const CheckPointsComponent = () => {
                     ? checkpointTexts.eligibleSubTexts[activeTab]
                     : "")}
               </p>
-              {(isHideCountDownTimer &&  !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) && <TimeCalculate></TimeCalculate>}
+              {((isHideCountDownTimer && process.env.REACT_APP_ENV_VAR!=='dev') &&  !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) && <TimeCalculate></TimeCalculate>}
             </div>
           </div>
         </div>

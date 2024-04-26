@@ -1,6 +1,8 @@
 import React from "react";
 import sucess from "../../assets/images/success.svg";
+import Button from "../../ui/Button";
 const ConfirmationComponent = (props: any) => {
+  console.log(props)
   const navigateToHash = () => {
     window.open(`${process.env.REACT_APP_HAS_URL + "tx/" + props?.hash}`);
   };
@@ -39,17 +41,17 @@ const ConfirmationComponent = (props: any) => {
               </>
             )}
             <br />
-            If desired, you may check 'Mumbai network' to confirm the
+            If desired, you may check {process.env.REACT_APP_CHAIN_NETWORK} network to confirm the
             transaction.
           </p>
           {(!props.isStaking || props.isStaking) && props?.hash && (
             <div>
               {" "}
-              <span className="" onClick={navigateToHash}>
-                <span className="text-sm font-semibold text-secondary">
+              <Button type="plain" handleClick={navigateToHash}>
+                <span className="text-sm text-blue-400 underline font-semibold cursor-pointer">
                   {props?.hash}
                 </span>
-              </span>
+              </Button>
             </div>
           )}
         </div>
