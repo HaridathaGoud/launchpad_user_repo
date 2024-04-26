@@ -5,7 +5,6 @@ import React, { useContext } from "react";
 import { checkpointTexts, formatAmount } from "./utils";
 
 const CheckPointsComponent = () => {
-  console.log(process.env.REACT_APP_ENV_VAR)
   const {
     stakeDetails,
     activeTab,

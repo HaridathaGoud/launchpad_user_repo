@@ -160,7 +160,6 @@ export function useCollectionDeployer() {
       functionName: "buyAsset",
       args: [orderStruct, [sign?.sign?.v, sign?.sign.r, sign?.sign.s, sign?.nonce]]
     });
-    console.log(config)
     return writeContract(config);
   }
   async function acceptBid(

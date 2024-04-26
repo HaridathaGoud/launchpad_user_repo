@@ -2,7 +2,6 @@ import React from "react";
 import sucess from "../../assets/images/success.svg";
 import Button from "../../ui/Button";
 const ConfirmationComponent = (props: any) => {
-  console.log(props)
   const navigateToHash = () => {
     window.open(`${process.env.REACT_APP_HAS_URL + "tx/" + props?.hash}`);
   };

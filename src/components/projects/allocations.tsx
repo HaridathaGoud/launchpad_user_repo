@@ -153,7 +153,6 @@ const Allocations = (props) => {
   const handleOk = async () => {
     const etherValue = (Number(state.volumeData) * Number(state.buyAmount));
     dispatch({ type: "setIsBuying", payload: true });
-    console.log(etherValue,state.buyAmount)
     buyTokens(
       etherValue,
       Number(state.buyAmount),
