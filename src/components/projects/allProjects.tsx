@@ -7,7 +7,7 @@ const AllProjects = () => {
 
   return (
     <div className="container mx-auto px-3 lg:px-0 mt-3 lg:mt-6">
-      <Projectscomponent pageSize="9" pjctType={params.type} showBreadcrumb={true} />
+      <Projectscomponent pageSize="9" pjctType={params.type} showBreadcrumb={true} showpjctType={true}/>
     </div>
   );
 };

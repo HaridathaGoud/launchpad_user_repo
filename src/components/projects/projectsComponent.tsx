@@ -99,7 +99,7 @@ const Projectscomponent = (props) => {
   };
   return (
     <>
-      {/* {cardDetails.length > 0 && ( */}
+      {cardDetails.length > 0 && props.showpjctType &&  (
         <div className="container mx-auto mt-[32px]">
           <div className="">
             {props.showBreadcrumb && <BreadCrumb/>}
@@ -411,7 +411,7 @@ const Projectscomponent = (props) => {
             )}
           </div>
         </div>
-        {/* )} */}
+        )} 
       {cardDetails?.length == 0 && loader && (
         <div className="text-center">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
