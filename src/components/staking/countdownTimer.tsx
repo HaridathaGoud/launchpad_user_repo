@@ -13,8 +13,7 @@ const ShowCounter = (props: any) => {
     <div className="show-counter">
       <div>
         <p className='text-sm font-normal text-info'>
-          {props?.activeTab===1 && "Unstake in:"}  
-          {props?.activeTab===2 && "Withdrawable in:"}
+          {props?.textToDisplay}
           <br />
           <p className='text-sm font-semibold text-secondary'>
           {props?.days}
@@ -33,11 +32,11 @@ const CountdownTimer = (props: any) => {
   const [days, hours, minutes, seconds] = useCountdown(props?.targetDate);
 
   if (days + hours + minutes + seconds <= 0) {
-    props?.setIsHideCountDownTimer(false);
+    props?.setTimer(false);
     return <ExpiredNotice />;
   } else {
-    // props?.setIsHideCountDownTimer(true);
-    return <ShowCounter days={days} hours={hours} minutes={minutes} seconds={seconds} activeTab={props.activeTab}/>;
+    // props?.setTimer(true);
+    return <ShowCounter days={days} hours={hours} minutes={minutes} seconds={seconds} textToDisplay={props?.textToDisplay}/>;
   }
 };
 

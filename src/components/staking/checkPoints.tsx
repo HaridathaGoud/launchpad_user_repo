@@ -2,7 +2,7 @@ import { StakingContext } from "./context/stakingContext";
 import { StakingContextModal } from "./models";
 import TimeCalculate from "./timeCalculate";
 import React, { useContext } from "react";
-import { checkpointTexts, formatAmount } from "./utils";
+import { checkpointTexts, daysToSeconds, formatAmount, minutesToSeconds, timerTexts } from "./utils";
 
 const CheckPointsComponent = () => {
   const {
@@ -15,7 +15,26 @@ const CheckPointsComponent = () => {
     isConnected,
     tokenBalance,
     currencyBalance,
+    setIsHideCountDownTimer
   }: StakingContextModal = useContext(StakingContext);
+  let timerSeconds = 0;
+  let initiatedTime = 0;
+  if (activeTab === 1) {
+    initiatedTime =
+      Number(stakeDetails?.intialStakingTime[
+        stakeDetails?.intialStakingTime?.length - 1
+      ])
+    const pool=Number(stakeDetails?.poolLevel[stakeDetails?.poolLevel?.length-1])
+    let remainingTime=0;
+    if(pool===1) remainingTime=1
+    if(pool===2) remainingTime=3
+    if(pool===3) remainingTime=6
+    timerSeconds = minutesToSeconds(remainingTime);
+  }
+  if (activeTab === 2) {
+    initiatedTime = Number(stakeDetails?.unstakeInitiatedTime);
+    timerSeconds = daysToSeconds(7);
+  }
   let balanceFormatted: any = { balance: 0, formattedBalance: 0 };
   const formattedCurrencyBalance = currencyBalance
     ? formatAmount(currencyBalance, 8)
@@ -166,7 +185,7 @@ const CheckPointsComponent = () => {
                     ? checkpointTexts.eligibleSubTexts[activeTab]
                     : "")}
               </p>
-              {((isHideCountDownTimer && process.env.REACT_APP_ENV_VAR!=='dev') &&  !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) && <TimeCalculate></TimeCalculate>}
+              {((isHideCountDownTimer && process.env.REACT_APP_ENV_VAR!=='dev') &&  !(activeTab === 1 && stakeDetails?.isUnstakeInitiated)) && <TimeCalculate timerSeconds={timerSeconds} initiatedTime={initiatedTime} setTimer={setIsHideCountDownTimer} textToDisplay={timerTexts[activeTab || 1]}/>}
             </div>
           </div>
         </div>
