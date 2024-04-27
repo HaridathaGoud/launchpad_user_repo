@@ -210,7 +210,7 @@ const Staking = () => {
                           </>
                         )}
                       </h1>
-                      <p className="text-secondary">63k Members</p>
+                      {/* <p className="text-secondary">63k Members</p> */}
                     </div>
                   </div>
                   <div className=" mt-4">
