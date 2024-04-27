@@ -56,14 +56,18 @@ const Allocations = (props) => {
       });
       dispatch({
         type: "setIsPublic",
-        payload: item?.type?.toLowerCase()==='public',
+        payload: item?.type?.toLowerCase() === "public",
+      });
+      dispatch({
+        type: "setPurchasedAmount",
+        payload: Number(item?.purchaseVolume),
       });
       dispatch({ type: "setVolumeData", payload: item?.paymentValue });
     } else {
       dispatch({ type: "setBuyAmount", payload: null });
       state.amountError && dispatch({ type: "setAmountError", payload: "" });
       rootDispatch(setError({ message: "" }));
-      dispatch({ type: "setIsPublic", payload: false});
+      dispatch({ type: "setIsPublic", payload: false });
       dispatch({ type: "setIsBuying", payload: false });
       dispatch({ type: "setDrawerStep", payload: 1 });
     }
@@ -85,30 +89,32 @@ const Allocations = (props) => {
     state.amountError && dispatch({ type: "setAmountError", payload: "" });
     rootDispatch(setError({ message: "" }));
     if (value && !state.buyAmount) {
-      if (state.buyAmount==='') {
+      if (state.buyAmount === "") {
         dispatch({
           type: "setAmountError",
           payload: "Please enter allocation volume to buy.",
-        })
-      }else if (parseFloat(state.buyAmount) === 0) {
+        });
+      } else if (parseFloat(state.buyAmount) === 0) {
         dispatch({
           type: "setAmountError",
           payload: "Please enter allocation volume greater than zero.",
         });
-      }else if (
+      } else if (
         state.buyAmount &&
-        parseFloat(state.buyAmount) > state.allocationVolume
+        (Number(state.buyAmount) > state.allocationVolume ||
+          Number(state.buyAmount) >
+            Number(state.allocationVolume) - Number(state.purchasedAmount))
       ) {
         dispatch({
           type: "setAmountError",
           payload: "Insufficient Allocation volume.",
         });
-      }else if (decimalRegex.test(state.buyAmount)) {
+      } else if (decimalRegex.test(state.buyAmount)) {
         dispatch({
-            type: "setAmountError",
-            payload: "Decimal values are not allowed.",
+          type: "setAmountError",
+          payload: "Decimal values are not allowed.",
         });
-      }else{
+      } else {
         isUpdate = true;
       }
     } else {
@@ -130,10 +136,10 @@ const Allocations = (props) => {
           type: "setAmountError",
           payload: "Insufficient Allocation volume.",
         });
-      }else if (decimalRegex.test(state.buyAmount)) {
+      } else if (decimalRegex.test(state.buyAmount)) {
         dispatch({
-            type: "setAmountError",
-            payload: "Decimal values are not allowed.",
+          type: "setAmountError",
+          payload: "Decimal values are not allowed.",
         });
       } else {
         isUpdate = true;
@@ -151,7 +157,7 @@ const Allocations = (props) => {
     return provider;
   }
   const handleOk = async () => {
-    const etherValue = (Number(state.volumeData) * Number(state.buyAmount));
+    const etherValue = Number(state.volumeData) * Number(state.buyAmount);
     dispatch({ type: "setIsBuying", payload: true });
     buyTokens(
       etherValue,
@@ -185,8 +191,6 @@ const Allocations = (props) => {
         dispatch({ type: "setIsBuying", payload: false });
       });
   };
-
-
 
   return (
     <>
@@ -335,7 +339,8 @@ const Allocations = (props) => {
                         htmlFor="amount"
                         className="text-dark text-sm font-normal p-0 mb-2 label ml-4"
                       >
-                        Enter Token Count To Buy <span className="text-primary">*</span>
+                        Enter Token Count To Buy{" "}
+                        <span className="text-primary">*</span>
                       </label>
                       <input
                         type="text"

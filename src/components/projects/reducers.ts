@@ -4,11 +4,12 @@ export const allocationState = {
   drawerStep: 1,
   hide: false,
   allocationVolume: 0,
+  purchasedAmount:0,
   volumeData: null,
   buyAmount: null,
   amountError: "",
   isBuying: false,
-  isPublic:false,
+  isPublic: false,
 };
 
 export const allocationsReducer = (state = allocationState, action) => {
@@ -22,9 +23,11 @@ export const allocationsReducer = (state = allocationState, action) => {
     case "setHide":
       return { ...state, hide: action.payload };
     case "setIsPublic":
-      return {...state,isPublic:action.payload}
+      return { ...state, isPublic: action.payload };
     case "setAllocationVolume":
       return { ...state, allocationVolume: action.payload };
+    case "setPurchasedAmount":
+      return { ...state, purchasedAmount: action.payload };
     case "setVolumeData":
       return { ...state, volumeData: action.payload };
     case "setBuyAmount":
