@@ -1,97 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
-import { get } from "../../utils/api";
+import React from "react";
 import moment from "moment";
 import DefaultImg from "../../assets/images/default-bg.png";
 import { Link } from "react-router-dom";
-import nodata from "../../assets/images/no-data.png";
 import ProjectShimmer from "../../components/loaders/projectcardshimmer";
 import Spinner from "../loaders/spinner";
-import { setError } from "../../reducers/layoutReducer";
-import { useDispatch } from "react-redux";
 import BreadCrumb from "../../ui/breadcrumb";
+import NoDataFound from "../../ui/nodatafound";
 
-const Projectscomponent = (props) => {
-  const rootDispatch=useDispatch()
-  const [cardDetails, setCardDetails] = useState<any[]>([]);
-  const [cardSeeMoreHide, setCardSeeMoreHide] = useState<boolean>(false);
-  const [totalCardData, setTotalCardData] = useState<any[]>([]);
-  const [pageNo, setPageNo] = useState(1);
-  const [search, setSearch] = useState(null);
-  const [loadeMessage, setLoaderMessage] = useState("");
-  const [loader, setLoader] = useState(false);
-  const [loadData, setLoadData] = useState(false);
-  const endedIgosRef = useRef<any>(null);
+const Projectscomponent = (props:any) => {
   const pjctTypes = { Ongoing: "Open", Upcoming: "Upcoming", Closed: "Ended" };
-  const fetchMoreData = () => {
-    getPrjectCardDetails(pageNo, props.pageSize, props.pjctType, search);
-  };
-
-  const getPrjectCardDetails = async (
-    pageNo: number,
-    pageSize: number,
-    type: any,
-    search: any
-  ) => {
-    setLoader(true);
-    setCardSeeMoreHide(false);
-    if (cardDetails?.length === 0) {
-      setLoader(true);
-    }
-    const skip = pageNo * props.pageSize - props.pageSize;
-    let response = await get(
-      `User/Projects/${props.pjctType}/${props.pageSize}/${skip}/${search}`
-    );
-    if (response) {
-      let _pageNo = pageNo + 1;
-      setPageNo(_pageNo);
-      setSearch(search);
-      let mergeData =
-        pageNo == 1 ? [...response.data] : [...cardDetails, ...response.data];
-      if (mergeData.length > 0) {
-        setLoaderMessage(" ");
-        setLoadData(response.data.length >= 9);
-      } else if (mergeData.length == 0) {
-        setCardSeeMoreHide(true);
-        setLoaderMessage("No data found");
-      }
-      setCardDetails(mergeData);
-      if (search == null) {
-        setTotalCardData(mergeData);
-      }
-      setLoader(false);
-    } else {
-      rootDispatch(setError({message:response}))
-      setLoader(false);
-    }
-  };
-  const shouldLog = useRef(true);
-  useEffect(() => {
-    if (shouldLog.current) {
-      shouldLog.current = false;
-      getPrjectCardDetails(1, props.pageSize, "Ongoing", null);
-    }
-  }, []);
-  const handleSearchIcon = (data: any) => {
-    if (!(data == "" || data == null || data.includes("."))) {
-      getPrjectCardDetails(1, props.pageSize, "Ongoing", data);
-      setCardDetails(totalCardData);
-    }
-  };
-
-  const handleSearch = (e: any) => {
-    let data = e.target.value.trim();
-    setSearch(data);
-    if (e.key === "Enter") {
-      if (data == "" || data.includes(".")) {
-        e.preventDefault();
-      } else {
-        getPrjectCardDetails(1, props.pageSize, "Ongoing", data);
-      }
-    } else if (!data) {
-      setCardDetails(totalCardData);
-    }
-  };
-
   const statusColourList = {
     Ongoing: "dot-green",
     Closed: "dot-red",
@@ -103,7 +20,7 @@ const Projectscomponent = (props) => {
         <div className="container mx-auto mt-[32px]">
           <div className="">
             {props.showBreadcrumb && <BreadCrumb/>}
-            {(cardDetails.length > 0 || props.showpjctType) &&
+            {(props.cardDetails?.length > 0 || props.showpjctType) &&
             <div
               className={`flex justify-between mb-4 mt-5 md:items-center ${
                 props.pageSize >= 9 ? "max-sm:flex-col gap-3" : ""
@@ -118,7 +35,7 @@ const Projectscomponent = (props) => {
                 </span>{" "}
                 {/* Projects */}
               </h2>
-              {props.pageSize < 9 && cardDetails?.length >=3 && (
+              {props.pageSize < 9 && props.cardDetails?.length >=3 && (
                 <Link
                   to={`/projects/${props.pjctType}`}
                   className="text-primary text-base font-medium"
@@ -135,23 +52,23 @@ const Projectscomponent = (props) => {
                       type="text"
                       placeholder="Search IVO"
                       className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"
-                      onKeyUp={(value) => handleSearch(value)}
-                      ref={endedIgosRef}
+                      onKeyUp={(value) => props?.handleSearch(value)}
+                      ref={props.endedIgosRef}
                     />
                     <span
                       className="icon md search absolute right-4 bottom-4 cursor-pointer md:w-72"
-                      onClick={() => handleSearchIcon(search)}
+                      onClick={() => props?.handleSearchIcon(props?.search)}
                     />
                   </div>
                 </div>
               )}
             </div>
             }
-            {cardDetails?.length !==0 && (
+            {props.cardDetails?.length !==0 && (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {cardDetails?.map((item) => (
+                {props.cardDetails?.map((item) => (
                   <>
-                    {loader ? (
+                    {props.loader ? (
                       <ProjectShimmer></ProjectShimmer>
                     ) : (
                       <div className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)]" key={item.id}>
@@ -387,38 +304,35 @@ const Projectscomponent = (props) => {
             )}
              {/* : (
               <> */}
-                {cardSeeMoreHide && props.showpjctType &&(
-                  <div className="text-center">
-                    <img width={95} className="mx-auto" src={nodata} />
-                    <p className="text-secondary text-center mt-2">{loadeMessage}</p>
-                  </div>
+                {props.cardDetails?.length ===0 && props.showpjctType &&(
+                  <NoDataFound text ={props.loaderMessage}/>
                 )}
               {/* </>
             )} */}
-            {cardDetails?.length !== 0 && loadData && loader && (
+            {props.cardDetails?.length !== 0 && props.loadData && props.loader && (
               <div className="text-center mt-2">
                 <Spinner className="text-center"></Spinner>
               </div>
             )}
-            {cardDetails?.length !== 0 && loadData && !loader && (
+            {props.cardDetails?.length !== 0 && props.loadData && !props.loader && (
               <div className="text-center mt-4">
                 {" "}
                 <span
-                  onClick={fetchMoreData}
+                  onClick={props.fetchMoreData}
                   className="cursor-pointer text-base text-primary font-semibold"
                 >
                   See More
                 </span>
                 <span
-                  onClick={fetchMoreData}
+                  onClick={props.fetchMoreData}
                   className="mx-auto block icon see-more cursor-pointer mt-[-4px]"
                 ></span>{" "}
               </div>
-            )}
+             )} 
           </div>
         </div>
         {/* )}  */}
-      {cardDetails?.length == 0 && loader && (
+      {props.loader && (
         <div className="text-center">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             <ProjectShimmer></ProjectShimmer>

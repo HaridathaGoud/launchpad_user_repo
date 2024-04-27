@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./projectdetails.module.css";
 import member from "../../assets/images/default-avatar.jpg";
 import { Link } from "react-router-dom";
-import nodata from "../../assets/images/no-data.png";
+import NoDataFound from "../../ui/nodatafound";
 
 const CastAndCrewMember = (props) => {
   return (
@@ -49,10 +49,7 @@ const CastAndCrewMember = (props) => {
         </Link>
       )}
       {props.castCrewsData?.length === 0 && (
-        <div className="text-center flex-1">
-          <img width={95} className="mx-auto" src={nodata} alt="No Data" />
-          <p className="text-secondary text-center mt-2">No data found</p>
-        </div>
+        <NoDataFound />
       )}
     </div>
   );

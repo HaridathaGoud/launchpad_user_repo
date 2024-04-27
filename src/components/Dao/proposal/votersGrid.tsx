@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {  getVoters } from "../../../reducers/votingReducer";
-import nodata from "../../../assets/images/no-data.png";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Spinner from "../../loaders/spinner";
 import Button from "../../../ui/Button";
+import NoDataFound from "../../../ui/nodatafound";
 const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
@@ -110,17 +110,7 @@ function Voters(props: any) {
                   </tbody>
                 </table>
                 {!voters.loading && voters?.data?.length === 0 && (
-                  <div className="text-center mt-5">
-                    <img
-                      src={nodata}
-                      width={95}
-                      className="mx-auto"
-                      alt="No Data"
-                    />
-                    <h4 className="text-center text-secondary mt-2">
-                      No data found
-                    </h4>
-                  </div>
+                  <NoDataFound text ={''}/>
                 )}
                 <div className="flex justify-center">
                   {voters.loading && (

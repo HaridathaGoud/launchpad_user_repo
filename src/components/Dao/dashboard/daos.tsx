@@ -6,6 +6,7 @@ import { clearDaos, getDaos } from "../../../reducers/proposlaReducer";
 import Button from "../../../ui/Button";
 import nodata from "../../../assets/images/no-data.png";
 import { useNavigate } from "react-router-dom";
+import NoDataFound from "../../../ui/nodatafound";
 const take = 8;
 const Daos = (props: any) => {
   const rootDispatch = useDispatch();
@@ -91,10 +92,7 @@ const Daos = (props: any) => {
               </Button>
             )}
           {!daos.loading && (!daos.data || daos.data?.length === 0) && (
-            <div className="text-center mt-5">
-              <img src={nodata} width={95} className="mx-auto" alt="No Data" />
-              <h4 className="text-center text-secondary mt-2">No data found</h4>
-            </div>
+            <NoDataFound text ={''}/>
           )}
         </div>
       </div>

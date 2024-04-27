@@ -10,7 +10,6 @@ import {
 } from "../../../reducers/proposlaReducer";
 import { useAccount } from "wagmi";
 import CreateFirstPraposal from "./newProposal";
-import nodata from "../../../assets/images/no-data.png";
 import Moment from "react-moment";
 import { isMobile } from "react-device-detect";
 import daocardProfile from "../../../assets/images/daocard-profile.png";
@@ -23,6 +22,7 @@ import {
   getVotingOptionColor,
 } from "./utils";
 import Spinner from "../../loaders/spinner";
+import NoDataFound from "../../../ui/nodatafound";
 const take = 10;
 
 const ProposalCards = (props: any) => {
@@ -338,15 +338,7 @@ const ProposalCards = (props: any) => {
           (state.startDate ||
             state.endDate ||
             (state.status !== "All" && !state.startDate && !state.endDate)) && (
-            <div className="text-center container mt-10">
-              <img
-                src={nodata}
-                width={95}
-                alt="NO Data"
-                className="mx-auto mb-1"
-              />
-              <h4 className="text-center text-secondary mt-2">No Data Found</h4>
-            </div>
+              <NoDataFound text ={''}/>
           )}
         {!proposals.loading &&
           !proposals.data?.length &&

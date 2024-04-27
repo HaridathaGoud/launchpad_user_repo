@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useReducer } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import nodata from "../../../assets/images/no-data.png";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +13,7 @@ import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
 import WalletConnect from "../../modules/ConnectButton/connect.wallet";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
+import NoDataFound from "../../../ui/nodatafound";
 const pageSize = 10;
 const search = null;
 function ExploreNfts(props: any) {
@@ -253,10 +253,7 @@ function ExploreNfts(props: any) {
               </div>
             ))}
           {data?.length === 0 && !loader && (
-            <div className="">
-              <img src={nodata} alt="" className="mx-auto w-[95px]" />
-              <h3 className="text-center text-secondary mt-2">No data found</h3>
-            </div>
+            <NoDataFound text ={''}/>
           )}
         </div>
         {data?.length === (pageNo - 1) * pageSize && (

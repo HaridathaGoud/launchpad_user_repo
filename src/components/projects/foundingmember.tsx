@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./projectdetails.module.css";
 import member from "../../assets/images/default-nft.png";
 import { Link } from "react-router-dom";
-import nodata from "../../assets/images/no-data.png";
 import CopyToClipboard from "react-copy-to-clipboard";
+import NoDataFound from "../../ui/nodatafound";
 
 const FoundingMember = (props) => {
   const [copied, setCopied] = useState("");
@@ -72,10 +72,7 @@ const FoundingMember = (props) => {
         </Link>
       )}
       {props.foundingmemsData?.stakersData?.length === 0 && (
-        <div className="text-center flex-1">
-          <img width={95} src={nodata} className="mx-auto" />
-          <p className="text-secondary text-center mt-2">No data found</p>
-        </div>
+        <NoDataFound />
       )}
     </div>
   );

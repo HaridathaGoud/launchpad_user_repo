@@ -3,11 +3,11 @@ import { useSelector, connect } from "react-redux";
 import Moment from "react-moment";
 import moment from "moment";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import nodata from "../../assets/images/no-data.png";
 import { Spinner } from "react-bootstrap";
 import { useAccount } from "wagmi";
 import { store } from "../../store";
 import { getEarnedBonous, getKyc } from "../../utils/api";
+import NoDataFound from "../../ui/nodatafound";
 
 function Referrals(props: any) {
   const [copied, setCpoied] = useState(false);
@@ -276,12 +276,7 @@ function Referrals(props: any) {
           </div>
         ) : (
           <div className="text-center">
-            <div className="text-center">
-              <img width={95} src={nodata} className="mx-auto" />
-              <p className="text-center text-secondary mt-2">
-                No data found
-              </p>
-            </div>
+            <NoDataFound text ={''}/>
           </div>
         )}
       </div>

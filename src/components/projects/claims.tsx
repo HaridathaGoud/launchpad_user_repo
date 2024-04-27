@@ -1,12 +1,12 @@
 import React, { useEffect, useState} from "react";
 import Button from "../../ui/Button";
-import nodata from "../../assets/images/no-data.png";
 import useContract from "../../hooks/useContract";
 import { connect, useDispatch } from "react-redux";
 import Spinner from "../loaders/spinner";
 import moment from "moment";
 import { ethers } from "ethers";
 import { setError, setToaster } from "../../reducers/layoutReducer";
+import NoDataFound from "../../ui/nodatafound";
 const Claims = (props) => {
   const [claimHide, setClaimHide] = useState(true);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
@@ -170,15 +170,7 @@ const Claims = (props) => {
                 </table>
               </div>
               {props?.data?.length === 0 && (
-                <div className="text-center">
-                  <img
-                    width={95}
-                    className="mx-auto"
-                    src={nodata}
-                    alt="No Data"
-                  />
-                  <p className="text-secondary text-center mt-2">No data found</p>
-                </div>
+                <NoDataFound text ={''}/>
               )}
             </div>
           )}

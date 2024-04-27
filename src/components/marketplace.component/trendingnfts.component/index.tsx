@@ -4,12 +4,12 @@ import { getMarketplace, postMarketplace } from "../../../utils/api";
 import defaultbg from "../../../assets/images/default-bg.png";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import "react-multi-carousel/lib/styles.css";
-import nodata from "../../../assets/images/no-data.png";
 import BuyComponent from "../../../utils/buyNow";
 import { useAccount } from "wagmi";
 import { connect, useDispatch } from "react-redux";
 import Button from "../../../ui/Button";
 import { setError } from "../../../reducers/layoutReducer";
+import NoDataFound from "../../../ui/nodatafound";
 function TrendingNfts(props) {
   const rootDispatch=useDispatch();
   const [previosImageChagne, setPreviosImageChange] = useState(0);
@@ -207,10 +207,7 @@ function TrendingNfts(props) {
                     </div>
                   ))
                 ) : (
-                  <div>
-                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
-                    <h3 className="text-center text-secondary mt-2">No data found</h3>
-                  </div>
+                  <NoDataFound text ={''}/>
                 )}
               </div>
             )}

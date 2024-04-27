@@ -15,7 +15,6 @@ import { connect } from "react-redux";
 import moment from "moment";
 import { useBalance, useAccount } from "wagmi";
 import PutOnSale from "../../../utils/putonsale";
-import nodata from "../../../assets/images/no-data.png";
 import BuyComponent from "../../../utils/buyNow";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import Moment from "react-moment";
@@ -34,6 +33,7 @@ import Button from "../../../ui/Button";
 import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { Modal, modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
+import NoDataFound from "../../../ui/nodatafound";
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
@@ -1735,10 +1735,7 @@ const DetailPage = (props: any) => {
               </div>
               {moreCollection.length == 0 && (
                 <>
-                  <div className="">
-                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
-                    <h3 className="text-center text-secondary mt-2">No data found</h3>
-                  </div>
+                  <NoDataFound text ={''}/>
                 </>
               )}
             </section>
