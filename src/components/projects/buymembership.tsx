@@ -10,12 +10,17 @@ import { useAccount } from "wagmi";
 import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getMemberTypes, getMetaDataDetails } from "../../reducers/rootReducer";
+import Spinner from "../loaders/spinner";
 
 
 const BuyMembership = (props) => {
   const params=useParams()
   const { isConnected, address } = useAccount();
-  const { minMultipleNft, parseError } = useContract();
+  const { minMultipleNft, parseError,readMintBalance,getNativeTokenPriceForMint,getMintedCount } = useContract();
+  const [isMinting,setIsMinting]=useState(false)
+  const [mintedAmount,setMintedAmount]=useState(0)
+  const [nftPrice,setNftPrice]=useState(0)
+  const [nftMintedTillNow,setNftMintedTillNow]=useState(0)
   const user = useSelector((state: any) => state.auth.user);
   const projectId = process.env.REACT_APP_PROJECTID;
   const projectSecret = process.env.REACT_APP_PROJECTSECRET;
@@ -48,9 +53,10 @@ const BuyMembership = (props) => {
   }
 
   const getContractCounts = () => {
-    getCount();
-    getBalanceCount(address)
-    getNativeMint()
+    // getCount();
+    // const minted=readMintBalance(address)
+    // if(minted) setMintedAmount(Number(minted))
+    // getNativeMint("")
   }
   const getMemberShipTypes = async (data: any) => {
     console.log(data)
@@ -59,55 +65,26 @@ const BuyMembership = (props) => {
   };
 
   async function getCount() {
-    // let mintCount: any = await readContract({
-    //   address: mintingContractAddress,
-    //   abi: MintContract.abi,
-    //   functionName: "mintedCount"
-    // });
+   const response=getMintedCount("")
     // mintCount = Number(mintCount);
-    // setNftMintCount(mintCount);
-  }
-  async function getBalanceCount(address) {
-    // let balance: any = await readContract({
-    //   address: mintingContractAddress,
-    //   abi: MintContract.abi,
-    //   functionName: "balanceOf",
-    //   args: [address]
-    // });
-    // balance = Number(balance);
-    // setSmartMintedNftCount(balance);
+    setNftMintedTillNow(response);
   }
 
-  async function getNativeMint(currency = "native") {
-    // setNote(null)
-    // setCount(1)
-    // setCurrecnyLodaer(true)
-    // setSelectedCrypto("Matic")
-    // const _methodNames = { "token": "getPriceForTokenMint", "native": "getPriceForNativeMint" }
-    // const nativeMint: any = await readContract({
-    //   address: mintingContractAddress,
-    //   abi: MintContract.abi,
-    //   functionName: _methodNames[currency]
-    // });
-    // const hex = ethers.utils.formatEther(nativeMint)
-    // const hexCurrencyValue = parseFloat(hex)
-    // const percentage = 1 / 100;
-    // const newCurrencyValue = hexCurrencyValue + hexCurrencyValue * percentage
-    // const currencyValue = parseFloat(newCurrencyValue)
-    // setNftPrice(currencyValue);
-    // setReferralPrice(currencyValue)
-    // setCurrencyValue(currencyValue);
-    // setCurrecnyLodaer(false)
+  async function getNativeMint(mintingContractAddress:any) {
+    const response=getNativeTokenPriceForMint(mintingContractAddress)
+    const hex = ethers.utils.formatEther(response)
+    const hexCurrencyValue = parseFloat(hex)
+    const percentage = 1 / 100;
+    const newCurrencyValue = hexCurrencyValue + hexCurrencyValue * percentage
+    const currencyValue = parseFloat(newCurrencyValue)
+    setNftPrice(currencyValue);
   }
   const handleMinting = () => {
-    // enableDisableLoader(true);
-    // setNote(null);
-    // setSuccess(null);
-    // setLoader(true)
+       setIsMinting(true);
     // if (nftMintCount < memberType?.data[0]?.totalNfts) {
     //   let checkCount = smartMintedNftCount + count;
     //   if (checkCount <= memberType?.data[0]?.maxMintedNfts) {
-        props.dispatch(getMetaDataDetails(5,params?.daoid, (data:any) => {
+        props.dispatch(getMetaDataDetails(1,props?.daoId, (data:any) => {
           getMetaDataList(data);
         }))
       // }
@@ -134,6 +111,7 @@ const BuyMembership = (props) => {
     //   }
 
     // }
+    setIsMinting(false)
   }
   const getMetaDataList = (data: any) => {
     // setMetaDataUri([])
@@ -160,16 +138,17 @@ const BuyMembership = (props) => {
       const jsonBlob = new Blob([nftMetadata], { type: 'application/json' });
       metadataIpfs = await ipfs.add(jsonBlob);
       // metaDataUri.push(metadataIpfs.path);
+      console.log(metadataIpfs,result)
       fileNames.push({ fileName: item.serialNo,
         ImageCid:result?.path,
          Description:item.description,
          NftName:item.name,
          cid: metadataIpfs.path,
-        //  coin:coinDetails,
-        //  price:Number(referralPrice).toFixed(8)
-
+         coin:"Matic",
+         price:Number(nftPrice).toFixed(8)
          });
     }
+    console.log(fileNames)
   //  ipfsMetadata('metaDataUri', fileNames, metaDataDetails);
   };
   const ipfsMetadata = async (uri: string[], fileNames: any[], data: any[]) => {
@@ -209,9 +188,11 @@ const BuyMembership = (props) => {
           <div className="text-right mt-5 max-sm:text-center">
             <Button
               type="primary"
-              handleClick={handleModalShow}
+              handleClick={()=>handleMinting()}
               btnClassName=""
+              disabled={isMinting}
             >
+              {isMinting && <span><Spinner/></span>}
               MINT For Membership Pass
             </Button>
           </div>

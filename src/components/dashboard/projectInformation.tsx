@@ -50,17 +50,17 @@ const ProjectInformation = () => {
     <div className="mt-[26px]">
       {loader && <ProjectInformationShimmer />}
       {!loader && (
-        <div className="grid md:grid-cols-4 gap-4 max-sm:grid-cols-2">
+        <div className="flex justify-center flex-wrap gap-4">
           {projectDetails?.map((detail) => (
             <div
               className="md:border-r last:border-none md:px-6 px-3"
               key={detail.name + detail.value}
             >
-              <div>
-                <h3 className="text-secondary font-semibold text-[32px]">
+              <div className="flex flex-col items-center">
+                <h3 className="text-secondary font-semibold text-[32px] w-fit">
                 {formatDetailValue(detail.name, detail.value)}
                 </h3>
-                <p className="text-primary font-medium capitalize">
+                <p className="text-primary font-medium capitalize w-fit">
                   {detail.name.toLowerCase()}
                 </p>
               </div>
