@@ -50,9 +50,9 @@ const Claims = (props) => {
     return provider;
   }
   const isBuyButtonDisabled = (claims:any) => {
-    const nowDate = new Date().getTime();
-    const claimDate = moment(claims.date).toDate().getTime();
-    const isEnable = claimDate !== nowDate;
+    const nowDate = moment.utc(new Date()).toDate().getTime();
+    const claimDate = moment.utc(claims.date).toDate().getTime();
+    const isEnable = claimDate >= nowDate;
     return isEnable;
   };
   return (
@@ -143,6 +143,7 @@ const Claims = (props) => {
                               }
                               handleClick={() => handleClaim(index)}
                             >
+                      
                               {claimBtnLoader && index === claimIndex && (
                                 <span>
                                   <Spinner />

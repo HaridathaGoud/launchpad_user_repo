@@ -49,7 +49,10 @@ export const checkpointTexts = {
     undefined,
   ],
 };
-
+export const timerTexts={
+  1:"Unstake in:",
+  2:"Withdrawable in:",
+}
 export const formatAmount = (amount: number | string, digits: number) => {
   amount = typeof amount === "number" ? amount.toString() : amount;
   return {
