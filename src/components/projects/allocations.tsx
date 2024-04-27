@@ -83,6 +83,9 @@ const Allocations = (props) => {
     });
   };
   const handleBuyToken = (e: any) => {
+    console.log( (Number(state.buyAmount) > state.allocationVolume ||
+    Number(state.buyAmount) >
+      Number(state.allocationVolume) - Number(state.purchasedAmount)))
     let isUpdate = false;
     const value = state.allocationVolume?.toString();
     const decimalRegex = /^\d*\.\d+$/;
@@ -130,7 +133,9 @@ const Allocations = (props) => {
         });
       } else if (
         state.buyAmount &&
-        parseFloat(state.buyAmount) > state.allocationVolume
+        (Number(state.buyAmount) > state.allocationVolume ||
+          Number(state.buyAmount) >
+            Number(state.allocationVolume) - Number(state.purchasedAmount))
       ) {
         dispatch({
           type: "setAmountError",
