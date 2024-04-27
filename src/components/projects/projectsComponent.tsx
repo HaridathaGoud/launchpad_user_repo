@@ -99,15 +99,17 @@ const Projectscomponent = (props) => {
   };
   return (
     <>
-      {cardDetails.length > 0 && props.showpjctType &&  (
+      {/* {cardDetails.length > 0 && props.showpjctType &&  ( */}
         <div className="container mx-auto mt-[32px]">
           <div className="">
             {props.showBreadcrumb && <BreadCrumb/>}
+            {(cardDetails.length > 0 || props.showpjctType) &&
             <div
               className={`flex justify-between mb-4 mt-5 md:items-center ${
                 props.pageSize >= 9 ? "max-sm:flex-col gap-3" : ""
               }`}
             >
+
               <h2 className="font-semibold text-xl lg:text-2xl text-secondary  ">
                 {pjctTypes[props.pjctType]}{" "}
                 <span className="text-primary">
@@ -124,6 +126,8 @@ const Projectscomponent = (props) => {
                   View All
                 </Link>
               )}
+
+
               {props.pageSize >= 9 && (
                 <div className="mb-3 d-flex">
                   <div className="relative">
@@ -142,7 +146,8 @@ const Projectscomponent = (props) => {
                 </div>
               )}
             </div>
-            {cardDetails?.length ? (
+            }
+            {cardDetails?.length !==0 && (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {cardDetails?.map((item) => (
                   <>
@@ -379,16 +384,17 @@ const Projectscomponent = (props) => {
                   </>
                 ))}
               </div>
-            ) : (
-              <>
-                {cardSeeMoreHide && (
+            )}
+             {/* : (
+              <> */}
+                {cardSeeMoreHide && props.showpjctType &&(
                   <div className="text-center">
                     <img width={95} className="mx-auto" src={nodata} />
                     <p className="text-secondary text-center mt-2">{loadeMessage}</p>
                   </div>
                 )}
-              </>
-            )}
+              {/* </>
+            )} */}
             {cardDetails?.length !== 0 && loadData && loader && (
               <div className="text-center mt-2">
                 <Spinner className="text-center"></Spinner>
@@ -411,7 +417,7 @@ const Projectscomponent = (props) => {
             )}
           </div>
         </div>
-        )} 
+        {/* )}  */}
       {cardDetails?.length == 0 && loader && (
         <div className="text-center">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
