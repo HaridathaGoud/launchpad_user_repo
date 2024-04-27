@@ -7,19 +7,47 @@ import moment from "moment";
 import { ethers } from "ethers";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 import NoDataFound from "../../ui/nodatafound";
-const Claims = (props) => {
+import { get } from "../../utils/api";
+import { store } from "../../store";
+const Claims = (props:any) => {
+  const { claimTokens } = useContract();
+  const user = store.getState().auth;
   const [claimHide, setClaimHide] = useState(true);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
   const [claimIndex, setClaimIndex] = useState<any>(null);
-  const { claimTokens } = useContract();
+  const [loader, setLoader] = useState(false);
+  const [data, setData] = useState<any>(null);
+
   const rootDispatch=useDispatch()
   useEffect(() => {
-      if (props.data?.length !== 0) {
-        setClaimHide(false);
-      } else {
-        setClaimHide(true);
-      }
-  }, [props.data]); //eslint-disable-line react-hooks/exhaustive-deps
+    getDetails()
+  }, []); 
+
+  const getDetails = async () => {
+    const userId =
+      user?.user?.id && user?.user?.id != ""
+        ? user?.user?.id
+        : "00000000-0000-0000-0000-000000000000";
+    setLoader(true);
+    try {
+        const claims = await get("User/Claims/" + props.pid + "/" + userId);
+        if (claims.status === 200) {
+          setData(claims.data);
+          setLoader(true);
+          if (claims.data?.length !== 0) {
+            setClaimHide(false);
+          } else {
+            setClaimHide(true);
+          }
+        } else {
+          rootDispatch(setError({ message: claims }));
+        }
+    } catch (error) {
+      rootDispatch(setError({ message: error }));
+    } finally {
+      setLoader(false);
+    }
+  };
   const handleClaim = (index: any) => {
     rootDispatch(setError({message:''}))
     setClaimIndex(index);
@@ -31,7 +59,8 @@ const Claims = (props) => {
           .waitForTransaction(res?.hash)
           .then((receipt: any) => {
             setClaimBtnLoader(false);
-            props.getClaims();
+            props.getDetails();
+            getDetails();
             rootDispatch(setToaster({message:"Tokens claim successful!"}))
           })
           .catch((error: any) => {
@@ -57,7 +86,7 @@ const Claims = (props) => {
   };
   return (
     <>
-      {!props.loader && (
+      {!loader && (
         <>
           {claimHide && (
             <div className="">
@@ -105,7 +134,7 @@ const Claims = (props) => {
                       <th className="text-left text-base text-secondary font-bold"></th>
                     </tr>
                   </thead>
-                  {props?.data?.map((claims: any, index: any) => (
+                  {data?.map((claims: any, index: any) => (
                     <tbody key={index}>
                       <tr>
                         <td>
@@ -170,7 +199,7 @@ const Claims = (props) => {
                   ))}
                 </table>
               </div>
-              {props?.data?.length === 0 && (
+              {data?.length === 0 && (
                 <NoDataFound text ={''}/>
               )}
             </div>

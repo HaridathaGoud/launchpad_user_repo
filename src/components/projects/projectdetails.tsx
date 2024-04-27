@@ -45,15 +45,8 @@ const Projectdetails = () => {
       if (fetch === "all") {
         let projectStatus = "";
         let swapPercentage = 0;
-        const projectDetails = await get(
-          "User/TokenInformation/" + projectId + "/" + userId
-        );
+        const projectDetails = await get("User/TokenInformation/" + projectId + "/" + userId);
         const projectFeed = await get("User/ProjectFeed/" + projectId);
-        const founders = await get("User/stakers/" + projectId);
-        const allocations = await get(
-          "User/Allocations/" + projectId + "/" + userId
-        );
-        const claims = await get("User/Claims/" + projectId + "/" + userId);
         if (projectDetails.status === 200) {
           projectStatus = proStatus(projectDetails.data);
           swapPercentage = swapProgressBarCalculation(projectDetails);
@@ -70,37 +63,6 @@ const Projectdetails = () => {
           details = { ...details, projectFeed: projectFeed.data };
         } else {
           rootDispatch(setError({ message: projectFeed }));
-        }
-        if (founders.status === 200) {
-          details = { ...details, founders: founders.data };
-        } else {
-          rootDispatch(setError({ message: founders }));
-        }
-        if (allocations.status === 200) {
-          details = { ...details, allocations: allocations.data };
-        } else {
-          rootDispatch(setError({ message: allocations }));
-        }
-        if (claims.status === 200) {
-          details = { ...details, claims: claims.data };
-        } else {
-          rootDispatch(setError({ message: claims }));
-        }
-      } else if (fetch === "allocations") {
-        const allocations = await get(
-          "User/Allocations/" + projectId + "/" + userId
-        );
-        if (allocations.status === 200) {
-          details = { ...details, allocations: allocations.data };
-        } else {
-          rootDispatch(setError({ message: allocations }));
-        }
-      } else if (fetch === "claims") {
-        const claims = await get("User/Claims/" + projectId + "/" + userId);
-        if (claims.status === 200) {
-          details = { ...details, claims: claims.data };
-        } else {
-          rootDispatch(setError({ message: claims }));
         }
       }
       setData(details);
@@ -194,11 +156,12 @@ const Projectdetails = () => {
                         >
                           Founding Members
                         </h4>
-                        {!loader && data?.founders && (
+                        {!loader && (
                           <FoundingMember
-                            foundingmemsData={data?.founders}
                             projectId={projectId}
                             projectName={projectName}
+                            proStatus ={proStatus}
+                            swapProgressBarCalculation={swapProgressBarCalculation}
                           />
                         )}
                         {loader && (
@@ -255,15 +218,13 @@ const Projectdetails = () => {
                             pjctInfo={data?.projectDetails}
                             pid={projectId}
                             data={data?.allocations}
-                            getAllocations={() => getDetails("allocations")}
-                            loader={loader}
+                            getDetails={() => getDetails("all")}
                           />
                           <Claims
                             pjctInfo={data?.projectDetails}
                             pid={projectId}
                             data={data?.claims}
-                            getClaims={() => getDetails("claims")}
-                            loader={loader}
+                            getDetails={() => getDetails("all")}
                           />
                         </div>
                       </div>}

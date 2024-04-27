@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Button from "../../ui/Button";
 import { ethers } from "ethers";
 import useContract from "../../hooks/useContract";
@@ -7,22 +7,49 @@ import Spinner from "../loaders/spinner";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 import { allocationState, allocationsReducer } from "./reducers";
 import NoDataFound from "../../ui/nodatafound";
+import { store } from "../../store";
+import { get } from "../../utils/api";
 
 const Allocations = (props) => {
   const [state, dispatch] = useReducer(allocationsReducer, allocationState);
   const { buyTokens } = useContract();
   const rootDispatch = useDispatch();
-  useEffect(() => {
-    if (props.data) {
-      dispatch({ type: "setAllocations", payload: props.data });
-      handlePrivateOrPublic(props.data);
-      if (props.data?.length !== 0) {
-        dispatch({ type: "setHide", payload: false });
-      } else {
-        dispatch({ type: "setHide", payload: true });
-      }
+  const [data, setData] = useState<any>(null);
+  const [loader, setLoader] = useState(false);
+  const user = store.getState().auth;
+  useEffect(()=>{
+    getDetails()
+  },[])
+
+  const getDetails = async () => {
+    const userId =
+      user?.user?.id && user?.user?.id != ""
+        ? user?.user?.id
+        : "00000000-0000-0000-0000-000000000000";
+    setLoader(true);
+    try {
+        const allocations = await get(
+          "User/Allocations/" + props.pid + "/" + userId
+        );
+        if (allocations.status === 200) {
+          dispatch({ type: "setAllocations", payload: allocations.data });
+          if (allocations.data?.length !== 0) {
+            dispatch({ type: "setHide", payload: false });
+          } else {
+            dispatch({ type: "setHide", payload: true });
+          }
+          handlePrivateOrPublic(data);
+          setLoader(false);
+        } else {
+          rootDispatch(setError({ message: allocations }));
+          setLoader(false);
+        }
+    } catch (error) {
+      rootDispatch(setError({ message: error }));
+    } finally {
+      setLoader(false);
     }
-  }, [props?.data]);
+  };
   const handlePrivateOrPublic = (data: any) => {
     data?.forEach((item: any) => {
       if (item.type === "Private") {
@@ -179,7 +206,8 @@ const Allocations = (props) => {
             dispatch({ type: "setShouldOpenDrawer", payload: false });
             dispatch({ type: "setDrawerStep", payload: 1 });
             rootDispatch(setToaster({ message: "Tokens buy successful!" }));
-            props.getAllocations();
+            props.getDetails();
+            getDetails();
           })
           .catch((error: any) => {
             rootDispatch(setError({ message: error?.reason || error }));
@@ -199,12 +227,12 @@ const Allocations = (props) => {
 
   return (
     <>
-      {props.loader && (
+      {loader && (
         <div className="text-center">
           <Spinner />
         </div>
       )}
-      {!props.loader && (
+      {!loader && (
         <div className="" id="allocationClaimHeader">
           <div>
             <h2 className="text-2xl font-medium">

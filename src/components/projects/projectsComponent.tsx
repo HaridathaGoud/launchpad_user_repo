@@ -20,7 +20,7 @@ const Projectscomponent = (props:any) => {
         <div className="container mx-auto mt-[32px]">
           <div className="">
             {props.showBreadcrumb && <BreadCrumb/>}
-            {(props.cardDetails?.length > 0 || props.showpjctType) &&
+            {(props.cardDetails?.length > 0 || props.from !=='dashBoard') &&
             <div
               className={`flex justify-between mb-4 mt-5 md:items-center ${
                 props.pageSize >= 9 ? "max-sm:flex-col gap-3" : ""
@@ -304,7 +304,7 @@ const Projectscomponent = (props:any) => {
             )}
              {/* : (
               <> */}
-                {props.cardDetails?.length ===0 && props.showpjctType &&(
+                {props.cardDetails?.length ===0 && props.from !=='dashBoard' &&(
                   <NoDataFound text ={props.loaderMessage}/>
                 )}
               {/* </>

@@ -5,7 +5,7 @@ import { setError } from '../../reducers/layoutReducer';
 import Projectscomponent from './projectsComponent';
 import NoDataFound from '../../ui/nodatafound';
 
-const ProjectCardComponent = () => {
+const ProjectCardComponent = (props:any) => {
     const rootDispatch = useDispatch()
     const pageNo = 1;
     const pageSize = 3
@@ -65,19 +65,19 @@ const ProjectCardComponent = () => {
             {(!loader && cardDetails?.OpenIvos?.length === 0 && cardDetails?.UpcomingIvos?.length === 0 && cardDetails?.EndedIvos?.length === 0) &&
                 <NoDataFound text ={loaderMessage}/>}
             {(loader || cardDetails?.OpenIvos?.length > 0 || cardDetails?.UpcomingIvos?.length > 0 || cardDetails?.EndedIvos?.length > 0) && <>
-                <Projectscomponent pjctType="Ongoing" pageSize="3" showBreadcrumb={false} showpjctType={true}
+                <Projectscomponent pjctType="Ongoing" pageSize="3" showBreadcrumb={false} from={props?.from || 'projects'} 
                     loader={loader}
                     cardSeeMoreHide={cardSeeMoreHide}
                     loaderMessage={loaderMessage}
                     loadData={false}
                     cardDetails={cardDetails?.OpenIvos} />
-                <Projectscomponent pjctType="Upcoming" pageSize="3" showBreadcrumb={false} showpjctType={true}
+                <Projectscomponent pjctType="Upcoming" pageSize="3" showBreadcrumb={false} from={props?.from || 'projects'} 
                     loader={loader}
                     cardSeeMoreHide={cardSeeMoreHide}
                     loaderMessage={loaderMessage}
                     loadData={false}
                     cardDetails={cardDetails?.UpcomingIvos} />
-                <Projectscomponent pjctType="Closed" pageSize="3" showBreadcrumb={false} showpjctType={true}
+                <Projectscomponent pjctType="Closed" pageSize="3" showBreadcrumb={false} from={props?.from || 'projects'}
                     loader={loader}
                     cardSeeMoreHide={cardSeeMoreHide}
                     loaderMessage={loaderMessage}

@@ -5,6 +5,7 @@ import Projectscomponent from "../projects/projectsComponent";
 import DashboardSteps from "./dashboardSteps";
 import ApplyNow from "../applynow";
 import TrendingProjects from "./trendingProjects";
+import ProjectCardComponent from "../projects/projectCards";
 export default function Dashboard() {
   return (
     <div className="">
@@ -18,7 +19,7 @@ export default function Dashboard() {
             {/* <Projectscomponent pjctType="Ongoing" pageSize="3" showBreadcrumb={false} showpjctType={false}/>
             <Projectscomponent pjctType="Upcoming" pageSize="3" showBreadcrumb={false} showpjctType={false}/>
             <Projectscomponent pjctType="Closed" pageSize="3" showBreadcrumb={false} showpjctType={false}/> */}
-            
+            <ProjectCardComponent from={'dashBoard'}/>
             <DashboardSteps />
           </>
         }

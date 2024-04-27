@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./projectdetails.module.css";
 import member from "../../assets/images/default-nft.png";
 import { Link } from "react-router-dom";
 import CopyToClipboard from "react-copy-to-clipboard";
 import NoDataFound from "../../ui/nodatafound";
+import { useDispatch } from "react-redux";
+import { get } from "../../utils/api";
+import { setError } from "../../reducers/layoutReducer";
 
 const FoundingMember = (props) => {
   const [copied, setCopied] = useState("");
+  const rootDispatch = useDispatch();
+  const [loader, setLoader] = useState(false);
+  const [data, setData] = useState<any>(null);
+
   const handleCopy = (address) => {
     setCopied(address);
     setTimeout(() => setCopied(""), 1000);
   };
+
+  useEffect(()=>{
+    getDetails()
+  },[])
+  const getDetails = async () => {
+    setLoader(true);
+    try {
+        const founders = await get("User/stakers/" + props.projectId);
+        if (founders.status === 200) {
+          setData(founders.data);
+          setLoader(true);
+        } else {
+          rootDispatch(setError({ message: founders }));
+          setLoader(true);
+        }
+      } catch (error) {
+      rootDispatch(setError({ message: error }));
+      setLoader(true);
+    } finally {
+      setLoader(false);
+    }
+  };
   return (
     <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
-      {props.foundingmemsData?.stakersData?.map((item, index) =>
+      {data?.stakersData?.map((item, index) =>
         index < 4 ? (
           <div
             className="lg:w-[140px] break-words shrink-0 text-center"
