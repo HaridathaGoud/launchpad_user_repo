@@ -9,10 +9,9 @@ import {
   setError,
   setToaster,
 } from "../reducers/layoutReducer";
-import SwipeUpComponent from "../components/projects/swipeup";
+import SwipeUp from "../ui/swipeUp";
 const AppLayout = () => {
   const { pathname } = useLocation();
-  const {projectName,projectId}=useParams()
   const rootDispatch = useDispatch();
   const { error, toaster } = useSelector((store: any) => ({
     error: store.layoutReducer.error,
@@ -49,7 +48,7 @@ const AppLayout = () => {
         <Outlet />
       </div>
       <div className={`lg:hidden`}>
-      <SwipeUpComponent/>
+      <SwipeUp/>
       </div>
       <FooterComponent />
     </>

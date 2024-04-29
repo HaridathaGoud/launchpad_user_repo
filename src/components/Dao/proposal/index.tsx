@@ -3,7 +3,7 @@ import InformationPanel from "./informationPanel";
 import Proposal from "./view";
 import { useParams } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
-import ProjectViewTabs from "../projecttabs";
+import ProjectDetailTabs from "../../projects/projectDetailTabs";
 import ProposalResults from "./results";
 import ProposalTabs from "./tabs";
 import BreadCrumb from "../../../ui/breadcrumb";
@@ -37,7 +37,7 @@ const ProposalView = (props) => {
             <BreadCrumb />  
           </div>
           {props?.showTabs &&<div className="sticky top-[73px] z-10">
-               <ProjectViewTabs pjctInfo={null} />
+               <ProjectDetailTabs pjctInfo={null} />
             </div>}
             {props?.showTabs && <div className="mb-8"></div>}
           <div className="md:grid md:grid-cols-12 gap-[30px]">

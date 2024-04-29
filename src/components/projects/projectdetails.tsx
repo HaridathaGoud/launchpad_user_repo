@@ -3,12 +3,11 @@ import { get } from "../../utils/api";
 import { useParams } from "react-router-dom";
 import { store } from "../../store";
 import { connect, useDispatch } from "react-redux";
-import ProjectViewTabs from "../Dao/projecttabs";
+import ProjectDetailTabs from "./projectDetailTabs";
 import CastAndCrewMember from "./castandcrewmember";
 import FoundingMember from "./foundingmember";
 import BuyMembership from "./buyMembership/index";
 import ApplyNow from "../applynow";
-import DetailViewShimmer from "../loaders/DetailViewShimmer";
 import ProjectDetailsCard from "./projectDetailsCard";
 import ProjectBanner from "./projectBanner";
 import ProjectFeed from "./projectfeed";
@@ -16,7 +15,7 @@ import Allocations from "./allocations";
 import Claims from "./claims";
 import CommonCreateProposal from "../Dao/proposals/index";
 import BreadCrumb from "../../ui/breadcrumb";
-import SwipeUpComponent from "./swipeup";
+import SwipeUp from "../../ui/swipeUp";
 import { setError } from "../../reducers/layoutReducer";
 
 const Projectdetails = () => {
@@ -127,7 +126,7 @@ const Projectdetails = () => {
                   )}
                   {!loader && (
                     <div className="sticky top-[73px] z-10">
-                      <ProjectViewTabs pjctInfo={data?.projectDetails} />
+                      <ProjectDetailTabs pjctInfo={data?.projectDetails} />
                     </div>
                   )}
                   <div>
@@ -310,7 +309,7 @@ const Projectdetails = () => {
       </div>
       <ApplyNow />
       <div className="max-md:hidden">
-        <SwipeUpComponent />
+        <SwipeUp />
       </div>
     </>
   );

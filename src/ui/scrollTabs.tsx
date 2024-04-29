@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const StickyTabBar = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) => {
+const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) => {
   const location=useLocation();
   const navigate=useNavigate()
   const tabRefs = useRef({});
@@ -77,4 +77,4 @@ const StickyTabBar = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) 
   );
 };
 
-export default StickyTabBar;
+export default ScrollTabs;

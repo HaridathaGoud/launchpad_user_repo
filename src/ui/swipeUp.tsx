@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import swipeup from '../../assets/images/swipeup.gif'
+import swipeup from '../../src/assets/images/swipeup.gif'
 
-const SwipeUpComponent = () => {
+const SwipeUp = () => {
   const [isVisible, setIsVisible] = useState(false); // Start with isVisible set to false
 
   useEffect(() => {
@@ -43,4 +43,4 @@ const SwipeUpComponent = () => {
   );
 };
 
-export default SwipeUpComponent;
+export default SwipeUp;
