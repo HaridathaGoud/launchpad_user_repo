@@ -138,7 +138,7 @@ const DaoLeftPanel = (props) => {
             </button>
           )}
         </div>
-        {props.showHeader &&
+        {props.showHeader && isConnected &&
           <div>
             {/* <h1 className="text-base font-semibold my-5 text-secondary">
             Proposals
@@ -149,37 +149,42 @@ const DaoLeftPanel = (props) => {
               className={`flex gap-2 ${props.from === "project" ? "" : "my-5"}`}
             >
               {" "}
+              {user.facebook && 
               <NaviLink
                 path={user.facebook}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
-                <span className={`icon facebook-md `}></span> </NaviLink>
+                <span className={`icon facebook-md `}></span> </NaviLink> }
+              {user.linkedIn && 
               <NaviLink
                 path={user.linkedIn}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
-                <span className={`icon instagram-md `}></span> </NaviLink>
+                <span className={`icon instagram-md `}></span> </NaviLink> }
+              {user.twitter && 
               <NaviLink
                 path={user.twitter}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
-                <span className={`icon telegram-md `}></span> </NaviLink>
-              {/* <NaviLink
+                <span className={`icon telegram-md `}></span> </NaviLink> }
+              {/* {user.discordUrl && 
+              <NaviLink
                 path=""
                 type="footerNav"
                 target="_blank"
-                rel="noreferrer"> */}
+                rel="noreferrer">
                 <span className={`icon discord-md `}></span> 
-                {/* </NaviLink> */}
+                 </NaviLink> } */}
+              {user.websiteUrl && 
               <NaviLink
                 path={user.websiteUrl}
                 type="footerNav"
                 target="_blank"
                 rel="noreferrer">
-                <span className={`icon network-md `}></span> </NaviLink>
+                <span className={`icon network-md `}></span> </NaviLink> }
             </div>
           </div>
         }

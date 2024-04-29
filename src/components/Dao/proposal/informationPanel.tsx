@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Moment from "react-moment";
 import { getProposalStatus } from "../proposals/utils";
+import InformationPanelShimmer from "../../loaders/InformationPanelShimmer";
 const InformationPanel = () => {
   const proposalDetails = useSelector(
     (state: any) => state.vtg.proposalDetails
@@ -9,16 +10,7 @@ const InformationPanel = () => {
   return (
     <>
       {proposalDetails?.loading && (
-        <div className="animate-pulse space-x-4 col-span-4">
-          <div className=" w-full opacity-1 rounded-xl gap-10 flex items-center p-4 border-b-1 mb-2">
-            <div className="w-full opacity-1 border-b-2">
-              <div className="w-full h-5  rounded-full bg-slate-200  mb-2"></div>
-              <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
-              <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
-              <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
-            </div>
-          </div>
-        </div>
+        <InformationPanelShimmer/>
       )}
       {!proposalDetails?.loading && (
         <div className="">

@@ -23,6 +23,7 @@ import {
 } from "./utils";
 import Spinner from "../../loaders/spinner";
 import NoDataFound from "../../../ui/nodatafound";
+import ProposalsShimmer from "../../loaders/ProposalsShimmer";
 const take = 10;
 
 const ProposalCards = (props: any) => {
@@ -124,18 +125,9 @@ const ProposalCards = (props: any) => {
             <h4 className="font-semibold text-secondary text-xl">Proposals</h4>
           </div>
         </div>
-        {(proposals.loading || statusLookup.loading) && (
-          <div className="animate-pulse space-x-4">
-            <div className="w-full h-6 rounded-md bg-slate-200 mt-6 !ml-0 max-w-md"></div>
-            <div className=" w-full opacity-1 rounded-xl flex flex-col gap-4 !m-0 !mt-6">
-              <div className="w-full md:h-[260px] rounded-md bg-slate-200  "></div>
-              {props?.from!=='project' && <>
-              <div className="w-full md:h-[260px] rounded-md bg-slate-200  "></div>
-              <div className="w-full md:h-[260px] rounded-md bg-slate-200  "></div>
-              </>}
-            </div>
-          </div>
-        )}
+        {(proposals.loading || statusLookup.loading) && 
+         <ProposalsShimmer from={props?.from}/>
+        }
         {!proposals.loading && !statusLookup.loading && proposals?.data && (
           <>
             <div className="grid md:grid-cols-5 gap-2">
