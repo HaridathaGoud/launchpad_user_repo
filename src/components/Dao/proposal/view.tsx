@@ -6,6 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import defaultBG from "../../../assets/images/default-bg.png";
 import { setError } from "../../../reducers/layoutReducer";
 import { getProposalStatusBg } from "../proposals/utils";
+import ProposalViewShimmer from "../../loaders/ProposalViewShimmer";
 const Proposal = () => {
   const { address } = useAccount();
   const rootDispatch = useDispatch();
@@ -35,11 +36,7 @@ const Proposal = () => {
   return (
     <>
       {proposalDetails.loading && (
-        <div className="animate-pulse space-x-4 col-span-8">
-          <div className=" w-full opacity-1 border rounded-xl gap-10 flex items-center p-4 ">
-            <div className="w-full md:h-[288px] rounded-md bg-slate-200  "></div>
-          </div>
-        </div>
+        <ProposalViewShimmer/>
       )}
       {!proposalDetails.loading && (
         <div className="py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg">

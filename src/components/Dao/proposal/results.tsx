@@ -22,6 +22,7 @@ import {
 } from "../proposals/utils";
 import { resultsReducer, resultsState } from "./reducers";
 import useContract from "../../../hooks/useContract";
+import DaoResultsShimmer from "../../loaders/DaoResultsShimmer";
 const ProposalResults = (props: any) => {
   const { address, isConnected } = useAccount();
   const params = useParams();
@@ -155,16 +156,7 @@ const ProposalResults = (props: any) => {
           Current results
         </h1>
         {proposalDetails?.loading && (
-          <div className="animate-pulse space-x-4 col-span-4">
-            <div className="w-full opacity-1 rounded-xl gap-10 flex items-center p-4 !ml-0 border-1 mt-2">
-              <div className="w-full opacity-1 rounded-xl border-2 p-4">
-                <div className="w-full h-5  rounded-full bg-slate-200  mb-2"></div>
-                <div className="w-full h-5  rounded-full bg-slate-200  mb-2"></div>
-                <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
-                <div className="w-full h-5  rounded-full bg-slate-200 mb-2"></div>
-              </div>
-            </div>
-          </div>
+          <DaoResultsShimmer/>
         )}
         {!proposalDetails?.loading && (
           <div className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
