@@ -123,7 +123,7 @@ const Claims = (props:any) => {
                 </h2>
               </div>
               <div className="max-sm:w-full overflow-auto">
-                <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
+                <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] px-1">
                   <thead>
                     <tr>
                       <th className="text-left text-base text-secondary font-bold">
