@@ -241,7 +241,7 @@ const Allocations = (props) => {
             <div className="mb-6 max-sm:w-full overflow-auto">
               {state.allocations?.length !== 0 && (
                 <div className="px-1">
-                  <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] ">
+                  <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] px-1">
                     <thead>
                       <tr>
                         <th className="text-left text-base text-secondary font-bold">

@@ -305,7 +305,7 @@ const ProjectDetailsCard = (props: any) => {
                 />
                 <div className="flex justify-between items-start mt-1">
                   <p className="text-xs text-secondary">
-                    {props.swapedPercentage?.toString()?.slice(0, 4)} %
+                    {props.swapedPercentage?.toString()?.slice(0, 8)} %
                   </p>
                   <p className="text-xs text-secondary">
                     {props.pjctInfo?.totalSoldTokens?.toLocaleString() || 0}/
