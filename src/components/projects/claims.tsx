@@ -15,7 +15,7 @@ const Claims = (props:any) => {
   const [claimHide, setClaimHide] = useState(true);
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
   const [claimIndex, setClaimIndex] = useState<any>(null);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [data, setData] = useState<any>(null);
 
   const rootDispatch=useDispatch()
@@ -28,12 +28,10 @@ const Claims = (props:any) => {
       user?.user?.id && user?.user?.id != ""
         ? user?.user?.id
         : "00000000-0000-0000-0000-000000000000";
-    setLoader(true);
     try {
         const claims = await get("User/Claims/" + props.pid + "/" + userId);
         if (claims.status === 200) {
           setData(claims.data);
-          setLoader(true);
           if (claims.data?.length !== 0) {
             setClaimHide(false);
           } else {
@@ -85,7 +83,16 @@ const Claims = (props:any) => {
     return isEnable;
   };
   return (
-    <>
+    <> 
+    {loader && (
+        <div className="animate-pulse space-x-1">
+            <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2"></div>
+            <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
+        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
+        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
+        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
+        </div>
+      )}
       {!loader && (
         <>
           {claimHide && (

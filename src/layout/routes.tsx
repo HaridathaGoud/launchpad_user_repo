@@ -208,7 +208,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/projects/:projectName/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
+          path: "/projects/:projectName/:projectId/:tokenType/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
             <React.Suspense>
               <ProposalView showTabs={true} />

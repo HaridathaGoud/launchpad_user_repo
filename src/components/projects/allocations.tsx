@@ -14,8 +14,7 @@ const Allocations = (props) => {
   const [state, dispatch] = useReducer(allocationsReducer, allocationState);
   const { buyTokens } = useContract();
   const rootDispatch = useDispatch();
-  const [data, setData] = useState<any>(null);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const user = store.getState().auth;
   useEffect(()=>{
     getDetails()
@@ -26,7 +25,6 @@ const Allocations = (props) => {
       user?.user?.id && user?.user?.id != ""
         ? user?.user?.id
         : "00000000-0000-0000-0000-000000000000";
-    setLoader(true);
     try {
         const allocations = await get(
           "User/Allocations/" + props.pid + "/" + userId
@@ -38,7 +36,7 @@ const Allocations = (props) => {
           } else {
             dispatch({ type: "setHide", payload: true });
           }
-          handlePrivateOrPublic(data);
+          handlePrivateOrPublic(allocations?.data);
           setLoader(false);
         } else {
           rootDispatch(setError({ message: allocations }));
@@ -228,9 +226,13 @@ const Allocations = (props) => {
   return (
     <>
       {loader && (
-        <div className="text-center">
-          <Spinner />
-        </div>
+      <div className="animate-pulse space-x-1">
+      <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2"></div>
+      <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
+  <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
+  <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
+  <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0 mb-3"></div>
+  </div>
       )}
       {!loader && (
         <div className="" id="allocationClaimHeader">

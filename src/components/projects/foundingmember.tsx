@@ -19,21 +19,21 @@ const FoundingMember = (props) => {
     setTimeout(() => setCopied(""), 1000);
   };
 
-  useEffect(()=>{
-    getDetails()
-  },[])
+  useEffect(() => {
+    getDetails();
+  }, []);
   const getDetails = async () => {
     setLoader(true);
     try {
-        const founders = await get("User/stakers/" + props.projectId);
-        if (founders.status === 200) {
-          setData(founders.data);
-          setLoader(true);
-        } else {
-          rootDispatch(setError({ message: founders }));
-          setLoader(true);
-        }
-      } catch (error) {
+      const founders = await get("User/stakers/" + props.projectId);
+      if (founders.status === 200) {
+        setData(founders.data);
+        setLoader(true);
+      } else {
+        rootDispatch(setError({ message: founders }));
+        setLoader(true);
+      }
+    } catch (error) {
       rootDispatch(setError({ message: error }));
       setLoader(true);
     } finally {
@@ -41,69 +41,87 @@ const FoundingMember = (props) => {
     }
   };
   return (
-    <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
-      {data?.stakersData?.map((item, index) =>
-        index < 4 ? (
-          <div
-            className="lg:w-[140px] break-words shrink-0 text-center"
-            key={item.walletAddress}
-          >
-            <div className={`relative w-20 h-20 mx-auto mb-3 `}>
-              <img
-                src={item.image ? item.image : member}
-                className={`rounded-full h-full w-full object-cover`}
-                alt={`${"founding member"}`}
-              />
-              {/* <span className={` text-base-100 text-xs font-semibold inline-flex items-center justify-center w-6 h-6 bg-primary rounded-[50%] text-center absolute right-[-5px] bottom-0.5 border border-white`}>3%</span> */}
-            </div>
-            <p className={`text-base font-normal  text-secondary text-center`}>
-              { item.userName || "--"}
-            </p>
-            <p className={`text-base font-semibold text-secondary text-center`}>
-              {item.walletAddress?.slice(0, 4) +
-                "...." +
-                item.walletAddress?.substring(
-                  item.walletAddress.length - 4,
-                  item.walletAddress.length
-                )}
-              <CopyToClipboard
-                text={item.walletAddress}
-                options={{ format: "text/plain" }}
-                onCopy={() => handleCopy(item.walletAddress)}
+    <>
+      {loader && (
+        <div className="animate-pulse space-x-1">
+          <div className="grid md:grid-cols-4 mt-4 gap-6">
+            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
+            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
+            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
+            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
+          </div>
+        </div>
+      )}
+      {!loader && (
+        <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
+          {data?.stakersData?.map((item, index) =>
+            index < 4 ? (
+              <div
+                className="lg:w-[140px] break-words shrink-0 text-center"
+                key={item.walletAddress}
               >
-                <span
-                  className={
-                    copied !== item.walletAddress
-                      ? "icon md copy-icon cursor-pointer ms-0 ml-[4px]"
-                      : "icon md check-icon ml-[4px]"
-                  }
-                />
-              </CopyToClipboard>
-            </p>
-          </div>
-        ) : (
-          ""
-        )
-      )}
+                <div className={`relative w-20 h-20 mx-auto mb-3 `}>
+                  <img
+                    src={item.image ? item.image : member}
+                    className={`rounded-full h-full w-full object-cover`}
+                    alt={`${"founding member"}`}
+                  />
+                  {/* <span className={` text-base-100 text-xs font-semibold inline-flex items-center justify-center w-6 h-6 bg-primary rounded-[50%] text-center absolute right-[-5px] bottom-0.5 border border-white`}>3%</span> */}
+                </div>
+                <p
+                  className={`text-base font-normal  text-secondary text-center`}
+                >
+                  {item.userName || "--"}
+                </p>
+                <p
+                  className={`text-base font-semibold text-secondary text-center`}
+                >
+                  {item.walletAddress?.slice(0, 4) +
+                    "...." +
+                    item.walletAddress?.substring(
+                      item.walletAddress.length - 4,
+                      item.walletAddress.length
+                    )}
+                  <CopyToClipboard
+                    text={item.walletAddress}
+                    options={{ format: "text/plain" }}
+                    onCopy={() => handleCopy(item.walletAddress)}
+                  >
+                    <span
+                      className={
+                        copied !== item.walletAddress
+                          ? "icon md copy-icon cursor-pointer ms-0 ml-[4px]"
+                          : "icon md check-icon ml-[4px]"
+                      }
+                    />
+                  </CopyToClipboard>
+                </p>
+              </div>
+            ) : (
+              ""
+            )
+          )}
 
-      {props.foundingmemsData?.stakersData?.length !== 0 && (
-        <Link
-          to={`/projects/${props?.projectName}/${props?.projectId}/foundingmembers`}
-        >
-          <div
-            className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer `}
-          >
-            <div className={`text-center`}>
-              <span className={`icon ${styles.rightArrow}`}></span>
-              <p className={`text-base-100 text-xs font-normal`}>View All</p>
-            </div>
-          </div>
-        </Link>
+          {props.foundingmemsData?.stakersData?.length !== 0 && (
+            <Link
+              to={`/projects/${props?.projectName}/${props?.projectId}/foundingmembers`}
+            >
+              <div
+                className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer `}
+              >
+                <div className={`text-center`}>
+                  <span className={`icon ${styles.rightArrow}`}></span>
+                  <p className={`text-base-100 text-xs font-normal`}>
+                    View All
+                  </p>
+                </div>
+              </div>
+            </Link>
+          )}
+          {props.foundingmemsData?.stakersData?.length === 0 && <NoDataFound />}
+        </div>
       )}
-      {props.foundingmemsData?.stakersData?.length === 0 && (
-        <NoDataFound />
-      )}
-    </div>
+    </>
   );
 };
 

@@ -129,8 +129,10 @@ const ProposalCards = (props: any) => {
             <div className="w-full h-6 rounded-md bg-slate-200 mt-6 !ml-0 max-w-md"></div>
             <div className=" w-full opacity-1 rounded-xl flex flex-col gap-4 !m-0 !mt-6">
               <div className="w-full md:h-[260px] rounded-md bg-slate-200  "></div>
+              {props?.from!=='project' && <>
               <div className="w-full md:h-[260px] rounded-md bg-slate-200  "></div>
               <div className="w-full md:h-[260px] rounded-md bg-slate-200  "></div>
+              </>}
             </div>
           </div>
         )}
@@ -203,7 +205,7 @@ const ProposalCards = (props: any) => {
                       to={
                         params?.daoId
                           ? `/daos/${params?.daoName}/${params?.daoId}/${params.projectId}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
-                          : `/projects/${params?.projectName}/${params?.projectId}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
+                          : `/projects/${params?.projectName}/${params?.projectId}/${props?.pjctInfo?.tokenType}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
                       }
                     >
                       <div className="flex justify-between gap-4 items-center">

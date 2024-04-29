@@ -274,7 +274,7 @@ const ProjectDetailsCard = (props: any) => {
             <div>
               <div className=" mb-4">
                 <h4 className="text-base text-secondary opacity-60 mb-1">
-                  Vesting Periods
+                  Vesting Period
                 </h4>
                 <p className="text-base text-secondary mb-2">
                   {props.pjctInfo?.vesting} Hours

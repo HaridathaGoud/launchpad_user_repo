@@ -1,10 +1,7 @@
-import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 
-const DetailViewShimmer: NextPage = () => {
-
+const DetailViewShimmer= () => {
   return (
-    <>
       <div className="animate-pulse space-x-4">
         <div className='grid md:grid-cols-12 gap-6 mt-6'>
        <div className='md:col-span-8'>
@@ -94,8 +91,6 @@ const DetailViewShimmer: NextPage = () => {
         </div>
         </div>
       </div>
-
-    </>
   );
 
 };
