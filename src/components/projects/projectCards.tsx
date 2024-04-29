@@ -62,7 +62,7 @@ const ProjectCardComponent = (props:any) => {
 
     return (
         <>
-            {(!loader && cardDetails?.OpenIvos?.length === 0 && cardDetails?.UpcomingIvos?.length === 0 && cardDetails?.EndedIvos?.length === 0) &&
+            {(!loader && cardDetails?.OpenIvos?.length === 0 && cardDetails?.UpcomingIvos?.length === 0 && cardDetails?.EndedIvos?.length === 0 && props.from!=='dashBoard') &&
                 <NoDataFound text ={loaderMessage}/>}
             {(loader || cardDetails?.OpenIvos?.length > 0 || cardDetails?.UpcomingIvos?.length > 0 || cardDetails?.EndedIvos?.length > 0) && <>
                 <Projectscomponent pjctType="Ongoing" pageSize="3" showBreadcrumb={false} from={props?.from || 'projects'} 
