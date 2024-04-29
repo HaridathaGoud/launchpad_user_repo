@@ -11,7 +11,7 @@ import ApplyNow from "../applynow";
 import ProjectDetailsCard from "./projectDetailsCard";
 import ProjectBanner from "./projectBanner";
 import ProjectFeed from "./projectfeed";
-import Allocations from "./allocations";
+import Allocations from './allocations/index';
 import Claims from "./claims";
 import CommonCreateProposal from "../Dao/proposals/index";
 import BreadCrumb from "../../ui/breadcrumb";
@@ -176,13 +176,11 @@ const Projectdetails = () => {
                             <Allocations
                               pjctInfo={data?.projectDetails}
                               pid={projectId}
-                              data={data?.allocations}
                               getDetails={() => getDetails("all")}
                             />
                             <Claims
                               pjctInfo={data?.projectDetails}
                               pid={projectId}
-                              data={data?.claims}
                               getDetails={() => getDetails("all")}
                             />
                           </div>
