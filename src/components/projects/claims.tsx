@@ -9,6 +9,7 @@ import { setError, setToaster } from "../../reducers/layoutReducer";
 import NoDataFound from "../../ui/nodatafound";
 import { get } from "../../utils/api";
 import { store } from "../../store";
+import { ClaimsShimmer } from "../loaders/ClaimsShimmer";
 const Claims = (props:any) => {
   const { claimTokens } = useContract();
   const user = store.getState().auth;
@@ -85,13 +86,7 @@ const Claims = (props:any) => {
   return (
     <> 
     {loader && (
-        <div className="animate-pulse space-x-1">
-            <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2"></div>
-            <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
-        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-        </div>
+        <ClaimsShimmer/>
       )}
       {!loader && (
         <>

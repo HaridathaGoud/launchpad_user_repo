@@ -7,6 +7,7 @@ import NoDataFound from "../../ui/nodatafound";
 import { useDispatch } from "react-redux";
 import { get } from "../../utils/api";
 import { setError } from "../../reducers/layoutReducer";
+import { ProjecViewFoundingmembersShimmer } from "../loaders/ProjecViewFoundingmembersShimmer";
 
 const FoundingMember = (props) => {
   const [copied, setCopied] = useState("");
@@ -43,14 +44,7 @@ const FoundingMember = (props) => {
   return (
     <>
       {loader && (
-        <div className="animate-pulse space-x-1">
-          <div className="grid md:grid-cols-4 mt-4 gap-6">
-            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-            <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-          </div>
-        </div>
+        <ProjecViewFoundingmembersShimmer/>
       )}
       {!loader && (
         <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>

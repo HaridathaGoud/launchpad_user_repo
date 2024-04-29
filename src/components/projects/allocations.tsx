@@ -9,6 +9,7 @@ import { allocationState, allocationsReducer } from "./reducers";
 import NoDataFound from "../../ui/nodatafound";
 import { store } from "../../store";
 import { get } from "../../utils/api";
+import AllocationsShimmer from "../loaders/AllocationsShimmer";
 
 const Allocations = (props) => {
   const [state, dispatch] = useReducer(allocationsReducer, allocationState);
@@ -226,13 +227,7 @@ const Allocations = (props) => {
   return (
     <>
       {loader && (
-      <div className="animate-pulse space-x-1">
-      <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2"></div>
-      <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
-  <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-  <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-  <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0 mb-3"></div>
-  </div>
+        <AllocationsShimmer />
       )}
       {!loader && (
         <div className="" id="allocationClaimHeader">

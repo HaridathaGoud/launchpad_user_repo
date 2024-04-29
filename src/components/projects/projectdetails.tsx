@@ -17,6 +17,12 @@ import CommonCreateProposal from "../Dao/proposals/index";
 import BreadCrumb from "../../ui/breadcrumb";
 import SwipeUp from "../../ui/swipeUp";
 import { setError } from "../../reducers/layoutReducer";
+import { ProjectDetailTabsShimmer } from "../loaders/ProjectDetailTabsShimmer";
+import { ProjectFeedShimmer } from "../loaders/ProjectFeedShimmer";
+import { ProjectViewCastCrewShimmer } from "../loaders/ProjectViewCastCrewShimmer";
+import { ProjectViewAllocationClaimShimmer } from "../loaders/ProjectViewAllocationClaimShimmer";
+import { ProjectViewTokendetailsCardShimmer } from "../loaders/ProjectViewTokendetailsCardShimmer";
+import { ProjectViewBannerShimmer } from "../loaders/ProjectViewBannerShimmer";
 
 const Projectdetails = () => {
   const allocationsRef = useRef(null);
@@ -104,9 +110,7 @@ const Projectdetails = () => {
             <div className="md:grid lg:grid-cols-12 mt-2 gap-7">
               <div className="lg:col-span-8">
                 {loader && (
-                  <div className="animate-pulse space-x-4">
-                    <div className="w-full md:min-h-[380px] rounded-[15px] bg-slate-200"></div>
-                  </div>
+                  <ProjectViewBannerShimmer/>
                 )}
                 {!loader && (
                   <ProjectBanner bannerImage={data?.projectFeed?.bannerImage} />
@@ -114,15 +118,7 @@ const Projectdetails = () => {
                 <div className="mt-2 mb-4">
                   <BreadCrumb />
                   {loader && (
-                    <div className="animate-pulse space-x-4">
-                      {" "}
-                      <div className="grid md:grid-cols-4 gap-4 mt-6">
-                        <div className="w-full h-[48px] rounded-[33px] bg-slate-200"></div>
-                        <div className="w-full h-[48px] rounded-[33px] bg-slate-200"></div>
-                        <div className="w-full h-[48px] rounded-[33px] bg-slate-200"></div>
-                        <div className="w-full h-[48px] rounded-[33px] bg-slate-200"></div>
-                      </div>
-                    </div>
+                    <ProjectDetailTabsShimmer/>
                   )}
                   {!loader && (
                     <div className="sticky top-[73px] z-10">
@@ -138,15 +134,7 @@ const Projectdetails = () => {
                       </h4>
                       {!loader && <ProjectFeed pjctFeed={data?.projectFeed} />}
                       {loader && (
-                        <div className="animate-pulse space-x-4 mt-6">
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2"></div>
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                          <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                        </div>
+                        <ProjectFeedShimmer/>
                       )}
                     </div>
                     <h4
@@ -173,31 +161,13 @@ const Projectdetails = () => {
                       />
                     )}
                     {loader && (
-                      <div className="animate-pulse space-x-1">
-                        <div className="grid md:grid-cols-4 mt-4 gap-6">
-                          <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-                          <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-                          <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-                          <div className="w-full h-[160px] rounded-lg bg-slate-200"></div>
-                        </div>
-                      </div>
+                      <ProjectViewCastCrewShimmer/>
                     )}
                     <hr className="my-5" />
                   </div>
                   <div id="allocationClaim" ref={allocationsRef}>
                     {loader && (
-                      <div className="animate-pulse space-x-1">
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-6 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                        <div className="w-full h-[16px] rounded-[33px] bg-slate-200 mt-2 !ml-0"></div>
-                      </div>
+                      <ProjectViewAllocationClaimShimmer/>
                     )}
                     {!loader &&
                       data?.projectDetails?.tokenType === "ERC-20" && (
@@ -258,50 +228,7 @@ const Projectdetails = () => {
                 />
               )}
               {loader && (
-                <div className="border shadow rounded-2xl p-4 w-full mx-auto md:col-span-4">
-                  <div className="animate-pulse flex space-x-4 justify-between">
-                    <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-                    <div className="flex gap-4">
-                      <div className="rounded-full bg-slate-200 h-7 w-7"></div>
-                      <div className="rounded-full bg-slate-200 h-7 w-7"></div>
-                      <div className="rounded-full bg-slate-200 h-7 w-7"></div>
-                      <div className="rounded-full bg-slate-200 h-7 w-7"></div>
-                      <div className="rounded-full bg-slate-200 h-7 w-7"></div>
-                    </div>
-                  </div>
-                  <div className="animate-pulse space-x-4 mt-2">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                      <div className="h-2 bg-slate-200 rounded col-span-5"></div>
-                    </div>
-                  </div>
-                  <div className="animate-pulse space-x-4  h-48 mt-2">
-                    <div className="bg-slate-200 rounded-xl h-full"></div>
-                  </div>
-
-                  <div className="animate-pulse mt-2">
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                  </div>
-                  <div className="animate-pulse space-x-4  h-16 mt-2">
-                    <div className="bg-slate-200 rounded-xl h-full"></div>
-                  </div>
-                  <div className="animate-pulse mt-2">
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                  </div>
-                  <div className="animate-pulse space-x-4  h-16 mt-2">
-                    <div className="bg-slate-200 rounded-xl h-full"></div>
-                  </div>
-                  <div className="animate-pulse mt-2">
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                    <div className="h-2 bg-slate-200 rounded-xl mt-2"></div>
-                  </div>
-                  <div className="animate-pulse space-x-4  h-16 mt-2">
-                    <div className="bg-slate-200 rounded-xl h-full"></div>
-                  </div>
-                </div>
+                <ProjectViewTokendetailsCardShimmer/>
               )}
             </div>
           </div>
