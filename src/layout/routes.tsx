@@ -9,7 +9,7 @@ import ErrorPage from "../utils/errorPage";
 import { store } from "../store";
 import { getKyc } from "../utils/api";
 import { setToken } from "../reducers/rootReducer";
-import FoundingMembersView from "../components/projects/founders/projectFoundersView";
+import FoundingMembersView from "../components/projects/founders/view";
 import AppLayout from "./AppLayout";
 import SumSub from "../components/sumsub";
 import ComingSoon from "../components/shared/comingSoon";
