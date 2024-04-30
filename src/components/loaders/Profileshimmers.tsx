@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 const ProfileInfoShimmer: NextPage = () => {
 
   return (
-    <>
       <div className="animate-pulse space-x-4">
         
        <div className='grid lg:grid-cols-5 gap-4'>
@@ -67,7 +66,6 @@ const ProfileInfoShimmer: NextPage = () => {
       </div>
 
       </div>
-    </>
   );
 
 };

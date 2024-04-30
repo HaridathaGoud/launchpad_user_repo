@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import { Navigate } from "react-router-dom";
 import { useAccount } from "wagmi";
-import ProfileInfoShimmer from "../loaders/Profileshimmers";
+import ProfileInfoShimmer from "../loaders/profileshimmers";
 import Button from "../../ui/Button";
 import ProfileView from "./view";
 import ProfileEdit from "./edit";

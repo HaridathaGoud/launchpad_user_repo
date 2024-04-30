@@ -9,7 +9,7 @@ import { setError, setToaster } from "../../reducers/layoutReducer";
 import NoDataFound from "../../ui/nodatafound";
 import { get } from "../../utils/api";
 import { store } from "../../store";
-import { ClaimsShimmer } from "../loaders/ClaimsShimmer";
+import { ClaimsShimmer } from "../loaders/claimsShimmer";
 const Claims = (props:any) => {
   const { claimTokens } = useContract();
   const user = store.getState().auth;

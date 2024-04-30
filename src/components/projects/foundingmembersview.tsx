@@ -4,7 +4,7 @@ import FoundingMemberSimmer from "../loaders/foundingmembersshimmer";
 import { useParams } from "react-router-dom";
 import { get } from "../../utils/api";
 import defaultbannerimg from "../../assets/images/default-bg.png";
-import FoundingMemberBannerSimmer from "../loaders/FoundingBannerShimmer";
+import FoundingMemberBannerSimmer from "../loaders/foundingBannerShimmer";
 import ProjectBanner from "./projectBanner";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import BreadCrumb from "../../ui/breadcrumb";
