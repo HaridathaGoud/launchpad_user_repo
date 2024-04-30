@@ -22,7 +22,7 @@ const Faq = React.lazy(() => import("../components/faq.component"));
 const KycStatus = React.lazy(() => import("../components/sumsub/kycStatus"));
 const Profile = React.lazy(() => import("../components/profile"));
 const Projectdetails = React.lazy(
-  () => import("../components/projects/projectdetails")
+  () => import("../components/projects/project/index")
 );
 const AllProjects = React.lazy(
   () => import("../components/projects/allProjects")

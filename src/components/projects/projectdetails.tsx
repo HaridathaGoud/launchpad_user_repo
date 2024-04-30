@@ -8,7 +8,7 @@ import CastAndCrewMember from "./castAndCrew/index";
 import FoundingMember from "../projects/founders/index";
 import BuyMembership from "./buyMembership/index";
 import ApplyNow from "../applynow";
-import ProjectDetailsCard from "./projectDetailsCard";
+import ProjectDetailsCard from "./project/projectDetailsCard";
 import ProjectBanner from "./projectBanner";
 import ProjectFeed from "./projectfeed";
 import Allocations from './allocations/index';

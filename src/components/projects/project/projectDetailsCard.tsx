@@ -1,8 +1,8 @@
 import React from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import defaultlogo from "../../assets/images/default-logo.png";
+import defaultlogo from '../../../assets/images/default-logo.png';
 import moment from "moment";
-import NaviLink from "../../ui/NaviLink";
+import NaviLink from "../../../ui/NaviLink";
 
 const pjctTypes = {
   ongoing: "Ongoing",
