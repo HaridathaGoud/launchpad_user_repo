@@ -12,7 +12,7 @@ import ProjectDetailsCard from "./projectDetailsCard";
 import ProjectBanner from "./projectBanner";
 import ProjectFeed from "./projectfeed";
 import Allocations from './allocations/index';
-import Claims from "./claims";
+import Claims from "./claims/index";
 import CommonCreateProposal from "../Dao/proposals/index";
 import BreadCrumb from "../../ui/breadcrumb";
 import SwipeUp from "../../ui/swipeUp";
