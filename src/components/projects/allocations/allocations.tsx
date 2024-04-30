@@ -2,8 +2,8 @@ import React from "react";
 import Button from "../../../ui/Button";
 import { connect } from "react-redux";
 import NoDataFound from "../../../ui/nodatafound";
-import AllocationsShimmer from "../../loaders/AllocationsShimmer";
-import { BuyTokenDrawer } from "./BuyTokenDrawer";
+import AllocationsShimmer from "../../loaders/allocationsShimmer";
+import { BuyTokenDrawer } from './buyTokenDrawer' ;
 
 const AllocationsView = (props) => {
   return (

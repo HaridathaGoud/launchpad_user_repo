@@ -17,11 +17,11 @@ import CommonCreateProposal from "../Dao/proposals/index";
 import BreadCrumb from "../../ui/breadcrumb";
 import SwipeUp from "../../ui/swipeUp";
 import { setError } from "../../reducers/layoutReducer";
-import { ProjectDetailTabsShimmer } from "../loaders/ProjectDetailTabsShimmer";
-import { ProjectFeedShimmer } from "../loaders/ProjectFeedShimmer";
+import { ProjectDetailTabsShimmer } from "../loaders/projectDetailTabsShimmer";
+import { ProjectFeedShimmer } from "../loaders/projectFeedShimmer";
 import { ProjectViewCastCrewShimmer } from "../loaders/ProjectViewCastCrewShimmer";
-import { ProjectViewAllocationClaimShimmer } from "../loaders/ProjectViewAllocationClaimShimmer";
-import { ProjectViewTokendetailsCardShimmer } from "../loaders/ProjectViewTokendetailsCardShimmer";
+import { ProjectViewAllocationClaimShimmer } from "../loaders/projectViewAllocationClaimShimmer";
+import { ProjectViewTokendetailsCardShimmer } from "../loaders/projectViewTokendetailsCardShimmer";
 import { ProjectViewBannerShimmer } from "../loaders/ProjectViewBannerShimmer";
 
 const Projectdetails = () => {

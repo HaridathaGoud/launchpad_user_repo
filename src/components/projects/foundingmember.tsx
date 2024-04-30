@@ -7,7 +7,7 @@ import NoDataFound from "../../ui/nodatafound";
 import { useDispatch } from "react-redux";
 import { get } from "../../utils/api";
 import { setError } from "../../reducers/layoutReducer";
-import { ProjecViewFoundingmembersShimmer } from "../loaders/ProjecViewFoundingmembersShimmer";
+import { ProjecViewFoundingmembersShimmer } from "../loaders/projecViewFoundingmembersShimmer";
 
 const FoundingMember = (props) => {
   const [copied, setCopied] = useState("");
