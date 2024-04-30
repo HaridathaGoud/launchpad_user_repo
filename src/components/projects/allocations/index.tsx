@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { store } from '../../../store';
-import { allocationState, allocationsReducer } from '../reducers';
+import { allocationState, allocationsReducer } from './reducers';
 import { useDispatch } from 'react-redux';
 import { setError, setToaster } from '../../../reducers/layoutReducer';
 import { get } from '../../../utils/api';
-import AllocationsView from  '../allocations';
+import AllocationsView from  './allocations';
 import { ethers } from "ethers";
 import useContract from '../../../hooks/useContract';
 
@@ -217,7 +217,7 @@ import useContract from '../../../hooks/useContract';
             dispatch({ type: "setIsBuying", payload: false });
           });
       };
-  return (<>
+  return (
       <AllocationsView
           loader={loader}
           allocations={state.allocations}
@@ -234,6 +234,6 @@ import useContract from '../../../hooks/useContract';
           handleBuyToken={handleBuyToken}
           isBuying={state.isBuying}
           handleOk={handleOk} />
-  </>  )
+    )
 }
 export default Allocations;
