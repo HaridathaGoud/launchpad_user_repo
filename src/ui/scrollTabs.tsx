@@ -5,6 +5,7 @@ const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) =>
   const location=useLocation();
   const navigate=useNavigate()
   const tabRefs = useRef({});
+  const minTop = useRef(Number.POSITIVE_INFINITY);
   useEffect(()=>{
     if(location.hash){
       handleTabClick(location.hash.slice(1),null)
@@ -14,12 +15,18 @@ const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) =>
     return active || location.hash?.slice(1)
   },[location.hash,active])
   const handleEntries=(entries)=>{
+    let currentId = '';
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        const id='#'+entry.target.id
-          navigate(id);
+        const top = entry.boundingClientRect.top;
+        if (top < minTop.current) {
+          console.log(top,minTop)
+          minTop.current = top;
+          currentId = '#'+entry.target.id;
+        }
         } 
       });
+    navigate(currentId);
   }
  
   useEffect(() => {
@@ -39,6 +46,7 @@ const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) =>
     });
     return () => {
       observers.forEach(observer => observer.disconnect());
+      minTop.current=Number.POSITIVE_INFINITY
     };
   }, [sections,window.scrollY]);
 
