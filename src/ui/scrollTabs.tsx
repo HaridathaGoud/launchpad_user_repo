@@ -15,18 +15,12 @@ const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) =>
     return active || location.hash?.slice(1)
   },[location.hash,active])
   const handleEntries=(entries)=>{
-    let currentId = '';
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        const top = entry.boundingClientRect.top;
-        if (top < minTop.current) {
-          console.log(top,minTop)
-          minTop.current = top;
-          currentId = '#'+entry.target.id;
-        }
+        navigate('#'+entry.target.id);
         } 
       });
-    navigate(currentId);
+    
   }
  
   useEffect(() => {
