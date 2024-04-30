@@ -9,7 +9,7 @@ import ErrorPage from "../utils/errorPage";
 import { store } from "../store";
 import { getKyc } from "../utils/api";
 import { setToken } from "../reducers/rootReducer";
-import FoundingMembersView from "../components/projects/foundingmembersview";
+import FoundingMembersView from "../components/projects/founders/projectFoundersView";
 import AppLayout from "./AppLayout";
 import SumSub from "../components/sumsub";
 import ComingSoon from "../components/shared/comingSoon";
@@ -61,7 +61,7 @@ const ReferralsCode = React.lazy(
   () => import("../components/referral.component/referralCode")
 );
 const CastandCrewMembersView = React.lazy(
-  () => import("../components/projects/castandcrewmembersview")
+  () => import("../components/projects/castAndCrew/view")
 );
 
 const Routes = () => {

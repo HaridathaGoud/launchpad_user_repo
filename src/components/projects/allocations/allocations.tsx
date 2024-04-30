@@ -2,16 +2,10 @@ import React from "react";
 import Button from "../../../ui/Button";
 import { connect } from "react-redux";
 import NoDataFound from "../../../ui/nodatafound";
-import AllocationsShimmer from "../../loaders/allocationsShimmer";
-import { BuyTokenDrawer } from './buyTokenDrawer' ;
 
 const AllocationsView = (props) => {
   return (
     <>
-      {props.loader && (
-        <AllocationsShimmer />
-      )}
-      {!props.loader && (
         <div className="" id="allocationClaimHeader">
           <div>
             <h2 className="text-2xl font-medium">
@@ -112,22 +106,7 @@ const AllocationsView = (props) => {
             <NoDataFound text ={''}/>
           )}
         </div>
-      )}
-      {/* Buy Now modal start  */}
-      {props.shouldOpenDrawer && (
-        <BuyTokenDrawer
-        shouldOpenDrawer={props.shouldOpenDrawer} 
-        handleDrawerActions={props.handleDrawerActions}
-        drawerStep={props.drawerStep}
-        allocationVolume={props.allocationVolume}
-        buyAmount={props.buyAmount}
-        handleAmount ={props.handleAmount}
-        amountError={props.amountError}
-        handleBuyToken={props.handleBuyToken}
-        isBuying={props.isBuying}
-        handleOk={props.handleOk} />
-      )}
-      {/* Buy Now modal end  */}
+
       {/* Confirm modal start  */}
       {/* {isconfirm && (
         <div className="drawer drawer-end">

@@ -7,6 +7,8 @@ import { get } from '../../../utils/api';
 import AllocationsView from  './allocations';
 import { ethers } from "ethers";
 import useContract from '../../../hooks/useContract';
+import { BuyTokenDrawer } from './buyTokenDrawer';
+import AllocationsShimmer from '../../loaders/allocationsShimmer';
 
  const Allocations = (props:any) => {
     const user = store.getState().auth;
@@ -199,7 +201,7 @@ import useContract from '../../../hooks/useContract';
                 dispatch({ type: "setShouldOpenDrawer", payload: false });
                 dispatch({ type: "setDrawerStep", payload: 1 });
                 rootDispatch(setToaster({ message: "Tokens buy successful!" }));
-                props.getAllocationDetails();
+                getAllocationDetails();
                 props.getDetails();
               })
               .catch((error: any) => {
@@ -217,23 +219,34 @@ import useContract from '../../../hooks/useContract';
             dispatch({ type: "setIsBuying", payload: false });
           });
       };
-  return (
+  return (<> 
+    {loader && (
+      <AllocationsShimmer />
+    )}
+    {!props.loader && (
       <AllocationsView
-          loader={loader}
-          allocations={state.allocations}
-          getAllocationDetails={getAllocationDetails}
-          getDetails={props.getDetails}
-          hide={state.hide}
-          handleDrawerActions={handleDrawerActions}
-          allocationVolume={state.allocationVolume}
-          buyAmount={state.buyAmount}
-          handleAmount={handleAmount}
-          shouldOpenDrawer={state.shouldOpenDrawer}
-          drawerStep={state.drawerStep}
-          amountError={state.amountError}
-          handleBuyToken={handleBuyToken}
-          isBuying={state.isBuying}
-          handleOk={handleOk} />
-    )
+        pjctInfo={props.pjctInfo}
+        loader={loader}
+        allocations={state.allocations}
+        hide={state.hide}
+        handleDrawerActions={handleDrawerActions}
+        allocationVolume={state.allocationVolume}
+      />
+    )}
+
+        {state.shouldOpenDrawer && (
+        <BuyTokenDrawer
+        shouldOpenDrawer={state.shouldOpenDrawer} 
+        handleDrawerActions={handleDrawerActions}
+        drawerStep={state.drawerStep}
+        allocationVolume={state.allocationVolume}
+        buyAmount={state.buyAmount}
+        handleAmount ={handleAmount}
+        amountError={state.amountError}
+        handleBuyToken={handleBuyToken}
+        isBuying={state.isBuying}
+        handleOk={handleOk} />
+      )} 
+    </>)
 }
 export default Allocations;
