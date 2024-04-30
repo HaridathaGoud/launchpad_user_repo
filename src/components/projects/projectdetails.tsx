@@ -19,10 +19,10 @@ import SwipeUp from "../../ui/swipeUp";
 import { setError } from "../../reducers/layoutReducer";
 import { ProjectDetailTabsShimmer } from "../loaders/projectDetailTabsShimmer";
 import { ProjectFeedShimmer } from "../loaders/projectFeedShimmer";
-import { ProjectViewCastCrewShimmer } from "../loaders/ProjectViewCastCrewShimmer";
+import { ProjectViewCastCrewShimmer } from "../loaders/projectViewCastCrewShimmer";
 import { ProjectViewAllocationClaimShimmer } from "../loaders/projectViewAllocationClaimShimmer";
 import { ProjectViewTokendetailsCardShimmer } from "../loaders/projectViewTokendetailsCardShimmer";
-import { ProjectViewBannerShimmer } from "../loaders/ProjectViewBannerShimmer";
+import { ProjectViewBannerShimmer } from "../loaders/projectViewBannerShimmer";
 
 const Projectdetails = () => {
   const allocationsRef = useRef(null);

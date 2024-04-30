@@ -1,10 +1,9 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 
 const TiresShimmer: NextPage = () => {
 
   return (
-    <>
       <div className="animate-pulse space-x-4 lg:w-[850px] mx-auto">
         
         <div className="w-3/4 h-10 mx-auto rounded-md bg-slate-200 mt-6 max-w-md"></div>
@@ -75,7 +74,6 @@ const TiresShimmer: NextPage = () => {
         </div>
         </div>
       </div>
-    </>
   );
 
 };

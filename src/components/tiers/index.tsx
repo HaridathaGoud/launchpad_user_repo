@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAccount, useBalance } from "wagmi";
 import { get } from "../../utils/api";
 import Button from "../../ui/Button";
-import TiresShimmer from "../loaders/TiresShimmers";
+import TiresShimmer from "../loaders/tiresShimmers";
 import { setError } from "../../reducers/layoutReducer";
 import { useDispatch } from "react-redux";
 

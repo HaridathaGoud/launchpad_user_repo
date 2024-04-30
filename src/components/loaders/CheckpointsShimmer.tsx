@@ -1,10 +1,9 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 
 const CheckpointsShimmer: NextPage = () => {
 
   return (
-    <>
       <div className="animate-pulse space-x-4">
       
         <div className='mt-8 grid grid-cols-4 gap-6' >
@@ -58,7 +57,6 @@ const CheckpointsShimmer: NextPage = () => {
           </div>
         </div>
       </div>
-    </>
   );
 
 };
