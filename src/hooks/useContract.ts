@@ -123,7 +123,7 @@ export default function useContractMethods() {
       callback({ ok: false, error });
     }
   }
-  async function stack(callback: Function, amount: any, contract: any) {
+  async function stake(callback: Function, amount: any, contract: any) {
     const _amt = ethers.utils.parseUnits(amount, decimalPoints);
     let _pool = _getPoolLevel(amount);
     const {
@@ -554,7 +554,7 @@ export default function useContractMethods() {
   }
   return {
     approve,
-    stack,
+    stake,
     getRewards,
     withDrawTokens,
     withdrawRewards,

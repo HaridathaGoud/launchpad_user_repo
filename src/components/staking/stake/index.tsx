@@ -31,7 +31,7 @@ const StakingComponent = () => {
   const rootDispatch = useDispatch();
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
-  const { approve, stack } = useContract();
+  const { approve, stake } = useContract();
   const tiresAmount = useParams().stakeAmount;
   useEffect(() => {
     tabContextValues?.resetTab?.();
@@ -85,7 +85,7 @@ const StakingComponent = () => {
     }
   };
   const handleStake = async () => {
-    stack(
+    stake(
       (res: any) => {
         stakeCallBack(res);
       },
