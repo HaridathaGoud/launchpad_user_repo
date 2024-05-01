@@ -42,7 +42,7 @@ const RewardsComponent = () => {
         (res: any) => {
           callbackRewards(res);
         },
-        formatAmount(rewardAmount,8).formattedBalance,
+        rewardAmount.toFixed(2),
         true
       );
     }
