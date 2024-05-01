@@ -4,17 +4,20 @@ import { WagmiConfig, createConfig, configureChains } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { Web3Modal } from '@web3modal/react';
-import { polygon, polygonMumbai } from 'viem/chains';
+import { polygon} from 'viem/chains';
 import Routes from './layout/routes';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import { amoyNetwork } from './utils/amoyConfig';
 const walletConnectProjectId: any = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
+
+ 
 const { chains, publicClient } = configureChains(
-  [polygon, polygonMumbai],
+  [polygon,amoyNetwork],
   [
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: () => ({
         http: process.env.REACT_APP_JSONRPC_URL || '',
       }),
     }),

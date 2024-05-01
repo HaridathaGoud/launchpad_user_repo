@@ -5,6 +5,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { switchNetwork } from 'wagmi/actions';
 import { useDispatch } from 'react-redux';
 import { setToaster } from '../../../reducers/layoutReducer';
+import { handleConnect } from './handleConnect';
 const WalletConnect = ({onWalletConect, onWalletClose, onWalletError }: IWalletConnection) => {
   const rootDispatch=useDispatch()
   const { connectAsync, connectors } = useConnect();
@@ -13,43 +14,10 @@ const WalletConnect = ({onWalletConect, onWalletClose, onWalletError }: IWalletC
   const icons=useMemo(()=>{
     return  { metaMask: metmaskIcon, walletConnect: walletIcon }
   },[])
-  const handleConnect = async (connector: any) => {
-    try {
-      if (connector.id === 'walletConnect') {
-        onWalletClose();
-      }
-      if (!isConnected) {
-        const { account, chain } = await connectAsync({ connector });
-        if (chain.id !=80001) {
-          await switchNetwork({ chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0 });
-          onWalletConect(account);
-          connector.onAccountsChanged = onAccountsChanged;
-          connector.onChainChanged = onChainChanged;
-          onWalletClose();
-        } else {
-          onWalletConect(account);
-          onWalletClose();
-          connector.onAccountsChanged = onAccountsChanged;
-          connector.onChainChanged = onChainChanged;
-        }
-      } else {
-        onWalletClose();
-        connector.onAccountsChanged = onAccountsChanged;
-        connector.onChainChanged = onChainChanged;
-      }
-    } catch (error) {
-      if (onWalletError) onWalletError(error);
-      rootDispatch(setToaster({message:error?.message,timeout:3000,type:'error'}))
-    }
-  };
-  const onAccountsChanged = (account) => {
-    onWalletConect(account);
-    window.location.reload();
-  };
-  const onChainChanged = async () => {
-    await disconnectAsync();
-    window.location.reload();
-  };
+  const handleError=(error:any)=>{
+    if (onWalletError) onWalletError(error);
+    rootDispatch(setToaster({message:error?.message,timeout:3000,type:'error'}))
+  }
   return (
    <>
           <h2 className="text-[42px] text-secondary font-normal text-center">Connect Your Wallet</h2>
@@ -62,7 +30,7 @@ const WalletConnect = ({onWalletConect, onWalletClose, onWalletError }: IWalletC
                     className="px-6 py-2 rounded-lg flex items-center bg-info-content mb-4 mx-auto"
                     type="button"
                     onClick={() => {
-                      handleConnect(connector);
+                      handleConnect(connector,isConnected,connectAsync,switchNetwork,onWalletConect,disconnectAsync,onWalletClose,handleError);
                     }}
                   >
                     <img src={icons[connector.id] || metmaskIcon} alt="" className='mr-2' />

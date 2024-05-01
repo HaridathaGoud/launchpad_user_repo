@@ -10,6 +10,7 @@ import { StakingContextModal, StakingTabsContextModel } from "../models.ts";
 import { StakingTabsContext } from "../context/stakingTabsContext.tsx";
 import { useDispatch } from "react-redux";
 import { setToaster } from "../../../reducers/layoutReducer.ts";
+import { formatAmount } from "../utils.ts";
 const RewardsComponent = () => {
   const rootDispatch = useDispatch();
   const {
@@ -24,7 +25,7 @@ const RewardsComponent = () => {
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
-  const { stackRewards, approve } = useContract();
+  const { stakeRewards, approve } = useContract();
   useEffect(() => {
     tabContextValues?.resetTab?.();
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -37,33 +38,15 @@ const RewardsComponent = () => {
       );
       tabContextValues?.setButtonLoader?.(false);
     } else {
-      stackRewards(
+      stakeRewards(
         (res: any) => {
           callbackRewards(res);
         },
-        rewardAmount.toFixed(8),
+        formatAmount(rewardAmount,8).formattedBalance,
         true
       );
-      // approve((res: any) => {
-      //   approveStake(res);
-      // }, parseFloat(rewardAmount.toFixed(8)));
     }
   };
-  // const approveStake = (res: any) => {
-  //   if (res.ok) {
-  //     tabContextValues.setButtonLoader?.(false);
-  //     stackRewards(
-  //       (res: any) => {
-  //         callbackRewards(res);
-  //       },
-  //       rewardAmount.toFixed(8),
-  //       true
-  //     );
-  //   } else {
-  //     tabContextValues.setButtonLoader?.(false);
-  //     tabContextValues?.setTabError?.(res.error.shortMessage || res);
-  //   }
-  // }
   const callbackRewards = async (res: any) => {
     const obj = {
       address: address,
@@ -86,6 +69,11 @@ const RewardsComponent = () => {
       tabContextValues?.setCheckboxValue?.(false);
     }
   };
+  const inActiveCondition:boolean | undefined= !isConnected ||
+  rewardAmount === "0" ||
+  !rewardAmount ||
+  currencyBalance === "0" ||
+  !currencyBalance || tabContextValues?.buttonLoader
   return (
     <div className="">
       <div className="">
@@ -98,24 +86,13 @@ const RewardsComponent = () => {
               <div className="max-sm:text-center max-sm:mt-2">
                 <Button
                   type={
-                    !isConnected ||
-                    rewardAmount === "0" ||
-                    !rewardAmount ||
-                    currencyBalance === "0" ||
-                    !currencyBalance || tabContextValues?.buttonLoader
+                    inActiveCondition
                       ? "stakingDisabled"
                       : "stakingPrimary"
                   }
                   btnClassName={`flex items-center gap-2`}
                   handleClick={handleStakeRewards}
-                  disabled={
-                    !isConnected ||
-                    rewardAmount === "0" ||
-                    !rewardAmount ||
-                    currencyBalance === "0" ||
-                    !currencyBalance ||
-                    tabContextValues?.buttonLoader
-                  }
+                  disabled={inActiveCondition}
                 >
                   {tabContextValues?.buttonLoader && <Spinner />}
                   Stake Rewards

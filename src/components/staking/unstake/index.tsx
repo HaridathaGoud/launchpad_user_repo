@@ -33,7 +33,7 @@ export default function Unstake() {
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
-  const { unStack } = useContract();
+  const { unStake } = useContract();
   useEffect(() => {
     tabContextValues?.resetTab?.();
     setTimers?.(6, "minutes");
@@ -55,7 +55,7 @@ export default function Unstake() {
       return;
     } else if (activeStep === 3) {
       tabContextValues?.setButtonLoader?.(true);
-      unStack((res: any) => {
+      unStake((res: any) => {
         callBackUnStake(res);
       }, tabContextValues?.tabAmount);
     }
