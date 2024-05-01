@@ -223,7 +223,7 @@ import AllocationsShimmer from '../../loaders/allocationsShimmer';
     {loader && (
       <AllocationsShimmer />
     )}
-    {!props.loader && (
+    {!loader && (
       <AllocationsView
         pjctInfo={props.pjctInfo}
         loader={loader}

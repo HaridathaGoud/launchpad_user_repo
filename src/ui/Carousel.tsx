@@ -1,10 +1,7 @@
 import React, { useRef, useState } from "react";
 import Button from "./Button";
-import { useAccount } from "wagmi";
 import { navigateToUniswap } from "../utils/commonNavigations";
 import formatDate from "../utils/formatDate";
-import ConnectWallet from "./connectButton";
-
 interface CarouselProps {
   data: any;
   indicator?: string;
@@ -24,7 +21,6 @@ const Carousel = ({
   className,
   isWelcome,
 }: CarouselProps) => {
-  const { isConnected, address } = useAccount();
   const [currentImg, setCurrentImg] = useState(0);
   const carouselRef = useRef(null);
   function handleIndicatorClick(img) {
@@ -134,15 +130,12 @@ const Carousel = ({
                           </div>
                         )}
                         <div className="mt-8 max-sm:mb-8 max-sm:text-center">
-                          {isConnected && address && (
                             <Button
                               type="primary"
                               handleClick={() => navigateToUniswap()}
                             >
                               Buy {process.env.REACT_APP_TOKEN_SYMBOL}
                             </Button>
-                          )}
-                          {!isConnected && <ConnectWallet />}
                         </div>
                       </div>
                     </div>

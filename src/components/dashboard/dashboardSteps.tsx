@@ -5,7 +5,6 @@ import { useAccount, useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { useSelector } from "react-redux";
 import { navigateToUniswap } from "../../utils/commonNavigations";
-import ConnectWallet from "../../ui/connectButton";
 const DashboardSteps = () => {
   const navigate = useNavigate();
   const [isKycComplete, setIsKycComplete] = useState<boolean>(false);
@@ -73,13 +72,12 @@ const DashboardSteps = () => {
                       <br className="max-sm:hidden" /> passive income
                     </p>
                     <div className="max-sm:flex max-sm:justify-end">                      
-                    {isConnected && <Button
+                    <Button
                         type="secondary"
                         handleClick={() => navigateToUniswap()}
                       >
                         Buy {process.env.REACT_APP_TOKEN_SYMBOL}
-                      </Button>}
-                      {!isConnected && <ConnectWallet type="secondary"/>}
+                    </Button>
                     </div>
                   </li>
                   <li className="timeline-item md:mb-5">
