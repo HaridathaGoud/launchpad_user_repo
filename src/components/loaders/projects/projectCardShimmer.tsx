@@ -1,8 +1,6 @@
-import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 
-const ProjectShimmer: NextPage = () => {
-
+const ProjectCardShimmer = () => {
     return (
         <>
             <div className="border shadow rounded-2xl p-4 w-full mx-auto mb-2">
@@ -48,4 +46,4 @@ const ProjectShimmer: NextPage = () => {
     );
 
 };
-export default ProjectShimmer;
+export default ProjectCardShimmer;

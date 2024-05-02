@@ -4,7 +4,6 @@ import metmaskIcon from '../../assets/images/connectwallet.svg';
 import walletIcon from '../../assets/images/walletconnect.svg';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { switchNetwork } from 'wagmi/actions';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import Toast from 'react-bootstrap/Toast';
 import MetamaskIco from '../../assets/images/pop-icon1.svg';
 import WalletConnectIco from '../../assets/images/walletconnect.svg';

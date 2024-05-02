@@ -11,10 +11,15 @@ import { getKyc } from "../utils/api";
 import { setToken } from "../reducers/rootReducer";
 import FoundingMembersView from "../components/projects/founders/view";
 import AppLayout from "./AppLayout";
-import SumSub from "../components/sumsub";
 import ComingSoon from "../components/shared/comingSoon";
 import TopsellerDetailview from "../components/marketplace.component/topsellerdetailview";
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
+import Spinner from "../components/loaders/spinner";
+import TiresShimmer from "../components/loaders/tiresShimmers";
+import StakingShimmer from "../components/loaders/stakingShimmer";
+import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer"
+import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
+import ProfileShimmer from "../components/loaders/profileShimmer";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -29,18 +34,7 @@ const AllProjects = React.lazy(
 );
 const Staking = React.lazy(() => import("../components/staking"));
 const Tiers = React.lazy(() => import("../components/tiers"));
-const Minting = React.lazy(
-  () => import("../components/minting.component/dashboard")
-);
-const MintingDao = React.lazy(
-  () => import("../components/minting.component/daoCards")
-);
-const ThankYou = React.lazy(
-  () => import("../components/minting.component/thankyou")
-);
-const MyCollections = React.lazy(
-  () => import("../components/minting.component/mycollections/index")
-);
+const SumSub = React.lazy(() => import("../components/sumsub"));
 const Marketplace = React.lazy(
   () => import("../components/marketplace.component/index")
 );
@@ -67,21 +61,8 @@ const CastandCrewMembersView = React.lazy(
 const Routes = () => {
   const routes = createBrowserRouter([
     {
-      element: (
-        <React.Suspense>
-          <AppLayout />
-        </React.Suspense>
-      ),
+      element: <AppLayout />,
       errorElement: <ErrorPage />,
-      loader: async () => {
-        const id = store.getState().auth?.user?.id;
-        return getKyc(`User/GetAuthorizationToken/${id || ""}`).then(
-          (token) => {
-            store.dispatch(setToken(token.data));
-            return token;
-          }
-        );
-      },
       children: [
         {
           path: "/",
@@ -90,7 +71,11 @@ const Routes = () => {
         },
         {
           path: "/dashboard",
-          element: <Dashboard />,
+          element: (
+            <React.Suspense fallback={<Spinner />}>
+              <Dashboard />
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
         { path: "/aboutus", element: <AboutUs />, errorElement: <ErrorPage /> },
@@ -100,57 +85,72 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         { path: "/faq", element: <Faq />, errorElement: <ErrorPage /> },
-        { path: "/profile", element: <Profile />, errorElement: <ErrorPage /> },
         {
-          path: "profile/:show",
-          element: <Profile />,
+          path: "/profile",
+          element: (
+            <React.Suspense fallback={<ProfileShimmer />}>
+              <Profile />
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/projects",
-          element: <Project />,
+          element: (
+            <React.Suspense fallback={<ProjectCardsShimmers />}>
+              <Project />
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: `/projects/:type`,
-          element: <AllProjects />,
+          element: (
+            <React.Suspense fallback={<ProjectCardsShimmers />}>
+              <AllProjects />
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/projects/:projectName/:projectId",
-          element: <Projectdetails />,
+          element: (
+            <React.Suspense fallback={<ProjectViewShimmer />}>
+              <Projectdetails />
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
-        { path: "/staking", element: <Staking />, errorElement: <ErrorPage /> },
+        {
+          path: "/staking",
+          element: (
+            <React.Suspense fallback={<StakingShimmer />}>
+              <Staking />
+            </React.Suspense>
+          ),
+          errorElement: <ErrorPage />,
+        },
         {
           path: "/staking/:stakeAmount",
-          element: <Staking />,
+          element: (
+            <React.Suspense fallback={<StakingShimmer />}>
+              <Staking />
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
-        { path: "/tiers", element: <Tiers />, errorElement: <ErrorPage /> },
+        {
+          path: "/tiers",
+          element: (
+            <React.Suspense fallback={<TiresShimmer />}>
+              <Tiers />
+            </React.Suspense>
+          ),
+          errorElement: <ErrorPage />,
+        },
         {
           path: "/completekyc",
-          element: <SumSub />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/minting",
-          element: <MintingDao />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/minting/:daoname/:daoid",
-          element: <Minting />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/minnapad/thankyou",
-          element: <ThankYou />,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: "/minnapad/mycollections",
-          element: <MyCollections />,
+          element: <React.Suspense fallback={<Spinner />}><SumSub /></React.Suspense>,
           errorElement: <ErrorPage />,
         },
         {
@@ -186,7 +186,7 @@ const Routes = () => {
         {
           path: "/daos",
           element: (
-            <React.Suspense>
+            <React.Suspense fallback={<Spinner/>}>
               <Daos />
             </React.Suspense>
           ),
@@ -194,15 +194,15 @@ const Routes = () => {
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals",
           element: (
-            <React.Suspense>
-              <Proposals showBreadcrumb={true} showHeader={true}/>
+            <React.Suspense fallback={<Spinner/>}>
+              <Proposals showBreadcrumb={true} showHeader={true} />
             </React.Suspense>
           ),
         },
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
-            <React.Suspense>
+            <React.Suspense fallback={<Spinner/>}>
               <ProposalView showTabs={false} />
             </React.Suspense>
           ),
@@ -210,7 +210,7 @@ const Routes = () => {
         {
           path: "/projects/:projectName/:projectId/:tokenType/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
-            <React.Suspense>
+            <React.Suspense fallback={<Spinner/>}>
               <ProposalView showTabs={true} />
             </React.Suspense>
           ),
@@ -234,7 +234,7 @@ const Routes = () => {
         {
           path: "/projects/:projectName/:projectId/castandcrew",
           element: (
-            <React.Suspense>
+            <React.Suspense fallback={<Spinner/>}>
               <CastandCrewMembersView />
             </React.Suspense>
           ),
@@ -249,7 +249,7 @@ const Routes = () => {
     {
       path: "*",
       element: (
-        <React.Suspense>
+        <React.Suspense fallback={<Spinner/>}>
           <Pageerror />
         </React.Suspense>
       ),

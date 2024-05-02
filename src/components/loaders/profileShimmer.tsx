@@ -1,10 +1,9 @@
-import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 
-const ProfileInfoShimmer: NextPage = () => {
+const ProfileShimmer= () => {
 
   return (
-      <div className="animate-pulse space-x-4">
+      <div className="animate-pulse space-x-4 container">
         
        <div className='grid lg:grid-cols-5 gap-4'>
        <div>
@@ -69,4 +68,4 @@ const ProfileInfoShimmer: NextPage = () => {
   );
 
 };
-export default ProfileInfoShimmer;
+export default ProfileShimmer;

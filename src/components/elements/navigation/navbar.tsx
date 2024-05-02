@@ -5,6 +5,7 @@ import { connect, useSelector } from "react-redux";
 import { useAccount, useDisconnect } from "wagmi";
 import { store } from "../../../store";
 import {
+  getTokenDetails,
   setUserID,
   Staker,
   walletAddress,
@@ -16,7 +17,7 @@ import DropdownMenus from "../../../ui/DropdownMenus";
 import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../../ui/NaviLink";
 import ConnectWallet from "../../../ui/connectButton";
-import Button from "../../../ui/Button";
+import Spinner from "../../loaders/spinner";
 
 function HeaderNavbar() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function HeaderNavbar() {
   const userProfilePic = useSelector(
     (state: any) => state.auth.user?.profilePicUrl
   );
+  const [changingAddress,setChangingAddress]=useState(false)
   const { disconnectAsync } = useDisconnect();
   const { isConnected, address } = useAccount();
   const { isStaker } = useContract();
@@ -108,8 +110,11 @@ function HeaderNavbar() {
     setProfilePic(res?.data?.profilePicUrl);
     store.dispatch(setUserID(res.data));
     store.dispatch(walletAddress(address || ""));
+    store.dispatch(getTokenDetails(res.data?.id))
+    setChangingAddress(false)
   };
   const getCustomerDetails = async () => {
+    setChangingAddress(true)
     if (address) {
       try {
         let res = await getKyc(`User/CustomerDetails/${address}`);
@@ -131,7 +136,7 @@ function HeaderNavbar() {
   
 
   return (
-    <div className=" sticky top-0 z-50 bg-success-content header-shadow">
+    <div id="header" className="sticky top-0 z-50 bg-success-content header-shadow">
       <div className="navbar bg-success-content container mx-auto lg:px-0 px-3">
         <div className="navbar-start">
           <div className="pr-4 hidden lg:flex shrink-0">
@@ -225,10 +230,19 @@ function HeaderNavbar() {
               />
             </div>
           {!isConnected && <ConnectWallet />}
-          {isConnected && (
+          {isConnected && changingAddress &&  <div
+                    className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
+                  >
+                      <p className="!text-base-100 inline-block text-sm leading-5 truncate">
+                      please wait...
+                    </p>
+                    <span><Spinner size="loading-sm"/></span>
+                    </div>}
+          {isConnected && !changingAddress && (
             <DropdownMenus
               btnContent={
-                <span className="relative">
+                <>
+                 <span className="relative">
                   <div
                     className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
                   >
@@ -256,8 +270,8 @@ function HeaderNavbar() {
                       </div>
                     )}
                   </div>
-                  {/* <span className='inline-block w-6 h-6 bg-black border rounded-full absolute text-base-100 flex justify-center items-center right-[-4px] top-[-10px]'>3</span> */}
                 </span>
+                </>
               }
               dropdownList={navBarDropDownMenu}
             />

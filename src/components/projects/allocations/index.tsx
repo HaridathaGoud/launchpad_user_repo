@@ -8,7 +8,7 @@ import AllocationsView from  './allocations';
 import { ethers } from "ethers";
 import useContract from '../../../hooks/useContract';
 import { BuyTokenDrawer } from './buyTokenDrawer';
-import AllocationsShimmer from '../../loaders/allocationsShimmer';
+import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
 
  const Allocations = (props:any) => {
     const user = store.getState().auth;

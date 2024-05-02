@@ -30,36 +30,37 @@ const ProjectCardComponent = (props:any) => {
         type: any,
         search: any
     ) => {
-        setLoader(true);
+        setLoader(true)
         setCardSeeMoreHide(false);
-        let details = cardDetails ? { ...cardDetails } : {};
-        const skip = pageNo * pageSize - pageSize;
-        let OpenPrjctsresponse = await get(`User/Projects/${"Ongoing"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
-        let upcomingPrjctsresponse = await get(`User/Projects/${"Upcoming"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
-        let closedPrjctsresponse = await get(`User/Projects/${"Ended"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
-
-        if (OpenPrjctsresponse.status === 200) {
-            details = { ...details, OpenIvos: OpenPrjctsresponse.data };
-            setLoader(false);
-        } else {
-            rootDispatch(setError({ message: OpenPrjctsresponse }))
-            setLoader(false);
+        try{
+            let details = cardDetails ? { ...cardDetails } : {};
+            const skip = pageNo * pageSize - pageSize;
+            let OpenPrjctsresponse = await get(`User/Projects/${"Ongoing"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
+            let upcomingPrjctsresponse = await get(`User/Projects/${"Upcoming"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
+            let closedPrjctsresponse = await get(`User/Projects/${"Ended"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
+    
+            if (OpenPrjctsresponse.status === 200) {
+                details = { ...details, OpenIvos: OpenPrjctsresponse.data };
+            } else {
+                rootDispatch(setError({ message: OpenPrjctsresponse }))
+            }
+            if (upcomingPrjctsresponse.status === 200) {
+                details = { ...details, UpcomingIvos: upcomingPrjctsresponse.data };
+            } else {
+                rootDispatch(setError({ message: upcomingPrjctsresponse }))
+            }
+            if (closedPrjctsresponse.status === 200) {
+                details = { ...details, EndedIvos: closedPrjctsresponse.data };
+            } else {
+                rootDispatch(setError({ message: closedPrjctsresponse }))
+            }
+            setCardDetails(details);
+        }catch(error){
+            rootDispatch(setError({ message: error }))
+        }finally{
+            setLoader(false)
         }
-        if (upcomingPrjctsresponse.status === 200) {
-            details = { ...details, UpcomingIvos: upcomingPrjctsresponse.data };
-            setLoader(false);
-        } else {
-            rootDispatch(setError({ message: upcomingPrjctsresponse }))
-            setLoader(false);
-        }
-        if (closedPrjctsresponse.status === 200) {
-            details = { ...details, EndedIvos: closedPrjctsresponse.data };
-            setLoader(false);
-        } else {
-            rootDispatch(setError({ message: closedPrjctsresponse }))
-            setLoader(false);
-        }
-        setCardDetails(details);
+        
     };
 
     return (

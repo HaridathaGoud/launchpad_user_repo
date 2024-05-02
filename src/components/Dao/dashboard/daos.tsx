@@ -4,7 +4,6 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
 import { clearDaos, getDaos } from "../../../reducers/proposlaReducer";
 import Button from "../../../ui/Button";
-import nodata from "../../../assets/images/no-data.png";
 import { useNavigate } from "react-router-dom";
 import NoDataFound from "../../../ui/nodatafound";
 const take = 8;

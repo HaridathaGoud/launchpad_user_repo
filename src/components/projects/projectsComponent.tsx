@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import DefaultImg from "../../assets/images/default-bg.png";
 import { Link } from "react-router-dom";
-import ProjectShimmer from "../../components/loaders/projectcardshimmer";
+import ProjectCardShimmer from "../loaders/projects/projectCardShimmer";
 import Spinner from "../loaders/spinner";
 import BreadCrumb from "../../ui/breadcrumb";
 import NoDataFound from "../../ui/nodatafound";
@@ -69,7 +69,7 @@ const Projectscomponent = (props: any) => {
               {props.cardDetails?.map((item) => (
                 <>
                   {props.loader ? (
-                    <ProjectShimmer></ProjectShimmer>
+                    <ProjectCardShimmer></ProjectCardShimmer>
                   ) : (
                     <div
                       className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)] relative overflow-hidden"
@@ -282,10 +282,9 @@ const Projectscomponent = (props: any) => {
       {props.loader && (
         <div className="text-center">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <ProjectShimmer></ProjectShimmer>
-
-            <ProjectShimmer></ProjectShimmer>
-            <ProjectShimmer></ProjectShimmer>
+            <ProjectCardShimmer></ProjectCardShimmer>
+            <ProjectCardShimmer></ProjectCardShimmer>
+            <ProjectCardShimmer></ProjectCardShimmer>
           </div>
         </div>
       )}

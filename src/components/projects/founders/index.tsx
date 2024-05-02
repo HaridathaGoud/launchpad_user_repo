@@ -4,7 +4,7 @@ import member from '../../../../src/assets/images/default-nft.png';
 import { useDispatch } from "react-redux";
 import { get } from "../../../utils/api";
 import { setError } from "../../../reducers/layoutReducer";
-import { ProjecViewFoundingmembersShimmer } from "../../loaders/projecViewFoundingmembersShimmer";
+import { ProjecViewFoundingmembersShimmer } from "../../loaders/projects/projecViewFoundingmembersShimmer";
 import { Link } from "react-router-dom";
 import NoDataFound from "../../../ui/nodatafound";
 import CopyToClipboard from "react-copy-to-clipboard";

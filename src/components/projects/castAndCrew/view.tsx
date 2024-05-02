@@ -3,7 +3,7 @@ import foundingimg from '../../../assets/images/default-avatar.jpg';
 import { useParams } from "react-router-dom";
 import defaultbannerimg from '../../../assets/images/default-bg.png';
 import { useDispatch } from "react-redux";
-import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
+import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
 import ProjectBanner from "../projectBanner";
 import BreadCrumb from "../../../ui/breadcrumb";
 import { setError } from "../../../reducers/layoutReducer";

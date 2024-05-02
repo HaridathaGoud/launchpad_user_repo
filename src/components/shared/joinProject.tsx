@@ -24,7 +24,7 @@ const JoinProject = ({ projectDetails,buttonClass,statusClass,buttonType,project
         projectId: projectDetails?.id,
         customerId: user?.id,
       };
-      const response = await post("/User/SaveInterests", request);
+      const response = await post("User/SaveInterests", request);
       if (
         response.statusText?.toLowerCase() === "ok" ||
         response.status === 200

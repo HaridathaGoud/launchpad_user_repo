@@ -9,7 +9,7 @@ import { saveFavorite, saveViews } from "./services";
 import Button from "../../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
 import Spinner from "../../loaders/spinner";
-import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
+import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
 import WalletConnect from "../../modules/ConnectButton/connect.wallet";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";

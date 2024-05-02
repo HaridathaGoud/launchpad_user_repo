@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import { Navigate } from "react-router-dom";
 import { useAccount } from "wagmi";
-import ProfileInfoShimmer from "../loaders/profileshimmers";
+import ProfileShimmer from "../loaders/profileShimmer";
 import Button from "../../ui/Button";
 import ProfileView from "./view";
 import ProfileEdit from "./edit";
@@ -51,7 +51,7 @@ const Profile = () => {
   }
   return (
     <div className="container mx-auto px-3 lg:px-0 md:mt-5 max-sm:mt-3">
-      {state.loader && <ProfileInfoShimmer />}
+      {state.loader && <ProfileShimmer />}
       {!state.loader && (
         <>
           <form>

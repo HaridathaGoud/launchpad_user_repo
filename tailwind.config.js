@@ -2,7 +2,19 @@
 module.exports = {
   content: [ "./src/**/*.{js,jsx,ts,tsx}",],
   theme: {
-    extend: {},
+    extend: {animation: {
+      'heartbeat': 'heartbeat 1s infinite',
+    },
+    keyframes: {
+      heartbeat: {
+        '0%, 100%': {
+          transform: 'scale(1)',
+        },
+        '50%': {
+          transform: 'scale(1.05)',
+        },
+      },
+    },},
   },
   plugins: [require("daisyui")],
   daisyui: {

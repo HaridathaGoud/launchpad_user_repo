@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import FoundingMemberBannerSimmer from "../../loaders/foundingBannerShimmer";
-import FoundingMemberSimmer from "../../loaders/foundingmembersshimmer";
+import FoundingMemberBannerSimmer from "../../loaders/projects/foundingBannerShimmer";
+import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { get } from "../../../utils/api";

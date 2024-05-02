@@ -1,4 +1,4 @@
-import apiCalls, { getMinting, postMinting } from '../utils/api';
+import apiCalls, { getKyc, getMinting, postMinting } from '../utils/api';
 const SET_USER_ID: string = 'setUserID';
 const SET_IS_STAKER: string = 'Staker';
 const WALLET_ADDRESS: String = 'walletAddress';
@@ -255,6 +255,21 @@ const isErrorDispaly = (objValue: any) => {
     }
   }
 };
+
+const getTokenDetails=(id:string | undefined)=>{
+  return async (dispatch: any) => {
+    try{
+      const response =await getKyc(`User/GetAuthorizationToken/${id || ""}`)
+      if((response.statusText.toLowerCase()==='ok' || response.status===200) && response.data){
+        dispatch(setToken(response.data))
+      }else{
+        return isErrorDispaly(response)
+      }
+    }catch(error){
+      return isErrorDispaly(error)
+    }
+  }
+}
 const initialState = {
   user: { id: '', name: '' },
   isStaker: false,
@@ -355,6 +370,7 @@ const rootReducer = (state: any = initialState, { type, payload }) => {
 
 export default rootReducer;
 export { setUserID, 
+  getTokenDetails,
   Staker,
   handleFetchMetaData,
   handleFetchDaoCardData,

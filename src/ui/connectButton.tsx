@@ -7,6 +7,7 @@ import { setToaster } from "../reducers/layoutReducer";
 interface ConnectWalletProps{
     text?:string,
     type?:string,
+    getDetails?:Function,
 }
 const ConnectWallet = ({text,type}:ConnectWalletProps) => {
   const rootDispatch = useDispatch();
@@ -17,7 +18,7 @@ const ConnectWallet = ({text,type}:ConnectWalletProps) => {
         handleClick={() => {
           modalActions("walletConnectModal", "open");
         }}
-        btnClassName="flex items-center"
+        btnClassName="flex items-center animate-heartbeat"
       >
         <>
           <span>{text || "Connect Wallet"}</span>
