@@ -19,7 +19,7 @@ const ProjectCardComponent = (props:any) => {
 
     useEffect(() => {
         getProjectsDetails()
-    }, []);
+    }, [user.id]);
 
     const getProjectsDetails = () => {
         getPrjectCardDetails(pageNo, pageSize, pjctTypes, null);
