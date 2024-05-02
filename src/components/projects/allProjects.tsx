@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Projectscomponent from "./projectsComponent";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../../reducers/layoutReducer";
 import { get } from "../../utils/api";
+import { guid } from "../../utils/constants";
 
 const AllProjects = () => {
   const params = useParams();
   const rootDispatch=useDispatch()
+  const user = useSelector((state: any) => state?.auth?.user);
   const [pageNo, setPageNo] = useState(1);
   const pageSize = 9
   const [loader, setLoader] = useState(false);
@@ -39,7 +41,7 @@ const AllProjects = () => {
     }
     const skip = pageNo * pageSize - pageSize;
     let response = await get(
-      `User/Projects/${params.type}/${pageSize}/${skip}/${search}`
+      `User/Projects/${params.type}/${pageSize}/${skip}/${search}/${user?.id || guid}`
     );
     if (response) {
       let _pageNo = pageNo + 1;

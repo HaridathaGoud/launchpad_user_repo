@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../components/modules/Header/Header";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import FooterComponent from "../components/layouts/Default/FooterComponent";
 import ErrorMessage from "../ui/ErrorMessage";
 import ToasterMessage from "../ui/Toaster";

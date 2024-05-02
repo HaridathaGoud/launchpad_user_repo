@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { get } from '../../utils/api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setError } from '../../reducers/layoutReducer';
 import Projectscomponent from './projectsComponent';
 import NoDataFound from '../../ui/nodatafound';
+import { guid } from '../../utils/constants';
 
 const ProjectCardComponent = (props:any) => {
     const rootDispatch = useDispatch()
+    const user = useSelector((state: any) => state?.auth?.user);
     const pageNo = 1;
     const pageSize = 3
     const pjctTypes = { Ongoing: "Ongoing", Upcoming: "Upcoming", Closed: "Ended" };
@@ -32,9 +34,9 @@ const ProjectCardComponent = (props:any) => {
         setCardSeeMoreHide(false);
         let details = cardDetails ? { ...cardDetails } : {};
         const skip = pageNo * pageSize - pageSize;
-        let OpenPrjctsresponse = await get(`User/Projects/${"Ongoing"}/${pageSize}/${skip}/${search}`);
-        let upcomingPrjctsresponse = await get(`User/Projects/${"Upcoming"}/${pageSize}/${skip}/${search}`);
-        let closedPrjctsresponse = await get(`User/Projects/${"Ended"}/${pageSize}/${skip}/${search}`);
+        let OpenPrjctsresponse = await get(`User/Projects/${"Ongoing"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
+        let upcomingPrjctsresponse = await get(`User/Projects/${"Upcoming"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
+        let closedPrjctsresponse = await get(`User/Projects/${"Ended"}/${pageSize}/${skip}/${search}/${user?.id || guid}`);
 
         if (OpenPrjctsresponse.status === 200) {
             details = { ...details, OpenIvos: OpenPrjctsresponse.data };

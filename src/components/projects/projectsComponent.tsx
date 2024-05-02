@@ -6,10 +6,11 @@ import ProjectShimmer from "../../components/loaders/projectcardshimmer";
 import Spinner from "../loaders/spinner";
 import BreadCrumb from "../../ui/breadcrumb";
 import NoDataFound from "../../ui/nodatafound";
+import JoinProject from "../shared/joinProject";
 
 const statusColourList = {
   Ongoing: "dot-green",
-  Closed: "dot-red",
+  Ended: "dot-red",
   Upcoming: "dot-orange",
 };
 const pjctTypes = { Ongoing: "Open", Upcoming: "Upcoming", Closed: "Ended" };
@@ -71,10 +72,10 @@ const Projectscomponent = (props: any) => {
                     <ProjectShimmer></ProjectShimmer>
                   ) : (
                     <div
-                      className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)]"
+                      className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)] relative overflow-hidden"
                       key={item.id}
                     >
-                      <div className="flex gap-4">
+                      <div className={`flex gap-3 justify-between mt-3`}>
                         <img
                           src={
                             item.publisherLogo ? item.publisherLogo : DefaultImg
@@ -82,10 +83,10 @@ const Projectscomponent = (props: any) => {
                           className="rounded-full w-11 h-11 object-cover shrink-0"
                           alt=""
                         />
-                        <div className="">
-                          <span className="text-lg font-semibold text-secondary">
+                        <div className="grow">
+                          <h1 className="text-lg font-semibold text-secondary break-all">
                             {item?.projectName}
-                          </span>
+                          </h1>
                           <div className=" flex gap-6">
                             <p className="text-warning-content">
                               <span
@@ -109,62 +110,7 @@ const Projectscomponent = (props: any) => {
                             </p>
                           </div>
                         </div>
-                        {/* <div className="flex gap-2">
-                            {item?.facebook && (
-                              <span
-                                className="icon facebook-md cursor-pointer"
-                                onClick={() =>
-                                  handleWebSiteLinks(item, "FACEBOOK")
-                                }
-                              ></span>
-                            )}
-                            {item?.websiteUrl && (
-                              <span
-                                className="icon network-md cursor-pointer"
-                                onClick={() =>
-                                  handleWebSiteLinks(item, "NETWORK")
-                                }
-                              ></span>
-                            )}
-                            {item?.twitter && (
-                              <span
-                                className="icon twitter-md cursor-pointer"
-                                onClick={() => handleWebSiteLinks(item, "TW")}
-                              ></span>
-                            )}
-                            {item?.instagram && (
-                              <span
-                                className="icon instagram-md cursor-pointer"
-                                onClick={() =>
-                                  handleWebSiteLinks(item, "INSTAGRAM")
-                                }
-                              ></span>
-                            )}
-                            {item?.linkdin && (
-                              <span
-                                className="icon linkdin cursor-pointer"
-                                onClick={() =>
-                                  handleWebSiteLinks(item, "LINKDIN")
-                                }
-                              ></span>
-                            )}
-                            {item?.telegram && (
-                              <span
-                                className="icon telegram-md cursor-pointer"
-                                onClick={() =>
-                                  handleWebSiteLinks(item, "TELEGRAM")
-                                }
-                              ></span>
-                            )}
-                            {item?.discard && (
-                              <span
-                                className="icon discord-md cursor-pointer"
-                                onClick={() =>
-                                  handleWebSiteLinks(item, "DISCARD")
-                                }
-                              ></span>
-                            )}
-                          </div> */}
+                          <JoinProject projectDetails={item} buttonClass={"min-w-[100px]"} statusClass={"bg-[#13B166] font-semibold absolute top-0 right-0 px-2 py-1 text-[#fff] rounded-bl-lg min-w-[100px] text-center"} buttonType={"primary"} projectStatus={item?.publicOrPrivateStatus}/>
                       </div>
                       <Link
                         className=""
