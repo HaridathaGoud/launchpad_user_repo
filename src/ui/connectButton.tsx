@@ -29,10 +29,7 @@ const ConnectWallet = ({text,type}:ConnectWalletProps) => {
         <Modal id={"walletConnectModal"}>
           <WalletConnect
             onWalletConect={() =>
-              rootDispatch(
-                setToaster({ message: "Wallet connection successful!" })
-              )
-            }
+             console.log("Connected!") }
             onWalletClose={() => {
               modalActions("walletConnectModal", "close");
             }}
