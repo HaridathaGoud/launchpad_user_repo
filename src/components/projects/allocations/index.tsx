@@ -187,7 +187,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
         const etherValue = Number(state.volumeData) * Number(state.buyAmount);
         dispatch({ type: "setIsBuying", payload: true });
         buyTokens(
-          etherValue,
+          etherValue.toFixed(8),
           Number(state.buyAmount),
           state.isPublic,
           props.pjctInfo?.contractAddress
