@@ -17,6 +17,7 @@ import StakingShimmer from "../components/loaders/stakingShimmer";
 import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer"
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
+import CarouselShimmer from "../components/loaders/dashboard/carouselShimmer";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -69,7 +70,7 @@ const Routes = () => {
         {
           path: "/dashboard",
           element: (
-            <React.Suspense fallback={<Spinner />}>
+            <React.Suspense fallback={<div className="container"><CarouselShimmer /></div>}>
               <Dashboard />
             </React.Suspense>
           ),
