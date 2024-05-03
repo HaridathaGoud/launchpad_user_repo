@@ -9,7 +9,7 @@ const ApplyNow  = () => {
           <div className={`applynowSection max-sm:py-10 px-3 lg:px-0 max-sm:rounded py-[74px]`}>
             <div className={`container mx-auto md:flex items-center justify-between`}>
                 <div>
-                    <h2 className="text-black font-semibold text-[32px]">Apply For Your <span className={`text-primary`}>{process.env.REACT_APP_OFFERING_TITLE}s</span> Project To Launch on YellowBlock</h2>
+                    <h2 className="text-black font-semibold text-[32px]">Apply for your <span className={`text-primary`}>{process.env.REACT_APP_OFFERING_TITLE}s</span> project to launch on YellowBlock</h2>
                     <p className={`text-neutral text-base font-normal`}>If you have an amazing project that you'd like to launch on YellowBlock, Apply Now!</p>
                 </div>
                 <div className={`max-sm:text-center mt-4 md:mt-0 shrink-0`}>
