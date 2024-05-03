@@ -36,7 +36,11 @@ function HeaderNavbar() {
     setProfilePic(userProfilePic);
   }, [userProfilePic]);
   const { connector: activeConnector } = useAccount();
-  
+  useEffect(()=>{
+    if(!address){
+      store.dispatch(getTokenDetails(""))
+    }
+  },[address])
   useEffect(() => {
       activeConnector?.on("change", handleConnectorUpdate);
     return () => activeConnector?.off("change", handleConnectorUpdate);
@@ -49,8 +53,6 @@ function HeaderNavbar() {
     if (account) {
       getCustomerDetails(account);
       getStakeFlag();
-    }else{
-      store.dispatch(getTokenDetails(""))
     }
     
     if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
