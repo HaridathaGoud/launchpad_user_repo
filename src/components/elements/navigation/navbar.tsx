@@ -49,7 +49,11 @@ function HeaderNavbar() {
     if (account) {
       getCustomerDetails(account);
       getStakeFlag();
-    } else if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
+    }else{
+      store.dispatch(getTokenDetails(""))
+    }
+    
+    if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
       rootDispatch(setError({message:"Switched to unsupported network!",type:"warning"}))
     }else if(chain?.id?.toString()===process.env.REACT_APP_CHAIN_ID_NUMARIC && !chain?.unsupported){
       rootDispatch(setError({message:""}))

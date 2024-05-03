@@ -256,10 +256,10 @@ const isErrorDispaly = (objValue: any) => {
   }
 };
 
-const getTokenDetails=(id:string | undefined)=>{
+const getTokenDetails=(id:string)=>{
   return async (dispatch: any) => {
     try{
-      const response =await getKyc(`User/GetAuthorizationToken/${id || ""}`)
+      const response =await getKyc(`User/GetAuthorizationToken/${id}`)
       if((response.statusText.toLowerCase()==='ok' || response.status===200) && response.data){
         dispatch(setToken(response.data))
       }else{
