@@ -5,29 +5,23 @@ import { setError } from '../../reducers/layoutReducer';
 import Projectscomponent from './projectsComponent';
 import NoDataFound from '../../ui/nodatafound';
 import { guid } from '../../utils/constants';
-
+const pageNo = 1;
+const pageSize = 3
 const ProjectCardComponent = (props:any) => {
     const rootDispatch = useDispatch()
     const user = useSelector((state: any) => state?.auth?.user);
-    const pageNo = 1;
-    const pageSize = 3
-    const pjctTypes = { Ongoing: "Ongoing", Upcoming: "Upcoming", Closed: "Ended" };
     const [loader, setLoader] = useState(false);
     const [cardSeeMoreHide, setCardSeeMoreHide] = useState<boolean>(false);
     const [cardDetails, setCardDetails] = useState<any>();
     const loaderMessage = "No data found"
 
     useEffect(() => {
-        getProjectsDetails()
-    }, [user.id]);
+        getPrjectCardDetails(pageNo, pageSize, null)
+    }, [user?.id]);
 
-    const getProjectsDetails = () => {
-        getPrjectCardDetails(pageNo, pageSize, pjctTypes, null);
-    }
     const getPrjectCardDetails = async (
         pageNo: number,
         pageSize: number,
-        type: any,
         search: any
     ) => {
         setLoader(true)

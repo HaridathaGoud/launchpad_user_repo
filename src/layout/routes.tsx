@@ -6,9 +6,6 @@ import {
 } from "react-router-dom";
 import Pageerror from "../utils/pagenotFoundPage";
 import ErrorPage from "../utils/errorPage";
-import { store } from "../store";
-import { getKyc } from "../utils/api";
-import { setToken } from "../reducers/rootReducer";
 import FoundingMembersView from "../components/projects/founders/view";
 import AppLayout from "./AppLayout";
 import ComingSoon from "../components/shared/comingSoon";

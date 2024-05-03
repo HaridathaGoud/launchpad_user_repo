@@ -24,7 +24,7 @@ const AllProjects = () => {
 
   useEffect(()=>{
     getPrjectCardDetails(1, pageSize, params.type, null);
-  },[])
+  },[user?.id])
   const fetchMoreData = () => {
     getPrjectCardDetails(pageNo, pageSize, params.type, search);
   };

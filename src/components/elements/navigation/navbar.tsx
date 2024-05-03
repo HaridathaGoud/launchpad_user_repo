@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import logo from "../../../assets/images/yb-logo.svg";
-import { connect, useSelector } from "react-redux";
-import { useAccount, useDisconnect } from "wagmi";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { ConnectorData, useAccount, useDisconnect } from "wagmi";
 import { store } from "../../../store";
 import {
   getTokenDetails,
@@ -18,8 +18,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../../ui/NaviLink";
 import ConnectWallet from "../../../ui/connectButton";
 import Spinner from "../../loaders/spinner";
+import { setError } from "../../../reducers/layoutReducer";
 
 function HeaderNavbar() {
+  const rootDispatch=useDispatch()
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const userProfilePic = useSelector(
@@ -31,20 +33,26 @@ function HeaderNavbar() {
   const { isStaker } = useContract();
   const [profilePic, setProfilePic] = useState("");
   useEffect(() => {
-    if (address) {
-      getCustomerDetails();
-      getStakeFlag();
-    }
-  }, [address]);
-  useEffect(() => {
     setProfilePic(userProfilePic);
   }, [userProfilePic]);
-
+  const { connector: activeConnector } = useAccount();
+  
+  useEffect(() => {
+      activeConnector?.on("change", handleConnectorUpdate);
+    return () => activeConnector?.off("change", handleConnectorUpdate);
+  }, [activeConnector]);
   const handleDisconnect = useCallback(async () => {
     await disconnectAsync();
     store.dispatch(setUserID(""));
   }, []);
-
+  const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
+    if (account) {
+      getCustomerDetails(account);
+      getStakeFlag();
+    } else if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
+      rootDispatch(setError({message:"Switched to unsupported network!",type:"warning"}))
+    }
+  };
   const handleDropdownAction = useCallback((path: string) => {
     navigate(path);
   }, []);
@@ -111,20 +119,21 @@ function HeaderNavbar() {
     store.dispatch(setUserID(res.data));
     store.dispatch(walletAddress(address || ""));
     store.dispatch(getTokenDetails(res.data?.id))
-    setChangingAddress(false)
   };
-  const getCustomerDetails = async () => {
+  const getCustomerDetails = async (address) => {
     setChangingAddress(true)
     if (address) {
       try {
         let res = await getKyc(`User/CustomerDetails/${address}`);
-        if (res.statusText.toLowerCase() === "ok") {
+        if (res.statusText?.toLowerCase() === "ok" || res.status===200) {
           setData(res);
         } else {
           console.log(res);
         }
       } catch (error) {
         console.log(error);
+      }finally{
+        setChangingAddress(false)
       }
     }
   };
