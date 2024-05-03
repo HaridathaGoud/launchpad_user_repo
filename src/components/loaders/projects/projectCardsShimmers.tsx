@@ -3,7 +3,8 @@ import ProjectCardShimmer from "./projectCardShimmer";
 
 const ProjectCardsShimmers = () => {
   return (
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 container">
+    <div className="container">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         <ProjectCardShimmer></ProjectCardShimmer>
         <ProjectCardShimmer></ProjectCardShimmer>
         <ProjectCardShimmer></ProjectCardShimmer>
@@ -11,6 +12,7 @@ const ProjectCardsShimmers = () => {
         <ProjectCardShimmer></ProjectCardShimmer>
         <ProjectCardShimmer></ProjectCardShimmer>
       </div>
+    </div>
   );
 };
 
