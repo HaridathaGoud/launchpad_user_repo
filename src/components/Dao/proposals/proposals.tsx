@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useMemo, useReducer, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import WalletModal from "../../../utils/walletModal";
 import defaultBG from "../../../assets/images/default-bg.png";
@@ -24,12 +24,14 @@ import {
 import Spinner from "../../loaders/spinner";
 import NoDataFound from "../../../ui/nodatafound";
 import ProposalsShimmer from "../../loaders/proposalsShimmer";
-const take = 10;
 
 const ProposalCards = (props: any) => {
+  const proposalsRef=useRef(null)
   const { isConnected } = useAccount();
   const rootDispatch = useDispatch();
-  const proposals = useSelector((state: any) => state.proposal?.proposals);
+  const { proposals, user } = useSelector((state: any) => {
+    return { proposals: state.proposal?.proposals, user: state.auth?.user };
+  });
   const statusLookup = useSelector(
     (state: any) => state.proposal.proposalStatusLookup
   );
@@ -38,6 +40,9 @@ const ProposalCards = (props: any) => {
   );
   const params = useParams();
   const [state, dispatch] = useReducer(proposalsReducer, proposalsState);
+  const take = useMemo(() => {
+    return props.from === "project" ? 3 : 10;
+  }, [props?.from]);
   useEffect(() => {
     props.getStatusLookup();
     return () => {
@@ -46,7 +51,7 @@ const ProposalCards = (props: any) => {
   }, []);
   useEffect(() => {
     getProposals();
-  }, [state]);
+  }, [state, user?.id]);
   const getProposals = (data = null, page = null) => {
     if (
       state.endDate ||
@@ -111,23 +116,23 @@ const ProposalCards = (props: any) => {
       }
     }
   };
-  const handleMoreProposals = () => {
-    getProposals(proposals.data, proposals.nextPage);
+  const handleProposalsFetch = (page: any, data: any) => {
+    (props?.from==='project' && proposalsRef?.current) && proposalsRef?.current?.scrollIntoView({block: "start" })
+    getProposals(data, page);
   };
 
   if (statusLookup?.error) rootDispatch(setError(statusLookup?.error));
   if (proposals?.error) rootDispatch(setError(proposals?.error));
   return (
     <>
-      <div>
+    <div ></div>
+      <div ref={proposalsRef}>
         <div className="flex justify-between items-center mb-3">
           <div>
             <h4 className="font-semibold text-secondary text-xl">Proposals</h4>
           </div>
         </div>
-        {(proposals.loading || statusLookup.loading) && 
-         <ProposalsShimmer from={props?.from}/>
-        }
+        {(proposals.loading || statusLookup.loading) && <ProposalsShimmer />}
         {!proposals.loading && !statusLookup.loading && proposals?.data && (
           <>
             <div className="grid md:grid-cols-5 gap-2">
@@ -143,48 +148,57 @@ const ProposalCards = (props: any) => {
                   </option>
                 ))}
               </select>
-                <div className="md:col-span-2">
+              <div className="md:col-span-2">
                 <div className="flex md:hidden mt-2 md:mt-0">
-                <label htmlFor="" className=" flex-1 text-secondary text-sm font-normal p-0 mb-2 label ml-4 block">Start Date</label>
-                <label htmlFor="" className="flex-1 text-secondary text-sm font-normal p-0 mb-2 label ml-4 block">End Date</label>
+                  <label
+                    htmlFor=""
+                    className=" flex-1 text-secondary text-sm font-normal p-0 mb-2 label ml-4 block"
+                  >
+                    Start Date
+                  </label>
+                  <label
+                    htmlFor=""
+                    className="flex-1 text-secondary text-sm font-normal p-0 mb-2 label ml-4 block"
+                  >
+                    End Date
+                  </label>
                 </div>
-              <div className="border flex rounded-[30px] md:w-[318px]  bg-white">                
-                <div className="position-relative border-r flex-1">
-                 
-                  <input
-                    type="date"
-                    className={`form-select text-secondary ${
-                      isMobile && !state?.startDate
-                        ? "mobile"
-                        : isMobile && state?.startDate
-                        ? "mobie-icon"
-                        : ""
-                    }`}
-                    placeholder="Start Date"
-                    value={state?.startDate || ""}
-                    max="9999-12-31"
-                    onChange={(e) => setDate(e.target.value, "startDate")}
-                  />
-                </div>
-                <div className="position-relative flex-1">
-                  <input
-                    type="date"
-                    disabled={!state.startDate}
-                    className={`form-select text-secondary  ${
-                      isMobile && !state?.endDate
-                        ? "mobile"
-                        : isMobile && state?.endDate
-                        ? "mobie-icon"
-                        : ""
-                    }`}
-                    placeholder="End date"
-                    value={state?.endDate || ""}
-                    max="9999-12-31"
-                    onChange={(e) => setDate(e.target.value, "endDate")}
-                  />
+                <div className="border flex rounded-[30px] md:w-[318px]  bg-white">
+                  <div className="position-relative border-r flex-1">
+                    <input
+                      type="date"
+                      className={`form-select text-secondary ${
+                        isMobile && !state?.startDate
+                          ? "mobile"
+                          : isMobile && state?.startDate
+                          ? "mobie-icon"
+                          : ""
+                      }`}
+                      placeholder="Start Date"
+                      value={state?.startDate || ""}
+                      max="9999-12-31"
+                      onChange={(e) => setDate(e.target.value, "startDate")}
+                    />
+                  </div>
+                  <div className="position-relative flex-1">
+                    <input
+                      type="date"
+                      disabled={!state.startDate}
+                      className={`form-select text-secondary  ${
+                        isMobile && !state?.endDate
+                          ? "mobile"
+                          : isMobile && state?.endDate
+                          ? "mobie-icon"
+                          : ""
+                      }`}
+                      placeholder="End date"
+                      value={state?.endDate || ""}
+                      max="9999-12-31"
+                      onChange={(e) => setDate(e.target.value, "endDate")}
+                    />
+                  </div>
                 </div>
               </div>
-                </div>
             </div>
 
             <div className={`mt-4`}>
@@ -210,7 +224,7 @@ const ProposalCards = (props: any) => {
                             />
                           </div>
                           <p className="truncate text-secondary">
-                            {item.createdBy ||  item.creatorAddress || "--"}
+                            {item.createdBy || item.creatorAddress || "--"}
                           </p>
                         </div>
                         <div>
@@ -235,10 +249,20 @@ const ProposalCards = (props: any) => {
                       </div>
 
                       <div className="flex gap-5 flex-col lg:flex-row">
-                        <div className={` shrink-0 ${props.from==='project' ? 'md:w-[150px]':'w-full lg:w-52 lg:h-32'}`}>
+                        <div
+                          className={` shrink-0 ${
+                            props.from === "project"
+                              ? "md:w-[150px]"
+                              : "w-full lg:w-52 lg:h-32"
+                          }`}
+                        >
                           <img
                             src={item?.image || defaultBG}
-                            className={` object-cover w-full rounded-lg ${props.from === 'project' ? 'h-[130px] md:h-[90px]':'h-[130px]'}`}
+                            className={` object-cover w-full rounded-lg ${
+                              props.from === "project"
+                                ? "h-[130px] md:h-[90px]"
+                                : "h-[130px]"
+                            }`}
                             alt={item?.title || "proposal"}
                           />
                         </div>
@@ -312,15 +336,55 @@ const ProposalCards = (props: any) => {
                       </span>
                     )}
                     {!proposals.loading &&
+                      props.from !== "project" &&
                       proposals.data.length > 0 &&
                       proposals.data.length ===
                         take * (proposals?.nextPage - 1) && (
-                        <Button handleClick={handleMoreProposals} type="plain">
+                        <Button
+                          handleClick={() =>
+                            handleProposalsFetch(
+                              proposals?.nextpage,
+                              proposals?.data
+                            )
+                          }
+                          type="plain"
+                        >
                           <p className="text-center text-primary text-base font-medium mb-0 cursor-pointer">
                             See More
                           </p>
                           <span className="icon block mx-auto see-more cursor-pointer"></span>
                         </Button>
+                      )}
+                    {!proposals.loading &&
+                      props.from === "project" &&
+                      proposals.data.length > 0 && (
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            handleClick={() =>
+                              handleProposalsFetch(
+                                proposals?.nextPage - 2,
+                                null
+                              )
+                            }
+                            type="primary"
+                            disabled={proposals.nextPage === 2}
+                          >
+                            <span className="text-center text-base font-medium mb-0 cursor-pointer">
+                              Prev
+                            </span>
+                          </Button>
+                          <Button
+                            handleClick={() =>
+                              handleProposalsFetch(proposals?.nextPage, null)
+                            }
+                            type="primary"
+                            disabled={proposals?.data?.length < take}
+                          >
+                            <span className="text-center text-base font-medium mb-0 cursor-pointer">
+                              Next
+                            </span>
+                          </Button>
+                        </div>
                       )}
                   </div>
                 </div>
@@ -332,7 +396,7 @@ const ProposalCards = (props: any) => {
           (state.startDate ||
             state.endDate ||
             (state.status !== "All" && !state.startDate && !state.endDate)) && (
-              <NoDataFound text ={''}/>
+            <NoDataFound text={""} />
           )}
         {!proposals.loading &&
           !proposals.data?.length &&
