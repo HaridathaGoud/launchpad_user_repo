@@ -2,7 +2,8 @@ import React from 'react';
 
 const ProjectViewShimmer= () => {
   return (
-      <div className="animate-pulse space-x-4 container">
+    <div className='container'>
+        <div className="animate-pulse space-x-4">
         <div className='grid md:grid-cols-12 gap-6 mt-6'>
        <div className='md:col-span-8'>
         <div className="w-full md:min-h-[380px] rounded-[15px] bg-slate-200"></div>
@@ -89,6 +90,7 @@ const ProjectViewShimmer= () => {
         </div>
         </div>
       </div>
+    </div>
   );
 
 };

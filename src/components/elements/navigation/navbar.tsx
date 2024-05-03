@@ -51,6 +51,8 @@ function HeaderNavbar() {
       getStakeFlag();
     } else if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
       rootDispatch(setError({message:"Switched to unsupported network!",type:"warning"}))
+    }else if(chain?.id?.toString()===process.env.REACT_APP_CHAIN_ID_NUMARIC && !chain?.unsupported){
+      rootDispatch(setError({message:""}))
     }
   };
   const handleDropdownAction = useCallback((path: string) => {
@@ -62,7 +64,7 @@ function HeaderNavbar() {
         name: "Streaming",
         image:
           "https://dottdevstoragespace.blob.core.windows.net/images/streming.png",
-          action: () => window.open("https://ybstreaming.azurewebsites.net/", "_blank"),
+          action: () => window.open("https://streaming.dott.network", "_blank"),
       },
       // {
       //   name: "Launchpad",
