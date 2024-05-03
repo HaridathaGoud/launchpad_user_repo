@@ -1,28 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { store } from '../../../store';
 import { get } from '../../../utils/api';
 import { setError } from '../../../reducers/layoutReducer';
 import ProjectdetailsView from './projectdetailsView';
+import { guid } from '../../../utils/constants';
 
 const Projectdetails = () => {
   const allocationsRef = useRef(null);
   const rootDispatch = useDispatch();
   const { projectId, projectName } = useParams();
-  const user = store.getState().auth;
+  const user = useSelector((store:any)=>store.auth?.user);
   const [loader, setLoader] = useState(false);
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     if (projectId) {
       getDetails("all");
     }
-  }, [user?.user?.id]);
-  const getDetails = async (fetch) => {
+  }, [user?.id]);
+  const getDetails = async (fetch:string) => {
     const userId =
-      user?.user?.id && user?.user?.id != ""
-        ? user?.user?.id
-        : "00000000-0000-0000-0000-000000000000";
+      user?.id && user?.id !== ""
+        ? user?.id
+        : guid;
     setLoader(true);
     try {
       let details = data ? { ...data } : {};

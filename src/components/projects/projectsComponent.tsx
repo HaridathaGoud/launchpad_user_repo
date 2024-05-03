@@ -115,7 +115,7 @@ const Projectscomponent = (props: any) => {
                       <Link
                         className=""
                         aria-current="page"
-                        to={`/projects/${item?.projectName}/${item?.id}`}
+                        to={`/projects/${item?.projectName}/${item?.id}/${null}`}
                       >
                         <div className="">
                           <div className="">

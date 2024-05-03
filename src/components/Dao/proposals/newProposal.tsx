@@ -12,8 +12,8 @@ export default function CreateFirstPraposal(props: any) {
   const [isChecked, setIsChecked] = useState(false);
   const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
-  const daoDetails = useSelector(
-    (state: any) => state.proposal.daoDetails.data
+  const {daoDetails,user} = useSelector(
+    (state: any) => {return {daoDetails:state.proposal.daoDetails.data,user:state?.auth?.user}}
   );
   const [userDetailsFromContract, setUserDetailsFromContract] =
     useState<any>(null);
@@ -26,7 +26,7 @@ export default function CreateFirstPraposal(props: any) {
     ) {
       getDetails();
     }
-  }, [isConnected, address]);
+  }, [isConnected, address,user?.id]);
   const getDetails = async () => {
     const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
@@ -64,6 +64,7 @@ export default function CreateFirstPraposal(props: any) {
     return (
       isConnected &&
       address &&
+      user?.id &&
       daoDetails?.votingContractAddress &&
       userDetailsFromContract &&
       (userDetailsFromContract?.owner === address ||
@@ -71,7 +72,7 @@ export default function CreateFirstPraposal(props: any) {
           userDetailsFromContract?.balance >
             Number(daoDetails?.proposalCreationBalance)))
     );
-  }, [address, isConnected, userDetailsFromContract, daoDetails]);
+  }, [address, isConnected, userDetailsFromContract, daoDetails,user?.id]);
   return (
     <>
       <div className="bg-base-300 py-[18px] px-5 rounded-lg shadow-md text-center">

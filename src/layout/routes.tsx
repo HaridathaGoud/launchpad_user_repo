@@ -113,7 +113,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/projects/:projectName/:projectId",
+          path: "/projects/:projectName/:projectId/:tab",
           element: (
             <React.Suspense fallback={<ProjectViewShimmer />}>
               <Projectdetails />

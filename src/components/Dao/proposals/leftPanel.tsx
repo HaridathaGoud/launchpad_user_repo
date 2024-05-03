@@ -11,10 +11,9 @@ import NaviLink from "../../../ui/NaviLink";
 const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
   const { isConnected, address } = useAccount();
-  const user = useSelector((state: any) => state.auth.user);
   const rootDispatch = useDispatch();
-  const daoDetails = useSelector(
-    (state: any) => state.proposal.daoDetails.data
+  const {daoDetails,user} = useSelector(
+    (state: any) => {return {daoDetails:state.proposal.daoDetails.data,user:state?.auth?.user}}
   );
   const proposals = useSelector((state: any) => state.proposal?.proposals);
 
@@ -41,9 +40,7 @@ const DaoLeftPanel = (props) => {
       getOwner,
       daoDetails.membershipTokenAddress
     );
-    let detailsToUpdate: any = userDetailsFromContract
-      ? userDetailsFromContract
-      : {};
+    let detailsToUpdate: any = userDetailsFromContract || {};
     if (amount) {
       detailsToUpdate = { ...detailsToUpdate, balance: amount };
       setUserDetailsFromContract({ ...detailsToUpdate, balance: amount });
@@ -73,15 +70,16 @@ const DaoLeftPanel = (props) => {
     return (
       isConnected &&
       address &&
+      user?.id &&
       daoDetails?.votingContractAddress &&
-      proposals?.data?.length != 0 &&
+      proposals?.data?.length !== 0 &&
       userDetailsFromContract &&
       (userDetailsFromContract?.owner === address ||
         (userDetailsFromContract?.balance &&
           userDetailsFromContract?.balance >
           Number(daoDetails?.proposalCreationBalance)))
     );
-  }, [address, isConnected, userDetailsFromContract, daoDetails,proposals]);
+  }, [address, isConnected, userDetailsFromContract, daoDetails,proposals,user?.id]);
   return (
     <>
       <div

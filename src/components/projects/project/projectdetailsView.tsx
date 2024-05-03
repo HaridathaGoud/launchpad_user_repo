@@ -40,7 +40,7 @@ const ProjectdetailsView = (props:any) => {
                     <ProjectDetailTabsShimmer/>
                   )}
                   {!props.loader && (
-                    <div className="sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-white">
+                    <div id={"scrollTabs"} className="sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-white">
                       <ProjectDetailTabs pjctInfo={props.data?.projectDetails} />
                       <JoinProject projectDetails={props.data?.projectDetails} buttonClass={"min-w-[150px] tab !py-2 !px-3.5"} statusClass={"bg-[#13B166] font-semibold  text-[#fff] min-w-[100px] text-center rounded-lg h-[35px] flex items-center justify-center"} buttonType={"secondary"} projectStatus={props.data?.projectStatus}/>
                     </div>
@@ -135,6 +135,7 @@ const ProjectdetailsView = (props:any) => {
                       />
                     )}
                   </div>
+                  <hr className="my-5 lg:hidden" />
                 </div>
               </div>
 

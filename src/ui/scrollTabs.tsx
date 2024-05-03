@@ -1,62 +1,58 @@
-import React, { useEffect, useRef, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) => {
-  const location=useLocation();
-  const navigate=useNavigate()
-  const tabRefs = useRef({});
-  const minTop = useRef(Number.POSITIVE_INFINITY);
-  useEffect(()=>{
-    if(location.hash){
-      handleTabClick(location.hash.slice(1),null)
-    }
-  },[location.pathname])
-  const activeTab=useMemo(()=>{
-    return active || location.hash?.slice(1)
-  },[location.hash,active])
-  const handleEntries=(entries)=>{
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        navigate('#'+entry.target.id);
-        } 
-      });
-    
-  }
- 
+import React, { useEffect, useMemo, useRef, useState } from "react";
+const headerHeight = document.querySelector("#header")?.clientHeight || 75;
+const scrollTabHeight =
+  document.querySelector("#scrollTabs")?.clientHeight || 75;
+const ScrollTabs = ({
+  sections,
+  tabsDivClass,
+  tabClass,
+  activeTabClass,
+  active,
+}) => {
+  const [activeTab, setActiveTab] = useState("");
   useEffect(() => {
-   const observers:any=[]
-    Object.values(sections).forEach((section:any) => {
-        const ref=document.getElementById(section.id)
-        if(ref){
-          const observer = new IntersectionObserver(
-            (entries) => {
-              handleEntries(entries)
-            },
-            {threshold:section.threshold}
-          );
-          observer.observe(ref);
-          observers.push(observer)
-        }
+    if (active.id && active.shouldRedirect) {
+      handleTabClick(active.id, null);
+      return;
+    }
+    setActiveTab(active?.id || "projectFeed");
+  }, [active]);
+  const sectionRefs = useMemo(() => {
+    const refs = sections.map((section: any) => {
+      const ref = document.getElementById(section.id);
+      return ref ? {id:section.id,ref}: {id:section.id,ref:null};
     });
+    return refs;
+  }, [sections]);
+  const handleScroll = () => {
+    sectionRefs.forEach((section: any) => {
+      if (section?.ref) {
+        const rect = section?.ref?.getBoundingClientRect();
+        const height = headerHeight + scrollTabHeight + 10;
+        if (rect?.top <= height && rect?.top > headerHeight) {
+          setActiveTab(section.id);
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      observers.forEach(observer => observer.disconnect());
-      minTop.current=Number.POSITIVE_INFINITY
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [sections,window.scrollY]);
+  }, [sections, headerHeight, scrollTabHeight]);
 
-  const handleTabClick = (id,action) => {
-    if(action){
-      action?.(id)
-    }else{
+  const handleTabClick = (id, action) => {
+    if (action) {
+      action?.(id);
+    } else {
       const section = document.getElementById(id);
-      if(section){
-          const navbarHeight = document.querySelector('header')?.clientHeight || 0;
-            const height=navbarHeight+30
-            const top = section?.getBoundingClientRect().top;
-            const scrollPosition = window.scrollY;
-            const scrollToPosition = scrollPosition + top- height ;
-            const finalScrollPosition = scrollToPosition - (height) -25;
-            window.scrollTo({ top: finalScrollPosition, behavior: "smooth" });
+      if (section) {
+        const height = headerHeight + scrollTabHeight;
+        const top = section?.getBoundingClientRect().top;
+        const scrolltoTop = window.scrollY + top;
+        const scrollToPosition = scrolltoTop - height;
+        window.scrollTo({ top: scrollToPosition, behavior: "smooth" });
       }
     }
   };
@@ -66,10 +62,10 @@ const ScrollTabs = ({ sections,tabsDivClass,tabClass,activeTabClass,active }) =>
         {sections.map((section) => (
           <button
             key={section.id}
-            ref={(ref) => (tabRefs.current[section.id] = ref)}
-            onClick={() => handleTabClick(section.id,section.action)}
-            className={`${activeTab===section.id ? activeTabClass : ''} ${tabClass}`}
-
+            onClick={() => handleTabClick(section.id, section.action)}
+            className={`${
+              activeTab === section.id ? activeTabClass : ""
+            } ${tabClass}`}
           >
             {section.label}
           </button>

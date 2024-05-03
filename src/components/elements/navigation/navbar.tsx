@@ -240,8 +240,7 @@ function HeaderNavbar() {
                     </div>}
           {isConnected && !changingAddress && (
             <DropdownMenus
-              btnContent={
-                <>
+              btnContent={      
                  <span className="relative">
                   <div
                     className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
@@ -271,7 +270,6 @@ function HeaderNavbar() {
                     )}
                   </div>
                 </span>
-                </>
               }
               dropdownList={navBarDropDownMenu}
             />
