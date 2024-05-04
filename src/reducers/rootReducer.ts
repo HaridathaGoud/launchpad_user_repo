@@ -275,7 +275,7 @@ const initialState = {
   user: { id: '', name: '' },
   isStaker: false,
   address: null,
-  token:null,
+  token:"",
   selectedCollection: null,
   popUpEdit:null,
   metaDataDetails: null,
