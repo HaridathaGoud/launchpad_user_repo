@@ -6,6 +6,7 @@ import { ConnectorData, useAccount, useDisconnect } from "wagmi";
 import { store } from "../../../store";
 import {
   getTokenDetails,
+  setToken,
   setUserID,
   Staker,
   walletAddress,
@@ -53,6 +54,7 @@ function HeaderNavbar() {
   }, []);
   const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
     if (account) {
+      rootDispatch(setToken(""))
       getCustomerDetails(account);
       getStakeFlag();
       return;
