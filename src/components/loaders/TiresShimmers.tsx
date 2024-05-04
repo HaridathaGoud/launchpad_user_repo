@@ -4,7 +4,7 @@ import React from 'react';
 const TiresShimmer: NextPage = () => {
 
   return (
-      <div className="animate-pulse space-x-4 lg:w-[850px] mx-auto">
+      <div className="animate-pulse space-x-4 lg:w-[850px] container mx-auto mt-2">
         
         <div className="w-3/4 h-10 mx-auto rounded-md bg-slate-200 mt-6 max-w-md"></div>
        

@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProjectViewShimmer= () => {
   return (
-    <div className='container'>
+    <div className='container m-auto mt-2'>
         <div className="animate-pulse space-x-4">
         <div className='grid md:grid-cols-12 gap-6 mt-6'>
        <div className='md:col-span-8'>

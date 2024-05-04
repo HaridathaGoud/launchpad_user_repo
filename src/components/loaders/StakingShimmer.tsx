@@ -4,7 +4,7 @@ import React from 'react';
 const StakingShimmer= () => {
 
   return (
-      <div className="animate-pulse space-x-4 container m-auto">
+      <div className="animate-pulse space-x-4 container mx-auto mt-3">
         <div className="w-full h-6 rounded-md bg-slate-200 mt-6 !ml-0 max-w-md"></div>
         <div className='mt-8 md:flex items-start justify-between'>
           <div >

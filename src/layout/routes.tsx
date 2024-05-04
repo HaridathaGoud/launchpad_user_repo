@@ -17,7 +17,7 @@ import StakingShimmer from "../components/loaders/stakingShimmer";
 import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer"
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
-import CarouselShimmer from "../components/loaders/dashboard/carouselShimmer";
+import DashboardShimmers from "../components/loaders/dashboard/dashboardShimmers";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -70,7 +70,7 @@ const Routes = () => {
         {
           path: "/dashboard",
           element: (
-            <React.Suspense fallback={<div className="container"><CarouselShimmer /></div>}>
+            <React.Suspense fallback={<div className="container"><DashboardShimmers /></div>}>
               <Dashboard />
             </React.Suspense>
           ),
@@ -148,7 +148,7 @@ const Routes = () => {
         },
         {
           path: "/completekyc",
-          element: <React.Suspense fallback={<Spinner />}><SumSub /></React.Suspense>,
+          element: <React.Suspense fallback={<Spinner spinnerClass="inline-block mx-auto mt-4"/>}><SumSub /></React.Suspense>,
           errorElement: <ErrorPage />,
         },
         {
@@ -184,7 +184,7 @@ const Routes = () => {
         {
           path: "/daos",
           element: (
-            <React.Suspense fallback={<Spinner/>}>
+            <React.Suspense fallback={<Spinner spinnerClass="inline-block mx-auto mt-4"/>}>
               <Daos />
             </React.Suspense>
           ),
@@ -192,7 +192,7 @@ const Routes = () => {
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals",
           element: (
-            <React.Suspense fallback={<Spinner/>}>
+            <React.Suspense fallback={<Spinner spinnerClass="inline-block mx-auto mt-4"/>}>
               <Proposals showBreadcrumb={true} showHeader={true} />
             </React.Suspense>
           ),
@@ -200,7 +200,7 @@ const Routes = () => {
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
-            <React.Suspense fallback={<Spinner/>}>
+            <React.Suspense fallback={<Spinner spinnerClass="inline-block mx-auto mt-4"/>}>
               <ProposalView showTabs={false} />
             </React.Suspense>
           ),
@@ -208,7 +208,7 @@ const Routes = () => {
         {
           path: "/projects/:projectName/:projectId/:tokenType/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
-            <React.Suspense fallback={<Spinner/>}>
+            <React.Suspense fallback={<Spinner spinnerClass="inline-block mx-auto mt-4"/>}>
               <ProposalView showTabs={true} />
             </React.Suspense>
           ),
