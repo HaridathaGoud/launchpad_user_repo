@@ -38,7 +38,7 @@ function HeaderNavbar() {
   const { connector: activeConnector } = useAccount();
   useEffect(()=>{
     if(!address){
-      store.dispatch(getTokenDetails("",null))
+      store.dispatch(getTokenDetails(null,null))
     }
   },[address])
   useEffect(() => {

@@ -259,7 +259,7 @@ const isErrorDispaly = (objValue: any) => {
 const getTokenDetails=(data:any,dispatchCustomerDetails:Function |null)=>{
   return async (dispatch: any) => {
     try{
-      const response =await getKyc(`User/GetAuthorizationToken/${data?.id}`)
+      const response =await getKyc(`User/GetAuthorizationToken/${data?.id || ""}`)
       if((response.statusText.toLowerCase()==='ok' || response.status===200) && response.data){
         await dispatch(setToken(response.data))
         dispatchCustomerDetails?.(data)
