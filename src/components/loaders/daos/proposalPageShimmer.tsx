@@ -5,21 +5,21 @@ import ProposalViewShimmer from "../proposalViewShimmer";
 
 const ProposalPageShimmer = () => {
   return (
-    <div className="container mx-auto px-3 lg:px-0 mt-3">
+    <div className="container mx-auto px-3 lg:px-0 mt-36">
       <div className="mt-5 mb-4"></div>
       <div className="md:grid md:grid-cols-12 gap-[30px]">
-        <div className=" md:col-span-12 lg:col-span-3">
+        <div className=" md:col-span-12 lg:col-span-3 mt-4">
           <InformationPanelShimmer />
-        </div>
         <div>
           <DaoResultsShimmer />
         </div>
-      </div>
+        </div>
       <div className="md:col-span-12 lg:col-span-9 max-sm:mt-4">
         <ProposalViewShimmer />
-        <div>
+        <div className="mt-3">
           <ProposalViewShimmer />
         </div>
+      </div>
       </div>
     </div>
   );

@@ -21,14 +21,16 @@ const ProposalView = (props) => {
       params.proposalId,
       user.id || "00000000-0000-0000-0000-000000000000"
     );
-    props.getCustomerVoteStatus(
-      params.proposalId,
-      user.id || "00000000-0000-0000-0000-000000000000"
-    );
+    if(user?.id){
+      props.getCustomerVoteStatus(
+        params.proposalId,
+        user.id
+      );
+    }
     return () => {
       props.clearVotersList();
     };
-  }, [user]);
+  }, [user?.id]);
 
   return (
     <>

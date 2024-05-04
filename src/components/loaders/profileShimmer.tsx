@@ -3,7 +3,7 @@ import React from 'react';
 const ProfileShimmer= () => {
 
   return (
-      <div className="animate-pulse space-x-4 container mx-auto m-4">
+      <div className="animate-pulse space-x-4 container mx-auto px-3 lg:px-0 md:mt-5 max-sm:mt-3">
         
        <div className='grid lg:grid-cols-5 gap-4'>
        <div>
