@@ -24,8 +24,10 @@ function HeaderNavbar() {
   const rootDispatch=useDispatch()
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const userProfilePic = useSelector(
-    (state: any) => state.auth.user?.profilePicUrl
+  const {userProfilePic,user} = useSelector(
+    (state: any) => {
+      return {userProfilePic:state.auth.user?.profilePicUrl,user:state.auth.user}
+    }
   );
   const [changingAddress,setChangingAddress]=useState(false)
   const { disconnectAsync } = useDisconnect();
@@ -37,10 +39,10 @@ function HeaderNavbar() {
   }, [userProfilePic]);
   const { connector: activeConnector } = useAccount();
   useEffect(()=>{
-    if(!address){
+    if(!user?.id){
       store.dispatch(getTokenDetails(null,null))
     }
-  },[address])
+  },[user?.id])
   useEffect(() => {
       activeConnector?.on("change", handleConnectorUpdate);
     return () => activeConnector?.off("change", handleConnectorUpdate);

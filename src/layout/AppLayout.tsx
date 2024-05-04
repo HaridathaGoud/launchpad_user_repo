@@ -7,12 +7,14 @@ import ToasterMessage from "../ui/Toaster";
 import { useDispatch, useSelector } from "react-redux";
 import { setError, setToaster } from "../reducers/layoutReducer";
 import SwipeUp from "../ui/swipeUp";
+import PleaseWait from "./pleaseWait";
 const AppLayout = () => {
   const { pathname } = useLocation();
   const rootDispatch = useDispatch();
-  const { error, toaster } = useSelector((store: any) => ({
+  const { error, toaster,isAuthorized } = useSelector((store: any) => ({
     error: store.layoutReducer.error,
     toaster: store.layoutReducer.toaster,
+    isAuthorized:store.auth.token,
   }));
   useEffect(() => {
     error?.message && rootDispatch(setError({ message: "" }));
@@ -42,7 +44,8 @@ const AppLayout = () => {
             callbackTimeout={toaster?.callbackTimeout}
           />
         )}
-        <Outlet />
+        {isAuthorized && <Outlet />}
+        {!isAuthorized && <PleaseWait/>}
       </div>
       <div className={`lg:hidden`}>
         <SwipeUp />
