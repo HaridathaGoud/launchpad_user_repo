@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { navigateToUniswap } from "../utils/commonNavigations";
 import formatDate from "../utils/formatDate";
@@ -23,10 +23,36 @@ const Carousel = ({
 }: CarouselProps) => {
   const [currentImg, setCurrentImg] = useState(0);
   const carouselRef = useRef(null);
-  function handleIndicatorClick(img) {
-    setCurrentImg(img);
-    const imgRef = (carouselRef?.current as any)?.children?.[img];
-    imgRef.scrollIntoView({ behavior: "smooth", block: "center" });
+  useEffect(()=>{
+    if(data){
+      initIntersectionObserver();
+    }
+  },[data]);
+  function handleIntersection(entries) {
+    entries.forEach((entry:any) => {
+      if (entry.isIntersecting) {
+        setCurrentImg(entry?.target?.id)
+      }
+    });
+  }
+  function initIntersectionObserver() {
+    const options = {
+      root: document.querySelector('#dashboardCarousel'),
+      threshold: 0.8
+    };
+  
+    const observer = new IntersectionObserver(handleIntersection, options);
+  
+    data?.forEach((element:any) => {
+      const ref=document.getElementById(element.image)
+      if(ref){
+        observer.observe(ref);
+      }
+    });
+  }
+  function handleIndicatorClick(img:string) {
+    const imgRef = document?.getElementById?.(img);
+    imgRef?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
   return (
     <div className="carousal-banner rounded-2xl overflow-y-hidden">
@@ -34,8 +60,9 @@ const Carousel = ({
         <div
           className={`carousel w-full carousel-end ${className || ""}`}
           ref={carouselRef}
+          id="dashboardCarousel"
         >
-          {data?.map((image) => {
+          {data?.map((image:any) => {
             return (
               <div
                 id={image.image}
@@ -91,12 +118,10 @@ const Carousel = ({
                       
                         </h1>}
                         {isWelcome && (
-                            <>
                               <p className="text-[42px] md:text-[52px] font-bold text-white capitalize">
                               Invest in the future  <br className="hidden md:block" />{" "}
                               of Web3
                               </p>
-                            </>
                           )}
                         {!isWelcome && (
                           <h2 className="text-[26px] leading-[0.8] mb-[30px] md:text-[42px] text-white">
@@ -148,12 +173,12 @@ const Carousel = ({
         <div
           className={`flex justify-center w-full py-2 gap-2 absolute bottom-6 max-sm:bottom-4 z-[10]`}
         >
-          {data?.map((image, index) => (
+          {data?.map((image:any) => (
             <button
               key={image.url + image?.name}
-              onClick={() => handleIndicatorClick(index)}
+              onClick={() => handleIndicatorClick(image?.image)}
               className={`btn btn-xs min-h-[14px] min-w-[14px] w-[14px] p-0 h-3 rounded-full border-0 ${
-                currentImg === index ? "bg-red-600" : "bg-slate-400"
+                currentImg === image?.image ? "bg-red-600" : "bg-slate-400"
               }`}
             >
               {indicator || ""}
