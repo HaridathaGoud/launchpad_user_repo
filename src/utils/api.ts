@@ -13,7 +13,7 @@ const MARKETPLACE_API_END_POINT=process.env.REACT_APP_MARKETPLACE_END_POINT
 
 export function getToken() {
   const state = store.getState();
-  const token = state.auth.user?.token ;
+  const token = state?.auth?.token || state.auth.user?.token || "" ;
   return token;
 
 }
@@ -42,8 +42,7 @@ export function isexistingreferralcode(url: string) {
 export function KycPost(url: string, obj: Object) {
   return axios.post(API_END_POINT_KYC + `${API_VERSION}${url}`, obj,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token  },
+      Authorization: `${getToken()}` },
   });
 }
 //---------------------marketplace-----------------
@@ -120,8 +119,7 @@ export async function postSigner(url:string,obj:any){
 export function get(url: string) {
   return axios.get(API_END_POINT + `${API_VERSION}${url}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}`},
   });
 }
 export function getCall(url: string) {
@@ -133,8 +131,7 @@ export function apiUploadPost(url: string, obj: Object) {
 export function post(url: string, obj: Object) {
   return axios.post(API_END_POINT + `${API_VERSION}${url}`, obj,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token  },
+      Authorization: `${getToken()}`   },
   });
 }
 export function put(url: string, obj: any) {
@@ -156,117 +153,102 @@ export const convertUTCToLocalTime = (dateString: any) => {
 export async function saveUser(url: string, obj: Object) {
   return axios.post(API_END_POINT_KYC + `${API_VERSION}${url}`, obj, {
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token  },
+      Authorization: `${getToken()}`},
   });
 }
 export async function getKyc(url: string) {
   return await axios.get(API_END_POINT_KYC + `${API_VERSION}${url}`, {
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });
 }
 
 const getDaos=async(take:any,skip:any)=> {
   return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${take}/${skip}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });
 }
 
 const getDaoDetails=async(id)=> {
   return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`daodetails/${id}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });
 }
 const getMIntDaoDetails=async(take:any,skip:any)=> {
   return await axios.get(`https://devmintingapi.minnapad.com/${API_VERSION}` + ApiControllers.user +`DaoDetails/${take}/${skip}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });
 }
 const getStatusLu = async()=>{
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`StatusLu`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });
 }
 
 const getProposalView=async(proposalId:any,customerId:any)=> {
    return await axios.get( API_END_POINT_DAO + ApiControllers.user +`proposalview/${proposalId}/${customerId ? customerId : ""}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
    });
   }
 
   const postCreateProposal=async(obj)=> {
   return await axios.post(API_END_POINT_DAO + ApiControllers.user +`createproposal`,obj,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}`},
   }); 
 }
 
 const postSaveVote=async(obj)=> {
   return await axios.post(API_END_POINT_DAO + ApiControllers.user +`savevote`,obj,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });  
 }
 
 const getProposalList=async(take:any,skip:any,daoId:any,status:any,searchBy:any,startDate:any,endDate:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`ProposalsList/${take}/${skip}/${daoId}/${status}/${searchBy}/${startDate}/${endDate}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   }) 
 }
 
 const getContractDetails=async(daoId:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`ContractDetails/${daoId}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });  
 }
 
 const getProposalVotes=async(proposalId:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`ProposalVotes/${proposalId}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}`},
   });  
 }
 
 const getProposalVoters=async(take:any,skip:any,proposalId:any)=> {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user +`proposalvoters/${take}/${skip}/${proposalId}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   });
 }
 
 const customerVoted = async(proposalId:any,CustomerId:any) => {
   return await axios.get(API_END_POINT_DAO + ApiControllers.user + `isvotedcustomer/${proposalId}/${CustomerId}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}`},
   })
 }
 
 const customerDetails = async(address:any) => {
   return await axios.get(API_END_POINT_KYC + API_VERSION + ApiControllers.user + `CustomerDetails/${address}`,{
     headers: {
-      Authorization:
-      store.getState().auth?.token || store.getState().auth?.user?.token },
+      Authorization: `${getToken()}` },
   })
 }
 const isErrorDispaly = (objValue) => {
