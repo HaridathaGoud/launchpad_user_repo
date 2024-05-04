@@ -54,7 +54,6 @@ function HeaderNavbar() {
   }, []);
   const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
     if (account) {
-      rootDispatch(setToken(""))
       getCustomerDetails(account);
       getStakeFlag();
       return;
