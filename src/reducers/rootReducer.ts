@@ -256,12 +256,13 @@ const isErrorDispaly = (objValue: any) => {
   }
 };
 
-const getTokenDetails=(id:string)=>{
+const getTokenDetails=(data:any,dispatchCustomerDetails:Function |null)=>{
   return async (dispatch: any) => {
     try{
-      const response =await getKyc(`User/GetAuthorizationToken/${id}`)
+      const response =await getKyc(`User/GetAuthorizationToken/${data?.id}`)
       if((response.statusText.toLowerCase()==='ok' || response.status===200) && response.data){
-        dispatch(setToken(response.data))
+        await dispatch(setToken(response.data))
+        dispatchCustomerDetails?.(data)
       }else{
         return isErrorDispaly(response)
       }
@@ -286,7 +287,8 @@ const initialState = {
   fetchwhitelistingdata:{loading: false, data: null,error:null},
 };
 
-const rootReducer = (state: any = initialState, { type, payload }) => {
+const rootReducer = (state: any, { type, payload }) => {
+  state=state ||  initialState
   switch (type) {
     case HANDLE_FETCH_METADATA:
       return {

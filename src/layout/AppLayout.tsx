@@ -5,10 +5,7 @@ import FooterComponent from "../components/layouts/Default/FooterComponent";
 import ErrorMessage from "../ui/ErrorMessage";
 import ToasterMessage from "../ui/Toaster";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setError,
-  setToaster,
-} from "../reducers/layoutReducer";
+import { setError, setToaster } from "../reducers/layoutReducer";
 import SwipeUp from "../ui/swipeUp";
 const AppLayout = () => {
   const { pathname } = useLocation();
@@ -20,7 +17,7 @@ const AppLayout = () => {
   useEffect(() => {
     error?.message && rootDispatch(setError({ message: "" }));
     toaster?.message && rootDispatch(setToaster({ message: "" }));
-    window.scrollTo(0,0)
+    window.scrollTo(0,0);
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
@@ -29,7 +26,7 @@ const AppLayout = () => {
         {error?.message && (
           <ErrorMessage
             errorMessage={error?.message}
-            setErrorMessage={() => rootDispatch(setError({ message: ""}))}
+            setErrorMessage={() => rootDispatch(setError({ message: "" }))}
             onCloseCallback={error?.onCloseCallback}
             type={error?.type}
           />
@@ -48,7 +45,7 @@ const AppLayout = () => {
         <Outlet />
       </div>
       <div className={`lg:hidden`}>
-      <SwipeUp/>
+        <SwipeUp />
       </div>
       <FooterComponent />
     </>

@@ -38,7 +38,7 @@ function HeaderNavbar() {
   const { connector: activeConnector } = useAccount();
   useEffect(()=>{
     if(!address){
-      store.dispatch(getTokenDetails(""))
+      store.dispatch(getTokenDetails("",null))
     }
   },[address])
   useEffect(() => {
@@ -53,6 +53,7 @@ function HeaderNavbar() {
     if (account) {
       getCustomerDetails(account);
       getStakeFlag();
+      return;
     }
     
     if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
@@ -72,19 +73,6 @@ function HeaderNavbar() {
           "https://dottdevstoragespace.blob.core.windows.net/images/streming.png",
           action: () => window.open("https://streaming.dott.network", "_blank"),
       },
-      // {
-      //   name: "Launchpad",
-      //   image:
-      //     "https://dottdevstoragespace.blob.core.windows.net/images/launchpad 1.png",
-      //   action: () => window.open("https://www.dott.network", "_blank"),
-      // },
-      // {
-      //   name: "Marketplace",
-      //   image:
-      //     "https://dottdevstoragespace.blob.core.windows.net/images/marketplace.png",
-      //   action: () =>
-      //     window.open("https://www.dott.network/marketplace", "_blank"),
-      // },
       {
         name: "DAO’s",
         image:
@@ -96,15 +84,6 @@ function HeaderNavbar() {
       { path: "/projects", content: "Projects" },
       { path: "/staking", content: "Staking" },
       { path: "/tiers", content: "Tiers" },
-      // {
-      //   path: "https://ybstreaming.azurewebsites.net/",
-      //   content: "Streaming",
-      //   target: "_blank",
-      //   rel: "noopener noreferrer",
-      // },
-      // { path: "/daos", content: "DAOs" },
-      // { path: "/marketplace", content: "Marketplace" },
-      // { path: "/mycollections", content: "My Collections" },
     ];
     const navBarDropDownMenu = [
       {
@@ -122,24 +101,24 @@ function HeaderNavbar() {
     ];
     return { navMenuList, navBarDropDownMenu,globalDropdown };
   }, [pathname]);
-  const setData = (res) => {
-    setProfilePic(res?.data?.profilePicUrl);
-    store.dispatch(setUserID(res.data));
+
+  const dispatchCustomerDetails=(data:any)=>{
+    store.dispatch(setUserID(data));
+    setProfilePic(data?.profilePicUrl);
     store.dispatch(walletAddress(address || ""));
-    store.dispatch(getTokenDetails(res.data?.id))
-  };
-  const getCustomerDetails = async (address) => {
+  }
+  const getCustomerDetails = async (address:string | undefined) => {
     setChangingAddress(true)
     if (address) {
       try {
-        let res = await getKyc(`User/CustomerDetails/${address}`);
+        const res = await getKyc(`User/CustomerDetails/${address}`);
         if (res.statusText?.toLowerCase() === "ok" || res.status===200) {
-          setData(res);
+          store.dispatch(getTokenDetails(res?.data,dispatchCustomerDetails))
         } else {
-          console.log(res);
+          rootDispatch(setError({message:res}))
         }
       } catch (error) {
-        console.log(error);
+        rootDispatch(setError({message:error}))
       }finally{
         setChangingAddress(false)
       }
