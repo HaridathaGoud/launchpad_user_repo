@@ -23,7 +23,7 @@ import {
 } from "./utils";
 import Spinner from "../../loaders/spinner";
 import NoDataFound from "../../../ui/nodatafound";
-import ProposalsShimmer from "../../loaders/proposalsShimmer";
+import ProposalsShimmer from "../../loaders/daos/proposalsShimmer";
 
 const ProposalCards = (props: any) => {
   const proposalsRef=useRef(null)

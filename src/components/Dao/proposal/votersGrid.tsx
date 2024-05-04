@@ -6,6 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Spinner from "../../loaders/spinner";
 import Button from "../../../ui/Button";
 import NoDataFound from "../../../ui/nodatafound";
+import ProposalViewShimmer from "../../loaders/proposalViewShimmer";
 const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
@@ -51,7 +52,7 @@ function Voters(props: any) {
       </div>
 
       {voters?.loading ? (
-        <div></div>
+        <ProposalViewShimmer/>
       ) : (
         <div>
           <div className="">
