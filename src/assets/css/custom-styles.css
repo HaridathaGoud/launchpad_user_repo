@@ -249,6 +249,7 @@ button.opacity-100{opacity: 1 !important;}
 .radio:disabled{opacity: 0.6 !important;}
 .role-text{overflow: hidden;  display: -webkit-box;  -webkit-line-clamp: 2;   -webkit-box-orient: vertical;  text-overflow: ellipsis;}
 .warning{line-height: normal;}
+.toastersuccess{background-position: -285px -386px !important;width: 42px;height: 42px;}
 .erroricon{background-position:-285px -331px !important;width: 42px;height: 42px;}
 .warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
 .successicon{background-position: -159px -330px !important;width: 42px;height: 42px;}

@@ -2,7 +2,7 @@ import React from "react";
 const toaster = {
   success: {
     background:"bg-[#2b5800]",
-    icon: "erroricon scale-[0.8]",
+    icon: "toastersuccess scale-[0.8]",
     textColor:"text-[#2b5800]",
     text: "Success",
     arrowBorder: "border-l-[#2b5800]",
