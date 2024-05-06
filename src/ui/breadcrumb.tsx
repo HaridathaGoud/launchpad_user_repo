@@ -26,14 +26,14 @@ const BreadCrumb = () => {
               "launchpadProjectFoundingMembers"
             ]({
               projectName: params.projectName,
-              projectPath: `/projects/${params.projectName}/${params.projectId}`,
+              projectPath: `/projects/${params.projectName}/${params.projectId}/null`,
             });
           } else if (path.includes("castandcrew")) {
             breadcrumbToUpdate = getBreadcrumbList[
               "launchpadProjectCastAndCrew"
             ]({
               projectName: params.projectName,
-              projectPath: `/projects/${params.projectName}/${params.projectId}`,
+              projectPath: `/projects/${params.projectName}/${params.projectId}/null`,
             });
           } else {
             breadcrumbToUpdate = getBreadcrumbList["launchpadProject"](
@@ -44,7 +44,7 @@ const BreadCrumb = () => {
           breadcrumbToUpdate = getBreadcrumbList["launchpadProjectProposal"]({
             proposalTitle: params.proposalTitle,
             projectName: params.projectName,
-            projectPath: `/projects/${params.projectName}/${params.projectId}`,
+            projectPath: `/projects/${params.projectName}/${params.projectId}/null`,
           });
         } else {
           breadcrumbToUpdate = getBreadcrumbList["launchpadProjects"];
