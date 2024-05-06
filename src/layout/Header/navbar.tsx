@@ -44,6 +44,11 @@ function Navbar() {
       store.dispatch(getTokenDetails(null, null));
     }
   }, [user?.id]);
+  useEffect(()=>{
+    if(!isConnected && !address){
+      store.dispatch(setUserID(""));
+    }
+  },[isConnected,address])
   useEffect(() => {
     activeConnector?.on("change", handleConnectorUpdate);
     return () => activeConnector?.off("change", handleConnectorUpdate);
