@@ -343,7 +343,7 @@ const ProposalCards = (props: any) => {
                         <Button
                           handleClick={() =>
                             handleProposalsFetch(
-                              proposals?.nextpage,
+                              proposals?.nextPage,
                               proposals?.data
                             )
                           }
