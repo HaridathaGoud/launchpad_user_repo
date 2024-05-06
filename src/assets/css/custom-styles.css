@@ -203,7 +203,7 @@ html[data-theme="dark"] .drawer-bid{color: #000 !important;}
 select{background:url(../images/arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
 .matic-input{background:url(../images/white-arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
 /* toaster msg start */
-.top-right-toast{z-index: 9999;padding: 10px 1rem;border-radius: 0.5rem;width: 100%;align-items: center;display: flex;--tw-text-opacity: 1;color: #000000;max-width: 25rem;--tw-bg-opacity: 1;box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1); animation: slideDownAndFadeIn 0.5s ease-out;}
+.top-right-toast{z-index: 9999;border-radius: 0.5rem;width: 100%;--tw-text-opacity: 1;color: #000000;max-width: 25rem;--tw-bg-opacity: 1;box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1); animation: slideDownAndFadeIn 0.5s ease-out;}
 .icon.green-checked{ height: 26px; width: 26px; background-position: -238px -161px !important;}
 @keyframes slideDownAndFadeIn {
   0% {

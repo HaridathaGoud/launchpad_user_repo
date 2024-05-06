@@ -1,36 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import logo from "../../../assets/images/yb-logo.svg";
+import logo from "../../assets/images/yb-logo.svg";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { ConnectorData, useAccount, useDisconnect } from "wagmi";
-import { store } from "../../../store";
+import { store } from "../../store";
 import {
   getTokenDetails,
-  setToken,
   setUserID,
   Staker,
   walletAddress,
-} from "../../../reducers/rootReducer";
-import { getKyc } from "../../../utils/api";
-import useContract from "../../../hooks/useContract";
-import userImage from "../../../assets/images/avatar.jpg";
-import DropdownMenus from "../../../ui/DropdownMenus";
+} from "../../reducers/rootReducer";
+import { getKyc } from "../../utils/api";
+import useContract from "../../hooks/useContract";
+import userImage from "../../assets/images/avatar.jpg";
+import DropdownMenus from "../../ui/DropdownMenus";
 import { useLocation, useNavigate } from "react-router-dom";
-import NaviLink from "../../../ui/NaviLink";
-import ConnectWallet from "../../../ui/connectButton";
-import Spinner from "../../loaders/spinner";
-import { setError } from "../../../reducers/layoutReducer";
-
-function HeaderNavbar() {
-  const rootDispatch=useDispatch()
+import NaviLink from "../../ui/NaviLink";
+import ConnectWallet from "../../ui/connectButton";
+import Spinner from "../../components/loaders/spinner";
+import { setError } from "../../reducers/layoutReducer";
+import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
+function Navbar() {
+  const rootDispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const {userProfilePic,user} = useSelector(
-    (state: any) => {
-      return {userProfilePic:state.auth.user?.profilePicUrl,user:state.auth.user}
-    }
-  );
-  const [changingAddress,setChangingAddress]=useState(false)
+  const { userProfilePic, user } = useSelector((state: any) => {
+    return {
+      userProfilePic: state.auth.user?.profilePicUrl,
+      user: state.auth.user,
+    };
+  });
+  const [changingAddress, setChangingAddress] = useState(false);
   const { disconnectAsync } = useDisconnect();
   const { isConnected, address } = useAccount();
   const { isStaker } = useContract();
@@ -39,13 +39,13 @@ function HeaderNavbar() {
     setProfilePic(userProfilePic);
   }, [userProfilePic]);
   const { connector: activeConnector } = useAccount();
-  useEffect(()=>{
-    if(!user?.id){
-      store.dispatch(getTokenDetails(null,null))
-    }
-  },[user?.id])
   useEffect(() => {
-      activeConnector?.on("change", handleConnectorUpdate);
+    if (!user?.id) {
+      store.dispatch(getTokenDetails(null, null));
+    }
+  }, [user?.id]);
+  useEffect(() => {
+    activeConnector?.on("change", handleConnectorUpdate);
     return () => activeConnector?.off("change", handleConnectorUpdate);
   }, [activeConnector]);
   const handleDisconnect = useCallback(async () => {
@@ -58,72 +58,66 @@ function HeaderNavbar() {
       getStakeFlag();
       return;
     }
-    
-    if (chain?.id?.toString()!==process.env.REACT_APP_CHAIN_ID_NUMARIC || chain?.unsupported) {
-      rootDispatch(setError({message:"Switched to unsupported network!",type:"warning"}))
-    }else if(chain?.id?.toString()===process.env.REACT_APP_CHAIN_ID_NUMARIC && !chain?.unsupported){
-      rootDispatch(setError({message:""}))
+
+    if (
+      chain?.id?.toString() !== process.env.REACT_APP_CHAIN_ID_NUMARIC ||
+      chain?.unsupported
+    ) {
+      rootDispatch(
+        setError({
+          message: "Your current network is unsupported.",
+          type: "warning",
+        })
+      );
+    } else if (
+      chain?.id?.toString() === process.env.REACT_APP_CHAIN_ID_NUMARIC &&
+      !chain?.unsupported
+    ) {
+      rootDispatch(setError({ message: "" }));
     }
   };
-  const handleDropdownAction = useCallback((path: string) => {
-    navigate(path);
-  }, []);
-  const { navMenuList, navBarDropDownMenu,globalDropdown } = useMemo(() => {
-    const globalDropdown = [
-      {
-        name: "Streaming",
-        image:
-          "https://dottdevstoragespace.blob.core.windows.net/images/streming.png",
-          action: () => window.open("https://streaming.dott.network", "_blank"),
-      },
-      {
-        name: "DAO’s",
-        image:
-          "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
-          action: () => navigate("/daos"),
-      },
-    ];
-    const navMenuList = [
-      { path: "/projects", content: "Projects" },
-      { path: "/staking", content: "Staking" },
-      { path: "/tiers", content: "Tiers" },
-    ];
-    const navBarDropDownMenu = [
-      {
-        name: "Profile",
-        action: () => handleDropdownAction("/profile"),
-        isActive: pathname.includes("/profile"),
-      },
-      {
-        name: "Disconnect",
-        action: () => {
+  const handleDropdownAction = useCallback(
+    (action: string) => {
+      switch (action) {
+        case "profile":
+          navigate("/profile");
+          return;
+        case "disconnect":
           handleDisconnect();
-          handleDropdownAction("/dashboard");
-        },
-      },
-    ];
-    return { navMenuList, navBarDropDownMenu,globalDropdown };
+          return;
+        default:
+          return;
+      }
+    },
+    [pathname]
+  );
+  const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
+    return {
+      navMenuList: getNavMenu(navigate,pathname),
+      navBarDropDownMenu: getNavBarDropdown(handleDropdownAction, pathname),
+      globalDropdown: getGlobalDropDown(navigate),
+    };
   }, [pathname]);
 
-  const dispatchCustomerDetails=(data:any)=>{
+  const dispatchCustomerDetails = (data: any) => {
     store.dispatch(setUserID(data));
     setProfilePic(data?.profilePicUrl);
     store.dispatch(walletAddress(address || ""));
-  }
-  const getCustomerDetails = async (address:string | undefined) => {
-    setChangingAddress(true)
+  };
+  const getCustomerDetails = async (address: string | undefined) => {
+    setChangingAddress(true);
     if (address) {
       try {
         const res = await getKyc(`User/CustomerDetails/${address}`);
-        if (res.statusText?.toLowerCase() === "ok" || res.status===200) {
-          store.dispatch(getTokenDetails(res?.data,dispatchCustomerDetails))
+        if (res.statusText?.toLowerCase() === "ok" || res.status === 200) {
+          store.dispatch(getTokenDetails(res?.data, dispatchCustomerDetails));
         } else {
-          rootDispatch(setError({message:res}))
+          rootDispatch(setError({ message: res }));
         }
       } catch (error) {
-        rootDispatch(setError({message:error}))
-      }finally{
-        setChangingAddress(false)
+        rootDispatch(setError({ message: error }));
+      } finally {
+        setChangingAddress(false);
       }
     }
   };
@@ -132,10 +126,12 @@ function HeaderNavbar() {
       store.dispatch(Staker(res));
     });
   };
-  
 
   return (
-    <div id="header" className="sticky top-0 z-50 bg-success-content header-shadow">
+    <div
+      id="header"
+      className="sticky top-0 z-50 bg-success-content header-shadow"
+    >
       <div className="navbar bg-success-content container mx-auto lg:px-0 px-3">
         <div className="navbar-start">
           <div className="pr-4 hidden lg:flex shrink-0">
@@ -144,8 +140,23 @@ function HeaderNavbar() {
             </NaviLink>
           </div>
           <div className="flex items-center">
-            <div className="drawer w-[26px] lg:hidden mr-2">
-              <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+            <div className="w-[26px] lg:hidden mr-2">
+              <DropdownMenus btnContent={<svg
+                    className="w-5 h-5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 17 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 1h15M1 7h15M1 13h15"
+                    />
+                  </svg>} dropdownList={navMenuList} addToMenuClass="mt-7"/>
+              {/* <input id="my-drawer" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content">
                 <label htmlFor="my-drawer" className="">
                   <svg
@@ -172,22 +183,23 @@ function HeaderNavbar() {
                   className="drawer-overlay"
                 ></label>
                 <ul className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 h-screen min-w-[200px]">
-                  {navMenuList.map(({ path, content, target, rel }) => {
+                  {navMenuList.map(({ path, content }) => {
                     return (
                       <li className="group mb-2" key={path}>
+                        <Button type="plain" handleClick={}>
                         <NaviLink
                           path={path}
                           type="primary"
-                          target={target}
-                          rel={rel}
                         >
                           {content}
                         </NaviLink>
+                        </Button>
+                        
                       </li>
                     );
                   })}
                 </ul>
-              </div>
+              </div> */}
             </div>
             <div className="pr-4 lg:hidden">
               <NaviLink path={"/dashboard"} type="primary">
@@ -198,17 +210,15 @@ function HeaderNavbar() {
 
           <div className="navbar-center hidden lg:flex ">
             <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 ">
-              {navMenuList.map(({ path, content, target, rel }) => {
+              {navMenuList.map(({ path, name }) => {
                 return (
                   <li className="group" key={path}>
                     <NaviLink
                       path={path}
                       type="primary"
                       className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                      target={target}
-                      rel={rel}
                     >
-                      {content}
+                      {name}
                     </NaviLink>
                   </li>
                 );
@@ -218,29 +228,33 @@ function HeaderNavbar() {
         </div>
 
         <div className="navbar-end">
-        <div className="mr-6">
-              <DropdownMenus
-                btnContent={<span className="icon menu-icon"></span>}
-                dropdownClass="md:dropdown-end"
-                dropdownList={globalDropdown}
-                menuwidth="!min-w-[254px] grid grid-cols-2 global-list"
-                btnCenter="text-center py-4"
-                borderList="border border-t-0"
-              />
-            </div>
+          <div className="mr-6">
+            <DropdownMenus
+              btnContent={<span className="icon menu-icon"></span>}
+              dropdownClass="md:dropdown-end"
+              dropdownList={globalDropdown}
+              addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
+              addToMenuBtnClass="text-center py-4"
+              menuItemClass="border border-t-0"
+            />
+          </div>
           {!isConnected && <ConnectWallet />}
-          {isConnected && changingAddress &&  <div
-                    className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
-                  >
-                      <p className="!text-base-100 inline-block text-sm leading-5 truncate">
-                      please wait...
-                    </p>
-                    <span><Spinner size="loading-sm"/></span>
-                    </div>}
+          {isConnected && changingAddress && (
+            <div
+              className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
+            >
+              <p className="!text-base-100 inline-block text-sm leading-5 truncate">
+                please wait...
+              </p>
+              <span>
+                <Spinner size="loading-sm" />
+              </span>
+            </div>
+          )}
           {isConnected && !changingAddress && (
             <DropdownMenus
-              btnContent={      
-                 <span className="relative">
+              btnContent={
+                <span className="relative">
                   <div
                     className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
                   >
@@ -271,6 +285,7 @@ function HeaderNavbar() {
                 </span>
               }
               dropdownList={navBarDropDownMenu}
+              addToMenuClass="mt-2"
             />
           )}
         </div>
@@ -283,4 +298,4 @@ const connectStateToProps = ({ auth }) => {
 };
 export default connect(connectStateToProps, (dispatch) => {
   return { dispatch };
-})(HeaderNavbar);
+})(Navbar);

@@ -43,7 +43,7 @@ const ErrorMessage = ({ errorMessage, setErrorMessage, onCloseCallback ,type}) =
     value === "less" && setReadMore(false);
   }
   const messageType=errorType[type];
-  return (<>
+  return (
     <div className="fixed top-15 left-[50%] right-[50%] translate-x-[-50%] z-[99999] w-[95%] md:w-[35%] my-4 ">
       <div className={`rounded-lg flex border ${messageType['border']} min-h-[50px] mt-5 shadow-lg relative bg-white`}>
         <button className={`${messageType['closeIcon']} cursor-pointer icon absolute top-[-12px] right-[-12px]`} onClick={handleClose}></button>
@@ -65,7 +65,6 @@ const ErrorMessage = ({ errorMessage, setErrorMessage, onCloseCallback ,type}) =
         </div>
       </div>
     </div>
-  </>
   );
 };
 

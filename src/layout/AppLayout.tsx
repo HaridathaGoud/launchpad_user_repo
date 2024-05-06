@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Header from "../components/modules/Header/Header";
+import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
 import FooterComponent from "../components/layouts/Default/FooterComponent";
 import ErrorMessage from "../ui/ErrorMessage";
@@ -33,7 +33,8 @@ const AppLayout = () => {
             type={error?.type}
           />
         )}
-        {toaster?.message && (
+        {
+        toaster?.message && (
           <ToasterMessage
             message={toaster?.message}
             closeToaster={() => rootDispatch(setToaster({ message: "" }))}
