@@ -3,7 +3,7 @@ import sucess from "../../assets/images/success.svg";
 import Button from "../../ui/Button";
 const ConfirmationComponent = (props: any) => {
   const navigateToHash = () => {
-    window.open(`${process.env.REACT_APP_HAS_URL + "tx/" + props?.hash}`);
+    window.open(`${process.env.REACT_APP_BLOCKEXPLORER + "tx/" + props?.hash}`);
   };
   let stakeAmount = parseFloat(props?.amountStake);
   let stakeFormattedNumber = stakeAmount?.toLocaleString("en-US", {
