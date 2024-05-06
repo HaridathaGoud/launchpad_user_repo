@@ -45,10 +45,10 @@ function Navbar() {
     }
   }, [user?.id]);
   useEffect(()=>{
-    if(!isConnected && !address){
+    if(!isConnected && !address && user?.id){
       store.dispatch(setUserID(""));
     }
-  },[isConnected,address])
+  },[isConnected,address,user?.id])
   useEffect(() => {
     activeConnector?.on("change", handleConnectorUpdate);
     return () => activeConnector?.off("change", handleConnectorUpdate);
