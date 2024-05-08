@@ -48,6 +48,9 @@ function Navbar() {
     if(!isConnected && !address && user?.id){
       store.dispatch(setUserID(""));
     }
+    if(isConnected && address && !user?.id){
+      getCustomerDetails(address)
+    }
   },[isConnected,address,user?.id])
   useEffect(() => {
     activeConnector?.on("change", handleConnectorUpdate);
