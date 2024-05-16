@@ -8,7 +8,7 @@ const ProjectFeed = (props) => {
             {props.pjctFeed?.introductionHtml ?
 
                 <div
-                    className="detail-table"
+                    className="detail-table dark-textwhite"
                     dangerouslySetInnerHTML={{ __html: props.pjctFeed?.introductionHtml }}
                 ></div> :
                 <NoDataFound />

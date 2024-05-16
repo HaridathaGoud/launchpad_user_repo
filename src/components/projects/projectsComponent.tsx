@@ -183,7 +183,7 @@ const Projectscomponent = (props: any) => {
                                 >
                                   Price
                                 </label>
-                                <p className="">
+                                <p className="font-normal text-secondary">
                                   {item?.tokenVolume} {item?.tokenSymbol} ={" "}
                                   {item?.paymentValue} {item?.paymentSymbol}
                                 </p>

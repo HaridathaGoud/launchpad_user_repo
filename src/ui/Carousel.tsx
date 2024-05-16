@@ -158,6 +158,7 @@ const Carousel = ({
                             <Button
                               type="primary"
                               handleClick={() => navigateToUniswap()}
+                              btnClassName="dark-textwhite"
                             >
                               Buy {process.env.REACT_APP_TOKEN_SYMBOL}
                             </Button>

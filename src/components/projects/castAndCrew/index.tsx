@@ -39,7 +39,7 @@ const CastAndCrewMember = (props) => {
           to={`/projects/${props.projectName}/${props.projectId}/castandcrew`}
         >
           <div
-            className={`bg-secondary w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer`}
+            className={`bg-base-content w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer`}
           >
             <div className={`text-center`}>
               <span className={`icon ${styles.rightArrow}`}></span>

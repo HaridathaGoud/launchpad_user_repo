@@ -271,6 +271,7 @@ input::-webkit-calendar-picker-indicator {
 .global-list li:first-child,.global-list li:nth-child(3),.global-list li:nth-child(4),.global-list li:nth-child(2){border-left: 0;}
 .global-list li:nth-child(2){border-right: 0;}
 .global-list li:nth-child(3),.global-list li:last-child{border-bottom: 0;}
+html[data-theme="dark"] .dark-textwhite,html[data-theme="dark"] .detail-table p{color: #fff !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

@@ -18,7 +18,7 @@ const ConnectWallet = ({text,type}:ConnectWalletProps) => {
         handleClick={() => {
           modalActions("walletConnectModal", "open");
         }}
-        btnClassName="flex items-center animate-heartbeat"
+        btnClassName="flex items-center animate-heartbeat dark-textwhite"
       >
         <>
           <span>{text || "Connect Wallet"}</span>

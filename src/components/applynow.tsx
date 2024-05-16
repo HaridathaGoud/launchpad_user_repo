@@ -15,7 +15,9 @@ const ApplyNow  = () => {
                 <div className={`max-sm:text-center mt-4 md:mt-0 shrink-0`}>
                   <Button type='applynow'  handleClick={() => {
                 handleApplyNow();
-              }}>
+              }}
+              btnClassName="dark-textwhite"
+              >
                     Apply Now
                 </Button>
                 </div>

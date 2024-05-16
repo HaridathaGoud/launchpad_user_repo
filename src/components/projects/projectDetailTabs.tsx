@@ -21,7 +21,7 @@ const ProjectDetailTabs = ({
     { id: 'dao', label: 'Dao'},
   ],[pjctInfo?.tokenType]);
   return (
-      <ScrollTabs sections={sections} tabsDivClass={`customTabs flex gap-[10px] overflow-x-auto max-sm:pb-2 scrollbar-hidden pt-2 pb-2 bg-base-100`} tabClass={"tab bg-accent leading-normal  font-semibold rounded-[28px] py-2 px-3.5 whitespace-nowrap"} activeTabClass={"!bg-primary text-base-100"} active={active}/>
+      <ScrollTabs sections={sections} tabsDivClass={`customTabs flex gap-[10px] overflow-x-auto max-sm:pb-2 scrollbar-hidden pt-2 pb-2 bg-success-content`} tabClass={"tab bg-accent leading-normal  font-semibold rounded-[28px] py-2 px-3.5 whitespace-nowrap"} activeTabClass={"!bg-primary text-base-100 dark-textwhite"} active={active}/>
   );
 };
 
