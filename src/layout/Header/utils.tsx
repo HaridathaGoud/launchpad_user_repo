@@ -19,6 +19,7 @@ export const getNavMenu = (navigate:Function,currentPath:string | undefined)=>{
         { path: "/projects", name: "Projects",action:()=>navigate('/projects'),isActive: currentPath?.includes("/projects"), },
         { path: "/staking", name: "Staking",action:()=>navigate('/staking'),isActive: currentPath?.includes("/staking"), },
         { path: "/tiers", name: "Tiers",action:()=>navigate('/tiers'),isActive: currentPath?.includes("/tiers"), },
+        { path: "/portfolio", name: "Portfolio",action:()=>navigate('/portfolio'),isActive: currentPath?.includes("/portfolio"), },
       ];
 }
 

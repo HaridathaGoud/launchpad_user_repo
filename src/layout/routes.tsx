@@ -21,6 +21,7 @@ import DaosPageShimmer from "../components/loaders/daos/daosPageShimmer";
 import ProposalsPageShimmer from "../components/loaders/daos/proposalsPageShimmer";
 import ProposalPageShimmer from "../components/loaders/daos/proposalPageShimmer";
 import PageSpinner from "./pageSpinner";
+import Portfolio from "../components/portfolio";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -145,6 +146,15 @@ const Routes = () => {
           element: (
             <React.Suspense fallback={<TiresShimmer />}>
               <Tiers />
+            </React.Suspense>
+          ),
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/portfolio",
+          element: (
+            <React.Suspense fallback={<TiresShimmer />}>
+              <Portfolio />
             </React.Suspense>
           ),
           errorElement: <ErrorPage />,
