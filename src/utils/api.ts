@@ -281,8 +281,28 @@ const isErrorDispaly = (objValue) => {
   		}
   	}
   }
+
+  const getPortFolioData=async(customerId:any)=> {
+    return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`userportfolio/${customerId}`,{
+      headers: {
+        Authorization: `${getToken()}` },
+    });
+  }
+  const getUserInvestments=async(take:any,skip:any,customerId:any,search:any)=> {
+    return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`userinvestments/${customerId}/${take}/${skip}/${search}`,{
+      headers: {
+        Authorization: `${getToken()}` },
+    });
+  }
+  const getUserclaims=async(take:any,skip:any,customerId:any,search:any)=> {
+    return await axios.get(API_END_POINT_DAO_CARDS + ApiControllers.user +`userclaims/${customerId}/${take}/${skip}/${search}`,{
+      headers: {
+        Authorization: `${getToken()}` },
+    });
+  }
 let apiCalls = {getTopNft,getMarketplace,postMarketplace,getDaos,
   getDaoDetails,getMIntDaoDetails,getStatusLu,getProposalView,postCreateProposal,postSaveVote,getProposalList,getContractDetails,
-  getProposalVotes,getProposalVoters,customerVoted,isErrorDispaly,uploadErrorDisplay,customerDetails
+  getProposalVotes,getProposalVoters,customerVoted,isErrorDispaly,uploadErrorDisplay,customerDetails,getPortFolioData,getUserInvestments,
+  getUserclaims,
 }
 export default apiCalls

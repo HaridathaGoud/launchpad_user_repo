@@ -9,6 +9,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import votingReducer from "../reducers/votingReducer";
 import marketPlaceReducer from "../reducers/marketPlaceReducer";
 import layoutReducer from "../reducers/layoutReducer";
+import portfolioReducer from "../reducers/portfolioReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -22,6 +23,7 @@ const rootReducerState = combineReducers({
   marketPlaceDashboard: marketPlaceReducer.marketPlaceDashboardReducer,
   exploreNfts: marketPlaceReducer.exploreNtfsReducer,
   layoutReducer: layoutReducer,
+  portfolio: portfolioReducer
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];
