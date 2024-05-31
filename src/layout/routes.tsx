@@ -22,9 +22,11 @@ import ProposalsPageShimmer from "../components/loaders/daos/proposalsPageShimme
 import ProposalPageShimmer from "../components/loaders/daos/proposalPageShimmer";
 import PageSpinner from "./pageSpinner";
 import Portfolio from "../components/portfolio";
+import MinnapadDashboard from "../components/strapi/minnapaddashboard";
+import AboutUs from "../components/strapi/aboutus";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
-const AboutUs = React.lazy(() => import("../components/aboutus.component"));
+// const AboutUs = React.lazy(() => import("../components/aboutus.component"));
 const Faq = React.lazy(() => import("../components/faq.component"));
 const KycStatus = React.lazy(() => import("../components/sumsub/kycStatus"));
 const Profile = React.lazy(() => import("../components/profile"));
@@ -80,7 +82,7 @@ const Routes = () => {
           ),
           errorElement: <ErrorPage />,
         },
-        { path: "/aboutus", element: <AboutUs />, errorElement: <ErrorPage /> },
+        // { path: "/aboutus", element: <AboutUs />, errorElement: <ErrorPage /> },
         {
           path: "/kycStatus",
           element: <KycStatus />,
@@ -199,6 +201,14 @@ const Routes = () => {
           element: (
             <React.Suspense fallback={<DaosPageShimmer/>}>
               <Daos />
+            </React.Suspense>
+          ),
+        },        
+        {
+          path: "/aboutus",
+          element: (
+            <React.Suspense fallback={<DaosPageShimmer/>}>
+              <AboutUs />
             </React.Suspense>
           ),
         },
