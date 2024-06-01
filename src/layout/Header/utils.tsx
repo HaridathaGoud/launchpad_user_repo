@@ -20,6 +20,7 @@ export const getNavMenu = (navigate:Function,currentPath:string | undefined)=>{
         { path: "/staking", name: "Staking",action:()=>navigate('/staking'),isActive: currentPath?.includes("/staking"), },
         { path: "/tiers", name: "Tiers",action:()=>navigate('/tiers'),isActive: currentPath?.includes("/tiers"), },
         { path: "/portfolio", name: "Portfolio",action:()=>navigate('/portfolio'),isActive: currentPath?.includes("/portfolio"), },
+        { path: "/aboutus", name: "About Us",action:()=>navigate('/aboutus'),isActive: currentPath?.includes("/portfolio"), },
       ];
 }
 
