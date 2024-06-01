@@ -50,21 +50,19 @@ const pageSize = 10
       props.Userinvestments({page: 1,take: pageSize, customerId: user.id,data: null,search: search});
     }
   };
-  const handleSearchIcon = (data: any) => {
-    fetchData(state.search?.trim()||null);
-  };
+   const handleSearchIcon = () => {
+     const trimmedSearch = state.search?.trim() || null;
+     if (trimmedSearch) {
+       fetchData(trimmedSearch);
+     }
+   };
   const handleSearch = (e: any) => {
     let data = e.target.value.trim();
     dispatch({ type: "setSearch", payload: data });
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && data) {
       fetchData(data||null);
-    }
-  };
-  const handleInputChange = (e: any) => {
-    let data = e.target.value.trim();
-    dispatch({ type: "setSearch", payload: data });
-    if (data === "") {
-      fetchData(null);
+    }else if(e.key ==='Backspace' && !data){
+      fetchData(data||null);
     }
   };
   const getAmountDetails = async () => {
@@ -113,7 +111,6 @@ const pageSize = 10
       showClaimableOnly={showClaimableOnly}
       setShowClaimableOnly={setShowClaimableOnly}
       handleSearch={handleSearch}
-      handleInputChange={handleInputChange}
       portpolioRef={portpolioRef}
       handleSearchIcon={handleSearchIcon}
       />

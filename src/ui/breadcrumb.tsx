@@ -66,7 +66,9 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList["launchpadStaking"];
     } else if (path.includes("tiers")) {
       breadcrumbToUpdate = getBreadcrumbList["launchpadTiers"];
-    } else {
+    }else if (path.includes("portfolio")) {
+      breadcrumbToUpdate = getBreadcrumbList["launchpadPortFolio"];
+    }else {
       breadcrumbToUpdate = getBreadcrumbList["default"];
     }
 

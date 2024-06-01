@@ -70,8 +70,7 @@ const View = (props:any)=>{
           <input
             type="text"
             placeholder="Search"
-            onKeyUp={(e) => props.handleSearch(e)}
-            onChange={(e) => props.handleInputChange(e)}
+            onKeyUp={props.handleSearch}
             ref={props.portpolioRef}
             className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"                      
           />

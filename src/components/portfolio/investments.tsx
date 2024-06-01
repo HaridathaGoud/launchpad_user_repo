@@ -158,7 +158,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                   </thead>
                   <tbody>
                     {data?.length > 0 ? (
-                      data.map((item: any, index: any) => (
+                      data.map((item: any) => (
                         <tr key={item.projectName}>
                           <td>
                             <p className="font-normal text-sm text-secondary">
@@ -170,12 +170,12 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.invested && item?.invested + 'USDT' || '--'}
+                              {item?.invested && item?.invested + ' $' || '--'}
                             </p>
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.tokens && item?.tokens + ' FRBK' || '--'}
+                              {item?.tokens && (item?.tokens +' '+item?.tokenSymbol) || '--'}
                             </p>
                           </td>
                           <td>
@@ -185,7 +185,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.purchasePrice && '$' + item?.purchasePrice || '--'}
+                              {item?.purchasePrice && item?.purchasePrice + ' MATIC'|| '--'}
                             </p>
                           </td>
                           {/* <td>
