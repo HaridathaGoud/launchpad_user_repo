@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Moment from "react-moment";
 import { getProposalStatus } from "../proposals/utils";
 import InformationPanelShimmer from "../../loaders/InformationPanelShimmer";
+import ConvertLocalFormat from "../../../utils/dateFormat";
 const InformationPanel = () => {
   const proposalDetails = useSelector(
     (state: any) => state.vtg.proposalDetails
@@ -50,10 +50,7 @@ const InformationPanel = () => {
                 Start Date{" "}
               </p>
               <p className="truncate text-secondary">
-                <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
-                  {proposalDetails?.data?.startDate}
-                </Moment>{" "}
-                (UTC)
+                {ConvertLocalFormat(proposalDetails?.data?.startDate)} {" "}
               </p>
             </div>
             <div className="flex gap-5 justify-between items-center mb-4">
@@ -61,10 +58,7 @@ const InformationPanel = () => {
                 End Date
               </p>
               <p className="truncate text-secondary">
-                <Moment local format="DD/MM/YYYY HH:mm">
-                  {proposalDetails?.data?.endDate}
-                </Moment>{" "}
-                (UTC)
+                {ConvertLocalFormat(proposalDetails?.data?.endDate)} {" "}
               </p>
             </div>
           </div>

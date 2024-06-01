@@ -1,8 +1,8 @@
 import React from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import defaultlogo from '../../../assets/images/default-logo.png';
-import moment from "moment";
 import NaviLink from "../../../ui/NaviLink";
+import ConvertLocalFormat from "../../../utils/dateFormat";
 
 const pjctTypes = {
   ongoing: "Ongoing",
@@ -163,13 +163,10 @@ const ProjectDetailsCard = (props: any) => {
 
               <div className="total-status md:col-span-2">
                 <div className="fields-style">
-                  <h5 className="text-base text-secondary mb-1">
+                  <h5 className="text-base text-secondary mb-1"> 
                     {props.pjctInfo?.launchDate
-                      ? moment(props.pjctInfo?.launchDate).format(
-                          "DD-MM-YYYY HH:mm"
-                        )
+                      ? ConvertLocalFormat(props.pjctInfo?.launchDate)
                       : "--"}
-                    (UTC)
                   </h5>
 
                   <p className="text-base text-secondary opacity-60">
@@ -186,11 +183,8 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                   <p className="text-sm text-secondary">
                     {props.pjctInfo?.privateStartDate
-                      ? moment(props.pjctInfo?.privateStartDate).format(
-                          "DD-MM-YYYY HH:mm"
-                        )
+                      ? ConvertLocalFormat(props.pjctInfo?.privateStartDate)
                       : "--"}
-                    (UTC)
                   </p>
                 </div>
                 <div className="border-r border-neutral-content mx-4"></div>
@@ -200,11 +194,8 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                   <p className="text-sm text-secondary">
                     {props.pjctInfo?.privateEndDate
-                      ? moment(props.pjctInfo?.privateEndDate).format(
-                          "DD-MM-YYYY HH:mm"
-                        )
+                      ? ConvertLocalFormat(props.pjctInfo?.privateEndDate)
                       : "--"}
-                    (UTC)
                   </p>
                 </div>
               </div>
@@ -232,11 +223,8 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                   <p className="text-sm text-secondary">
                     {props.pjctInfo?.publicStartDate
-                      ? moment(props.pjctInfo?.publicStartDate).format(
-                          "DD-MM-YYYY HH:mm"
-                        )
+                      ? ConvertLocalFormat(props.pjctInfo?.publicStartDate)
                       : "--"}
-                    (UTC)
                   </p>
                 </div>
                 <div className="border-r border-neutral-content mx-4"></div>
@@ -246,11 +234,8 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                   <p className="text-sm text-secondary">
                     {props.pjctInfo?.publicEndDate
-                      ? moment(props.pjctInfo?.publicEndDate).format(
-                          "DD-MM-YYYY HH:mm"
-                        )
+                      ? ConvertLocalFormat(props.pjctInfo?.publicEndDate)
                       : "--"}
-                    (UTC)
                   </p>
                 </div>
               </div>
