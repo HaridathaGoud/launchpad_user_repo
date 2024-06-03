@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useMemo, useReducer, useState } from "rea
 import StakingComponent from "../../staking/stake";
 import Collapse from "../../../ui/Collapse";
 import Docstabs from "../../../ui/docstabs";
+import IntroPage from "./intro";
+import VisitUs from "../../visitus";
+import LaunchpadIntro from "./launchpadintro";
 
 const Docs = () => {
 const[activeTab,setActiveTab ] = useState(0);
@@ -16,16 +19,20 @@ const[activeStep,setActiveStep ] = useState(0);
             name: "Introduction to Launchpads",
             icon: "checkpoints",
             activeIcon: "checkpointsActive",
+            content:<LaunchpadIntro/>
+
           },
           {
             name: "Types of Launchpads",
             icon: "amount",
             activeIcon: "amountActive",
+            content:<span>Types of Launchpads</span>
           },
           {
             name: "Benefits of Launchpads",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+            content:<span>Benefits of Launchpads</span>
           },
           {
             name: "Successful Stories",
@@ -84,6 +91,7 @@ const[activeStep,setActiveStep ] = useState(0);
             name: "Tokenization",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+
             
         },
         {
@@ -96,6 +104,7 @@ const[activeStep,setActiveStep ] = useState(0);
     ],
   );
   return (
+    <>
     <div className="grid lg:grid-cols-4 mt-2 container mx-auto">
       <div className="mt-5">
         <Docstabs
@@ -105,16 +114,16 @@ const[activeStep,setActiveStep ] = useState(0);
           activeStep={activeStep}
           setActiveStep={(payload: number) => setActiveStep?.(payload)}
         />
-      </div>
-      {/* <StakingTabsProvider value={tabsContextValue}> */}
+      </div>      
         <div className="lg:col-span-3">
-          { <StakingComponent />}
-          {/* {activeTab === 1 && <Unstake />}
-          {activeTab === 2 && <WithdrawComponent />}
-          {activeTab === 3 && <RewardsComponent />} */}
+          {tabs[activeTab].content[activeStep].content}         
         </div>
       {/* </StakingTabsProvider> */}
     </div>
+    <div className='pt-36'>
+    <VisitUs />
+  </div>
+    </>
   );
 };
 
