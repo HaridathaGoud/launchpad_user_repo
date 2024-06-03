@@ -38,7 +38,7 @@ const View = (props:any)=>{
         <div className="mt-[26px]">
           <p className="text-secondary text-sm font-normal">Total Invested</p>
           <h1 className="text-secondary font-medium	text-[32px] text-black">
-            {props.portfoliodata?.totalInvested && props.portfoliodata?.totalInvested + ' USD'||'--'}
+            {props.portfoliodata?.totalInvested && props.portfoliodata?.totalInvested +' $' ||'--'}
             </h1>
         </div>
        </div>
