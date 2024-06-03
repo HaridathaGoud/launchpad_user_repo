@@ -24,6 +24,7 @@ import PageSpinner from "./pageSpinner";
 import Portfolio from "../components/portfolio";
 import MinnapadDashboard from "../components/strapi/minnapaddashboard";
 import AboutUs from "../components/strapi/aboutus";
+import Docs from "../components/strapi/docs";
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 // const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -209,6 +210,14 @@ const Routes = () => {
           element: (
             <React.Suspense fallback={<DaosPageShimmer/>}>
               <AboutUs />
+            </React.Suspense>
+          ),
+        },
+        {
+          path: "/docs",
+          element: (
+            <React.Suspense fallback={<DaosPageShimmer/>}>
+              <Docs/>
             </React.Suspense>
           ),
         },
