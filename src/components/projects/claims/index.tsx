@@ -10,6 +10,7 @@ import { ClaimsShimmer } from "../../loaders/projects/claimsShimmer";
 import Button from "../../../ui/Button";
 import Spinner from "../../loaders/spinner";
 import NoDataFound from "../../../ui/nodatafound";
+import ConvertLocalFormat from "../../../utils/dateFormat";
 const Claims = (props:any) => {
   const { claimTokens } = useContract();
   const user = store.getState().auth;
@@ -151,10 +152,7 @@ const Claims = (props:any) => {
                         </td>
                         <td>
                           <p className="font-normal text-sm text-secondary">
-                            {claims.date
-                              ? moment(claims.date).format("DD-MM-YYYY HH:mm")
-                              : "--"}
-                            {claims.date ? `(UTC)` : "--"}
+                            {claims.date ? ConvertLocalFormat(claims.date) : "--"}
                           </p>{" "}
                         </td>
                         <td>

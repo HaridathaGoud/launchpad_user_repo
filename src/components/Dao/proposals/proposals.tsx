@@ -10,7 +10,6 @@ import {
 } from "../../../reducers/proposlaReducer";
 import { useAccount } from "wagmi";
 import CreateFirstPraposal from "./newProposal";
-import Moment from "react-moment";
 import { isMobile } from "react-device-detect";
 import daocardProfile from "../../../assets/images/daocard-profile.png";
 import { setError } from "../../../reducers/layoutReducer";
