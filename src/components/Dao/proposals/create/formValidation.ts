@@ -1,6 +1,9 @@
 import { validateContentRule } from "../../../../utils/validation";
 
 const convertTo24HourFormat = (time) => {
+  if (!time || typeof time !== 'string') {
+    return null; 
+  }
   const [timeStr, amPm] = time.split(' ');
   const [hours, minutes] = timeStr.split(':');
   let hours24 = parseInt(hours, 10);

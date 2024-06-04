@@ -69,7 +69,7 @@ const View = (props:any)=>{
         <div className="relative max-sm:mt-4">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search by project name"
             onKeyUp={props.handleSearch}
             ref={props.portpolioRef}
             className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"                      
