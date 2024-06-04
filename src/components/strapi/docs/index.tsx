@@ -4,7 +4,13 @@ import Collapse from "../../../ui/Collapse";
 import Docstabs from "../../../ui/docstabs";
 import IntroPage from "./intro";
 import VisitUs from "../../visitus";
-import LaunchpadIntro from "./launchpadintro";
+import LaunchpadIntro from "./conclusion";
+import LaunchpadTypes from "./typesofLaunchpad";
+import LaunchpadBenefits from "./benefits";
+import SuccessfulStories from "./successstories";
+import KeyComponents from "./keycomponents";
+import Tips from "./tips";
+import Conclusion from "./conclusion";
 
 const Docs = () => {
 const[activeTab,setActiveTab ] = useState(0);
@@ -26,33 +32,37 @@ const[activeStep,setActiveStep ] = useState(0);
             name: "Types of Launchpads",
             icon: "amount",
             activeIcon: "amountActive",
-            content:<span>Types of Launchpads</span>
+            content:<LaunchpadTypes/>
           },
           {
             name: "Benefits of Launchpads",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content:<span>Benefits of Launchpads</span>
+            content:<LaunchpadBenefits/>
           },
           {
             name: "Successful Stories",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+            content:<SuccessfulStories/>
           },
           {
             name: "Key Components",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+            content:<KeyComponents/>
           },
           {
             name: "Tips for Participants",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+            content:<Tips/>
           },
           {
             name: "Conclusion",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+            content:<Conclusion/>
           },
         ],
       },
@@ -106,7 +116,7 @@ const[activeStep,setActiveStep ] = useState(0);
   return (
     <>
     <div className="grid lg:grid-cols-4 mt-2 container mx-auto">
-      <div className="mt-5">
+      <div className="mt-5 pr-4 border-r">
         <Docstabs
           tabs={tabs}
           activeTab={activeTab}
@@ -115,7 +125,7 @@ const[activeStep,setActiveStep ] = useState(0);
           setActiveStep={(payload: number) => setActiveStep?.(payload)}
         />
       </div>      
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 pl-6">
           {tabs[activeTab].content[activeStep].content}         
         </div>
       {/* </StakingTabsProvider> */}
