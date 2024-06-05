@@ -9,7 +9,7 @@ import yellowellipse from '../../../assets/images/yellow-ellipse.svg'
 import blueellipse from '../../../assets/images/blue-ellipse.svg'
 import VisitUs from '../../visitus';
 
-function Conclusion() {
+function ConclusionContent() {
   const [postDetails, setPost] = useState([]);
   const params = useParams();
   console.log(params);
@@ -57,4 +57,4 @@ function Conclusion() {
   );
 }
 
-export default Conclusion;
+export default ConclusionContent;

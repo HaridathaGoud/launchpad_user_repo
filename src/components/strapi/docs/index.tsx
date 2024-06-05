@@ -4,13 +4,14 @@ import Collapse from "../../../ui/Collapse";
 import Docstabs from "../../../ui/docstabs";
 import IntroPage from "./intro";
 import VisitUs from "../../visitus";
-import LaunchpadIntro from "./conclusion";
+import LaunchpadIntro from "./launchpadintro";
 import LaunchpadTypes from "./typesofLaunchpad";
 import LaunchpadBenefits from "./benefits";
 import SuccessfulStories from "./successstories";
 import KeyComponents from "./keycomponents";
 import Tips from "./tips";
-import Conclusion from "./conclusion";
+import Conclusion from "./launchpadintro";
+import ConclusionContent from "./conclusioncomponent";
 
 const Docs = () => {
 const[activeTab,setActiveTab ] = useState(0);
@@ -62,7 +63,7 @@ const[activeStep,setActiveStep ] = useState(0);
             name: "Conclusion",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content:<Conclusion/>
+            content:<ConclusionContent/>
           },
         ],
       },
