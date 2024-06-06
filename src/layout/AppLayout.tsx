@@ -21,6 +21,7 @@ import { ConnectorData, useAccount, useDisconnect } from "wagmi";
 import { getKyc } from "../utils/api";
 import useArcanaAuth from "../hooks/useArcanaAuth";
 import useContract from "../hooks/useContract";
+import offline from "../assets/images/offline.svg";
 const AppLayout = () => {
   const { pathname } = useLocation();
   const { isStaker } = useContract();
@@ -49,7 +50,6 @@ const AppLayout = () => {
     toaster?.message && rootDispatch(setToaster({ message: "" }));
     window.scrollTo(0, 0);
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
-  // console.log(isOnline)
   useEffect(() => {
     activeConnector?.on("change", handleConnectorUpdate);
     return () => {
@@ -139,34 +139,44 @@ const AppLayout = () => {
   }, [auth]);
   return (
     <>
-      <Header changingAddress={changingAddress} onDisconnect={onDisconnect} />
-      <div className="">
-        {error?.message && (
-          <ErrorMessage
-            errorMessage={error?.message}
-            setErrorMessage={() => rootDispatch(setError({ message: "" }))}
-            onCloseCallback={error?.onCloseCallback}
-            type={error?.type}
+      {!isOnline && <div className="flex justify-center items-center h-[100vh]">
+        <img src={offline} alt="offline" />
+        </div>}
+      {isOnline && (
+        <>
+          <Header
+            changingAddress={changingAddress}
+            onDisconnect={onDisconnect}
           />
-        )}
-        {toaster?.message && (
-          <ToasterMessage
-            message={toaster?.message}
-            closeToaster={() => rootDispatch(setToaster({ message: "" }))}
-            timeout={toaster?.timeout}
-            type={toaster?.type}
-            position={toaster?.position}
-            callback={toaster?.callback}
-            callbackTimeout={toaster?.callbackTimeout}
-          />
-        )}
-        {hasBasicToken && <Outlet />}
-        {!hasBasicToken && <PleaseWait />}
-      </div>
-      <div className={`lg:hidden`}>
-        <SwipeUp />
-      </div>
-      <FooterComponent />
+          <div className="">
+            {error?.message && (
+              <ErrorMessage
+                errorMessage={error?.message}
+                setErrorMessage={() => rootDispatch(setError({ message: "" }))}
+                onCloseCallback={error?.onCloseCallback}
+                type={error?.type}
+              />
+            )}
+            {toaster?.message && (
+              <ToasterMessage
+                message={toaster?.message}
+                closeToaster={() => rootDispatch(setToaster({ message: "" }))}
+                timeout={toaster?.timeout}
+                type={toaster?.type}
+                position={toaster?.position}
+                callback={toaster?.callback}
+                callbackTimeout={toaster?.callbackTimeout}
+              />
+            )}
+            {hasBasicToken && <Outlet />}
+            {!hasBasicToken && <PleaseWait />}
+          </div>
+          <div className={`lg:hidden`}>
+            <SwipeUp />
+          </div>
+          <FooterComponent />
+        </>
+      )}
     </>
   );
 };
