@@ -74,6 +74,7 @@ const AppLayout = () => {
   const handleArcanaDisconnect = async () => {
     const isLoggedIn = await auth.isLoggedIn();
     rootDispatch(setArcanaUserDetails({ isLoggedIn }));
+    await onDisconnect()
   };
   const handleConnectorUpdate = ({ account, chain }: ConnectorData | any) => {
     if (account) {

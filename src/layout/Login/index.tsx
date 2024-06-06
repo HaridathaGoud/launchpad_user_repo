@@ -158,12 +158,12 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
       localDispatch({ type: "setVerifying", payload: "" });
     }
   };
-  const handleArcanaConnect = (connector: any, connectTo: string) => {
+  const handleArcanaConnect = async (connector: any, connectTo: string) => {
     if (connectTo === "otp") {
       localState.otpSent ? confirmOTP(connector) : sendOTP(connector);
       return;
     }
-    connector.setLogin({
+    await connector.setLogin({
       provider: `${connectTo}`,
     });
     handleConnect(
@@ -178,8 +178,8 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
     );
   };
   const onConnectionSuccess = () => {
-    // modalActions("walletConnectModal", "close");
-    // onModalClose();
+    modalActions("walletConnectModal", "close");
+    onModalClose();
   };
   const onModalClose = () => {
     localDispatch({ type: "setState", payload: walletState });
@@ -309,6 +309,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                   className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                   onChange={(e) => handleEmailChange(e.target.value)}
                   disabled={localState.verifying === "email"}
+                  autoFocus
                 />
                 {localState.errors.email && (
                   <label className="text-sm font-normal text-red-600 ml-4">
@@ -326,6 +327,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                   className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                   onChange={(e) => handleOTPChange(e.target.value)}
                   disabled={localState.verifying === "otp"}
+                  autoFocus
                 />
                 <div className="flex justify-between">
                   <div>
