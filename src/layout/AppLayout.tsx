@@ -9,7 +9,6 @@ import { setError, setToaster } from "../reducers/layoutReducer";
 import SwipeUp from "../ui/swipeUp";
 import PleaseWait from "./pleaseWait";
 import useOnlineStatus from "../hooks/useOnlineStatus";
-import ArcanaWallet from "./wallet";
 import {
   getTokenDetails,
   setArcanaUserDetails,
@@ -168,7 +167,6 @@ const AppLayout = () => {
         <SwipeUp />
       </div>
       <FooterComponent />
-      <ArcanaWallet />
     </>
   );
 };
