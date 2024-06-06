@@ -100,12 +100,9 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
     try {
       const isValid = validate("otp");
       if (!isValid) return;
-      await connector?.auth?.loginWithOTPComplete(
-        localState.otp,
-        () => {
-         modalActions('walletConnectModal','close')
-        }
-      );
+      await connector?.auth?.loginWithOTPComplete(localState.otp, () => {
+        modalActions("walletConnectModal", "close");
+      });
       handleConnect(
         connector,
         isConnected,
@@ -209,89 +206,8 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
         </p>
         <div>
           <div className="md:w-96 mx-auto">
-            <div className="">
-              {localState.otpSent === 0 && (
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Enter Email"
-                    value={localState.email}
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                    onChange={(e) => handleEmailChange(e.target.value)}
-                    disabled={localState.verifying === "email"}
-                  />
-                  {localState.errors.email && (
-                    <label className="text-sm font-normal text-red-600 ml-4">
-                      {localState.errors.email}
-                    </label>
-                  )}
-                </div>
-              )}
-              {localState.otpSent > 0 && (
-                <div className="text-center">
-                  <input
-                    type="text"
-                    value={localState.otp}
-                    placeholder="Enter OTP"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                    onChange={(e) => handleOTPChange(e.target.value)}
-                    disabled={localState.verifying === "otp"}
-                  />
-                  <div className="flex justify-between">
-                    <div>
-                      {localState.errors.otp && (
-                        <label className="text-sm font-normal text-red-600 ml-4">
-                          {localState.errors.otp}
-                        </label>
-                      )}
-                    </div>
-                    {localState.showTimer && (
-                      <TimeCalculate
-                        timerSeconds={30}
-                        initiatedTime={localState.initiatedTime}
-                        setTimer={onTimerEnd}
-                        textToDisplay={"Resend OTP in"}
-                      />
-                    )}
-                    {!localState.showTimer && (
-                      <button
-                        className="text-[#6766e9] font-semibold"
-                        onClick={() => sendOTP(arcanaConnector, 2)}
-                        disabled={localState.showTimer}
-                      >
-                        Resend OTP
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
-              <div className="text-center mt-4">
-                <Button
-                  type="primary"
-                  btnClassName="w-full"
-                  handleClick={() =>
-                    handleArcanaConnect(arcanaConnector, "otp")
-                  }
-                  disabled={localState.verifying !== ""}
-                >
-                  {localState.verifying !== "" && (
-                    <span>
-                      <Spinner />
-                    </span>
-                  )}
-                  {localState.otpSent ? "Confirm OTP" : "Login with OTP"}
-                </Button>
-              </div>
-            </div>
             {arcanaLogins.length > 0 && (
               <div className="">
-                <div className="relative md:w-96 mx-auto my-8">
-                  <hr />
-                  <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
-                    {" "}
-                    or connect with
-                  </p>
-                </div>
                 <div className="flex justify-center gap-2">
                   {arcanaLogins.map((login: any) => {
                     return (
@@ -302,7 +218,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                       >
                         <Button
                           type="plain"
-                          btnClassName="!bg-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
+                          btnClassName="border-[1px] border-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
                           handleClick={() =>
                             handleArcanaConnect(arcanaConnector, login.name)
                           }
@@ -311,7 +227,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                           <img
                             src={login.icon}
                             alt=""
-                            className="!w-[30px] !h-[30px]"
+                            className="!w-[27px] !h-[27px]"
                           />
                         </Button>
                       </div>
@@ -324,7 +240,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
               <hr />
               <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
                 {" "}
-                or connect with
+                or continue with
               </p>
             </div>
             {isLoading && pendingConnector?.id === arcanaConnector.id && (
@@ -342,7 +258,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                   <span className="tooltip" data-tip={connector.name}>
                     <Button
                       type="plain"
-                      btnClassName="!bg-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
+                      btnClassName="border-[1px] border-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
                       key={connector.id}
                       disabled={localState.verifying !== ""}
                       handleClick={() =>
@@ -375,6 +291,85 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                 )}
               </div>
             ))}
+          </div>
+          <div className="md:w-96 mx-auto mb-2">
+          <div className="relative md:w-96 mx-auto my-6">
+                  <hr />
+                  <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
+                    {" "}
+                    or continue with
+                  </p>
+                </div>
+            {localState.otpSent === 0 && (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Email"
+                  value={localState.email}
+                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                  disabled={localState.verifying === "email"}
+                />
+                {localState.errors.email && (
+                  <label className="text-sm font-normal text-red-600 ml-4">
+                    {localState.errors.email}
+                  </label>
+                )}
+              </div>
+            )}
+            {localState.otpSent > 0 && (
+              <div className="text-center">
+                <input
+                  type="text"
+                  value={localState.otp}
+                  placeholder="Enter OTP"
+                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                  onChange={(e) => handleOTPChange(e.target.value)}
+                  disabled={localState.verifying === "otp"}
+                />
+                <div className="flex justify-between">
+                  <div>
+                    {localState.errors.otp && (
+                      <label className="text-sm font-normal text-red-600 ml-4">
+                        {localState.errors.otp}
+                      </label>
+                    )}
+                  </div>
+                  {localState.showTimer && (
+                    <TimeCalculate
+                      timerSeconds={30}
+                      initiatedTime={localState.initiatedTime}
+                      setTimer={onTimerEnd}
+                      textToDisplay={"Resend OTP in"}
+                    />
+                  )}
+                  {!localState.showTimer && (
+                    <button
+                      className="text-[#6766e9] font-semibold"
+                      onClick={() => sendOTP(arcanaConnector, 2)}
+                      disabled={localState.showTimer}
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+            <div className="text-center mt-4">
+              <Button
+                type="primary"
+                btnClassName="w-full"
+                handleClick={() => handleArcanaConnect(arcanaConnector, "otp")}
+                disabled={localState.verifying !== ""}
+              >
+                {localState.verifying !== "" && (
+                  <span>
+                    <Spinner />
+                  </span>
+                )}
+                {localState.otpSent ? "Confirm OTP" : "Login with OTP"}
+              </Button>
+            </div>
           </div>
         </div>
         <p className="text-sm font-normal text-center text-neutral mb-2">
