@@ -16,6 +16,10 @@ export const getBreadcrumbList = {
     { name: "Launchpad", path: "/" },
     { name: "Tiers", path: "" },
   ],
+  launchpadPortFolio:[
+    { name: "Launchpad", path: "/" },
+    { name: "Portfolio", path: "" },
+  ],
   launchpadProjectsWithStatus: (status: any) => {
     return [
       { name: "Launchpad", path: "/" },

@@ -8,7 +8,6 @@ import {
   getProposals,
 } from "../../../reducers/proposlaReducer";
 import CreateFirstPraposal from "./newProposal";
-import Moment from "react-moment";
 import { isMobile } from "react-device-detect";
 import daocardProfile from "../../../assets/images/daocard-profile.png";
 import { setError } from "../../../reducers/layoutReducer";
@@ -22,6 +21,7 @@ import {
 import Spinner from "../../loaders/spinner";
 import NoDataFound from "../../../ui/nodatafound";
 import ProposalsShimmer from "../../loaders/daos/proposalsShimmer";
+import ConvertLocalFormat from "../../../utils/dateFormat";
 
 const ProposalCards = (props: any) => {
   const proposalsRef=useRef(null)
@@ -277,10 +277,7 @@ const ProposalCards = (props: any) => {
                               {item?.startDate && (
                                 <b>
                                   {" "}
-                                  <Moment format={"DD/MM/YYYY HH:mm"}>
-                                    {item?.startDate}
-                                  </Moment>
-                                  <span>{` (UTC)`}</span>
+                                  {ConvertLocalFormat(item?.startDate)}
                                 </b>
                               )}
                             </p>
@@ -289,10 +286,7 @@ const ProposalCards = (props: any) => {
                               {item?.endDate && (
                                 <b>
                                   {" "}
-                                  <Moment format={"DD/MM/YYYY HH:mm"}>
-                                    {item?.endDate}
-                                  </Moment>
-                                  <span>{` (UTC)`}</span>
+                                  {ConvertLocalFormat(item?.endDate)}
                                 </b>
                               )}
                             </p>

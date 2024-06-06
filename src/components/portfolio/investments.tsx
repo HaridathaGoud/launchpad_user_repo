@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import NoDataFound from '../../ui/nodatafound';
 import Spinner from "../loaders/spinner";
 import moment from "moment";
+import ConvertLocalFormat from "../../utils/dateFormat";
 import { ClaimsShimmer } from "../loaders/projects/claimsShimmer";
 
 const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, showClaimableOnly }) => {
@@ -37,7 +38,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                       Date
                     </th>
                     <th className="text-left text-base text-secondary font-bold">
-                      tokenSymbol
+                      Token Symbol
                     </th>
                     {/* <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
                         Live Price
@@ -58,11 +59,8 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item.date
-                                ? moment(item.date).format("DD-MM-YYYY HH:mm")
-                                : "--"}
-                              {item.date ? `(UTC)` : "--"}
-                            </p>
+                              {item.date ? ConvertLocalFormat(item?.date) : "--"}
+                            </p> 
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
@@ -160,7 +158,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                   </thead>
                   <tbody>
                     {data?.length > 0 ? (
-                      data.map((item: any, index: any) => (
+                      data.map((item: any) => (
                         <tr key={item.projectName}>
                           <td>
                             <p className="font-normal text-sm text-secondary">
@@ -168,16 +166,16 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                             </p>
                           </td>
                           <td>
-                            {item?.network}
+                            <span className="icon usdt scale-150"></span>
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.invested && item?.invested + 'USDT' || '--'}
+                              {item?.invested && item?.invested + ' $' || '--'}
                             </p>
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.tokens && item?.tokens + 'FRBK' || '--'}
+                              {item?.tokens && (item?.tokens +' '+item?.tokenSymbol) || '--'}
                             </p>
                           </td>
                           <td>
@@ -187,7 +185,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.purchasePrice && '$' + item?.purchasePrice || '--'}
+                              {item?.purchasePrice && item?.purchasePrice + ' MATIC'|| '--'}
                             </p>
                           </td>
                           {/* <td>

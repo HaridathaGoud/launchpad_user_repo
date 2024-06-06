@@ -31,6 +31,7 @@ export default function Tiers() {
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   const GetTiersDetails = async () => {
+    debugger
     setLoader(true);
     try {
       const response = await get(`User/Tiers`);
@@ -53,6 +54,25 @@ export default function Tiers() {
       navigate(`/staking`);
     }
   };
+  const renderTierFeatures = (features:any) => {
+    if (!features) return null;
+    return (
+        <div className="flex flex-col gap-2">
+            {features.split('<p>').map((point:any, index:any) => {
+                if (index !== 0) { 
+                    const text = point.split('</p>')[0];
+                    return (
+                        <div key={index} className="flex gap-2">
+                            <span className="icon tiercheck shrink-0"></span>
+                            <p className="text-secondary">{text}</p>
+                        </div>
+                    );
+                }
+                return null;
+            })}
+        </div>
+    );
+};
 
   return (
     <div className="container mx-auto max-sm:px-3">
@@ -103,20 +123,14 @@ export default function Tiers() {
                 </div>
                 <hr />
                 <div className="p-6">
-                  <div className="flex gap-2">
-                    <span className="icon tiercheck shrink-0"></span>
-                    <p className="text-secondary ">Staking Requirement</p>
-                  </div>
-                  <div className="flex gap-2 my-[18px]">
-                    <span className="icon tiercheck shrink-0"></span>
-                    <p className="text-secondary ">Staking Length Required</p>
-                  </div>
+                    {renderTierFeatures(tier.tierFeatures)}
                   <div className="flex gap-2">
                     <span className="icon tiercheck shrink-0"></span>
                     <p className="text-secondary">
                       {tier.desciption}
                     </p>
                   </div>
+
                 </div>
               </div>
             ))}

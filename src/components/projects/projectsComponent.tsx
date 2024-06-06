@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import DefaultImg from "../../assets/images/default-bg.png";
 import { Link } from "react-router-dom";
 import ProjectCardShimmer from "../loaders/projects/projectCardShimmer";
@@ -7,7 +6,7 @@ import Spinner from "../loaders/spinner";
 import BreadCrumb from "../../ui/breadcrumb";
 import NoDataFound from "../../ui/nodatafound";
 import JoinProject from "../shared/joinProject";
-
+import ConvertLocalFormat from "../../utils/dateFormat";
 const statusColourList = {
   Ongoing: "dot-green",
   Ended: "dot-red",
@@ -203,13 +202,9 @@ const Projectscomponent = (props: any) => {
                                     {item.accessType == "Private"
                                       ? item?.privateStartDate == " "
                                         ? "TBA"
-                                        : moment(item.privateStartDate).format(
-                                            "DD-MM-YYYY HH:mm"
-                                          )
-                                      : moment(item.publicStartDate).format(
-                                          "DD-MM-YYYY HH:mm"
-                                        )}
-                                    (UTC)
+                                        :ConvertLocalFormat(item?.privateStartDate)
+                                        :ConvertLocalFormat(item?.publicStartDate)
+                                }
                                   </p>
                                 </div>
                                 <div
@@ -226,13 +221,9 @@ const Projectscomponent = (props: any) => {
                                     {item.accessType == "Private"
                                       ? item?.privateEndDate == " "
                                         ? "TBA"
-                                        : moment(item.privateEndDate).format(
-                                            "DD-MM-YYYY HH:mm"
-                                          )
-                                      : moment(item.publicEndDate).format(
-                                          "DD-MM-YYYY HH:mm"
-                                        )}
-                                    (UTC)
+                                      :ConvertLocalFormat(item?.privateEndDate)
+                                      :ConvertLocalFormat(item?.publicEndDate)
+                              }
                                   </p>
                                 </div>
                               </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { navigateToUniswap } from "../utils/commonNavigations";
-import formatDate from "../utils/formatDate";
+import ConvertLocalFormat from "../utils/dateFormat";
 interface CarouselProps {
   data: any;
   indicator?: string;
@@ -138,19 +138,17 @@ const Carousel = ({
                               <p className="text-white font-[500] text-base">
                                 Public Opens
                               </p>
-                              <p className="text-xl text-white">{`${formatDate(
-                                image.publicSaleStartDate,
-                                "DD/MM/YYYY HH:mm:ss"
-                              )} (UTC)`}</p>
+                              <p className="text-xl text-white"> 
+                              {ConvertLocalFormat(image?.publicSaleStartDate)}
+                              </p>
                             </div>
                             <div>
                               <p className="text-white font-[500] text-base">
                                 Public Closes
                               </p>
-                              <p className="text-xl text-white">{`${formatDate(
-                                image.publicSaleEndDate,
-                                "DD/MM/YYYY HH:mm:ss"
-                              )} (UTC)`}</p>
+                              <p className="text-xl text-white"> 
+                              {ConvertLocalFormat(image?.publicSaleEndDate)}
+                              </p>
                             </div>
                           </div>
                         )}

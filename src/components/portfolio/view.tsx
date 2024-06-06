@@ -38,7 +38,7 @@ const View = (props:any)=>{
         <div className="mt-[26px]">
           <p className="text-secondary text-sm font-normal">Total Invested</p>
           <h1 className="text-secondary font-medium	text-[32px] text-black">
-            {props.portfoliodata?.totalInvested && props.portfoliodata?.totalInvested + ' USDT'||'--'}
+            {props.portfoliodata?.totalInvested && props.portfoliodata?.totalInvested +' $' ||'--'}
             </h1>
         </div>
        </div>
@@ -69,9 +69,8 @@ const View = (props:any)=>{
         <div className="relative max-sm:mt-4">
           <input
             type="text"
-            placeholder="Search"
-            onKeyUp={(e) => props.handleSearch(e)}
-            onChange={(e) => props.handleInputChange(e)}
+            placeholder="Search by project name"
+            onKeyUp={props.handleSearch}
             ref={props.portpolioRef}
             className="w-full rounded-[28px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"                      
           />
