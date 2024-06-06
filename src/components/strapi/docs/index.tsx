@@ -12,9 +12,10 @@ import KeyComponents from "./keycomponents";
 import Tips from "./tips";
 import Conclusion from "./launchpadintro";
 import ConclusionContent from "./conclusioncomponent";
+import StakingPlatform from "./stakingplatform";
 
 const Docs = () => {
-const[activeTab,setActiveTab ] = useState(0);
+const[activeTab,setActiveTab ] = useState(-1);
 const[activeStep,setActiveStep ] = useState(0);
 
   const tabs = useMemo(
@@ -70,12 +71,8 @@ const[activeStep,setActiveStep ] = useState(0);
       {
         name: "Staking",
         content: [
-          { name: "Staking Platform Tokens", icon: "warning", activeIcon: "warningactive" },
-          {
-            name: "Checkpoints",
-            icon: "checkpoints",
-            activeIcon: "checkpointsActive",
-          },
+          { name: "Staking Platform Tokens", icon: "warning", activeIcon: "warningactive",content:<StakingPlatform/> },
+         
           {
             name: "Unstaking Platform Tokens",
             icon: "amount",
@@ -127,7 +124,9 @@ const[activeStep,setActiveStep ] = useState(0);
         />
       </div>      
         <div className="lg:col-span-3 pl-6">
-          {tabs[activeTab].content[activeStep].content}         
+          {activeTab>-1&& tabs[activeTab].content[activeStep].content}   
+          {activeTab===-1&& <IntroPage/> }   
+                
         </div>
       {/* </StakingTabsProvider> */}
     </div>
