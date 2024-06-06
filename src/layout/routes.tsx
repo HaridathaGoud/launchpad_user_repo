@@ -74,7 +74,7 @@ const Routes = () => {
         {
           path: "/dashboard",
           element: (
-            <React.Suspense fallback={<div className="container"><DashboardShimmers /></div>}>
+            <React.Suspense fallback={<DashboardShimmers />}>
               <Dashboard />
             </React.Suspense>
           ),
