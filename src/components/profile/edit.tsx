@@ -17,6 +17,12 @@ const ProfileEdit = ({
   closeDrawer,
   address,
 }) => {
+  const { toasterMessage, arcanaUser } = useSelector((store: any) => {
+    return {
+      toasterMessage: store.layoutReducer.toaster.message,
+      arcanaUser: store.auth.arcanaUser,
+    };
+  });
   const initialState: EditProfileStateModel = useMemo(() => {
     return {
       formData: profile,
@@ -24,13 +30,12 @@ const ProfileEdit = ({
       formErrors: {},
     };
   }, [profile]);
-  const toasterMessage=useSelector((store:any)=>store.layoutReducer.toaster.message)
-  const rootDispatch=useDispatch()
+  const rootDispatch = useDispatch();
   const [state, dispatch] = useReducer(editProfileReducer, initialState);
   const setField = (field: any, value: any) => {
-    rootDispatch(setError({message:""}))
+    rootDispatch(setError({ message: "" }));
     if (field === "referralCode" && value.length < 6) {
-      rootDispatch(setError({message:""}))
+      rootDispatch(setError({ message: "" }));
     }
     dispatch({
       type: "setFormData",
@@ -68,11 +73,11 @@ const ProfileEdit = ({
         profilePicUrl: form?.profilePicUrl,
         walletAddress: address,
         referralCode: form?.referralCode?.length ? form?.referralCode : null,
-        facebook :form?.facebook,
-        linkedIn :form?.linkedIn,
-        twitter :form?.twitter,
-        websiteUrl  :form?.websiteUrl,
-        discordUrl :form?.discordUrl,
+        facebook: form?.facebook,
+        linkedIn: form?.linkedIn,
+        twitter: form?.twitter,
+        websiteUrl: form?.websiteUrl,
+        discordUrl: form?.discordUrl,
       };
       const formErrors = validateForm(obj);
       if (Object.keys(formErrors).length > 0) {
@@ -83,13 +88,19 @@ const ProfileEdit = ({
           let res = await saveUser(`User/SaveUser`, obj);
           if (res.statusText.toLowerCase() === "ok") {
             updateProfile({ ...profile, ...obj });
-            store.dispatch(setUserID({ ...profile, ...obj }))
-            rootDispatch(setToaster({message:'Profile Details Update Successful!',callback:handleDrawerClose,callbackTimeout:500}))
+            store.dispatch(setUserID({ ...profile, ...obj }));
+            rootDispatch(
+              setToaster({
+                message: "Profile Details Update Successful!",
+                callback: handleDrawerClose,
+                callbackTimeout: 500,
+              })
+            );
           } else {
-            rootDispatch(setError({message:res}))
+            rootDispatch(setError({ message: res }));
           }
         } catch (error) {
-          rootDispatch(setError({message:error}))
+          rootDispatch(setError({ message: error }));
         } finally {
           dispatch({ type: "setButtonLoader", payload: false });
         }
@@ -200,7 +211,7 @@ const ProfileEdit = ({
               type="text"
               name="email"
               maxLength={50}
-              value={state.formData?.email ? state.formData?.email : ""}
+              value={state.formData?.email || ""}
               onChange={(e) => {
                 setField("email", e.target.value);
               }}
@@ -209,7 +220,9 @@ const ProfileEdit = ({
               }}
               required
               placeholder="Email"
-              disabled={toasterMessage || state.buttonLoader}
+              disabled={
+                toasterMessage || state.buttonLoader || arcanaUser.isLoggedIn
+              }
             />
             {state.formErrors.email && (
               <label className="text-sm font-normal text-red-600 ml-4">
@@ -236,7 +249,9 @@ const ProfileEdit = ({
                 }}
                 disabled={toasterMessage || state.buttonLoader}
               >
-                <option value={""} className="cursor-pointer">Select</option>
+                <option value={""} className="cursor-pointer">
+                  Select
+                </option>
                 {jsonCountryCode.map((item) => (
                   <option
                     key={item.name + item.phone_code}
@@ -305,9 +320,14 @@ const ProfileEdit = ({
               }}
               disabled={toasterMessage || state.buttonLoader}
             >
-              <option value={""} className="cursor-pointer">Select Country</option>
+              <option value={""} className="cursor-pointer">
+                Select Country
+              </option>
               {jsonCountryCode.map((item) => (
-                <option key={item.name + item.iso3 + item.phone_code} className="cursor-pointer">
+                <option
+                  key={item.name + item.iso3 + item.phone_code}
+                  className="cursor-pointer"
+                >
                   {item.name}
                 </option>
               ))}
@@ -388,7 +408,7 @@ const ProfileEdit = ({
               htmlFor="profileInsta"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Instagram Link 
+              Instagram Link
             </label>
             <input
               id="profileInsta"
@@ -420,7 +440,7 @@ const ProfileEdit = ({
               htmlFor="profileTwitter"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Telegram Link 
+              Telegram Link
             </label>
             <input
               id="profileTwitter"
@@ -431,10 +451,7 @@ const ProfileEdit = ({
                 setField("twitter", e.target.value);
               }}
               onBlur={(e) => {
-                setField(
-                  "twitter",
-                  e.target.value.trim().replace(/\s+/g, " ")
-                );
+                setField("twitter", e.target.value.trim().replace(/\s+/g, " "));
               }}
               required
               placeholder="Telegram Link"
@@ -452,13 +469,15 @@ const ProfileEdit = ({
               htmlFor="profileDiscordId"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Website Link 
+              Website Link
             </label>
             <input
               id="profileWebsite"
               className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
-              value={state.formData?.websiteUrl ? state.formData?.websiteUrl : ""}
+              value={
+                state.formData?.websiteUrl ? state.formData?.websiteUrl : ""
+              }
               onChange={(e) => {
                 setField("websiteUrl", e.target.value);
               }}

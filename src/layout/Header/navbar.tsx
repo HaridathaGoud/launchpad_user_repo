@@ -1,94 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import logo from "../../assets/images/yb-logo.svg";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { ConnectorData, useAccount, useDisconnect } from "wagmi";
-import { store } from "../../store";
-import {
-  getTokenDetails,
-  setUserID,
-  Staker,
-  walletAddress,
-} from "../../reducers/rootReducer";
-import { getKyc } from "../../utils/api";
-import useContract from "../../hooks/useContract";
+import { connect, useSelector } from "react-redux";
+import { useAccount } from "wagmi";
 import userImage from "../../assets/images/avatar.jpg";
 import DropdownMenus from "../../ui/DropdownMenus";
 import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../ui/NaviLink";
 import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
-import { setError } from "../../reducers/layoutReducer";
 import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
-function Navbar() {
-  const rootDispatch = useDispatch();
+import useArcanaAuth from "../../hooks/useArcanaAuth";
+import Login from "../Login";
+function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { userProfilePic, user } = useSelector((state: any) => {
+  const { userProfilePic } = useSelector((state: any) => {
     return {
       userProfilePic: state.auth.user?.profilePicUrl,
-      user: state.auth.user,
     };
   });
-  const [changingAddress, setChangingAddress] = useState(false);
-  const { disconnectAsync } = useDisconnect();
-  const { isConnected, address } = useAccount();
-  const { isStaker } = useContract();
-  const [profilePic, setProfilePic] = useState("");
-  useEffect(() => {
-    setProfilePic(userProfilePic);
-  }, [userProfilePic]);
-  const { connector: activeConnector } = useAccount();
-  useEffect(() => {
-    if (!user?.id) {
-      store.dispatch(getTokenDetails(null, null));
-    }
-  }, [user?.id]);
-  useEffect(()=>{
-    if(!isConnected && !address && user?.id){
-      store.dispatch(setUserID(""));
-    }
-    if(isConnected && address && !user?.id){
-      getCustomerDetails(address)
-    }
-  },[isConnected,address,user?.id])
-  useEffect(() => {
-    activeConnector?.on("change", handleConnectorUpdate);
-    return () => activeConnector?.off("change", handleConnectorUpdate);
-  }, [activeConnector]);
-  const handleDisconnect = useCallback(async () => {
-    await disconnectAsync();
-    store.dispatch(setUserID(""));
-  }, []);
-  const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
-    if (account) {
-      getCustomerDetails(account);
-      getStakeFlag();
-      return;
-    }
-
-    if (
-      chain?.id?.toString() !== process.env.REACT_APP_CHAIN_ID_NUMARIC ||
-      chain?.unsupported
-    ) {
-      rootDispatch(
-        setError({
-          message: "Your current network is unsupported.",
-          type: "warning",
-        })
-      );
-    } else if (
-      chain?.id?.toString() === process.env.REACT_APP_CHAIN_ID_NUMARIC &&
-      !chain?.unsupported
-    ) {
-      rootDispatch(setError({ message: "" }));
-    }
-  };
+  const { isConnected, address, isConnecting, isReconnecting } = useAccount();
+  const auth = useArcanaAuth();
   const handleDropdownAction = useCallback(
     (action: string) => {
       switch (action) {
         case "profile":
           navigate("/profile");
+          return;
+        case "wallet":
+          // modalActions('arcana-custom-wallet','open')
+          if (auth.connected) {
+            auth?.showWallet();
+          }
           return;
         case "disconnect":
           handleDisconnect();
@@ -97,43 +41,19 @@ function Navbar() {
           return;
       }
     },
-    [pathname]
+    [auth, pathname]
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
-      navMenuList: getNavMenu(navigate,pathname),
-      navBarDropDownMenu: getNavBarDropdown(handleDropdownAction, pathname),
+      navMenuList: getNavMenu(navigate, pathname),
+      navBarDropDownMenu: getNavBarDropdown(
+        handleDropdownAction,
+        pathname,
+        auth.connected
+      ),
       globalDropdown: getGlobalDropDown(navigate),
     };
-  }, [pathname]);
-
-  const dispatchCustomerDetails = (data: any) => {
-    store.dispatch(setUserID(data));
-    setProfilePic(data?.profilePicUrl);
-    store.dispatch(walletAddress(address || ""));
-  };
-  const getCustomerDetails = async (address: string | undefined) => {
-    setChangingAddress(true);
-    if (address) {
-      try {
-        const res = await getKyc(`User/CustomerDetails/${address}`);
-        if (res.statusText?.toLowerCase() === "ok" || res.status === 200) {
-          store.dispatch(getTokenDetails(res?.data, dispatchCustomerDetails));
-        } else {
-          rootDispatch(setError({ message: res }));
-        }
-      } catch (error) {
-        rootDispatch(setError({ message: error }));
-      } finally {
-        setChangingAddress(false);
-      }
-    }
-  };
-  const getStakeFlag = () => {
-    isStaker().then((res: any) => {
-      store.dispatch(Staker(res));
-    });
-  };
+  }, [auth.connected, pathname]);
 
   return (
     <div
@@ -149,24 +69,8 @@ function Navbar() {
           </div>
           <div className="flex items-center">
             <div className="w-[26px] lg:hidden mr-2">
-              <DropdownMenus btnContent={<svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 17 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 1h15M1 7h15M1 13h15"
-                    />
-                  </svg>} dropdownList={navMenuList} addToMenuClass="mt-7"/>
-              {/* <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-              <div className="drawer-content">
-                <label htmlFor="my-drawer" className="">
+              <DropdownMenus
+                btnContent={
                   <svg
                     className="w-5 h-5"
                     aria-hidden="true"
@@ -182,32 +86,10 @@ function Navbar() {
                       d="M1 1h15M1 7h15M1 13h15"
                     />
                   </svg>
-                </label>
-              </div>
-              <div className="drawer-side">
-                <label
-                  htmlFor="my-drawer"
-                  aria-label="close sidebar"
-                  className="drawer-overlay"
-                ></label>
-                <ul className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 h-screen min-w-[200px]">
-                  {navMenuList.map(({ path, content }) => {
-                    return (
-                      <li className="group mb-2" key={path}>
-                        <Button type="plain" handleClick={}>
-                        <NaviLink
-                          path={path}
-                          type="primary"
-                        >
-                          {content}
-                        </NaviLink>
-                        </Button>
-                        
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div> */}
+                }
+                dropdownList={navMenuList}
+                addToMenuClass="mt-7"
+              />
             </div>
             <div className="pr-4 lg:hidden">
               <NaviLink path={"/dashboard"} type="primary">
@@ -246,8 +128,10 @@ function Navbar() {
               menuItemClass="border border-t-0"
             />
           </div>
-          {!isConnected && <ConnectWallet />}
-          {isConnected && changingAddress && (
+          {!isConnected &&
+            !isReconnecting &&
+            !isConnecting && <ConnectWallet />}
+          {(isReconnecting || isConnecting || changingAddress) && (
             <div
               className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
             >
@@ -259,45 +143,54 @@ function Navbar() {
               </span>
             </div>
           )}
-          {isConnected && !changingAddress && (
-            <DropdownMenus
-              btnContent={
-                <span className="relative">
-                  <div
-                    className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
-                  >
-                    <p className="!text-base-100 inline-block text-sm leading-5 truncate dark-textwhite">
-                      {address?.slice(0, 4) +
-                        "...." +
-                        address?.substring(address.length - 4, address.length)}
-                    </p>
-                    {!profilePic && (
-                      <div className="shrink-0">
-                        <img
-                          src={userImage}
-                          alt="user profile"
-                          className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
-                        />
-                      </div>
-                    )}
-                    {profilePic && (
-                      <div className="shrink-0">
-                        <img
-                          src={profilePic}
-                          alt="user profile"
-                          className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </span>
-              }
-              dropdownList={navBarDropDownMenu}
-              addToMenuClass="mt-2"
-            />
-          )}
+          {!isReconnecting &&
+            !isConnecting &&
+            !changingAddress &&
+            isConnected && (
+              <DropdownMenus
+                btnContent={
+                  <span className="relative">
+                    <div
+                      className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
+                    >
+                      <p className="!text-base-100 inline-block text-sm leading-5 truncate dark-textwhite">
+                        {address?.slice(0, 4) +
+                          "...." +
+                          address?.substring(
+                            address.length - 4,
+                            address.length
+                          )}
+                      </p>
+                      {!userProfilePic && (
+                        <div className="shrink-0">
+                          <img
+                            src={userImage}
+                            alt="user profile"
+                            className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
+                          />
+                        </div>
+                      )}
+                      {userProfilePic && (
+                        <div className="shrink-0">
+                          <img
+                            src={userProfilePic}
+                            alt="user profile"
+                            className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </span>
+                }
+                dropdownList={navBarDropDownMenu}
+                addToMenuClass="mt-2"
+              />
+            )}
         </div>
       </div>
+      <Login
+        onWalletConect={() => console.log("Connected!")}
+      />
     </div>
   );
 }

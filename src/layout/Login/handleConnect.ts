@@ -1,11 +1,9 @@
 export const handleConnect = async (connector: any,isConnected:boolean,connectAsync:Function,switchNetwork:Function,onWalletConect:Function,disconnectAsync:Function,onWalletClose:Function,handleError:Function) => {
     const onAccountsChanged = (account) => {
         onWalletConect(account);
-        // window.location.reload();
       };
       const onChainChanged = async () => {
-                await switchNetwork({ chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0 });   
-        // window.location.reload();
+        await switchNetwork({ chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0 });   
       };
     try {
       if (connector.id === 'walletConnect') {

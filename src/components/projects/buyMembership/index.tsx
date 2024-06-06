@@ -38,7 +38,7 @@ const BuyMembership = (props: any) => {
     if (user?.id && props?.daoId) {
       getDetails();
     }
-  }, [isConnected, address, user?.id]);
+  }, [isConnected, address, user?.id,props?.daoId]);
 
   const setLoading = (type: string, payload: boolean) => {
     localDispatch({ type, payload });

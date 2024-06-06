@@ -11,8 +11,8 @@ import AppLayout from "./AppLayout";
 import ComingSoon from "../components/shared/comingSoon";
 import TopsellerDetailview from "../components/marketplace.component/topsellerdetailview";
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
-import TiresShimmer from "../components/loaders/TiresShimmers";
-import StakingShimmer from "../components/loaders/StakingShimmer";
+import TiresShimmer from "../components/loaders/tiresShimmers";
+import StakingShimmer from "../components/loaders/stakingShimmer";
 import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer"
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";

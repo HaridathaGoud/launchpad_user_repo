@@ -10,7 +10,7 @@ import Button from "../../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
 import Spinner from "../../loaders/spinner";
 import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
-import WalletConnect from "../../modules/ConnectButton/connect.wallet";
+import WalletConnect from "../../../layout/Login";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import BreadCrumb from "../../../ui/breadcrumb";

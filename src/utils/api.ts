@@ -13,7 +13,8 @@ const MARKETPLACE_API_END_POINT=process.env.REACT_APP_MARKETPLACE_END_POINT
 
 export function getToken() {
   const state = store.getState();
-  const token = state?.auth?.token || state.auth.user?.token || "" ;
+  // const token = state?.auth?.token || state.auth.user?.token || "" ;
+  const token =state.auth.user?.token || state?.auth?.token ||  "" ;
   return token;
 
 }
@@ -116,10 +117,10 @@ export async function postSigner(url:string,obj:any){
   })
 }
 
-export function get(url: string) {
+export function get(url: string,tokenType:string) {
   return axios.get(API_END_POINT + `${API_VERSION}${url}`,{
     headers: {
-      Authorization: `${getToken()}`},
+      Authorization: tokenType==='authorized' ?`${getToken()}` : `${getCombineToken()}`},
   });
 }
 export function getCall(url: string) {
@@ -159,7 +160,7 @@ export async function saveUser(url: string, obj: Object) {
 export async function getKyc(url: string) {
   return await axios.get(API_END_POINT_KYC + `${API_VERSION}${url}`, {
     headers: {
-      Authorization: `${getToken()}` },
+      Authorization: `${getCombineToken()}` },
   });
 }
 

@@ -1,0 +1,399 @@
+import React, { useReducer } from "react";
+import metmaskIcon from "../../assets/images/metamask.svg";
+import walletIcon from "../../assets/images/walletconnect.svg";
+import google from "../../assets/images/google.svg";
+import twitter from "../../assets/images/twitter-img.svg";
+import discord from "../../assets/images/discord-img.svg";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { switchNetwork } from "wagmi/actions";
+import { useDispatch } from "react-redux";
+import { setToaster } from "../../reducers/layoutReducer";
+import { handleConnect } from "./handleConnect";
+import { emailValidation } from "../../utils/validation";
+import Button from "../../ui/Button";
+import { Modal, modalActions } from "../../ui/Modal";
+import Spinner from "../../components/loaders/spinner";
+import TimeCalculate from "../../components/staking/timeCalculate";
+import { walletReducer, walletState } from "./reducer";
+import Overlay from "../../ui/overlay";
+const arcanaLogins = [
+  { id: "google-connector", name: "google", icon: google },
+  { id: "twitter-connector", name: "twitter", icon: twitter },
+  { id: "discord-connector", name: "discord", icon: discord },
+];
+const icons = { metaMask: metmaskIcon, walletConnect: walletIcon };
+const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
+  const rootDispatch = useDispatch();
+  const { connectAsync, connectors, isLoading, pendingConnector } =
+    useConnect();
+  const { isConnected } = useAccount();
+  const [localState, localDispatch] = useReducer(walletReducer, walletState);
+  const { disconnectAsync } = useDisconnect();
+  const handleError = (error: any) => {
+    if (onWalletError) onWalletError(error);
+    rootDispatch(
+      setToaster({ message: error?.message, timeout: 3000, type: "error" })
+    );
+  };
+  const handleEmailChange = (value: any) => {
+    localDispatch({
+      type: "setState",
+      payload: {
+        ...localState,
+        email: value,
+        errors: {
+          ...localState.errors,
+          email: "",
+        },
+      },
+    });
+  };
+  const handleOTPChange = (value: any) => {
+    if (value && (/\D/g.test(value) || value.length > 6)) return;
+    localDispatch({
+      type: "setState",
+      payload: {
+        ...localState,
+        otp: value,
+        errors: {
+          ...localState.errors,
+          otp: "",
+        },
+      },
+    });
+  };
+  const validateEmail = () => {
+    if (localState.email) {
+      return emailValidation(localState.email) ? "Invalid email address" : "";
+    }
+    return "Enter email to continue!";
+  };
+  const validateOtp = () => {
+    if (localState.otp) {
+      return "";
+    }
+    return "Enter otp to confirm!";
+  };
+  const validate = (input: string) => {
+    let error: string = "";
+    let isValid: boolean = true;
+    switch (input) {
+      case "email":
+        error = validateEmail();
+        break;
+      case "otp":
+        error = validateOtp();
+        break;
+      default:
+        break;
+    }
+    if (error) {
+      isValid = false;
+      const errorsToUpdate = { ...localState.errors };
+      errorsToUpdate[input] = error;
+      localDispatch({ type: "setErrors", payload: errorsToUpdate });
+    }
+    return isValid;
+  };
+  const confirmOTP = async (connector: any) => {
+    localDispatch({ type: "setVerifying", payload: "otp" });
+    try {
+      const isValid = validate("otp");
+      if (!isValid) return;
+      await connector?.auth?.loginWithOTPComplete(
+        localState.otp,
+        () => {
+         modalActions('walletConnectModal','close')
+        }
+      );
+      handleConnect(
+        connector,
+        isConnected,
+        connectAsync,
+        switchNetwork,
+        disconnectAsync,
+        onWalletConect,
+        onConnectionSuccess,
+        handleError
+      );
+    } catch (error) {
+      const errorsToUpdate = { ...localState.errors };
+      const message = JSON.parse(error.message);
+      errorsToUpdate["otp"] =
+        message["errorDescription"] || message["error"] || message;
+      localDispatch({ type: "setErrors", payload: errorsToUpdate });
+    } finally {
+      localDispatch({ type: "setVerifying", payload: "" });
+    }
+  };
+  const sendOTP = async (connector: any, otpSent?: number) => {
+    localDispatch({ type: "setVerifying", payload: "email" });
+    try {
+      const isValid = validate("email");
+      if (!isValid) return;
+      const loginState = await connector?.auth?.loginWithOTPStart(
+        localState.email
+      );
+      await loginState.begin();
+      if (loginState.isCompleteRequired) {
+        localDispatch({
+          type: "setState",
+          payload: {
+            showTimer: true,
+            initiatedTime: Math.floor(Date.now() / 1000),
+            otpSent: otpSent || 1,
+          },
+        });
+        rootDispatch(
+          setToaster({
+            message: `OTP has been ${
+              otpSent ? "resent" : "sent"
+            } successfully!`,
+          })
+        );
+      }
+    } catch (error) {
+      const errorsToUpdate = { ...localState.errors };
+      errorsToUpdate["email"] =
+        error["errorDescription"] || error.message || error;
+      localDispatch({ type: "setErrors", payload: errorsToUpdate });
+    } finally {
+      localDispatch({ type: "setVerifying", payload: "" });
+    }
+  };
+  const handleArcanaConnect = (connector: any, connectTo: string) => {
+    if (connectTo === "otp") {
+      localState.otpSent ? confirmOTP(connector) : sendOTP(connector);
+      return;
+    }
+    connector.setLogin({
+      provider: `${connectTo}`,
+    });
+    handleConnect(
+      connector,
+      isConnected,
+      connectAsync,
+      switchNetwork,
+      disconnectAsync,
+      onWalletConect,
+      onConnectionSuccess,
+      handleError
+    );
+  };
+  const onConnectionSuccess = () => {
+    // modalActions("walletConnectModal", "close");
+    // onModalClose();
+  };
+  const onModalClose = () => {
+    localDispatch({ type: "setState", payload: walletState });
+  };
+  const onTimerEnd = (showTimer: boolean) => {
+    localDispatch({
+      type: "setState",
+      payload: { showTimer, initiatedTime: 0 },
+    });
+  };
+  const [arcanaConnector, ...walletConnectors] = connectors;
+  return (
+    <Modal
+      id={"walletConnectModal"}
+      modalClass="md:w-[60%] lg:w-[35%] relative"
+      onClose={onModalClose}
+    >
+      <div className="mt-2">
+        <h2 className="text-[24px] md:text-[42px] text-secondary font-normal text-center">
+          Connect Wallet
+        </h2>
+        <p className="text-[14px] md:text-sm text-secondary font-normal text-center mb-4">
+          by choosing one of the following login options
+        </p>
+        <div>
+          <div className="md:w-96 mx-auto">
+            <div className="">
+              {localState.otpSent === 0 && (
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Enter Email"
+                    value={localState.email}
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                    onChange={(e) => handleEmailChange(e.target.value)}
+                    disabled={localState.verifying === "email"}
+                  />
+                  {localState.errors.email && (
+                    <label className="text-sm font-normal text-red-600 ml-4">
+                      {localState.errors.email}
+                    </label>
+                  )}
+                </div>
+              )}
+              {localState.otpSent > 0 && (
+                <div className="text-center">
+                  <input
+                    type="text"
+                    value={localState.otp}
+                    placeholder="Enter OTP"
+                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                    onChange={(e) => handleOTPChange(e.target.value)}
+                    disabled={localState.verifying === "otp"}
+                  />
+                  <div className="flex justify-between">
+                    <div>
+                      {localState.errors.otp && (
+                        <label className="text-sm font-normal text-red-600 ml-4">
+                          {localState.errors.otp}
+                        </label>
+                      )}
+                    </div>
+                    {localState.showTimer && (
+                      <TimeCalculate
+                        timerSeconds={30}
+                        initiatedTime={localState.initiatedTime}
+                        setTimer={onTimerEnd}
+                        textToDisplay={"Resend OTP in"}
+                      />
+                    )}
+                    {!localState.showTimer && (
+                      <button
+                        className="text-[#6766e9] font-semibold"
+                        onClick={() => sendOTP(arcanaConnector, 2)}
+                        disabled={localState.showTimer}
+                      >
+                        Resend OTP
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+              <div className="text-center mt-4">
+                <Button
+                  type="primary"
+                  btnClassName="w-full"
+                  handleClick={() =>
+                    handleArcanaConnect(arcanaConnector, "otp")
+                  }
+                  disabled={localState.verifying !== ""}
+                >
+                  {localState.verifying !== "" && (
+                    <span>
+                      <Spinner />
+                    </span>
+                  )}
+                  {localState.otpSent ? "Confirm OTP" : "Login with OTP"}
+                </Button>
+              </div>
+            </div>
+            {arcanaLogins.length > 0 && (
+              <div className="">
+                <div className="relative md:w-96 mx-auto my-8">
+                  <hr />
+                  <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
+                    {" "}
+                    or connect with
+                  </p>
+                </div>
+                <div className="flex justify-center gap-2">
+                  {arcanaLogins.map((login: any) => {
+                    return (
+                      <div
+                        className="tooltip capitalize"
+                        data-tip={login.name}
+                        key={login.name}
+                      >
+                        <Button
+                          type="plain"
+                          btnClassName="!bg-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
+                          handleClick={() =>
+                            handleArcanaConnect(arcanaConnector, login.name)
+                          }
+                          disabled={localState.verifying !== ""}
+                        >
+                          <img
+                            src={login.icon}
+                            alt=""
+                            className="!w-[30px] !h-[30px]"
+                          />
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            <div className="relative md:w-96 mx-auto my-8">
+              <hr />
+              <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
+                {" "}
+                or connect with
+              </p>
+            </div>
+            {isLoading && pendingConnector?.id === arcanaConnector.id && (
+              <Overlay>
+                <span className="text-white">
+                  <Spinner size="loading-lg" />
+                </span>
+              </Overlay>
+            )}
+          </div>
+          <div className="flex justify-center gap-2">
+            {walletConnectors.map((connector: any) => (
+              <div className="" key={connector.id}>
+                {connector.id !== "arcana" && (
+                  <span className="tooltip" data-tip={connector.name}>
+                    <Button
+                      type="plain"
+                      btnClassName="!bg-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
+                      key={connector.id}
+                      disabled={localState.verifying !== ""}
+                      handleClick={() =>
+                        handleConnect(
+                          connector,
+                          isConnected,
+                          connectAsync,
+                          switchNetwork,
+                          disconnectAsync,
+                          onWalletConect,
+                          onConnectionSuccess,
+                          handleError
+                        )
+                      }
+                    >
+                      <img
+                        src={icons[connector.id] || metmaskIcon}
+                        alt=""
+                        className="!w-[30px] !h-[30px]"
+                      />
+                    </Button>
+                  </span>
+                )}
+                {isLoading && pendingConnector?.id === connector.id && (
+                  <Overlay>
+                    <span className="text-white">
+                      <Spinner size="loading-lg" />
+                    </span>
+                  </Overlay>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="text-sm font-normal text-center text-neutral mb-2">
+          we do not own private keys and cannot access your funds without your
+          confirmation
+        </p>
+        <p className="text-sm font-normal text-center text-neutral">
+          <b>
+            Note: If you encounter difficulties connecting your wallet, please
+            refresh your browser and try again.
+          </b>
+        </p>
+      </div>
+    </Modal>
+  );
+};
+export default Login;
+
+interface IWalletConnection {
+  onWalletConect: Function;
+  onWalletError?: Function;
+}

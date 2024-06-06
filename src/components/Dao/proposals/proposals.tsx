@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useReducer, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import WalletModal from "../../../utils/walletModal";
 import defaultBG from "../../../assets/images/default-bg.png";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
@@ -8,7 +7,6 @@ import {
   getProposalStatusLookup,
   getProposals,
 } from "../../../reducers/proposlaReducer";
-import { useAccount } from "wagmi";
 import CreateFirstPraposal from "./newProposal";
 import Moment from "react-moment";
 import { isMobile } from "react-device-detect";
@@ -27,7 +25,6 @@ import ProposalsShimmer from "../../loaders/daos/proposalsShimmer";
 
 const ProposalCards = (props: any) => {
   const proposalsRef=useRef(null)
-  const { isConnected } = useAccount();
   const rootDispatch = useDispatch();
   const { proposals, user } = useSelector((state: any) => {
     return { proposals: state.proposal?.proposals, user: state.auth?.user };
@@ -406,7 +403,6 @@ const ProposalCards = (props: any) => {
             <CreateFirstPraposal pjctInfo={props?.pjctInfo} daoId={params.id} />
           )}
       </div>
-      {!isConnected && <WalletModal />}
     </>
   );
 };

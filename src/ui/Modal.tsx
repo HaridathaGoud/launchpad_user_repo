@@ -3,18 +3,21 @@ interface ModalProps {
   id: string;
   children: any;
   modalClass?: string;
+  onClose?:Function;
 }
-export function modalActions(id, action) {
+export function modalActions(id:string, action:string,onModalAction?:Function) {
   const modal = document.getElementById(id);
   if (action === "open") {
+    onModalAction?.(true)
     modal?.classList.add("modal-open");
     modal?.classList.remove("modal-close");
   } else {
+    onModalAction?.(false)
     modal?.classList.add("modal-close");
     modal?.classList.remove("modal-open");
   }
 }
-export function Modal({ id, children, modalClass }: ModalProps) {
+export function Modal({ id, children, modalClass,onClose }: ModalProps) {
   return (
     <dialog id={id} className="modal">
       <div
@@ -23,7 +26,9 @@ export function Modal({ id, children, modalClass }: ModalProps) {
         <form method="dialog">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            onClick={() => modalActions(id, "close")}
+            onClick={() => {
+              onClose?.()
+              modalActions(id, "close")}}
           >
             ✕
           </button>

@@ -14,14 +14,13 @@ const ShowCounter = (props: any) => {
       <div>
         <p className='text-sm font-normal text-info'>
           {props?.textToDisplay}
-          <br />
-          <p className='text-sm font-semibold text-secondary'>
-          {props?.days}
-          <span>{'d'}</span> {props?.hours}
-          <span>{'h'}</span> {props?.minutes}
-          <span>{'m'}</span> {props?.seconds}
-          <span>{'s'}</span>
-          </p>
+          {/* <br /> */}
+          <span className='text-sm font-semibold text-secondary ms-2'>
+          {props?.days ? <>{props?.days} <span>{'d'}</span></> :''}
+          {props?.hours ? <>{props?.hours} <span>{'h'}</span></> :''}
+          {props?.minutes ? <>{props?.minutes} <span>{'m'}</span></> :''}
+          {props?.seconds ? <>{props?.seconds} <span>{'s'}</span></> :''}
+          </span>
         </p>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import TiresShimmer from "../loaders/TiresShimmers";
+import TiresShimmer from "../loaders/tiresShimmers";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 import { connect, useDispatch, useSelector } from "react-redux";
 import BreadCrumb from "../../ui/breadcrumb";

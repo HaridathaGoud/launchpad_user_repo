@@ -16,6 +16,7 @@ import {
 } from "wagmi/actions";
 import { postSigner } from "../utils/api";
 import { useSelector } from "react-redux";
+import { auth } from "../appConfig";
 export default function useContractMethods() {
   const PRIVATE_KEY = process.env.REACT_APP_OWNER_PRIVATE_KEY;
   const { chain } = useNetwork();
@@ -26,6 +27,7 @@ export default function useContractMethods() {
   });
   const decimals: any = process.env.REACT_APP_DECIMALS;
   const decimalPoints: any = process.env.REACT_APP_POINST;
+  const stakingContract:`0x${string}`=process.env.REACT_APP_STAKING_CONTRACT as `0x${string}`
   function _provider() {
     const _provider = new ethers.providers.JsonRpcProvider(
       process.env.REACT_APP_ALCHEMY_PROVIDER
@@ -67,7 +69,8 @@ export default function useContractMethods() {
     return _poolLevel;
   }
   async function handleNetwork() {
-    if (chain?.id !== Number(process.env.REACT_APP_CHAIN_ID_NUMARIC)) {
+    const shouldChangeChain=(auth.connected && auth.chainId.toString()!==process.env.REACT_APP_POLYGON_CHAIN_HEX_ID) || (!auth.connected && Number(chain?.id) !== Number(process.env.REACT_APP_CHAIN_ID_NUMARIC));
+    if(shouldChangeChain){
       await switchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0,
       });
@@ -114,7 +117,7 @@ export default function useContractMethods() {
         process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS,
         "token",
         "approve",
-        [process.env.REACT_APP_STAKING_CONTRACT, _allowence]
+        [stakingContract, _allowence]
       );
       const { hash } = await writeContract(request);
       const receipt = await waitForTransaction({ hash });
@@ -129,10 +132,10 @@ export default function useContractMethods() {
     const {
       signature: { v, r, s },
       nonce,
-    } = await getSign(_amt, _pool, 0, false, amount);
+    } = await getSign(_amt, _pool,amount, 0,false);
     try {
       const request = await requestForContract(
-        process.env.REACT_APP_STAKING_CONTRACT,
+        stakingContract,
         "staking",
         "stake",
         [_amt, _pool, [v, r, s, nonce], contract]
@@ -148,7 +151,7 @@ export default function useContractMethods() {
   async function withDrawTokens(callback: Function, amount: any) {
     const _amt = ethers.utils.parseUnits(amount.toString(), decimalPoints);
     const count: any = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getTierIdFromUser",
       args: [address],
@@ -158,11 +161,11 @@ export default function useContractMethods() {
     const {
       signature: { v, r, s },
       nonce,
-      // } = await getSign(_amt, _teirId.poolLevel?.toString(), _teirId.tierId?.toString());
-    } = await getSign(_amt, poolId, tierId, true, amount);
+      
+    } = await getSign(_amt, poolId, amount, tierId,true);
     try {
       const request = await requestForContract(
-        process.env.REACT_APP_STAKING_CONTRACT,
+        stakingContract,
         "staking",
         "withdraw",
         [[v, r, s, nonce]]
@@ -177,7 +180,7 @@ export default function useContractMethods() {
   async function unStake(callback: Function, amount: string) {
     const _amount = ethers.utils.parseUnits(amount, decimalPoints);
     const count: any = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getTierIdFromUser",
       args: [address],
@@ -187,10 +190,10 @@ export default function useContractMethods() {
     const {
       signature: { v, r, s },
       nonce,
-    } = await getSign(_amount, poolId, tierId, false, amount);
+    } = await getSign(_amount, poolId, amount, tierId,false );
     try {
       const request = await requestForContract(
-        process.env.REACT_APP_STAKING_CONTRACT,
+        stakingContract,
         "staking",
         "unStake",
         [_amount, [v, r, s, nonce]]
@@ -204,7 +207,7 @@ export default function useContractMethods() {
   }
   async function readAllowence(callback: Function) {
     const _allowence = await readContract({
-      address: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS,
+      address: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS as `0x${string}`,
       abi: token.abi,
       functionName: "allowance",
       args: [address, address],
@@ -234,7 +237,7 @@ export default function useContractMethods() {
   }
   async function getStakedAmount() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getStakedAmount",
       args: [address],
@@ -243,7 +246,7 @@ export default function useContractMethods() {
   }
   async function getUnstakedAmount() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getUnStakedAmount",
       args: [address],
@@ -252,7 +255,7 @@ export default function useContractMethods() {
   }
   async function getRewards() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getRewards",
       args: [address],
@@ -261,7 +264,7 @@ export default function useContractMethods() {
   }
   async function isStaker() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "isStaker",
       args: [address],
@@ -270,7 +273,7 @@ export default function useContractMethods() {
   }
   async function getUserStakeDetails() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getDetails",
       args: [address],
@@ -279,7 +282,7 @@ export default function useContractMethods() {
   }
   async function getTotalStakers() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract as `0x${string}`,
       abi: staking.abi,
       functionName: "getTotalParticipants",
     });
@@ -287,7 +290,7 @@ export default function useContractMethods() {
   }
   async function getTotalStaked() {
     const _result = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract,
       abi: staking.abi,
       functionName: "getTotalStaked",
     });
@@ -296,9 +299,9 @@ export default function useContractMethods() {
   async function getSign(
     amount: any,
     poolID: any,
+    normalAmount: any,
     _tierId?: any,
-    isWithdraw = false,
-    normalAmount: any
+    isWithdraw = false
   ) {
     normalAmount = Number(normalAmount);
     let tierID = _tierId || 0;
@@ -326,7 +329,7 @@ export default function useContractMethods() {
     // signAmount:amount,
     // signTierId:tierID,
     // signPoolId:poolID,
-    // contractAddress:process.env.REACT_APP_STAKING_CONTRACT
+    // contractAddress:stakingContract
     // }
     // let data=await postSigner(`${'createLaunchPadsignature'}`,obj)
 
@@ -334,7 +337,7 @@ export default function useContractMethods() {
     const hash = ethers.utils.solidityKeccak256(
       ["address", "address", "uint256", "uint256", "uint256", "uint256"],
       [
-        process.env.REACT_APP_STAKING_CONTRACT,
+        stakingContract,
         address,
         amount,
         tierID,
@@ -351,14 +354,13 @@ export default function useContractMethods() {
   }
   async function stakeRewards(callback: Function, amount: any, contract: any) {
     const details: any = await readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract,
       abi: staking.abi,
       functionName: "getTierIdFromUser",
       args: [address],
     });
     const _amt = ethers.utils.parseUnits(amount, decimalPoints);
     const poolId = Number(details[1]);
-    const tierId = Number(details[0]);
     const {
       signature: { v, r, s },
       nonce,
@@ -366,7 +368,7 @@ export default function useContractMethods() {
 
     try {
       const request = await requestForContract(
-        process.env.REACT_APP_STAKING_CONTRACT,
+        stakingContract,
         "staking",
         "stake",
         [_amt, poolId, [v, r, s, nonce], contract]
@@ -405,20 +407,20 @@ export default function useContractMethods() {
   }
   function getParticipants() {
     return readContract({
-      address: process.env.REACT_APP_STAKING_CONTRACT,
+      address: stakingContract,
       abi: staking.abi,
       functionName: "getTierIdFromUser",
       args: [address],
     });
   }
-  function fcfsStarttime(contractAddress: string) {
+  function fcfsStarttime(contractAddress: `0x${string}`) {
     return readContract({
       address: contractAddress,
       abi: project.abi,
       functionName: "FCFSStartTime",
     });
   }
-  function getAllocations(contractAddress: any) {
+  function getAllocations(contractAddress: `0x${string}`) {
     return readContract({
       address: contractAddress,
       abi: project.abi,
@@ -451,7 +453,7 @@ export default function useContractMethods() {
     const wallet = new ethers.Wallet(private_key, provider);
     const MSG_HASH = ethers.utils.arrayify(finalAggHash);
     const validSign = await wallet.signMessage(MSG_HASH);
-    if (coinDetails == "Matic") {
+    if (coinDetails === "Matic") {
       return mintNativeWithWagmi(
         uriArr,
         aggHash,
@@ -496,7 +498,7 @@ export default function useContractMethods() {
   }
   async function mintTokenWithWagmi(args1, args2, args3, args4) {
     const { request } = await prepareWriteContract({
-      address: process.env.REACT_APP_MINTING_CONTRACTOR,
+      address: process.env.REACT_APP_MINTING_CONTRACTOR as `0x${string}`,
       abi: Contract.abi,
       functionName: "safeMintMultipleWithToken",
       args: [args1, args2, args3],
@@ -508,7 +510,7 @@ export default function useContractMethods() {
 
   async function approveEth(value) {
     const { request } = await prepareWriteContract({
-      address: WETHContract.contractAddress,
+      address: WETHContract.contractAddress as `0x${string}`,
       abi: WETHContract.abi,
       functionName: "approve",
       args: [process.env.REACT_APP_MINTING_CONTRACTOR, value],

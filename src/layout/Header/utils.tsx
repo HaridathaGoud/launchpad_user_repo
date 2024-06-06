@@ -24,8 +24,24 @@ export const getNavMenu = (navigate:Function,currentPath:string | undefined)=>{
 }
 
 
-export const getNavBarDropdown=(handleDropdownAction:Function,pathname:string|undefined)=>{
-    return [
+export const getNavBarDropdown=(handleDropdownAction:Function,pathname:string|undefined,isArcanaUser:boolean)=>{
+    return isArcanaUser ?[
+        {
+          name: "Profile",
+          action: () => handleDropdownAction("profile"),
+          isActive: pathname?.includes("/profile"),
+        },
+        {
+          name: "Wallet",
+          action: () => handleDropdownAction("wallet"),
+        },
+        {
+          name: "Disconnect",
+          action: () => {
+            handleDropdownAction("disconnect");
+          },
+        },
+      ]:[
         {
           name: "Profile",
           action: () => handleDropdownAction("profile"),
@@ -37,5 +53,5 @@ export const getNavBarDropdown=(handleDropdownAction:Function,pathname:string|un
             handleDropdownAction("disconnect");
           },
         },
-      ];
+      ]
 }
