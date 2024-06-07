@@ -26,6 +26,16 @@ const clearVoters = () => {
         dispatch(fetchVoters({ loading: false, data: null, nextPage: 1 }))
     }
 }
+const clearCustomerVoteStatus = () => {
+    return (dispatch) => {
+        dispatch(fetchIsCustomerVoted({ loading: false, data: null, error: '' }))
+    }
+}
+const clearProposalDetails = () => {
+    return (dispatch) => {
+        dispatch(fetchProposalDetails({ loading: false, data: null, error: '' }))
+    }
+}
 const getProposalDetails = (sub, custId) => {
     return async (dispatch) => {
         dispatch(fetchProposalDetails({ loading: true, data: null, error: '' }));
@@ -137,5 +147,7 @@ const votingReducer = (state, action) => {
 export default (votingReducer);
 export {
     getProposalDetails, getVoters, saveVoting, fetchVoters,
-    getCustomerVoteStatus, fetchIsCustomerVoted, clearVoters
+    getCustomerVoteStatus, fetchIsCustomerVoted, clearVoters,
+    clearCustomerVoteStatus,
+    clearProposalDetails
 };

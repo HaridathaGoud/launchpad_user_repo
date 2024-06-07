@@ -8,6 +8,8 @@ import ProposalResults from "./results";
 import ProposalTabs from "./tabs";
 import BreadCrumb from "../../../ui/breadcrumb";
 import {
+  clearCustomerVoteStatus,
+  clearProposalDetails,
   clearVoters,
   getCustomerVoteStatus,
   getProposalDetails,
@@ -17,18 +19,22 @@ const ProposalView = (props) => {
   const params = useParams();
   const user = useSelector((state: any) => state.auth.user);
   useEffect(() => {
-    props.getProposalDetails(
+    props.getProposalDetails?.(
       params.proposalId,
       user.id || "00000000-0000-0000-0000-000000000000"
     );
     if(user?.id){
-      props.getCustomerVoteStatus(
+      props.getCustomerVoteStatus?.(
         params.proposalId,
         user.id
       );
+    }else{
+      props.clearCustomerVoteStatus?.();
     }
     return () => {
       props.clearVotersList();
+      props.clearCustomerVoteStatus();
+      props.clearProposalDetails()
     };
   }, [user?.id,params.proposalId]);
 
@@ -137,6 +143,12 @@ const connectDispatchToProps = (dispatch: any) => {
     },
     clearVotersList: () => {
       dispatch(clearVoters());
+    },
+    clearCustomerVoteStatus: () => {
+      dispatch(clearCustomerVoteStatus());
+    },
+    clearProposalDetails: () => {
+      dispatch(clearProposalDetails());
     },
   };
 };

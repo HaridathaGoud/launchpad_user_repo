@@ -10,7 +10,12 @@ import ProposalViewShimmer from "../../loaders/proposalViewShimmer";
 const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
-  const voters = useSelector((state: any) => state?.vtg?.voters);
+  const {voters,user} = useSelector((state: any) => {
+    return {
+      voters:state?.vtg?.voters,
+      user:state.auth.user,
+    }
+  });
   const [copied, setCopied] = useState("");
   useEffect(() => {
     props.getVotersList({
@@ -19,7 +24,7 @@ function Voters(props: any) {
       id: params?.proposalId,
       data: null,
     });
-  }, []);
+  }, [user?.id]);
 
   const fetchMoreData = () => {
     props.getVotersList({
