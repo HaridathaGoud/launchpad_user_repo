@@ -16,16 +16,19 @@ function ConclusionContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:1337/api/docs?populate=*');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        // const response = await fetch('http://localhost:1337/api/docs?populate=*');
+        const response = await fetch('https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/docs?populate=*');
+        if (response.ok) {
+          const data = await response.json();
+          setPost(data);
+          console.log(data);
+          // throw new Error('Network response was not ok');
         }
-        const data = await response.json();
+        
         //  const obj =  data.data.filter((item) =>{
         //     return item?.id === parseInt(params?.id)
         //   })
-        setPost(data);
-        console.log(data);
+        
       } catch (error) {
         console.error('Error fetching data:', error);
       }

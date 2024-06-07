@@ -4,10 +4,9 @@ import Markdown from 'react-markdown';
 import { useParams } from 'react-router-dom'; // Import useHistory from react-router-dom
 
 
-function LaunchpadBenefits() {
+function UnStakingPlatform() {
   const [postDetails, setPost] = useState([]);
   const params = useParams();
-  console.log(params);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,6 +19,7 @@ function LaunchpadBenefits() {
           console.log(data);
           // throw new Error('Network response was not ok');
         }
+        
         //  const obj =  data.data.filter((item) =>{
         //     return item?.id === parseInt(params?.id)
         //   })
@@ -37,14 +37,22 @@ function LaunchpadBenefits() {
       {postDetails?.data?.map((item) => (<>
         <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.intro.benefittitle}</h1>              
-             <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
-              <li> <span className='font-medium'>{item.attributes.intro.accgrowth} </span>{item.attributes.intro.accpoint}  </li>
-              <li>  <span className='font-medium'>{item.attributes.intro.accexpert}</span> {item.attributes.intro.accexpertpoint}</li>
-              <li>  <span className='font-medium'>{item.attributes.intro.fundingopp}</span> {item.attributes.intro.fundingopppont}</li>
-              <li>  <span className='font-medium'>{item.attributes.intro.validfeed}</span> {item.attributes.intro.validfeedpoint}</li>
-              <li>  <span className='font-medium'>{item.attributes.intro.network}</span> {item.attributes.intro.networkpoint}</li>
+              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
+             
+             <ul className='my-4 text-base-200 leading-9'>
+              <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>
+              <li>  <span className='font-medium'>{item.attributes.stake.stakemechanisam}</span> {item.attributes.stake.stakemechtext}</li>
+              <li>  <span className='font-medium'>{item.attributes.stake.enhancedengagement}</span> {item.attributes.stake.enhancetext}</li>
+              <li>  <span className='font-medium'>{item.attributes.stake.communitybinding}</span> {item.attributes.stake.communitytext}</li>
              </ul>
+             <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
+                 <li>{item.attributes.stake.stakelist}</li>
+                 <li>{item.attributes.stake.stakelist2}</li>
+             </ul>
+             <img src={'http://localhost:1337' + item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+
              </div>    
         </div>       
         
@@ -55,4 +63,4 @@ function LaunchpadBenefits() {
   );
 }
 
-export default LaunchpadBenefits;
+export default UnStakingPlatform;

@@ -92,7 +92,7 @@ const pageSize = 10
           <p className="text-secondary text-sm font-normal">Total Stake</p>
           <h1 className="text-secondary font-medium	text-[32px] text-black">
              {/* 150,015.0 YBT */}
-             {state.amounts.stakedAmount && state.amounts.stakedAmount + ' YBT'||'--'}
+             {state.amounts?.stakedAmount && state.amounts?.stakedAmount + ' YBT'||'--'}
               </h1>
         </div>
         <Button type="primary" btnClassName="w-full" handleClick={navigateToTier}>Upgrade Tier</Button>
@@ -105,7 +105,7 @@ const pageSize = 10
         <div className="mt-[26px]">
           <p className="text-secondary text-sm font-normal">Total Invested</p>
           <h1 className="text-secondary font-medium	text-[32px] text-black">
-            {portfoliodata.data.totalInvested && portfoliodata.data.totalInvested + ' USDT'||'--'}
+            {portfoliodata.data?.totalInvested && portfoliodata.data?.totalInvested + ' USDT'||'--'}
             </h1>
         </div>
        </div>
@@ -118,7 +118,7 @@ const pageSize = 10
         <div className="mt-[26px]">
           <p className="text-secondary text-sm font-normal">Projects Participated In</p>
           <h1 className="text-secondary font-medium	text-[32px] text-black">
-            {portfoliodata.data.projectsParticipatedIn ||'--'}
+            {portfoliodata.data?.projectsParticipatedIn ||'--'}
             </h1>
         </div>
        </div>

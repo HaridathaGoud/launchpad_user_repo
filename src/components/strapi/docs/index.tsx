@@ -13,6 +13,14 @@ import Tips from "./tips";
 import Conclusion from "./launchpadintro";
 import ConclusionContent from "./conclusioncomponent";
 import StakingPlatform from "./stakingplatform";
+import UnStakingPlatform from "./unStakingplatform";
+import WithDrawPlateformTokens from "./withDrawPlateformTokens";
+import RewardsPlatformTokens from "./rewardsPlatformTokens";
+import AboutTiers from "./aboutTiers";
+import AboutDaos from "./aboutDaos";
+import Tokenization from "./tokenization";
+import Membership from "./membership";
+import ProposalCreation from "./proposalCreation";
 
 const Docs = () => {
 const[activeTab,setActiveTab ] = useState(-1);
@@ -71,44 +79,72 @@ const[activeStep,setActiveStep ] = useState(0);
       {
         name: "Staking",
         content: [
-          { name: "Staking Platform Tokens", icon: "warning", activeIcon: "warningactive",content:<StakingPlatform/> },
-         
+          { name: "Staking Platform Tokens",
+             icon: "warning",
+             activeIcon: "warningactive",
+             content:<StakingPlatform/>
+          },
           {
             name: "Unstaking Platform Tokens",
             icon: "amount",
             activeIcon: "amountActive",
+            content:<UnStakingPlatform/>
           },
           {
             name: "Withdraw Platform Tokens",
             icon: "confirm",
             activeIcon: "confirmActive",
+             content:<WithDrawPlateformTokens/>
           },
           {
             name: "Rewards Platform Tokens",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+             content:<RewardsPlatformTokens/>
           },
         ],
       },
       {
         name: "Tiers",
-        content:[{name:'About tiers'}],
+        content:[{name:'About tiers',
+          icon: "confirmation",
+          activeIcon: "confirmationActive",
+          content:<AboutTiers/>
+        }],
       },
       { name: "Projects", content: [
         {
             name: "Tokenization",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-
-            
+             content:<Tokenization/>
         },
         {
             name: "Membership",
             icon: "confirmation",
             activeIcon: "confirmationActive",
+             content:<Membership/>
         }
       ] },
-      { name: "Apply IVO’s", content: [] },
+
+      {
+        name: "DOA'S",
+        content:[{name:'About DOAS',
+          icon: "confirmation",
+          activeIcon: "confirmationActive",
+          content:<AboutDaos/>
+        }],
+      },
+      {
+        name: "Proposals",
+        content:[{name:'Proposals',
+          icon: "confirmation",
+          activeIcon: "confirmationActive",
+          content:<ProposalCreation/>
+        }],
+      },
+      { name: "Apply IVO’s",
+        content:'' },
     ],
   );
   return (

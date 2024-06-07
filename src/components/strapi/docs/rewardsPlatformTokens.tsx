@@ -4,10 +4,9 @@ import Markdown from 'react-markdown';
 import { useParams } from 'react-router-dom'; // Import useHistory from react-router-dom
 
 
-function Tips() {
+function RewardsPlatformTokens() {
   const [postDetails, setPost] = useState([]);
   const params = useParams();
-  console.log(params);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,13 +37,22 @@ function Tips() {
       {postDetails?.data?.map((item) => (<>
         <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.intro.tips}</h1>              
-             <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
-              <li> <span className='font-medium'>{item.attributes.intro.research} </span>{item.attributes.intro.researchtext}  </li>
-              <li>  <span className='font-medium'>{item.attributes.intro.networkactively}</span> {item.attributes.intro.nettext}</li>
-              <li>  <span className='font-medium'>{item.attributes.intro.beopen}</span> {item.attributes.intro.beopentext}</li>
-              <li>  <span className='font-medium'>{item.attributes.intro.makemost}</span> {item.attributes.intro.makemosttext}</li>
+              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
+             
+             <ul className='my-4 text-base-200 leading-9'>
+              <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>
+              <li>  <span className='font-medium'>{item.attributes.stake.stakemechanisam}</span> {item.attributes.stake.stakemechtext}</li>
+              <li>  <span className='font-medium'>{item.attributes.stake.enhancedengagement}</span> {item.attributes.stake.enhancetext}</li>
+              <li>  <span className='font-medium'>{item.attributes.stake.communitybinding}</span> {item.attributes.stake.communitytext}</li>
              </ul>
+             <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
+                 <li>{item.attributes.stake.stakelist}</li>
+                 <li>{item.attributes.stake.stakelist2}</li>
+             </ul>
+             <img src={'http://localhost:1337' + item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+
              </div>    
         </div>       
         
@@ -55,4 +63,4 @@ function Tips() {
   );
 }
 
-export default Tips;
+export default RewardsPlatformTokens;
