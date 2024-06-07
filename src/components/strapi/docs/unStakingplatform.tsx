@@ -16,7 +16,6 @@ function UnStakingPlatform() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         
@@ -32,6 +31,8 @@ function UnStakingPlatform() {
     fetchData();
   }, []);
 
+  console.log('UnStakingPlatform ',postDetails);
+  
   return (
     <div>
       {postDetails?.data?.map((item) => (<>
@@ -53,7 +54,7 @@ function UnStakingPlatform() {
                  <li>{item.attributes.stake.unstakelist}</li>
                  <li>{item.attributes.stake.unstakelist2}</li>
              </ul>
-             <img src={'http://localhost:1337' + item.attributes.unstakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+             <img src={item.attributes.unstakeimg.data.attributes.url} alt="" width='' className='mt-7' />
 
              </div>    
         </div>       

@@ -17,7 +17,6 @@ function LaunchpadBenefits() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         //  const obj =  data.data.filter((item) =>{
@@ -32,6 +31,8 @@ function LaunchpadBenefits() {
     fetchData();
   }, []);
 
+  console.log('LaunchpadBenefits ',postDetails);
+  
   return (
     <div>
       {postDetails?.data?.map((item) => (<>

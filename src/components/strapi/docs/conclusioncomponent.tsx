@@ -21,7 +21,6 @@ function ConclusionContent() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         
@@ -37,6 +36,8 @@ function ConclusionContent() {
     fetchData();
   }, []);
 
+  console.log('ConclusionContent ',postDetails);
+  
   return (
     <div>
       {postDetails?.data?.map((item) => (<>

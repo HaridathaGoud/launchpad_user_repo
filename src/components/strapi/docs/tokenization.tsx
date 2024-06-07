@@ -16,7 +16,6 @@ function Tokenization() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         
@@ -32,6 +31,8 @@ function Tokenization() {
     fetchData();
   }, []);
 
+  console.log('Tokenization ',postDetails);
+  
   return (
     <div>
       {postDetails?.data?.map((item) => (<>
@@ -51,7 +52,7 @@ function Tokenization() {
                  <li>{item.attributes.stake.stakelist}</li>
                  <li>{item.attributes.stake.stakelist2}</li>
              </ul>
-             <img src={'http://localhost:1337' + item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+             <img src={item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
 
              </div>    
         </div>       

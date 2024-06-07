@@ -16,7 +16,6 @@ function KeyComponents() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         
@@ -32,6 +31,8 @@ function KeyComponents() {
     fetchData();
   }, []);
 
+  console.log('KeyComponents ',postDetails);
+  
   return (
     <div>
       {postDetails?.data?.map((item) => (<>

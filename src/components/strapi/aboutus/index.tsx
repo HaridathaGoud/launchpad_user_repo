@@ -20,8 +20,7 @@ function AboutUs() {
         const response = await fetch('https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/aboutpages?populate=*');
         if (response.ok) {
           const data = await response.json();
-          // setPost(data);
-          console.log(data);
+          setPost(data);
         }
         //  const obj =  data.data.filter((item) =>{
         //     return item?.id === parseInt(params?.id)
@@ -31,9 +30,10 @@ function AboutUs() {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
   }, []);
+
+  console.log('postDetails',postDetails);
 
   return (
     <div>
@@ -57,7 +57,7 @@ function AboutUs() {
               <Button type='cancel' children={item.attributes.knowmore.Title} btnClassName='ml-4 md:w-[160px] whitespace-nowrap' />
             </div>
             <div>
-              <img src={'http://localhost:1337' + item.attributes.bannerimg.data.attributes.url} alt="" width='' className='md:w-[564px] ml-auto' />
+              <img src={item.attributes.bannerimg.data.attributes.url} alt="" width='' className='md:w-[564px] ml-auto' />
             </div>
           </div>
           <img src={abstract1} alt="" className='absolute bottom-[-180px]' />
@@ -72,21 +72,21 @@ function AboutUs() {
             </div>
             <div className='lg:absolute mt-4 lg:mt-0 right-0 top-16 lg:w-[600px] bg-primary-content blockchain-shadow px-14 py-7'>
               <div className="md:flex items-center gap-10">
-                <img src={'http://localhost:1337' + item.attributes.bcimg.data.attributes.url} alt="" className='w-[91px] mb-2 md:mb-0' />
+                <img src={item.attributes.bcimg.data.attributes.url} alt="" className='w-[91px] mb-2 md:mb-0' />
                 <div>
                   <h1 className='text-secondary text-xl font-medium'>{item.attributes.bctitle}</h1>
                   <p className='text-base text-base-200 font-normal'>{item.attributes.bcdesc}</p>
                 </div>
               </div>
               <div className="md:flex items-center gap-10 my-10">
-                <img src={'http://localhost:1337' + item.attributes.fsimg.data.attributes.url} alt="" className='mb-2 md:mb-0' />
+                <img src={item.attributes.fsimg.data.attributes.url} alt="" className='mb-2 md:mb-0' />
                 <div>
                   <h1 className='text-secondary text-xl font-medium'>{item.attributes.fstitle}</h1>
                   <p className='text-base text-base-200 font-normal'>{item.attributes.fsdesc}</p>
                 </div>
               </div>
               <div className="md:flex items-center gap-10">
-                <img src={'http://localhost:1337' + item.attributes.ssimg.data.attributes.url} alt="" className='mb-2 md:mb-0' />
+                <img src={item.attributes.ssimg.data.attributes.url} alt="" className='mb-2 md:mb-0' />
                 <div>
                   <h1 className='text-secondary text-xl font-medium'>{item.attributes.sstitle}</h1>
                   <p className='text-base text-base-200 font-normal'>{item.attributes.ssdesc}</p>
@@ -100,17 +100,17 @@ function AboutUs() {
             <h1 className='text-[40px] font-semibold text-secondary text-center mb-8'>{item.attributes.chooseyb} <span className='text-primary'>YellowBlock</span>? </h1>
             <div className='grid lg:grid-cols-3 gap-4 px-3 lg:px-0'>
               <div className='border border-[#E8E7E7] rounded-2xl py-6 px-9 bg-primary-content choose-shadow'>
-                <img src={'http://localhost:1337' + item.attributes.visionimg.data.attributes.url} alt="" />
+                <img src={item.attributes.visionimg.data.attributes.url} alt="" />
                 <h1 className='my-3 text-secondary text-xl font-bold'>{item.attributes.visiontitle}</h1>
                 <p className='text-base text-base-200 font-normal'>{item.attributes.visiondesc}</p>
               </div>
               <div className='border border-[#E8E7E7] rounded-2xl py-6 px-9 bg-primary-content choose-shadow'>
-                <img src={'http://localhost:1337' + item.attributes.expertimg.data.attributes.url} alt="" />
+                <img src={item.attributes.expertimg.data.attributes.url} alt="" />
                 <h1 className='my-3 text-secondary text-xl font-bold'>{item.attributes.exptitle}</h1>
                 <p className='text-base text-base-200 font-normal'>{item.attributes.expdesc}</p>
               </div>
               <div className='border border-[#E8E7E7] rounded-2xl py-6 px-9 bg-primary-content choose-shadow'>
-                <img src={'http://localhost:1337' + item.attributes.commitimg.data.attributes.url} alt="" />
+                <img src={item.attributes.commitimg.data.attributes.url} alt="" />
                 <h1 className='my-3 text-secondary text-xl font-bold'>{item.attributes.committitle}</h1>
                 <p className='text-base text-base-200 font-normal'>{item.attributes.commitdesc}</p>
               </div>
@@ -120,10 +120,10 @@ function AboutUs() {
           <img src={blueellipse} className='right-0 absolute bottom-[-200px] z-[-1] ' alt="" />
         </div>
         <div className="grid lg:grid-cols-4 gap-12 lg:gap-4 justify-center lg:justify-between container mx-auto mt-16 px-3 lg:px-0">
-          <img src={'http://localhost:1337' + item.attributes.fireblock.data.attributes.url} alt="" />
-          <img src={'http://localhost:1337' + item.attributes.metamask.data.attributes.url} alt="" />
-          <img src={'http://localhost:1337' + item.attributes.web3.data.attributes.url} alt="" />
-          <img src={'http://localhost:1337' + item.attributes.blockfill.data.attributes.url} alt="" />
+          <img src={item.attributes.fireblock.data.attributes.url} alt="" />
+          <img src={item.attributes.metamask.data.attributes.url} alt="" />
+          <img src={item.attributes.web3.data.attributes.url} alt="" />
+          <img src={item.attributes.blockfill.data.attributes.url} alt="" />
 
         </div>
         <div className='pt-16'>

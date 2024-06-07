@@ -24,6 +24,7 @@ import ProposalCreation from "./proposalCreation";
 import UnStake from "./unstaking";
 import Withdrawl from "./withdrawl";
 import Rewards from "./rewards";
+import ApplyIvos from "./applyIvos";
 
 const Docs = () => {
 const[activeTab,setActiveTab ] = useState(-1);
@@ -150,7 +151,10 @@ const[activeStep,setActiveStep ] = useState(0);
         }],
       },
       { name: "Apply IVO’s",
-        content:'' },
+        content:[{
+          name:'Apply IVO’s',
+          content:<ApplyIvos/>
+        }]},
     ],
   );
   return (

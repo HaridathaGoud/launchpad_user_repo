@@ -17,7 +17,6 @@ function Tips() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         
@@ -32,6 +31,9 @@ function Tips() {
 
     fetchData();
   }, []);
+
+  console.log('Tips ',postDetails);
+  
 
   return (
     <div>

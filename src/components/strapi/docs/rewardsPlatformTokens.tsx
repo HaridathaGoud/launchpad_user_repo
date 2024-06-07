@@ -16,7 +16,6 @@ function RewardsPlatformTokens() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         
@@ -32,6 +31,8 @@ function RewardsPlatformTokens() {
     fetchData();
   }, []);
 
+  console.log('RewardsPlatformTokens ',postDetails);
+  
   return (
     <div>
       {postDetails?.data?.map((item) => (<>
@@ -58,7 +59,7 @@ function RewardsPlatformTokens() {
                  <li>{item.attributes.stake.Withdrawallist}</li>
                  <li>{item.attributes.stake.Withdrawallist2}</li>
              </ul>
-             <img src={'http://localhost:1337' + item.attributes.withdrawimg.data.attributes.url} alt="" width='' className='mt-7' />
+             <img src={item.attributes.withdrawimg.data.attributes.url} alt="" width='' className='mt-7' />
 
              </div>    
         </div>        */}

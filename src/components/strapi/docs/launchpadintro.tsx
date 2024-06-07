@@ -22,7 +22,6 @@ function LaunchpadIntro() {
         if (response.ok) {
           const data = await response.json();
           setPost(data);
-          console.log(data);
           // throw new Error('Network response was not ok');
         }
         //  const obj =  data.data.filter((item) =>{
@@ -36,7 +35,7 @@ function LaunchpadIntro() {
 
     fetchData();
   }, []);
-
+  console.log('LaunchpadIntro ',postDetails);
   return (
     <div>
       {postDetails?.data?.map((item) => (<>
@@ -50,7 +49,7 @@ function LaunchpadIntro() {
              </ul>
              <div className='bg-secondary p-7 rounded-lg  lg:w-[600px]'>
              <span className='text-white text-7xl font-semibold'>{item.attributes.intro.bgtitle}</span>
-              <img src={'http://localhost:1337' + item.attributes.dottlogo.data.attributes.url} alt="" width='' className='inline align-bottom ms-8' />
+              <img src={item.attributes.dottlogo.data.attributes.url} alt="" width='' className='inline align-bottom ms-8' />
              </div>
               <p className='text-base text-base-200 font-normal mt-6'>{item.attributes.intro.launchpaddesc1}</p>
               <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.intro.launchpaddesc2}</p>
