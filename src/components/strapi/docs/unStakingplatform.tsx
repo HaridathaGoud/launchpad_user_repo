@@ -37,21 +37,23 @@ function UnStakingPlatform() {
       {postDetails?.data?.map((item) => (<>
         <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
-              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
-              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
-             
-             <ul className='my-4 text-base-200 leading-9'>
-              <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>
-              <li>  <span className='font-medium'>{item.attributes.stake.stakemechanisam}</span> {item.attributes.stake.stakemechtext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.enhancedengagement}</span> {item.attributes.stake.enhancetext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.communitybinding}</span> {item.attributes.stake.communitytext}</li>
-             </ul>
+              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.unstake}</h1> 
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.unstaketext}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.unstakedesc}</h3>
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.unstakedesctext}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.UserUnderstanding}</h3>
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.UserUnderstandingtext}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.Flexibility}</h3>
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.Flexibilitytext}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.Liquidity}</h3>
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.Liquiditytext}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.usercentic}</h3>
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.usercentictext}</p>
              <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
-                 <li>{item.attributes.stake.stakelist}</li>
-                 <li>{item.attributes.stake.stakelist2}</li>
+                 <li>{item.attributes.stake.unstakelist}</li>
+                 <li>{item.attributes.stake.unstakelist2}</li>
              </ul>
-             <img src={'http://localhost:1337' + item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+             <img src={'http://localhost:1337' + item.attributes.unstakeimg.data.attributes.url} alt="" width='' className='mt-7' />
 
              </div>    
         </div>       

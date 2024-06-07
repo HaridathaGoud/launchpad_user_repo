@@ -35,26 +35,34 @@ function RewardsPlatformTokens() {
   return (
     <div>
       {postDetails?.data?.map((item) => (<>
-        <div className="">         
+        {/* <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
-              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
-              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
-             
-             <ul className='my-4 text-base-200 leading-9'>
-              <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>
-              <li>  <span className='font-medium'>{item.attributes.stake.stakemechanisam}</span> {item.attributes.stake.stakemechtext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.enhancedengagement}</span> {item.attributes.stake.enhancetext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.communitybinding}</span> {item.attributes.stake.communitytext}</li>
-             </ul>
+              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.withdraw}</h1> 
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.withdrawdesc}</p>
+              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.withdrawuser}</h3>
+              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.withdrawusertext}</p>
+              <div>
+                <h2 className='text-base text-secondary mt-5 font-semibold'>{item.attributes.stake.withdrawtypes}</h2>
+                <ol className='list-decimal text-base-200 leading-8 ml-5'>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.InstantWithdrawal}</span>{item.attributes.stake.InstantWithdrawaltext}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.FlexibleWithdrawal}</span>{item.attributes.stake.FlexibleWithdrawaltext}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.SecureWithdrawl}</span>{item.attributes.stake.Securewithdrawltext}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.LowTransaction}</span>{item.attributes.stake.LowTransactiontext}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.MultipleWithdrawal}</span>{item.attributes.stake.MultipleWithdrawaltext}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.WithdrawalAvail}</span>{item.attributes.stake.WithdrawalAvailtext}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.TransparentWithdrawal}</span>{item.attributes.stake.TransparentWithdrawaltxt}</li>
+                  <li className='mt-[14px]'><span  className='text-secondary font-medium'>{item.attributes.stake.WithdrawalConfirm}</span>{item.attributes.stake.WithdrawalConfirmtxt}</li>
+                </ol>
+              </div>
              <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
-                 <li>{item.attributes.stake.stakelist}</li>
-                 <li>{item.attributes.stake.stakelist2}</li>
+                 <li>{item.attributes.stake.Withdrawallist}</li>
+                 <li>{item.attributes.stake.Withdrawallist2}</li>
              </ul>
-             <img src={'http://localhost:1337' + item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+             <img src={'http://localhost:1337' + item.attributes.withdrawimg.data.attributes.url} alt="" width='' className='mt-7' />
 
              </div>    
-        </div>       
+        </div>        */}
+        {/* <Markdown>{item.attributes.stake.rewards}</Markdown> */}
         
       </>
 

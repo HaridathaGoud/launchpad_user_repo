@@ -92,21 +92,21 @@ const[activeStep,setActiveStep ] = useState(0);
             icon: "amount",
             activeIcon: "amountActive",
             content:<UnStakingPlatform/>,
-            content:<UnStake/>
+            // content:<UnStake/>
           },
           {
             name: "Withdraw Platform Tokens",
             icon: "confirm",
             activeIcon: "confirmActive",
              content:<WithDrawPlateformTokens/>,
-            content:<Withdrawl/>
+            // content:<Withdrawl/>
           },
           {
             name: "Rewards Platform Tokens",
             icon: "confirmation",
             activeIcon: "confirmationActive",
              content:<RewardsPlatformTokens/>,
-            content:<Rewards/>
+            // content:<Rewards/>
           },
         ],
       },
