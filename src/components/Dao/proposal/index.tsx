@@ -30,7 +30,7 @@ const ProposalView = (props) => {
     return () => {
       props.clearVotersList();
     };
-  }, [user?.id]);
+  }, [user?.id,params.proposalId]);
 
   return (
     <>
