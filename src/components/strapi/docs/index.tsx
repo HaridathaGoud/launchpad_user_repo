@@ -21,6 +21,9 @@ import AboutDaos from "./aboutDaos";
 import Tokenization from "./tokenization";
 import Membership from "./membership";
 import ProposalCreation from "./proposalCreation";
+import UnStake from "./unstaking";
+import Withdrawl from "./withdrawl";
+import Rewards from "./rewards";
 
 const Docs = () => {
 const[activeTab,setActiveTab ] = useState(-1);
@@ -88,19 +91,22 @@ const[activeStep,setActiveStep ] = useState(0);
             name: "Unstaking Platform Tokens",
             icon: "amount",
             activeIcon: "amountActive",
-            content:<UnStakingPlatform/>
+            content:<UnStakingPlatform/>,
+            content:<UnStake/>
           },
           {
             name: "Withdraw Platform Tokens",
             icon: "confirm",
             activeIcon: "confirmActive",
-             content:<WithDrawPlateformTokens/>
+             content:<WithDrawPlateformTokens/>,
+            content:<Withdrawl/>
           },
           {
             name: "Rewards Platform Tokens",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-             content:<RewardsPlatformTokens/>
+             content:<RewardsPlatformTokens/>,
+            content:<Rewards/>
           },
         ],
       },
