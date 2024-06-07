@@ -13,7 +13,7 @@ import TopsellerDetailview from "../components/marketplace.component/topsellerde
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
 import TiresShimmer from "../components/loaders/tiresShimmers";
 import StakingShimmer from "../components/loaders/stakingShimmer";
-import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer"
+import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer";
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
 import DashboardShimmers from "../components/loaders/dashboard/dashboardShimmers";
@@ -21,7 +21,8 @@ import DaosPageShimmer from "../components/loaders/daos/daosPageShimmer";
 import ProposalsPageShimmer from "../components/loaders/daos/proposalsPageShimmer";
 import ProposalPageShimmer from "../components/loaders/daos/proposalPageShimmer";
 import PageSpinner from "./pageSpinner";
-import Portfolio from "../components/portfolio";
+import ProtectedRoute from "./protectedRoute";
+const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
 const AboutUs = React.lazy(() => import("../components/aboutus.component"));
@@ -83,7 +84,11 @@ const Routes = () => {
         { path: "/aboutus", element: <AboutUs />, errorElement: <ErrorPage /> },
         {
           path: "/kycStatus",
-          element: <KycStatus />,
+          element: (
+            <ProtectedRoute>
+              <KycStatus />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         { path: "/faq", element: <Faq />, errorElement: <ErrorPage /> },
@@ -91,7 +96,9 @@ const Routes = () => {
           path: "/profile",
           element: (
             <React.Suspense fallback={<ProfileShimmer />}>
-              <Profile />
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
             </React.Suspense>
           ),
           errorElement: <ErrorPage />,
@@ -154,14 +161,22 @@ const Routes = () => {
           path: "/portfolio",
           element: (
             <React.Suspense fallback={<TiresShimmer />}>
-              <Portfolio />
+              <ProtectedRoute>
+                <Portfolio />
+              </ProtectedRoute>
             </React.Suspense>
           ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/completekyc",
-          element: <React.Suspense fallback={<PageSpinner/>}><SumSub /></React.Suspense>,
+          element: (
+            <React.Suspense fallback={<PageSpinner />}>
+               <ProtectedRoute>
+               <SumSub />
+              </ProtectedRoute>
+            </React.Suspense>
+          ),
           errorElement: <ErrorPage />,
         },
         {
@@ -197,7 +212,7 @@ const Routes = () => {
         {
           path: "/daos",
           element: (
-            <React.Suspense fallback={<DaosPageShimmer/>}>
+            <React.Suspense fallback={<DaosPageShimmer />}>
               <Daos />
             </React.Suspense>
           ),
@@ -205,7 +220,7 @@ const Routes = () => {
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals",
           element: (
-            <React.Suspense fallback={<ProposalsPageShimmer/>}>
+            <React.Suspense fallback={<ProposalsPageShimmer />}>
               <Proposals showBreadcrumb={true} showHeader={true} />
             </React.Suspense>
           ),
@@ -213,7 +228,7 @@ const Routes = () => {
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
-            <React.Suspense fallback={<ProposalPageShimmer/>}>
+            <React.Suspense fallback={<ProposalPageShimmer />}>
               <ProposalView showTabs={false} />
             </React.Suspense>
           ),
@@ -221,7 +236,7 @@ const Routes = () => {
         {
           path: "/projects/:projectName/:projectId/:tokenType/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
-            <React.Suspense fallback={<ProposalPageShimmer/>}>
+            <React.Suspense fallback={<ProposalPageShimmer />}>
               <ProposalView showTabs={true} />
             </React.Suspense>
           ),
@@ -245,7 +260,7 @@ const Routes = () => {
         {
           path: "/projects/:projectName/:projectId/castandcrew",
           element: (
-            <React.Suspense fallback={<PageSpinner/>}>
+            <React.Suspense fallback={<PageSpinner />}>
               <CastandCrewMembersView />
             </React.Suspense>
           ),
@@ -260,7 +275,7 @@ const Routes = () => {
     {
       path: "*",
       element: (
-        <React.Suspense fallback={<PageSpinner/>}>
+        <React.Suspense fallback={<PageSpinner />}>
           <Pageerror />
         </React.Suspense>
       ),

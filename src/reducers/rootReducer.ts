@@ -129,7 +129,7 @@ const initialState = {
   metaDataDetails: null,
   memberType: null,
   memberPrice: null,
-  arcanaUser:{loggedIn:false,email:''}
+  arcanaUser:{isLoggedIn:false,email:''}
 };
 
 const rootReducer = (state: any, { type, payload }) => {

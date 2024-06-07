@@ -15,9 +15,10 @@ import Login from "../Login";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { userProfilePic } = useSelector((state: any) => {
+  const { user,isLoggedIn } = useSelector((state: any) => {
     return {
-      userProfilePic: state.auth.user?.profilePicUrl,
+      user: state.auth.user,
+      isLoggedIn:state.auth.arcanaUser.isLoggedIn
     };
   });
   const { isConnected, address, isConnecting, isReconnecting } = useAccount();
@@ -30,7 +31,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
           return;
         case "wallet":
           // modalActions('arcana-custom-wallet','open')
-          if (auth.connected) {
+          if (isLoggedIn) {
             auth?.showWallet();
           }
           return;
@@ -41,19 +42,19 @@ function Navbar({ changingAddress, handleDisconnect }) {
           return;
       }
     },
-    [auth, pathname]
+    [pathname,isLoggedIn]
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
-      navMenuList: getNavMenu(navigate, pathname),
+      navMenuList: getNavMenu(navigate, pathname,user?.id),
       navBarDropDownMenu: getNavBarDropdown(
         handleDropdownAction,
         pathname,
-        auth.connected
+        isLoggedIn
       ),
       globalDropdown: getGlobalDropDown(navigate),
     };
-  }, [auth.connected, pathname]);
+  }, [user?.id, pathname,isLoggedIn]);
 
   return (
     <div
@@ -161,7 +162,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                             address.length
                           )}
                       </p>
-                      {!userProfilePic && (
+                      {(!user || !user?.profilePicUrl) && (
                         <div className="shrink-0">
                           <img
                             src={userImage}
@@ -170,10 +171,10 @@ function Navbar({ changingAddress, handleDisconnect }) {
                           />
                         </div>
                       )}
-                      {userProfilePic && (
+                      {(user?.profilePicUrl) && (
                         <div className="shrink-0">
                           <img
-                            src={userProfilePic}
+                            src={user?.profilePicUrl}
                             alt="user profile"
                             className="w-[30px] h-[30px] rounded-full object-cover border border-[#fff]"
                           />

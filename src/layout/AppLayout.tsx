@@ -131,6 +131,7 @@ const AppLayout = () => {
     try {
       await disconnectAsync();
       auth.connected && (await auth.logout?.());
+      rootDispatch(setArcanaUserDetails({ isLoggedIn:false }));
       store.dispatch(setUserID(""));
     } catch (error) {
       rootDispatch(setError({ message: error.message || error }));
@@ -169,7 +170,7 @@ const AppLayout = () => {
                 callbackTimeout={toaster?.callbackTimeout}
               />
             )}
-            {hasBasicToken && <Outlet />}
+            {hasBasicToken && <div className="min-h-[80vh]"><Outlet /></div>}
             {!hasBasicToken && <PleaseWait />}
           </div>
           <div className={`lg:hidden`}>
