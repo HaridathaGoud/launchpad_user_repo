@@ -209,7 +209,7 @@ const DaoLeftPanel = (props) => {
               <CreateProposal
                 close={handleCancel}
                 pjctInfo={props?.pjctInfo}
-                votingContractAddress={daoDetails.votingContractAddress}
+                votingContractAddress={daoDetails?.votingContractAddress}
               />
             </div>
           </div>
