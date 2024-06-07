@@ -18,7 +18,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   const { user,isLoggedIn } = useSelector((state: any) => {
     return {
       user: state.auth.user,
-      isLoggedIn:state.auth.arcanaUser.isLoggedIn
+      isLoggedIn:state.auth.arcanaUser?.isLoggedIn
     };
   });
   const { isConnected, address, isConnecting, isReconnecting } = useAccount();
