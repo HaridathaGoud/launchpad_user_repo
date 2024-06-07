@@ -16,16 +16,18 @@ function IntroPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:1337/api/docs?populate=*');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        // const response = await fetch('http://localhost:1337/api/docs?populate=*');
+        const response = await fetch('https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/docs?populate=*');
+        if (response.ok) {
+          const data = await response.json();
+          setPost(data);
+          // throw new Error('Network response was not ok');
         }
-        const data = await response.json();
+        
         //  const obj =  data.data.filter((item) =>{
         //     return item?.id === parseInt(params?.id)
         //   })
-        setPost(data);
-        console.log(data);
+        
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -33,6 +35,7 @@ function IntroPage() {
 
     fetchData();
   }, []);
+console.log('IntroPage ',postDetails);
 
   return (
     <div>
@@ -41,7 +44,7 @@ function IntroPage() {
          
             <div>
               <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.intro.introTitle}</h1>
-              <img src={'http://localhost:1337' + item.attributes.introimage.data.attributes.url} alt="" width='' className='md:w-[564px] mx-auto' />
+              <img src={item.attributes.introimage.data.attributes.url} alt="" width='' className='md:w-[564px] mx-auto' />
               <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.intro.introDesc}</p>
             </div>             
         </div>       
