@@ -35,7 +35,7 @@ const Daos = (props: any) => {
         <h5 className="font-semibold text-2xl text-secondary">DAO’s</h5>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {!daos?.loading && (
+          {(
             <>
               {daos?.data?.map((item: any) => (
                 <div
@@ -71,7 +71,7 @@ const Daos = (props: any) => {
             </>
           )}
           {daos?.loading &&
-            [...Array(take * daos.nextPage)].map((_, index) => (
+            [...Array(take * 1)].map((_, index) => (
               <div key={index}>
                 <DaoCardShimmer />
               </div>
@@ -81,7 +81,7 @@ const Daos = (props: any) => {
           {daos?.loading && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
-          {daos?.data?.length > 0 &&
+          {!daos.loading && daos?.data?.length > 0 &&
             daos?.data?.length === take * (daos?.nextPage - 1) && (
               <Button type="plain" handleClick={getDaosList}>
                 <span className="cursor-pointer text-base text-primary font-semibold">

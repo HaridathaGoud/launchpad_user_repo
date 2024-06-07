@@ -3,6 +3,12 @@ import Spinner from '../../loaders/spinner';
 import Button from '../../../ui/Button';
 
 export const BuyTokenDrawer = (props:any) => {
+  const handleClose=()=>{
+    if(props.isBuying){
+      return;
+    }
+    props.handleDrawerActions(false, null)
+  }
   return (
     <div className="drawer drawer-end">
           <input
@@ -17,15 +23,16 @@ export const BuyTokenDrawer = (props:any) => {
               htmlFor="my-drawer-4"
               aria-label="close sidebar"
               className="drawer-overlay"
-              onClick={() => props.handleDrawerActions(false, null)}
+              onClick={handleClose}
             ></label>
             <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
               <div className="flex items-center justify-between">
                 <h4 className="text-xl text-secondary font-medium">Buy Now</h4>
-                <span
-                  onClick={() => props.handleDrawerActions(false, null)}
-                  className="icon close"
-                ></span>
+                <Button
+                 type='plain'
+                  handleClick={handleClose}
+                  btnClassName="icon close"
+                ></Button>
               </div>
 
               {props.drawerStep === 1 && (
