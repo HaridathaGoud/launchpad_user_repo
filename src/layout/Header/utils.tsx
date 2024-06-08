@@ -44,6 +44,18 @@ export const getNavMenu = (
         action: () => navigate("/portfolio"),
         isActive: currentPath?.includes("/portfolio"),
       },
+      {
+        path: "/aboutus",
+        name: "About Us",
+        action: () => navigate("/aboutus"),
+        isActive: currentPath?.includes("/aboutus"),
+      },
+      {
+        path: "/docs",
+        name: "Docs",
+        action: () => navigate("/docs"),
+        isActive: currentPath?.includes("/docs"),
+      },
     ];
   }
   return [
@@ -64,6 +76,18 @@ export const getNavMenu = (
       name: "Tiers",
       action: () => navigate("/tiers"),
       isActive: currentPath?.includes("/tiers"),
+    },
+    {
+      path: "/aboutus",
+      name: "About Us",
+      action: () => navigate("/aboutus"),
+      isActive: currentPath?.includes("/aboutus"),
+    },
+    {
+      path: "/docs",
+      name: "Docs",
+      action: () => navigate("/docs"),
+      isActive: currentPath?.includes("/docs"),
     },
   ];
 };

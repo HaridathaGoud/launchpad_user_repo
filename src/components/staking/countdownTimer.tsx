@@ -16,9 +16,9 @@ const ShowCounter = (props: any) => {
           {props?.textToDisplay}
           {/* <br /> */}
           <span className='text-sm font-semibold text-secondary ms-2'>
-          {props?.days ? <>{props?.days} <span>{'d'}</span></> :''}
-          {props?.hours ? <>{props?.hours} <span>{'h'}</span></> :''}
-          {props?.minutes ? <>{props?.minutes} <span>{'m'}</span></> :''}
+          {props?.days ? <>{props?.days} <span>{'d '}</span></> :''}
+          {props?.hours ? <>{props?.hours} <span>{'h '}</span></> :''}
+          {props?.minutes ? <>{props?.minutes} <span>{'m '}</span></> :''}
           {props?.seconds ? <>{props?.seconds} <span>{'s'}</span></> :''}
           </span>
         </p>
