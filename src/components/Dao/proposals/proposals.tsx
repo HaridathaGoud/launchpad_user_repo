@@ -24,7 +24,7 @@ import ProposalsShimmer from "../../loaders/daos/proposalsShimmer";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 
 const ProposalCards = (props: any) => {
-  const proposalsRef=useRef(null)
+  const proposalsRef = useRef(null);
   const rootDispatch = useDispatch();
   const { proposals, user } = useSelector((state: any) => {
     return { proposals: state.proposal?.proposals, user: state.auth?.user };
@@ -114,7 +114,9 @@ const ProposalCards = (props: any) => {
     }
   };
   const handleProposalsFetch = (page: any, data: any) => {
-    (props?.from==='project' && proposalsRef?.current) && proposalsRef?.current?.scrollIntoView({block: "start" })
+    props?.from === "project" &&
+      proposalsRef?.current &&
+      proposalsRef?.current?.scrollIntoView({ block: "start" });
     getProposals(data, page);
   };
 
@@ -122,7 +124,7 @@ const ProposalCards = (props: any) => {
   if (proposals?.error) rootDispatch(setError(proposals?.error));
   return (
     <>
-    <div ></div>
+      <div></div>
       <div ref={proposalsRef}>
         <div className="flex justify-between items-center mb-3">
           <div>
@@ -199,127 +201,153 @@ const ProposalCards = (props: any) => {
             </div>
 
             <div className={`mt-4`}>
-              {proposals?.data?.length > 0 && (
+              {
                 <div>
-                  {proposals?.data?.map((item: any) => (
-                    <Link
-                      className="block bg-base-300 rounded-lg bgDaocard p-4 mb-4"
-                      key={item.creatorAddress || item.id}
-                      to={
-                        params?.daoId
-                          ? `/daos/${params?.daoName}/${params?.daoId}/${params.projectId}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
-                          : `/projects/${params?.projectName}/${params?.projectId}/${props?.pjctInfo?.tokenType}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
-                      }
-                    >
-                      <div className="flex justify-between gap-4 items-center">
-                        <div className="flex items-center truncate">
-                          <div className="w-9 h-9 mr-2 shrink-0">
-                            <img
-                              src={item?.creatorImage || daocardProfile}
-                              className="rounded-full object-cover w-9 h-9"
-                              alt="dao profile"
-                            />
+                  {proposals?.data?.length > 0 &&
+                    proposals?.data?.map((item: any) => (
+                      <Link
+                        className="block bg-base-300 rounded-lg bgDaocard p-4 mb-4"
+                        key={item.creatorAddress || item.id}
+                        to={
+                          params?.daoId
+                            ? `/daos/${params?.daoName}/${params?.daoId}/${params.projectId}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
+                            : `/projects/${params?.projectName}/${params?.projectId}/${props?.pjctInfo?.tokenType}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
+                        }
+                      >
+                        <div className="flex justify-between gap-4 items-center">
+                          <div className="flex items-center truncate">
+                            <div className="w-9 h-9 mr-2 shrink-0">
+                              <img
+                                src={item?.creatorImage || daocardProfile}
+                                className="rounded-full object-cover w-9 h-9"
+                                alt="dao profile"
+                              />
+                            </div>
+                            <p className="truncate text-secondary">
+                              {item.createdBy || item.creatorAddress || "--"}
+                            </p>
                           </div>
-                          <p className="truncate text-secondary">
-                            {item.createdBy || item.creatorAddress || "--"}
-                          </p>
+                          <div>
+                            <span
+                              className={`font-semibold px-3 py-1 rounded ${
+                                getProposalStatusBg[item?.status]
+                              }`}
+                            >
+                              {item?.status}
+                            </span>
+                          </div>
                         </div>
-                        <div>
-                          <span
-                            className={`font-semibold px-3 py-1 rounded ${
-                              getProposalStatusBg[item?.status]
+
+                        <div className="truncate">
+                          <h4
+                            className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start  ${
+                              item?.title.length > 100 ? "truncate w-1/2" : ""
                             }`}
                           >
-                            {item?.status}
-                          </span>
+                            {item?.title}
+                          </h4>
                         </div>
-                      </div>
 
-                      <div className="truncate">
-                        <h4
-                          className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start  ${
-                            item?.title.length > 100 ? "truncate w-1/2" : ""
-                          }`}
-                        >
-                          {item?.title}
-                        </h4>
-                      </div>
-
-                      <div className="flex gap-5 flex-col lg:flex-row">
-                        <div
-                          className={` shrink-0 ${
-                            props.from === "project"
-                              ? "md:w-[150px]"
-                              : "w-full lg:w-52 lg:h-32"
-                          }`}
-                        >
-                          <img
-                            src={item?.image || defaultBG}
-                            className={` object-cover w-full rounded-lg ${
+                        <div className="flex gap-5 flex-col lg:flex-row">
+                          <div
+                            className={` shrink-0 ${
                               props.from === "project"
-                                ? "h-[130px] md:h-[90px]"
-                                : "h-[130px]"
+                                ? "md:w-[150px]"
+                                : "w-full lg:w-52 lg:h-32"
                             }`}
-                            alt={item?.title || "proposal"}
-                          />
+                          >
+                            <img
+                              src={item?.image || defaultBG}
+                              className={` object-cover w-full rounded-lg ${
+                                props.from === "project"
+                                  ? "h-[130px] md:h-[90px]"
+                                  : "h-[130px]"
+                              }`}
+                              alt={item?.title || "proposal"}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-base-200">
+                              {(item?.description &&
+                                (item?.description.length > 75
+                                  ? item.description.slice(0, 75) + " ..."
+                                  : item.description)) ||
+                                "--"}
+                            </p>
+                            <div className="flex align-items-center gap-4">
+                              <p className="text-secondary mt-3 me-3">
+                                Start Date:{" "}
+                                {item?.startDate && (
+                                  <b> {ConvertLocalFormat(item?.startDate)}</b>
+                                )}
+                              </p>
+                              <p className="text-secondary mt-3 me-3">
+                                End Date:{" "}
+                                {item?.endDate && (
+                                  <b> {ConvertLocalFormat(item?.endDate)}</b>
+                                )}
+                              </p>
+                            </div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                              {item?.options?.map(
+                                (data: any, index: number) => (
+                                  <div
+                                    className="text-secondary"
+                                    key={data?.id}
+                                  >
+                                    <div className="flex">
+                                      {
+                                        <span
+                                          className={`${getVotingOptionColor[index]} shrink-0 mt-1 h-4 w-4 inline-block rounded-full mr-2 align-middle`}
+                                        ></span>
+                                      }
+                                      <p className="text-secondary">
+                                        {data?.option}{" "}
+                                        {`(${data?.votersCount || "0"})`}
+                                      </p>
+                                    </div>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                            <div className="md:flex justify-between items-center mt-2">
+                              <p className="text-base font-semibold mb-2 md:mb-0 text-secondary">
+                                {getProposalStatus(
+                                  item?.startDate,
+                                  item?.endDate
+                                )}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <p className="text-base-200">
-                            {(item?.description &&
-                              (item?.description.length > 75
-                                ? item.description.slice(0, 75) + " ..."
-                                : item.description)) ||
-                              "--"}
-                          </p>
-                          <div className="flex align-items-center gap-4">
-                            <p className="text-secondary mt-3 me-3">
-                              Start Date:{" "}
-                              {item?.startDate && (
-                                <b>
-                                  {" "}
-                                  {ConvertLocalFormat(item?.startDate)}
-                                </b>
-                              )}
-                            </p>
-                            <p className="text-secondary mt-3 me-3">
-                              End Date:{" "}
-                              {item?.endDate && (
-                                <b>
-                                  {" "}
-                                  {ConvertLocalFormat(item?.endDate)}
-                                </b>
-                              )}
-                            </p>
-                          </div>
-                          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-                            {item?.options?.map((data: any, index: number) => (
-                              <div className="text-secondary" key={data?.id}>
-                                <div className="flex">
-                                  {
-                                    <span
-                                      className={`${getVotingOptionColor[index]} shrink-0 mt-1 h-4 w-4 inline-block rounded-full mr-2 align-middle`}
-                                    ></span>
-                                  }
-                                  <p className="text-secondary">
-                                    {data?.option}{" "}
-                                    {`(${data?.votersCount || "0"})`}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="md:flex justify-between items-center mt-2">
-                            <p className="text-base font-semibold mb-2 md:mb-0 text-secondary">
-                              {getProposalStatus(
-                                item?.startDate,
-                                item?.endDate
-                              )}
-                            </p>
-                          </div>
-                        </div>
+                      </Link>
+                    ))}
+                  {props.from === "project" &&
+                    !proposals.data?.length &&
+                    proposals.nextPage > 2 && (
+                      <div className="mb-4">
+                        <NoDataFound text={""} />
                       </div>
-                    </Link>
-                  ))}
+                    )}
+                  {!proposals?.data?.length &&
+                    (state.startDate ||
+                      state.endDate ||
+                      (state.status !== "All" &&
+                        !state.startDate &&
+                        !state.endDate)) && <NoDataFound text={""} />}
+                  {!proposals.loading &&
+                    ((props.from !== "project" && !proposals.data?.length) ||
+                      (props.from === "project" &&
+                        !proposals.data?.length &&
+                        proposals.nextPage === 2)) &&
+                    state.status === "All" &&
+                    !state.startDate &&
+                    !state.endDate && (
+                      <CreateFirstPraposal
+                        pjctInfo={props?.pjctInfo}
+                        daoId={params.id}
+                      />
+                    )}
                   <div className="flex justify-center">
                     {proposals.loading && (
                       <span className="text-center">
@@ -348,7 +376,9 @@ const ProposalCards = (props: any) => {
                       )}
                     {!proposals.loading &&
                       props.from === "project" &&
-                      proposals.data.length > 0 && (
+                      (proposals.nextPage !== 2 ||
+                        (proposals.data?.length > 0 &&
+                          proposals.nextPage === 2)) && (
                         <div className="flex justify-end gap-2">
                           <Button
                             handleClick={() =>
@@ -379,23 +409,10 @@ const ProposalCards = (props: any) => {
                       )}
                   </div>
                 </div>
-              )}
+              }
             </div>
           </>
         )}
-        {!proposals?.data?.length &&
-          (state.startDate ||
-            state.endDate ||
-            (state.status !== "All" && !state.startDate && !state.endDate)) && (
-            <NoDataFound text={""} />
-          )}
-        {!proposals.loading &&
-          !proposals.data?.length &&
-          state.status === "All" &&
-          !state.startDate &&
-          !state.endDate && (
-            <CreateFirstPraposal pjctInfo={props?.pjctInfo} daoId={params.id} />
-          )}
       </div>
     </>
   );
