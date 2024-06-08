@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import TiresShimmer from "../loaders/tiresShimmers";
+import TiresShimmer from "../loaders/TiresShimmers";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 import { connect, useDispatch, useSelector } from "react-redux";
 import BreadCrumb from "../../ui/breadcrumb";
@@ -10,6 +10,7 @@ import useContract from "../../hooks/useContract";
 import { initialPortfolioState, portfolioReducer } from "./reducer";
 import View from "./view";
 import { ethers } from "ethers";
+import PortfolioShimmer from "../loaders/portfolioshimmer";
 const pageSize = 10
 
  const Portfolio=(props:any)=> {
@@ -100,7 +101,7 @@ const pageSize = 10
     return provider;
   }
   return (<> 
-    {portfoliodata.loading && <TiresShimmer/>}
+    {portfoliodata.loading && <PortfolioShimmer/>}
     {!portfoliodata.loading &&
 
     <div className="container mx-auto max-lg:px-3 mt-3 investments">

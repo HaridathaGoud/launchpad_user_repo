@@ -6,7 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import defaultBG from "../../../assets/images/default-bg.png";
 import { setError } from "../../../reducers/layoutReducer";
 import { getProposalStatusBg } from "../proposals/utils";
-import ProposalViewShimmer from "../../loaders/proposalViewShimmer";
+import ProposalViewShimmer from "../../loaders/ProposalViewShimmer";
 const Proposal = () => {
   const { address } = useAccount();
   const rootDispatch = useDispatch();
