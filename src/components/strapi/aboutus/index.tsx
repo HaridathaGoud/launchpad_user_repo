@@ -8,36 +8,42 @@ import abstract2 from '../../../assets/images/about-abstarct2.svg'
 import yellowellipse from '../../../assets/images/yellow-ellipse.svg'
 import blueellipse from '../../../assets/images/blue-ellipse.svg'
 import VisitUs from '../../visitus';
+import { useDispatch } from 'react-redux';
+import { setError } from '../../../reducers/layoutReducer';
+import Spinner from '../../loaders/spinner';
 
 function AboutUs() {
+  const rootDispatch=useDispatch()
   const [postDetails, setPost] = useState([]);
-  const params = useParams();
-  console.log(params);
+  const [loading,setLoading]=useState(false)
   useEffect(() => {
+    setLoading(true)
     const fetchData = async () => {
       try {
-        // const response = await fetch('http://localhost:1337/api/aboutpages?populate=*');
         const response = await fetch('https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/aboutpages?populate=*');
         if (response.ok) {
           const data = await response.json();
           setPost(data);
         }
-        //  const obj =  data.data.filter((item) =>{
-        //     return item?.id === parseInt(params?.id)
-        //   })
+        else{
+          rootDispatch(setError(response))
+        }
         
       } catch (error) {
-        console.error('Error fetching data:', error);
+        rootDispatch(setError(error.message ||error))
+      }finally{
+        setLoading(false)
       }
     };
     fetchData();
   }, []);
 
-  console.log('postDetails',postDetails);
-
   return (
     <div>
-      {postDetails?.data?.map((item) => (<>
+      {loading && <div className='flex justify-center items-center h-[100vh]'>
+        <Spinner size='loading-lg'/>
+        </div>}
+      {!loading && postDetails?.data?.map((item) => (<>
         <div className="bg-[#E7F4FA] bg-about relative">
           <div className='container mx-auto grid md:grid-cols-2 items-center px-3 lg:px-0'>
             <div>

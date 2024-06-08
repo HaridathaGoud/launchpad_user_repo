@@ -7,7 +7,7 @@ import { get } from '../../../utils/api';
 import AllocationsView from  './allocations';
 import { ethers } from "ethers";
 import useContract from '../../../hooks/useContract';
-import { BuyTokenDrawer } from './BuyTokenDrawer';
+import { BuyTokenDrawer } from './buyTokenDrawer';
 import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
 
  const Allocations = (props:any) => {

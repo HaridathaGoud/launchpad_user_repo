@@ -11,9 +11,9 @@ import AppLayout from "./AppLayout";
 import ComingSoon from "../components/shared/comingSoon";
 import TopsellerDetailview from "../components/marketplace.component/topsellerdetailview";
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
-import TiresShimmer from "../components/loaders/TiresShimmers";
-import StakingShimmer from "../components/loaders/StakingShimmer";
-import ProjectViewShimmer from "../components/loaders/projects/ProjectViewShimmer";
+import TiresShimmer from "../components/loaders/tiresShimmers";
+import StakingShimmer from "../components/loaders/stakingShimmer";
+import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer";
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
 import DashboardShimmers from "../components/loaders/dashboard/dashboardShimmers";
@@ -25,6 +25,7 @@ import ProtectedRoute from "./protectedRoute";
 import MinnapadDashboard from "../components/strapi/minnapaddashboard";
 import AboutUs from "../components/strapi/aboutus";
 import Docs from "../components/strapi/docs";
+import PortfolioShimmer from "../components/loaders/portfolioshimmer";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -163,7 +164,7 @@ const Routes = () => {
         {
           path: "/portfolio",
           element: (
-            <React.Suspense fallback={<TiresShimmer />}>
+            <React.Suspense fallback={<PortfolioShimmer />}>
               <ProtectedRoute>
                 <Portfolio />
               </ProtectedRoute>
@@ -228,14 +229,14 @@ const Routes = () => {
             </React.Suspense>
           ),
         },
-        {
-          path: "/docs",
-          element: (
-            <React.Suspense fallback={<DaosPageShimmer/>}>
-              <Docs/>
-            </React.Suspense>
-          ),
-        },
+        // {
+        //   path: "/docs",
+        //   element: (
+        //     <React.Suspense fallback={<DaosPageShimmer/>}>
+        //       <Docs/>
+        //     </React.Suspense>
+        //   ),
+        // },
         {
           path: "/daos/:daoName/:daoId/:projectId/proposals",
           element: (

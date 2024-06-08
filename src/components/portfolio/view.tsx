@@ -18,14 +18,14 @@ const View = (props:any)=>{
         <img src={totalstake} alt="" />
          <div>
          <p className="text-secondary text-sm font-normal">Investor Tier</p>
-         <span className="bg-[#E3F8FF] text-[#035388] text-[10px] font-semibold px-3 py-1 rounded-full">{props.portfoliodata?.name}</span>
+       {props.portfoliodata?.name ?<span className="bg-[#E3F8FF] text-[#035388] text-[10px] font-semibold px-3 py-1 rounded-full">{props.portfoliodata?.name}</span> : '--'}
          </div>
         </div>
         <div className="mt-[26px] mb-6">
           <p className="text-secondary text-sm font-normal">Total Stake</p>
-          <h1 className="text-secondary font-medium	text-[32px] text-black">
+          <h1 className="font-medium	text-[32px] text-black">
              {/* 150,015.0 YBT */}
-             {props.amounts.stakedAmount && props.amounts.stakedAmount + ' YBT'||'--'}
+             {props.amounts.stakedAmount ? (props.amounts.stakedAmount + ' YBT') :'--'}
               </h1>
         </div>
         <Button type="primary" btnClassName="w-full" handleClick={navigateToTier}>Upgrade Tier</Button>
@@ -37,8 +37,8 @@ const View = (props:any)=>{
         </div>
         <div className="mt-[26px]">
           <p className="text-secondary text-sm font-normal">Total Invested</p>
-          <h1 className="text-secondary font-medium	text-[32px] text-black">
-            {props.portfoliodata?.totalInvested && props.portfoliodata?.totalInvested +' $' ||'--'}
+          <h1 className="font-medium	text-[32px] text-black">
+            {props.portfoliodata?.totalInvested ? (props.portfoliodata?.totalInvested +' $') :'--'}
             </h1>
         </div>
        </div>
@@ -50,7 +50,7 @@ const View = (props:any)=>{
         </div>
         <div className="mt-[26px]">
           <p className="text-secondary text-sm font-normal">Projects Participated In</p>
-          <h1 className="text-secondary font-medium	text-[32px] text-black">
+          <h1 className="font-medium	text-[32px] text-black">
             {props.portfoliodata?.projectsParticipatedIn ||'--'}
             </h1>
         </div>

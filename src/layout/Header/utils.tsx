@@ -50,12 +50,12 @@ export const getNavMenu = (
         action: () => navigate("/aboutus"),
         isActive: currentPath?.includes("/aboutus"),
       },
-      {
-        path: "/docs",
-        name: "Docs",
-        action: () => navigate("/docs"),
-        isActive: currentPath?.includes("/docs"),
-      },
+      // {
+      //   path: "/docs",
+      //   name: "Docs",
+      //   action: () => navigate("/docs"),
+      //   isActive: currentPath?.includes("/docs"),
+      // },
     ];
   }
   return [
@@ -83,12 +83,12 @@ export const getNavMenu = (
       action: () => navigate("/aboutus"),
       isActive: currentPath?.includes("/aboutus"),
     },
-    {
-      path: "/docs",
-      name: "Docs",
-      action: () => navigate("/docs"),
-      isActive: currentPath?.includes("/docs"),
-    },
+    // {
+    //   path: "/docs",
+    //   name: "Docs",
+    //   action: () => navigate("/docs"),
+    //   isActive: currentPath?.includes("/docs"),
+    // },
   ];
 };
 
