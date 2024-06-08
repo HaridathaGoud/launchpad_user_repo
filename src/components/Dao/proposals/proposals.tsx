@@ -356,8 +356,8 @@ const ProposalCards = (props: any) => {
                     )}
                     {!proposals.loading &&
                       props.from !== "project" &&
-                      proposals.data.length > 0 &&
-                      proposals.data.length ===
+                      proposals.data?.length > 0 &&
+                      proposals.data?.length ===
                         take * (proposals?.nextPage - 1) && (
                         <Button
                           handleClick={() =>
