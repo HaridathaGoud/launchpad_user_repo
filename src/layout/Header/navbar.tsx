@@ -11,7 +11,6 @@ import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
 import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
 import useArcanaAuth from "../../hooks/useArcanaAuth";
-import Login from "../Login";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -189,9 +188,6 @@ function Navbar({ changingAddress, handleDisconnect }) {
             )}
         </div>
       </div>
-      <Login
-        onWalletConect={() => console.log("Connected!")}
-      />
     </div>
   );
 }

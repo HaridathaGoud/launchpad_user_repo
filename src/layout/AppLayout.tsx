@@ -22,6 +22,7 @@ import { getKyc } from "../utils/api";
 import useArcanaAuth from "../hooks/useArcanaAuth";
 import useContract from "../hooks/useContract";
 import offline from "../assets/images/offline.svg";
+import Login from "./Login";
 const AppLayout = () => {
   const { pathname } = useLocation();
   const { isStaker } = useContract();
@@ -74,7 +75,7 @@ const AppLayout = () => {
   const handleArcanaDisconnect = async () => {
     const isLoggedIn = await auth.isLoggedIn();
     rootDispatch(setArcanaUserDetails({ isLoggedIn }));
-    await onDisconnect()
+    await onDisconnect();
   };
   const handleConnectorUpdate = ({ account, chain }: ConnectorData | any) => {
     if (account) {
@@ -131,7 +132,7 @@ const AppLayout = () => {
     try {
       await disconnectAsync();
       auth.connected && (await auth.logout?.());
-      rootDispatch(setArcanaUserDetails({ isLoggedIn:false }));
+      rootDispatch(setArcanaUserDetails({ isLoggedIn: false }));
       store.dispatch(setUserID(""));
     } catch (error) {
       rootDispatch(setError({ message: error.message || error }));
@@ -141,15 +142,18 @@ const AppLayout = () => {
   }, [auth]);
   return (
     <>
-      {!isOnline && <div className="flex justify-center items-center h-[100vh]">
-        <img src={offline} alt="offline" />
-        </div>}
+      {!isOnline && (
+        <div className="flex justify-center items-center h-[100vh]">
+          <img src={offline} alt="offline" />
+        </div>
+      )}
       {isOnline && (
         <>
           <Header
             changingAddress={changingAddress}
             onDisconnect={onDisconnect}
           />
+          <Login onWalletConect={(account:any) => getCustomerDetails(account)} />
           <div className="">
             {error?.message && (
               <ErrorMessage
@@ -170,7 +174,11 @@ const AppLayout = () => {
                 callbackTimeout={toaster?.callbackTimeout}
               />
             )}
-            {hasBasicToken && <div className="min-h-[80vh]"><Outlet /></div>}
+            {hasBasicToken && (
+              <div className="min-h-[80vh]">
+                <Outlet />
+              </div>
+            )}
             {!hasBasicToken && <PleaseWait />}
           </div>
           <div className={`lg:hidden`}>

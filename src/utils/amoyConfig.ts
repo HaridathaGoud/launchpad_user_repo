@@ -1,7 +1,7 @@
 import { type Chain } from 'viem'
 
 export const amoyNetwork = {
-    id: 80002,
+    id:Number(process.env.REACT_APP_CHAIN_ID_NUMARIC),
     name: 'Polygon Amoy',
     network:'matic',
     nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
