@@ -21,6 +21,12 @@ export const getNavMenu = (
   if (userId) {
     return [
       {
+        path: "/portfolio",
+        name: "Portfolio",
+        action: () => navigate("/portfolio"),
+        isActive: currentPath?.includes("/portfolio"),
+      },
+      {
         path: "/projects",
         name: "Projects",
         action: () => navigate("/projects"),
@@ -37,12 +43,6 @@ export const getNavMenu = (
         name: "Tiers",
         action: () => navigate("/tiers"),
         isActive: currentPath?.includes("/tiers"),
-      },
-      {
-        path: "/portfolio",
-        name: "Portfolio",
-        action: () => navigate("/portfolio"),
-        isActive: currentPath?.includes("/portfolio"),
       },
       {
         path: "/aboutus",
