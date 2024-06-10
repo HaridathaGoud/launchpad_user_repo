@@ -14,10 +14,10 @@ import useArcanaAuth from "../../hooks/useArcanaAuth";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user,isLoggedIn } = useSelector((state: any) => {
+  const { user, isLoggedIn } = useSelector((state: any) => {
     return {
       user: state.auth.user,
-      isLoggedIn:state.auth.arcanaUser?.isLoggedIn
+      isLoggedIn: state.auth.arcanaUser?.isLoggedIn,
     };
   });
   const { isConnected, address, isConnecting, isReconnecting } = useAccount();
@@ -41,11 +41,11 @@ function Navbar({ changingAddress, handleDisconnect }) {
           return;
       }
     },
-    [pathname,isLoggedIn]
+    [pathname, isLoggedIn]
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
-      navMenuList: getNavMenu(navigate, pathname,user?.id),
+      navMenuList: getNavMenu(navigate, pathname, user?.id),
       navBarDropDownMenu: getNavBarDropdown(
         handleDropdownAction,
         pathname,
@@ -53,7 +53,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
       ),
       globalDropdown: getGlobalDropDown(navigate),
     };
-  }, [user?.id, pathname,isLoggedIn]);
+  }, [user?.id, pathname, isLoggedIn]);
 
   return (
     <div
@@ -130,7 +130,8 @@ function Navbar({ changingAddress, handleDisconnect }) {
           </div>
           {!isConnected &&
             !isReconnecting &&
-            !isConnecting && <ConnectWallet />}
+            !isConnecting &&
+            !changingAddress && <ConnectWallet />}
           {(isReconnecting || isConnecting || changingAddress) && (
             <div
               className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
@@ -170,7 +171,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                           />
                         </div>
                       )}
-                      {(user?.profilePicUrl) && (
+                      {user?.profilePicUrl && (
                         <div className="shrink-0">
                           <img
                             src={user?.profilePicUrl}
