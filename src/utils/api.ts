@@ -10,7 +10,7 @@ const API_END_POINT_CUSTOMER=process.env.REACT_APP_API_END_POINT_CUSTOMER
 const API_END_POINT_DAO = process.env.REACT_APP_API_DAO_END_POINT + "api/v1/";
 const API_END_POINT_DAO_CARDS = process.env.REACT_APP_API_END_POINT + "api/v1/";
 const MARKETPLACE_API_END_POINT=process.env.REACT_APP_MARKETPLACE_END_POINT
-
+const STRAPI_ABOUT_US_DOC_PUBLISHED_URL=process.env.STRAPI_ABOUT_US_DOC_PUBLISHED_URL;
 export function getToken() {
   const state = store.getState();
   // const token = state?.auth?.token || state.auth.user?.token || "" ;
@@ -301,9 +301,18 @@ const isErrorDispaly = (objValue) => {
         Authorization: `${getToken()}` },
     });
   }
+  const getAboutpageData=async()=>{
+    return await axios.get('https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/aboutpages?populate=*')
+  }
+  const getDocData=async ()=>{
+    return await axios.get('https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/docs?populate=*')
+  }
+  const getDocsRestData=async ()=>{
+    return await axios.get('https://determined-duck-ea7e7c45e5.strapiapp.com/api/docs?populate=*')
+  }
 let apiCalls = {getTopNft,getMarketplace,postMarketplace,getDaos,
   getDaoDetails,getMIntDaoDetails,getStatusLu,getProposalView,postCreateProposal,postSaveVote,getProposalList,getContractDetails,
   getProposalVotes,getProposalVoters,customerVoted,isErrorDispaly,uploadErrorDisplay,customerDetails,getPortFolioData,getUserInvestments,
-  getUserclaims,
+  getUserclaims,getAboutpageData,getDocData,getDocsRestData,
 }
 export default apiCalls

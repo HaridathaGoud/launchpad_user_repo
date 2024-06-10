@@ -3,32 +3,42 @@ import React from 'react';
 function Membership({data}) {
   return (
     <div>
-      {data?.data?.map((item) => (<>
-        <div className="">         
-           <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
-              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
-              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
-             
-             <ul className='my-4 text-base-200 leading-9'>
-              <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>
-              <li>  <span className='font-medium'>{item.attributes.stake.stakemechanisam}</span> {item.attributes.stake.stakemechtext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.enhancedengagement}</span> {item.attributes.stake.enhancetext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.communitybinding}</span> {item.attributes.stake.communitytext}</li>
-             </ul>
-             <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
-                 <li>{item.attributes.stake.stakelist}</li>
-                 <li>{item.attributes.stake.stakelist2}</li>
-             </ul>
-             <img src={item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+    {data?.data?.map((item: any) => (
+      <div className="">
+        <div>
+          <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes?.projects?.Membership}</h1>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TieredMembership}</p>
 
-             </div>    
-        </div>       
-        
-      </>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TieredMembershiptxt}</p>
 
-      ))}
-    </div>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RewardsIncentives }</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RewardsIncentives1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RewardsIncentives2}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RewardsIncentives3}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.GovernanceParticipation}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.GovernanceParticipation1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.GovernanceParticipation2}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RecognitionPrestige}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RecognitionPrestige1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.RecognitionPrestige2}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.SupportNetworking}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.SupportNetworking1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.SupportNetworking2}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.EarlyAccess}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.EarlyAccess1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.EarlyAccess2}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ContributionRecognition}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ContributionRecognition1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ContributionRecognition2}</p>
+
+        </div>
+      </div>
+    ))}
+
+  </div>
   );
 }
 
