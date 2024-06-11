@@ -1,35 +1,58 @@
 import React from 'react';
 
 function AboutDaos({data}) {
-
   return (
     <div>
-      {data?.data?.map((item) => (<>
-        <div className="">         
-           <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
-              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
-              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
-             
-             <ul className='my-4 text-base-200 leading-9'>
-              <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>
-              <li>  <span className='font-medium'>{item.attributes.stake.stakemechanisam}</span> {item.attributes.stake.stakemechtext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.enhancedengagement}</span> {item.attributes.stake.enhancetext}</li>
-              <li>  <span className='font-medium'>{item.attributes.stake.communitybinding}</span> {item.attributes.stake.communitytext}</li>
-             </ul>
-             <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
-                 <li>{item.attributes.stake.stakelist}</li>
-                 <li>{item.attributes.stake.stakelist2}</li>
-             </ul>
-             <img src={item.attributes.stakeimg.data.attributes.url} alt="" width='' className='mt-7' />
+    {data?.data?.map((item: any) => (
+      <div className="">
+        <div>
+          <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes?.daos?.WhatDAOs}</h1>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.daodesc}</p>
 
-             </div>    
-        </div>       
-        
-      </>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.KeyFeaturesDAOs}</p>
 
-      ))}
-    </div>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Decentralization }</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Decentralizationtxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Autonomy}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Autonomytxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Transparency}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Transparencytxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.SmartContracts}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.SmartContracts1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.SmartContracts2}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.TokenEnthusiasts}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.TokenEnthusiaststxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalListing}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalListingdesc}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalListing1}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalListing2}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalListing3}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalListing4}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Benefitsofdaos}</p>
+
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.TrustlessCollaboration}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.TrustlessCollaborationtxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.GlobalParticipation}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.GlobalParticipationtxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ReducedOperational}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ReducedOperationaltxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.EnhancedSecurity}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.EnhancedSecuritytxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ChallengesDAOs}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.LegalRegulatory}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.LegalRegulatorytxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.CodeVulnerability}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.CodeVulnerabilitytxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Governance}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.Governancetxt}</p>
+          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ChallengesDAOsdesc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
   );
 }
 

@@ -13,47 +13,45 @@ import StakingPlatform from "./stakingplatform";
 import UnStakingPlatform from "./unStakingplatform";
 import WithDrawPlateformTokens from "./withDrawPlateformTokens";
 import RewardsPlatformTokens from "./rewardsPlatformTokens";
-import AboutTiers from "./aboutTiers";
 import AboutDaos from "./aboutDaos";
 import Tokenization from "./tokenization";
 import Membership from "./membership";
-import ProposalCreation from "./proposalCreation";
 import ApplyIvos from "./applyIvos";
 import Spinner from "../../loaders/spinner";
-import { useDispatch } from "react-redux";
+import { useDispatch ,connect, useSelector} from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
+import { BronzeTier } from "./BronzeTier";
+import { SilverTier } from "./silverTier";
+import { GoldTier } from "./goldTier";
+import { PlatinumTier } from "./platinumTier";
+import { DiamondTier } from "./diamondTier";
+import { BlueTier } from "./blueTier";
+import Proposals from "./proposals";
+import SelectERC20token from "./selectERC20token";
+import { clearDocsData, clearDocsPageRestData, getDocPageRestDeatils, getDocsDeatils } from "./strapiReducer";
 
-const Docs = () => {
+const Docs = (props:any) => {
   const [activeTab, setActiveTab] = useState(-1);
   const [activeStep, setActiveStep] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
+  const docsData = useSelector((store: any) => store.strapiData.docsData);
+  const docsPageRestData = useSelector((store: any) => store.strapiData.docsPageRestData);
   const rootDispatch = useDispatch();
-  useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/docs?populate=*"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setData(data);
-        } else {
-          setErrorMessage(response);
-        }
-      } catch (error) {
-        setErrorMessage(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-  const setErrorMessage = (error: any) => {
-    rootDispatch(setError({ message: error.message || error }));
+  const getDocsData = async () => {
+    await props.getDocsData();
   };
+  const getDocsRestData=async()=>{
+    await props.getDocsRestData();
+  }
+  useEffect(() => {
+    getDocsData();
+    getDocsRestData();
+    return () => {
+      props.clearDocs();
+      props.clearDocsRestData();
+    };
+  }, []);
+  if (docsData?.error) rootDispatch(setError(docsData?.error));
+
   const tabs = useMemo(
     () => [
       {
@@ -63,43 +61,43 @@ const Docs = () => {
             name: "Introduction to Launchpads",
             icon: "checkpoints",
             activeIcon: "checkpointsActive",
-            content: <LaunchpadIntro data={data} />,
+            content: <LaunchpadIntro data={docsData} />,
           },
           {
             name: "Types of Launchpads",
             icon: "amount",
             activeIcon: "amountActive",
-            content: <LaunchpadTypes data={data} />,
+            content: <LaunchpadTypes data={docsData} />,
           },
           {
             name: "Benefits of Launchpads",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <LaunchpadBenefits data={data} />,
+            content: <LaunchpadBenefits data={docsData} />,
           },
           {
             name: "Successful Stories",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <SuccessfulStories data={data} />,
+            content: <SuccessfulStories data={docsData} />,
           },
           {
             name: "Key Components",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <KeyComponents data={data} />,
+            content: <KeyComponents data={docsData} />,
           },
           {
             name: "Tips for Participants",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Tips data={data} />,
+            content: <Tips data={docsData} />,
           },
           {
             name: "Conclusion",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <ConclusionContent data={data} />,
+            content: <ConclusionContent data={docsData} />,
           },
         ],
       },
@@ -110,25 +108,25 @@ const Docs = () => {
             name: "Staking Platform Tokens",
             icon: "warning",
             activeIcon: "warningactive",
-            content: <StakingPlatform data={data} />,
+            content: <StakingPlatform data={docsData} />,
           },
           {
             name: "Unstaking Platform Tokens",
             icon: "amount",
             activeIcon: "amountActive",
-            content: <UnStakingPlatform data={data} />,
+            content: <UnStakingPlatform data={docsData} />,
           },
           {
             name: "Withdraw Platform Tokens",
             icon: "confirm",
             activeIcon: "confirmActive",
-            content: <WithDrawPlateformTokens data={data} />,
+            content: <WithDrawPlateformTokens data={docsData} />,
           },
           {
             name: "Rewards Platform Tokens",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <RewardsPlatformTokens data={data} />,
+            content: <RewardsPlatformTokens data={docsPageRestData} />,
           },
         ],
       },
@@ -136,10 +134,40 @@ const Docs = () => {
         name: "Tiers",
         content: [
           {
-            name: "About tiers",
+            name: "Bronze Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <AboutTiers data={data} />,
+            content: <BronzeTier data={docsPageRestData} />,
+          },
+          {
+            name: "Silver Tier",
+            icon: "confirmation",
+            activeIcon: "confirmationActive",
+            content: <SilverTier data={docsPageRestData} />,
+          },
+          {
+            name: "Gold Tier",
+            icon: "confirmation",
+            activeIcon: "confirmationActive",
+            content: <GoldTier data={docsPageRestData} />,
+          },
+          {
+            name: "Platinum Tier",
+            icon: "confirmation",
+            activeIcon: "confirmationActive",
+            content: <PlatinumTier data={docsPageRestData} />,
+          },
+          {
+            name: "Diamond Tier",
+            icon: "confirmation",
+            activeIcon: "confirmationActive",
+            content: <DiamondTier data={docsPageRestData} />,
+          },
+          {
+            name: "Blue Tier",
+            icon: "confirmation",
+            activeIcon: "confirmationActive",
+            content: <BlueTier data={docsPageRestData} />,
           },
         ],
       },
@@ -150,13 +178,13 @@ const Docs = () => {
             name: "Tokenization",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Tokenization data={data} />,
+            content: <Tokenization data={docsPageRestData} />,
           },
           {
             name: "Membership",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Membership data={data} />,
+            content: <Membership data={docsPageRestData} />,
           },
         ],
       },
@@ -165,21 +193,16 @@ const Docs = () => {
         name: "DOA'S",
         content: [
           {
-            name: "About DOAS",
+            name: "DOA’s",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <AboutDaos data={data} />,
+            content: <AboutDaos data={docsPageRestData} />,
           },
-        ],
-      },
-      {
-        name: "Proposals",
-        content: [
           {
             name: "Proposals",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <ProposalCreation data={data} />,
+            content: <Proposals data={docsPageRestData} />,
           },
         ],
       },
@@ -187,14 +210,19 @@ const Docs = () => {
         name: "Apply IVO’s",
         content: [
           {
-            name: "Apply IVO’s",
-            content: <ApplyIvos data={data} />,
+            name: "Steps To Apply IVO’s",
+            content: <ApplyIvos data={docsPageRestData} />,
+          },
+          {
+            name: "Why I select ERC 20 token",
+            content: <SelectERC20token data={docsPageRestData} />,
           },
         ],
       },
     ],
-    [data]
+    [docsData,docsPageRestData]
   );
+  
   return (
     <>
       <div className="grid lg:grid-cols-4 mt-2 container mx-auto">
@@ -208,13 +236,13 @@ const Docs = () => {
           />
         </div>
         <div className="lg:col-span-3 pl-6">
-          {loading && (
+          {docsData.loading && (
             <div className="h-full flex justify-center items-center">
               <Spinner size="loading-lg" />
             </div>
           )}
           {activeTab > -1 && tabs[activeTab].content[activeStep].content}
-          {activeTab === -1 && <IntroPage data={data} />}
+          {activeTab === -1 && <IntroPage data={docsData} />}
         </div>
       </div>
       <div className="pt-36">
@@ -224,4 +252,24 @@ const Docs = () => {
   );
 };
 
-export default Docs;
+const connectStateToProps = ({ oidc,strapiData }: any) => {
+  return { oidc: oidc, strapiData:strapiData };
+};
+const connectDispatchToProps = (dispatch: any) => {
+  return {
+    getDocsData: () => {
+      dispatch(getDocsDeatils());
+    },
+    getDocsRestData:()=>{
+      dispatch(getDocPageRestDeatils());
+    },
+    clearDocs: () => {
+      dispatch(clearDocsData());
+    },
+    clearDocsRestData: () => {
+      dispatch(clearDocsPageRestData());
+    },
+    dispatch,
+  };
+};
+export default connect(connectStateToProps, connectDispatchToProps)(Docs);

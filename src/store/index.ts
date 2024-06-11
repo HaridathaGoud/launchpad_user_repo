@@ -10,6 +10,7 @@ import votingReducer from "../reducers/votingReducer";
 import marketPlaceReducer from "../reducers/marketPlaceReducer";
 import layoutReducer from "../reducers/layoutReducer";
 import portfolioReducer from "../reducers/portfolioReducer";
+import strapiReducer from "../components/strapi/docs/strapiReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -23,7 +24,8 @@ const rootReducerState = combineReducers({
   marketPlaceDashboard: marketPlaceReducer.marketPlaceDashboardReducer,
   exploreNfts: marketPlaceReducer.exploreNtfsReducer,
   layoutReducer: layoutReducer,
-  portfolio: portfolioReducer
+  portfolio: portfolioReducer,
+  strapiData:strapiReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];
