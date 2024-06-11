@@ -164,7 +164,7 @@ const Docs = (props:any) => {
             content: <DiamondTier data={docsPageRestData} />,
           },
           {
-            name: "Blue Tier",
+            name: "Blue Diamond Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
             content: <BlueTier data={docsPageRestData} />,

@@ -34,7 +34,7 @@ function UnStake() {
       {postDetails?.data?.map((item) => (<>
         <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.stake.unstake}</h1> 
+              <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.stake.unstake}</h1> 
               <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.unstaketext}</p>
               <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.unstakedesc}</h3>
               <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.unstakedesctext}</p>

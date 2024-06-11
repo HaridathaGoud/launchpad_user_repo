@@ -6,7 +6,7 @@ function Tips({data}) {
       {data?.data?.map((item) => (<>
         <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.intro.tips}</h1>              
+              <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.intro.tips}</h1>              
              <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
               <li> <span className='font-medium'>{item.attributes.intro.research} </span>{item.attributes.intro.researchtext}  </li>
               <li>  <span className='font-medium'>{item.attributes.intro.networkactively}</span> {item.attributes.intro.nettext}</li>

@@ -7,7 +7,7 @@ function LaunchpadIntro({ data }) {
         <>
           <div className="">
             <div>
-              <h1 className="text-[40px] font-semibold text-secondary">
+              <h1 className="text-2xl font-semibold text-secondary">
                 {item.attributes?.intro?.launchpadtitle}
               </h1>
               <ul className="list-disc ml-5 my-4">

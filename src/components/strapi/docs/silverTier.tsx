@@ -6,30 +6,37 @@ export const SilverTier = ({ data }) => {
       {data?.data?.map((item: any) => (
         <div className="">
           <div>
-            <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes?.tiers?.Tiers}</h1>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverTier}</p>
-            <span>{item.attributes?.tiers?.silvertierbadge}</span>
-            <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes?.tiers?.SilverTierdesc}</h3>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaSilverTier}</p>
-
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaSilverTierlist1}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaSilverTierlist2}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaSilverTierlist3}</p>
-
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits1}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits2}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits3}</p>
-
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits4}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits5}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.SilverBenefits6}</p>
-
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.EngagementOpportunities}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.EngagementOpportunities1}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.EngagementOpportunities2}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.PathHigherTiers}</p>
-            <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.PathHigherTiersdesc}</p>
+            <h1 className='text-2xl font-semibold text-secondary'>{item.attributes?.tiers?.Tiers}</h1>
+            <div className='flex items-center gap-3  mt-4'>
+            <p className='text-2xl text-secondary font-semibold'>{item.attributes?.tiers?.SilverTier}</p>
+            <span className='bg-[#FFE3EC] px-3 py-[2px] rounded-3xl text-[#620042] text-xs font-semibold'>{item.attributes?.tiers?.silvertierbadge}</span>
+            </div>
+            <p className='text-base-200 text-base font-normal mt-4'>{item.attributes?.tiers?.SilverTierdesc}</p>
+            <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.CriteriaSilverTier}</h2>
+             <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.tiers?.CriteriaSilverTierlist1}</li>
+            <li >{item.attributes?.tiers?.CriteriaSilverTierlist2}</li>
+            <li >{item.attributes?.tiers?.CriteriaSilverTierlist3}</li>
+             </ul>
+            <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.SilverBenefits}</h2>
+            <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.tiers?.SilverBenefits1}</li>
+            <li >{item.attributes?.tiers?.SilverBenefits2}</li>
+            <li >{item.attributes?.tiers?.SilverBenefits3}</li>
+            <li>{item.attributes?.tiers?.SilverBenefits4}</li>
+            <li>{item.attributes?.tiers?.SilverBenefits5}</li>
+            <li>{item.attributes?.tiers?.SilverBenefits6}</li>
+             </ul>              
+            <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.EngagementOpportunities}</h2>
+            <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+              <li>{item.attributes?.tiers?.EngagementOpportunities1}</li>
+              <li>{item.attributes?.tiers?.EngagementOpportunities2}</li>
+            </ul>
+           
+            <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.PathHigherTiers}</h2>
+            <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+              <li>{item.attributes?.tiers?.PathHigherTiersdesc}</li>
+            </ul>
           </div>
         </div>
       ))}
