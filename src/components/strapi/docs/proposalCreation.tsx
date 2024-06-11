@@ -8,7 +8,7 @@ function ProposalCreation({data}) {
            <div>
               <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.stake.stakingtitle}</h1> 
               <p className='text-base text-base-200 font-normal mt-4'>{item.attributes.stake.stakedesc}</p>
-              <h3 className='text-secondary text-base font-bold mt-4'>{item.attributes.stake.stakefeatures}</h3>
+              <h3 className='text-base text-secondary font-semibold mt-4'>{item.attributes.stake.stakefeatures}</h3>
              
              <ul className='my-4 text-base-200 leading-9'>
               <li> <span className='font-medium'>{item.attributes.stake.stakerewards} </span>{item.attributes.stake.stakerewardtext}  </li>

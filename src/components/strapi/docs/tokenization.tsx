@@ -6,47 +6,59 @@ function Tokenization({data}) {
       <div className="">
         <div>
           <h1 className='text-2xl font-semibold text-secondary'>{item.attributes?.projects?.Tokenization}</h1>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ProjectName}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ProjectName1}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ProjectName2 }</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Listing}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ListingTime}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenInformation}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenInformation1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenInformation2}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenInformation3}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenInformation4}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenInformation5}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TeamSection}</p>
-
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.projects?.ProjectName}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.projects?.ProjectName1}</li>           
+             <li >{item.attributes?.projects?.ProjectName2}</li>          
+          </ul>        
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.projects?.Listing}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.projects?.ListingTime}</li> 
+          </ul>  
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.projects?.TokenInformation}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.projects?.TokenInformation1}</li> 
+             <li >{item.attributes?.projects?.TokenInformation2}</li> 
+             <li >{item.attributes?.projects?.TokenInformation3}</li> 
+             <li >{item.attributes?.projects?.TokenInformation4}</li> 
+             <li >{item.attributes?.projects?.TokenInformation5}</li> 
+          </ul> 
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.projects?.TeamSection}</h2>         
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew2}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew3}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew4}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew5}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew6}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.CastCrew7}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenSale}</p>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.projects?.CastCrew1}</li>
+            <li>{item.attributes?.projects?.CastCrew2}</li>
+            <li>{item.attributes?.projects?.CastCrew3}</li>
+            <li>{item.attributes?.projects?.CastCrew4}</li>
+            <li>{item.attributes?.projects?.CastCrew5}</li>
+            <li>{item.attributes?.projects?.CastCrew6}</li>
+            <li>{item.attributes?.projects?.CastCrew7}</li>
+          </ul>  
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.projects?.TokenSale}</h2>
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenPrice}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenPrice1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.TokenPrice2}</p>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.projects?.TokenPrice1}</li>
+            <li>{item.attributes?.projects?.TokenPrice2}</li>
+          </ul>          
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ClaimSlots}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.ClaimSlotstxt}</p>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.projects?.ClaimSlotstxt}</li>           
+          </ul>
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.vestingtime}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.vestingtimetxt}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.SaleRounds}</p>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.projects?.vestingtimetxt}</li>           
+          </ul>
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.projects?.SaleRounds}</h2>
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Round1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Round1starttime}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Round1endtime}</p>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.projects?.Round1starttime}</li>           
+            <li>{item.attributes?.projects?.Round1endtime}</li>           
+          </ul>          
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Round2}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Round2starttime}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.projects?.Round2endtime}</p>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.projects?.Round2starttime}</li>           
+            <li>{item.attributes?.projects?.Round2endtime}</li>          
+          </ul>         
         </div>
       </div>
     ))}

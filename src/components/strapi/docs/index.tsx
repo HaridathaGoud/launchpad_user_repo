@@ -225,7 +225,7 @@ const Docs = (props:any) => {
   
   return (
     <>
-      <div className="grid lg:grid-cols-4 mt-2 container mx-auto">
+      <div className="grid lg:grid-cols-4 mt-2 container mx-auto max-sm:gap-8">
         <div className="mt-5 pr-4 border-r">
           <Docstabs
             tabs={tabs}
