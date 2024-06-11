@@ -15,10 +15,14 @@ const pageSize = 10
  const Portfolio=(props:any)=> {
   const [state, dispatch] = useReducer(portfolioReducer, initialPortfolioState);
   const {getStakedAmount,claimTokens} = useContract();
-  const user = useSelector((state: any) => state.auth.user);
-  const portfoliodata = useSelector((state:any)=>state.portfolio.portfoliodata)
-  const userinvestmentsata = useSelector((state:any)=>state.portfolio.userinvestmentsata)
-  const userclaims = useSelector((state:any)=>state.portfolio.userclaims)
+  const {user,portfoliodata,userinvestmentsata,userclaims}=useSelector((store:any)=>{
+    return {
+      user:store.auth.user,
+      portfoliodata:store.portfolio.portfoliodata,
+      userinvestmentsata:store.portfolio.userinvestmentsata,
+      userclaims:store.portfolio.userclaims,
+    }
+  })
   const [showClaimableOnly, setShowClaimableOnly] = useState(false);
   const data = showClaimableOnly ? userclaims.data : userinvestmentsata.data
   const portpolioRef = useRef<any>(null);
@@ -27,8 +31,8 @@ const pageSize = 10
   const [claimBtnLoader, setClaimBtnLoader] = useState<any>(false);
 
    useEffect(() => {
-    getAmountDetails();
-    if (user?.id) {
+     if (user?.id) {
+      getAmountDetails();
       props.portFolio({ customerId: user.id, data: null });
       fetchData(state.search||null)
     }
