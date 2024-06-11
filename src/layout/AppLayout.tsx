@@ -45,6 +45,9 @@ const AppLayout = () => {
     if (isConnected && address && !user?.id) {
       getCustomerDetails(address);
     }
+    if(!isConnected && !address && user?.id){
+      store.dispatch(setUserID({ id: '', name: '' }));
+    }
   }, [isConnected, address]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     error?.message && rootDispatch(setError({ message: "" }));
@@ -133,7 +136,7 @@ const AppLayout = () => {
       await disconnectAsync();
       auth.connected && (await auth.logout?.());
       rootDispatch(setArcanaUserDetails({ isLoggedIn: false }));
-      store.dispatch(setUserID(""));
+      store.dispatch({ id: '', name: '' });
     } catch (error) {
       rootDispatch(setError({ message: error.message || error }));
     } finally {

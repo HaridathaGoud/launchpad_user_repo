@@ -6,7 +6,7 @@ const SET_TOKEN = "setToken";
 const HANDLE_FETCH_METADATA = 'handleFetchMetaData';
 const HANDLE_FETCH_MEMBERTYPE = 'handleFetchMemberType';
 const SET_ARCANA_USER_DETAILS='setArcanaUserDetails';
-const setUserID = (payload: string) => {
+const setUserID = (payload: any) => {
   return {
     type: SET_USER_ID,
     payload,

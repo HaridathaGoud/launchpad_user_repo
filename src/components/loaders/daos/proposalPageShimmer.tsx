@@ -1,7 +1,7 @@
 import React from "react";
-import DaoResultsShimmer from "../DaoResultsShimmer";
+import DaoResultsShimmer from "../daoResultsShimmer";
 import InformationPanelShimmer from "../InformationPanelShimmer";
-import ProposalViewShimmer from "../ProposalViewShimmer";
+import ProposalViewShimmer from "../proposalViewShimmer";
 
 const ProposalPageShimmer = () => {
   return (
