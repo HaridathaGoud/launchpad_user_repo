@@ -6,34 +6,38 @@ export const DiamondTier = ({data}) => {
     {data?.data?.map((item: any) => (
       <div className="">
         <div>
-          <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes?.tiers?.Tiers}</h1>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.DiamondTier}</p>
-          <span>{item.attributes?.tiers?.DiamondTierbadge}</span>
-
+          <h1 className='text-2xl font-semibold text-secondary'>{item.attributes?.tiers?.Tiers}</h1>
+          <div className='flex items-center gap-3  mt-4'>
+          <p className='text-2xl text-secondary font-semibold'>{item.attributes?.tiers?.DiamondTier}</p>
+          <span className='bg-[#FFE3EC] px-3 py-[2px] rounded-3xl text-[#620042] text-xs font-semibold'>{item.attributes?.tiers?.DiamondTierbadge}</span>
+          </div>
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.DiamondTierdesc}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.PositionDiamondTier}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.PositionDiamondTiertxt}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaDiamond}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaDiamond1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaDiamond2}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.CriteriaDiamond3}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits2}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits3}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits4}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits5}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits6}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits7}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.Diamondbenefits8}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.DaimondEngagement}</p>
-
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.DaimondEngagement1}</p>
-          <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.tiers?.DaimondEngagement2}</p>
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.PositionDiamondTier}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.tiers?.PositionDiamondTiertxt}</li>           
+          </ul>
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.CriteriaDiamond}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.tiers?.CriteriaDiamond1}</li>           
+             <li >{item.attributes?.tiers?.CriteriaDiamond2}</li>           
+             <li >{item.attributes?.tiers?.CriteriaDiamond3}</li>           
+          </ul>        
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.Diamondbenefits}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+             <li >{item.attributes?.tiers?.Diamondbenefits1}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits2}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits3}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits4}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits5}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits6}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits7}</li>           
+             <li >{item.attributes?.tiers?.Diamondbenefits8}</li>           
+          </ul>        
+          <h2 className='text-base text-secondary font-semibold mt-4'>{item.attributes?.tiers?.DaimondEngagement}</h2>
+          <ul className='list-disc mt-2 text-base-200 ml-5 leading-8'>
+            <li>{item.attributes?.tiers?.DaimondEngagement1}</li>
+            <li>{item.attributes?.tiers?.DaimondEngagement2}</li>
+          </ul>         
         </div>
       </div>
     ))}

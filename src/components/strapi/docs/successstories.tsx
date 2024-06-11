@@ -6,7 +6,7 @@ function SuccessfulStories({data}) {
       {data?.data?.map((item) => (<>
         <div className="">         
            <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes.intro.successstory}</h1>              
+              <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.intro.successstory}</h1>              
              <ul className='list-disc ml-5 my-4 text-base-200 leading-9'>
               <li>{item.attributes.intro.successpoint1}  </li>
               <li>   {item.attributes.intro.successpoint2}</li>             

@@ -6,7 +6,7 @@ const Proposals = ({data}) => {
     {data?.data?.map((item: any) => (
       <div className="">
         <div>
-          <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes?.daos?.ProposalCreation}</h1>
+          <h1 className='text-2xl font-semibold text-secondary'>{item.attributes?.daos?.ProposalCreation}</h1>
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.ProposalCreationdesc}</p>
 
           <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.daos?.UserUnderstanding}</p>
