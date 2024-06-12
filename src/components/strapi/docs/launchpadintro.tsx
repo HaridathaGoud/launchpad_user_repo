@@ -22,7 +22,7 @@ function LaunchpadIntro({ data }) {
                   src={item.attributes.dottlogo.data?.attributes?.url}
                   alt=""
                   width=""
-                  className="inline align-bottom ms-8"
+                  className="inline align-bottom md:ms-8"
                 />
               </div>
               <p className="text-base text-base-200 font-normal mt-6">

@@ -1,7 +1,7 @@
 import React from 'react';
 
 function RewardsPlatformTokens({data}) {  
-  console.log(data)
+
   return (
     <div>
       {data?.data?.map((item:any) => (
