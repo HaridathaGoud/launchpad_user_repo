@@ -134,7 +134,7 @@ const AppLayout = () => {
       await disconnectAsync();
       auth.connected && (await auth.logout?.());
       rootDispatch(setArcanaUserDetails({ isLoggedIn: false }));
-      store.dispatch({ id: '', name: '' });
+      rootDispatch(setUserID({ id: '', name: '' }));
     } catch (error) {
       rootDispatch(setError({ message: error.message || error }));
     } finally {
