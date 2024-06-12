@@ -47,6 +47,8 @@ const AppLayout = () => {
       getCustomerDetails(address);
     }
     if(!isConnected && !address && user?.id){
+      console.log(isConnected,address)
+      console.log("in")
       store.dispatch(setUserID({ id: '', name: '' }));
     }
   }, [isConnected, address]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -154,7 +156,7 @@ const AppLayout = () => {
             changingAddress={changingAddress}
             onDisconnect={onDisconnect}
           />
-          <Login onWalletConect={(account:any) => getCustomerDetails(account)} />
+          <Login onWalletConect={(account:any) => console.log(account)} />
           <div className="">
             {error?.message && (
               <ErrorMessage
