@@ -23,6 +23,7 @@ import useArcanaAuth from "../hooks/useArcanaAuth";
 import useContract from "../hooks/useContract";
 import offline from "../assets/images/offline.svg";
 import Login from "./Login";
+import { supportedChains } from "../utils/supportedChains";
 const AppLayout = () => {
   const { pathname } = useLocation();
   const { isStaker } = useContract();
@@ -86,10 +87,8 @@ const AppLayout = () => {
       getStakeFlag();
       return;
     }
-
     if (
-      chain?.id?.toString() !== process.env.REACT_APP_CHAIN_ID_NUMARIC ||
-      chain?.unsupported
+      !supportedChains.includes(chain?.id)
     ) {
       rootDispatch(
         setError({
@@ -98,8 +97,7 @@ const AppLayout = () => {
         })
       );
     } else if (
-      chain?.id?.toString() === process.env.REACT_APP_CHAIN_ID_NUMARIC &&
-      !chain?.unsupported
+      supportedChains.includes(chain?.id)
     ) {
       rootDispatch(setError({ message: "" }));
     }

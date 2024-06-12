@@ -17,6 +17,7 @@ import {
 import { postSigner } from "../utils/api";
 import { useSelector } from "react-redux";
 import { auth } from "../appConfig";
+import { supportedChains } from "../utils/supportedChains";
 export default function useContractMethods() {
   const PRIVATE_KEY = process.env.REACT_APP_OWNER_PRIVATE_KEY;
   const { chain } = useNetwork();
@@ -69,7 +70,7 @@ export default function useContractMethods() {
     return _poolLevel;
   }
   async function handleNetwork() {
-    const shouldChangeChain=(auth.connected && auth.chainId.toString()!==process.env.REACT_APP_POLYGON_CHAIN_HEX_ID) || (!auth.connected && Number(chain?.id) !== Number(process.env.REACT_APP_CHAIN_ID_NUMARIC));
+    const shouldChangeChain=(auth.connected && !supportedChains.includes(auth.chainId)) || (!auth.connected && !supportedChains.includes(chain?.id));
     if(shouldChangeChain){
       await switchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0,
@@ -453,6 +454,8 @@ export default function useContractMethods() {
     const wallet = new ethers.Wallet(private_key, provider);
     const MSG_HASH = ethers.utils.arrayify(finalAggHash);
     const validSign = await wallet.signMessage(MSG_HASH);
+    console.log(uriArr, aggHash,
+      { signature: validSign, nonce },nftPrice.toString())
     if (coinDetails === "Matic") {
       return mintNativeWithWagmi(
         uriArr,
@@ -460,8 +463,8 @@ export default function useContractMethods() {
         { signature: validSign, nonce },
         {
           value: ethers.utils.parseUnits(nftPrice.toString(), 18),
-          gasLimit: 900000,
-          gasPrice: 300000,
+          // gasLimit: 900000,
+          // gasPrice: 300000,
         },
         contractAddress
       );
@@ -487,7 +490,7 @@ export default function useContractMethods() {
     args4,
     contractAddress
   ) {
-    const { request } = await prepareWriteContract({
+    const request = await prepareWriteContract({
       address: contractAddress,
       abi: Contract.abi,
       functionName: "safeMintMultiple",

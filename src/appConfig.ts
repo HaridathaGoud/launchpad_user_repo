@@ -19,10 +19,10 @@ if (!auth) {
     connectOptions: {
       compact: true 
     },
-    chainConfig: {
-      chainId: process.env.REACT_APP_CHAIN_ID_NUMARIC,        
-      rpcUrl: process.env.REACT_APP_RPC_URL,
-    },
+    // chainConfig: {
+    //   chainId: process.env.REACT_APP_CHAIN_ID_NUMARIC,        
+    //   rpcUrl: process.env.REACT_APP_RPC_URL,
+    // },
 });
 }
 window.onload = async function() {
