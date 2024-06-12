@@ -2,9 +2,8 @@ import React from 'react';
 function LaunchpadTypes({data}) {
   return (
     <div>
-      {data?.data?.map((item) => (<>
-        <div className="">         
-           {/* <Markdown>{item.attributes.intro.launchpadtypes}</Markdown> */}
+      {data?.data?.map((item) => (
+        <div className="" key={item}>         
            <div>
               <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.intro.LPtitle}</h1>
               <h3 className='text-base-200 font-medium'>{item.attributes.intro.LPsubtitle}</h3>
@@ -17,10 +16,7 @@ function LaunchpadTypes({data}) {
               <li> {item.attributes.intro.point6}</li>
              </ul>
              </div>
-        </div>       
-        
-      </>
-
+        </div>
       ))}
     </div>
   );
