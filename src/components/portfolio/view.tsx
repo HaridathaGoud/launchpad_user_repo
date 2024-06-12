@@ -51,7 +51,7 @@ const View = (props: any) => {
   return (
     <>
      
-        <div className="tier-card rounded-[16px] bg-primary-content p-[18px] grid md:grid-cols-3 gap-6 mb-4">
+        <div className="tier-card rounded-[16px] bg-primary-content p-[18px] grid md:grid-cols-3 gap-6 mb-6">
           {/* <div className="relative profile-size flex justify-center xl-4">
             <div className="avatar">
               <div className="md:w-40 md:h-40 rounded-full">
@@ -116,7 +116,7 @@ const View = (props: any) => {
           </div>          
         </div>
     
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-6">
         <div className="tier-card rounded-[16px] bg-primary-content p-[18px]">
           <div className="flex gap-2">
             <img src={totalstake} alt="" />

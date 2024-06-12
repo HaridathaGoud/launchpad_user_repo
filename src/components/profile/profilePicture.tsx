@@ -59,7 +59,7 @@ const ProfilePicture = ({ profile, updateProfile }) => {
     }
   };
   return (
-    <div className="relative profile-size md:w-40 xl-4 hover:opacity-80 md:ml-2.5">
+    <div className="relative profile-size md:w-40 xl-4 hover:opacity-70 md:ml-2.5">
       {loader && (
         <div className="animate-pulse space-x-4">
           <div className="w-40 h-40 mx-auto rounded-full bg-slate-200  max-w-md"></div>
