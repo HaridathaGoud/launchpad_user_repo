@@ -4,7 +4,6 @@ function LaunchpadIntro({ data }) {
   return (
     <div>
       {data?.data?.map((item) => (
-        <>
           <div className="">
             <div>
               <h1 className="text-2xl font-semibold text-secondary">
@@ -36,7 +35,6 @@ function LaunchpadIntro({ data }) {
               </p>
             </div>
           </div>
-        </>
       ))}
     </div>
   );

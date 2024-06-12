@@ -4,7 +4,7 @@ function LaunchpadBenefits({data}) {
 
   return (
     <div>
-      {data?.data?.map((item) => (<>
+      {data?.data?.map((item) => (
         <div className="">         
            <div>
               <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.intro.benefittitle}</h1>              
@@ -18,7 +18,6 @@ function LaunchpadBenefits({data}) {
              </div>    
         </div>       
         
-      </>
 
       ))}
     </div>
