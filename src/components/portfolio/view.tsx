@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import totalstake from "../../assets/images/total-stake.svg";
 import projects from "../../assets/images/project-participate.svg";
 import totalinvest from "../../assets/images/total-invest.svg";
@@ -13,7 +13,7 @@ import { setUserID } from "../../reducers/rootReducer";
 const View = (props: any) => {
   const router = useNavigate();
   const { user, arcanaUser } = useSelector((store: any) => store.auth);
-const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const { address } = useAccount();
   const { data: currency, refetch: getCurrency } =
     useBalance({ address }) || {};
@@ -24,8 +24,14 @@ const dispatch=useDispatch()
         | `0x${string}`
         | undefined,
     }) || {};
-  const currencyBalance = currency?.formatted;
-  const tokenBalance = tokenData?.formatted;
+  const currencyBalance = Number(currency?.formatted || 0);
+  const tokenBalance = Number(tokenData?.formatted || 0);
+  useEffect(()=>{
+    getUSDFromMatic()
+  },[currency]);
+  const getUSDFromMatic=()=>{
+
+  }
   const navigateToTier = () => {
     router(`/tiers`);
   };
@@ -45,8 +51,11 @@ const dispatch=useDispatch()
             </div>
           </div> */}
           <div className="flex justify-center w-full bg-base-300 items-center rounded-lg">
-          <ProfilePicture profile={{...user}} updateProfile={(profile:any)=>dispatch(setUserID(profile))}/>
-          </div> 
+            <ProfilePicture
+              profile={{ ...user }}
+              updateProfile={(profile: any) => dispatch(setUserID(profile))}
+            />
+          </div>
           <div className="px-2 pt-2">
             <div>
               <p className="text-secondary text-sm font-normal">User Name</p>
@@ -70,7 +79,7 @@ const dispatch=useDispatch()
             <div className="mt-[26px] mb-6">
               <p className="text-secondary text-sm font-normal">Email</p>
               <h1 className="font-medium	text-[16px] text-black">
-                {user.email || arcanaUser.email || "--"}
+                {user?.email || arcanaUser?.email || "--"}
               </h1>
             </div>
           </div>
@@ -80,13 +89,13 @@ const dispatch=useDispatch()
                 Matic Balance
               </p>
               <h1 className="font-medium	text-[32px] text-black">
-                {currencyBalance || "--"}
+                {currencyBalance > 0 ? currencyBalance?.toFixed(8) : 0}
               </h1>
             </div>
             <div className="mt-[26px]">
               <p className="text-secondary text-sm font-normal">YBT Balance</p>
               <h1 className="font-medium	text-[32px] text-black">
-                {tokenBalance || "--"}
+                {tokenBalance > 0 ? tokenBalance?.toFixed(8) : 0}
               </h1>
             </div>
           </div>
