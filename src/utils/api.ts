@@ -442,7 +442,7 @@ const getAboutpageData = async () => {
 };
 const getDocData = async () => {
   return await axios.get(
-    "https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/docs?populate=*"
+    "https://correct-respect-a6d2bfe249.strapiapp.com/api/docs?populate=*"
   );
 };
 const getDocsRestData = async () => {
