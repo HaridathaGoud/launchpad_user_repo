@@ -22,7 +22,7 @@ import {
 } from "../proposals/utils";
 import { resultsReducer, resultsState } from "./reducers";
 import useContract from "../../../hooks/useContract";
-import DaoResultsShimmer from "../../loaders/DaoResultsShimmer";
+import DaoResultsShimmer from "../../loaders/daoResultsShimmer";
 const ProposalResults = (props: any) => {
   const { address, isConnected } = useAccount();
   const params = useParams();

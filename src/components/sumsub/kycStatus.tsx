@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../ui/Button";
-import StakingShimmer from "../loaders/StakingShimmer";
+import StakingShimmer from "../loaders/stakingShimmer";
 import { useNavigate } from "react-router-dom";
 const KycStatus = (props: any) => {
   const navigate = useNavigate();
