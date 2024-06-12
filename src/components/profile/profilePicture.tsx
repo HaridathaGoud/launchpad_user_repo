@@ -67,7 +67,7 @@ const ProfilePicture = ({ profile, updateProfile }) => {
       )}
       {!loader && (
         <div className="avatar">
-          <div className="md:w-40 md:h-40 rounded-full">
+          <div className="md:w-40 md:h-40 rounded-full border border-[#ffe8e8]">
             <img
               className="h-full w-full object-cover"
               src={

@@ -221,7 +221,7 @@ const ProfileEdit = ({
               required
               placeholder="Email"
               disabled={
-                toasterMessage || state.buttonLoader || arcanaUser.isLoggedIn
+                toasterMessage || state.buttonLoader || arcanaUser?.isLoggedIn
               }
             />
             {state.formErrors.email && (

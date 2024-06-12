@@ -30,7 +30,7 @@ const Profile = () => {
   }, [user, arcanaUser]); // eslint-disable-line react-hooks/exhaustive-deps
   const setProfileInfo = (user:any,arcanaUser:any) => {
     let profile = user ? { ...user } : { ...state.profileInfo };
-    if (arcanaUser.isLoggedIn) {
+    if (arcanaUser?.isLoggedIn) {
       profile = { ...profile, email: arcanaUser.email };
     }
     dispatch({ type: "setProfileInfo", payload: profile });
