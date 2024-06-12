@@ -31,7 +31,6 @@ export default function Tiers() {
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   const GetTiersDetails = async () => {
-    debugger
     setLoader(true);
     try {
       const response = await get(`User/Tiers`);
