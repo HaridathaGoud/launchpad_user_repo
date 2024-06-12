@@ -17,7 +17,7 @@ import {
 import { postSigner } from "../utils/api";
 import { useSelector } from "react-redux";
 import { auth } from "../appConfig";
-import { supportedChains } from "../utils/supportedChains";
+import { supportedChainIds } from "../utils/supportedChains";
 export default function useContractMethods() {
   const PRIVATE_KEY = process.env.REACT_APP_OWNER_PRIVATE_KEY;
   const { chain } = useNetwork();
@@ -70,7 +70,7 @@ export default function useContractMethods() {
     return _poolLevel;
   }
   async function handleNetwork() {
-    const shouldChangeChain=(auth.connected && !supportedChains.includes(auth.chainId)) || (!auth.connected && !supportedChains.includes(chain?.id));
+    const shouldChangeChain=(auth.connected && !supportedChainIds.includes(auth.chainId)) || (!auth.connected && !supportedChainIds.includes(chain?.id));
     if(shouldChangeChain){
       await switchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0,

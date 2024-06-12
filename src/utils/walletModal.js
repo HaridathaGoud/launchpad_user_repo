@@ -10,11 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCustomerRegisterDetails, setUserID } from '../reducers/rootReducer';
 import { getCUstomers } from '../utils/api';
-import { supportedChains } from '../utils/supported.chains';
+import { supportedChainIds } from '../utils/supportedChains';
 import { store } from '../store'
 import { changeNetwork } from '../hooks/useChangeChain';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import ToasterMessage from '../utils/tostermessage';
+import { supportedChainIds } from './supportedChains';
 function WalletModal(props) {
   const { connectAsync, connectors, error, isLoading, pendingConnector } = useConnect();
   const [modalShow, setModalShow] = useState(props.modalShow);
@@ -28,7 +29,7 @@ function WalletModal(props) {
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on('chainChanged', async (chain_id) => {
-        if (!supportedChains.includes(chain_id)) {
+        if (!supportedChainIds.includes(chain_id)) {
           await disconnectAsync();
           router('/minnapad/dashboard');
         }

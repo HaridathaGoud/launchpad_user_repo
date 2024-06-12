@@ -8,6 +8,7 @@ import Toast from 'react-bootstrap/Toast';
 import MetamaskIco from '../../assets/images/pop-icon1.svg';
 import WalletConnectIco from '../../assets/images/walletconnect.svg';
 import TrustWalletIco from '../../assets/images/connectwallet.svg';
+import { supportedChainIds } from '../../utils/supportedChains';
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case "SET":
@@ -30,8 +31,8 @@ const WalletConnect = ({ showWalletModal, onWalletConect, onWalletClose, onWalle
             }
             if (!isConnected) {
                 const { account, chain } = await connectAsync({ connector });
-                if (chain.id != process.env.REACT_APP_CHAIN_ID_NUMARIC) {
-                    await switchNetwork({ chainId: process.env.REACT_APP_CHAIN_ID_NUMARIC });
+                if (!supportedChainIds.includes(chain.id)) {
+                    await switchNetwork({ chainId: parseInt(process.env.REACT_APP_CHAIN_ID_NUMARIC || '') });
                     onWalletConect(account);
                     connector.onAccountsChanged = onAccountsChanged;
                     connector.onChainChanged = onChainChanged;
