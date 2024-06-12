@@ -20,7 +20,7 @@ import { navigateToUniswap } from "../../utils/commonNavigations";
 import BreadCrumb from "../../ui/breadcrumb";
 import ConnectToWallet from "../ConnectToWallet";
 import CopyToClipboard from "react-copy-to-clipboard";
-import StakingShimmer from "../loaders/stakingShimmer";
+import StakingShimmer from "../loaders/StakingShimmer";
 const Staking = () => {
   const [state, dispatch] = useReducer(stakingReducer, initialStakingState);
   const {

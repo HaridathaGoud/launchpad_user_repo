@@ -6,7 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Spinner from "../../loaders/spinner";
 import Button from "../../../ui/Button";
 import NoDataFound from "../../../ui/nodatafound";
-import ProposalViewShimmer from "../../loaders/proposalViewShimmer";
+import ProposalViewShimmer from "../../loaders/ProposalViewShimmer";
 const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
