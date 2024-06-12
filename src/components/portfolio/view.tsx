@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import totalstake from "../../assets/images/total-stake.svg";
 import projects from "../../assets/images/project-participate.svg";
 import totalinvest from "../../assets/images/total-invest.svg";
 import userImage from "../../assets/images/avatar.jpg";
+import apiCalls from "../../utils/api.ts"
 import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAccount, useBalance } from "wagmi";
 import ProfilePicture from "../profile/profilePicture";
 import { setUserID } from "../../reducers/rootReducer";
+import { setError } from "../../reducers/layoutReducer.ts";
 
 const View = (props: any) => {
   const router = useNavigate();
   const { user, arcanaUser } = useSelector((store: any) => store.auth);
+  const [usd,setUSD]=useState(0)
   const dispatch = useDispatch();
   const { address } = useAccount();
   const { data: currency, refetch: getCurrency } =
@@ -27,10 +30,20 @@ const View = (props: any) => {
   const currencyBalance = Number(currency?.formatted || 0);
   const tokenBalance = Number(tokenData?.formatted || 0);
   useEffect(()=>{
-    getUSDFromMatic()
+    getUSDFromMatic('matic-network','usd')
   },[currency]);
-  const getUSDFromMatic=()=>{
-
+  const getUSDFromMatic=async (id:string,to:string)=>{
+    try{
+      const response=await apiCalls.getFiatAmount(id,to)
+      if(response.status===200){
+        setUSD(response.data[id][to])
+      }
+      else{
+        dispatch(setError({message:response}))
+      }
+    }catch(err){
+      dispatch(setError({message:err.message ||err}))
+    }
   }
   const navigateToTier = () => {
     router(`/tiers`);
@@ -86,16 +99,15 @@ const View = (props: any) => {
           <div>
             <div className="mt-[26px]">
               <p className="text-secondary text-sm font-normal">
-                Matic Balance
+                {usd} USD
               </p>
               <h1 className="font-medium	text-[32px] text-black">
-                {currencyBalance > 0 ? currencyBalance?.toFixed(8) : 0}
+                {currencyBalance > 0 ? currencyBalance?.toFixed(8) : 0} {process.env.REACT_APP_CURRENCY}
               </h1>
             </div>
             <div className="mt-[26px]">
-              <p className="text-secondary text-sm font-normal">YBT Balance</p>
               <h1 className="font-medium	text-[32px] text-black">
-                {tokenBalance > 0 ? tokenBalance?.toFixed(8) : 0}
+                {tokenBalance > 0 ? tokenBalance?.toFixed(8) : 0} {process.env.REACT_APP_TOKEN_SYMBOL}
               </h1>
             </div>
           </div>
