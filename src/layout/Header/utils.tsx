@@ -134,3 +134,40 @@ export const getNavBarDropdown = (
         },
       ];
 };
+
+export const getMarketplaceNavMenu =(navigate: Function,
+  currentPath: string | undefined,
+  userId: string | undefined)=>{
+   return  [
+    {
+      path: "/marketplace/explore",
+      name: "Explore",
+      action: () => navigate("/explore"),
+      isActive: currentPath?.includes("/marketplace/explore"),
+    },
+    {
+      path: "/marketplace/nft/create",
+      name: "Create",
+      action: () => navigate("/marketplace/nft/create"),
+      isActive: currentPath?.includes("/marketplace/nft/create"),
+    },
+    {
+      path:"/marketplace/mycollections",
+      name: "mycollections",
+      action: () => navigate("/marketplace/mycollections"),
+      isActive: currentPath?.includes("/mycollections"),
+    },
+    {
+      path: "/aboutus",
+      name: "About Us",
+      action: () => navigate("/aboutus"),
+      isActive: currentPath?.includes("/aboutus"),
+    },
+    // {
+    //   path: "/docs",
+    //   name: "Docs",
+    //   action: () => navigate("/docs"),
+    //   isActive: currentPath?.includes("/docs"),
+    // },
+  ];
+}

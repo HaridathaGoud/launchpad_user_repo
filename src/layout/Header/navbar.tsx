@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../ui/NaviLink";
 import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
-import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
+import { getGlobalDropDown, getMarketplaceNavMenu, getNavBarDropdown, getNavMenu } from "./utils";
 import useArcanaAuth from "../../hooks/useArcanaAuth";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
-      navMenuList: getNavMenu(navigate, pathname, user?.id),
+      navMenuList: getMarketplaceNavMenu(navigate, pathname, user?.id),
       navBarDropDownMenu: getNavBarDropdown(
         handleDropdownAction,
         pathname,

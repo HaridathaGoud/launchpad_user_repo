@@ -189,7 +189,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/explorenfts",
+          path: "/marketplace/explore",
           element: <ExploreNfts />,
           errorElement: <ErrorPage />,
         },
