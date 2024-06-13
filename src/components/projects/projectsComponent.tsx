@@ -16,11 +16,9 @@ const pjctTypes = { Ongoing: "Open", Upcoming: "Upcoming", Closed: "Ended" };
 const Projectscomponent = (props: any) => {
   return (
     <>
-      {/* {cardDetails.length > 0 && props.showpjctType &&  ( */}
       <div className="container mx-auto mt-[32px]">
         <div className="">
           {props.showBreadcrumb && <BreadCrumb />}
-          {/* {(props.cardDetails?.length > 0 || props.from !== "dashBoard") && ( */}
           {(props.cardDetails?.length > 0 || !props?.from) && (
             <div
               className={`flex justify-between mb-4 mt-5 md:items-center ${
@@ -33,7 +31,6 @@ const Projectscomponent = (props: any) => {
                   {" "}
                   {process.env.REACT_APP_OFFERING_TITLE}s
                 </span>{" "}
-                {/* Projects */}
               </h2>
               {props.pageSize < 9 && props.cardDetails?.length >= 3 && (
                 <Link
@@ -43,7 +40,6 @@ const Projectscomponent = (props: any) => {
                   View All
                 </Link>
               )}
-
               {props.pageSize >= 9 && (
                 <div className="mb-3 d-flex">
                   <div className="relative">
@@ -54,7 +50,7 @@ const Projectscomponent = (props: any) => {
                       onKeyUp={(value) => props?.handleSearch(value)}
                       ref={props.endedIgosRef}
                     />
-                    <span
+                    <button
                       className="icon md search absolute right-4 bottom-4 cursor-pointer md:w-72"
                       onClick={() => props?.handleSearchIcon(props?.search)}
                     />
@@ -95,7 +91,6 @@ const Projectscomponent = (props: any) => {
                               ></span>{" "}
                               {item?.publicOrPrivateStatus}
                             </p>
-
                             <p className="text-warning-content">
                               <span
                                 className={`icon  ${
@@ -127,27 +122,6 @@ const Projectscomponent = (props: any) => {
                               <p className="text-secondary text-3lines min-h-[72px]">
                                 {item?.description}
                               </p>
-                              {/* <div
-                                  className={`bg-base-300 rounded-2xl p-2.5 my-2`}
-                                >
-                                  <label
-                                    className={`text-base-200 text-base font-medium`}
-                                  >
-                                    Cast & Crew
-                                  </label>
-                                  {item.cast_Crews?.length == 0 ? (
-                                    <p className="text-base font-normal text-secondary h-12 overflow-hidden">
-                                      -
-                                    </p>
-                                  ) : (
-                                    <p className="text-base font-normal text-secondary h-12 overflow-hidden">
-                                      {item.cast_Crews
-                                        .map((obj) => obj["name"])
-                                        .join(", ")}
-                                    </p>
-                                  )}
-                                </div> */}
-
                               <div className="flex justify-between mt-2">
                                 <label
                                   htmlFor="totalRaise"
@@ -237,12 +211,9 @@ const Projectscomponent = (props: any) => {
               ))}
             </div>
           )}
-          {/* {props.cardDetails?.length === 0 && props.from !== "dashBoard" && ( */}
           {props.cardDetails?.length === 0 && !props.from  && (
             <NoDataFound text={props.loaderMessage} />
           )}
-          {/* </>
-            )} */}
           {props.cardDetails?.length !== 0 &&
             props.loadData &&
             props.loader && (
@@ -255,12 +226,12 @@ const Projectscomponent = (props: any) => {
             !props.loader && (
               <div className="text-center mt-4">
                 {" "}
-                <span
+                <button
                   onClick={props.fetchMoreData}
                   className="cursor-pointer text-base text-primary font-semibold"
                 >
                   See More
-                </span>
+                </button>
                 <span
                   onClick={props.fetchMoreData}
                   className="mx-auto block icon see-more cursor-pointer mt-[-4px]"
@@ -282,5 +253,4 @@ const Projectscomponent = (props: any) => {
     </>
   );
 };
-
 export default Projectscomponent;
