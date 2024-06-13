@@ -194,17 +194,27 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/topsellerdetailview",
+          path: "/marketplace/nft/create",
+          element: <ExploreNfts />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collection/create",
+          element: <ExploreNfts />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collection/:id",
           element: <TopsellerDetailview />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/mycollections",
+          path: "/marketplace/mycollections",
           element: <MycollectionsComponent />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/assets/:tokenId?/:collectionAddress?/:nftId",
+          path: "/marketplace/nft/:tokenId?/:collectionAddress?/:nftId",
           element: <Detailpage />,
           errorElement: <ErrorPage />,
         },

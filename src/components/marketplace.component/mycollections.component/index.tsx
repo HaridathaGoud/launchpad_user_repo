@@ -85,7 +85,7 @@ function MyCollections(props: any) {
 
   const navigateToAsset = (item) => {
     navigate(
-      `/marketplace/assets/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
+      `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
     );
   };
   const saveView = async (item) => {

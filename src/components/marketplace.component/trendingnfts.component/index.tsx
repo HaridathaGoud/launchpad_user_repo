@@ -75,7 +75,7 @@ function TrendingNfts(props) {
     await postMarketplace(`User/SaveViewer`, obj)
       .then((response: any) => {
         router(
-          `/marketplace/assets/${item.tokenId}/${
+          `/marketplace/nft/${item.tokenId}/${
             item?.collectionContractAddress || item?.creatorWalletAddress
           }/${item.id}`
         );
@@ -87,7 +87,7 @@ function TrendingNfts(props) {
 
   const connectHandlePage = (item) => {
     router(
-      `/marketplace/assets/${item.tokenId}/${
+      `/marketplace/nft/${item.tokenId}/${
         item?.collectionContractAddress || item?.creatorWalletAddress
       }/${item.id}`
     );

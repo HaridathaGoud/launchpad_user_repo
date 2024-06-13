@@ -57,7 +57,7 @@ const TopSeller = () => {
               {!loader && (
                 <div className="carousel container mx-auto gap-3" >
                   {visibleItems?.map((item: any, idx: any) => (
-                    <NaviLink path={`/topsellerdetailview`}>
+                    <NaviLink path={`/collection/${item.id}`}>
                       <div
                         key={idx}
                         className="carousel-item inline-block max-sm:w-full md:w-[380px]"

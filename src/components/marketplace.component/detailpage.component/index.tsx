@@ -651,7 +651,7 @@ const DetailPage = (props: any) => {
     await postMarketplace(`User/SaveViewer`, obj)
       .then((response: any) => {
         router(
-          `/marketplace/assets/${item.tokenId}/${
+          `/marketplace/nft/${item.tokenId}/${
             item?.collectionContractAddress || item?.creatorWalletAddress
           }/${item.id}`
         );
@@ -666,7 +666,7 @@ const DetailPage = (props: any) => {
   const notConnectCollectionClick = (item) => {
     scrollableRef.current.scrollIntoView(0, 0);
     router(
-      `/marketplace/assets/${item.tokenId}/${
+      `/marketplace/nft/${item.tokenId}/${
         item?.collectionContractAddress || item?.creatorWalletAddress
       }/${item.id}`
     );
