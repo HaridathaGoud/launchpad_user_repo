@@ -70,7 +70,6 @@ export default function useContractMethods() {
     return _poolLevel;
   }
   async function handleNetwork() {
-    console.log(auth.connected && auth.chainId)
     const shouldChangeChain=(auth.connected && !supportedChainIds.includes(auth.chainId)) || (!auth.connected && !supportedChainIds.includes(chain?.id));
     if(shouldChangeChain){
       await switchNetwork({
@@ -455,8 +454,6 @@ export default function useContractMethods() {
     const wallet = new ethers.Wallet(private_key, provider);
     const MSG_HASH = ethers.utils.arrayify(finalAggHash);
     const validSign = await wallet.signMessage(MSG_HASH);
-    console.log(uriArr, aggHash,
-      { signature: validSign, nonce },nftPrice.toString())
     if (coinDetails === "Matic") {
       return mintNativeWithWagmi(
         uriArr,
