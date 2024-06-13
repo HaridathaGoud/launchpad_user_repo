@@ -11,6 +11,11 @@ export const getGlobalDropDown = (navigate: Function) => {
       image: "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
       action: () => navigate("/daos"),
     },
+    {
+      name: "Marketplace",
+      image: "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
+      action: () => navigate("/marketplace"),
+    },
   ];
 };
 export const getNavMenu = (
