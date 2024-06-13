@@ -59,7 +59,7 @@ const ProfilePicture = ({ profile, updateProfile }) => {
     }
   };
   return (
-    <div className="relative profile-size md:w-40 xl-4 hover:opacity-80 md:ml-2.5">
+    <div className="relative profile-size md:w-40 xl-4 hover:opacity-70 md:ml-2.5">
       {loader && (
         <div className="animate-pulse space-x-4">
           <div className="w-40 h-40 mx-auto rounded-full bg-slate-200  max-w-md"></div>
@@ -67,7 +67,7 @@ const ProfilePicture = ({ profile, updateProfile }) => {
       )}
       {!loader && (
         <div className="avatar">
-          <div className="md:w-40 md:h-40 rounded-full">
+          <div className="md:w-40 md:h-40 rounded-full border border-[#ffe8e8]">
             <img
               className="h-full w-full object-cover"
               src={

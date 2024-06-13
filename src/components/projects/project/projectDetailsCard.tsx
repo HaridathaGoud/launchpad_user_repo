@@ -15,7 +15,7 @@ const statusColourList: any = {
   Closed: "dot-red",
   upcoming: "dot-orange",
 };
-const ProjectDetailsCard = (props: any) => {
+const ProjectDetailsCard = (props: any) => {  
   return (
     <div className="lg:col-span-4 max-sm:mt-4">
       <div className="border bg-primary-content border-neutral-content relative rounded-[15px] py-5 px-3.5 ">
@@ -290,7 +290,7 @@ const ProjectDetailsCard = (props: any) => {
                 />
                 <div className="flex justify-between items-start mt-1">
                   <p className="text-xs text-secondary">
-                    {props.swapedPercentage?.toString()?.slice(0, 8)} %
+                    {props.swapedPercentage?.toString()?.slice(0, 4)} %
                   </p>
                   <p className="text-xs text-secondary">
                     {props.pjctInfo?.totalSoldTokens?.toLocaleString() || 0}/

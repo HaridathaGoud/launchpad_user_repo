@@ -70,6 +70,7 @@ export default function useContractMethods() {
     return _poolLevel;
   }
   async function handleNetwork() {
+    console.log(auth.connected && auth.chainId)
     const shouldChangeChain=(auth.connected && !supportedChainIds.includes(auth.chainId)) || (!auth.connected && !supportedChainIds.includes(chain?.id));
     if(shouldChangeChain){
       await switchNetwork({

@@ -170,7 +170,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.invested && item?.invested + ' $' || '--'}
+                              {item?.invested && item?.invested+' '+ process.env.REACT_APP_CURRENCY || '--'}
                             </p>
                           </td>
                           <td>
@@ -185,7 +185,7 @@ const Investments = ({ data, loading, claimBtnLoader, claimIndex, handleClaim, s
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item?.purchasePrice && item?.purchasePrice + ' MATIC'|| '--'}
+                              {item?.purchasePrice && item?.purchasePrice +' '+ process.env.REACT_APP_CURRENCY|| '--'}
                             </p>
                           </td>
                           {/* <td>

@@ -1,5 +1,5 @@
 import React from 'react';
-function IntroPage({data}) {
+function IntroPage({data}) {  
   return (
     <div>
       {data?.data?.map((item) => (<>
@@ -7,7 +7,7 @@ function IntroPage({data}) {
          
             <div>
               <h1 className='text-2xl font-semibold text-secondary'>{item.attributes.intro?.introTitle}</h1>
-              <img src={item.attributes.introimage.data?.attributes?.url} alt="" width='' className='md:w-[564px] mx-auto' />
+              <img src={item.attributes.introimage?.data?.attributes?.url} alt="" width='' className='md:w-[564px] mx-auto' />
               <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.intro?.introDesc}</p>
             </div>             
         </div>       

@@ -1,53 +1,25 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Docstabs from "../../../ui/docstabs";
-import IntroPage from "./intro";
 import VisitUs from "../../visitus";
-import LaunchpadIntro from "./launchpadintro";
-import LaunchpadTypes from "./typesofLaunchpad";
-import LaunchpadBenefits from "./benefits";
-import SuccessfulStories from "./successstories";
-import KeyComponents from "./keycomponents";
-import Tips from "./tips";
-import ConclusionContent from "./conclusioncomponent";
-import StakingPlatform from "./stakingplatform";
-import UnStakingPlatform from "./unStakingplatform";
-import WithDrawPlateformTokens from "./withDrawPlateformTokens";
-import RewardsPlatformTokens from "./rewardsPlatformTokens";
-import AboutDaos from "./aboutDaos";
-import Tokenization from "./tokenization";
-import Membership from "./membership";
-import ApplyIvos from "./applyIvos";
 import Spinner from "../../loaders/spinner";
 import { useDispatch ,connect, useSelector} from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
-import { BronzeTier } from "./BronzeTier";
-import { SilverTier } from "./silverTier";
-import { GoldTier } from "./goldTier";
-import { PlatinumTier } from "./platinumTier";
-import { DiamondTier } from "./diamondTier";
-import { BlueTier } from "./blueTier";
-import Proposals from "./proposals";
-import SelectERC20token from "./selectERC20token";
-import { clearDocsData, clearDocsPageRestData, getDocPageRestDeatils, getDocsDeatils } from "./strapiReducer";
+import Markdown from 'react-markdown';
+import { clearDocsData, getDocsDeatils } from "./strapiReducer";
 
 const Docs = (props:any) => {
   const [activeTab, setActiveTab] = useState(-1);
   const [activeStep, setActiveStep] = useState(0);
   const docsData = useSelector((store: any) => store.strapiData.docsData);
-  const docsPageRestData = useSelector((store: any) => store.strapiData.docsPageRestData);
   const rootDispatch = useDispatch();
   const getDocsData = async () => {
     await props.getDocsData();
   };
-  const getDocsRestData=async()=>{
-    await props.getDocsRestData();
-  }
+
   useEffect(() => {
     getDocsData();
-    getDocsRestData();
     return () => {
       props.clearDocs();
-      props.clearDocsRestData();
     };
   }, []);
   if (docsData?.error) rootDispatch(setError(docsData?.error));
@@ -61,43 +33,47 @@ const Docs = (props:any) => {
             name: "Introduction to Launchpads",
             icon: "checkpoints",
             activeIcon: "checkpointsActive",
-            content: <LaunchpadIntro data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.IntroductiontoLaunchpad}</Markdown>,
           },
           {
             name: "Types of Launchpads",
             icon: "amount",
             activeIcon: "amountActive",
-            content: <LaunchpadTypes data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.TypesofLaunchpad}</Markdown>,
           },
           {
             name: "Benefits of Launchpads",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <LaunchpadBenefits data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.BenefitsofLaunchpads}</Markdown>,
           },
           {
             name: "Successful Stories",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <SuccessfulStories data={docsData} />,
+            content: <div>
+              <Markdown>{docsData?.data?.[0]?.attributes?.SuccessfulStories}</Markdown>
+              <Markdown>{docsData?.data?.[0]?.attributes?.SuccessfulStoriesfirstblock}</Markdown>
+              <Markdown>{docsData?.data?.[0]?.attributes?.SuccessfulStoriessecondblock}</Markdown>
+            </div>,
           },
           {
             name: "Key Components",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <KeyComponents data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.KeyComponents}</Markdown>,
           },
           {
             name: "Tips for Participants",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Tips data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.TipsforParticipants}</Markdown>,
           },
           {
             name: "Conclusion",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <ConclusionContent data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.Conclusion}</Markdown>,
           },
         ],
       },
@@ -108,25 +84,25 @@ const Docs = (props:any) => {
             name: "Staking Platform Tokens",
             icon: "warning",
             activeIcon: "warningactive",
-            content: <StakingPlatform data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.StakingPlatformTokens}</Markdown>,
           },
           {
             name: "Unstaking Platform Tokens",
             icon: "amount",
             activeIcon: "amountActive",
-            content: <UnStakingPlatform data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.UnstakingPlatformTokens}</Markdown>,
           },
           {
             name: "Withdraw Platform Tokens",
             icon: "confirm",
             activeIcon: "confirmActive",
-            content: <WithDrawPlateformTokens data={docsData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.WithdrawPlatformTokens}</Markdown>,
           },
           {
             name: "Rewards Platform Tokens",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <RewardsPlatformTokens data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.RewardsPlatformTokens}</Markdown>,
           },
         ],
       },
@@ -137,37 +113,37 @@ const Docs = (props:any) => {
             name: "Bronze Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <BronzeTier data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.BronzeTier}</Markdown>,
           },
           {
             name: "Silver Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <SilverTier data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.SilverTier}</Markdown>,
           },
           {
             name: "Gold Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <GoldTier data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.GoldTier}</Markdown>,
           },
           {
             name: "Platinum Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <PlatinumTier data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.PlatinumTier}</Markdown>,
           },
           {
             name: "Diamond Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <DiamondTier data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.DiamondTier}</Markdown>,
           },
           {
             name: "Blue Diamond Tier",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <BlueTier data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.BlueDiamond}</Markdown>,
           },
         ],
       },
@@ -178,13 +154,13 @@ const Docs = (props:any) => {
             name: "Tokenization",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Tokenization data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.Tokenization}</Markdown>,
           },
           {
             name: "Membership",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Membership data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.Membership}</Markdown>,
           },
         ],
       },
@@ -196,13 +172,13 @@ const Docs = (props:any) => {
             name: "DOA’s",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <AboutDaos data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.DAOs}</Markdown>,
           },
           {
             name: "Proposals",
             icon: "confirmation",
             activeIcon: "confirmationActive",
-            content: <Proposals data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.Proposals}</Markdown>,
           },
         ],
       },
@@ -211,17 +187,18 @@ const Docs = (props:any) => {
         content: [
           {
             name: "Steps To Apply IVO’s",
-            content: <ApplyIvos data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.StepsToApplyIVOs}</Markdown>,
           },
           {
             name: "Why I select ERC 20 token",
-            content: <SelectERC20token data={docsPageRestData} />,
+            content: <Markdown>{docsData?.data?.[0]?.attributes?.WhyIselectERCtoken}</Markdown>,
           },
         ],
       },
     ],
-    [docsData,docsPageRestData]
+    [docsData]
   );
+  
   
   return (
     <>
@@ -242,7 +219,7 @@ const Docs = (props:any) => {
             </div>
           )}
           {activeTab > -1 && tabs[activeTab].content[activeStep].content}
-          {activeTab === -1 && <IntroPage data={docsData} />}
+          {activeTab === -1 && <Markdown>{docsData?.data?.[0]?.attributes?.intro}</Markdown>}
         </div>
       </div>
       <div className="pt-36">
@@ -260,14 +237,8 @@ const connectDispatchToProps = (dispatch: any) => {
     getDocsData: () => {
       dispatch(getDocsDeatils());
     },
-    getDocsRestData:()=>{
-      dispatch(getDocPageRestDeatils());
-    },
     clearDocs: () => {
       dispatch(clearDocsData());
-    },
-    clearDocsRestData: () => {
-      dispatch(clearDocsPageRestData());
     },
     dispatch,
   };

@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import totalstake from "../../assets/images/total-stake.svg";
 import projects from "../../assets/images/project-participate.svg";
 import totalinvest from "../../assets/images/total-invest.svg";
 import userImage from "../../assets/images/avatar.jpg";
+import apiCalls from "../../utils/api.ts"
 import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAccount, useBalance } from "wagmi";
 import ProfilePicture from "../profile/profilePicture";
 import { setUserID } from "../../reducers/rootReducer";
+import { setError } from "../../reducers/layoutReducer.ts";
 
 const View = (props: any) => {
   const router = useNavigate();
   const { user, arcanaUser } = useSelector((store: any) => store.auth);
-const dispatch=useDispatch()
+  const [usd,setUSD]=useState(0)
+  const dispatch = useDispatch();
   const { address } = useAccount();
   const { data: currency, refetch: getCurrency } =
     useBalance({ address }) || {};
@@ -24,15 +27,31 @@ const dispatch=useDispatch()
         | `0x${string}`
         | undefined,
     }) || {};
-  const currencyBalance = currency?.formatted;
-  const tokenBalance = tokenData?.formatted;
+  const currencyBalance = Number(currency?.formatted || 0);
+  const tokenBalance = Number(tokenData?.formatted || 0);
+  useEffect(()=>{
+    getUSDFromMatic('matic-network','usd')
+  },[currency]);
+  const getUSDFromMatic=async (id:string,to:string)=>{
+    try{
+      const response=await apiCalls.getFiatAmount(id,to)
+      if(response.status===200){
+        setUSD(response.data[id][to])
+      }
+      else{
+        dispatch(setError({message:response}))
+      }
+    }catch(err){
+      dispatch(setError({message:err.message ||err}))
+    }
+  }
   const navigateToTier = () => {
     router(`/tiers`);
   };
   return (
     <>
-      <div className="grid w-full mb-4">
-        <div className="tier-card rounded-[16px] bg-primary-content p-[18px] grid md:grid-cols-3 gap-2">
+     
+        <div className="tier-card rounded-[16px] bg-primary-content p-[18px] grid md:grid-cols-3 gap-6 mb-6">
           {/* <div className="relative profile-size flex justify-center xl-4">
             <div className="avatar">
               <div className="md:w-40 md:h-40 rounded-full">
@@ -44,12 +63,16 @@ const dispatch=useDispatch()
               </div>
             </div>
           </div> */}
-          <div className="flex justify-center w-full bg-base-300 items-center rounded-lg">
-          <ProfilePicture profile={{...user}} updateProfile={(profile:any)=>dispatch(setUserID(profile))}/>
-          </div> 
-          <div className="px-2 pt-2">
+          <div className="flex justify-center w-full  items-center rounded-lg">
+            <ProfilePicture
+              profile={{ ...user }}
+              updateProfile={(profile: any) => dispatch(setUserID(profile))}
+            />
+          </div>
+          <div className=" grid gap-4">
             <div>
-              <p className="text-secondary text-sm font-normal">User Name</p>
+              <p className="text-sm font-normal text-secondary opacity-[0.9]">User Name</p>
+              <p className="font-medium text-sm text-secondary">
               {user?.userName ? (
                 <span className="bg-[#E3F8FF] text-[#035388] text-[10px] font-semibold px-3 py-1 rounded-full">
                   {user?.userName}
@@ -57,42 +80,43 @@ const dispatch=useDispatch()
               ) : (
                 "--"
               )}
+              </p>
             </div>
-            <div className="mt-[26px] mb-6">
-              <p className="text-secondary text-sm font-normal">
+            <div className="">
+              <p className="text-sm font-normal text-secondary opacity-[0.9]">
                 Wallet Address
               </p>
-              <h1 className="font-medium	text-[16px] text-black">
+              <p className="font-medium text-sm text-secondary break-all">
                 {/* 150,015.0 YBT */}
                 {address ? address : "--"}
-              </h1>
-            </div>
-            <div className="mt-[26px] mb-6">
-              <p className="text-secondary text-sm font-normal">Email</p>
-              <h1 className="font-medium	text-[16px] text-black">
-                {user.email || arcanaUser.email || "--"}
-              </h1>
-            </div>
-          </div>
-          <div>
-            <div className="mt-[26px]">
-              <p className="text-secondary text-sm font-normal">
-                Matic Balance
               </p>
-              <h1 className="font-medium	text-[32px] text-black">
-                {currencyBalance || "--"}
-              </h1>
             </div>
-            <div className="mt-[26px]">
-              <p className="text-secondary text-sm font-normal">YBT Balance</p>
-              <h1 className="font-medium	text-[32px] text-black">
-                {tokenBalance || "--"}
-              </h1>
-            </div>
+            <div>
+              <p className="text-sm font-normal text-secondary opacity-[0.9]">Email</p>
+              <p className="font-medium text-sm text-secondary">
+                {user?.email || arcanaUser?.email || "--"}
+              </p>
+            </div>           
           </div>
+          <div> 
+              <p className="text-sm font-normal text-secondary opacity-[0.9]">USD</p>        
+              <p className="text-secondary text-sm font-medium">
+                {usd} 
+              </p>
+              <div className="my-4">
+            <p className="text-sm font-normal text-secondary opacity-[0.9]">{process.env.REACT_APP_CURRENCY}</p>
+            <p className="font-medium	text-sm text-secondary">
+              {currencyBalance > 0 ? currencyBalance?.toFixed(8) : 0}
+            </p>
+              </div>
+              <p className="text-sm font-normal text-secondary opacity-[0.9]">{process.env.REACT_APP_TOKEN_SYMBOL}</p>
+              <p className="font-medium	text-sm text-secondary">
+                {tokenBalance > 0 ? tokenBalance?.toFixed(8) : 0} 
+              </p>                    
+          </div>          
         </div>
-      </div>
-      <div className="grid md:grid-cols-3 gap-4">
+    
+      <div className="grid md:grid-cols-3 gap-6">
         <div className="tier-card rounded-[16px] bg-primary-content p-[18px]">
           <div className="flex gap-2">
             <img src={totalstake} alt="" />
