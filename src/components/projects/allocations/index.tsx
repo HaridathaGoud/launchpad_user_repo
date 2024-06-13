@@ -7,7 +7,7 @@ import { get } from '../../../utils/api';
 import AllocationsView from  './allocations';
 import { ethers } from "ethers";
 import useContract from '../../../hooks/useContract';
-import { BuyTokenDrawer } from './buyTokenDrawer';
+import { BuyTokenDrawer } from './BuyTokenDrawer';
 import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
 
  const Allocations = (props:any) => {
@@ -219,7 +219,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
             dispatch({ type: "setIsBuying", payload: false });
           });
       };
-  return (<> 
+  return (<>
     {loader && (
       <AllocationsShimmer />
     )}
@@ -236,7 +236,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
 
         {state.shouldOpenDrawer && (
         <BuyTokenDrawer
-        shouldOpenDrawer={state.shouldOpenDrawer} 
+        shouldOpenDrawer={state.shouldOpenDrawer}
         handleDrawerActions={handleDrawerActions}
         drawerStep={state.drawerStep}
         allocationVolume={state.allocationVolume}
@@ -246,7 +246,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
         handleBuyToken={handleBuyToken}
         isBuying={state.isBuying}
         handleOk={handleOk} />
-      )} 
+      )}
     </>)
 }
 export default Allocations;

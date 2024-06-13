@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAccount, useBalance } from "wagmi";
 import { get } from "../../utils/api";
 import Button from "../../ui/Button";
-import TiresShimmer from "../loaders/tiresShimmers";
+import TiresShimmer from "../loaders/TiresShimmers";
 import { setError } from "../../reducers/layoutReducer";
 import { useDispatch } from "react-redux";
 
@@ -59,7 +59,7 @@ export default function Tiers() {
     return (
         <div className="flex flex-col gap-2">
             {features.split('<p>').map((point:any, index:any) => {
-                if (index !== 0) { 
+                if (index !== 0) {
                     const text = point.split('</p>')[0];
                     return (
                         <div key={index} className="flex gap-2">
@@ -95,7 +95,7 @@ export default function Tiers() {
                 key={tier.name + tier.volume}
               >
                 <div className="p-6">
-                  <span className={` font-semibold text-sm px-2.5 py-1 rounded-[24px] 
+                  <span className={` font-semibold text-sm px-2.5 py-1 rounded-[24px]
                   ${tier.name == 'Bronze' ? "bg-[#FBF1E9] text-[#DA7821]":""}
                   ${tier.name == 'Silver' ? "bg-[#FFE3EC] text-[#620042]":""}
                   ${tier.name == 'Gold' ? "bg-[#EDE5D0] text-[#A67D13]":""}

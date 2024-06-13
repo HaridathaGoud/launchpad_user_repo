@@ -1,7 +1,6 @@
 import React from "react";
-import logo from "../../../assets/images/yb-logo.svg";
-import NaviLink from "../../../ui/NaviLink";
-
+import logo from "../../assets/images/yb-logo.svg";
+import NaviLink from "../../ui/NaviLink";
 const FooterComponent = () => {
   return (
     <>
@@ -18,7 +17,6 @@ const FooterComponent = () => {
             broadcast or cable television providers.
           </p>
          </div>
-
           <div className="grid grid-cols-6 gap-3">
             <a
               href="https://twitter.com/YellowblockNet"
@@ -77,9 +75,7 @@ const FooterComponent = () => {
             Projects
           </NaviLink>
           <NaviLink
-            path="https://yellowblock.net/aboutus/"
-            target="_blank"
-            rel="noreferrer"
+            path="/aboutus"
             type="footerNav"
           >
             About Us
@@ -146,31 +142,6 @@ const FooterComponent = () => {
           </a>
           <span className="text-secondary opacity-60">Ph:+91 8390150032</span>
         </nav>
-      {/* as of now we hided dowload section in feature we enable it */}
-        {/* <nav className="lg:col-span-2">
-          <header className="text-secondary font-semibold">DOWNLOAD </header>
-          <div className="grid lg:grid-cols-2 gap-2">
-            <div className="flex items-center gap-2">
-              <span className={`playStore icon shrink-0`}></span>
-              <NaviLink path="/comingsoon" type="footerNav">
-                <p className="text-xs font-semibold text-secondary">
-                  GET IT ON
-                </p>
-                <p className="font-semibold text-secondary">Google Play</p>
-              </NaviLink>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={`iStore icon shrink-0`}></span>
-              <NaviLink path="/comingsoon" type="footerNav">
-                <p className="text-xs font-semibold text-secondary">
-                  Download on the
-                </p>
-                <p className="font-semibold text-secondary">Apple Store</p>
-              </NaviLink>
-            </div>
-          </div>
-        </nav> */}
-
       </footer>
       <div className="pb-4 pt-12">
         <p className="text-center text-secondary text-xs">
@@ -180,5 +151,4 @@ const FooterComponent = () => {
     </>
   );
 };
-
 export default FooterComponent;

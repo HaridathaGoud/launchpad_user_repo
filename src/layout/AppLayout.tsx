@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
-import FooterComponent from "../components/layouts/Default/FooterComponent";
+import FooterComponent from "./Footer";
 import ErrorMessage from "../ui/ErrorMessage";
 import ToasterMessage from "../ui/Toaster";
 import { useDispatch, useSelector } from "react-redux";
