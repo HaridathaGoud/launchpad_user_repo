@@ -9,9 +9,9 @@ const Dashboard = (props: any) => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (address) {
-      props.customers(address);
+      props.customers?.(address);
     }
-  }, []);
+  }, [address,props]);
 
   return (
     <div>
