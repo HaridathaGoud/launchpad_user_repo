@@ -78,7 +78,7 @@ const Tabs = (props: any) => {
         <SearchBar onSearch={setSearchInput} inputRef={searchInputRef} />
       </div>
       {isInvestmentsActive && <Investments userInvestments={userInvestments} />}
-      {!isInvestmentsActive && <Claims userClaims={userClaims} />}
+      {!isInvestmentsActive && <Claims userClaims={userClaims} fetchData={fetchData} />}
       {showSeeMore && (
         <div className="flex justify-center items-center">
           <Button type="plain" handleClick={() => fetchData('seeMore')}>

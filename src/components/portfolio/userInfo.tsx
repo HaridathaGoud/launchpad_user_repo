@@ -118,7 +118,7 @@ const UserInfo = () => {
           </div>
           <div className="mt-2">
             <p className="font-medium	text-sm text-secondary w-[40px]">
-              {currencyBalance > 0 ? currencyBalance?.toFixed(2) : "0.00"}
+              {currencyBalance > 0 ? currencyBalance?.toFixed(8) : "0.00"}
             </p>
             <p className="font-normal	text-[12px] text-secondary">
               (1 {process.env.REACT_APP_CURRENCY} ~ {usd?.toFixed(2)} $)
@@ -131,7 +131,7 @@ const UserInfo = () => {
 
         <div className="flex justify-start gap-2 items-center">
           <p className="font-medium	text-sm text-secondary w-[40px]">
-            {tokenBalance > 0 ? tokenBalance?.toFixed(2) : "0.00"}
+            {tokenBalance > 0 ? tokenBalance?.toFixed(8) : "0.00"}
           </p>
         </div>
       </div>
