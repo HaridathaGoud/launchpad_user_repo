@@ -146,12 +146,8 @@ function Referrals(props: any) {
             <span className="text-sm font-normal text-secondary opacity-[0.9]">
               My Earnings :{" "}
             </span>
-            {/* <span className='profile-value'>{authInfo?.customerReferralCode || "--"}</span> */}
             <div className="lg:flex items-center gap-4">
               <div>
-                {/* <span className='profile-label ms-1'>Matic :- </span>
-                <span className='profile-value'>{ earnedValue?.value|| "-"}</span>
-                <span className='profile-value'>{ earnedValue?.maticCoin|| "-"}</span> */}
                 <span className="text-sm font-normal text-secondary opacity-[0.9]">
                   Matic :-{" "}
                 </span>
