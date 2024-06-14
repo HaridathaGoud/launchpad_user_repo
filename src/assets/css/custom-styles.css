@@ -200,7 +200,7 @@ html[data-theme="dark"] .drawer-bid{color: #000 !important;}
 .WalletConnect.icon {  background-position: -524px -333px !important;  width: 40px;  height: 40px;}
 .icon.close-red {  background-position: -494px -10px !important;  width: 20px;  height: 20px;}
 .icon.camera{background-position: -410px -41px !important;  width: 26px;  height: 26px;}
-select{background:url(../images/arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
+select,.nft-dropdown{background:url(../images/arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
 .matic-input{background:url(../images/white-arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
 /* toaster msg start */
 .top-right-toast{z-index: 9999;border-radius: 0.5rem;width: 100%;--tw-text-opacity: 1;color: #000000;max-width: 25rem;--tw-bg-opacity: 1;box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1); animation: slideDownAndFadeIn 0.5s ease-out;}
@@ -279,6 +279,12 @@ html[data-theme="light"] .investments .tier-card{background: url(../images/cardb
 .bg-about{background:url(../images/bg-aboutbanner.svg) no-repeat;background-size: cover;background-position: bottom;}
 .blockchain-shadow{box-shadow: 0px 4px 124px 0px rgba(0, 0, 0, 0.10);}
 .choose-shadow{box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);}
+/* marketplace start  */
+.icon.image-upload{background-position: -9px -551px !important;height: 52px;width: 52px;}
+.icon.properties{background-position: -9px -625px !important;height: 22px;width: 22px;}
+.icon.add-btn{background-position: -45px -620px !important;height: 28px;width: 22px;}
+.toggle:checked,.toggle:checked:hover{border-color: #D60000;color: #fff; background-color: #D60000;}
+.matic-circle.icon{background-position: -93px -615px !important;width: 30px;height: 30px;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

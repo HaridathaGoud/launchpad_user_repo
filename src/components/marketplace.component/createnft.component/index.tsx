@@ -2,7 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 // import MintContract from '../../contracts/singleTokem.json';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
@@ -11,10 +11,13 @@ import { useNavigate } from 'react-router-dom';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 // import { get, post } from '../../utils/api';
 import { connect } from 'react-redux';
-import Modal from 'react-bootstrap/Modal';
+// import Modal from 'react-bootstrap/Modal';
 // import apiUploadPost from '../../../utils/apiUploadPost';
 import Image from 'react-bootstrap/Image';
 import { Spinner, Row, Col } from 'react-bootstrap';
+import BreadCrumb from '../../../ui/breadcrumb';
+import Button from '../../../ui/Button';
+import { Modal, modalActions } from '../../../ui/Modal';
 // import UserContract from '../../contracts/user721contract.json';
 // import { useCollectionDeployer } from '../../utils/useCollectionDeployer';
 // import Confirmations from '../../components/confirmation.modal';
@@ -26,6 +29,7 @@ import { Spinner, Row, Col } from 'react-bootstrap';
 // import { useConnectWallet } from '../../hooks/useConnectWallet';
 // import validSuccess from '../../assets/images/success.png';
 // import loadimg from '../../assets/images/Minnapad-Logo-loader.svg';
+import matic from '../../../assets/images/matic-img.svg'; 
 function CreateNft(props: any) {
   const [show, setShow] = useState(false);
   const router = useNavigate();
@@ -57,12 +61,12 @@ function CreateNft(props: any) {
   const [description, setIsDescription] = useState(null);
   // const { connectWallet } = useConnectWallet();
   const [loading, setLoadings] = useState(false);
-  const [ketError,setKeyError]=useState(false);
-  const [valueError,setValueError]=useState(false);
-  const[indexposition,setIndexPosition]=useState(null);
-  const [valueIndexposition,setValueIndexPosition]=useState(null);
+  const [ketError, setKeyError] = useState(false);
+  const [valueError, setValueError] = useState(false);
+  const [indexposition, setIndexPosition] = useState(null);
+  const [valueIndexposition, setValueIndexPosition] = useState(null);
   const scrollableRef = useRef<any>(null);
-  const[_properties,_setProperties] = useState<any>([]);
+  const [_properties, _setProperties] = useState<any>([]);
   const [confirmations, setConfirmations] = useState({
     showModal: false,
     titles: [
@@ -100,7 +104,7 @@ function CreateNft(props: any) {
     const containsNonAlphabetic = !/^[\p{L} ,.;]+$/u.test(value);
     const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
     if (key == "name") {
-      if(containsHTMLTags || containsEmoji || containsNonAlphabetic){
+      if (containsHTMLTags || containsEmoji || containsNonAlphabetic) {
         setIsNameError('Please enter valid content');
       } else {
         setIsNameError(null)
@@ -112,19 +116,19 @@ function CreateNft(props: any) {
       // } else {
       //   setExternalError(null)
       // }
-      if(!pattern.test(value)){
+      if (!pattern.test(value)) {
         setExternalError('Please enter valid content');
       }
-       else if (value && (reg.test(value) || value.match(emojiRejex))) {
+      else if (value && (reg.test(value) || value.match(emojiRejex))) {
         setExternalError('Please enter valid content');
       }
-       else {
+      else {
         setExternalError(null)
       }
-    
+
     }
     else if (key == "description") {
-      if (value &&(reg.test(value) || value.match(emojiRejex))) {
+      if (value && (reg.test(value) || value.match(emojiRejex))) {
         setIsDescription('Please enter valid content');
       } else {
         setIsDescription(null)
@@ -188,42 +192,42 @@ function CreateNft(props: any) {
   // };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if(nameError==null && externalLinkError==null && description==null && royaltiValidationError==null && salevalidationError==null){
-    setLoader(true);
-    let selectedCollectionData = collectionsLu.find((item: any) => item.id == profile.collectionId);
-    const form = e.currentTarget;
-    let obj = {
-      description: profile.description,
-      external_url: profile.external_Link,
-      image: `ipfs://${filePath}`,
-      name: profile.name,
-      attributes: JSON.stringify(attributes),
-    };
-    if (form.checkValidity() === true) {
-      let nftMetadata = JSON.stringify(obj);
-      const result = await ipfs.add(nftMetadata);
-      if (
-        result.path &&
-        royaltiValidationError == null &&
-        salevalidationError == null &&
-        auctionValidationError == null
-      ) {
-        mint(result, selectedCollectionData);
+    if (nameError == null && externalLinkError == null && description == null && royaltiValidationError == null && salevalidationError == null) {
+      setLoader(true);
+      let selectedCollectionData = collectionsLu.find((item: any) => item.id == profile.collectionId);
+      const form = e.currentTarget;
+      let obj = {
+        description: profile.description,
+        external_url: profile.external_Link,
+        image: `ipfs://${filePath}`,
+        name: profile.name,
+        attributes: JSON.stringify(attributes),
+      };
+      if (form.checkValidity() === true) {
+        let nftMetadata = JSON.stringify(obj);
+        const result = await ipfs.add(nftMetadata);
+        if (
+          result.path &&
+          royaltiValidationError == null &&
+          salevalidationError == null &&
+          auctionValidationError == null
+        ) {
+          mint(result, selectedCollectionData);
+        } else {
+          setValidated(true);
+          setLoader(false);
+        }
       } else {
         setValidated(true);
         setLoader(false);
+        window.scroll({
+          top: 150,
+          left: 100,
+          behavior: 'smooth',
+        });
       }
-    } else {
-      setValidated(true);
-      setLoader(false);
-      window.scroll({
-        top: 150,
-        left: 100,
-        behavior: 'smooth',
-      });
     }
-  }
-};
+  };
   async function mint({ path }: any, selectedCollectionData: any) {
     let contractAddress: string;
     let mintOnPlatform = false;
@@ -529,54 +533,55 @@ function CreateNft(props: any) {
   const handleShowModel = () => {
     setModalErrorMsg(null);
     setShow(true);
+    modalActions('addproperty', 'open')
   };
   const handleSaveAddField = () => {
-    if(ketError==false && valueError==false){
-    let fieldValidation = false;
-    let _properties = [...propertiesFields];
-    for (let trait of _properties) {
-      if (!trait?.trait_type || !trait?.value) {
-        fieldValidation = true;
-      }
-    }
-    if (fieldValidation) {
-      setModalErrorMsg('Please provide valid data');
-    } else {
-      let _attributes = [];
-      for (let i in _properties) {
-        let _obj = {};
-        for (let key in _properties[i]) {
-          _obj[key] = _properties[i][key]
+    if (ketError == false && valueError == false) {
+      let fieldValidation = false;
+      let _properties = [...propertiesFields];
+      for (let trait of _properties) {
+        if (!trait?.trait_type || !trait?.value) {
+          fieldValidation = true;
         }
-        _attributes.push(_obj);
       }
-      setAttributes(_attributes);
-      setShow(false);
+      if (fieldValidation) {
+        setModalErrorMsg('Please provide valid data');
+      } else {
+        let _attributes = [];
+        for (let i in _properties) {
+          let _obj = {};
+          for (let key in _properties[i]) {
+            _obj[key] = _properties[i][key]
+          }
+          _attributes.push(_obj);
+        }
+        setAttributes(_attributes);
+        setShow(false);
+      }
     }
-  }
   };
   const handleFieldChange = (index: any, event: any, type: any) => {
-     const reg = /<(.|\n)*?>/g;
+    const reg = /<(.|\n)*?>/g;
     const emojiRejex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff]|[\u2010-\u2017])/g;
     setModalErrorMsg(null);
     const newFields = [...propertiesFields];
     if (type == 'avathar') {
-       if (event.target.value && (reg.test(event.target.value) || event.target.value.match(emojiRejex))) {
+      if (event.target.value && (reg.test(event.target.value) || event.target.value.match(emojiRejex))) {
         setKeyError(true)
         setIndexPosition(index)
-       }else{
-              setKeyError(false)
-              newFields[index].trait_type = event.target.value;
-       }
+      } else {
+        setKeyError(false)
+        newFields[index].trait_type = event.target.value;
+      }
     } else if (type == 'avatharValue') {
       if (event.target.value && (reg.test(event.target.value) || event.target.value.match(emojiRejex))) {
         setValueError(true)
         setValueIndexPosition(index)
-      }else{
-    setValueError(false)
-     newFields[index].value = event.target.value;
+      } else {
+        setValueError(false)
+        newFields[index].value = event.target.value;
       }
-     
+
     }
     setPropertiesFields(newFields);
   };
@@ -599,7 +604,7 @@ function CreateNft(props: any) {
     }
   };
   function resetProperties() {
-    if(attributes?.length !== 0){
+    if (attributes?.length !== 0) {
       let _attributes = attributes.map((item: any) => { return { ...item } });
       let _properties = [];
       for (let i in _attributes) {
@@ -629,262 +634,453 @@ function CreateNft(props: any) {
   return (
     <>
       <div ref={scrollableRef}></div>
-      <div className="container mx-auto">
+
+      <div className="container mx-auto mt-4 px-3 lg:px-0">
+        <BreadCrumb />
         {' '}
-        <form className="createnft-content" noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
-          <h2 className="createnft-title">Create New NFT</h2>
-          <hr className='top-seller-hr' />           
-          <div className='grid lg:grid-cols-2'>
-          {loading && 
-            <div className="d-flex justify-content-center">
-            <div className='loading-overlay'><div className="text-center image-container">
-            <Image
-                      className=""
-                      src={loadimg}
-                      alt=""
-                    />
-          </div></div>
-          </div>
-            ||<>
-            <Col lg={6}>
-              <Form.Label className="input-label upload-file">Upload file*</Form.Label>
-
-              <div className="upload-doc-style mb-4 doc-style nft-upload-sec p-relative">
-                {profile.logo && <Image src={profile?.logo} width="250" height="250" alt="" className="exp-nft-img" />}
-                {profile?.logo && (
-                  <span className="icon camera create-nft-cam c-pointer" onClick={(e) => deleteImage(e)}></span>
-                )}
-                {!profile.logo && (
-                  <>
-                    <div className="choose-image">
-                      <span>{picloader && <Spinner size="sm" />} </span>
-                      <div>
-                        <Form.Control
-                          required
-                          className="d-none custom-btn active btn"
-                          type="file"
-                          ref={inputRef}
-                          onChange={handlePicChange}
-                        />
-                        <span
-                          className="icon upload-image-icon c-pointer"
-                          onClick={() => inputRef.current?.click()}
-                        ></span>
-                        <p onClick={() => inputRef.current?.click()} className="c-pointer pt-3">
-                          PNG, JPG, JPEG files are allowed
-                        </p>
-                        <p className="image-note-text mt-1">
-                          Note: <span>For best view upload 550X370</span>
-                        </p>
-
-                        <Form.Control.Feedback type="invalid">Please provide a valid NFT image.</Form.Control.Feedback>
-                      </div>
-                    </div>
-                  </>
-                )}
+        <form className="mt-4" noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
+          <div className='grid lg:grid-cols-2 gap-6'>
+            {loading &&
+              <div className="d-flex justify-content-center">
+                <div className='loading-overlay'><div className="text-center image-container">
+                  <img
+                    className=""
+                    src={loadimg}
+                    alt=""
+                  />
+                </div></div>
               </div>
-            </Col>
-            <Col lg={6} className="ps-lg-4">
-              <div className="collection-wrap">
-                <InputGroup className="mb-4 input name-feild">
-                  <Form.Label className="input-label">Name*</Form.Label>
-                  <Form.Control
-                    name="name"
-                    placeholder="Name"
-                    aria-label="Username"
-                    className="input-style"
-                    value={profile.name}
-                    onChange={(e) => handleChange(e, 'name')}
-                    isInvalid={!!nameError}
-                    feedback={nameError}
-                    maxLength={200}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">Please provide a valid name.</Form.Control.Feedback>
-                </InputGroup>
+              || <>
+                <div>
+                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">Upload file <span className='text-[#ff0000]'>*</span></label>
 
-                <InputGroup className="mb-4">
-                  <Form.Label className="input-label">External link</Form.Label>
-                  <p className="note-text">
-                    Minnapad will include a link to this URL on this item's detail page, so that users can click to learn
-                    more about it. You are welcome to link to your own webpage with more details.
-                  </p>
-                  <Form.Control
-                    placeholder="External link"
-                    aria-label="External_link"
-                    onChange={(e) => handleChange(e, 'external_Link')}
-                    className="input-style"
-                    isInvalid={!!externalLinkError}
-                    feedback={externalLinkError}
-                    maxLength={500}
-                  />
-                  <Form.Control.Feedback type="invalid">Please provide a valid content.</Form.Control.Feedback>
-                </InputGroup>
-                <InputGroup className="name-feild mb-4">
-                  <Form.Label className="input-label">Description*</Form.Label>
-                  <p className="note-text">
-                    The description will be included on the item's detail page underneath its image.
-                    {/* Markdown syntax is
-                    supported. */}
-                  </p>
-                  <Form.Control
-                    as="textarea"
-                    aria-label="With textarea"
-                    onChange={(e) => handleChange(e, 'description')}
-                    className="input-style text-white"
-                    placeholder="Description"
-                    isInvalid={!!description}
-                    feedback={description}
-                    maxLength={4000}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">Please provide a valid description.</Form.Control.Feedback>
-                </InputGroup>
-
-                <Form.Group className="mb-3 p-relative" controlId="formPlaintextEmail">
-                  <Form.Label className="input-label">Collection*</Form.Label>
-                  <p className="note-text">This is the collection where your item will appear.</p>
-                  <Form.Select
-                    required
-                    aria-label="Default select example"
-                    className="form-select select-coin c-pointer"
-                    value={profile.collectionId}
-                    onChange={(e) => handleChange(e, 'collectionId')}
-                  >
-                    <option value="">Select Collection</option>
-                    {collectionsLu.map((item) => (
-                      <option value={item.id}>{item.name}</option>
-                    ))}
-                  </Form.Select>
-                  <span className="arrow-collect nft-dropdn-arrow c-pointer" onChange={(e) => handleChange(e, 'collectionId')}></span>
-                  <Form.Control.Feedback type="invalid">Please select collection.</Form.Control.Feedback>
-                </Form.Group>
-
-                <div className="user-properties gradient-border mb-4">
-                  <div className="p-4">
-                    <div className="d-flex justify-content-between">
-                      <div className="d-flex">
-                        <span className="icon properties"></span>
-                        <div className="ms-2">
-                          <h6>Properties</h6>
-                          <p className="small-text">Textual traits that show up as rectangles</p>
-                        </div>
-                      </div>
-                      <span className="icon abb-btn c-pointer" onClick={handleShowModel}></span>
-                    </div>
-                    <div className="d-flex mb-2 row">
-                      {attributes.map((field, index) => (
-                        <Form.Group key={index} className="col-sm-6 col-md-4 col-lg-3 mb-3">
-                          <div className="avatar-box me-lg-2">
-                            <label className="text-overflow-ellipse">{field.trait_type}</label>
-                            <p className="text-overflow-ellipse">{field.value}</p>
+                  <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
+                    {profile.logo && <img src={profile?.logo} width="250" height="250" alt="" className="exp-nft-img" />}
+                    {profile?.logo && (
+                      <span className="icon camera create-nft-cam c-pointer" onClick={(e) => deleteImage(e)}></span>
+                    )}
+                    {!profile.logo && (
+                      <>
+                        <div className="">
+                          <div className='text-center'>
+                            <span
+                              className="icon image-upload c-pointer"
+                              onClick={() => inputRef.current?.click()}
+                            ></span>
+                            <p onClick={() => inputRef.current?.click()} className="my-5 text-base font-semibold text-secondary opacity-60">
+                              PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+                            </p>
+                            <div className='w-[140px] mx-auto relative h-12'>
+                              <input
+                                required
+                                className="opacity-0 z-10 relative w-full"
+                                type="file"
+                                ref={inputRef}
+                                onChange={handlePicChange}
+                              />
+                              <Button btnClassName='absolute left-0 top-0' type='primary' onClick={() => inputRef.current?.click()}>Choose File</Button>
+                            </div>
+                            <p className='text-sm font-normal text-red-600 mt-4'>Please provide a valid NFT image.</p>
                           </div>
-                        </Form.Group>
-                      ))}
-                    </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
+                <div>
+                  <div className="">
+                    <div className="mb-6">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Name<span className='text-[#ff0000]'>*</span></label>
+                      <input
+                        name="name"
+                        placeholder="Name"
+                        aria-label="Username"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        value={profile.name}
+                        onChange={(e) => handleChange(e, 'name')}
+                        isInvalid={!!nameError}
+                        feedback={nameError}
+                        maxLength={200}
+                        required
+                      />
+                      <p className='text-sm font-normal text-red-600 ' type="invalid">Please provide a valid name.</p>
+                    </div>
 
-                <InputGroup className="mb-4 name-feild">
-                  <Form.Label className="input-label">Royalties*</Form.Label>
-                  <Form.Control
-                    type="text"
-                    className="input-style"
-                    placeholder="Suggested: 10%, 20%, 30%"
-                    onChange={(e) => handleChange(e, 'royaltifee')}
-                    isInvalid={!!royaltiValidationError}
-                    feedback={royaltiValidationError}
-                    required
-                    maxLength={13}
-                  />
-                  <Form.Control.Feedback type="invalid">Please provide valid royalties.</Form.Control.Feedback>
-                </InputGroup>
-                <div className="mb-4 sale-switch ">
-                  <div className='toggle-switch c-pointer'>
-                    <Form.Check
-                      className="labl-space c-pointer"
-                      type="switch"
-                      id="custom-switch"
-                      onClick={(e) => handleToggle(e, 'isPutonSale')}
-                      disabled={showAuctionFields && true}
-                    /> <Form.Label>Put on sale</Form.Label></div>
+                    <div className="mb-6">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">External link<span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 ">
+                        Minnapad will include a link to this URL on this item's detail page, so that users can click to learn
+                        more about it. You are welcome to link to your own webpage with more details.
+                      </p>
+                      <input
+                        placeholder="External link"
+                        aria-label="External_link"
+                        onChange={(e) => handleChange(e, 'external_Link')}
+                        className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        isInvalid={!!externalLinkError}
+                        feedback={externalLinkError}
+                        maxLength={500}
+                      />
+                      <p className='text-sm font-normal text-red-600 '>Please provide a valid content.</p>
+                    </div>
+                    <div className=" mb-6">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Description<span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 ">
+                        The description will be included on the item's detail page underneath its image.
+                        {/* Markdown syntax is
+                    supported. */}
+                      </p>
+                      <textarea
+                        as="textarea"
+                        aria-label="With textarea"
+                        onChange={(e) => handleChange(e, 'description')}
+                        className="textarea textarea-bordered w-full resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
+                        rows={5}
+                        placeholder="Description"
+                        isInvalid={!!description}
+                        feedback={description}
+                        maxLength={4000}
+                        required
+                      />
+                      <p className='text-sm font-normal text-red-600 ' type="invalid">Please provide a valid description.</p>
+                    </div>
 
-                  {showSaleFields && (
-                    <>
-                      {' '}
-                      <p className="note-text">You'll receive bids on this item</p>
-                      <div className="mb-3 input-group-style cust-suffix-left">
-                        <div className='d-flex'>
-                          <Form.Control
-                            aria-label="Username"
-                            type="text"
-                            className="input-style  input-leftradius"
-                            placeholder="Enter the price"
-                            onChange={(e) => handleChange(e, 'salePrice')}
-                            isInvalid={!!salevalidationError}
-                            feedback={salevalidationError}
-                            maxLength={13}
-                            required
-                          />
-                          <InputGroup.Text id="basic-addon3" className="input-style input-rightradius8 px-3 ">
-                            WMATIC
-                          </InputGroup.Text>
+                    <div className="mb-6 p-relative" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Collection<span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 mb-2">This is the collection where your item will appear.</p>
+                      <select
+                        required
+                        aria-label="Default select example"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+                        value={profile.collectionId}
+                        onChange={(e) => handleChange(e, 'collectionId')}
+                      >
+                        <option value="">Select Collection</option>
+                        {collectionsLu.map((item) => (
+                          <option value={item.id}>{item.name}</option>
+                        ))}
+                      </select>
+                      <p className='text-sm font-normal text-red-600 ' type="invalid">Please select collection.</p>
+                    </div>
+
+                    <div className="border border-[#A5A5A5] rounded-[28px] mb-6">
+                      <div className="p-4">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center">
+                            <span className="icon properties"></span>
+                            <div className="ms-2">
+                              <h6 className='text-secondary text-base font-normal'>Properties</h6>
+                              <p className="text-secondary text-sm font-normal">Textual traits that show up as rectangles</p>
+                            </div>
+                          </div>
+                          <span className="icon add-btn cursor-pointer" onClick={handleShowModel}></span>
                         </div>
-                        {salevalidationError && <Form.Text className="cust-validmsg">Please provide valid Sale Price.</Form.Text>}
+                        <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
+                          {attributes.map((field, index) => (
+                            <div key={index} className="mb-3 border border-[#939393] rounded-lg p-[14px] text-center">
+                              <div className="avatar-box me-lg-2">
+                                <label className="text-base text-primary font-normal break-words">{field.trait_type}</label>
+                                <p className="text-base text-secondary font-normal break-words">{field.value}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-6">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Supply<span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 ">
+                        The number of items that can be minted. No gas cost to you!
+                      </p>
+                      <input
+                        aria-label="External_link"
+                        className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        maxLength={500}
+                      />
+                    </div>
+                    
+                    <div className="mb-6 p-relative" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Network</label>
+                    <div className="dropdown dropdown-end w-full nft-dropdown">
+                      <div tabindex="0" role="button" class="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"><img className='scale-[0.8]' src={matic}/> Matic</div>
+                      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
+                        <li className='flex flex-row items-center gap-2'> <img className='p-0 hover:bg-transparent scale-[0.8]' src={matic}></img><a className='hover:bg-transparent p-0'>Matic</a></li>
+                       
+                      </ul>
+                    </div>
+                      {/* <select  
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+                      >
+                        <option value=""> <img src={matic}></img>  Matic</option>                       
+                      </select> */}
+                    </div>
+                    <div className="mb-6">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Royalties<span className='text-[#ff0000]'>*</span></label>
+                      <input
+                        type="text"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        placeholder="Suggested: 10%, 20%, 30%"
+                        onChange={(e) => handleChange(e, 'royaltifee')}
+                        isInvalid={!!royaltiValidationError}
+                        feedback={royaltiValidationError}
+                        required
+                        maxLength={13}
+                      />
+                      <p className='text-sm font-normal text-red-600 ' type="invalid">Please provide valid royalties.</p>
+                    </div>
+                    <div className="mb-6 ">
+                      <div className="flex items-center">
+                        <label className="cursor-pointer relative inline-block mt-2">
+                          <span className='align-middle'>
+                            <input
+                              type="checkbox"
+                              id="custom-switch"
+                              onClick={(e) => handleToggle(e, 'isPutonSale')}
+                              disabled={showAuctionFields && true}
+                              className="checkbox checkbox-error opacity-0"
+                            />
+
+                            <span></span>
+                          </span>
+                        </label>
+                        <label className='text-xl font-normal text-secondary ml-3'>Put on sale</label>
                       </div>
 
-                    </>
-                  )}
-                </div>
-                <div className="mb-4 sale-switch">
-                  <div className='toggle-switch'>
-                    <Form.Check
-                      className="labl-space"
-                      type="switch"
-                      id="custom-switch"
-                      onClick={(e) => handleToggle(e, 'isPutonAuction')}
-                      disabled={showSaleFields && true}
-                    /><Form.Label>Put on auction</Form.Label></div>
-                  {showAuctionFields && (
-                    <>
-                      {' '}
-                      <p className="note-text">You'll receive bids on this item</p>
-                      <div className="mb-3 input-group-style d-flex cust-suffix-left">
-                        <Form.Control
+                      {showSaleFields && (
+                        <>
+                          {' '}
+                          <p className="text-secondary opacity-50 text-sm">You'll receive bids on this item</p>
+                          <div className="mb-3 ">
+                            <div className='flex relative'>
+                              <input
+                                aria-label="Username"
+                                type="text"
+                                className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                placeholder="Enter the price"
+                                onChange={(e) => handleChange(e, 'salePrice')}
+                                isInvalid={!!salevalidationError}
+                                feedback={salevalidationError}
+                                maxLength={13}
+                                required
+                              />
+                              <span id="basic-addon3" className=" absolute right-0 px-3 top-5 border-l ">
+                                WMATIC
+                              </span>
+                            </div>
+                            {salevalidationError && <p className='text-sm font-normal text-red-600 '>Please provide valid Sale Price.</p>}
+                          </div>
+
+                        </>
+                      )}
+                    </div>
+                    <div className="mb-6 ">
+                      <div className="flex items-center">
+                        <label className="cursor-pointer relative inline-block mt-2">
+                          <span className='align-middle'>
+                            <input
+                              type="checkbox"
+                              id="custom-switch"
+                              id="custom-switch"
+                              onClick={(e) => handleToggle(e, 'isPutonAuction')}
+                              disabled={showSaleFields && true}
+                              className="checkbox checkbox-error opacity-0"
+                            />
+
+                            <span></span>
+                          </span>
+                        </label>
+                        <label className='text-xl font-normal text-secondary ml-3'>Put on auction</label>
+                      </div>
+
+                      {showAuctionFields && (
+                        <>
+                          {' '}
+                          <p className="text-secondary opacity-50 text-sm">You'll receive bids on this item</p>
+
+                          <div className="flex relative">
+                            <input
+                              aria-label="Username"
+                              type="text"
+                              className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                              placeholder="Enter the price per one bid"
+                              onChange={(e) => handleChange(e, 'auctionPrice')}
+                              isInvalid={!!auctionValidationError}
+                              feedback={auctionValidationError}
+                              maxLength={13}
+                              required
+                            />
+                            <span id="basic-addon3" className=" absolute right-0 px-3 top-5 border-l ">
+                              WMATIC
+                            </span>
+                          </div>
+                          {auctionValidationError && <p className="cust-validmsg">Please provide valid Sale Price.</p>}
+                        </>
+                      )}
+                    </div>
+                    <div className="mb-6">
+                      <div className='flex items-center'>
+                        <input type="checkbox" className="toggle" />
+                        <label className='text-xl font-normal text-secondary ml-3'>Instant sale price</label>
+                      </div>
+                      <p className="text-secondary text-sm opacity-50 mt-3">Enter the price for which the item will be instantly sold</p>
+                      <div className="flex gap-4 items-center mt-3">
+                        <input
                           aria-label="Username"
                           type="text"
-                          className="input-style  input-leftradius"
-                          placeholder="Enter the price per one bid"
-                          onChange={(e) => handleChange(e, 'auctionPrice')}
-                          isInvalid={!!auctionValidationError}
-                          feedback={auctionValidationError}
-                          maxLength={13}
+                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                          placeholder="Enter Unlock Description"
                           required
                         />
-                        <InputGroup.Text id="basic-addon3" className="input-style input-rightradius8 px-3">
-                          WMATIC
-                        </InputGroup.Text>
+                        <select
+                          className="input input-bordered w-1/3 rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+                        >
+                          <option value="">Matic</option>
+                        </select>
                       </div>
-                      {auctionValidationError && <Form.Text className="cust-validmsg">Please provide valid Sale Price.</Form.Text>}
-                    </>
-                  )}
-                </div>
-                <div className="mb-4 sale-switch">
-                  <div className='toggle-switch'>
-                    <Form.Check
-                      className="labl-space"
-                      type="switch"
-                      id="custom-switch"
-                      onClick={(e) => handleToggle(e, 'isUnlockPurchased')}
-                    /><Form.Label>Unlock once purchased</Form.Label></div>
-                  <p className="note-text">Content will be unlocked after successful transaction</p>
-                </div>
-                <div className="text-end mt-4">
-                  <Button className="custom-btn" type="submit" disabled={loader}>
-                    <span>{loader && <Spinner size="sm" />} </span>Create
-                  </Button>
-                </div>
-                <Modal
+                    </div>
+                    <div className="mb-6">
+                      <div className='flex items-center'>
+                        <input type="checkbox" className="toggle" onClick={(e) => handleToggle(e, 'isUnlockPurchased')} />
+                        <label className='text-xl font-normal text-secondary ml-3'>Unlock once purchased</label>
+                      </div>
+                      <p className="text-secondary text-sm opacity-50 mt-3">Content will be unlocked after successful transaction</p>
+                      <input
+                        aria-label="Username"
+                        type="text"
+                        className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        placeholder="Enter Unlock Description"
+                        required
+                      />
+                    </div>
+                    <div className="flex gap-4 items-center justify-end">
+                    <Button btnClassName="custom-btn" type="cancel" disabled={loader}>
+                        <span>{loader && <Spinner size="sm" />} </span>Cancel
+                      </Button>
+                      <Button btnClassName="custom-btn min-w-[127px]" type="primary" disabled={loader}>
+                        <span>{loader && <Spinner size="sm" />} </span>Create
+                      </Button>
+                    </div>
+                    <Modal id={'addproperty'} >
+                      <div>
+                        <h2 className="section-title mt-0 mb-0">Add Properties </h2>
+                        <span className="icon md close-icon c-pointer" onClick={handleClose}></span>
+                        {/* {modalErrorMsg && (
+                        <div variant="danger">
+
+                          <img className='validation-error' src={validError} />
+                          <span>{modalErrorMsg}</span>
+                        </div>
+                        <div className='cust-error-bg'>
+                        <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                        <div>
+                          <p className='error-title error-red'>Error</p>
+                          <p className="error-desc">{modalErrorMsg}</p></div>
+                      </div>
+                      )} */}
+
+                        {/* {propertiesFields?.map((field, index) => (
+                        <Form.Group key={index} className="mb-6">
+                          <div className="me-lg-2 me-2">
+                            <Form.Label className="input-label">Key*</Form.Label>
+                            <Form.Control
+                              aria-label="Username"
+                              type="text"
+                              className="input-style flex-1"
+                              placeholder="Key"
+                              value={field.trait_type}
+                              onChange={(event) => handleFieldChange(index, event, 'avathar')}
+                              maxLength={13}
+                              required
+                              isInvalid={!!ketError}
+                              feedback={ketError}
+                              
+                            />
+                            <Form.Control.Feedback type="invalid">{`${indexposition==index && ketError ? "Please provide valid content" : " " }`}</Form.Control.Feedback>
+                          </div>
+                          {'  '}
+                          <div className="">
+                            <Form.Label className="input-label">Value*</Form.Label>
+
+                            <Form.Control
+                              aria-label="Username"
+                              type="text"
+                              className="input-style"
+                              placeholder="Value"
+                              value={field.value}
+                              onChange={(event) => handleFieldChange(index, event, 'avatharValue')}
+                              maxLength={13}
+                              required
+                              isInvalid={!!valueError}
+                              feedback={valueError}
+                            />
+                             <Form.Control.Feedback type="invalid">{`${valueIndexposition==index && valueError ? "Please provide valid content" : " " }`}</Form.Control.Feedback>
+                          </div>
+                          <div className="pop-delete-mt">
+                            <span
+                              className="icon delete ms-2 c-pointer"
+                              onClick={() => handleRemoveFields(index)}
+                            ></span>
+                          </div>
+                        </Form.Group>
+                      ))} */}
+
+                        
+                        <div  className="mb-6 flex items-center">
+                          <div className="me-lg-2 me-2">
+                            <label className="text-dark text-sm font-normal p-0 mb-2 label block">Key*</label>
+                            <input
+                              aria-label="Username"
+                              type="text"
+                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                              placeholder="Key"
+                              // value={field.trait_type}
+                              // onChange={(event) => handleFieldChange(index, event, 'avathar')}
+                              maxLength={13}
+                              required
+                              // isInvalid={!!ketError}
+                              // feedback={ketError}
+                              
+                            />
+                            {/* <p type="invalid">{`${indexposition==index && ketError ? "Please provide valid content" : " " }`}</p> */}
+                          </div>
+                          {'  '}
+                          <div className="">
+                            <label className="text-dark text-sm font-normal p-0 mb-2 label block">Value*</label>
+
+                            <input
+                              aria-label="Username"
+                              type="text"
+                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                              placeholder="Value"
+                              // value={field.value}
+                              // onChange={(event) => handleFieldChange(index, event, 'avatharValue')}
+                              maxLength={13}
+                              required
+                              isInvalid={!!valueError}
+                              // feedback={valueError}
+                            />
+                             {/* <p type="invalid">{`${valueIndexposition==index && valueError ? "Please provide valid content" : " " }`}</p> */}
+                          </div>
+                          <div className="pop-delete-mt">
+                            <span
+                              className="icon delete ms-2 c-pointer"
+                              // onClick={() => handleRemoveFields(index)}
+                            ></span>
+                          </div>
+                        </div>
+                      
+                      </div>
+                      <div className="nft-props justify-content-end d-flex">
+                        <Button handleClick={handleAddField} btnClassName="custom-btn  me-lg-2">
+                          Add more
+                        </Button>
+                        <Button type='button' handleClick={handleSaveAddField} btnClassName="custom-btn ms-2">
+                          Save
+                        </Button>
+                      </div>
+                    </Modal>
+
+                    {/* <Modal
                   show={show}
                   onHide={handleClose}
                   className="wallet-popup checkout-modal properties-modal add-properties"
@@ -913,7 +1109,7 @@ function CreateNft(props: any) {
                       )}
 
                       {propertiesFields?.map((field, index) => (
-                        <Form.Group key={index} className="d-flex mb-4">
+                        <Form.Group key={index} className="d-flex mb-6">
                           <div className="me-lg-2 me-2">
                             <Form.Label className="input-label">Key*</Form.Label>
                             <Form.Control
@@ -967,11 +1163,11 @@ function CreateNft(props: any) {
                       </Button>
                     </div>
                   </Modal.Body>
-                </Modal>
-                {/* <Confirmations {...confirmations} /> */}
-              </div>
-            </Col>
-            </>}
+                </Modal> */}
+                    {/* <Confirmations {...confirmations} /> */}
+                  </div>
+                </div>
+              </>}
           </div>
         </form>
       </div>
