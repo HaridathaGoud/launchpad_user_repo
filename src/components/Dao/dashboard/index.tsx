@@ -11,7 +11,7 @@ const Dashboard = (props: any) => {
     if (address) {
       props.customers?.(address);
     }
-  }, [address,props]);
+  }, [address]);
 
   return (
     <div>
