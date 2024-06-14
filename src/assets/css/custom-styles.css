@@ -279,6 +279,7 @@ html[data-theme="light"] .investments .tier-card{background: url(../images/cardb
 .bg-about{background:url(../images/bg-aboutbanner.svg) no-repeat;background-size: cover;background-position: bottom;}
 .blockchain-shadow{box-shadow: 0px 4px 124px 0px rgba(0, 0, 0, 0.10);}
 .choose-shadow{box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);}
+.icon.refresh-icon{background-position: -333px -236px !important;height: 20px;width: 20px;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
