@@ -33,7 +33,7 @@ const UserInfo = () => {
   const tokenBalance = Number(tokenData?.formatted || 0);
   useEffect(() => {
     getUSDFromMatic("matic-network", "usd");
-  }, [currency]);
+  }, [currencyBalance]);
   const getUSDFromMatic = async (id: string, to: string) => {
     setFetchingFiat(true);
     try {
@@ -49,12 +49,10 @@ const UserInfo = () => {
       setFetchingFiat(false);
     }
   };
-  const userFiatAmount: number = useMemo(() => {
-    const nativeCurrency = currencyBalance || 0;
-    const fiatCurrency = usd || 0;
-    return nativeCurrency * fiatCurrency;
-  }, [currencyBalance, usd]);
-
+  const fetchBalances = () => {
+    getCurrency();
+    getNativeCurrency();
+  };
   return (
     <div className="tier-card rounded-[16px] bg-primary-content p-[18px] grid md:grid-cols-3 gap-6 mb-6">
       <div className="flex justify-center w-full  items-center rounded-lg">
@@ -87,7 +85,7 @@ const UserInfo = () => {
           </p>
         </div>
         <div>
-          <p className="text-sm font-normal text-secondary opacity-[0.9]">
+          <p className="text-sm font-normal text-secondary opacity-[0.9] ">
             Email
           </p>
           <p className="font-medium text-sm text-secondary">
@@ -96,40 +94,32 @@ const UserInfo = () => {
         </div>
       </div>
       <div>
-        <p className="text-sm font-normal text-secondary opacity-[0.9]">USD</p>
-        <div className="flex justify-start gap-2 items-center">
-          <p className="text-secondary text-sm font-medium">
-            {userFiatAmount > 0 ? userFiatAmount.toFixed(8) : 0}
-          </p>
-          <Button
-            type="plain"
-            btnClassName={""}
-            handleClick={() => getUSDFromMatic("matic-network", "usd")}
-            disabled={fetchingFiat}
-          >
-            {fetchingFiat && <Spinner size="loading-sm" />}
-            {!fetchingFiat && <span className="icon refresh-icon h-full" />}
-          </Button>
-        </div>
         <div className="my-4">
-          <p className="text-sm font-normal text-secondary opacity-[0.9]">
-            {process.env.REACT_APP_CURRENCY}
-          </p>
-          <div className="flex justify-start gap-2 items-center">
-            <p className="font-medium	text-sm text-secondary">
-              {currencyBalance > 0 ? currencyBalance?.toFixed(8) : 0}
+          <div className="flex justify-start gap-4 items-center h-[17px]">
+            <p className="text-sm font-normal text-secondary opacity-[0.9]">
+              {process.env.REACT_APP_CURRENCY}
             </p>
-            <Button
-              type="plain"
-              btnClassName={""}
-              handleClick={() => getCurrency()}
-              disabled={refetchingNativeBalance}
-            >
-              {refetchingNativeBalance &&  <Spinner size="loading-sm" />}
-              {!refetchingNativeBalance && (
+            {(refetchingNativeBalance || refetchingTokenBalance || fetchingFiat) && (
+              <Spinner size="loading-sm" />
+            )}
+            {!refetchingNativeBalance && !refetchingTokenBalance && !fetchingFiat && (
+              <Button
+                type="plain"
+                btnClassName={""}
+                handleClick={() => fetchBalances()}
+                disabled={refetchingNativeBalance}
+              >
                 <span className="icon refresh-icon h-full" />
-              )}
-            </Button>
+              </Button>
+            )}
+          </div>
+          <div>
+            <p className="font-medium	text-sm text-secondary w-[40px]">
+              {currencyBalance > 0 ? currencyBalance?.toFixed(2) : "0.00"}
+            </p>
+            <p className="font-medium	text-sm text-secondary">
+              (1 {process.env.REACT_APP_CURRENCY} ~ {usd?.toFixed(2)} $)
+            </p>
           </div>
         </div>
         <p className="text-sm font-normal text-secondary opacity-[0.9]">
@@ -137,20 +127,9 @@ const UserInfo = () => {
         </p>
 
         <div className="flex justify-start gap-2 items-center">
-          <p className="font-medium	text-sm text-secondary">
-            {tokenBalance > 0 ? tokenBalance?.toFixed(8) : 0}
+          <p className="font-medium	text-sm text-secondary w-[40px]">
+            {tokenBalance > 0 ? tokenBalance?.toFixed(2) : "0.00"}
           </p>
-          <Button
-            type="plain"
-            btnClassName={"text-base"}
-            handleClick={() => getNativeCurrency()}
-            disabled={refetchingTokenBalance}
-          >
-            {refetchingTokenBalance && <Spinner size="loading-sm" />}
-            {!refetchingTokenBalance && (
-              <span className="icon refresh-icon h-full" />
-            )}
-          </Button>
         </div>
       </div>
     </div>
