@@ -103,7 +103,9 @@ const UserInfo = () => {
               <Spinner size="loading-sm" />
             )}
             {!refetchingNativeBalance && !refetchingTokenBalance && !fetchingFiat && (
-              <Button
+             <div  className="tooltip capitalize"
+             data-tip={"Refetch"}>
+               <Button
                 type="plain"
                 btnClassName={""}
                 handleClick={() => fetchBalances()}
@@ -111,13 +113,14 @@ const UserInfo = () => {
               >
                 <span className="icon refresh-icon h-full" />
               </Button>
+             </div>
             )}
           </div>
-          <div>
+          <div className="mt-2">
             <p className="font-medium	text-sm text-secondary w-[40px]">
               {currencyBalance > 0 ? currencyBalance?.toFixed(2) : "0.00"}
             </p>
-            <p className="font-medium	text-sm text-secondary">
+            <p className="font-normal	text-[12px] text-secondary">
               (1 {process.env.REACT_APP_CURRENCY} ~ {usd?.toFixed(2)} $)
             </p>
           </div>
