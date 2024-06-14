@@ -13,7 +13,7 @@ import TopsellerDetailview from "../components/marketplace.component/topsellerde
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
 import TiresShimmer from "../components/loaders/TiresShimmers";
 import StakingShimmer from "../components/loaders/StakingShimmer";
-import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer";
+import ProjectViewShimmer from "../components/loaders/projects/ProjectViewShimmer";
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
 import DashboardShimmers from "../components/loaders/dashboard/dashboardShimmers";
@@ -26,6 +26,7 @@ import MinnapadDashboard from "../components/strapi/minnapaddashboard";
 import AboutUs from "../components/strapi/aboutus";
 import Docs from "../components/strapi/docs";
 import PortfolioShimmer from "../components/loaders/portfolioshimmer";
+import CreatenftComponent from "../components/marketplace.component/createnft.component";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -195,7 +196,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/nft/create",
-          element: <ExploreNfts />,
+          element: <CreatenftComponent />,
           errorElement: <ErrorPage />,
         },
         {

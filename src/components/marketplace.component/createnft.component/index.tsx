@@ -3,29 +3,29 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
-import MintContract from '../../contracts/singleTokem.json';
+// import MintContract from '../../contracts/singleTokem.json';
 import { ethers } from 'ethers';
 import { useAccount } from 'wagmi';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
-import { get, post } from '../../utils/api';
+// import { get, post } from '../../utils/api';
 import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
-import apiUploadPost from '../../utils/apiUploadPost';
+// import apiUploadPost from '../../../utils/apiUploadPost';
 import Image from 'react-bootstrap/Image';
 import { Spinner, Row, Col } from 'react-bootstrap';
-import UserContract from '../../contracts/user721contract.json';
-import { useCollectionDeployer } from '../../utils/useCollectionDeployer';
-import Confirmations from '../../components/confirmation.modal';
-import { isErrorDispaly } from '../../utils/errorHandling';
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import validError from '../../assets/images/validation-error.png';
-import error from '../../assets/images/error.svg';
-import Toast from 'react-bootstrap/Toast';
-import { useConnectWallet } from '../../hooks/useConnectWallet';
-import validSuccess from '../../assets/images/success.png';
-import loadimg from '../../assets/images/Minnapad-Logo-loader.svg';
+// import UserContract from '../../contracts/user721contract.json';
+// import { useCollectionDeployer } from '../../utils/useCollectionDeployer';
+// import Confirmations from '../../components/confirmation.modal';
+// import { isErrorDispaly } from '../../utils/errorHandling';
+// import ToastContainer from 'react-bootstrap/ToastContainer';
+// import validError from '../../assets/images/validation-error.png';
+// import error from '../../assets/images/error.svg';
+// import Toast from 'react-bootstrap/Toast';
+// import { useConnectWallet } from '../../hooks/useConnectWallet';
+// import validSuccess from '../../assets/images/success.png';
+// import loadimg from '../../assets/images/Minnapad-Logo-loader.svg';
 function CreateNft(props: any) {
   const [show, setShow] = useState(false);
   const router = useNavigate();
@@ -44,7 +44,7 @@ function CreateNft(props: any) {
   const [attributes, setAttributes] = useState([]);
   const [propertiesFields, setPropertiesFields] = useState([{ trait_type: null, value: null }]);
   const [validated, setValidated] = useState(false);
-  const { setApprovalForAll, getSignatureForSale } = useCollectionDeployer();
+  // const { setApprovalForAll, getSignatureForSale } = useCollectionDeployer();
   const [royaltiValidationError, setRoyaltiValidationError] = useState(null);
   const [salevalidationError, setSaleValidationError] = useState(null);
   const [auctionValidationError, setAuctionValidationError] = useState(null);
@@ -55,7 +55,7 @@ function CreateNft(props: any) {
   const [success, setSuccess] = useState(null);
   const [scuess, setSucess] = useState(false);
   const [description, setIsDescription] = useState(null);
-  const { connectWallet } = useConnectWallet();
+  // const { connectWallet } = useConnectWallet();
   const [loading, setLoadings] = useState(false);
   const [ketError,setKeyError]=useState(false);
   const [valueError,setValueError]=useState(false);
@@ -153,39 +153,39 @@ function CreateNft(props: any) {
     _obj[key] = value;
     setProfile(_obj);
   };
-  useEffect(() => {
-    if (shouldLog.current) {
-      shouldLog.current = false;
-      checkWalletAndProceed();
-    }
-    scrollableRef?.current?.scrollIntoView(0,0);
-  }, []);
-  async function checkWalletAndProceed() {
-    const response = await connectWallet();
-    if (response) {
-      getCollectionLu();
-    }
-  }
+  // useEffect(() => {
+  //   if (shouldLog.current) {
+  //     shouldLog.current = false;
+  //     checkWalletAndProceed();
+  //   }
+  //   scrollableRef?.current?.scrollIntoView(0,0);
+  // }, []);
+  // async function checkWalletAndProceed() {
+  //   const response = await connectWallet();
+  //   if (response) {
+  //     getCollectionLu();
+  //   }
+  // }
   function _provider() {
     const _connector: any = window?.ethereum;
     const provider = new ethers.providers.Web3Provider(_connector);
     return provider;
   }
 
-  const getCollectionLu = async () => {
-    // window.scroll(0,0);
-    scrollableRef?.current?.scrollIntoView(0,0);
-    setLoadings(true)
-    let id = props.auth.user.id;
-    let res = await get(`User/CollectionLu/${id}/ERC-721`);
-    if (res) {
-      setLoadings(false)
-      setcollectionsLu(res.data);
-      let _obj = { ...profile };
-      setProfile(_obj);
-    }
-    setLoadings(false)
-  };
+  // const getCollectionLu = async () => {
+  //   // window.scroll(0,0);
+  //   scrollableRef?.current?.scrollIntoView(0,0);
+  //   setLoadings(true)
+  //   let id = props.auth.user.id;
+  //   let res = await get(`User/CollectionLu/${id}/ERC-721`);
+  //   if (res) {
+  //     setLoadings(false)
+  //     setcollectionsLu(res.data);
+  //     let _obj = { ...profile };
+  //     setProfile(_obj);
+  //   }
+  //   setLoadings(false)
+  // };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if(nameError==null && externalLinkError==null && description==null && royaltiValidationError==null && salevalidationError==null){
@@ -486,41 +486,41 @@ function CreateNft(props: any) {
     }
   };
 
-  const uploadToServer = async (file: any) => {
-    setPicLoader(true)
-    const body: any = new FormData();
-    setErrorMsg(null);
-    body.append('file', file);
-    let fileType = {
-      'image/png': true,
-      'image/jpg': true,
-      'image/jpeg': true,
-      'image/PNG': true,
-      'image/JPG': true,
-      'image/JPEG': true,
-    };
-    if (fileType[file.type]) {
-      apiUploadPost(`/Upload/UploadFileNew`, body)
-        .then((res) => res)
-        .then((data) => {
-          let _obj = { ...profile };
-          _obj.logo = data[0];
-          setProfile(_obj);
-          setPicLoader(false)
-        })
-        .catch((error) => {
-          setPicLoader(false)
-          setErrorMsg(isErrorDispaly(error));
-          window.scroll(0,0);
-        });
-      const result = await ipfs.add(file);
-      setFilePath(result.path);
-    } else {
-      setPicLoader(false)
-      window.scroll(0,0);
-      setErrorMsg('File is not allowed. You can upload jpg, png, jpeg files');
-    }
-  };
+  // const uploadToServer = async (file: any) => {
+  //   setPicLoader(true)
+  //   const body: any = new FormData();
+  //   setErrorMsg(null);
+  //   body.append('file', file);
+  //   let fileType = {
+  //     'image/png': true,
+  //     'image/jpg': true,
+  //     'image/jpeg': true,
+  //     'image/PNG': true,
+  //     'image/JPG': true,
+  //     'image/JPEG': true,
+  //   };
+  //   if (fileType[file.type]) {
+  //     apiUploadPost(`/Upload/UploadFileNew`, body)
+  //       .then((res) => res)
+  //       .then((data) => {
+  //         let _obj = { ...profile };
+  //         _obj.logo = data[0];
+  //         setProfile(_obj);
+  //         setPicLoader(false)
+  //       })
+  //       .catch((error) => {
+  //         setPicLoader(false)
+  //         setErrorMsg(isErrorDispaly(error));
+  //         window.scroll(0,0);
+  //       });
+  //     const result = await ipfs.add(file);
+  //     setFilePath(result.path);
+  //   } else {
+  //     setPicLoader(false)
+  //     window.scroll(0,0);
+  //     setErrorMsg('File is not allowed. You can upload jpg, png, jpeg files');
+  //   }
+  // };
 
   const handleAddField = () => {
     const newFields = [...propertiesFields, { trait_type: null, value: null }];
@@ -628,27 +628,13 @@ function CreateNft(props: any) {
   };
   return (
     <>
-        <div ref={scrollableRef}></div>
-      <div className="container">
+      <div ref={scrollableRef}></div>
+      <div className="container mx-auto">
         {' '}
-        <Form className="createnft-content" noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
+        <form className="createnft-content" noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
           <h2 className="createnft-title">Create New NFT</h2>
-          <hr className='top-seller-hr' />
-          {errorMsg && (
-              // <Alert variant="danger">
-              //   <Image className='validation-error' src={validError} />
-              //   <span>{errorMsg}</span>
-              // </Alert>
-            <div className='cust-error-bg'>
-              <div className='cust-crd-mr'><Image src={error} alt="" /></div>
-              <div>
-                <p className='error-title error-red'>Error</p>
-                <p className="error-desc">{errorMsg}</p></div>
-            </div>
-            )}
-            
-           
-          <Row>
+          <hr className='top-seller-hr' />           
+          <div className='grid lg:grid-cols-2'>
           {loading && 
             <div className="d-flex justify-content-center">
             <div className='loading-overlay'><div className="text-center image-container">
@@ -982,21 +968,12 @@ function CreateNft(props: any) {
                     </div>
                   </Modal.Body>
                 </Modal>
-                <Confirmations {...confirmations} />
+                {/* <Confirmations {...confirmations} /> */}
               </div>
             </Col>
             </>}
-          </Row>
-        </Form>
-      </div>
-      <div className='p-absolute toaster-center'>
-        <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
-          <Toast show={scuess} className="text-center toster-component">
-            <Toast.Body className="toaster-cust">
-              <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>
-            </Toast.Body>
-          </Toast>
-        </ToastContainer>
+          </div>
+        </form>
       </div>
     </>
   );
