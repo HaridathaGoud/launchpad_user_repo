@@ -11,7 +11,7 @@ export default function BrowseByCategory() {
         <a href="" className='text-primary text-base font-medium'>View All</a>
         </div>
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid lg:grid-cols-4 gap-4">
         <div className='card bg-primary-content border border-slate-200 w-full'>
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1-eFLgJYTN32j3g25R8MoVssmTuWPhatjtA&usqp=CAU" className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
           <div className="flex gap-1 mt-1">
@@ -20,7 +20,7 @@ export default function BrowseByCategory() {
            <div className='flex-1'> <img src="https://i.pinimg.com/236x/33/13/e8/3313e8938fa9ecf5da4b008e0cc6fc65.jpg" alt="" className='h-[100px] object-cover w-full' /></div>
           </div>
           <div className='pt-2 px-5 pb-4'>
-            <h1 className='text-lg text-secondary font-semibold'>Weapons</h1>
+            <h1 className='text-lg text-secondary font-semibold truncate'>Weapons</h1>
           </div>
         </div>
         <div className='card bg-primary-content border border-slate-200 w-full'>
@@ -31,7 +31,7 @@ export default function BrowseByCategory() {
            <div className='flex-1'> <img src="https://i.pinimg.com/236x/20/9d/35/209d35d27284f103f96ef1e4c7024424.jpg" alt="" className='h-[100px] object-cover w-full' /></div>
           </div>
           <div className='pt-2 px-5 pb-4'>
-            <h1 className='text-lg text-secondary font-semibold'>Costumes</h1>
+            <h1 className='text-lg text-secondary font-semibold truncate'>Costumes</h1>
           </div>
         </div>
         </div>

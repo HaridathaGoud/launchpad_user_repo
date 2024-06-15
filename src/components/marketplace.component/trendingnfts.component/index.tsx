@@ -167,13 +167,13 @@ function TrendingNfts(props) {
                         </div>
                         <div className="px-5 pt-10">
                           <div
-                            className=""
+                            className=" truncate"
                             onClick={() => handleProfileRedirect(item)}
                           >
                             <label className="text-secondary text-base">
                               {item?.creatorName || item?.creatorWalletAddress}
                             </label>
-                            <p className="text-lg text-secondary font-semibold">
+                            <p className="text-lg text-secondary font-semibold truncate">
                               {" "}
                               {item.nftName}{" "}
                             </p>
