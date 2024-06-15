@@ -2,7 +2,6 @@ import { signMessage } from "wagmi/actions";
 async function sign(message: string) {
   try {
     const res = await signMessage({ message });
-    console.log(res)
     if (res) {
       return [true, ""];
     } else {
