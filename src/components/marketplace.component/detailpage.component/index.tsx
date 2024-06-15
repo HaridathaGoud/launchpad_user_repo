@@ -1625,18 +1625,17 @@ const DetailPage = (props: any) => {
               </table>
               {bidData.length == 0 && (
                 <>
-                  <div className="text-center">
-                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
-                    <h3 className="text-center text-secondary mt-2">No data found</h3>
-                  </div>
+                  <NoDataFound text ={''}/>
                 </>
               )}
             </div>
-            <section className="mt-5 ">
-              <h2 className="text-[24px] font-semibold text-secondary mb-1 mt-6">
+            <section className="mt-5">
+              <h2 className="text-[24px] font-semibold text-secondary mb-5 mt-6">
                 More from this collection
               </h2>
-              <div className="relative">
+              <div className="min-h-[250px]">
+
+              {moreCollection?.length !==0 && <div className="relative">
                 <div className="carousel gap-4 flex py-2 px-2 md:px-14">
                   {moreCollection?.map((item) => (
                     <div className="carousel-item shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]" key={item.name+item.walletAddress+item.image}>
@@ -1732,12 +1731,13 @@ const DetailPage = (props: any) => {
                   <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
                   <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
                 </div>
-              </div>
+              </div>}
               {moreCollection.length == 0 && (
                 <>
                   <NoDataFound text ={''}/>
                 </>
               )}
+              </div>
             </section>
           </>
         )}
