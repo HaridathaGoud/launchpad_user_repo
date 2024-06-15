@@ -29,7 +29,9 @@ import { Modal, modalActions } from '../../../ui/Modal';
 // import { useConnectWallet } from '../../hooks/useConnectWallet';
 // import validSuccess from '../../assets/images/success.png';
 // import loadimg from '../../assets/images/Minnapad-Logo-loader.svg';
-import matic from '../../../assets/images/matic-img.svg'; 
+import matic from '../../../assets/images/matic-img.svg';
+import logo from '../../../assets/images/default-nft.png'
+
 function CreateNft(props: any) {
   const [show, setShow] = useState(false);
   const router = useNavigate();
@@ -655,7 +657,9 @@ function CreateNft(props: any) {
                   <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">Upload file <span className='text-[#ff0000]'>*</span></label>
 
                   <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
-                    {profile.logo && <img src={profile?.logo} width="250" height="250" alt="" className="exp-nft-img" />}
+                    {profile.logo &&
+                      <img src={profile.logo} width="250" height="250" alt="" className="w-full h-full object-cover rounded-[28px]" />
+                    }
                     {profile?.logo && (
                       <span className="icon camera create-nft-cam c-pointer" onClick={(e) => deleteImage(e)}></span>
                     )}
@@ -685,6 +689,15 @@ function CreateNft(props: any) {
                         </div>
                       </>
                     )}
+                    {/* dont remove this camera icon
+                    <div className="text-lg-center profile-icons cust-pf-icons">
+                      <input
+                        type="file"
+                        name="myImage"
+                        className="icon camera"
+                        onChange={(e) => handlePicChange(e, 'bannar')}
+                      />
+                    </div> */}
                   </div>
                 </div>
                 <div>
@@ -798,16 +811,16 @@ function CreateNft(props: any) {
                         maxLength={500}
                       />
                     </div>
-                    
+
                     <div className="mb-6 p-relative" controlId="formPlaintextEmail">
                       <label className="text-dark text-sm font-normal p-0 mb-2 label block">Network</label>
-                    <div className="dropdown dropdown-end w-full nft-dropdown">
-                      <div tabindex="0" role="button" class="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"><img className='scale-[0.8]' src={matic}/> Matic</div>
-                      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
-                        <li className='flex flex-row items-center gap-2'> <img className='p-0 hover:bg-transparent scale-[0.8]' src={matic}></img><a className='hover:bg-transparent p-0'>Matic</a></li>
-                       
-                      </ul>
-                    </div>
+                      <div className="dropdown dropdown-end w-full nft-dropdown">
+                        <div tabindex="0" role="button" class="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"><img className='scale-[0.8]' src={matic} /> Matic</div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
+                          <li className='flex flex-row items-center gap-2'> <img className='p-0 hover:bg-transparent scale-[0.8]' src={matic}></img><a className='hover:bg-transparent p-0'>Matic</a></li>
+
+                        </ul>
+                      </div>
                       {/* <select  
                         className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                       >
@@ -953,128 +966,84 @@ function CreateNft(props: any) {
                       />
                     </div>
                     <div className="flex gap-4 items-center justify-end">
-                    <Button btnClassName="custom-btn" type="cancel" disabled={loader}>
+                      <Button btnClassName="min-w-[128px] h-[48px]" type="cancel" disabled={loader}>
                         <span>{loader && <Spinner size="sm" />} </span>Cancel
                       </Button>
-                      <Button btnClassName="custom-btn min-w-[127px]" type="primary" disabled={loader}>
+                      <Button btnClassName="min-w-[128px]" type="primary" disabled={loader}>
                         <span>{loader && <Spinner size="sm" />} </span>Create
                       </Button>
                     </div>
                     <Modal id={'addproperty'} >
                       <div>
-                        <h2 className="section-title mt-0 mb-0">Add Properties </h2>
+                        <h2 className="text-base font-semibold text-secondary mt-0 mb-0">Add Properties </h2>
                         <span className="icon md close-icon c-pointer" onClick={handleClose}></span>
-                        {/* {modalErrorMsg && (
-                        <div variant="danger">
+                        {modalErrorMsg && (
+                          <>
+                            <div variant="danger">
 
-                          <img className='validation-error' src={validError} />
-                          <span>{modalErrorMsg}</span>
-                        </div>
-                        <div className='cust-error-bg'>
-                        <div className='cust-crd-mr'><Image src={error} alt="" /></div>
-                        <div>
-                          <p className='error-title error-red'>Error</p>
-                          <p className="error-desc">{modalErrorMsg}</p></div>
+                              <img className='validation-error' src={validError} />
+                              <span>{modalErrorMsg}</span>
+                            </div>
+                            <div className='cust-error-bg'>
+                              <div className='cust-crd-mr'><Image src={error} alt="" /></div>
+                              <div>
+                                <p className='error-title error-red'>Error</p>
+                                <p className="error-desc">{modalErrorMsg}</p></div>
+                            </div>
+                          </>
+                        )}
+
+                        {propertiesFields?.map((field, index) => (
+                          <div className="my-6 flex gap-4 items-center ">
+                            <div>
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label block">Key*</label>
+                              <input
+                                aria-label="Username"
+                                type="text"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                placeholder="Key"
+                                value={field.trait_type}
+                                onChange={(event) => handleFieldChange(index, event, 'avathar')}
+                                maxLength={13}
+                                required
+                                isInvalid={!!ketError}
+                                feedback={ketError}
+
+                              />
+                              <p className='text-sm font-normal text-red-600 ' type="invalid">{`${indexposition == index && ketError ? "Please provide valid content" : " "}`}</p>
+                            </div>
+                            {'  '}
+                            <div className="">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label block">Value*</label>
+
+                              <input
+                                aria-label="Username"
+                                type="text"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                placeholder="Value"
+                                value={field.value}
+                                onChange={(event) => handleFieldChange(index, event, 'avatharValue')}
+                                maxLength={13}
+                                required
+                                isInvalid={!!valueError}
+                                feedback={valueError}
+                              />
+                              <p className='text-sm font-normal text-red-600 ' type="invalid">{`${valueIndexposition == index && valueError ? "Please provide valid content" : " "}`}</p>
+                            </div>
+                            <div className="mt-6">
+                              <span
+                                className="icon delete-icon ml-2 cursor-pointer"
+                                onClick={() => handleRemoveFields(index)}
+                              ></span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      )} */}
-
-                        {/* {propertiesFields?.map((field, index) => (
-                        <Form.Group key={index} className="mb-6">
-                          <div className="me-lg-2 me-2">
-                            <Form.Label className="input-label">Key*</Form.Label>
-                            <Form.Control
-                              aria-label="Username"
-                              type="text"
-                              className="input-style flex-1"
-                              placeholder="Key"
-                              value={field.trait_type}
-                              onChange={(event) => handleFieldChange(index, event, 'avathar')}
-                              maxLength={13}
-                              required
-                              isInvalid={!!ketError}
-                              feedback={ketError}
-                              
-                            />
-                            <Form.Control.Feedback type="invalid">{`${indexposition==index && ketError ? "Please provide valid content" : " " }`}</Form.Control.Feedback>
-                          </div>
-                          {'  '}
-                          <div className="">
-                            <Form.Label className="input-label">Value*</Form.Label>
-
-                            <Form.Control
-                              aria-label="Username"
-                              type="text"
-                              className="input-style"
-                              placeholder="Value"
-                              value={field.value}
-                              onChange={(event) => handleFieldChange(index, event, 'avatharValue')}
-                              maxLength={13}
-                              required
-                              isInvalid={!!valueError}
-                              feedback={valueError}
-                            />
-                             <Form.Control.Feedback type="invalid">{`${valueIndexposition==index && valueError ? "Please provide valid content" : " " }`}</Form.Control.Feedback>
-                          </div>
-                          <div className="pop-delete-mt">
-                            <span
-                              className="icon delete ms-2 c-pointer"
-                              onClick={() => handleRemoveFields(index)}
-                            ></span>
-                          </div>
-                        </Form.Group>
-                      ))} */}
-
-                        
-                        <div  className="mb-6 flex items-center">
-                          <div className="me-lg-2 me-2">
-                            <label className="text-dark text-sm font-normal p-0 mb-2 label block">Key*</label>
-                            <input
-                              aria-label="Username"
-                              type="text"
-                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                              placeholder="Key"
-                              // value={field.trait_type}
-                              // onChange={(event) => handleFieldChange(index, event, 'avathar')}
-                              maxLength={13}
-                              required
-                              // isInvalid={!!ketError}
-                              // feedback={ketError}
-                              
-                            />
-                            {/* <p type="invalid">{`${indexposition==index && ketError ? "Please provide valid content" : " " }`}</p> */}
-                          </div>
-                          {'  '}
-                          <div className="">
-                            <label className="text-dark text-sm font-normal p-0 mb-2 label block">Value*</label>
-
-                            <input
-                              aria-label="Username"
-                              type="text"
-                              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                              placeholder="Value"
-                              // value={field.value}
-                              // onChange={(event) => handleFieldChange(index, event, 'avatharValue')}
-                              maxLength={13}
-                              required
-                              isInvalid={!!valueError}
-                              // feedback={valueError}
-                            />
-                             {/* <p type="invalid">{`${valueIndexposition==index && valueError ? "Please provide valid content" : " " }`}</p> */}
-                          </div>
-                          <div className="pop-delete-mt">
-                            <span
-                              className="icon delete ms-2 c-pointer"
-                              // onClick={() => handleRemoveFields(index)}
-                            ></span>
-                          </div>
-                        </div>
-                      
-                      </div>
-                      <div className="nft-props justify-content-end d-flex">
-                        <Button handleClick={handleAddField} btnClassName="custom-btn  me-lg-2">
+                      <div className="flex gap-4 items-center justify-end mt-10">
+                        <Button handleClick={handleAddField} btnClassName="w-[160px]" type='cancel'>
                           Add more
                         </Button>
-                        <Button type='button' handleClick={handleSaveAddField} btnClassName="custom-btn ms-2">
+                        <Button type='primary' handleClick={handleSaveAddField} btnClassName="w-[160px] min-h-[42px]">
                           Save
                         </Button>
                       </div>

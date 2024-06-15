@@ -205,6 +205,12 @@ select,.nft-dropdown{background:url(../images/arrow.svg) no-repeat !important  ;
 /* toaster msg start */
 .top-right-toast{z-index: 9999;border-radius: 0.5rem;width: 100%;--tw-text-opacity: 1;color: #000000;max-width: 25rem;--tw-bg-opacity: 1;box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1); animation: slideDownAndFadeIn 0.5s ease-out;}
 .icon.green-checked{ height: 26px; width: 26px; background-position: -238px -161px !important;}
+.icon.globe-icon{background-position: -134px -618px !important;height: 28px;width: 28px;}
+.icon.icon-fb{background-position: -177px -617px !important;height: 29px;width: 29px;}
+.icon.icon-twitter{background-position: -229px -617px !important;height: 29px;width: 30px;}
+.icon.icon-linkedIn{background-position: -275px -617px !important;height: 29px;width: 29px;}
+.icon.matic-icon{background-position: -83px -611px !important;height: 40px;width: 40px;}
+.icon.matic-purple{background-position: -6px -663px !important;height: 40px;width: 40px;}
 @keyframes slideDownAndFadeIn {
   0% {
     transform: translateY(-100%);

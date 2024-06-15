@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form, Container, InputGroup, Alert, Button } from 'react-bootstrap';
+// import { Row, Col, Form, Container, InputGroup, Alert, Button } from 'react-bootstrap';
 import { useRef, useState, useEffect } from 'react';
 import { get, post,getCustomer } from '../../utils/api';
 import Image from 'react-bootstrap/Image';
@@ -16,6 +16,9 @@ import error from '../../assets/images/error.svg';
 import validSuccess from '../../assets/images/success.png';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Toast from 'react-bootstrap/Toast';
+import BreadCrumb from '../../../ui/breadcrumb';
+import Button from '../../../ui/Button';
+import logo from '../../../assets/images/default-nft.png'
 function CreateCollection(props: any) {
   const router = useNavigate();
   const { token } = useParams();
@@ -75,9 +78,9 @@ function CreateCollection(props: any) {
     // const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(value);
     // const containsEmoji = /[\u{1F300}-\u{1F6FF}]/u.test(value);
     // const containsNonAlphabetic = !/^[\p{L} ]+$/u.test(value);
-    const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(value);
-    const containsEmoji = /[\u{1F300}-\u{1F6FF}]/u.test(value);
-    const containsNonAlphabetic = !/^[\p{L} ,.;]+$/u.test(value);
+    // const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(value);
+    // const containsEmoji = /[\u{1F300}-\u{1F6FF}]/u.test(value);
+    // const containsNonAlphabetic = !/^[\p{L} ,.;]+$/u.test(value);
     if (key == "collectionName") {
       getCollectioncheck(e)
       if(containsHTMLTags || containsEmoji || containsNonAlphabetic){
@@ -95,13 +98,13 @@ function CreateCollection(props: any) {
       setDescriptionError(null)
     }
 }
-//  else if (key == "urls") {
-//   if (value &&(reg.test(value) || value.match(emojiRejex))) {
-//     setUrlError('Please enter valid content');
-//   }else{
-//     setUrlError(null)
-//   }
-// }
+ else if (key == "urls") {
+  if (value &&(reg.test(value) || value.match(emojiRejex))) {
+    setUrlError('Please enter valid content');
+  }else{
+    setUrlError(null)
+  }
+}
     let _obj: any = { ...profile };
     _obj[key] = value;
     setProfile(_obj);
@@ -334,14 +337,8 @@ function CreateCollection(props: any) {
   return (
     <>
       <div>
-        <Container>
-          <div className="d-flex align-items-center mb-2">
-            <span className="icon back-arrow me-2 me-lg-4 c-pointer mt-lg-2" onClick={handleBack}></span>{' '}
-            <div>
-            <h1 className="section-title">Create collection</h1>
-            <hr className='create-collection-hr' />
-            </div>
-          </div>
+        <div className='container mx-auto mt-4 px-3 lg:px-0'>
+          <BreadCrumb/>
           {errorMsg && (
             // <Alert variant="danger">
             //   <Image className='validation-error' src={validError} />
@@ -354,165 +351,154 @@ function CreateCollection(props: any) {
                 <p className="error-desc">{errorMsg}</p></div>
             </div>
           )}
-          <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)} className="create-collections">
-            <section className="banner-img-upload upload-doc-style doc-style upload-creation">
+          <form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)} className="create-collections">
+            <section className="px-9 py-12 h-[350px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
               <div>
-                <div>
-                  <div className="upload-image upload-doc-style doc-style your-logo">
-                    <Form.Group>
+                <div className='z-50 absolute max-sm:bottom-[-100px] md:relative'>
+                  <div className=" flex justify-center items-center text-center p-4 border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px]">
+                    <div>
                     <span>{picLoader && <Spinner size="sm" />} </span>
                       {profile.logo && (<>
-                        <Image
+                        <img
                           src={profile?.logo}
                           width="250"
                           height="250"
                           alt=""
-                          className="create-profile-image coll-image "
-                        /></>
+                          className="rounded-[28px]"
+                        />
+                        </>
                       )}
                       {!profile.logo && (
                         <>
                           <div >
-                            <span className="icon upload-image-icon c-pointer" onClick={() => profileRef.current?.click("p")}></span>
-                            <p className="c-pointer"  onClick={() => profileRef.current?.click("p")}>
-                              Your Logo <br />
-                            </p>
-                            <p className="image-note-text">
-                              Note: <span>For best view upload 250X250</span>
-                            </p>
-                            <Form.Control
-                              className="d-none btn c-pointer"
+                            <span className="icon image-upload c-pointer" onClick={() => profileRef.current?.click("p")}></span>
+                            <p className="text-base text-secondary font-normal cursor-pointer mt-5"  onClick={() => profileRef.current?.click("p")}>  Your Logo </p>
+                            <p className="text-base text-secondary font-normal">  250 X 250  </p>
+                            <input
+                              className="hidden cursor-pointer"
                               required
                               type="file"
                               ref={profileRef}
                               onChange={(e) => handlePicChange(e, 'profile')}
                             />{' '}
-                            <Form.Control.Feedback type="invalid" className="mb-validation ">
+                            <p className='text-sm font-normal text-red-600 mt-4' type="invalid">
                               Please provide a valid profile image.
-                            </Form.Control.Feedback>
+                            </p>
                           </div>
                         </>
                       )}
-                      <div className="text-lg-center profile-icons cust-pf-icons">
+
+                       {/* dont remove this camera icon */}
+                      {/* <div className="text-lg-center profile-icons cust-pf-icons">
                         <input
                           type="file"
                           name="myImage"
                           className="icon camera  cam-transform"
                           onChange={(e) => handlePicChange(e, 'profile')}
                         />
-                      </div>
-                    </Form.Group>
+                      </div> */}
+                    </div>
                   </div>
                 </div>
-                <div className="banner-upload">
-                  <Form.Group>
+                <div className="lg:w-[1000px]">
+                  <div>
                     {profile.bannerImage && (
-                      <Image
-                        src={profile?.bannerImage}
+                      <img
+                        src={profile.logo}
                         width="1000"
                         height="350"
                         alt=""
-                        className="create-banner-image collect-bnner"
+                        className="object-cover absolute top-0 left-0 h-full w-full rounded-[28px]"
                       />
-                    )}
+                     )} 
                     {!profile.bannerImage && (
                       <>
-                        <div className="banner-placeholder">
+                        <div className="text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                           <span
-                            className="icon upload-image-icon c-pointer"
+                            className="icon image-upload cursor-pointer"
                             onClick={() => bannarRef.current?.click()}
                           ></span>
                            <span>{bannarpicLoader && <Spinner size="sm" />} </span>
-                          <Form.Control
-                            className="d-none btn"
+                          <input
+                            className="hidden"
                             type="file"
                             required
                             ref={bannarRef}
                             onChange={(e) => handlePicChange(e, 'bannar')}
                           />
-                          <p onClick={() => bannarRef.current?.click()} className="c-pointer">
-                            Upload Banner
-                            <br />
-                          </p>
-                          <p className="image-note-text">
-                            Note: <span>For best view upload 1100X350</span>
-                          </p>
-                          <Form.Control.Feedback type="invalid">
+                          <p onClick={() => bannarRef.current?.click()} className="text-base text-secondary font-normal cursor-pointer mt-5"> Upload Banner </p>
+                          <p className="text-base text-secondary font-normal">1100 X 350 </p>
+                          <p className='text-sm font-normal text-red-600 mt-4' type="invalid">
                             Please provide a valid banner image.
-                          </Form.Control.Feedback>
+                          </p>
                         </div>
                       </>
                     )}
-                    <div className="text-lg-center profile-icons cust-pf-icons">
+                    {/* don't remove camera icon  */}
+                    {/* <div className="text-lg-center profile-icons cust-pf-icons">
                       <input
                         type="file"
                         name="myImage"
                         className="icon camera"
                         onChange={(e) => handlePicChange(e, 'bannar')}
                       />
-                    </div>
-                  </Form.Group>
+                    </div> */}
+                  </div>
                 </div>
               </div>
             </section>
-            <section className="featured-sec create-collect">
-              <Row className="">
-                <Col lg={5} sm={12}>
-                  <div className="featured-image upload-doc-style doc-style left-creation-upload">
-                    <Form.Group>
+            <section className="mt-36 md:mt-9">
+              <div className="grid lg:grid-cols-2 gap-6">
+                <div>
+                  <div className="flex justify-center items-center text-center p-4 border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[500px]">
+                    <div>
                       {profile.featuredImage && (
-                        <Image
+                        <img
                           src={profile?.featuredImage}
                           width="350"
                           height="450"
                           alt=""
-                          className="create-feature-image"
+                          className=""
                         />
                       )}
                       {!profile.featuredImage && (
                         <>
                           <div className="" >
-                            <span className="icon upload-image-icon c-pointer" onClick={() => featureRef.current?.click()}></span>
+                            <span className="icon image-upload cursor-pointer" onClick={() => featureRef.current?.click()}></span>
                             <span>{featurePicLoader && <Spinner size="sm" />} </span>
-                            <Form.Control
-                              className="d-none btn"
+                            <input
+                              className="hidden"
                               type="file"
                               required
                               ref={featureRef}
                               onChange={(e) => handlePicChange(e, 'feature')}
                             />
-                            <p className="c-pointer" onClick={() => featureRef.current?.click()}>
-                              Featured image
-                              <br />
-                            </p>
-                            <p className="image-note-text">
-                              Note: <span>For best view upload 550X450</span>
-                            </p>
-                            <Form.Control.Feedback type="invalid">
-                              Please provide a valid feature image.
-                            </Form.Control.Feedback>
+                            <p className="text-base text-secondary font-normal cursor-pointer mt-5" onClick={() => featureRef.current?.click()}> Featured image </p>
+                            <p className="text-base text-secondary font-normal">550X450</p>
+                            <p className='text-sm font-normal text-red-600 mt-4' type="invalid"> Please provide a valid feature image.  </p>
                           </div>
                         </>
                       )}
-                      <div className="text-lg-center profile-icons cust-pf-icons">
+                       {/* don't remove camera icon  */}
+                      {/* <div className="text-lg-center profile-icons cust-pf-icons">
                         <input
                           type="file"
                           name="myImage"
                           className="icon camera"
                           onChange={(e) => handlePicChange(e, 'feature')}
                         />
-                      </div>
-                    </Form.Group>
+                      </div> */}
+                    </div>
                   </div>
-                </Col>
-                <Col lg={7} sm={12}>
-                  <div className="collection-wrap">
-                    <Form.Group className="mb-3" controlId="formPlaintextEmail">
-                      <Form.Label className="input-label">Name*</Form.Label>
-                      <Form.Control
+                </div>
+                <div>
+                  <div >
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Name<span className='text-[#ff0000]'>*</span></label>
+                      <input
                         type="text"
                         placeholder="Name"
-                        className="profile-input input-style"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         required
                         value={profile.collectionName}
                         isInvalid={!!nameError}
@@ -520,16 +506,16 @@ function CreateCollection(props: any) {
                         maxLength={200}
                         onChange={(e) => handleChange(e, 'collectionName')}
                       />
-                      {<Form.Control.Feedback type="invalid">{`${checkCollection && "Collection name already exists" || "Please provide a valid name."}`}</Form.Control.Feedback>}
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formPlaintextEmail">
-                      <Form.Label className="input-label">Description*</Form.Label>
-                      {/* <p className="note-text">Markdown syntax is supported. 0 of 1000 characters used</p> */}
-                      <Form.Control
+                      {<p className='text-sm font-normal text-red-600 ' type="invalid">{`${checkCollection && "Collection name already exists" || "Please provide a valid name."}`}</p>}
+                    </div>
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Description<span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 mb-2 text-sm">Markdown syntax is supported. 0 of 1000 characters used</p>
+                      <textarea
                         as="textarea"
                         placeholder="Description"
+                        className="textarea textarea-bordered w-full resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
                         rows={5}
-                        className="profile-input input-style"
                         value={profile.description}
                         required
                         isInvalid={!!descriptionError}
@@ -537,26 +523,26 @@ function CreateCollection(props: any) {
                         maxLength={500}
                         onChange={(e) => handleChange(e, 'description')}
                       />
-                      <Form.Control.Feedback type="invalid">Please provide a valid description.</Form.Control.Feedback>
-                    </Form.Group>
-                    {/* <Form.Group className="mb-3" controlId="formPlaintextEmail">
-                      <Form.Label className="input-label">URLs</Form.Label>
-                      <p className="note-text">
+                      <p className='text-sm font-normal text-red-600 ' type="invalid">Please provide a valid description.</p>
+                    </div>
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">URLs</label>
+                      <p  className="text-secondary opacity-60 mb-2 text-sm">
                         Customize your URL on OpenSea. Must only contain lowercase letters, numbers, and hyphens.
                       </p>
-                      <Form.Control
+                      <input
                         type="text"
                         placeholder="Example : Treasures of the sea"
-                        className="profile-input input-style"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         onChange={(e) => handleChange(e, 'urls')}
                       />
-                    </Form.Group> */}
-                    <Form.Group className="mb-3 p-relative" controlId="formPlaintextEmail">
-                      <Form.Label className="input-label">Category*</Form.Label>
-                      <p className="note-text">Make your items more discoverable on Minnapad by adding category.</p>
-                      <Form.Select
+                    </div>
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Category and tags <span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 mb-2 text-sm">Make your items more discoverable on Minnapad by adding category.</p>
+                      <select
                         aria-label="Default select example"
-                        className="form-select select-coin select-category c-pointer"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                         value={profile.category}
                         onChange={(e) => handleChange(e, 'category')}
                         required
@@ -565,84 +551,160 @@ function CreateCollection(props: any) {
                         {catgeryLu.map((item) => (
                           <option value={item.id}>{item.name}</option>
                         ))}
-                      </Form.Select>
-                      <Form.Control.Feedback type="invalid">Please select category.</Form.Control.Feedback>
+                      </select>
+                      <p className='text-sm font-normal text-red-600 ' type="invalid">Please select category.</p>
+                    </div>
 
-                      <span className="icon select-arrow arrow-collect createcol-arrow c-pointer" onChange={(e) => handleChange(e, 'category')}></span>
-                    </Form.Group>
-                   
-                    <Form.Group className="mb-3 p-relative smm-links" controlId="formPlaintextEmail">
-                      <Form.Label className="input-label">Links</Form.Label>
-                      <InputGroup className="mb-3 input-group-style">
-                        <InputGroup.Text id="basic-addon3" className="input-style links-input collect-icons">
-                          <span className="icon globe"></span>
-                        </InputGroup.Text>
-                        <Form.Control
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Blockchain</label>
+                      <p className="text-secondary opacity-60 mb-2 text-sm">Select the blockchain where you'd like new items from this collection to be added by default.</p>
+                      <select
+                        aria-label="Default select example"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+                        value={profile.category}
+                        onChange={(e) => handleChange(e, 'category')}
+                        required
+                      >
+                        <option value="">Select</option>
+                        {catgeryLu.map((item) => (
+                          <option value={item.id}>{item.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Creator earnings</label>
+                      <p  className="text-secondary opacity-60 mb-2 text-sm">
+                      Collection owners can collect creator earnings when a user re-sells an item they created. Contact the collection owner to change the collection earnings percentage or the payout address.
+                      </p>
+                      <div className="flex gap-4 items-center">
+                      <input
+                        type="text"
+                        placeholder="Please Enter address, e.g.0xbf8e36ecd54690f12d25a3c098adb54863bd4c82"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        onChange={(e) => handleChange(e, 'urls')}
+                      />
+                      <div className='flex gap-4 items-center'>
+                      <div className='relative'>
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="input pr-9 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        onChange={(e) => handleChange(e, 'urls')}
+                      />
+                      <span className='absolute right-4 top-2 block shrink-0'>%</span>                      
+                      </div>
+                      <span className='icon close shrink-0'></span>
+                      </div>
+                      </div>
+                    </div>
+                    <div className="mb-6">
+                      <div className='border md:w-[180px] cursor-pointer py-3 px-6 rounded-[28px] border-[#A5A5A5]'>
+                        <span className='icon close rotate-45 scale-[0.8]'></span> <span className='text-base ml-2 font-bold align-middle'>Add Address</span>
+                      </div>
+                    </div>
+                    <div className="mb-6" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Payment tokens</label>
+                      <p  className="text-secondary opacity-60 mb-2 text-sm">  These tokens can be used to buy and sell your items.  </p>
+                      <input
+                        type="text"
+                        placeholder="Add token"
+                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        onChange={(e) => handleChange(e, 'urls')}
+                      />
+                    </div>
+                    <div className="mb-6">
+                      <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
+                         <div className='flex gap-[14px] bg-base-300 p-[6px] rounded-[28px] border border-[#A5A5A5]'>
+                           <span className='matic-purple icon'></span>
+                           <div>
+                            <p className='text-base font-bold'>Matic</p>
+                            <p className='text-xs font-light'>Matic</p>
+                           </div>
+                         </div>
+                         <div className='flex gap-[14px] bg-base-300 p-[6px] rounded-[28px] border border-[#A5A5A5]'>
+                           <span className='matic-purple icon'></span>
+                           <div>
+                            <p className='text-base font-bold'>Matic</p>
+                            <p className='text-xs font-light'>Matic</p>
+                           </div>
+                         </div>
+                      </div>
+                    </div>
+                    <div className="mb-6 relative" controlId="formPlaintextEmail">
+                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Links</label>
+                      <div className="mb-6 relative">                        
+                          <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                          <span className="icon globe-icon "></span>
+                            </div>                        
+                        <input
                           id="web-url"
                           placeholder="Your site.io"
                           aria-describedby="basic-addon3"
-                          className="input-style links-input"
+                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'web_url')}
                           maxLength={100}
                         />
-                      </InputGroup>
-                      <InputGroup className="mb-3 input-group-style">
-                        <InputGroup.Text id="basic-addon3" className="input-style links-input collect-icons">
-                          <span className="icon icon-fb"></span>
-                        </InputGroup.Text>
-                        <Form.Control
+                      </div>
+                      <div className="mb-6 relative">
+                      <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                      <span className="icon icon-fb"></span>
+                      </div> 
+                        <input
                           id="icon-fb"
                           placeholder="https://"
                           aria-describedby="basic-addon3"
-                          className="input-style links-input"
+                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'fb_url')}
                           maxLength={100}
                         />
-                      </InputGroup>
-                      <InputGroup className="mb-3 input-group-style">
-                        <InputGroup.Text id="basic-addon3" className="input-style links-input collect-icons">
-                          <span className="icon icon-twitter"></span>
-                        </InputGroup.Text>
-                        <Form.Control
+                      </div>
+                      <div className="mb-6 relative">
+                      <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                      <span className="icon icon-twitter"></span>
+                      </div>                        
+                        <input
                           id="icon-twitter"
                           placeholder="https://"
                           aria-describedby="basic-addon3"
-                          className="input-style links-input"
+                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'tele_url')}
                           maxLength={100}
                         />
-                      </InputGroup>
-                      <InputGroup className="mb-3 input-group-style">
-                        <InputGroup.Text id="basic-addon3" className="input-style links-input collect-icons">
-                          <span className="icon icon-linkedIn"></span>
-                        </InputGroup.Text>
-                        <Form.Control
+                      </div>
+                      <div className="mb-6 relative">
+                      <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                      <span className="icon icon-linkedIn"></span>
+                      </div>                          
+                        <input
                           id="icon-linkedIn"
                           placeholder="https://"
                           aria-describedby="basic-addon3"
-                          className="input-style links-input"
+                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'lin_url')}
                           maxLength={100}
                         />
-                      </InputGroup>
-                    </Form.Group>
-                    <div className="text-end mt-4">
-                      <Button className="custom-btn " type="submit" disabled={loader}>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex justify-end gap-4 items-center">
+                    <Button btnClassName='min-w-[128px] h-[48px]' type="cancel" disabled={loader}>
+                        <span>{loader && <Spinner size="sm" />} </span>Cancel
+                      </Button>
+                      <Button btnClassName='min-w-[128px]' type="primary" disabled={loader}>
                         <span>{loader && <Spinner size="sm" />} </span>Create
                       </Button>
                     </div>
                   </div>
-                </Col>
-              </Row>
+                </div>
+              </div>
             </section>
-          </Form>
-        </Container>
+          </form>
+        </div>
       </div>
       <div className='p-absolute toaster-center'>
       <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
               <Toast show={scuess} className="text-center toster-component">
                 <Toast.Body className="toaster-cust">
-                <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>
+                {/* <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>  */}
                 </Toast.Body>
               </Toast>
             </ToastContainer>

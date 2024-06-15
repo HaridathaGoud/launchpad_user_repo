@@ -27,6 +27,7 @@ import AboutUs from "../components/strapi/aboutus";
 import Docs from "../components/strapi/docs";
 import PortfolioShimmer from "../components/loaders/portfolioshimmer";
 import CreatenftComponent from "../components/marketplace.component/createnft.component";
+import Createcollection from "../components/marketplace.component/createcollection.component/createcollection";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -201,7 +202,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/collection/create",
-          element: <ExploreNfts />,
+          element: <Createcollection />,
           errorElement: <ErrorPage />,
         },
         {
