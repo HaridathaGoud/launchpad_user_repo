@@ -13,7 +13,7 @@ import TopsellerDetailview from "../components/marketplace.component/topsellerde
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
 import TiresShimmer from "../components/loaders/TiresShimmers";
 import StakingShimmer from "../components/loaders/StakingShimmer";
-import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer";
+import ProjectViewShimmer from "../components/loaders/projects/ProjectViewShimmer";
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
 import DashboardShimmers from "../components/loaders/dashboard/dashboardShimmers";
@@ -28,6 +28,7 @@ import Docs from "../components/strapi/docs";
 import PortfolioShimmer from "../components/loaders/portfolioshimmer";
 import CreatenftComponent from "../components/marketplace.component/createnft.component";
 import Createcollection from "../components/marketplace.component/createcollection.component/createcollection";
+import HotcollectionView from "../components/marketplace.component/hotcollections.component/hotcollectionsview";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -203,6 +204,11 @@ const Routes = () => {
         {
           path: "/marketplace/collection/create",
           element: <Createcollection />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collection/view",
+          element: <HotcollectionView />,
           errorElement: <ErrorPage />,
         },
         {

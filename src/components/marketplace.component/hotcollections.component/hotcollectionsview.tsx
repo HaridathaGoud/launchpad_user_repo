@@ -3,11 +3,15 @@ import NaviLink from '../../../ui/NaviLink';
 import DetailviewLeftpanel from './leftpanel';
 import CommentsSection from './RightPanel';
 import RightPanel from './RightPanel';
-import SearchInputComponent from '../SearchComponent';
-import StatusDetailview from './detailviewstatus';
-import NftCards from './Nftcards';
+
+
+
 import { Link } from 'react-router-dom';
 import NftCardDetailview from './Nftcarddetailview';
+import SearchInputComponent from './SearchComponent';
+import StatusDetailview from './detailviewstatus';
+import NftCards from './Nftcards';
+// import NftCardDetailview from './Nftcarddetailview';
 
 const HotcollectionView = ({buynft}) => {
 
