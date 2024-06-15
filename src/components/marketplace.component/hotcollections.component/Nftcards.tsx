@@ -8,31 +8,31 @@ const NftCards = ({setCardDetails}) => {
 
 const data=[
     {
-        image:'https://i.pinimg.com/736x/88/7f/94/887f94b606965ff9bed58d1b53dd6731.jpg',
+        image:'https://i.pinimg.com/236x/2a/a8/9a/2aa89ab8c33e56de598ac044415a4c3f.jpg',
         seriesname:'T- Series',
-        cardname:'Hanuman Gada',
+        cardname:'Money Heist Gun',
         price:'2.010 Matic',
         highestbid:'0.15 Matic',
         badge:'#02325'
     },
     {
-        image:'https://i.pinimg.com/736x/40/b4/68/40b468326d842fa848d3013dd92e3bf4.jpg',
+        image:'https://i.pinimg.com/564x/ab/b2/56/abb256bfaf1e55acccb672f9916ca872.jpg',
         seriesname:'T- Series',
-        cardname:'Arrow & Bow',
+        cardname:'Money Heist mask',
         price:'2.010 Matic',
         highestbid:'0.15 Matic',
     },
     {
-        image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8am2bBSQOTBIpVSAaW-szulIayvERIYDnDA&usqp=CAU',
+        image:'https://i.pinimg.com/236x/99/51/17/995117a6fe6df1d35810cc02bb85bbf6.jpg',
         seriesname:'T- Series',
-        cardname:'Gorilla Doll',
+        cardname:'Money Heist Locker',
         price:'2.010 Matic',
         highestbid:'0.15 Matic',
     },
     {
-        image:'https://i.pinimg.com/736x/5a/c6/51/5ac6513a4c63b941c1832e9fde7cd0d7.jpg',
+        image:'https://i.pinimg.com/236x/08/4e/8d/084e8dcd86c67d675603201a9d5baac4.jpg',
         seriesname:'T- Series',
-        cardname:'Wooden Arrow & Bow',
+        cardname:'Tokyo Doll',
         price:'2.010 Matic',
         highestbid:'0.15 Matic',
     },
