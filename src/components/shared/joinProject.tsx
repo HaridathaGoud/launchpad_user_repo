@@ -49,6 +49,7 @@ const JoinProject = ({ projectDetails,buttonClass,statusClass,buttonType,project
           key={projectDetails?.id}
           type={buttonType || "primary"}
           handleClick={handleJoinProject}
+          disabled={isJoining}
           btnClassName={`${buttonClass} block !min-h-[36px] !h-[36px] !p-0`}
         >
             {isJoining===projectDetails?.id && <span><Spinner size={'loading-sm'} spinnerClass={"mr-1 align-sub"} /></span>}

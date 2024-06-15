@@ -115,9 +115,7 @@ const WithdrawComponent = () => {
                   {activeStep !== 2 && (
                     <div className="max-sm:text-center max-sm:mt-2">
                       <Button
-                        type={
-                          (activeCondition|| tabContextValues?.buttonLoader) ? "stakingDisabled" : "stakingPrimary"
-                        }
+                       type={"stakingPrimary"}
                         btnClassName={`flex items-center gap-2`}
                         handleClick={handleNextStep}
                         disabled={

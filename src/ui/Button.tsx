@@ -7,9 +7,9 @@ interface ButtonInterface {
   disabled?: any;
 }
 const BtnStylings = {
-  primary: `h-[30px] lg:p-2 lg:px-6 rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-base btn hover:opacity-80 h-[42px]  !leading-5`,
+  primary: `btn lg:p-2 lg:px-6 rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-base btn hover:opacity-80 h-[42px] !leading-5`,
   secondary:
-    "px-[35px] py-2.5 rounded-[33px] border-solid  border-secondary bg-secondary hover:border-0 border-0 hover:bg-secondary text-base-100 font-semibold text-base hover:opacity-80 h-[42px] !leading-5",
+    "btn px-[35px] py-2.5 rounded-[33px] border-solid  border-secondary bg-secondary hover:border-0 border-0 hover:bg-secondary text-base-100 font-semibold text-base hover:opacity-80 h-[42px] !leading-5",
   cancel:
     "px-[35px] py-2.5 rounded-[33px] border border-secondary bg-transparent hover:bg-black text-dark hover:bg-secondary hover:text-base-100 font-semibold text-[18px] h-[42px] !leading-5",
   nav: "block py-2 font-semibold px-4 text-base hover:text-primary hover:bg-transparent",
@@ -19,7 +19,7 @@ const BtnStylings = {
   applynow:
     "h-[42px] lg:p-2 lg:px-[44px] rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-base btn hover:opacity-80 !leading-5",
   stakingPrimary:
-    "bg-primary rounded-[28px] lg:py-2 px-6 inline-block text-base font-semibold text-base-100 h-[42px]",
+    "btn bg-primary rounded-[28px] border-solid  border-primary hover:border-0 border-0 lg:py-2 px-6 inline-block text-base font-semibold text-base-100 h-[42px] hover:opacity-80 hover:bg-primary",
   stakingDisabled:
     "bg-accent text-secondary rounded-[33px] lg:py-2 px-6 inline-block text-base font-semibold cursor-not-allowed h-[42px]",
     create:
@@ -43,7 +43,7 @@ const Button = ({
       className={`${
         type
           ? BtnStylings[type]
-          : " lg:p-2 lg:px-3 rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-sm btn"
+          : "lg:p-2 lg:px-3 rounded-[33px] border-solid  border-primary bg-primary hover:border-0 border-0 hover:bg-primary text-base-100 font-semibold text-sm btn"
       } ${btnClassName}`}
     >
       {children}

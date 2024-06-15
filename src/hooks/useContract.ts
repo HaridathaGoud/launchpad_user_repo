@@ -456,14 +456,14 @@ export default function useContractMethods() {
     const MSG_HASH = ethers.utils.arrayify(finalAggHash);
     const validSign = await wallet.signMessage(MSG_HASH);
     console.log(uriArr, aggHash,
-      { signature: validSign, nonce },nftPrice.toString())
+      { signature: validSign, nonce },ethers.utils.parseUnits(nftPrice.toFixed(8), 18))
     if (coinDetails === "Matic") {
       return mintNativeWithWagmi(
         uriArr,
         aggHash,
         { signature: validSign, nonce },
         {
-          value: ethers.utils.parseUnits(nftPrice.toString(), 18),
+          value: ethers.utils.parseUnits(nftPrice.toFixed(8), 18),
           // gasLimit: 900000,
           // gasPrice: 300000,
         },

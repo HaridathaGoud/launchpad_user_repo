@@ -11,6 +11,32 @@ const ipfs = ipfsHttpClient({
     authorization,
   },
 });
+
+const validation = (
+  data: any,
+  userBalance: number,
+  totalMinted: number,
+  inputCount: number
+) => {
+  const validationOnUserBalance = () => {
+    let checkCount = userBalance + inputCount;
+    if (checkCount <= data[0]?.maxMintedNfts) {
+      return "";
+    }
+    if (userBalance === data[0]?.maxMintedNfts) {
+      return "You have already minted maximum number of NFT's.";
+    }
+    const remainingCount = data[0]?.maxMintedNfts - userBalance;
+    return `You have already minted ${userBalance} NFT. You are eligible to mint only ${remainingCount} more NFT in this ${data[0]?.saleName}.`;
+  };
+  let error: string = "";
+  if (totalMinted < data[0]?.totalNfts) {
+    error = validationOnUserBalance();
+  } else {
+    error = "The maximum number of NFT's has already been minted.";
+  }
+  return error;
+};
 const handleContractDetails = (
   response: any,
   onSuccess: Function,
@@ -84,7 +110,7 @@ export const getMetaData = async (funArgs: any, callbacks: any) => {
   }
 };
 export const uploadToIPFS = async (funArgs: any, callbacks: any) => {
-  const { data, nftPrice } = funArgs;
+  const { data, nftPrice, crypto } = funArgs;
   const { onSuccess, onError } = callbacks;
   const urisFromIPFSData: any = [];
   const fileNames: any[] = [];
@@ -114,9 +140,9 @@ export const uploadToIPFS = async (funArgs: any, callbacks: any) => {
         fileName: item.serialNo,
         ImageCid: result?.path,
         Description: item.description,
-        NftName: item.name,
+        nftName: item.name,
         cid: dataFromIPFS.path,
-        coin: "Matic",
+        coin: crypto,
         price: Number(nftPrice).toFixed(8),
       });
     }
@@ -130,7 +156,12 @@ export const mintNfts = async (funArgs: any, callbacks: any) => {
   const { uri, files, currency, price, contractAddress } = funArgs;
   const { onSuccess, onError, minMultipleNft, parseError } = callbacks;
   try {
-    const response = await minMultipleNft(uri, currency, price, contractAddress);
+    const response = await minMultipleNft(
+      uri,
+      currency,
+      price,
+      contractAddress
+    );
     if (response) {
       onSuccess(response, files);
     } else {
@@ -141,22 +172,37 @@ export const mintNfts = async (funArgs: any, callbacks: any) => {
   }
 };
 
-export const updateTransactionHash = async (funArgs:any,callbacks:any) => {
-    const {data,files,userId}=funArgs;
-    const {onSuccess,onError}=callbacks
-    putForMinting('User/updatetransactionhash', {
+const updateHash = async (data: any, files: any, userId: any) => {
+  try {
+    const response = await putForMinting("User/updatetransactionhash", {
       transactionHash: data.hash,
       files: files,
       customerId: userId,
     });
-    try {
-      const txResponse = await waitForTransaction({ hash: data.hash });
-      if (txResponse && txResponse.status === "reverted") {
-        onError('Transaction Failed')
-      } else {
-        onSuccess(txResponse)
-      }
-    } catch (error) {
-        onError(isErrorDispaly(error))
+    if (response.status === 200) {
+      return;
+    } else {
+      return response;
     }
-  };
+  } catch (err) {
+    return err.message || err;
+  }
+};
+
+export const updateTransactionHash = async (funArgs: any, callbacks: any) => {
+  const { data, files, userId } = funArgs;
+  const { onSuccess, onError } = callbacks;
+  try {
+    const txResponse = await waitForTransaction({ hash: data.hash });
+
+    if (txResponse && txResponse.status === "reverted") {
+      onError("Transaction Failed");
+    } else {
+      const errorMessage = await updateHash(data, files, userId);
+      !errorMessage && onSuccess(txResponse);
+      errorMessage && onError(isErrorDispaly(errorMessage));
+    }
+  } catch (error) {
+    onError(isErrorDispaly(error));
+  }
+};

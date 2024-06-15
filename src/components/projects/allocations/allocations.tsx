@@ -106,57 +106,6 @@ const AllocationsView = (props) => {
             <NoDataFound text ={''}/>
           )}
         </div>
-
-      {/* Confirm modal start  */}
-      {/* {isconfirm && (
-        <div className="drawer drawer-end">
-          <input
-            id="my-drawer-4"
-            type="checkbox"
-            className="drawer-toggle"
-            checked={isconfirm}
-          />
-          <div className="drawer-content"></div>
-          <div className="drawer-side z-10">
-            <label
-              htmlFor="my-drawer-4"
-              aria-label="close sidebar"
-              className="drawer-overlay"
-              onClick={handleDrawerCancel}
-            ></label>
-            <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xl text-secondary font-medium">Confirm</h4>
-                <span
-                  onClick={handleDrawerCancel}
-                  className="icon close"
-                ></span>
-              </div>
-
-              <div className="mt-10">
-                <p className="text-secondary text-lg font-medium">
-                  Are you really sure you want to buy {buyBalance} tokens?
-                </p>
-              </div>
-              <div className="flex justify-end gap-4 mt-6">
-                <Button type="cancel" handleClick={handleDrawerCancel}>
-                  {" "}
-                  Cancel
-                </Button>
-                <Button
-                  type="secondary"
-                  btnClassName="flex gap-2"
-                  handleClick={() => handleOk()}
-                  disabled={btnLoader}
-                >
-                  <span>{btnLoader && <Spinner />} </span> Confirm
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
-      {/* Confirm modal end  */}
     </>
   );
 };
