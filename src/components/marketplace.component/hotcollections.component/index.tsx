@@ -51,7 +51,8 @@ export default function HotCollections() {
   };
 
   const handleHotCollectionItem = (item: any) => {
-    router(`/collections/${item?.id}`);
+    // router(`/collections/${item?.id}`);
+    router(`/marketplace/collection/view`);
   };
   
   return (
