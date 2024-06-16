@@ -117,7 +117,7 @@ function TrendingNfts(props) {
                         }`}
                       >
                         <div className="p-2">
-                          <div className="">
+                         
                             <div className="relative">
                               <img
                                 src={
@@ -126,10 +126,8 @@ function TrendingNfts(props) {
                                     : defaultbg
                                 }
                                 //src={item?.logo ? item?.logo : defaultbg}
-                                alt=""
-                                height="10"
-                                width="10"
-                                className={`w-full rounded-[16px] ${
+                                alt=""                               
+                                className={`w-full object-cover h-[400px] rounded-[16px] ${
                                   item?.isUnlockPurchased &&
                                   address?.toLowerCase() !==
                                     item?.creatorWalletAddress.toLowerCase()
@@ -163,7 +161,7 @@ function TrendingNfts(props) {
                                 <span className="icon like-white "></span>
                               </div>
                             </div>
-                          </div>
+                         
                         </div>
                         <div className="px-5 pt-10">
                           <div

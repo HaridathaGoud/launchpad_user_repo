@@ -9,6 +9,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { setError } from '../../../reducers/layoutReducer';
 import Spinner from '../../loaders/spinner';
 import { clearAboutPageData, getAboutPageDeatils } from '../docs/strapiReducer';
+import AboutUsShimmer from '../../loaders/aboutusshimmer';
 
 function AboutUs(props:any) {
   const rootDispatch=useDispatch()
@@ -26,8 +27,8 @@ function AboutUs(props:any) {
   if (aboutpage?.error) rootDispatch(setError(aboutpage?.error));
   return (
     <div>
-      {aboutpage.loading && <div className='flex justify-center items-center h-[100vh]'>
-        <Spinner size='loading-lg'/>
+      {aboutpage.loading && <div className='flex justify-center items-center mb-4'>
+        <AboutUsShimmer/>
         </div>}
       {!aboutpage.loading && aboutpage?.data?.map((item) => (<>
         <div className="bg-[#E7F4FA] bg-about relative">

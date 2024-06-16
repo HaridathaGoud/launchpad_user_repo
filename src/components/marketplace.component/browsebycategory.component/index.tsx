@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React,{ useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function BrowseByCategory() {
@@ -12,6 +12,7 @@ export default function BrowseByCategory() {
         </div>
 
         <div className="grid lg:grid-cols-4 gap-4">
+          <Link to={'/marketplace/categoryview'}>
         <div className='card bg-primary-content border border-slate-200 w-full'>
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1-eFLgJYTN32j3g25R8MoVssmTuWPhatjtA&usqp=CAU" className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
           <div className="flex gap-1 mt-1">
@@ -22,7 +23,8 @@ export default function BrowseByCategory() {
           <div className='pt-2 px-5 pb-4'>
             <h1 className='text-lg text-secondary font-semibold truncate'>Weapons</h1>
           </div>
-        </div>
+        </div></Link>
+        <Link to={'/marketplace/categoryview'}>
         <div className='card bg-primary-content border border-slate-200 w-full'>
           <img src="https://i.pinimg.com/236x/9b/e7/32/9be7324c5dc4027996ae37e0e4b0e3b8.jpg" className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
           <div className="flex gap-1 mt-1">
@@ -33,7 +35,7 @@ export default function BrowseByCategory() {
           <div className='pt-2 px-5 pb-4'>
             <h1 className='text-lg text-secondary font-semibold truncate'>Costumes</h1>
           </div>
-        </div>
+        </div></Link>
         </div>
       </div>
     </>

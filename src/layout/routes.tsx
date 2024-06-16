@@ -29,6 +29,7 @@ import PortfolioShimmer from "../components/loaders/portfolioshimmer";
 import CreatenftComponent from "../components/marketplace.component/createnft.component";
 import Createcollection from "../components/marketplace.component/createcollection.component/createcollection";
 import HotcollectionView from "../components/marketplace.component/hotcollections.component/hotcollectionsview";
+import CategoryView from "../components/marketplace.component/browsebycategory.component/categoryview";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -219,6 +220,11 @@ const Routes = () => {
         {
           path: "/marketplace/mycollections",
           element: <MycollectionsComponent />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/categoryview",
+          element: <CategoryView />,
           errorElement: <ErrorPage />,
         },
         {

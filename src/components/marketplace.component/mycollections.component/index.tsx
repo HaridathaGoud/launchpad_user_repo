@@ -110,6 +110,9 @@ function MyCollections(props: any) {
       });
     }
   };
+  const handleButtonClick = () => {   
+    navigate('/marketplace/collection/create');
+  };
   return (
     <>
       <div ref={scrollableRef}></div>
@@ -122,7 +125,7 @@ function MyCollections(props: any) {
         </h2>
         <p className="text-secondary opacity-60">Create, curate, and manage collections of unique NFTs to share and sell.</p>
         </div>
-        <Button type="primary" btnClassName="min-w-[180px]">Create</Button>
+        <Button handleClick={handleButtonClick} type="primary" btnClassName="min-w-[180px]">Create</Button>
        </div>
         {
           <Modal id={"connect-wallet-model-exploreNfts"}>
@@ -261,7 +264,9 @@ function MyCollections(props: any) {
               </div>
             ))}
           {data?.length === 0 && !loader && (
-            <NoDataFound text ={''}/>
+            <div className="col-span-5">
+              <NoDataFound text ={''}/>
+            </div>
           )}
         </div>
         {data?.length === (pageNo - 1) * pageSize && (
