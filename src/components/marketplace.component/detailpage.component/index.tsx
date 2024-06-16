@@ -34,11 +34,13 @@ import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { Modal, modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
 import NoDataFound from "../../../ui/nodatafound";
+import thorntf from "../../../assets/images/thor.jpg"
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
 
   const [show, setShow] = useState(false);
+  const [showdrawer, setshowdrawer] = useState(false);
   const [showBid, setShowBid] = useState(false);
   const [showBuyModal, setShowBuyModal] = useState(false);
   const [showAuction, setShowAuction] = useState(false);
@@ -1307,12 +1309,12 @@ const DetailPage = (props: any) => {
                   </div>
 
                   <div className="md:flex items-center justify-between mt-4">
-                    {nftDetails?.ownerAddress != address && (
+                    {/* {nftDetails?.ownerAddress != address && ( */}
                       <div>
-                        {nftDetails?.saleType == "sale" ||
+                        {/* {nftDetails?.saleType == "sale" ||
                           (nftDetails?.saleType == "Sale" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
-                              address?.toLowerCase() && (
+                              address?.toLowerCase() && ( */}
                               <Button
                                 type="secondary"
                                 btnClassName="mr-2.5"
@@ -1320,18 +1322,18 @@ const DetailPage = (props: any) => {
                               >
                                 Buy Now
                               </Button>
-                            ))}
-                        {nftDetails?.saleType == "sale" ||
+                            {/* ))} */}
+                        {/* {nftDetails?.saleType == "sale" ||
                           (nftDetails?.saleType == "Sale" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
-                              address?.toLowerCase() && (
+                              address?.toLowerCase() && ( */}
                               <Button
                                 type="cancel"
                                 handleClick={getCheckPlaceBid}
                               >
                                 Place a bid
                               </Button>
-                            ))}
+                            {/* // ))} */}
                         {nftDetails?.saleType == "auction" ||
                           (nftDetails?.saleType == "Auction" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
@@ -1344,7 +1346,7 @@ const DetailPage = (props: any) => {
                               </Button>
                             ))}
                       </div>
-                    )}
+                    {/*  )} */}
                     <div
                       className={`max-sm:mt-4 border border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
                     >
@@ -1393,153 +1395,302 @@ const DetailPage = (props: any) => {
                     </div>
                   </div>
                 </div>
-                <Modal id="placebid">
-                  <div className="">
-                    <h2 className="text-lg text-dark font-semibold mb-4">
-                      Place a Bid
-                    </h2>
-                    {/* <span className="icon close c-pointer" onClick={handleCloseBid}></span> */}
-                  </div>
-
-                  <form
-                    noValidate
-                    validated={validated}
-                    onSubmit={(e) => placeBid(e)}
-                  >
-                    <div className="">
-                      <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm shrink-0 text-secondary opacity-50">
-                          Price
-                        </p>
-                        <p className="truncate text-secondary">
-                          {nftDetails?.price}{" "}
-                          <span>{nftDetails?.currency}</span>
-                        </p>
-                      </div>
-                      <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm shrink-0 text-secondary opacity-50">
-                          Buyer Fee
-                        </p>
-                        <p className="truncate text-secondary">
-                          {percentageValue} <span>{nftDetails?.currency}</span>
-                        </p>
-                      </div>
-                      <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm shrink-0 text-secondary opacity-50">
-                          Total Price
-                        </p>
-                        <p className="truncate text-secondary">
-                          {totalBuyValue} <span>{nftDetails?.currency}</span>
-                        </p>
-                      </div>
-                      <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                          Your Bid *
-                        </label>
-                        <input
-                          type="text"
-                          name="value"
-                          aria-label="Username"
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                          placeholder="Bidding Amount"
-                          onChange={(e) => handleChange(e, "bid")}
-                          isInvalid={!!validationError}
-                          feedback={validationError}
-                          required
-                          maxLength={13}
-                        />
-                        {validationError && (
-                          <>
-                            {" "}
-                            <p type="invalid">
-                              Please provide valid Bid Value.
-                            </p>
-                          </>
-                        )}
-                      </div>
-                      <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                          Crypto Type
-                        </label>
-                        <div className="relative ">
-                          <select
-                            aria-label="Default select example"
-                            className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                          >
-                            <option>MATIC</option>
-                            <option value="1">WMATIC</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-5">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                          Buy Price
-                        </label>
-                        <input
-                          placeholder="0.01 WETH"
-                          aria-label="Username"
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                        />
-                      </div>
-                      <div className="">
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Your balance
-                          </p>
-                          <p className="truncate text-secondary">
-                            <span className=""> {data?.formatted}</span>{" "}
-                            <span className="">{nftDetails?.currency}</span>
-                          </p>
-                        </div>
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Your bidding balance
-                          </p>
-                          <p className="truncate text-secondary">
-                            0.0025 Matic
-                          </p>
-                        </div>
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Service fee
-                          </p>
-                          <p className="text-end truncate text-secondary">
-                            0.0025 WMatic
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Total bid amount
-                          </p>
-                          <p className="text-end truncate text-secondary">
-                            {0.0025 + data?.formatted} {nftDetails?.currency}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr className="mt-4" />
-                    <div className="mt-4 flex justify-center items-center">
-                      <Button
-                        btnClassName="custom-btn cancel-btn c-pointer"
-                        type="cancel"
-                        handleClick={handleCloseBid}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        btnClassName="custom-btn c-pointer ms-3"
-                        type="secondary"
-                        disabled={btnLoader}
-                      >
-                        <span>{btnLoader && <Spinner size="sm" />} </span>
-                        Place a bid
-                      </Button>
-                    </div>
-                  </form>
-                </Modal>
+            
               </div>
             </section>
+            {/* place a bid drawer start  */}
+              <form  className="drawer drawer-end">
+                  <input
+                    id="placebid"
+                    type="checkbox"
+                    className="drawer-toggle"
+                    checked={false}
+                  // onChange={() => closeDrawer(!isChecked)}
+                  />
+                  <div className="drawer-side z-10">
+                    <label
+                      htmlFor="my-drawer-4"
+                      aria-label="close sidebar"
+                      className="drawer-overlay"
+                    // onChange={handleDrawerClose}
+                    ></label>
+                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
+                      <div className="flex justify-between items-center my-2">
+                        <h2 className="text-lg text-dark font-semibold mb-0">
+                          Place a Bid
+                        </h2>
+                        <span className="icon close cursor-pointer" ></span>
+                      </div>
 
+                      <form
+                        noValidate
+                        validated={validated}
+                        onSubmit={(e) => placeBid(e)}
+                      >
+                      {  <>
+                        <div className="">
+                       
+                          <div className="flex gap-5 items-center mt-10 mb-12">
+                         
+                        <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
+                          <div className="">
+                          
+                          
+                              <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
+                              Thor 3d #1654
+                              </p>
+                          
+                              <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                              Current Price
+                              </p>
+                              <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
+                              <span className=""> {data?.formatted || "--"}</span>{" "}
+                                <span className="">{nftDetails?.currency || "--"}</span>
+                              </p>
+                          </div>
+                        </div>
+                          <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
+                          <div className="mb-4 flex items-center justify-between px-4">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Price
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                                
+                                {nftDetails?.price || "--"}{" "}
+                              <span>{nftDetails?.currency || "--"}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between px-4">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Buyer Fee
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                              {percentageValue || "--"} <span>{nftDetails?.currency || "--"}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between px-4">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Total Price
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                              {totalBuyValue} <span>{nftDetails?.currency}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                Your Bid *
+                              </label>
+                              <input
+                                type="text"
+                                name="value"
+                                aria-label="Username"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                placeholder="Bidding Amount"
+                                onChange={(e) => handleChange(e, "bid")}
+                                isInvalid={!!validationError}
+                                feedback={validationError}
+                                required
+                                maxLength={13}
+                              />
+                              {validationError && (
+                                <>
+                                  {" "}
+                                  <p type="invalid">
+                                    Please provide valid Bid Value.
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                            <div className="mb-4">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                Crypto Type
+                              </label>
+                              <div className="relative ">
+                                <select
+                                  aria-label="Default select example"
+                                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 !bg-white"
+                                >
+                                  <option>MATIC</option>
+                                  <option value="1">WMATIC</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="mb-5">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                Buy Price
+                              </label>
+                              <input
+                                placeholder="0.01 WETH"
+                                aria-label="Username"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                              />
+                            </div>
+                            <div className="px-4">
+                            <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Your balance
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                                <span className=""> {data?.formatted}</span>{" "}
+                                <span className="">{nftDetails?.currency}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Your bidding balance
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                                0.0025 Matic
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Service fee
+                              </p>
+                              <p className="text-end truncate text-secondary font-semibold">
+                                0.0025 WMatic
+                              </p>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Total bid amount
+                              </p>
+                              <p className="text-end truncate text-secondary font-semibold">
+                                {0.0025 + data?.formatted} {nftDetails?.currency}
+                              </p>
+                            </div>
+                          </div>
+                          </div>
+                          
+                        </div>
+
+                        <div className="mt-16 lg:max-w-[250px] lg:mx-auto mb-5">
+                          <Button
+                            btnClassName="w-full mb-4"
+                            type="replyCancel"
+                            handleClick={handleCloseBid}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            btnClassName="w-full !h-[32px] !min-h-[32px] lg:px-3"
+                            type="primary"
+                            disabled={btnLoader}
+                          >
+                            <span>{btnLoader && <Spinner size="sm" />} </span>
+                            Place a bid
+                          </Button>
+                        </div>
+                        </>}
+                        {/* success section start */}
+                        {
+                          
+                        //   <div className='text-center relative mt-16'>   
+                        // <img src={validSuccess} alt="" className=' mx-auto ' />         
+                        // <div className='z-[1] relative'>
+                        // <img src={success} alt="" className='w-[124px] mx-auto' />
+                        // <h1 className='text-[28px] text-[#15AB3D] font-semibold mt-3'>Congratulations!</h1>
+                        // <p className='text-[18px] font-semibold text-secondary mt-4'>You Won this NFT</p>
+                        // </div>
+                        
+                        // <div className="flex gap-5 items-center mt-10 mb-12 justify-center">
+                         
+                        //  <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
+                        //    <div className="">
+                           
+                           
+                        //        <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0 text-left">
+                        //        Thor 3d #1654
+                        //        </p>
+                           
+                        //        <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0 text-left">
+                        //        Current Price
+                        //        </p>
+                        //        <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0 text-left">
+                        //        <span className=""> {data?.formatted || "--"}</span>{" "}
+                        //          <span className="">{nftDetails?.currency || "--"}</span>
+                        //        </p>
+                        //    </div>
+                        //  </div>
+                        // </div>
+                         
+                         }
+                          {/* success section end */}
+                      </form>
+                    </div>
+                  </div>
+                </form>
+                {/* place a bid drawer end  */}
+                {/* buy now drawer start  */}
+                <form  className="drawer drawer-end">
+                  <input
+                    id="placebid"
+                    type="checkbox"
+                    className="drawer-toggle"
+                    checked={false}
+                  // onChange={() => closeDrawer(!isChecked)}
+                  />
+                  <div className="drawer-side z-10">
+                    <label
+                      htmlFor="my-drawer-4"
+                      aria-label="close sidebar"
+                      className="drawer-overlay"
+                    // onChange={handleDrawerClose}
+                    ></label>
+                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
+                      <div className="flex justify-between items-center">
+                        <h2 className="text-lg text-dark font-semibold mb-4">
+                          Place a Bid
+                        </h2>
+                        <span className="icon close cursor-pointer" ></span>
+                      </div>
+
+                      <form
+                        noValidate
+                        validated={validated}
+                        onSubmit={(e) => placeBid(e)}
+                      >
+                        <div className="flex gap-5 items-center mt-10">
+                         
+                        <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
+                          <div className="">
+                          
+                          
+                              <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
+                                0.0025 Matic
+                              </p>
+                          
+                              <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                                0.0025 WMatic
+                              </p>
+                              <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
+                                0.0025 WMatic
+                              </p>
+                          </div>
+                        </div>
+
+                        <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5">
+                          <Button
+                            btnClassName="w-full mb-4"
+                            type="replyCancel"
+                            handleClick={handleCloseBid}
+                          >
+                            Place A Bid
+                          </Button>
+                          <Button
+                            btnClassName="w-full !h-[32px] !min-h-[32px] lg:px-3"
+                            type="primary"
+                            disabled={btnLoader}
+                          >
+                            <span>{btnLoader && <Spinner size="sm" />} </span>
+                            Own with 0.003Matic / $1.32
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </form>
+                {/* buy now drawer end  */}
             <h3 className="text-[24px] font-semibold text-secondary mb-1 mt-6">
               Bidding Details
             </h3>
@@ -1739,6 +1890,7 @@ const DetailPage = (props: any) => {
               )}
               </div>
             </section>
+           
           </>
         )}
       </div>
