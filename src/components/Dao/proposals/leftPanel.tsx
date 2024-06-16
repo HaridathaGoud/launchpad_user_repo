@@ -198,7 +198,7 @@ const DaoLeftPanel = (props) => {
           <div className="drawer-content">
             {/* <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">Open drawer</label> */}
           </div>
-          <div className="drawer-side z-10">
+          <div className="drawer-side z-[999]">
             <label
               htmlFor="my-drawer-4"
               aria-label="close sidebar"

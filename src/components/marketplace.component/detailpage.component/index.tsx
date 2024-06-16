@@ -38,7 +38,7 @@ import thorntf from "../../../assets/images/thor.jpg"
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
-
+  const [showCancelSale, setshowCancelSale] = useState(false);
   const [show, setShow] = useState(false);
   const [showdrawer, setshowdrawer] = useState(false);
   const [showBid, setShowBid] = useState(false);
@@ -77,6 +77,7 @@ const DetailPage = (props: any) => {
   const [acceptbtnLoader, setAcceptbtnLoader] = useState(false);
   const { tokenId, collectionAddress, nftId } = useParams();
   const [isCopied, handleCopy] = useCopyToClipboard();
+  const [isChecked, setIsChecked] = useState(false)
   const {
     getSignatureForBid,
     acceptBid,
@@ -134,6 +135,7 @@ const DetailPage = (props: any) => {
     // setShow(false);
     modalActions("putonsale", "close");
     modalActions("putonauction", "close");
+    setIsChecked(false)
     setSaleErrorMsg(false);
     setShowBuyModal(false);
     setSaveObj({
@@ -146,10 +148,11 @@ const DetailPage = (props: any) => {
   };
   const handleShow = (type: any) => {
     if (type == "sale") {
-      // setShow(true);
+      setShow(true);
       modalActions("putonsale", "open");
     } else if (type == "auction") {
       modalActions("putonauction", "open");
+      setIsChecked(true)
     }
     setSaveObj({
       tokenId: "",
@@ -416,6 +419,7 @@ const DetailPage = (props: any) => {
     setCancelType(val);
     // setCancelShow(true);
     modalActions("cancelsale", "open");
+    setshowCancelSale(true)
   };
   const handleCancelConfirm = () => {
     modalActions("cancelsale", "close");
@@ -1086,129 +1090,174 @@ const DetailPage = (props: any) => {
                           collectionAddress={collectionAddress}
                         ></BuyComponent>
                       )}
-                      <Modal id="putonauction">
-                        <div className="p-4 justify-content-between">
-                          <h2 className="text-lg text-dark font-semibold">
-                            Checkout
-                          </h2>
-                          {/* <span className="icon close c-pointer" onClick={handleClose}></span> */}
-                        </div>
-                        <div className="text-center">
-                          {saleLoader && <Spinner></Spinner>}
-                        </div>
-                        {!saleLoader && (
-                          <div className="p-4 pb-2">
-                            {saleErrorMsg && (
-                              <div className="cust-error-bg">
-                                <div className="mr-4">
-                                  <img src={error} alt="" />
-                                </div>
-                                <div>
-                                  <div>
-                                    <img
-                                      className="validation-error"
-                                      src={validError}
-                                    />
-                                    <span>{saleErrorMsg}</span>
+                      {/* putonauction drawer start  */}
+                      {/* <Modal id="putonauction"> */}
+                      <form className="drawer drawer-end">
+                        <input
+                          id="my-drawer-4"
+                          type="checkbox"
+                          className="drawer-toggle"
+                          checked={isChecked}
+                        // onChange={() => closeDrawer(!isChecked)}
+                        />
+                        <div className="drawer-side z-[999]">
+                          <label
+                            htmlFor="my-drawer-4"
+                            aria-label="close sidebar"
+                            className="drawer-overlay"
+                          // onChange={handleDrawerClose}
+                          ></label>
+                          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xl text-secondary font-semibold">Checkout</p>
+                              <button
+                                className="icon close cursor-pointer"
+                                onClick={()=>setIsChecked(!isChecked)}
+                              ></button>
+                            </div>
+                            <div className="text-center">
+                              {saleLoader && <Spinner></Spinner>}
+                            </div>
+                            {!saleLoader && (
+                              <div className="p-4 pb-2">
+                                {saleErrorMsg && (
+                                  <div className="cust-error-bg">
+                                    <div className="mr-4">
+                                      <img src={error} alt="" />
+                                    </div>
+                                    <div>
+                                      <div>
+                                        <img
+                                          className="validation-error"
+                                          src={validError}
+                                        />
+                                        <span>{saleErrorMsg}</span>
+                                      </div>
+                                      <p className="error-title error-red text-start">
+                                        Error
+                                      </p>
+                                      <p className="error-desc text-start">
+                                        {saleErrorMsg}
+                                      </p>
+                                    </div>
                                   </div>
-                                  <p className="error-title error-red text-start">
-                                    Error
-                                  </p>
-                                  <p className="error-desc text-start">
-                                    {saleErrorMsg}
-                                  </p>
+                                )}
+
+                                <p className="text-dark mt-5">
+                                  NFT Marketplace is the platform where users can
+                                  purchase NFT assets directly from creator, Users
+                                  need to pay for the gas fee as well as platform
+                                  fee before purchasing the NFT. User can purchase
+                                  NFT also through bidding, where creator will
+                                  accept a price from the user
+                                </p>
+                              
+                                <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
+                                
+                                <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Service fee
+                              </p>
+                              <p className="text-end truncate text-secondary font-semibold">
+                              0.0000 ETH
+                              </p>
+                            </div>
+                                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">
+                                    Auction Price
+                                  </label>
+                                  <input
+                                    placeholder="Ex: 0.01 WMATIC"
+                                    aria-label="Username"
+                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                    onChange={(value) => handleChange(value)}
+                                  />
                                 </div>
                               </div>
                             )}
-
-                            <p className="text-dark">
-                              NFT Marketplace is the platform where users can
-                              purchase NFT assets directly from creator, Users
-                              need to pay for the gas fee as well as platform
-                              fee before purchasing the NFT. User can purchase
-                              NFT also through bidding, where creator will
-                              accept a price from the user
-                            </p>
-                            <div className="flex justify-between items-center gap-4 my-4">
-                              <label className="text-sm shrink-0 text-secondary opacity-50">
-                                Service fee
-                              </label>
-                              <p className="text-secondary truncate">
-                                0.0000 ETH
-                              </p>
-                            </div>
-                            <div className="mb-4">
-                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">
-                                Auction Price
-                              </label>
-                              <input
-                                placeholder="Ex: 0.01 WMATIC"
-                                aria-label="Username"
-                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                                onChange={(value) => handleChange(value)}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        <hr className="mb-4" />
-                        <div className="text-center">
+                           <div className="mt-40 lg:max-w-[300px] lg:mx-auto mb-5">
                           <Button
-                            btnClassName="custom-btn"
-                            type="secondary"
+                            btnClassName="w-full mb-4 !min-h-[39px]"
+                            type="replyCancel"
+                            handleClick={()=>setIsChecked(!isChecked)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            btnClassName="w-full !min-h-[39px] lg:px-3"
+                            type="primary"
                             disabled={saleLoader}
                             handleClick={() => placeONSaleorAuction("Auction")}
                           >
-                            <span>
-                              {btnLoader && (
-                                <Spinner size="sm" className="text-base-100" />
-                              )}{" "}
-                            </span>{" "}
+                            {btnLoader && (
+                                    <Spinner size="sm" className="text-base-100" />
+                                  )}
                             Put on Auction
                           </Button>
                         </div>
-                      </Modal>
-
-                      <Modal id="cancelsale">
-                        <div className="">
-                          <div className="text-lg text-dark font-semibold">
-                            Confirmation
-                          </div>
-                          <div>
-                            {/* <span
-                                className="icon close c-pointer modal-position"
-                                onClick={handleCancelConfirm}
-                              ></span> */}
                           </div>
                         </div>
+                      </form>
+                      {/* </Modal> */}
+                      {/* putonauction drawer end  */}
+                                  {/* cancel sale drawer start  */}
+                      {/* <Modal id="cancelsale"> */}
+                      <form className="drawer drawer-end">
+                        <input
+                          id="my-drawer-4"
+                          type="checkbox"
+                          className="drawer-toggle"
+                          checked={showCancelSale}
+                        // onChange={() => closeDrawer(!isChecked)}
+                        />
+                        <div className="drawer-side z-[999]">
+                          <label
+                            htmlFor="my-drawer-4"
+                            aria-label="close sidebar"
+                            className="drawer-overlay"
+                          // onChange={handleDrawerClose}
+                          ></label>
+                          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xl text-secondary font-semibold">Confirmation</p>
+                              <button
+                                className="icon close cursor-pointer"
+                                  onClick={()=>setshowCancelSale(!showCancelSale)}
+                              ></button>
+                            </div>
+                       
 
-                        <div>
-                          <p className="text-dark my-8">
-                            Are you sure, Do you want to cancel {cancelType}?
-                          </p>
+                            <div>
+                              <p className="text-dark my-8">
+                                Are you sure, Do you want to cancel {cancelType}?
+                              </p>
+                            </div>
+                           
+                            <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
+                              <Button
+                                type="replyCancel"
+                                handleClick={() => cancelSaleConfirm("No")}
+                                btnClassName="w-full mb-4 !min-h-[39px]"
+                              >
+                                No
+                              </Button>
+                              <Button
+                                type="primary"
+                                handleClick={() => cancelSaleConfirm("Yes")}
+                                btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
+                              >
+                                <span>
+                                  {btnLoader && (
+                                    <Spinner size="sm" className="text-base-100" />
+                                  )}{" "}
+                                </span>{" "}
+                                Yes
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                        <hr className="mb-4" />
-                        <div className="flex justify-center">
-                          <Button
-                            type="cancel"
-                            handleClick={() => cancelSaleConfirm("No")}
-                          >
-                            No
-                          </Button>
-                          <Button
-                            type="secondary"
-                            handleClick={() => cancelSaleConfirm("Yes")}
-                            btnClassName="custom-btn ms-2"
-                          >
-                            <span>
-                              {btnLoader && (
-                                <Spinner size="sm" className="text-base-100" />
-                              )}{" "}
-                            </span>{" "}
-                            Yes
-                          </Button>
-                        </div>
-                      </Modal>
-
+                      </form>
+                      {/* </Modal> */}
+ {/* cancel sale drawer end  */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <label className="font-semibold text-secondary">
@@ -1407,14 +1456,14 @@ const DetailPage = (props: any) => {
                     checked={false}
                   // onChange={() => closeDrawer(!isChecked)}
                   />
-                  <div className="drawer-side z-10">
+                  <div className="drawer-side z-[999]">
                     <label
                       htmlFor="my-drawer-4"
                       aria-label="close sidebar"
                       className="drawer-overlay"
                     // onChange={handleDrawerClose}
                     ></label>
-                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
+                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
                       <div className="flex justify-between items-center my-2">
                         <h2 className="text-lg text-dark font-semibold mb-0">
                           Place a Bid
@@ -1566,14 +1615,14 @@ const DetailPage = (props: any) => {
 
                         <div className="mt-16 lg:max-w-[250px] lg:mx-auto mb-5">
                           <Button
-                            btnClassName="w-full mb-4"
+                            btnClassName="w-full mb-4 !min-h-[39px]"
                             type="replyCancel"
                             handleClick={handleCloseBid}
                           >
                             Cancel
                           </Button>
                           <Button
-                            btnClassName="w-full !h-[32px] !min-h-[32px] lg:px-3"
+                            btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
                             type="primary"
                             disabled={btnLoader}
                           >
@@ -1630,14 +1679,14 @@ const DetailPage = (props: any) => {
                     checked={false}
                   // onChange={() => closeDrawer(!isChecked)}
                   />
-                  <div className="drawer-side z-10">
+                  <div className="drawer-side z-[999]">
                     <label
                       htmlFor="my-drawer-4"
                       aria-label="close sidebar"
                       className="drawer-overlay"
                     // onChange={handleDrawerClose}
                     ></label>
-                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
+                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
                       <div className="flex justify-between items-center">
                         <h2 className="text-lg text-dark font-semibold mb-4">
                           Place a Bid
@@ -1671,14 +1720,14 @@ const DetailPage = (props: any) => {
 
                         <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5">
                           <Button
-                            btnClassName="w-full mb-4"
+                            btnClassName="w-full mb-4 !min-h-[39px]"
                             type="replyCancel"
                             handleClick={handleCloseBid}
                           >
                             Place A Bid
                           </Button>
                           <Button
-                            btnClassName="w-full !h-[32px] !min-h-[32px] lg:px-3"
+                            btnClassName="w-full !min-h-[39px] lg:px-3"
                             type="primary"
                             disabled={btnLoader}
                           >
