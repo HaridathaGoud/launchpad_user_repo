@@ -19,7 +19,7 @@ import BuyComponent from "../../../utils/buyNow";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import Moment from "react-moment";
 import Confirmations from "../../confirmation.modal";
-import defaultlogo from "../../../assets/images/default-logo.png";
+import defaultlogo from "../../../assets/images/default-bg.png";
 import useCopyToClipboard from "../../../hooks/useCopytoClipboard";
 import error from "../../../assets/images/error.svg";
 import ToastContainer from "react-bootstrap/ToastContainer";
@@ -802,7 +802,7 @@ const DetailPage = (props: any) => {
                         //src={nftDetails?.image ? nftDetails?.image: defaultlogo }
                         alt=""
                         // className="detail-image"
-                        className={`${
+                        className={` h-[516px] ${
                           nftDetails?.isUnlockPurchased &&
                           address?.toLowerCase() !==
                             nftDetails?.creatorWalletAddress?.toLowerCase()

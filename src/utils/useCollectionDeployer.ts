@@ -1,13 +1,19 @@
-import { useAccount } from 'wagmi';
-import { prepareWriteContract, writeContract, getWalletClient, waitForTransaction } from 'wagmi/actions'
-import ERC721 from '../contracts/erc721factory.json';
-import ERC1155 from '../contracts/erc1155factory.json';
-import Proxy from '../contracts/proxycontract.json';
-import USER721 from '../contracts/user721contract.json';
-import USER1155 from '../contracts/user1155contract.json';
-import Trade from '../contracts/trade.json';
-import { ethers, utils } from 'ethers';
-import PaymentToken from '../contracts/paymenttoken.json';
+import { useAccount } from "wagmi";
+import {
+  prepareWriteContract,
+  writeContract,
+  getWalletClient,
+  waitForTransaction,
+} from "wagmi/actions";
+import ERC721 from "../contracts/erc721factory.json";
+import ERC1155 from "../contracts/erc1155factory.json";
+import Proxy from "../contracts/proxycontract.json";
+import USER721 from "../contracts/user721contract.json";
+import USER1155 from "../contracts/user1155contract.json";
+import Trade from "../contracts/trade.json";
+import { ethers, utils } from "ethers";
+import PaymentToken from "../contracts/paymenttoken.json";
+type addressType = `0x${string}`;
 export function useCollectionDeployer() {
   const { address } = useAccount();
   async function getSign(data_types: string[], values: any[]) {
@@ -20,36 +26,58 @@ export function useCollectionDeployer() {
     const signature = ethers.utils.splitSignature(signHash);
     return { signature, nonce };
   }
-  function salt(contractaddress: string) {
-    const byte32 = ethers.utils.solidityKeccak256(['address', 'address'], [contractaddress, address]);
-    const byteRes = ethers.utils.hexZeroPad(ethers.utils.hexlify(byte32), 32);
-    return byteRes;
+  function salt(contractAddress: string) {
+    const randomValue = ethers.utils.randomBytes(32);
+    const combined = ethers.utils.solidityPack(
+      ["address", "address", "bytes32"],
+      [contractAddress, address, ethers.utils.hexlify(randomValue)]
+    );
+    const salt = ethers.utils.solidityKeccak256(["bytes"], [combined]);
+    return salt;
   }
   function provider() {
-    const _provider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_ALCHEMY_PROVIDER);
+    const _provider = new ethers.providers.JsonRpcProvider(
+      process.env.REACT_APP_ALCHEMY_PROVIDER
+    );
     return _provider;
   }
-  async function createonChainErc721Collection(name: string, symbol: string, tokenUriPrefix: string) {
+  async function createonChainErc721Collection(
+    name: string,
+    symbol: string,
+    tokenUriPrefix: string
+  ) {
     return createERC721Collection(name, symbol, tokenUriPrefix);
   }
-  async function createERC721Collection(name: string, symbol: string, tokenUriPrefix: string) {
+  async function createERC721Collection(
+    name: string,
+    symbol: string,
+    tokenUriPrefix: string
+  ) {
     const config = await prepareWriteContract({
       abi: ERC721.abi,
-      address: ERC721.contractAddress,
+      address: ERC721.contractAddress  as addressType,
       functionName: "deploy",
-      args: [salt(ERC721.contractAddress), name, symbol, tokenUriPrefix]
+      args: [salt(ERC721.contractAddress), name, symbol, tokenUriPrefix],
     });
     return writeContract(config);
   }
-  async function createonChainErc1155Collection(name: string, symbol: string, tokenUriPrefix: string) {
+  async function createonChainErc1155Collection(
+    name: string,
+    symbol: string,
+    tokenUriPrefix: string
+  ) {
     return createERC1155Collection(name, symbol, tokenUriPrefix);
   }
-  async function createERC1155Collection(name: string, symbol: string, tokenUriPrefix: string) {
+  async function createERC1155Collection(
+    name: string,
+    symbol: string,
+    tokenUriPrefix: string
+  ) {
     const config = await prepareWriteContract({
       abi: ERC1155.abi,
-      address: ERC1155.contractAddress,
+      address: ERC1155.contractAddress as addressType,
       functionName: "deploy",
-      args: [salt(ERC1155.contractAddress), name, symbol, tokenUriPrefix]
+      args: [salt(ERC1155.contractAddress), name, symbol, tokenUriPrefix],
     });
     return writeContract(config);
   }
@@ -57,17 +85,30 @@ export function useCollectionDeployer() {
     var signature = ethers.utils.splitSignature(hash);
     return signature;
   }
-  async function getSignatureForSale(contract_address: string, tokenId: any, type: string, nftPrice: any) {
+  async function getSignatureForSale(
+    contract_address: string,
+    tokenId: any,
+    type: string,
+    nftPrice: any
+  ) {
     const unitPrice = (nftPrice * 10 ** 18).toString();
     var nftAddress = contract_address;
     let nonce = Math.floor(new Date().getTime() / 1000);
     var hash = ethers.utils.solidityKeccak256(
-      ['address', 'uint256', 'address', 'uint256', 'uint256'],
-      [nftAddress, tokenId, process.env.REACT_APP_ERC20WMATIC_TOKEN, unitPrice, nonce],
+      ["address", "uint256", "address", "uint256", "uint256"],
+      [
+        nftAddress,
+        tokenId,
+        process.env.REACT_APP_ERC20WMATIC_TOKEN,
+        unitPrice,
+        nonce,
+      ]
     );
     var msgHash = ethers.utils.arrayify(hash);
     const walletClient = await getWalletClient();
-    var signHash = await walletClient?.signMessage({ message: { raw: msgHash } });
+    var signHash = await walletClient?.signMessage({
+      message: { raw: msgHash },
+    });
     var sign = await splitSign(signHash);
     return JSON.stringify({ sign, nonce });
   }
@@ -75,38 +116,75 @@ export function useCollectionDeployer() {
     let unitPrice = Number(nftPrice);
     unitPrice = unitPrice * 10 ** 18;
     // let percentage= 0.01*nftPrice
-    let percentage = (nftPrice * 1) / 100
-    const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString()
-    let amount = _amount
+    let percentage = (nftPrice * 1) / 100;
+    const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
+    let amount = _amount;
     await deposit(amount);
     await approveERC20(Proxy.contractAddress, amount);
   }
-  async function getSignatureForBid(contract_address: string, tokenId: any, nftPrice: any, quantity: any) {
+  async function getSignatureForBid(
+    contract_address: string,
+    tokenId: any,
+    nftPrice: any,
+    quantity: any
+  ) {
     let unitPrice = Number(nftPrice);
     let qty = quantity;
     unitPrice = unitPrice * 10 ** 18;
     var nftAddress = contract_address;
     // let percentage= 0.01*nftPrice
-    let percentage = (nftPrice * 1) / 100
-    const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString()
-    let amount = _amount
+    let percentage = (nftPrice * 1) / 100;
+    const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
+    let amount = _amount;
     let nonce = Math.floor(new Date().getTime() / 1000);
     var hash = ethers.utils.solidityKeccak256(
-      ['address', 'uint256', 'address', 'uint256', 'uint256', 'uint256'],
-      [nftAddress, tokenId, process.env.REACT_APP_ERC20WMATIC_TOKEN, amount, qty, nonce],
+      ["address", "uint256", "address", "uint256", "uint256", "uint256"],
+      [
+        nftAddress,
+        tokenId,
+        process.env.REACT_APP_ERC20WMATIC_TOKEN,
+        amount,
+        qty,
+        nonce,
+      ]
     );
-    var msgHash: string = ethers.utils.arrayify(hash);
+    var msgHash: Uint8Array = ethers.utils.arrayify(hash);
     const walletClient = await getWalletClient();
-    var signHash = await walletClient?.signMessage({ message: { raw: msgHash } });
+    var signHash = await walletClient?.signMessage({
+      message: { raw: msgHash as addressType|Uint8Array },
+    });
     var sign = await splitSign(signHash);
     return JSON.stringify({ sign, nonce });
   }
-  async function setApprovalForAll(contractAddress: string, abi: any[], callback: Function) {
+  async function setApprovalForAll(
+    contractAddress: addressType,
+    abi: any[],
+    callback: Function
+  ) {
     const config = await prepareWriteContract({
-      abi,
+      abi: abi || USER721.abi,
       address: contractAddress,
       functionName: "setApprovalForAll",
-      args: [Proxy.contractAddress, true]
+      args: [Proxy.contractAddress, true],
+    });
+    try {
+      const receipt = await writeContract(config);
+      callback({ ok: true, data: receipt });
+    } catch (error) {
+      callback({ ok: false, data: error });
+    }
+  }
+  async function mintTo721(
+    contractAddress: addressType,
+    tokenURI: string,
+    royaltyFee: number,
+    callback: Function
+  ) {
+    const config = await prepareWriteContract({
+      abi: USER721.abi,
+      address: contractAddress,
+      functionName: "mint",
+      args: [tokenURI, royaltyFee],
     });
     try {
       const receipt = await writeContract(config);
@@ -122,7 +200,7 @@ export function useCollectionDeployer() {
     token_id: number,
     nft_price: number,
     creator_address: string,
-    quantity: number,
+    quantity: number
   ) {
     let sign = JSON.parse(signature);
     let unitPrice: any = nft_price;
@@ -130,13 +208,16 @@ export function useCollectionDeployer() {
     let qty = quantity;
     unitPrice = (unitPrice * 10 ** 18).toString();
     // let percentage= 0.01*nft_price
-    let percentage = (nft_price * 1) / 100
-    const _amount = ethers.utils.parseUnits(((nft_price + percentage)).toString(), "ether")
-    let amount = _amount
+    let percentage = (nft_price * 1) / 100;
+    const _amount = ethers.utils.parseUnits(
+      (nft_price + percentage).toString(),
+      "ether"
+    );
+    let amount = _amount;
     let nftAddress = contract_address;
     let abi;
-    type = type.replace('-', '');
-    if (type == 'ERC721') {
+    type = type.replace("-", "");
+    if (type == "ERC721") {
       abi = USER721.abi;
     } else {
       abi = USER1155.abi;
@@ -146,7 +227,7 @@ export function useCollectionDeployer() {
       address,
       process.env.REACT_APP_ERC20WMATIC_TOKEN,
       nftAddress,
-      type === 'ERC721' ? 1 : 0,
+      type === "ERC721" ? 1 : 0,
       unitPrice,
       amount,
       token_id,
@@ -156,9 +237,12 @@ export function useCollectionDeployer() {
     await approveERC20(Proxy.contractAddress, amount);
     const config = await prepareWriteContract({
       abi: Trade.abi,
-      address: Trade.contractAddress,
+      address: Trade.contractAddress as addressType,
       functionName: "buyAsset",
-      args: [orderStruct, [sign?.sign?.v, sign?.sign.r, sign?.sign.s, sign?.nonce]]
+      args: [
+        orderStruct,
+        [sign?.sign?.v, sign?.sign.r, sign?.sign.s, sign?.nonce],
+      ],
     });
     return writeContract(config);
   }
@@ -169,18 +253,21 @@ export function useCollectionDeployer() {
     token_id: any,
     signature: string,
     buyer_address: string,
-    quantity: any,
+    quantity: any
   ) {
-    type = type.replace('-', '') === 'ERC721' ? 1 : 0;
+    type = type.replace("-", "") === "ERC721" ? 1 : 0;
     let tokenID = token_id;
     let unitPrice = biddingPrice;
     let sign = JSON.parse(signature);
     let buyerAddress = buyer_address;
     let qty = quantity;
     unitPrice = (unitPrice * 10 ** 18).toString();
-    let percentage = (biddingPrice * 1) / 100
-    const _amount = ethers.utils.parseUnits(((biddingPrice + percentage)).toString(), "ether")
-    let amount = _amount
+    let percentage = (biddingPrice * 1) / 100;
+    const _amount = ethers.utils.parseUnits(
+      (biddingPrice + percentage).toString(),
+      "ether"
+    );
+    let amount = _amount;
     let nftAddress = contract_address;
     var orderStruct = [
       address,
@@ -195,40 +282,42 @@ export function useCollectionDeployer() {
     ];
     const config = await prepareWriteContract({
       abi: Trade.abi,
-      address: Trade.contractAddress,
+      address: Trade.contractAddress  as addressType,
       functionName: "executeBid",
-      args: [orderStruct, [sign.sign.v, sign.sign.r, sign.sign.s, sign.nonce]]
+      args: [orderStruct, [sign.sign.v, sign.sign.r, sign.sign.s, sign.nonce]],
     });
     return writeContract(config);
   }
   async function approveERC20(contractAddress: any, amount: any) {
-    const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || '';
+    const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || "";
     const config = await prepareWriteContract({
       abi: PaymentToken.abi,
       address: wmaticToken,
       functionName: "approve",
-      args: [contractAddress, amount]
+      args: [contractAddress, amount],
     });
     const { hash } = await writeContract(config);
-    return waitForTransaction({ hash })
+    return waitForTransaction({ hash });
   }
   async function deposit(amount: any) {
-    const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || '';
+    const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || "";
     const config = await prepareWriteContract({
       abi: PaymentToken.abi,
       address: wmaticToken,
       functionName: "deposit",
-      value: amount
+      value: amount,
     });
     const { hash } = await writeContract(config);
-    return waitForTransaction({ hash })
+    return waitForTransaction({ hash });
   }
   function parseError(message) {
-    let _message = message?.details || message?.cause?.reason || message?.message || message.fault;
+    let _message =
+      message?.details ||
+      message?.cause?.reason ||
+      message?.message ||
+      message.fault;
     return _message;
   }
-
-
 
   return {
     createonChainErc721Collection,
@@ -241,6 +330,7 @@ export function useCollectionDeployer() {
     acceptBid,
     approveERC20,
     getBidConfirmation,
-    parseError
+    parseError,
+    mintTo721,
   };
 }

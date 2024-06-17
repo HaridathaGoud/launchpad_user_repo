@@ -293,6 +293,8 @@ html[data-theme="light"] .investments .tier-card{background: url(../images/cardb
 .matic-circle.icon{background-position: -93px -615px !important;width: 30px;height: 30px;}
 .icon.refresh-icon{background-position: -333px -238px !important;height: 22px;width: 22px;scale: 0.8;}
 button:disabled{color:black !important;cursor: not-allowed !important;pointer-events: all !important;}
+.checkbox:disabled{background-color: transparent !important;}
+.checkbox:disabled + span {filter: grayscale(1); cursor: not-allowed;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
