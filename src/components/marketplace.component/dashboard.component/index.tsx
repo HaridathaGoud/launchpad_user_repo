@@ -1,10 +1,10 @@
 import React, { useEffect,useRef } from 'react';
 // import Category from '../../components/category.component';//we are using in Feature
-import HotCollections from '../marketplace.component/hotcollections.component/index';
-import TopSeller from '../marketplace.component/topseller.component/index';
-import TrendingNfts from '../marketplace.component/trendingnfts.component/index';
-import Banner from './banner';
-import BrowseByCategory from './browsebycategory.component';
+import HotCollections from '../hotcollections.component';
+import TopSeller from '../topseller.component';
+import TrendingNfts from '../trendingnfts.component'
+import Banner from '../banner.component';
+import BrowseByCategory from '../browsebycategory.component';
 
 export default function DashBoard() {
   const scrollableRef = useRef<any>(null);
@@ -22,7 +22,7 @@ scrollableRef?.current?.scrollIntoView(0,0);
       <BrowseByCategory/>
     </div>
       {/* We are using these are in Feature */}
-      {/* <Category />  */} 
+      {/* <Category />  */}
       {/* <Subscribe /> */}
     </>
   );

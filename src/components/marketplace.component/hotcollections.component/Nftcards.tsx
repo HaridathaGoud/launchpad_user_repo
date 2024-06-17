@@ -3,6 +3,7 @@ import Image from 'react-bootstrap/Image';
 import member from '../../../assets/images/dao-profile.png';
 import { Link } from 'react-router-dom';
 import gadha from '../../../assets/images/hanuman-gadha.png'
+import NftCardShimmer from './NftCardShimmer';
 
 const NftCards = ({setCardDetails}) => {
 
@@ -65,23 +66,24 @@ const data=[
         highestbid:'0.15 Matic',
     }
 ]
+
     return (
         <>
         {data.map((item,index)=>(
              <>
-             <div className="border shadow rounded-2xl h-full">
+                {/* <div className="border shadow rounded-2xl h-full">
+                    <div className="animate-pulse space-x-4"></div>
+                    <div className="animate-pulse space-x-4 h-60">
+                        <div className="bg-slate-200 rounded-xl h-64"></div>
+                    </div>
+                    <div className="animate-pulse mt-2 py-[1rem] px-3">
+                        <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
+                        <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
+                        <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
+                    </div>
+                </div> */}
+                <NftCardShimmer/>
 
-<div className="animate-pulse space-x-4"></div>
-<div className="animate-pulse space-x-4 h-60">
-    <div className="bg-slate-200 rounded-xl h-64"></div>
-</div>
-
-<div className="animate-pulse mt-2 py-[1rem] px-3">
-    <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
-    <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
-    <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
-</div>
-</div>
             <div onClick={()=>setCardDetails(item)}>
           <div className='shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]'>
             <img src={item.image} alt="" className='h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg' />

@@ -47,7 +47,7 @@ const Staking = React.lazy(() => import("../components/staking"));
 const Tiers = React.lazy(() => import("../components/tiers"));
 const SumSub = React.lazy(() => import("../components/sumsub"));
 const Marketplace = React.lazy(
-  () => import("../components/marketplace.component/index")
+  () => import("../components/marketplace.component/dashboard.component")
 );
 const Daos = React.lazy(() => import("../components/Dao/dashboard/index"));
 const Proposals = React.lazy(() => import("../components/Dao/proposals/index"));
@@ -188,7 +188,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace",
+          path: "/marketplace/home",
           element: <Marketplace />,
           errorElement: <ErrorPage />,
         },
@@ -208,7 +208,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/collection/view",
+          path: "/marketplace/collection/:collectionid/view",
           element: <HotcollectionView />,
           errorElement: <ErrorPage />,
         },

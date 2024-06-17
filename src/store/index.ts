@@ -11,6 +11,7 @@ import marketPlaceReducer from "../reducers/marketPlaceReducer";
 import layoutReducer from "../reducers/layoutReducer";
 import portfolioReducer from "../reducers/portfolioReducer";
 import strapiReducer from "../components/strapi/docs/strapiReducer";
+import dashboardReducer from "../reducers/dashboardreducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -26,6 +27,7 @@ const rootReducerState = combineReducers({
   layoutReducer: layoutReducer,
   portfolio: portfolioReducer,
   strapiData:strapiReducer,
+  dashboardReducer:dashboardReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];
