@@ -20,10 +20,11 @@ export function useCollectionDeployer() {
     const signature = ethers.utils.splitSignature(signHash);
     return { signature, nonce };
   }
-  function salt(contractaddress: string) {
-    const byte32 = ethers.utils.solidityKeccak256(['address', 'address'], [contractaddress, address]);
-    const byteRes = ethers.utils.hexZeroPad(ethers.utils.hexlify(byte32), 32);
-    return byteRes;
+  function salt(contractAddress: string) {
+    const randomValue = ethers.utils.randomBytes(32);
+    const combined = ethers.utils.solidityPack(['address','address', 'bytes32'], [contractAddress,address, ethers.utils.hexlify(randomValue)]);
+    const salt = ethers.utils.solidityKeccak256(['bytes'], [combined]);
+    return salt;
   }
   function provider() {
     const _provider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_ALCHEMY_PROVIDER);
