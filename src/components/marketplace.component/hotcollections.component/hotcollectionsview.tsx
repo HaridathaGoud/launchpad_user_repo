@@ -12,11 +12,12 @@ import SearchInputComponent from './SearchComponent';
 import StatusDetailview from './detailviewstatus';
 import NftCards from './Nftcards';
 import Button from '../../../ui/Button';
+import Activity from '../topsellerdetailview/activity';
 // import NftCardDetailview from './Nftcarddetailview';
 
 const HotcollectionView = ({buynft}) => {
 
-const [activeTab,setActiveTab]=useState('nft')
+const [activeTab,setActiveTab]=useState('items')
 const [cardDetails,setCardDetails]=useState(null)
 const handleTabChange=(e,type)=>{
   setActiveTab(type)
@@ -45,8 +46,10 @@ const handleTabChange=(e,type)=>{
             </div>
           </div>
         </div>
-      
-      <div className="mt-7 mb-[42px]">         
+        <div role="tablist" className="tabs tabstyle mt-[34px] customTabs  max-sm:overflow-x-auto scrollbar-hidden">
+          <input type="radio" name="my_tabs_1" role="tab" className={`tab !ml-0 ${activeTab === 'items' ? 'tab-checked' : ''}`} aria-label="Items" onChange={(e) => handleTabChange(e, 'items')} checked={activeTab === 'items'} />
+          <div role="tabpanel" className="tab-content py-[18px]">
+          <div className="mt-7 mb-[42px]">         
           <div className="md:flex justify-between">
             <SearchInputComponent/>
                         <div className="flex items-center max-sm:mt-2">
@@ -70,7 +73,6 @@ const handleTabChange=(e,type)=>{
                         </div>
            </div>
         </div>
-
         {!cardDetails && <div className='grid md:grid-cols-12 lg:gap-[45px]'>
           <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
             <StatusDetailview activeTab={activeTab}/>
@@ -80,6 +82,14 @@ const handleTabChange=(e,type)=>{
           </div>
         </div>}
         {cardDetails && <NftCardDetailview cardDetails={cardDetails}/>}
+            </div>
+            </div>
+            <input type="radio" name="my_tabs_2" role="tab" className={`tab !ml-0 ${activeTab === 'activity' ? 'tab-checked' : ''}`} aria-label="Activity" onChange={(e) => handleTabChange(e, 'activity')} checked={activeTab === 'activity'} />
+            <div role="tabpanel" className="tab-content py-[18px]">
+              <Activity/>
+              </div>
+
+       
         </div>
     </>
   );
