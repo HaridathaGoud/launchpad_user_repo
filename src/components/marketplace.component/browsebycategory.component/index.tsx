@@ -6,7 +6,7 @@ import { browserByCategoryreducer, browserByCategoryState } from './reducer';
 import { setError } from "../../../reducers/layoutReducer";
 import { getMarketplace } from '../../../utils/api';
 import Button from "../../../ui/Button";
-
+import defaultbg from "../../../assets/images/default-bg.png";
 export default function BrowseByCategory() {
   const rootDispatch = useDispatch();
   const { address, isConnected } = useAccount();
@@ -67,11 +67,11 @@ export default function BrowseByCategory() {
               {getDisplayedItems().map((item: any, idx: any) =>
                 <Link to={'/marketplace/categoryview'} key={idx}>
                   <div className='card bg-primary-content border border-slate-200 w-full'>
-                    <img src={item?.image} className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
+                    <img src={item?.image || defaultbg} className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
                     <div className="flex gap-1 mt-1">
-                      <div className='flex-1'> <img src={item?.image} alt="" className='h-[100px] object-cover w-full' /></div>
-                      <div className='flex-1'> <img src={item?.image} alt="" className='h-[100px] object-cover w-full' /></div>
-                      <div className='flex-1'> <img src={item?.image} alt="" className='h-[100px] object-cover w-full' /></div>
+                      <div className='flex-1'> <img src={item?.image || defaultbg} alt="" className='h-[100px] object-cover w-full' /></div>
+                      <div className='flex-1'> <img src={item?.image || defaultbg} alt="" className='h-[100px] object-cover w-full' /></div>
+                      <div className='flex-1'> <img src={item?.image || defaultbg} alt="" className='h-[100px] object-cover w-full' /></div>
                     </div>
                     <div className='pt-2 px-5 pb-4'>
                       <h1 className='text-lg text-secondary font-semibold truncate'>{item?.name}</h1>

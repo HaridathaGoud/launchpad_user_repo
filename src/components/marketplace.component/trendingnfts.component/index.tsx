@@ -40,12 +40,6 @@ function TrendingNfts(props) {
     }
   };
 
-
-  const convertImageUrl = (file: any) => {
-    const filePath = file?.replace("ipfs://", "");
-    return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
-  };
-
   const handleProfileRedirect = (item: any) => {
     router(`/marketplace/accounts/${item.creatorWalletAddress || address}`);
   };
@@ -132,7 +126,7 @@ function TrendingNfts(props) {
 
                           <div className="relative">
                             <img
-                              src={item?.logo ? item?.logo : defaultbg}
+                              src={item?.logo || defaultbg}
                               alt=""
                               className={`w-full object-cover h-[400px] rounded-[16px] ${item?.isUnlockPurchased &&
                                   address?.toLowerCase() !==

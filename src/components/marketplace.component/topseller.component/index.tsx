@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 import "react-multi-carousel/lib/styles.css";
 import defaultlogo from "../../../assets/images/default-logo.png";
-import Placeholder from "react-bootstrap/Placeholder";
 import { topsellerreducer, dashboardState } from "./reducer";
 import { store } from "../../../store";
 import { useSelector ,useDispatch} from "react-redux";
@@ -47,20 +46,6 @@ const TopSeller = () => {
                             <h2 className="mb-4 text-2xl font-semibold">Top Sellers</h2>
                         </div>
                         <div className="">
-                            <div className="text-center">
-                                {topSellers.loading && (
-                                    <div className="sell-card  shimmer-topseller shimmer">
-                                        <Placeholder animation="glow">
-                                            <Placeholder xs={2} className="topseller-img" />
-                                        </Placeholder>
-                                        <Placeholder animation="glow">
-                                            <Placeholder xs={12} />
-                                            <Placeholder xs={12} />
-                                            <Placeholder xs={12} />
-                                        </Placeholder>
-                                    </div>
-                                )}
-                            </div>
                             {!topSellers.loading && (
                                 <div className="carousel container mx-auto gap-3" >
                                     {visibleItems?.map((item: any, idx: any) => (
