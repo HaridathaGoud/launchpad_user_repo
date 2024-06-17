@@ -36,7 +36,7 @@ export default function HotCollections() {
   };
 
   const handleHotCollectionItem = (item: any) => {
-    router(`/marketplace/collection/view`);
+    router(`/marketplace/collection/${item.id}/view`);
   };
   const handleSlideActions = (action) => {
     if (action === 'next') {

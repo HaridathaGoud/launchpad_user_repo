@@ -1,29 +1,44 @@
-import React, { useState } from 'react';
-import NaviLink from '../../../ui/NaviLink';
-import DetailviewLeftpanel from './leftpanel';
-import CommentsSection from './RightPanel';
-import RightPanel from './RightPanel';
-
-
-
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import NftCardDetailview from './Nftcarddetailview';
 import SearchInputComponent from './SearchComponent';
 import StatusDetailview from './detailviewstatus';
 import NftCards from './Nftcards';
 import Button from '../../../ui/Button';
 import Activity from '../topsellerdetailview/activity';
-// import NftCardDetailview from './Nftcarddetailview';
+// import { clearHotCollectionsViewDetails, getHotCollectionsViewDetails } from './reducer';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { setError } from '../../../reducers/layoutReducer';
 
-const HotcollectionView = ({buynft}) => {
+const HotcollectionView = (props: any) => {
+  const params = useParams();
+  const rootDispatch=useDispatch()
+  const hotCollectionViewDetails = useSelector((store: any) => store.hotCollection.hotCollectionViewDetails);
+  const [activeTab, setActiveTab] = useState('items')
+  const [cardDetails, setCardDetails] = useState(null)
 
-const [activeTab,setActiveTab]=useState('items')
-const [cardDetails,setCardDetails]=useState(null)
-const handleTabChange=(e,type)=>{
-  setActiveTab(type)
-}
+  const handleTabChange = (e, type) => {
+    setActiveTab(type)
+  }
+  useEffect(() => {
+    debugger
+    // getHotCollectionsData();
+    return () => {
+      // props.clearclearHotCollectionsViewDetails();
+    };
+  }, []);
+
+  const getHotCollectionsData = async () => {
+    props.fetchHotCollectionsViewDetails({
+      data: null,
+      id:params.collectionid
+    });
+  };
+  if (hotCollectionViewDetails?.error) rootDispatch(setError(hotCollectionViewDetails?.error));
+
+  console.log('hotCollectionViewDetails ',hotCollectionViewDetails);
+  
   return (
-    <>
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
       <div className='min-h-[320px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={'https://wallpapercave.com/wp/wp7241840.png'} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
@@ -45,6 +60,12 @@ const handleTabChange=(e,type)=>{
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button></div>
             </div>
           </div>
+          <div className='flex gap-6 absolute right-10 bottom-6'>
+              <span className='icon fb cursor-pointer'></span>
+              <span className='icon linkedin cursor-pointer'></span>
+              <span className='icon twit cursor-pointer'></span>
+              <span className='icon network cursor-pointer'></span>
+            </div>
         </div>
         <div role="tablist" className="tabs tabstyle mt-[34px] customTabs  max-sm:overflow-x-auto scrollbar-hidden">
           <input type="radio" name="my_tabs_1" role="tab" className={`tab !ml-0 ${activeTab === 'items' ? 'tab-checked' : ''}`} aria-label="Items" onChange={(e) => handleTabChange(e, 'items')} checked={activeTab === 'items'} />
@@ -84,6 +105,7 @@ const handleTabChange=(e,type)=>{
         {cardDetails && <NftCardDetailview cardDetails={cardDetails}/>}
             </div>
             </div>
+
             <input type="radio" name="my_tabs_2" role="tab" className={`tab !ml-0 ${activeTab === 'activity' ? 'tab-checked' : ''}`} aria-label="Activity" onChange={(e) => handleTabChange(e, 'activity')} checked={activeTab === 'activity'} />
             <div role="tabpanel" className="tab-content py-[18px]">
               <Activity/>
@@ -91,7 +113,20 @@ const handleTabChange=(e,type)=>{
 
        
         </div>
-    </>
   );
 }
-export default HotcollectionView;
+const connectStateToProps = ({ oidc,hotCollection }: any) => {
+  return { oidc: oidc,hotCollection:hotCollection };
+};
+const connectDispatchToProps = (dispatch: any) => {
+  return {
+    // fetchHotCollectionsViewDetails: (callback: any) => {
+    //   dispatch(getHotCollectionsViewDetails(callback));
+    // },
+    // clearclearHotCollectionsViewDetails: () => {
+    //   dispatch(clearHotCollectionsViewDetails());
+    // },
+    dispatch,
+  };
+};
+export default connect(connectStateToProps, connectDispatchToProps)(HotcollectionView);
