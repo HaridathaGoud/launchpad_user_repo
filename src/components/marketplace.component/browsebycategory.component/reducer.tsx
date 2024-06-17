@@ -1,10 +1,12 @@
 export interface BrowserByCategoryStateModel {
     browseByCategoryList: any | [];
-    loader:boolean;
+    loader: boolean;
+    currentIndex: number;
 }
 export const browserByCategoryState = {
     browseByCategoryList: [],
-    loader:false
+    loader: false,
+    currentIndex: 0
 };
 
 export const browserByCategoryreducer = (state = browserByCategoryState, action) => {
@@ -12,9 +14,12 @@ export const browserByCategoryreducer = (state = browserByCategoryState, action)
         case "setBrowseByCategoryList":
             state = { ...state, browseByCategoryList: action.payload };
             break;
-            case "setLoader":
-                state = { ...state, loader: action.payload };
-                break;
+        case "setLoader":
+            state = { ...state, loader: action.payload };
+            break;
+        case "setCurrentIndex":
+            state = { ...state, currentIndex: action.payload };
+            break;
         default:
             state = { ...state };
     }

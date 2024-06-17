@@ -9,7 +9,6 @@ import Button from "../../../ui/Button";
 import NaviLink from "../../../ui/NaviLink";
 import { fetchTopSellers } from "../../../reducers/dashboardreducer";
 import { setError } from "../../../reducers/layoutReducer";
-
 const pageSize = 10;
 const TopSeller = () => {
   const rootDispatch = useDispatch();
@@ -20,22 +19,24 @@ const TopSeller = () => {
     }
     );
     useEffect(() => {
+      localDispatch({ type: 'setCurrentIndex', payload: 0 });
         store.dispatch(fetchTopSellers({ page: 1, take: pageSize, data: topSellers.data || null }));
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
     useEffect(() => {
       rootDispatch(setError({ message: topSellers?.error }));
   }, [topSellers?.error]); // eslint-disable-line react-hooks/exhaustive-deps
-    const handleSlideActions = (action: any) => {
-        let newIndex
-        if (action === "previous") {
-            newIndex = (topSellers.nextPage - 1 + topSellers?.length) % topSellers?.length;
-            localDispatch({ type: "setCurrentIndex", payload: newIndex });
-        }
-        if (action === "next") {
-            newIndex = (topSellers.nextPage + 1) % topSellers?.length;
-            localDispatch({ type: "setCurrentIndex", payload: newIndex });
-        }
+
+    const handleSlideActions = (action) => {
+      if (action === 'next') {
+        const newIndex = (localState.currentIndex + 1) % topSellers?.data?.length;
+        localDispatch({ type: 'setCurrentIndex', payload: newIndex });
+      }
+      else {
+        const newIndex = (localState.currentIndex - 1 + topSellers?.data?.length) % topSellers?.data?.length;
+        localDispatch({ type: 'setCurrentIndex', payload: newIndex });
+      }
     };
+
     const visibleItems = topSellers.data ? [...topSellers.data?.slice(localState.currentIndex), ...topSellers.data?.slice(0, localState.currentIndex)].slice(0, 4) : [];
     return (
         <>
