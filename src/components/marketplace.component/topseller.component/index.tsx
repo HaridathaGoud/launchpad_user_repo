@@ -77,14 +77,14 @@ const TopSeller = () => {
                               {item?.name || item?.walletAddress}
                             </h4>
                             <div className="mt-3 mb-2">
-                              <p className="text-info">Flour Price</p>
-                              <p className="text-[16px] text-white">
+                              <p className="text-info text-sm font-normal">Flour Price</p>
+                              <p className="text-[16px] text-white font-normal">
                                 {item?.flourPice || 0} Matic
                               </p>
                             </div>
                             <div>
-                              <p className="text-info">Volume</p>
-                              <p className="text-[16px] text-white">
+                              <p className="text-info text-sm font-normal">Volume</p>
+                              <p className="text-[16px] text-white font-normal">
                                 {item?.volume || 0} Matic
                               </p>
                             </div>
