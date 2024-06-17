@@ -101,7 +101,7 @@ function TrendingNfts(props) {
               Today Trending <span className="text-primary">NFTs</span>
             </h2>
             {!loader && (
-              <div className="carousel justify-center gap-14 flex md:py-[80px]">
+              <div className={`carousel justify-center flex md:py-[80px] ${todaytrending?.length === 3 ? 'gap-14':'gap-4'} `}>
                 {todaytrending.length > 0 ? (
                   todaytrending?.map((item: any, idx: any) => (
                     <div
@@ -149,7 +149,7 @@ function TrendingNfts(props) {
                                 item.creatorWalletAddress != address && (
                                   <div className="text-right absolute right-5 bottom-2">
                                     <Button
-                                      btnClassName="trend-btn opacity-100"
+                                      btnClassName="trend-btn opacity-100 min-w-[180px]"
                                       type="primary"
                                       handleClick={() => handleBuyModal(item)}
                                     >

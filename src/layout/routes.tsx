@@ -13,7 +13,7 @@ import TopsellerDetailview from "../components/marketplace.component/topsellerde
 import MycollectionsComponent from "../components/marketplace.component/mycollections.component";
 import TiresShimmer from "../components/loaders/TiresShimmers";
 import StakingShimmer from "../components/loaders/StakingShimmer";
-import ProjectViewShimmer from "../components/loaders/projects/projectViewShimmer";
+import ProjectViewShimmer from "../components/loaders/projects/ProjectViewShimmer";
 import ProjectCardsShimmers from "../components/loaders/projects/projectCardsShimmers";
 import ProfileShimmer from "../components/loaders/profileShimmer";
 import DashboardShimmers from "../components/loaders/dashboard/dashboardShimmers";
