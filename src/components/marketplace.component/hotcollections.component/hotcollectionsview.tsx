@@ -13,7 +13,7 @@ import { setError } from '../../../reducers/layoutReducer';
 const HotcollectionView = (props: any) => {
   const params = useParams();
   const rootDispatch=useDispatch()
-  const hotCollectionViewDetails = useSelector((store: any) => store.hotCollection.hotCollectionViewDetails);
+  // const hotCollectionViewDetails = useSelector((store: any) => store.hotCollection.hotCollectionViewDetails);
   const [activeTab, setActiveTab] = useState('items')
   const [cardDetails, setCardDetails] = useState(null)
 
@@ -21,7 +21,6 @@ const HotcollectionView = (props: any) => {
     setActiveTab(type)
   }
   useEffect(() => {
-    debugger
     // getHotCollectionsData();
     return () => {
       // props.clearclearHotCollectionsViewDetails();
@@ -34,9 +33,9 @@ const HotcollectionView = (props: any) => {
       id:params.collectionid
     });
   };
-  if (hotCollectionViewDetails?.error) rootDispatch(setError(hotCollectionViewDetails?.error));
+  // if (hotCollectionViewDetails?.error) rootDispatch(setError(hotCollectionViewDetails?.error));
 
-  console.log('hotCollectionViewDetails ',hotCollectionViewDetails);
+  // console.log('hotCollectionViewDetails ',hotCollectionViewDetails);
   
   return (
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
