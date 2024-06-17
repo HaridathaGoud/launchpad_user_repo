@@ -633,7 +633,7 @@ function CreateCollection(props: any) {
                     <div className="mb-6 relative" controlId="formPlaintextEmail">
                       <label className="text-dark text-sm font-normal p-0 mb-2 label block">Links</label>
                       <div className="mb-6 relative">                        
-                          <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                          <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
                           <span className="icon globe-icon "></span>
                             </div>                        
                         <input
@@ -646,7 +646,7 @@ function CreateCollection(props: any) {
                         />
                       </div>
                       <div className="mb-6 relative">
-                      <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                      <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
                       <span className="icon icon-fb"></span>
                       </div> 
                         <input
@@ -659,7 +659,7 @@ function CreateCollection(props: any) {
                         />
                       </div>
                       <div className="mb-6 relative">
-                      <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                      <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
                       <span className="icon icon-twitter"></span>
                       </div>                        
                         <input
@@ -672,7 +672,7 @@ function CreateCollection(props: any) {
                         />
                       </div>
                       <div className="mb-6 relative">
-                      <div className='border-r border-[#6D6871] pr-2 absolute left-4 top-[6px]'>
+                      <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
                       <span className="icon icon-linkedIn"></span>
                       </div>                          
                         <input

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../../../ui/Button';
 import TopSellerCarousal from './topseller.component';
+import NftCards from '../hotcollections.component/Nftcards';
+import StatusDetailview from '../hotcollections.component/detailviewstatus';
+import SearchInputComponent from '../hotcollections.component/SearchComponent';
+import Activity from './activity';
 
 const TopsellerDetailview = ({ buynft }) => {
   const [isChecked, setIsChecked] = useState(false)
@@ -26,7 +30,7 @@ const TopsellerDetailview = ({ buynft }) => {
     <>
       <div className="mx-auto max-sm:px-3 md:mt-5 container">
         <div className='min-h-[320px] rounded-lg mt-4 relative'>
-          <img src="https://media.thenerdstash.com/wp-content/uploads/2021/11/disney-plus-new-marvel-banner-2.jpeg" alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
+          <img src="https://i.pinimg.com/564x/a5/b2/d4/a5b2d49ed685749026b9e92cafa50e35.jpg" alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
           <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
             <img src={'https://i.pinimg.com/236x/82/6c/fd/826cfd84d6d83cff554b0e5b7834aa39.jpg  '} className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto" alt="" />
             <div>
@@ -63,7 +67,7 @@ const TopsellerDetailview = ({ buynft }) => {
           <div role="tabpanel" className="tab-content py-[18px]">
             <TopSellerCarousal/>
             <div className="md:flex justify-between">
-              {/* <SearchInputComponent /> */}
+              <SearchInputComponent />
               <div className="flex items-center max-sm:mt-2">
                 <div className="dropdown mr-2.5">
                   <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
@@ -89,7 +93,7 @@ const TopsellerDetailview = ({ buynft }) => {
           <input type="radio" name="my_tabs_1" role="tab" className={`tab ${activeTab === 'nftMembership' ? 'tab-checked' : ''}`} aria-label="Collected 801" onChange={(e) => handleTabChange(e, 'nftMembership')} checked={activeTab === 'nftMembership'} />
           <div role="tabpanel" className="tab-content py-[18px]">
             <div className="md:flex justify-between">
-              {/* <SearchInputComponent /> */}
+              <SearchInputComponent />
               <div className="flex items-center max-sm:mt-2">
                 <div className="dropdown mr-2.5">
                   <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
@@ -119,15 +123,16 @@ const TopsellerDetailview = ({ buynft }) => {
           </div>
           <input type="radio" name="my_tabs_1" role="tab" className={`tab `} aria-label="Activity" onChange={(e) => handleTabChange(e, 'nftMembership')} />
           <div role="tabpanel" className="tab-content py-[18px]">
+             <Activity/>
           </div>
         </div>
 
         {!cardDetails && <div className='grid md:grid-cols-12 lg:gap-[45px]'>
           <div className='col-span-12 lg:col-span-3'>
-            {/* <StatusDetailview activeTab={activeTab} /> */}
+            <StatusDetailview activeTab={activeTab} />
           </div>
           <div className='col-span-12 lg:col-span-9 grid md:grid-cols-3 xl:grid-cols-3 gap-[16px]'>
-            {/* <NftCards setCardDetails={setCardDetails} /> */}
+            <NftCards setCardDetails={setCardDetails} />
           </div>
         </div>}
         {/* {cardDetails && <NftCardDetailview cardDetails={cardDetails} />} */}
