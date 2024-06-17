@@ -4,7 +4,8 @@ export interface TrendingNftsStateModel {
     todaytrending: any | [];
     showBuyModal: boolean;
     trendingData: Object | any;
-    nftDetails:any
+    nftDetails:any;
+    currentIndex: number;
 }
 export const trendingNftState = {
     previosImageChagne: 0,
@@ -12,7 +13,8 @@ export const trendingNftState = {
     todaytrending: [],
     showBuyModal: false,
     trendingData: {},
-    nftDetails:{}
+    nftDetails:{},
+    currentIndex: 0
 };
 
 export const trendingNFTSReducer = (state = trendingNftState, action) => {
@@ -32,9 +34,12 @@ export const trendingNFTSReducer = (state = trendingNftState, action) => {
         case "setTrendingData":
             state = { ...state, trendingData: action.payload };
             break;
-            case "setNftDetails":
-                state = { ...state, nftDetails: action.payload };
-                break;
+        case "setNftDetails":
+            state = { ...state, nftDetails: action.payload };
+            break;
+        case "setCurrentIndex":
+            state = { ...state, currentIndex: action.payload };
+            break;
         default:
             state = { ...state };
     }

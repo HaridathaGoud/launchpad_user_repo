@@ -17,6 +17,7 @@ function TrendingNfts(props) {
   const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(trendingNFTSReducer, trendingNftState);
   useEffect(() => {
+    localDispatch({ type: 'setCurrentIndex', payload: 0 });
     getTodayTrending();
   }, [isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -93,6 +94,17 @@ function TrendingNfts(props) {
       }/${item.id}`
     );
   };
+  const handleSlideActions = (action) => {
+    if (action === 'next') {
+      const newIndex = (localState.currentIndex + 1) % localState.todaytrending?.length;
+      localDispatch({ type: 'setCurrentIndex', payload: newIndex });
+    }
+    else {
+      const newIndex = (localState.currentIndex - 1 + localState.todaytrending?.length) % localState.todaytrending?.length;
+      localDispatch({ type: 'setCurrentIndex', payload: newIndex });
+    }
+  };
+  const visibleItems = localState.todaytrending ? [...localState.todaytrending?.slice(localState.currentIndex), ...localState.todaytrending?.slice(0, localState.currentIndex)].slice(0, 2) : [];
   return (
     <>
       {localState.todaytrending.length > 0 && (
@@ -104,13 +116,13 @@ function TrendingNfts(props) {
             {!localState.loader && (
               <div className="carousel justify-center gap-14 flex md:py-[80px]">
                 {localState.todaytrending.length > 0 ? (
-                  localState.todaytrending?.map((item: any, idx: any) => (
+                  visibleItems?.map((item: any, idx: any) => (
                     <div
                       className="carousel-item w-full md:w-[340px]"
                       key={item.creatorWalletAddress}
                     >
                       <div
-                        className={`card bg-primary-content border border-slate-200 w-full ${localState.todaytrending?.length === 3 &&
+                        className={`card bg-primary-content border border-slate-200 w-full ${visibleItems?.length === 3 &&
                             idx === localState.previosImageChagne + 1
                             ? "trending-card centerd-card lg:scale-[1.2]"
                             : "trending-card"
@@ -120,12 +132,7 @@ function TrendingNfts(props) {
 
                           <div className="relative">
                             <img
-                              src={
-                                item?.logo
-                                  ? `${convertImageUrl(item?.logo)}`
-                                  : defaultbg
-                              }
-                              //src={item?.logo ? item?.logo : defaultbg}
+                              src={item?.logo ? item?.logo : defaultbg}
                               alt=""
                               className={`w-full object-cover h-[400px] rounded-[16px] ${item?.isUnlockPurchased &&
                                   address?.toLowerCase() !==
@@ -209,8 +216,8 @@ function TrendingNfts(props) {
               </div>
             )}
             <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
-              <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
-              <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
+              <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1" onClick={() => handleSlideActions("previous")} ></span>
+              <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]" onClick={() => handleSlideActions("next")}></span>
             </div>
           </div>
           {localState.showBuyModal && (
