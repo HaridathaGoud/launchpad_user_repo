@@ -1,8 +1,7 @@
-import React,{ useEffect, useReducer, useState } from 'react';
+import React,{ useEffect, useReducer } from 'react';
 import { getMarketplace } from '../../../utils/api';
 import 'react-multi-carousel/lib/styles.css';
 import { useNavigate } from 'react-router-dom';
-import Placeholder from 'react-bootstrap/Placeholder';
 import { hotCollectionReducer, hotcollectionState } from './reducer';
 import { useDispatch } from 'react-redux';
 import { setError } from "../../../reducers/layoutReducer";
@@ -19,8 +18,8 @@ export default function HotCollections() {
   const getHotCollectionsData = async () => {
     try {
       localDispatch({ type: 'setLoader', payload: true });
-      //  let response =  await getMarketplace(`User/HotCollectionsData/10/0/${null}/${null}`)
-      let response = await getMarketplace("User/todaytrending");
+       let response =  await getMarketplace(`User/HotCollectionsData/10/0/${null}/${null}`)
+      // let response = await getMarketplace("User/todaytrending");
       if (response.status === 200) {
         localDispatch({ type: 'setHotCollectionData', payload: response.data });
       }
