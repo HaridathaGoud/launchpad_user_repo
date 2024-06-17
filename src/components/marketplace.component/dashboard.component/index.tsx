@@ -3,7 +3,7 @@ import React, { useEffect,useRef } from 'react';
 import HotCollections from '../hotcollections.component';
 import TopSeller from '../topseller.component';
 import TrendingNfts from '../trendingnfts.component'
-import Banner from '../banner';
+import Banner from '../banner.component';
 import BrowseByCategory from '../browsebycategory.component';
 
 export default function DashBoard() {

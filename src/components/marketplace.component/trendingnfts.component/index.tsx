@@ -26,7 +26,7 @@ function TrendingNfts(props) {
     try {
       localDispatch({ type: 'setLoader', payload: true });
       const response = await getMarketplace("User/todaytrending");
-      if (response.statusText.toLowerCase() === 'ok') {
+      if (response.status === 200) {
         localDispatch({type:'setTodayTrending',payload:response.data});
       }
       else {

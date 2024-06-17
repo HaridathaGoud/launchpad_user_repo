@@ -22,7 +22,7 @@ export default function BrowseByCategory() {
     try {
       localDispatch({ type: 'setLoader', payload: true });
       const response = await getMarketplace("User/GetAllCategories/10/0");
-      if (response.statusText.toLowerCase() === 'ok') {
+      if (response.status === 200) {
         localDispatch({ type: 'setBrowseByCategoryList', payload: response.data });
       } else {
         rootDispatch(setError({ message: response }));
