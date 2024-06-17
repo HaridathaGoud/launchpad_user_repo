@@ -115,14 +115,12 @@ const ProfileEdit = ({
         type="checkbox"
         className="drawer-toggle"
         checked={isChecked}
-        // onChange={() => closeDrawer(!isChecked)}
       />
       <div className="drawer-side z-[999]">
         <label
           htmlFor="my-drawer-4"
           aria-label="close sidebar"
           className="drawer-overlay"
-          // onChange={handleDrawerClose}
         ></label>
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex items-center justify-between">

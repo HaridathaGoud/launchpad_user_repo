@@ -155,11 +155,7 @@ export default function Unstake() {
                 {activeStep !== 4 && (
                   <div className="mx-2">
                     <Button
-                      type={
-                        activeCondition || tabContextValues?.buttonLoader
-                          ? "stakingDisabled"
-                          : "stakingPrimary"
-                      }
+                     type={"stakingPrimary"}
                       btnClassName={`flex items-center gap-2`}
                       handleClick={handleNextStep}
                       disabled={

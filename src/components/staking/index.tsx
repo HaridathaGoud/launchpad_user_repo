@@ -69,7 +69,7 @@ const Staking = () => {
     dispatch({ type: "setAmounts", payload: amounts });
   };
 
-  const setTimer = (difference, type) => {
+  const setTimer = (difference:number, type:string) => {
     const details = state?.stakeDetails;
     let initiatedTime = 0;
     if (state?.activeTab === 1) {
@@ -109,10 +109,10 @@ const Staking = () => {
       stakeDetails: state?.stakeDetails,
       activeTab: state?.activeTab,
       loader: state?.loader,
-      setActiveTab: (payload) =>
+      setActiveTab: (payload:number) =>
         dispatch({ type: "setActiveTab", payload: payload }),
       activeStep: state?.activeStep,
-      setActiveStep: (payload) =>
+      setActiveStep: (payload:number) =>
         dispatch({ type: "setActiveStep", payload: payload }),
       unstakedDate: state?.stakingDetails?.unstakedDate,
       stakeAmountData: async () => {
@@ -142,7 +142,7 @@ const Staking = () => {
       unstakedAmount: state?.amounts?.unstakedAmount,
       rewardAmount: state?.amounts?.rewardAmount,
       isHideCountDownTimer: state?.isHideCountDownTimer,
-      setIsHideCountDownTimer: (payload) =>
+      setIsHideCountDownTimer: (payload:boolean) =>
         dispatch({ type: "setIsHideCountDownTimer", payload: payload }),
       currencyBalance: currencyBalance,
       tokenBalance: tokenBalance,

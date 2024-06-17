@@ -52,10 +52,10 @@ const BuyMembership = (props: any) => {
     localDispatch({ type: "setDetails", payload: data?.[0] });
   };
   const onMintBalance = (balance: any) => {
-    localDispatch({ type: "setMintedAmount", payload: balance });
+    localDispatch({ type: "setCurrUserMintedCount", payload: balance });
   };
   const onMintedCount = (count: any) => {
-    localDispatch({ type: "setNftMintedTillNow", payload: count });
+    localDispatch({ type: "setTotalNftsMinted", payload: count });
   };
 
   const onNativePrice = (price: any) => {
@@ -92,16 +92,16 @@ const BuyMembership = (props: any) => {
   const onTransaction = async (txDetails: any, files: any) => {
     await updateTransactionHash(
       { data: txDetails, files: files, userId: user.id },
-      { onSucess: onSuccessfulMint, onError: setError }
+      { onSuccess: onSuccessfulMint, onError: setErrorMessage }
     );
   };
   const handleMintNfts = async (uri: any, files: any, data: any) => {
-    const {crypto,value}=localState.details?.prices?.[0]
-    const price=localState.inputCount*(value)
+    const {crypto}=localState.details?.prices?.[0] || {};
+    const price=localState.inputCount*(localState.nftPrice)
     await mintNfts(
       { uri: uri, files: files, currency: crypto, price: price, contractAddress: props?.contractAddress},
       {
-        onSucess: onTransaction,
+        onSuccess: onTransaction,
         onError: setErrorMessage,
         minMultipleNft: minMultipleNft,
         parseError: parseError,
@@ -109,8 +109,9 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleIpfsUploading = async (data: any) => {
+    const {crypto}=localState.details?.prices?.[0] || {};
     await uploadToIPFS(
-      { data: data, nftPrice: localState.details?.prices?.[0]?.value },
+      { data: data, nftPrice: localState.nftPrice.toFixed(8),crypto:crypto },
       { onSuccess: handleMintNfts, onError: setErrorMessage }
     );
   };

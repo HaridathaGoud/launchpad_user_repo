@@ -10,7 +10,6 @@ import { StakingContextModal, StakingTabsContextModel } from "../models.ts";
 import { StakingTabsContext } from "../context/stakingTabsContext.tsx";
 import { useDispatch } from "react-redux";
 import { setToaster } from "../../../reducers/layoutReducer.ts";
-import { formatAmount } from "../utils.ts";
 const RewardsComponent = () => {
   const rootDispatch = useDispatch();
   const {
@@ -25,7 +24,7 @@ const RewardsComponent = () => {
   }: StakingContextModal = useContext(StakingContext);
   const tabContextValues: StakingTabsContextModel =
     useContext(StakingTabsContext);
-  const { stakeRewards, approve } = useContract();
+  const { stakeRewards } = useContract();
   useEffect(() => {
     tabContextValues?.resetTab?.();
   }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -85,11 +84,7 @@ const RewardsComponent = () => {
               <CheckBox />
               <div className="max-sm:text-center max-sm:mt-2">
                 <Button
-                  type={
-                    inActiveCondition
-                      ? "stakingDisabled"
-                      : "stakingPrimary"
-                  }
+                  type={"stakingPrimary"}
                   btnClassName={`flex items-center gap-2`}
                   handleClick={handleStakeRewards}
                   disabled={inActiveCondition}

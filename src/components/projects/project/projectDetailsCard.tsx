@@ -3,7 +3,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import defaultlogo from '../../../assets/images/default-logo.png';
 import NaviLink from "../../../ui/NaviLink";
 import ConvertLocalFormat from "../../../utils/dateFormat";
-
+import { ProjectViewTokendetailsCardShimmer } from '../../loaders/projects/projectViewTokendetailsCardShimmer'
 const pjctTypes = {
   ongoing: "Ongoing",
   upcoming: "Upcoming",
@@ -18,6 +18,8 @@ const statusColourList: any = {
 const ProjectDetailsCard = (props: any) => {  
   return (
     <div className="lg:col-span-4 max-sm:mt-4">
+      {props.loader && <ProjectViewTokendetailsCardShimmer/>}
+      {!props?.loader && <div>
       <div className="border bg-primary-content border-neutral-content relative rounded-[15px] py-5 px-3.5 ">
         <div className="">
           <div className="">
@@ -302,6 +304,7 @@ const ProjectDetailsCard = (props: any) => {
           </div>
         </div>
       </div>
+    </div>}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-// import Referrals from "./referral";
 import Tabs from "../../ui/Tabs";
 import KycDetails from "./kycDetails";
 const ProfileTabs = ({ kycStatus,id }) => {
@@ -7,7 +6,6 @@ const ProfileTabs = ({ kycStatus,id }) => {
   const tabs = useMemo(()=>{
     return [
       { label: "KYC Details", content: <KycDetails kycStatus={kycStatus} id={id} /> },
-      // { label: "referals", content: <Referrals /> },
     ];
   },[]) // eslint-disable-line react-hooks/exhaustive-deps
   return (

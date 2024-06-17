@@ -46,8 +46,9 @@ const AppLayout = () => {
     if (isConnected && address && !user?.id) {
       getCustomerDetails(address);
     }
-    if(!isConnected && !address && user?.id){
+    if(!isConnected && !address){
       store.dispatch(setUserID({ id: '', name: '' }));
+      store.dispatch(setArcanaUserDetails({isLoggedIn:false}))
     }
   }, [isConnected, address]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {

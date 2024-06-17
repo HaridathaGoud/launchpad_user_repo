@@ -29,7 +29,6 @@ window.onload = async function() {
   try{
     await auth?.init()
   }catch(error){
-    console.log(error)
   }
 };
 export {auth}

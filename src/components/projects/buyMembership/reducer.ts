@@ -2,9 +2,9 @@ export const buyMembershipState = {
   isLoading: true,
   isMinting: false,
   details: null,
-  mintedAmount: 0,
+  currUserMintedCount: 0,
   nftPrice: 0,
-  nftMintedTillNow: 0,
+  totalNftsMinted: 0,
   inputCount: 1,
 };
 
@@ -17,12 +17,12 @@ export const buyMembershipReducer = (state: any, action: any) => {
       return { ...state, isMinting: action.payload };
     case "setDetails":
       return { ...state, details: action.payload };
-    case "setMintedAmount":
-      return { ...state, mintedAmount: action.payload };
+    case "setCurrUserMintedCount":
+      return { ...state, currUserMintedCount: action.payload };
     case "setNftPrice":
       return { ...state, nftPrice: action.payload };
-    case "setNftMintedTillNow":
-      return { ...state, nftMintedTillNow: action.payload };
+    case "setTotalNftsMinted":
+      return { ...state, totalNftsMinted: action.payload };
     case "setInputCount":
       return { ...state, inputCount: action.payload };
     default:

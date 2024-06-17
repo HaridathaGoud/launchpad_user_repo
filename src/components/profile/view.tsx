@@ -76,9 +76,6 @@ const ProfileView = ({ profile, address }) => {
             </p>
           </div>
         )}
-        {/* <div>Referrer Code</div>
-                    <div>My Referral Code</div> */}
-
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
             Wallet Address
@@ -122,7 +119,7 @@ const ProfileView = ({ profile, address }) => {
           </p>
         </div>
         }
-        {profile.twitter && 
+        {profile.twitter &&
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
           Telegram Link
@@ -142,7 +139,7 @@ const ProfileView = ({ profile, address }) => {
           </p>
         </div>
         }
-        {profile.discordUrl && 
+        {profile.discordUrl &&
         <div className="lg:col-span-2">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
           Discord Link

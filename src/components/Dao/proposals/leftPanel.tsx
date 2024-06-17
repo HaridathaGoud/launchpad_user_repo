@@ -12,9 +12,12 @@ const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
   const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
-  const {daoDetails,user} = useSelector(
-    (state: any) => {return {daoDetails:state.proposal.daoDetails.data,user:state?.auth?.user}}
-  );
+  const { daoDetails, user } = useSelector((state: any) => {
+    return {
+      daoDetails: state.proposal.daoDetails.data,
+      user: state?.auth?.user,
+    };
+  });
   const proposals = useSelector((state: any) => state.proposal?.proposals);
 
   const [userDetailsFromContract, setUserDetailsFromContract] =
@@ -67,27 +70,37 @@ const DaoLeftPanel = (props) => {
     setIsChecked(false);
   };
   const isEligibleForProposal = useMemo(() => {
+    const eligibleFromContract =
+      userDetailsFromContract &&
+      (userDetailsFromContract?.owner === address ||
+        (userDetailsFromContract?.balance &&
+          userDetailsFromContract?.balance >
+            Number(daoDetails?.proposalCreationBalance)));
     return (
       isConnected &&
       address &&
       user?.id &&
       daoDetails?.votingContractAddress &&
       proposals?.data?.length !== 0 &&
-      userDetailsFromContract &&
-      (userDetailsFromContract?.owner === address ||
-        (userDetailsFromContract?.balance &&
-          userDetailsFromContract?.balance >
-          Number(daoDetails?.proposalCreationBalance)))
+      eligibleFromContract
     );
-  }, [address, isConnected, userDetailsFromContract, daoDetails,proposals,user?.id]);
+  }, [
+    address,
+    isConnected,
+    userDetailsFromContract,
+    daoDetails,
+    proposals,
+    user?.id,
+  ]);
   return (
     <>
       <div
-        className={`${props.from === "project" ? "md:flex justify-between mb-4" : ""
-          }`}
+        className={`${
+          props.from === "project" ? "md:flex justify-between mb-4" : ""
+        }`}
       >
         <div>
-          {props.showHeader &&
+          {props.showHeader && (
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 ">
                 <img
@@ -126,7 +139,7 @@ const DaoLeftPanel = (props) => {
                 {/* {address && <p className="text-secondary">63k Members</p>} */}
               </div>
             </div>
-          }
+          )}
           {isEligibleForProposal && (
             <button
               onClick={handleProposalCreation}
@@ -136,7 +149,7 @@ const DaoLeftPanel = (props) => {
             </button>
           )}
         </div>
-        {props.showHeader && isConnected &&
+        {props.showHeader && isConnected && (
           <div>
             {/* <h1 className="text-base font-semibold my-5 text-secondary">
             Proposals
@@ -147,27 +160,36 @@ const DaoLeftPanel = (props) => {
               className={`flex gap-2 ${props.from === "project" ? "" : "my-5"}`}
             >
               {" "}
-              {user.facebook && 
-              <NaviLink
-                path={user.facebook}
-                type="footerNav"
-                target="_blank"
-                rel="noreferrer">
-                <span className={`icon facebook-md `}></span> </NaviLink> }
-              {user.linkedIn && 
-              <NaviLink
-                path={user.linkedIn}
-                type="footerNav"
-                target="_blank"
-                rel="noreferrer">
-                <span className={`icon instagram-md `}></span> </NaviLink> }
-              {user.twitter && 
-              <NaviLink
-                path={user.twitter}
-                type="footerNav"
-                target="_blank"
-                rel="noreferrer">
-                <span className={`icon telegram-md `}></span> </NaviLink> }
+              {user.facebook && (
+                <NaviLink
+                  path={user.facebook}
+                  type="footerNav"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className={`icon facebook-md `}></span>{" "}
+                </NaviLink>
+              )}
+              {user.linkedIn && (
+                <NaviLink
+                  path={user.linkedIn}
+                  type="footerNav"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className={`icon instagram-md `}></span>{" "}
+                </NaviLink>
+              )}
+              {user.twitter && (
+                <NaviLink
+                  path={user.twitter}
+                  type="footerNav"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className={`icon telegram-md `}></span>{" "}
+                </NaviLink>
+              )}
               {/* {user.discordUrl && 
               <NaviLink
                 path=""
@@ -176,16 +198,19 @@ const DaoLeftPanel = (props) => {
                 rel="noreferrer">
                 <span className={`icon discord-md `}></span> 
                  </NaviLink> } */}
-              {user.websiteUrl && 
-              <NaviLink
-                path={user.websiteUrl}
-                type="footerNav"
-                target="_blank"
-                rel="noreferrer">
-                <span className={`icon network-md `}></span> </NaviLink> }
+              {user.websiteUrl && (
+                <NaviLink
+                  path={user.websiteUrl}
+                  type="footerNav"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className={`icon network-md `}></span>{" "}
+                </NaviLink>
+              )}
             </div>
           </div>
-        }
+        )}
       </div>
       {isChecked && (
         <div className="drawer drawer-end">

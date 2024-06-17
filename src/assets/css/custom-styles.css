@@ -291,6 +291,8 @@ html[data-theme="light"] .investments .tier-card{background: url(../images/cardb
 .icon.add-btn{background-position: -45px -620px !important;height: 28px;width: 22px;}
 .toggle:checked,.toggle:checked:hover{border-color: #D60000;color: #fff; background-color: #D60000;}
 .matic-circle.icon{background-position: -93px -615px !important;width: 30px;height: 30px;}
+.icon.refresh-icon{background-position: -333px -238px !important;height: 22px;width: 22px;scale: 0.8;}
+button:disabled{color:black !important;cursor: not-allowed !important;pointer-events: all !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}

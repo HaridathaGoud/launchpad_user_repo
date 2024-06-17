@@ -1,16 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { get } from '../../../utils/api';
-import { setError } from '../../../reducers/layoutReducer';
-import ProjectdetailsView from './projectdetailsView';
-import { guid } from '../../../utils/constants';
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { get } from "../../../utils/api";
+import { setError } from "../../../reducers/layoutReducer";
+import ProjectdetailsView from "./projectdetailsView";
+import { guid } from "../../../utils/constants";
+import ProjectDetailsCard from "./projectDetailsCard";
+import ApplyNow from "../../applynow";
+import SwipeUp from "../../../ui/swipeUp";
 
 const Projectdetails = () => {
   const allocationsRef = useRef(null);
   const rootDispatch = useDispatch();
   const { projectId, projectName } = useParams();
-  const user = useSelector((store:any)=>store.auth?.user);
+  const user = useSelector((store: any) => store.auth?.user);
   const [loader, setLoader] = useState(false);
   const [data, setData] = useState<any>(null);
   useEffect(() => {
@@ -18,11 +21,8 @@ const Projectdetails = () => {
       getDetails("all");
     }
   }, [user?.id]);
-  const getDetails = async (fetch:string) => {
-    const userId =
-      user?.id && user?.id !== ""
-        ? user?.id
-        : guid;
+  const getDetails = async (fetch: string) => {
+    const userId = user?.id && user?.id !== "" ? user?.id : guid;
     setLoader(true);
     try {
       let details = data ? { ...data } : {};
@@ -84,15 +84,36 @@ const Projectdetails = () => {
     }
   };
   return (
-    <ProjectdetailsView
-    loader={loader}
-    data={data}
-    projectId={projectId}
-    projectName={projectName}
-    proStatus={proStatus}
-    swapProgressBarCalculation={swapProgressBarCalculation}
-    allocationsRef={allocationsRef}
-    getDetails={getDetails} />
-  )
-}
+    <div>
+      <div className="container mx-auto md:mb-[90px] px-3 lg:px-0 max-sm:mb-5">
+        <div className="">
+          <div className="container">
+            <div className="md:grid lg:grid-cols-12 mt-2 gap-7">
+              <ProjectdetailsView
+                loader={loader}
+                data={data}
+                projectId={projectId}
+                projectName={projectName}
+                proStatus={proStatus}
+                swapProgressBarCalculation={swapProgressBarCalculation}
+                allocationsRef={allocationsRef}
+                getDetails={getDetails}
+              />
+              <ProjectDetailsCard
+                loader={loader}
+                pjctInfo={data?.projectDetails}
+                currentPjct={data?.projectStatus}
+                swapedPercentage={data?.swapPercentage}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <ApplyNow />
+      <div className="max-md:hidden">
+        <SwipeUp />
+      </div>
+    </div>
+  );
+};
 export default Projectdetails;

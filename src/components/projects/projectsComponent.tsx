@@ -64,7 +64,7 @@ const Projectscomponent = (props: any) => {
               {props.cardDetails?.map((item) => (
                 <>
                   {props.loader ? (
-                    <ProjectCardShimmer></ProjectCardShimmer>
+                    <ProjectCardShimmer key={item.id}/>
                   ) : (
                     <div
                       className="border rounded-2xl project-card bg-primary-content p-[18px] transform transition-transform duration-500 hover:scale-[1.03] bg-[rgba(0,0,0,0.9)] relative overflow-hidden"

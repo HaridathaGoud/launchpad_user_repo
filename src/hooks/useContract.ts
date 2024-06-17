@@ -460,7 +460,7 @@ export default function useContractMethods() {
         aggHash,
         { signature: validSign, nonce },
         {
-          value: ethers.utils.parseUnits(nftPrice.toString(), 18),
+          value: ethers.utils.parseUnits(nftPrice.toFixed(8), 18),
           // gasLimit: 900000,
           // gasPrice: 300000,
         },

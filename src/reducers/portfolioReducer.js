@@ -40,15 +40,15 @@ const setPortfolio = (payload) => {
   const getPortFolio = (information) => {
     const {  data,customerId } = information;
     return async (dispatch) => {
-      dispatch(setPortfolio({ key: 'portfoliodata', loading: true, data: data }));
+      dispatch(setPortfolio({ key: 'portfolio', loading: true, data: data }));
       try {
         const res = await apiCalls.getPortFolioData(customerId);
         if (res.status === 200) {
-          dispatch(setPortfolio({ key: 'portfoliodata', loading: false, data: data ? [...data, ...res.data] : res.data, error: null, }));
+          dispatch(setPortfolio({ key: 'portfolio', loading: false, data: data ? [...data, ...res.data] : res.data, error: null, }));
         } else {
           dispatch(
             setPortfolio({
-              key: 'portfoliodata',
+              key: 'portfolio',
               loading: false,
               data: data,
               error: res,
@@ -58,7 +58,7 @@ const setPortfolio = (payload) => {
       } catch (error) {
         dispatch(
             setPortfolio({
-            key: 'portfoliodata',
+            key: 'portfolio',
             loading: false,
             data: data,
             error: error,
@@ -72,15 +72,15 @@ const setPortfolio = (payload) => {
     const {take,page, data,customerId,search } = information;
     const skip = take * (page) - take;
     return async (dispatch) => {
-      dispatch(setUserInvestments({ key: 'userinvestmentsata', loading: true, data: data }));
+      dispatch(setUserInvestments({ key: 'userInvestments', loading: true, data: data }));
       try {
         const res = await apiCalls.getUserInvestments(take, skip, customerId, search);
         if (res.status === 200) {
-          dispatch(setUserInvestments({ key: 'userinvestmentsata', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
+          dispatch(setUserInvestments({ key: 'userInvestments', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {
           dispatch(
             setUserInvestments({
-              key: 'userinvestmentsata',
+              key: 'userInvestments',
               loading: false,
               data: data,
               error: res,
@@ -90,7 +90,7 @@ const setPortfolio = (payload) => {
       } catch (error) {
         dispatch(
             setUserInvestments({
-            key: 'userinvestmentsata',
+            key: 'userInvestments',
             loading: false,
             data: data,
             error: error,
@@ -103,15 +103,15 @@ const setPortfolio = (payload) => {
     const {take,page, data,customerId,search } = information;
     const skip = take * (page) - take;
     return async (dispatch) => {
-      dispatch(setUserClaims({ key: 'userclaims', loading: true, data: data }));
+      dispatch(setUserClaims({ key: 'userClaims', loading: true, data: data }));
       try {
         const res = await apiCalls.getUserclaims(take, skip, customerId,search);
         if (res.status === 200) {
-          dispatch(setUserClaims({ key: 'userclaims', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
+          dispatch(setUserClaims({ key: 'userClaims', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {
           dispatch(
             setUserClaims({
-              key: 'userclaims',
+              key: 'userClaims',
               loading: false,
               data: data,
               error: res,
@@ -121,7 +121,7 @@ const setPortfolio = (payload) => {
       } catch (error) {
         dispatch(
             setUserClaims({
-            key: 'userclaims',
+            key: 'userClaims',
             loading: false,
             data: data,
             error: error,
@@ -131,10 +131,10 @@ const setPortfolio = (payload) => {
     };
   }
 
-  let initialState = {
-    portfoliodata: { loading: false, data: null, nextPage: 1 },
-    userinvestmentsata: { loading: false, data: null, nextPage: 1 },
-    userclaims: { loading: false, data: null, nextPage: 1 },
+  const initialState = {
+    portfolio: { loading: false, data: null, nextPage: 1 },
+    userInvestments: { loading: false, data: null, nextPage: 1 },
+    userClaims: { loading: false, data: null, nextPage: 1 },
   }
   const portfolioReducer = (state, action) => {
     if (!state) {
@@ -146,29 +146,29 @@ const setPortfolio = (payload) => {
     switch (action.type) {
         case SET_PORTFOLIO:
           return {
-            ...state, portfoliodata: {
+            ...state, portfolio: {
               data: action.payload.data,
               error: action.payload.error,
               loading: action.payload.loading,
-              nextPage: action.payload.nextPage || state?.['portfoliodata'].nextPage
+              nextPage: action.payload.nextPage || state?.['portfolio'].nextPage
             },
           };
           case SET_USER_INVESTMENTS:
           return {
-            ...state, userinvestmentsata: {
+            ...state, userInvestments: {
               data: action.payload.data,
               error: action.payload.error,
               loading: action.payload.loading,
-              nextPage: action.payload.nextPage || state?.['userinvestmentsata'].nextPage
+              nextPage: action.payload.nextPage || state?.['userInvestments'].nextPage
             },
           };
           case SET_USER_CLAIMS:
           return {
-            ...state, userclaims: {
+            ...state, userClaims: {
               data: action.payload.data,
               error: action.payload.error,
               loading: action.payload.loading,
-              nextPage: action.payload.nextPage || state?.['userclaims'].nextPage
+              nextPage: action.payload.nextPage || state?.['userClaims'].nextPage
             },
           };
           default:

@@ -25,12 +25,12 @@ const Discussions = () => {
             pinnacle hope abstract right disgust joy.
           </p>
           <div className="">
-            <a
+            <button
               className="font-semibold mr-4 md:mr-9 cursor-pointer text-secondary"
               onClick={ReplayOpen}
             >
               Reply
-            </a>
+            </button>
             <span className="font-semibold  mr-4 md:mr-9 text-secondary">
               You Liked
             </span>
