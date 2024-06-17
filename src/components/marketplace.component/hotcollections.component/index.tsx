@@ -56,20 +56,7 @@ export default function HotCollections() {
         <>
           <div className="container mx-auto mt-[40px]">
             <h2 className="text-2xl font-semibold text-secondary mb-4">Hot Collections</h2>
-            <div className="text-center">{localState.loader && <div className='trending-card hot-collection-shimmer'>
-              <Placeholder animation="glow" >
-                <Placeholder xs={2} className='trending-img' />
-              </Placeholder>
-
-              <Placeholder animation="glow" className='p-3'>
-                <Placeholder xs={12} className="w-75 " />
-                <Placeholder animation="wave" className='px-3'>
-                  <Placeholder xs={6} className="w-25 " />
-                  <Placeholder xs={6} className="w-25 ms-5" />
-                </Placeholder>
-              </Placeholder>
-
-            </div>}</div>
+            </div>
             {!localState.loader && (
               <div className='carousel container mx-auto gap-4 py-1'>
                 {visibleItems.map((item: any) => (
