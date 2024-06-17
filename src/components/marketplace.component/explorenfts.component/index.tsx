@@ -253,7 +253,9 @@ function ExploreNfts(props: any) {
               </div>
             ))}
           {data?.length === 0 && !loader && (
-            <NoDataFound text ={''}/>
+            <div className="col-span-5">
+              <NoDataFound text ={''}/>
+            </div>
           )}
         </div>
         {data?.length === (pageNo - 1) * pageSize && (

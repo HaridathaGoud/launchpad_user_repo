@@ -59,7 +59,7 @@ const FoundingMembersView = () => {
         <BreadCrumb/>
         <h1 className="text-base font-semibold mb-3 mt-5">Founding Members</h1>
   
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-7 founding-members">
           {foundingmems.stakersData?.map((item) => (
             <div className="card !bg-base-100 border border-slate-200 transform transition-transform duration-500 hover:scale-[1.03]" key={item.walletAddress}>
               <div className="">

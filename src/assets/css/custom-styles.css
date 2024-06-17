@@ -295,6 +295,7 @@ html[data-theme="light"] .investments .tier-card{background: url(../images/cardb
 button:disabled{color:black !important;cursor: not-allowed !important;pointer-events: all !important;}
 .checkbox:disabled{background-color: transparent !important;}
 .checkbox:disabled + span {filter: grayscale(1); cursor: not-allowed;}
+.drawer-side > .drawer-overlay{cursor: default !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
