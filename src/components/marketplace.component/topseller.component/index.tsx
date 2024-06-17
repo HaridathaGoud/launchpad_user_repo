@@ -26,7 +26,7 @@ const TopSeller = () => {
   }, [topSellers?.error]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSlideActions = (action) => {
-      if (action === 'next') {
+      if (action === 'previous') {
         const newIndex = (localState.currentIndex + 1) % topSellers?.data?.length;
         localDispatch({ type: 'setCurrentIndex', payload: newIndex });
       }

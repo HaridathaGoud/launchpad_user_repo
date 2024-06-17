@@ -39,7 +39,7 @@ export default function HotCollections() {
     router(`/marketplace/collection/view`);
   };
   const handleSlideActions = (action) => {
-    if (action === 'next') {
+    if (action === 'previous') {
       const newIndex = (localState.currentIndex + 1) % localState.hotCollectionData?.length;
       localDispatch({ type: 'setCurrentIndex', payload: newIndex });
     }

@@ -35,7 +35,7 @@ export default function BrowseByCategory() {
   };
 
   const handleSlideActions = (action) => {
-    if (action === 'next') {
+    if (action === 'previous') {
       const newIndex = (localState.currentIndex + 1) % localState.browseByCategoryList.length;
       localDispatch({ type: 'setCurrentIndex', payload: newIndex });
     }
