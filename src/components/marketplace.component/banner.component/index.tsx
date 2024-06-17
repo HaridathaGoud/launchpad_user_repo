@@ -1,6 +1,4 @@
 import React, { useEffect, useReducer, useState } from 'react';
-// import Button from 'react-bootstrap/Button';
-// import Carousel from 'react-bootstrap/Carousel';
 import { Link, useNavigate } from 'react-router-dom';
 import {  getTopNft } from '../../../utils/api';
 import Modal from 'react-bootstrap/Modal';
