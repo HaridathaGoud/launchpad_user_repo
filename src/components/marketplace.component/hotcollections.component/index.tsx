@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useReducer, useState} from 'react';
 import { getMarketplace } from '../../../utils/api';
 import Image from 'react-bootstrap/Image';
 import Carousel from 'react-multi-carousel';
@@ -7,8 +7,13 @@ import {useNavigate} from 'react-router-dom';
 //import { isErrorDispaly } from '../../utils/errorHandling';
 import Placeholder from 'react-bootstrap/Placeholder';
 import error from '../../../assets/images/error.svg';
+import { hotCollectionReducer,hotcollectionState } from './reducer';
+import { useDispatch } from 'react-redux';
+import { setError } from "../../../reducers/layoutReducer";
 
 export default function HotCollections() {
+  const rootDispatch = useDispatch();
+  const [localState, localDispatch] = useReducer(hotCollectionReducer, hotcollectionState);
   const [loader, setLoader] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [hotCollectionData, setHotCollectionData] = useState<any>([]);
@@ -19,16 +24,21 @@ export default function HotCollections() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getHotCollectionsData = async () => {
-    setLoader(true);
-    await getMarketplace(`User/HotCollectionsData/10/0/${null}/${null}`)
-      .then((response: any) => {
-        setHotCollectionData(response.data);
-        setLoader(false);
-      })
-      .catch((error: any) => {
-        setErrorMessage();
-        setLoader(false);
-      });
+    try{
+      localDispatch({ type: 'setLoader', payload: true });
+   let response =  await getMarketplace(`User/HotCollectionsData/10/0/${null}/${null}`)
+            if(response.statusText.toLowerCase() === 'ok'){
+              localDispatch({ type: 'setHotCollectionData', payload: response.data });
+            }
+            else {
+              rootDispatch(setError({ message: response }));
+            }
+          } catch (error) {
+            rootDispatch(setError({ message: error }));
+          }
+          finally {
+            localDispatch({ type: 'setLoader', payload: false });
+          }
   };
 
   const responsive = {
@@ -54,15 +64,15 @@ export default function HotCollections() {
     // router(`/collections/${item?.id}`);
     router(`/marketplace/collection/view`);
   };
-  
+
   return (
     <>
       {hotCollectionData?.length > 0 && (
         <>
           <div className="container mx-auto mt-[40px]">
             <h2 className="text-2xl font-semibold text-secondary mb-4">Hot Collections</h2>
-           
-            {errorMessage && (            
+
+            {errorMessage && (
               <div className='cust-error-bg'>
               <div className='mr-4'><Image src={error} alt="" /></div>
               <div>
@@ -74,7 +84,7 @@ export default function HotCollections() {
           <Placeholder  animation="glow" >
             <Placeholder xs={2} className='trending-img'/>
           </Placeholder>
-          
+
           <Placeholder  animation="glow" className='p-3'>
             <Placeholder xs={12} className="w-75 "/>
             <Placeholder animation="wave"className='px-3'>
@@ -82,7 +92,7 @@ export default function HotCollections() {
             <Placeholder xs={6}className="w-25 ms-5"/>
             </Placeholder>
           </Placeholder>
-        
+
           </div>}</div>
             {!loader && (
               // <div className="hot-collect">
@@ -129,7 +139,7 @@ export default function HotCollections() {
               <div className='carousel container mx-auto gap-4 py-1'>
                 {hotCollectionData.map((item: any) => (
               <div className="carousel-item px-1">
-                
+
                       <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
                         <div className="">
                           <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px]" />
@@ -137,7 +147,7 @@ export default function HotCollections() {
                         <div className="p-5">
                           <h4 className="font-semibold text-2xl capitalize text-secondary">{item.collectionName}</h4>
                           <div className="">
-                           
+
                             <div className="flex justify-between items-center mt-[18px]">
                               <label className="text-secondary text-base">Floor</label>
                               {item.flourValue && (
@@ -162,17 +172,17 @@ export default function HotCollections() {
                           </div>
                         </div>
                       </div>
-                  
-                 
+
+
               </div> ))}
             </div>
-            
+
             )}
              <div className='mt-5'>
               <span className='icon carousal-left-arrow cursor-pointer mr-1'></span>
               <span className='icon carousal-right-arrow cursor-pointer'></span>
             </div>
-           
+
           </div>
         </>
       )}

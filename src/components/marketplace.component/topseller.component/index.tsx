@@ -1,119 +1,125 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import "react-multi-carousel/lib/styles.css";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import Placeholder from "react-bootstrap/Placeholder";
+import { topsellerreducer, dashboardState } from "./reducer";
 import { store } from "../../../store";
-import { fetchTopSellers } from "../../../reducers/marketPlaceReducer";
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
 import Button from "../../../ui/Button";
 import NaviLink from "../../../ui/NaviLink";
+import { fetchTopSellers } from "../../../reducers/dashboardreducer";
+import { setError } from "../../../reducers/layoutReducer";
+
 const pageSize = 10;
 const TopSeller = () => {
-  const { data, error, loader, currPage } = useSelector(
-    (store: any) => store.marketPlaceDashboard.topSellers
-  );
-  useEffect(() => {
-    store.dispatch(fetchTopSellers(1, pageSize));
-    if (error) srootDispatch(setError({message:error}));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const handleSlideActions = (action: any) => {
-    if (action === "previous") {
-      setCurrentIndex((prevIndex) => (prevIndex - 1 + data?.length) % data?.length);
-      // const prevPage = currPage - 1 > 0 ? currPage - 1 : 1;
-      // store.dispatch(fetchTopSellers(prevPage, pageSize));
+  const rootDispatch = useDispatch();
+    const [localState, localDispatch] = useReducer(topsellerreducer, dashboardState);
+    const { topSellers } = useSelector(({ dashboardReducer }: any) => {
+        const topSellers = dashboardReducer.topSellers;
+        return { topSellers };
     }
-    if (action === "next") {
-      // const nextPage = currPage + 1;
-      // store.dispatch(fetchTopSellers(nextPage, pageSize));
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
-    }
-  };
-  const visibleItems = data? [...data?.slice(currentIndex), ...data?.slice(0, currentIndex)].slice(0, 4):[];
-  return (
-    <>
-      {data && data?.length > 0 && (
+    );
+    useEffect(() => {
+        store.dispatch(fetchTopSellers({ page: 1, take: pageSize, data: topSellers.data || null }));
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      rootDispatch(setError({ message: topSellers?.error }));
+  }, [topSellers?.error]); // eslint-disable-line react-hooks/exhaustive-deps
+    const handleSlideActions = (action: any) => {
+        let newIndex
+        if (action === "previous") {
+            newIndex = (topSellers.nextPage - 1 + topSellers?.length) % topSellers?.length;
+            localDispatch({ type: "setCurrentIndex", payload: newIndex });
+        }
+        if (action === "next") {
+            newIndex = (topSellers.nextPage + 1) % topSellers?.length;
+            localDispatch({ type: "setCurrentIndex", payload: newIndex });
+        }
+    };
+    const visibleItems = topSellers.data ? [...topSellers.data?.slice(localState.currentIndex), ...topSellers.data?.slice(0, localState.currentIndex)].slice(0, 4) : [];
+    return (
         <>
-          <div className="container mx-auto mt-5">
-            <div className="">
-              <h2 className="mb-4 text-2xl font-semibold">Top Sellers</h2>
-            </div>
-            <div className="">
-              <div className="text-center">
-                {loader && (
-                  <div className="sell-card  shimmer-topseller shimmer">
-                    <Placeholder animation="glow">
-                      <Placeholder xs={2} className="topseller-img" />
-                    </Placeholder>
-
-                    <Placeholder animation="glow">
-                      <Placeholder xs={12} />
-                      <Placeholder xs={12} />
-                      <Placeholder xs={12} />
-                    </Placeholder>
-                  </div>
-                )}
-              </div>
-              {!loader && (
-                <div className="carousel container mx-auto gap-3" >
-                  {visibleItems?.map((item: any, idx: any) => (
-                    <NaviLink path={`/collection/${item.id}`}>
-                      <div
-                        key={idx}
-                        className="carousel-item inline-block max-sm:w-full md:w-[380px]"
-                      >
-                        <div className="flex items-center bg-base-content py-4 px-2.5 rounded-[15px] gap-5">
-                          <div className="shrink-0">
-                            <img
-                              src={item?.logo || defaultlogo}
-                              width={122}
-                              height={129}
-                              alt=""
-                              className="rounded-[15px] object-cover w-[122px] h-[129px]"
-                            />
-                          </div>
-                          <div className="truncate">
-                            <h4 className="truncate text-xl font-semibold capitalize text-white">
-                              {item?.name || item?.walletAddress}
-                            </h4>
-                            <div className="mt-3 mb-2">
-                              <p className="text-info">Flour Price</p>
-                              <p className="text-[16px] text-white">
-                                {item?.flourPice || 0} Matic
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-info">Volume</p>
-                              <p className="text-[16px] text-white">
-                                {item?.volume || 0} Matic
-                              </p>
-                            </div>
-                          </div>
+            {topSellers.data && topSellers.data?.length > 0 && (
+                <>
+                    <div className="container mx-auto mt-5">
+                        <div className="">
+                            <h2 className="mb-4 text-2xl font-semibold">Top Sellers</h2>
                         </div>
-                      </div>
-                    </NaviLink>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="mt-5">
-              {(
-                <Button handleClick={() => handleSlideActions("previous")} btnClassName="!p-0 !shadow-none !bg-transparent">
-                  {" "}
-                  <span className="icon carousal-left-arrow cursor-pointer mr-1"></span>
-                </Button>
-              )}
-              {(
-                <Button handleClick={() => handleSlideActions("next")} btnClassName="!p-0 !shadow-none !bg-transparent">
-                  {" "}
-                  <span className="icon carousal-right-arrow cursor-pointer"></span>
-                </Button>
-              )}
-            </div>
-          </div>
+                        <div className="">
+                            <div className="text-center">
+                                {topSellers.loading && (
+                                    <div className="sell-card  shimmer-topseller shimmer">
+                                        <Placeholder animation="glow">
+                                            <Placeholder xs={2} className="topseller-img" />
+                                        </Placeholder>
+                                        <Placeholder animation="glow">
+                                            <Placeholder xs={12} />
+                                            <Placeholder xs={12} />
+                                            <Placeholder xs={12} />
+                                        </Placeholder>
+                                    </div>
+                                )}
+                            </div>
+                            {!topSellers.loading && (
+                                <div className="carousel container mx-auto gap-3" >
+                                    {visibleItems?.map((item: any, idx: any) => (
+                                        <NaviLink path={`/collection/${item.id}`}>
+                                            <div
+                                                key={idx}
+                                                className="carousel-item inline-block max-sm:w-full md:w-[380px]"
+                                            >
+                                                <div className="flex items-center bg-base-content py-4 px-2.5 rounded-[15px] gap-5">
+                                                    <div className="shrink-0">
+                                                        <img
+                                                            src={item?.logo || defaultlogo}
+                                                            width={122}
+                                                            height={129}
+                                                            alt=""
+                                                            className="rounded-[15px] object-cover w-[122px] h-[129px]"
+                                                        />
+                                                    </div>
+                                                    <div className="truncate">
+                                                        <h4 className="truncate text-xl font-semibold capitalize text-white">
+                                                            {item?.name || item?.walletAddress}
+                                                        </h4>
+                                                        <div className="mt-3 mb-2">
+                                                            <p className="text-info">Flour Price</p>
+                                                            <p className="text-[16px] text-white">
+                                                                {item?.flourPice || 0} Matic
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-info">Volume</p>
+                                                            <p className="text-[16px] text-white">
+                                                                {item?.volume || 0} Matic
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </NaviLink>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <div className="mt-5">
+                            {(
+                                <Button handleClick={() => handleSlideActions("previous")} btnClassName="!p-0 !shadow-none !bg-transparent">
+                                    {" "}
+                                    <span className="icon carousal-left-arrow cursor-pointer mr-1"></span>
+                                </Button>
+                            )}
+                            {(
+                                <Button handleClick={() => handleSlideActions("next")} btnClassName="!p-0 !shadow-none !bg-transparent">
+                                    {" "}
+                                    <span className="icon carousal-right-arrow cursor-pointer"></span>
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                </>
+            )}
         </>
-      )}
-    </>
-  );
+    );
 };
 export default TopSeller;

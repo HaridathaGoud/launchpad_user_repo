@@ -14,7 +14,7 @@ export const getGlobalDropDown = (navigate: Function) => {
     {
       name: "Marketplace",
       image: "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
-      action: () => navigate("/marketplace"),
+      action: () => navigate("/marketplace/home"),
     },
   ];
 };
@@ -139,6 +139,12 @@ export const getMarketplaceNavMenu =(navigate: Function,
   currentPath: string | undefined,
   userId: string | undefined)=>{
    return  [
+    {
+      path: "/marketplace/home",
+      name: "Home",
+      action: () => navigate("/home"),
+      isActive: currentPath?.includes("/marketplace/home"),
+    },
     {
       path: "/marketplace/explore",
       name: "Explore",
