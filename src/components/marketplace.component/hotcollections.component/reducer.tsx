@@ -1,10 +1,12 @@
 export interface HotcollectionStateModel {
     loader: boolean;
     hotCollectionData: any | [];
+    currentIndex: number;
 }
 export const hotcollectionState = {
     loader: false,
     hotCollectionData: [],
+    currentIndex: 0
 };
 
 export const hotCollectionReducer = (state = hotcollectionState, action) => {
@@ -15,6 +17,9 @@ export const hotCollectionReducer = (state = hotcollectionState, action) => {
         case "setHotCollectionData":
             state = { ...state, hotCollectionData: action.payload };
             break;
+            case "setCurrentIndex":
+                state = { ...state, currentIndex: action.payload };
+                break;
         default:
             state = { ...state };
     }
