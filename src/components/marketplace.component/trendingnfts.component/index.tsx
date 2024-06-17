@@ -104,7 +104,7 @@ function TrendingNfts(props) {
       localDispatch({ type: 'setCurrentIndex', payload: newIndex });
     }
   };
-  const visibleItems = localState.todaytrending ? [...localState.todaytrending?.slice(localState.currentIndex), ...localState.todaytrending?.slice(0, localState.currentIndex)].slice(0, 2) : [];
+  const visibleItems = localState.todaytrending ? [...localState.todaytrending?.slice(localState.currentIndex), ...localState.todaytrending?.slice(0, localState.currentIndex)].slice(0, 3) : [];
   return (
     <>
       {localState.todaytrending.length > 0 && (

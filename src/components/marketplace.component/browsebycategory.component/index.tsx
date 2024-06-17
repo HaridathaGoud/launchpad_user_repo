@@ -12,7 +12,7 @@ export default function BrowseByCategory() {
   const router = useNavigate();
   const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(browserByCategoryreducer, browserByCategoryState);
-  const itemsPerPage = 3; // Number of items to display per page
+  const itemsPerPage = 4; // Number of items to display per page
 
   useEffect(() => {
     localDispatch({ type: 'setCurrentIndex', payload: 0 });

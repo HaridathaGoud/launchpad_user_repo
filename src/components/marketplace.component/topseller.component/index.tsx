@@ -37,7 +37,7 @@ const TopSeller = () => {
       }
     };
 
-    const visibleItems = topSellers.data ? [...topSellers.data?.slice(localState.currentIndex), ...topSellers.data?.slice(0, localState.currentIndex)].slice(0, 3) : [];
+    const visibleItems = topSellers.data ? [...topSellers.data?.slice(localState.currentIndex), ...topSellers.data?.slice(0, localState.currentIndex)].slice(0, 4) : [];
     return (
         <>
             {topSellers.data && topSellers.data?.length > 0 && (

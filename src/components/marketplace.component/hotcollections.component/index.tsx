@@ -49,14 +49,13 @@ export default function HotCollections() {
     }
   };
 
-  const visibleItems = localState.hotCollectionData ? [...localState.hotCollectionData?.slice(localState.currentIndex), ...localState.hotCollectionData?.slice(0, localState.currentIndex)].slice(0, 3) : [];
+  const visibleItems = localState.hotCollectionData ? [...localState.hotCollectionData?.slice(localState.currentIndex), ...localState.hotCollectionData?.slice(0, localState.currentIndex)].slice(0, 4) : [];
   return (
     <>
       {localState.hotCollectionData?.length > 0 && (
         <>
           <div className="container mx-auto mt-[40px]">
             <h2 className="text-2xl font-semibold text-secondary mb-4">Hot Collections</h2>
-            </div>
             {!localState.loader && (
               <div className='carousel container mx-auto gap-4 py-1'>
                 {visibleItems.map((item: any) => (
