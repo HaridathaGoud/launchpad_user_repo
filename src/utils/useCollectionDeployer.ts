@@ -86,30 +86,29 @@ export function useCollectionDeployer() {
     return signature;
   }
   async function getSignatureForSale(
-    contract_address: string,
+    contractAddress: addressType,
     tokenId: any,
     type: string,
     nftPrice: any
   ) {
     const unitPrice = (nftPrice * 10 ** 18).toString();
-    var nftAddress = contract_address;
-    let nonce = Math.floor(new Date().getTime() / 1000);
+    const nonce = Math.floor(new Date().getTime() / 1000);
     var hash = ethers.utils.solidityKeccak256(
       ["address", "uint256", "address", "uint256", "uint256"],
       [
-        nftAddress,
+        contractAddress,
         tokenId,
         process.env.REACT_APP_ERC20WMATIC_TOKEN,
         unitPrice,
         nonce,
       ]
     );
-    var msgHash = ethers.utils.arrayify(hash);
+    const msgHash = ethers.utils.arrayify(hash);
     const walletClient = await getWalletClient();
-    var signHash = await walletClient?.signMessage({
+    const signHash = await walletClient?.signMessage({
       message: { raw: msgHash },
     });
-    var sign = await splitSign(signHash);
+    const sign = await splitSign(signHash);
     return JSON.stringify({ sign, nonce });
   }
   async function getBidConfirmation(nftPrice: any) {
@@ -158,11 +157,10 @@ export function useCollectionDeployer() {
   }
   async function setApprovalForAll(
     contractAddress: addressType,
-    abi: any[],
     callback: Function
   ) {
     const config = await prepareWriteContract({
-      abi: abi || USER721.abi,
+      abi: USER721.abi,
       address: contractAddress,
       functionName: "setApprovalForAll",
       args: [Proxy.contractAddress, true],
