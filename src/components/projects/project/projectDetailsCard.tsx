@@ -133,7 +133,7 @@ const ProjectDetailsCard = (props: any) => {
                   Total Supply
                 </p>
               </div>
-              <div className="">
+              {props.pjctInfo?.tokenType==='ERC-20' &&<div className="">
                 {props.pjctInfo?.totalRaised && (
                   <h5 className="text-base text-secondary mb-1">
                     ${props.pjctInfo?.totalRaised?.toLocaleString()}
@@ -145,7 +145,7 @@ const ProjectDetailsCard = (props: any) => {
                 <p className="text-base text-secondary opacity-60">
                   Total Raise
                 </p>
-              </div>
+              </div>}
 
               <div className="">
                 <h5 className="text-base text-secondary mb-1">
@@ -154,14 +154,14 @@ const ProjectDetailsCard = (props: any) => {
                 </h5>
                 <p className="text-base text-secondary opacity-60">Price</p>
               </div>
-              <div className="">
+            {props.pjctInfo?.tokenType==='ERC-20' &&  <div className="">
                 <h5 className="text-base text-secondary mb-1">
                   {props.pjctInfo?.intialsupply?.toLocaleString() || "-"}
                 </h5>
                 <p className="text-base text-secondary opacity-60">
                   Initial Supply
                 </p>
-              </div>
+              </div>}
 
               <div className="total-status md:col-span-2">
                 <div className="fields-style">
@@ -259,7 +259,7 @@ const ProjectDetailsCard = (props: any) => {
             </div>
             <div className="divider h-px"></div>
             <div>
-              <div className=" mb-4">
+              {props.pjctInfo?.tokenType==='ERC-20' && <div className=" mb-4">
                 <h4 className="text-base text-secondary opacity-60 mb-1">
                   Vesting Period
                 </h4>
@@ -272,7 +272,7 @@ const ProjectDetailsCard = (props: any) => {
                 <p className="text-base text-secondary">
                   {props.pjctInfo?.claimSlots}
                 </p>
-              </div>
+              </div>}
               <div className="">
                 <h4 className="text-base text-secondary opacity-60">
                   Country Restrictions
