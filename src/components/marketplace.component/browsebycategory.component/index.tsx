@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useAccount } from 'wagmi';
@@ -9,7 +9,7 @@ import Button from "../../../ui/Button";
 import defaultbg from "../../../assets/images/default-bg.png";
 export default function BrowseByCategory() {
   const rootDispatch = useDispatch();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(browserByCategoryreducer, browserByCategoryState);
   const itemsPerPage = 4; // Number of items to display per page
 

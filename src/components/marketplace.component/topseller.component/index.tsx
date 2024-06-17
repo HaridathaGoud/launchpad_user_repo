@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer } from "react";
-import "react-multi-carousel/lib/styles.css";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import { topsellerreducer, dashboardState } from "./reducer";
 import { store } from "../../../store";
