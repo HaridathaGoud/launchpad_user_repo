@@ -3,7 +3,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import Image from 'react-bootstrap/Image';
 // import Carousel from 'react-bootstrap/Carousel';
 import { Link, useNavigate } from 'react-router-dom';
-import { getMarketplace, getTopNft } from '../../../utils/api';
+import {  getTopNft } from '../../../utils/api';
 import Modal from 'react-bootstrap/Modal';
 import { useAccount } from 'wagmi';
 import WalletConnect from '../../shared/connect.wallet';
