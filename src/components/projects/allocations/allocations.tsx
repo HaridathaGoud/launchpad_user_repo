@@ -5,7 +5,6 @@ import NoDataFound from "../../../ui/nodatafound";
 
 const AllocationsView = (props) => {
   return (
-    <>
         <div className="" id="allocationClaimHeader">
           <div>
             <h2 className="text-2xl font-medium">
@@ -106,7 +105,6 @@ const AllocationsView = (props) => {
             <NoDataFound text ={''}/>
           )}
         </div>
-    </>
   );
 };
 const connectStateToProps = ({ auth }) => {

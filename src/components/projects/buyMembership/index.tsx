@@ -16,10 +16,13 @@ import {
   uploadToIPFS,
 } from "./services";
 import { buyMembershipReducer, buyMembershipState } from "./reducer";
-import { setError } from "../../../reducers/layoutReducer";
-import Success from "./success";
+import { setError, setToaster } from "../../../reducers/layoutReducer";
+// import Success from "./success";
+import BuyMembershipShimmers from "../../loaders/projects/buyMembershipShimmer";
 
 const BuyMembership = (props: any) => {
+  const { daoId, contractAddress, privateStatus, publicStatus } =
+    props.projectDetails;
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(
     buyMembershipReducer,
@@ -35,10 +38,10 @@ const BuyMembership = (props: any) => {
   } = useContract();
   const user = useSelector((state: any) => state.auth.user);
   useEffect(() => {
-    if (user?.id && props?.daoId) {
+    if (isConnected && user?.id && daoId) {
       getDetails();
     }
-  }, [isConnected, address, user?.id,props?.daoId]);
+  }, [isConnected, address, user?.id, daoId]);
 
   const setLoading = (type: string, payload: boolean) => {
     localDispatch({ type, payload });
@@ -66,27 +69,34 @@ const BuyMembership = (props: any) => {
     localDispatch({ type: "setNftPrice", payload: newCurrencyValue });
   };
   const getDetails = async () => {
-    await getMembershipDetails(
-      { daoId: props?.daoId, userId: user?.id },
-      { onSuccess: onMembershipDetails, onError: setError }
-    );
-    await getDetailsfromContract(
-      { address: props?.contractAddress || '' },
-      {
-        onCount: onMintedCount,
-        onBalance: onMintBalance,
-        onNativePrice,
-        onError: setError,
-        getMintedCount,
-        readMintBalance,
-        getNativeTokenPriceForMint,
-      }
-    );
-    setLoading("setIsLoading", false);
+    setLoading("setIsLoading", true);
+    try {
+      await getMembershipDetails(
+        { daoId: daoId, userId: user?.id },
+        { onSuccess: onMembershipDetails, onError: setErrorMessage }
+      );
+      await getDetailsfromContract(
+        { address: contractAddress || "" },
+        {
+          onCount: onMintedCount,
+          onBalance: onMintBalance,
+          onNativePrice,
+          onError: setErrorMessage,
+          getMintedCount,
+          readMintBalance,
+          getNativeTokenPriceForMint,
+        }
+      );
+    } catch (err) {
+      setErrorMessage(err.message || err);
+    } finally {
+      setLoading("setIsLoading", false);
+    }
   };
 
   const onSuccessfulMint = () => {
-    modalActions("mintSuccessModal", "open");
+    rootDispatch(setToaster({ message: "Mint successful!" }));
+    // modalActions("mintSuccessModal", "open");
     setLoading("setIsMinting", false);
   };
   const onTransaction = async (txDetails: any, files: any) => {
@@ -96,10 +106,16 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleMintNfts = async (uri: any, files: any, data: any) => {
-    const {crypto}=localState.details?.prices?.[0] || {};
-    const price=localState.inputCount*(localState.nftPrice)
+    const { crypto } = localState.details?.prices?.[0] || {};
+    const price = localState.inputCount * localState.nftPrice;
     await mintNfts(
-      { uri: uri, files: files, currency: crypto, price: price, contractAddress: props?.contractAddress},
+      {
+        uri: uri,
+        files: files,
+        currency: crypto,
+        price: price,
+        contractAddress: contractAddress,
+      },
       {
         onSuccess: onTransaction,
         onError: setErrorMessage,
@@ -109,15 +125,15 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleIpfsUploading = async (data: any) => {
-    const {crypto}=localState.details?.prices?.[0] || {};
+    const { crypto } = localState.details?.prices?.[0] || {};
     await uploadToIPFS(
-      { data: data, nftPrice: localState.nftPrice.toFixed(8),crypto:crypto },
+      { data: data, nftPrice: localState.nftPrice.toFixed(8), crypto: crypto },
       { onSuccess: handleMintNfts, onError: setErrorMessage }
     );
   };
   const handleMinting = async () => {
     await getMetaData(
-      { count: localState.inputCount, daoId: props?.daoId },
+      { count: localState.inputCount, daoId: daoId },
       {
         onSuccess: handleIpfsUploading,
         onError: setErrorMessage,
@@ -131,41 +147,56 @@ const BuyMembership = (props: any) => {
       <h1 className="font-semibold mb-4 text-2xl text-secondary">
         Buy Memb<span className={`text-primary`}>ership</span>
       </h1>
-      <div className="lg:px-[55px]">
-        <div className="mt-7 text-center">
-          <h1 className="text-lg font-semibold text-secondary">
-            {localState.details?.name && `About ${localState.details?.name?.toLowerCase()} membership`} 
-          </h1>
-          <p className="mt-2 mb-6 text-secondary">
-            {localState.details?.description}
-          </p>
-          <MaticInput
-            value={localState.inputCount}
-            setValue={(value: any) => {
-              localDispatch({ type: "setInputCount", payload: Number(value) });
-            }}
-            maxValue={5}
-            minValue={1}
-          />
-          <div className="text-right mt-5 max-sm:text-center">
-            <Button
-              type="primary"
-              handleClick={() => handleMinting()}
-              btnClassName=""
-              disabled={localState.isMinting}
-            >
-              {localState.isMinting && (
-                <span>
-                  <Spinner />
-                </span>
-              )}
-              MINT For Membership Pass
-            </Button>
+      {localState.isLoading && <BuyMembershipShimmers />}
+      {!localState.isLoading && (
+        <div className="lg:px-[55px]">
+          <div className="mt-7 text-center">
+            <h1 className="text-lg font-semibold text-secondary">
+              {localState.details?.name &&
+                `About ${localState.details?.name?.toLowerCase()} membership`}
+            </h1>
+            <p className="mt-2 mb-6 text-secondary">
+              {localState.details?.description}
+            </p>
+            <MaticInput
+              value={localState.inputCount}
+              setValue={(value: any) => {
+                localDispatch({
+                  type: "setInputCount",
+                  payload: Number(value),
+                });
+              }}
+              maxValue={5}
+              minValue={1}
+            />
+            <div className="text-right mt-5 max-sm:text-center">
+              <Button
+                type="primary"
+                handleClick={() => handleMinting()}
+                btnClassName=""
+                disabled={
+                  !isConnected ||
+                  !user?.id ||
+                  localState.isMinting ||
+                  // localState.details?.[0]?.status !== "Active" ||
+                  // localState.details?.[0]?.status !== "Active" ||
+                  (privateStatus?.toLowerCase() === "closed" && publicStatus?.toLowerCase()==='upcoming') ||
+                  publicStatus?.toLowerCase() === "closed"
+                }
+              >
+                {localState.isMinting && (
+                  <span>
+                    <Spinner />
+                  </span>
+                )}
+                MINT For Membership Pass
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-
-      <Success id={"mintSuccessModal"} address={address} />
+      )}
+      {/* 
+      <Success id={"mintSuccessModal"} address={address} /> */}
     </div>
   );
 };

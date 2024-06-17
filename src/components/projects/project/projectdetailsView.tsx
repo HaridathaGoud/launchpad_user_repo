@@ -99,10 +99,7 @@ const ProjectdetailsView = (props: any) => {
           {!props.loader &&
             props.data?.projectDetails?.tokenType === "ERC-721" && (
               <div>
-                <BuyMembership
-                  daoId={props.data?.projectDetails?.daoId}
-                  contractAddress={props.data?.projectDetails?.contractAddress}
-                />
+                <BuyMembership projectDetails={props.data?.projectDetails} />
               </div>
             )}
         </div>

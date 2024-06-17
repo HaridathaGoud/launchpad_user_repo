@@ -1,5 +1,5 @@
 export const buyMembershipState = {
-  isLoading: true,
+  isLoading: false,
   isMinting: false,
   details: null,
   currUserMintedCount: 0,
