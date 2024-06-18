@@ -37,7 +37,8 @@ const DaoLeftPanel = (props) => {
   const getDetails = async () => {
     const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
-      daoDetails.membershipTokenAddress
+      daoDetails.membershipTokenAddress,
+      daoDetails.tokenType
     );
     const { ownerAddress, error } = await getOwnerAddress(
       getOwner,

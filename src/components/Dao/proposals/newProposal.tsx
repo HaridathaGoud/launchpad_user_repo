@@ -33,15 +33,14 @@ export default function CreateFirstPraposal(props: any) {
   const getDetails = async () => {
     const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
-      daoDetails.membershipTokenAddress
+      daoDetails.membershipTokenAddress,
+      daoDetails.tokenType
     );
     const { ownerAddress, error } = await getOwnerAddress(
       getOwner,
       daoDetails.membershipTokenAddress
     );
-    let detailsToUpdate: any = userDetailsFromContract
-      ? userDetailsFromContract
-      : {};
+    let detailsToUpdate: any = userDetailsFromContract||{};
     if (amount) {
       detailsToUpdate = { ...detailsToUpdate, balance: amount };
       setUserDetailsFromContract({ ...detailsToUpdate, balance: amount });
