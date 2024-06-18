@@ -3,7 +3,7 @@ import Button from "../../../ui/Button";
 
 
 
-const Activity = ({ userClaims,fetchData }) => {
+const Activity = (props:any) => {
  
 
   return (
