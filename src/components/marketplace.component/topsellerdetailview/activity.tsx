@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
-import Button from "../../../ui/Button";
+import React from "react";
 
-
-
-const Activity = (props:any) => {
+const Activity = ({activityData}) => {
+//  console.log('activityData ',activityData);
  
 
   return (

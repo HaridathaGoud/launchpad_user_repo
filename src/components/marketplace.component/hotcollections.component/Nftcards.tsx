@@ -1,15 +1,18 @@
 import React, { useState,useEffect } from 'react';
 import Image from 'react-bootstrap/Image';
 import member from '../../../assets/images/dao-profile.png';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import gadha from '../../../assets/images/hanuman-gadha.png'
 import NftCardShimmer from './NftCardShimmer';
 // import apiCalls from "../utils/api";
 import apiCalls from '../../../utils/api';
-const NftCards = ({setCardDetails}) => {
+const NftCards = ({}) => {
+    const params = useParams();
+
 const [nftCollections,setIsNFTCollections] = useState(null);
 const pageSize = 10;
 const [pageNo,setIsPageNo]=useState(1);
+const [loaderAction,setLoaderAction]=useState(false);
     const data = [
         {
             image: 'https://i.pinimg.com/236x/2a/a8/9a/2aa89ab8c33e56de598ac044415a4c3f.jpg',
@@ -70,33 +73,13 @@ const [pageNo,setIsPageNo]=useState(1);
         }
     ]
 
-    useEffect(()=>{
-        fetchNftsCollections();
-    },[])
-const fetchNftsCollections = (data, pageNo = 1, category = 'all', search = null, id = '', take = 10) => {
-    const skip = pageNo * take - take;
-    return async (dispatch) => {
-        dispatch(setLoaderAction(true));
-        const response = await apiCalls.getMarketplace(`"GetNftsByCollectionId"/${id}/${take}/${skip}/${category}/${search}/WMATIC/All/null`);
-        if (response.status === 200) {
-            const mergedData = skip > 0 ? [...data, ...response.data] : response.data
-            setIsNFTCollections(mergedData);
-            setIsPageNo(pageNo + 1);
-        } else {
-            // dispatch(setErrorAction(response));
-        }
-        // dispatch(setLoaderAction(false));
-    }
-}
-
     return (
         <>
-        {console.log(nftCollections,'nftCollections')}
         {data.map((item,index)=>(
              <>
                 <NftCardShimmer/>
 
-            <div onClick={()=>setCardDetails(item)}>
+            <div>
           <div className='shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]'>
             <img src={item.image} alt="" className='h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg' />
             <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
