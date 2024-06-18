@@ -128,7 +128,7 @@ function TrendingNfts(props) {
                             <img
                               src={item?.logo || defaultbg}
                               alt=""
-                              className={`w-full object-cover h-[400px] rounded-[16px] ${item?.isUnlockPurchased &&
+                              className={`w-full object-cover h-[400px] rounded-[16px] cursor-pointer ${item?.isUnlockPurchased &&
                                   address?.toLowerCase() !==
                                   item?.creatorWalletAddress.toLowerCase()
                                   ? "trend-image blur-image"

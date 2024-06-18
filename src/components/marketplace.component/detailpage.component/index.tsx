@@ -1665,14 +1665,14 @@ const DetailPage = (props: any) => {
                           
                           
                               <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
-                                0.0025 Matic
+                              Thor’s Hammer
                               </p>
                           
                               <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
-                                0.0025 WMatic
+                              Current Price
                               </p>
                               <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
-                                0.0025 WMatic
+                              0.003 Matic
                               </p>
                           </div>
                         </div>
