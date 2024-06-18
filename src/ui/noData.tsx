@@ -1,13 +1,13 @@
 import React from "react";
 import nodata from '../assets/images/no-data.png';
 
-const NoDataFound = (props) => {
+const NoData = (props) => {
     let text = props.text || "No data found";
     return (<>
         <div className="text-center">
-            <img width={95} className="mx-auto" src={nodata} />
+            <img width={95} className="mx-auto" src={nodata} alt="No data found" />
             <p className="text-secondary text-center mt-2">{text}</p>
         </div>
     </>)
 }
-export default NoDataFound
+export default NoData

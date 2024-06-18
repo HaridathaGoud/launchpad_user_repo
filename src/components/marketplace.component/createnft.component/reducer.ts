@@ -1,49 +1,8 @@
-interface FormValues {
-  nftImage: string;
-  name: string;
-  externalLink: string;
-  description: string;
-  collection: string | null;
-  properties: string | null;
-  supply: number;
-  network: string | null;
-  royalities: number;
-  putOn: string;
-  unlockOnPurchase: false;
-  unlockDescription: string;
-}
-interface FormErrors {
-  nftImage: string;
-  name: string;
-  externalLink: string;
-  description: string;
-  collection: any;
-  properties: string | null;
-  supply: number;
-  network: string | null;
-  royalities: number;
-  putOn: string;
-  unlockOnPurchase: false;
-  unlockDescription: string;
-}
-interface Lookups {
-  collections: any[] | null;
-  networks: any[] | null;
-}
-interface FormState {
-  values: FormValues;
-  errors: FormErrors;
-  lookups: Lookups;
-  modalToOpen: string;
-  isLoading: string;
-}
-interface Action {
-  type: string;
-  payload: any;
-}
+import { Action, FormState } from "./models";
+
 export const formState: FormState = {
   values: {
-    nftImage: "",
+    imageUrl: "",
     name: "",
     externalLink: "",
     description: "",
@@ -52,12 +11,13 @@ export const formState: FormState = {
     supply: 0,
     network: null,
     royalities: 0,
-    putOn: "",
-    unlockOnPurchase: false,
+    isPutonSale: false,
+    isPutOnAuction: false,
+    isUnlockPurchased: false,
     unlockDescription: "",
   },
   errors: {
-    nftImage: "",
+    imageUrl: "",
     name: "",
     externalLink: "",
     description: "",
@@ -66,13 +26,16 @@ export const formState: FormState = {
     supply: "",
     network: "",
     royalities: "",
-    putOn: "",
-    unlockOnPurchase: "",
+    isPutonSale: "",
+    isPutOnAuction: "",
+    isUnlockPurchased: "",
     unlockDescription: "",
   },
   modalToOpen: "",
   lookups: { collections: null, networks: null },
   isLoading: "",
+  propertyErrors: [],
+  propertiesToUpdate: null,
 };
 
 export const formReducer = (state: FormState, action: Action) => {
@@ -92,6 +55,12 @@ export const formReducer = (state: FormState, action: Action) => {
       return state;
     case "setIsLoading":
       state = { ...state, isLoading: action.payload };
+      return state;
+    case "setPropertyErrors":
+      state = { ...state, propertyErrors: action.payload };
+      return state;
+    case "setPropertiesToUpdate":
+      state = { ...state, propertiesToUpdate: action.payload };
       return state;
     default:
       return state;

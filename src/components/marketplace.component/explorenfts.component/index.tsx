@@ -13,7 +13,7 @@ import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer"
 import WalletConnect from "../../../layout/Login/index";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 import FilterComponent from "../filtercomponent";
 import StatusDetailview from "../hotcollections.component/detailviewstatus";
 import BreadCrumb from "../../../ui/breadcrumb";

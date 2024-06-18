@@ -5,7 +5,7 @@ import { setError } from "../../../reducers/layoutReducer";
 import { clearDaos, getDaos } from "../../../reducers/proposlaReducer";
 import Button from "../../../ui/Button";
 import { useNavigate } from "react-router-dom";
-import NoDataFound from "../../../ui/nodatafound";
+import NoData from "../../../ui/noData";
 const take = 8;
 const Daos = (props: any) => {
   const rootDispatch = useDispatch();
@@ -92,7 +92,7 @@ const Daos = (props: any) => {
               <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
             </Button>
           )}
-          {showNoData && <NoDataFound text={""} />}
+          {showNoData && <NoData text={""} />}
         </div>
       </div>
     </div>

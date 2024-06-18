@@ -3,7 +3,7 @@ import { get } from '../../utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { setError } from '../../reducers/layoutReducer';
 import Projectscomponent from './projectsComponent';
-import NoDataFound from '../../ui/nodatafound';
+import NoDataFound from '../../ui/noData';
 import { guid } from '../../utils/constants';
 const pageNo = 1;
 const pageSize = 3

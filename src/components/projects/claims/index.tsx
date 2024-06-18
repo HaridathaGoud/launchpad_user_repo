@@ -9,7 +9,7 @@ import { setError, setToaster } from "../../../reducers/layoutReducer";
 import { ClaimsShimmer } from "../../loaders/projects/claimsShimmer";
 import Button from "../../../ui/Button";
 import Spinner from "../../loaders/spinner";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 const Claims = (props:any) => {
   const { claimTokens } = useContract();

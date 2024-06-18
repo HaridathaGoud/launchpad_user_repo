@@ -25,7 +25,7 @@ const CreateCollection = (props: any) => {
 
       if (categories.status === 200 && networks.status === 200) {
         let _obj = { ...localState.lookups };
-        _obj.collections = categories.data,
+        _obj.collections = categories.data;
         _obj.networks =  networks.data;
         localDispatch({ type: 'setLookups', payload: _obj });
       }
