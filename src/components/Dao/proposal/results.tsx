@@ -43,14 +43,15 @@ const ProposalResults = (props: any) => {
     }
   }, [isConnected, address]);
   const setBalance = async () => {
-    const { amount, error } = await getRewardBalance(
+    const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
-      params.projectToken
+      params.projectToken,
+      proposalDetails.tokenType
     );
     if (amount) {
       dispatch({ type: "setUserBalance", payload: amount });
     } else {
-      rootDispatch(setError({ message: error, from: "contract" }));
+      rootDispatch(setError({ message: balanceError, from: "contract" }));
     }
   };
   const hideVoteButtons =

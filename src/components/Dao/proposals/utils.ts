@@ -9,13 +9,18 @@ const timeUnits = [
 ];
 export const getRewardBalance = async (
   readRewardBalance: Function,
-  address: any
+  address: any,
+  type: string
 ) => {
   const response = await readRewardBalance(address);
   if (response) {
     let _amt = response.toString();
     if (_amt) {
-      return { amount:parseFloat(ethers.utils.formatEther(_amt)), balanceError: null };
+      return {
+        amount:
+          type === "ERC-20" ? parseFloat(ethers.utils.formatEther(_amt)) : _amt,
+        balanceError: null,
+      };
     }
   }
   return { balanceError: response, amount: null };

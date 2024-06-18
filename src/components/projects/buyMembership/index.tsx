@@ -151,13 +151,6 @@ const BuyMembership = (props: any) => {
       {!localState.isLoading && (
         <div className="lg:px-[55px]">
           <div className="mt-7 text-center">
-            <h1 className="text-lg font-semibold text-secondary">
-              {localState.details?.name &&
-                `About ${localState.details?.name?.toLowerCase()} membership`}
-            </h1>
-            <p className="mt-2 mb-6 text-secondary">
-              {localState.details?.description}
-            </p>
             <MaticInput
               value={localState.inputCount}
               setValue={(value: any) => {
@@ -178,8 +171,6 @@ const BuyMembership = (props: any) => {
                   !isConnected ||
                   !user?.id ||
                   localState.isMinting ||
-                  // localState.details?.[0]?.status !== "Active" ||
-                  // localState.details?.[0]?.status !== "Active" ||
                   (privateStatus?.toLowerCase() === "closed" && publicStatus?.toLowerCase()==='upcoming') ||
                   publicStatus?.toLowerCase() === "closed"
                 }
