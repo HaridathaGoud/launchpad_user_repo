@@ -2,10 +2,10 @@ import Contract from './voting.json';
 import { prepareWriteContract, waitForTransaction, writeContract } from 'wagmi/actions';
 export function useVotingContract() {
     async function addQuestion(contractAddress:any,questionHash: any, oprionHash: any, startTime: any, endTime) {
-        return proposalAddQuestion(contractAddress,questionHash,oprionHash,startTime,endTime);
+        return await proposalAddQuestion(contractAddress,questionHash,oprionHash,startTime,endTime);
     }
     async function castVote(contractAddress,questionHash: any, oprionHash: any) {
-      return proposalCastVote(contractAddress,questionHash,oprionHash);
+      return await proposalCastVote(contractAddress,questionHash,oprionHash);
   }
     function parseError(message) {
       let _message = message?.details || message?.cause?.reason || message?.message || message.fault;
