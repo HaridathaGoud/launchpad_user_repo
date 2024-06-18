@@ -73,7 +73,7 @@ const AllocationsView = (props) => {
                                 {" "}
                                 <Button
                                   type="primary"
-                                  btnClassName="!py-0 px-6"
+                                  btnClassName="!py-0 px-6 whitespace-nowrap"
                                   disabled={
                                     item.allocationVolume === 0 ||
                                     item?.allocationVolume <=

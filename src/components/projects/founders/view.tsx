@@ -76,7 +76,7 @@ const FoundingMembersView = () => {
               </div>
               <div className="card-body px-3 py-6 flex flex-row justify-between">
                 <div className="flex-1 overflow-hidden">
-                  <h1 className="text-base font-semibold mb-3 truncate  ">
+                  <h1 className="text-base font-semibold mb-3 truncate  " title={item.userName}>
                   {  item.userName || "--"}
                   </h1>
                   <p className={`opacity-60 mb-3 text-base truncate`}>Earned</p>
