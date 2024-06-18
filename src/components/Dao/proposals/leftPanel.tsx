@@ -16,6 +16,7 @@ const DaoLeftPanel = (props) => {
     return {
       daoDetails: state.proposal.daoDetails.data,
       user: state?.auth?.user,
+
     };
   });
   const proposals = useSelector((state: any) => state.proposal?.proposals);
@@ -82,7 +83,9 @@ const DaoLeftPanel = (props) => {
       address &&
       user?.id &&
       daoDetails?.votingContractAddress &&
-      proposals?.data?.length !== 0 &&
+      ((props?.from!=='project' && proposals?.data?.length !== 0) ||
+      (props.from==='project' && ((proposals?.data?.length !== 0 && proposals.nextPage===2) || (proposals.nextPage>2)))
+    ) &&
       eligibleFromContract
     );
   }, [
@@ -91,6 +94,8 @@ const DaoLeftPanel = (props) => {
     userDetailsFromContract,
     daoDetails,
     user?.id,
+    proposals,
+    props?.from
   ]);
   return (
     <>
