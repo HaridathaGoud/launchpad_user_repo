@@ -14,7 +14,7 @@ import WalletConnect from "../../../layout/Login";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import BreadCrumb from "../../../ui/breadcrumb";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 const pageSize = 10;
 const search = null;
 function MyCollections(props: any) {

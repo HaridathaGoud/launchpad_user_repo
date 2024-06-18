@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../../ui/Button";
 import { connect } from "react-redux";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 
 const AllocationsView = (props) => {
   return (

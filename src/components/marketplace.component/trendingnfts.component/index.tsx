@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 import { connect, useDispatch } from "react-redux";
 import Button from "../../../ui/Button";
 import { setError } from "../../../reducers/layoutReducer";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 import { trendingNFTSReducer, trendingNftState } from "./reducer";
 function TrendingNfts(props) {
   const rootDispatch = useDispatch();

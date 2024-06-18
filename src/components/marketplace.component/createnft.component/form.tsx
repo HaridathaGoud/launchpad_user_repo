@@ -4,21 +4,133 @@ import TextInput from "../../../ui/textInput";
 import TextArea from "../../../ui/textArea";
 import Select from "../../../ui/select";
 import matic from "../../../assets/images/matic-img.svg";
-import { Modal } from "../../../ui/Modal";
+import { Modal, modalActions } from "../../../ui/Modal";
+import { validateProperties } from "./validation";
+import { useDispatch } from "react-redux";
+import { setError } from "../../../reducers/layoutReducer";
+import { Property } from "./models";
+import NoData from "../../../ui/noData";
+import { apiUploadPost } from "../../../utils/api";
 
 const Form = ({
-  profile,
+  state,
+  updateState,
   inputRef,
   deleteImage,
   handlePicChange,
   collectionsLu,
-  handleShowModel,
-  attributes,
 }) => {
-  const handleChange = (field, value) => {};
+  const {
+    values,
+    errors,
+    propertyErrors,
+    propertiesToUpdate: modalProperties,
+  } = state;
+  const dispatch = useDispatch();
+  const handleChange = (field: string, value: any) => {
+    const valuesToUpdate = { ...values };
+    valuesToUpdate[field] = value;
+    updateState("setValues", valuesToUpdate);
+  };
+  const addProperties = () => {
+    const propertyToAdd = { type: "", value: "" };
+    const propertiesToUpdate = modalProperties
+      ? [...modalProperties, propertyToAdd]
+      : [propertyToAdd];
+    updateState("setPropertiesToUpdate", propertiesToUpdate);
+  };
+  const handlePropertiesChange = (field: string, value: any, index: number) => {
+    const propertiesToUpdate = [...modalProperties];
+    // const errorsToUpdate = [...propertyErrors];
+    // if (errorsToUpdate?.[index]?.[field]) {
+    //   errorsToUpdate[index][field] = "";
+    // }
+    if (propertiesToUpdate[index]) {
+      propertiesToUpdate[index] = {
+        ...propertiesToUpdate[index],
+        [field]: value,
+      };
+    }
+    // updateState("setPropertyErrors", errorsToUpdate);
+    updateState("setPropertiesToUpdate", propertiesToUpdate);
+  };
+  const handleDeleteProperty = (index: number) => {
+    const properties = [...modalProperties];
+    const errorsToUpdate = [...propertyErrors];
+    if (errorsToUpdate.length > 0) {
+      errorsToUpdate.splice(index, 1);
+    }
+    properties.splice(index, 1);
+    updateState("setPropertyErrors", errorsToUpdate || []);
+    updateState(
+      "setPropertiesToUpdate",
+      properties?.length > 0 ? properties : null
+    );
+  };
+  const handlePropertiesSave = () => {
+    const { isValid, errors, error } = validateProperties(modalProperties);
+    if (isValid) {
+      const propertiesToUpdate = modalProperties ? [...modalProperties] : null;
+      updateState("setValues", { ...values, properties: propertiesToUpdate });
+      modalActions("nftPropsModal", "close");
+    }
+    if (!isValid && errors) {
+      updateState("setPropertyErrors", errors);
+    }
+    if (!isValid && error) {
+      dispatch(setError({ message: error, type: "warning" }));
+    }
+  };
+  const handleUpload = (event: any, type: any) => {
+    if (event.target.files?.[0]) {
+      const file = event.target.files[0];
+      uploadToServer(file,event);
+    }
+  };
+
+  const uploadToServer = async (
+    file: any,
+    event
+  ) => {
+    const body: any = new FormData();
+    updateState("setIsLoading","uploadingImageUrl")
+    let fileType = {
+      "image/png": true,
+      "image/jpg": true,
+      "image/jpeg": true,
+      "image/PNG": true,
+      "image/JPG": true,
+      "image/JPEG": true,
+    };
+    body.append("file", file);
+    if (fileType[file?.type]) {
+      try {
+        const response = await apiUploadPost(
+          `Upload/UploadFileNew`,
+          body
+        );
+        if (response.statusText.toLowerCase() === "ok") {
+          dispatch(setError({message:""}))
+          const valuesToUpdate={...values}
+          valuesToUpdate.imageUrl = response.data[0];
+          updateState('setValues',valuesToUpdate);
+        } else {
+          dispatch(setError({message:response}))
+        }
+      } catch (error) {
+        dispatch(setError({message:error}))
+      } finally {
+        updateState("setIsLoading","")
+      }
+    } else {
+      dispatch(setError({message:"File is not allowed. Please upload only jpg, png, jpeg files!",type:'warning'}))
+      event.target.value='';
+      updateState("setIsLoading","")
+    }
+  };
   const createNFT = (e) => {};
   return (
-    <form className="mt-4" onSubmit={(e) => createNFT(e)}>
+    <form className="mt-4">
       <div className="grid lg:grid-cols-2 gap-6">
         <>
           <div>
@@ -27,13 +139,13 @@ const Form = ({
             </label>
 
             <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
-              {profile.logo && (
+              {values.imageUrl && (
                 <div>
                   <img
-                    src={profile.logo}
+                    src={values.imageUrl}
                     width="250"
                     height="250"
-                    alt=""
+                    alt={""}
                     className="w-full h-full object-cover rounded-[28px]"
                   />
                   <span
@@ -42,7 +154,7 @@ const Form = ({
                   ></span>
                 </div>
               )}
-              {!profile.logo && (
+              {!values.imageUrl && (
                 <>
                   <div className="">
                     <div className="text-center">
@@ -67,14 +179,14 @@ const Form = ({
                         <Button
                           btnClassName="absolute left-0 top-0 cursor-pointer"
                           type="primary"
-                        //   handleClick={() => inputRef.current?.click()}
+                          //   handleClick={() => inputRef.current?.click()}
                         >
                           Choose File
                         </Button>
                       </div>
-                      {"" && (
+                      {errors["imageUrl"] && (
                         <p className="text-sm font-normal text-red-600 mt-4">
-                          Please provide a valid NFT image.
+                          {errors["imageUrl"]}
                         </p>
                       )}
                     </div>
@@ -82,7 +194,7 @@ const Form = ({
                 </>
               )}
               {/* dont remove this camera icon
-              <div className="text-lg-center profile-icons cust-pf-icons">
+              <div className="text-lg-center values-icons cust-pf-icons">
                 <input
                   type="file"
                   name="myImage"
@@ -96,19 +208,19 @@ const Form = ({
             <div className="">
               <TextInput
                 label="Name"
-                value={profile.name}
+                value={values.name}
                 onChange={handleChange}
                 inputBoxClass="mb-6"
                 fieldName="name"
-                error={""}
+                error={errors["name"]}
               />
               <TextInput
                 label="External link"
-                value={profile.externalLink}
+                value={values.externalLink}
                 onChange={handleChange}
                 inputBoxClass="mb-6"
                 fieldName="externalLink"
-                error={""}
+                error={errors["externalLink"]}
                 maxLength={500}
               />
 
@@ -119,11 +231,11 @@ const Form = ({
                 </p> */}
               <TextArea
                 label="Description"
-                value={profile.description}
+                value={values.description}
                 onChange={handleChange}
                 inputBoxClass="mb-6"
                 fieldName="description"
-                error={""}
+                error={errors["description"]}
                 isRequired={false}
               />
               {/* <p className="text-secondary opacity-60 mb-2">
@@ -131,11 +243,11 @@ const Form = ({
                 </p> */}
               <Select
                 inputBoxClass="mb-6 p-relative"
-                value={profile.collection}
+                value={values.collection}
                 options={collectionsLu || []}
                 onChange={handleChange}
                 fieldName="collection"
-                error={""}
+                error={errors["collection"]}
                 label="Collection"
                 defaultOption="Select Collection"
               />
@@ -155,21 +267,21 @@ const Form = ({
                     </div>
                     <span
                       className="icon add-btn cursor-pointer"
-                      onClick={handleShowModel}
+                      onClick={() => modalActions("nftPropsModal", "open")}
                     ></span>
                   </div>
                   <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
-                    {attributes.map((field, index) => (
+                    {values?.properties?.map((property: Property, index) => (
                       <div
                         key={index}
                         className="mb-3 border border-[#939393] rounded-lg p-[14px] text-center"
                       >
                         <div className="avatar-box me-lg-2">
                           <label className="text-base text-primary font-normal break-words">
-                            {field.trait_type}
+                            {property.type}
                           </label>
                           <p className="text-base text-secondary font-normal break-words">
-                            {field.value}
+                            {property.value}
                           </p>
                         </div>
                       </div>
@@ -182,7 +294,7 @@ const Form = ({
                 </p> */}
               <TextInput
                 label="Supply"
-                value={profile.supply}
+                value={values.supply}
                 onChange={handleChange}
                 inputBoxClass="mb-6"
                 fieldName="supply"
@@ -222,7 +334,7 @@ const Form = ({
               </div>
               <TextInput
                 label="Royalties"
-                value={profile.royalities}
+                value={values.royalities}
                 onChange={handleChange}
                 inputBoxClass="mb-6"
                 fieldName="royalities"
@@ -250,7 +362,7 @@ const Form = ({
                   </label>
                 </div>
 
-                {profile.putOnSale && (
+                {values.putOnSale && (
                   <>
                     {" "}
                     <p className="text-secondary opacity-50 text-sm">
@@ -271,7 +383,7 @@ const Form = ({
                           id="basic-addon3"
                           className=" absolute right-0 px-3 top-5 border-l "
                         >
-                          {profile.network || "MATIC"}
+                          {values.network || "MATIC"}
                         </span>
                       </div>
                       {"" && (
@@ -303,7 +415,7 @@ const Form = ({
                   </label>
                 </div>
 
-                {profile.putOnAuction && (
+                {values.putOnAuction && (
                   <>
                     {" "}
                     <p className="text-secondary opacity-50 text-sm">
@@ -323,7 +435,7 @@ const Form = ({
                         id="basic-addon3"
                         className=" absolute right-0 px-3 top-5 border-l "
                       >
-                        {profile.network || "MATIC"}
+                        {values.network || "MATIC"}
                       </span>
                     </div>
                     {"" && (
@@ -374,61 +486,37 @@ const Form = ({
                   Create
                 </Button>
               </div>
-              <Modal id={"addproperty"}>
+              <Modal id={"nftPropsModal"}>
                 <div>
                   <h2 className="text-base font-semibold text-secondary mt-0 mb-0">
                     Add Properties{" "}
                   </h2>
-                  <span
-                    className="icon md close-icon c-pointer"
-                    // onClick={handleClose}
-                  ></span>
-                  {/* {modalErrorMsg && (
-                    <>
-                      <div variant="danger">
-                        <img className="validation-error" src={validError} />
-                        <span>{modalErrorMsg}</span>
-                      </div>
-                      <div className="cust-error-bg">
-                        <div className="cust-crd-mr">
-                          <Image src={error} alt="" />
-                        </div>
-                        <div>
-                          <p className="error-title error-red">Error</p>
-                          <p className="error-desc">{modalErrorMsg}</p>
-                        </div>
-                      </div>
-                    </>
-                  )} */}
-
-                  {/* {propertiesFields?.map((field, index) => (
-                    <div className="my-6 flex gap-4 items-center ">
+                  {modalProperties?.map((property: any, index: number) => (
+                    <div className="my-6 flex gap-4 items-center " key={index}>
                       <div>
                         <label className="text-dark text-sm font-normal p-0 mb-2 label block">
-                          Key*
+                          Type
                         </label>
                         <input
-                          aria-label="Username"
                           type="text"
                           className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                          placeholder="Key"
-                          value={field.trait_type}
+                          placeholder="Type"
+                          value={property.type}
                           onChange={(event) =>
-                            handleFieldChange(index, event, "avathar")
+                            handlePropertiesChange(
+                              "type",
+                              event.target.value,
+                              index
+                            )
                           }
                           maxLength={13}
                           required
-                          isInvalid={!!ketError}
-                          feedback={ketError}
                         />
-                        <p
-                          className="text-sm font-normal text-red-600 "
-                          type="invalid"
-                        >{`${
-                          indexposition == index && ketError
-                            ? "Please provide valid content"
-                            : " "
-                        }`}</p>
+                        {propertyErrors?.[index]?.["type"] && (
+                          <p className="text-sm font-normal text-red-600 ">
+                            {propertyErrors?.[index]?.["type"]}
+                          </p>
+                        )}
                       </div>
                       {"  "}
                       <div className="">
@@ -437,140 +525,59 @@ const Form = ({
                         </label>
 
                         <input
-                          aria-label="Username"
                           type="text"
                           className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                           placeholder="Value"
-                          value={field.value}
+                          value={property.value}
                           onChange={(event) =>
-                            handleFieldChange(index, event, "avatharValue")
+                            handlePropertiesChange(
+                              "value",
+                              event.target.value,
+                              index
+                            )
                           }
                           maxLength={13}
                           required
-                          isInvalid={!!valueError}
-                          feedback={valueError}
                         />
-                        <p
-                          className="text-sm font-normal text-red-600 "
-                          type="invalid"
-                        >{`${
-                          valueIndexposition == index && valueError
-                            ? "Please provide valid content"
-                            : " "
-                        }`}</p>
+                        {propertyErrors?.[index]?.["value"] && (
+                          <p className="text-sm font-normal text-red-600 ">
+                            {propertyErrors?.[index]?.["value"]}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-6">
                         <span
                           className="icon delete-icon ml-2 cursor-pointer"
-                          onClick={() => handleRemoveFields(index)}
+                          onClick={() => handleDeleteProperty(index)}
                         ></span>
                       </div>
                     </div>
-                  ))} */}
+                  ))}
+                  {(!modalProperties || modalProperties?.length === 0) && (
+                    <div className="my-6">
+                      <NoData text={"No properties added yet!"} />
+                    </div>
+                  )}
                 </div>
                 <div className="flex gap-4 items-center justify-end mt-10">
                   <Button
-                    // handleClick={handleAddField}
+                    handleClick={() => addProperties()}
                     btnClassName="w-[160px]"
                     type="cancel"
                   >
-                    Add more
+                    {!modalProperties || modalProperties?.length === 0
+                      ? "Add"
+                      : "Add more"}
                   </Button>
                   <Button
                     type="primary"
-                    // handleClick={handleSaveAddField}
+                    handleClick={() => handlePropertiesSave()}
                     btnClassName="w-[160px] min-h-[42px]"
                   >
                     Save
                   </Button>
                 </div>
               </Modal>
-
-              {/* <Modal
-            show={show}
-            onHide={handleClose}
-            className="wallet-popup checkout-modal properties-modal add-properties"
-            centered
-
-          >
-            <Modal.Header className="bglight">
-            <h2 className="section-title mt-0 mb-0">Add Properties </h2>
-              <span className="icon md close-icon c-pointer" onClick={handleClose}></span>
-            </Modal.Header>
-            <Modal.Body>
-            
-              <div>
-                {modalErrorMsg && (
-                  // <Alert variant="danger">
-
-                  //   <Image className='validation-error' src={validError} />
-                  //   <span>{modalErrorMsg}</span>
-                  // </Alert>
-                  <div className='cust-error-bg'>
-                  <div className='cust-crd-mr'><Image src={error} alt="" /></div>
-                  <div>
-                    <p className='error-title error-red'>Error</p>
-                    <p className="error-desc">{modalErrorMsg}</p></div>
-                </div>
-                )}
-
-                {propertiesFields?.map((field, index) => (
-                  <Form.Group key={index} className="d-flex mb-6">
-                    <div className="me-lg-2 me-2">
-                      <Form.Label className="input-label">Key*</Form.Label>
-                      <Form.Control
-                        aria-label="Username"
-                        type="text"
-                        className="input-style flex-1"
-                        placeholder="Key"
-                        value={field.trait_type}
-                        onChange={(event) => handleFieldChange(index, event, 'avathar')}
-                        maxLength={13}
-                        required
-                        isInvalid={!!ketError}
-                        feedback={ketError}
-                        
-                      />
-                      <Form.Control.Feedback type="invalid">{`${indexposition==index && ketError ? "Please provide valid content" : " " }`}</Form.Control.Feedback>
-                    </div>
-                    {'  '}
-                    <div className="">
-                      <Form.Label className="input-label">Value*</Form.Label>
-
-                      <Form.Control
-                        aria-label="Username"
-                        type="text"
-                        className="input-style"
-                        placeholder="Value"
-                        value={field.value}
-                        onChange={(event) => handleFieldChange(index, event, 'avatharValue')}
-                        maxLength={13}
-                        required
-                        isInvalid={!!valueError}
-                        feedback={valueError}
-                      />
-                       <Form.Control.Feedback type="invalid">{`${valueIndexposition==index && valueError ? "Please provide valid content" : " " }`}</Form.Control.Feedback>
-                    </div>
-                    <div className="pop-delete-mt">
-                      <span
-                        className="icon delete ms-2 c-pointer"
-                        onClick={() => handleRemoveFields(index)}
-                      ></span>
-                    </div>
-                  </Form.Group>
-                ))}
-              </div>
-              <div className="nft-props justify-content-end d-flex">
-                <Button onClick={handleAddField} className="custom-btn  me-lg-2">
-                  Add more
-                </Button>
-                <Button type='button' onClick={handleSaveAddField} className="custom-btn ms-2">
-                  Save
-                </Button>
-              </div>
-            </Modal.Body>
-          </Modal> */}
-              {/* <Confirmations {...confirmations} /> */}
             </div>
           </div>
         </>
