@@ -101,7 +101,7 @@ const Routes = () => {
         },
         { path: "/faq", element: <Faq />, errorElement: <ErrorPage /> },
         {
-          path: "/profile",
+          path: "/profile/:walletAddress?",
           element: (
             <React.Suspense fallback={<ProfileShimmer />}>
               <ProtectedRoute>

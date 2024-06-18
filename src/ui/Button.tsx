@@ -11,7 +11,7 @@ const BtnStylings = {
   secondary:
     "btn px-[35px] py-2.5 rounded-[33px] border-solid  border-secondary bg-secondary hover:border-0 border-0 hover:bg-secondary text-base-100 font-semibold text-base hover:opacity-80 h-[42px] !leading-5",
   cancel:
-    "px-[35px] py-2.5 rounded-[33px] border border-secondary bg-transparent hover:bg-black text-dark hover:bg-secondary hover:text-base-100 font-semibold text-[18px] h-[42px] !leading-5",
+    "px-[35px] py-2.5 rounded-[33px] border border-secondary bg-transparent hover:bg-black text-dark hover:bg-secondary hover:text-base-100 font-semibold text-base h-[46px] !leading-5",
   nav: "block py-2 font-semibold px-4 text-base hover:text-primary hover:bg-transparent",
   close: "modal-position me-1",
   cardButton:

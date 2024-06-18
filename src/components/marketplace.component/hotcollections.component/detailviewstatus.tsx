@@ -4,19 +4,22 @@ import Image from 'react-bootstrap/Image';
 import Button from '../../../ui/Button';
 const   StatusDetailview = (props:any) => {
 const [isToggle,setIsToggle] =useState(false);
-
+const [selectedValue, setSelectedValue] = useState('All');
 const ReplayOpen = () => {
     setIsToggle (!isToggle);
 }
-
+const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+};
     return (
         <>
+        {console.log(selectedValue,'selectedValue')}
            <div>
             <h1 className='text-lg font-semibold text-secondary mb-5'>Status</h1>
             <div className='flex items-center'>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center'> <input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative"  /><span></span>All</label>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative"  /> <span></span>Buy Now</label>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative"  /> <span></span>Live auction</label>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center'> <input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" value="All" checked={selectedValue === 'All'} onChange={handleChange}  /><span></span>All</label>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" value="Buy Now"  checked={selectedValue === 'Buy Now'} onChange={handleChange}  /> <span></span>Buy Now</label>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" value="Live auction"  checked={selectedValue === 'Live auction'} onChange={handleChange} /> <span></span>Live auction</label>
             </div>
             <hr className='mt-[28px] mb-4' />
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
@@ -81,8 +84,7 @@ const ReplayOpen = () => {
                                     <span></span>
                                 </span>
                             </label>
-                        </div>
-                    
+                        </div>                    
                     </div>
                 </div>
                 <hr className='' />

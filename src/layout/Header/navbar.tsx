@@ -26,7 +26,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
     (action: string) => {
       switch (action) {
         case "profile":
-          navigate("/profile");
+          navigate(`/profile/${address}`);
           return;
         case "wallet":
           // modalActions('arcana-custom-wallet','open')

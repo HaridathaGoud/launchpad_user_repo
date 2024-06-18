@@ -3,17 +3,22 @@ import NftCardDetailview from './Nftcarddetailview';
 import SearchInputComponent from './SearchComponent';
 import StatusDetailview from './detailviewstatus';
 import NftCards from './Nftcards';
-import Button from '../../../ui/Button';
 import Activity from '../topsellerdetailview/activity';
-import { clearHotCollectionsViewDetails, fetchHotCollectionsViewDetails } from './reducer';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { clearCollectionsActivityData, clearHotCollectionsViewDetails, fetchHotCollectionsActivityDetails, fetchHotCollectionsViewDetails } from './reducer';
+import { connect, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { setError } from '../../../reducers/layoutReducer';
+const pageSize = 10;
 
 const HotcollectionView = (props: any) => {
   const params = useParams();
-  const rootDispatch=useDispatch()
-  const hotCollectionViewDetails = useSelector((store: any) => store.hotCollections?.hotCollectionViewDetails);
+  const {hotCollectionViewDetails,user,activityData} = useSelector((state: any) => {
+    return {
+      hotCollectionViewDetails:state.hotCollections.hotCollectionViewDetails,
+      user:state.auth.user,
+      activityData:state?.hotCollections.hotCollectionsActivityDetails
+    }
+  });
   const [activeTab, setActiveTab] = useState('items')
   const [cardDetails, setCardDetails] = useState(null)
 
@@ -24,6 +29,7 @@ const HotcollectionView = (props: any) => {
     getHotCollectionsData();
     return () => {
       props.clearHotCollectionViewDetails();
+      props.clearCollectionsActivityData();
     };
   }, []);
 
@@ -32,27 +38,22 @@ const HotcollectionView = (props: any) => {
       data: null,
       id:params.collectionid
     });
-  };
-  const handleclick = (type) => {
-    if (type == 'fb') {
-      window.open(hotCollectionViewDetails?.data?.facebook);
-    } else if (type == 'linkedin') {
-      window.open(hotCollectionViewDetails?.data?.linkedIn);
-    } else if (type == 'twiter') {
-      window.open(hotCollectionViewDetails?.data?.twitter);
-    } else if (type == 'web') {
-      window.open(hotCollectionViewDetails?.data?.websiteUrl);
-    }
-  };
-  // if (hotCollectionViewDetails?.error) rootDispatch(setError(hotCollectionViewDetails?.error));facebook
+    props.fetchHotCollectionsActivityDetails({
+      data: null,
+      id:user.id,
+      collectionId:params.collectionid,
+      page: 1,
+      take: pageSize,
+    });
 
-  // console.log('hotCollectionViewDetails ',hotCollectionViewDetails?.data);
+  };
   
   return (
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
       <div className='min-h-[320px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-60 rounded-lg z-10'></div>
+      {/* Present we commented this in feature it will required */}
           {/* <div className="md:flex gap-12 items-center z-40">
             <img src={'https://i.pinimg.com/564x/b9/db/d9/b9dbd996972e8d1236c62241923a5493.jpg'} className="w-[150px] h-[150px] rounded-full object-cover" alt="" />
             <div>
@@ -70,15 +71,46 @@ const HotcollectionView = (props: any) => {
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button></div>
             </div>
           </div> */}
-          <div className='flex gap-6 absolute right-10 bottom-6'>
-              <span className='icon fb cursor-pointer' onClick={() => handleclick('fb')}></span>
-              <span className='icon linkedin cursor-pointer' onClick={() => handleclick('linkedin')}></span>
-              <span className='icon twit cursor-pointer' onClick={() => handleclick('twiter')}></span>
-              <span className='icon network cursor-pointer' onClick={() => handleclick('web')}></span>
+          <div className='flex gap-6 absolute z-10 right-10 bottom-6'>
+          <a
+              href="https://www.facebook.com/YellowblockNet/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
+              <span className='icon fb cursor-pointer'></span>
+              </a>
+              <a
+              href="https://www.facebook.com/YellowblockNet/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
+              <span className='icon linkedin cursor-pointer'></span>
+              </a>
+              <a
+              href="https://twitter.com/YellowblockNet"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
+              <span className='icon twit cursor-pointer'></span>
+              </a>
+              <a
+              href="https://x.com/DOTT73762"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
+              <span className='icon network cursor-pointer'></span>
+              </a>
             </div>
         </div>
+
         <div role="tablist" className="tabs tabstyle mt-[34px] customTabs  max-sm:overflow-x-auto scrollbar-hidden">
+          
           <input type="radio" name="my_tabs_1" role="tab" className={`tab !ml-0 ${activeTab === 'items' ? 'tab-checked' : ''}`} aria-label="Items" onChange={(e) => handleTabChange(e, 'items')} checked={activeTab === 'items'} />
+          
           <div role="tabpanel" className="tab-content py-[18px]">
           <div className="mt-7 mb-[42px]">         
           <div className="md:flex justify-between">
@@ -114,14 +146,14 @@ const HotcollectionView = (props: any) => {
         </div>}
         {cardDetails && <NftCardDetailview cardDetails={cardDetails}/>}
             </div>
+
             </div>
 
-            <input type="radio" name="my_tabs_2" role="tab" className={`tab !ml-0 ${activeTab === 'activity' ? 'tab-checked' : ''}`} aria-label="Activity" onChange={(e) => handleTabChange(e, 'activity')} checked={activeTab === 'activity'} />
-            <div role="tabpanel" className="tab-content py-[18px]">
-              <Activity/>
-              </div>
+          <input type="radio" name="my_tabs_2" role="tab" className={`tab !ml-0 ${activeTab === 'activity' ? 'tab-checked' : ''}`} aria-label="Activity" onChange={(e) => handleTabChange(e, 'activity')} checked={activeTab === 'activity'} />
+          <div role="tabpanel" className="tab-content py-[18px]">
+            <Activity activityData={activityData}/>
+            </div>
 
-       
         </div>
   );
 }
@@ -135,6 +167,12 @@ const connectDispatchToProps = (dispatch: any) => {
     },
     clearHotCollectionViewDetails: () => {
       dispatch(clearHotCollectionsViewDetails());
+    },
+    fetchHotCollectionsActivityDetails:(callback: any)=>{
+      dispatch(fetchHotCollectionsActivityDetails(callback));
+    },
+    clearCollectionsActivityData:()=>{
+      dispatch(clearCollectionsActivityData());
     },
     dispatch,
   };
