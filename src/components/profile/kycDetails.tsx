@@ -52,7 +52,7 @@ const KycDetails = ({ kycStatus, id }) => {
   ) {
     return (
       <div className="">
-        <h4 className="font-semibold text-lg text-secondary">KYC Details</h4>
+        <h4 className="font-semibold text-lg text-secondary mt-[26px]">KYC Details</h4>
         <p className="text-sm text-secondary font-normal mt-1">
           KYC not yet completed, Please click below button to update KYC details
         </p>

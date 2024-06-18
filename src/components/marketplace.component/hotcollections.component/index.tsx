@@ -19,7 +19,6 @@ export default function HotCollections() {
     try {
       localDispatch({ type: 'setLoader', payload: true });
        let response =  await getMarketplace(`User/HotCollectionsData/10/0/${null}/${null}`)
-      // let response = await getMarketplace("User/todaytrending");
       if (response.status === 200) {
         localDispatch({ type: 'setHotCollectionData', payload: response.data });
       }

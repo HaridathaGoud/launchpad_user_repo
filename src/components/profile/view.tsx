@@ -72,7 +72,7 @@ const ProfileView = ({ profile, address }) => {
               KYC Status
             </h1>
             <p className="kyc-badge mt-1 txt-green break-all capitalize">
-              {profile.kycStatus ? profile.kycStatus.toLowerCase() : "-"}
+             <span className={`px-4 py-1 text-white rounded-md text-base font-semibold ${profile.kycStatus ==='Init' ? 'bg-orange-400':''}`}> {profile.kycStatus ? profile.kycStatus.toLowerCase() : "-"}</span>
             </p>
           </div>
         )}

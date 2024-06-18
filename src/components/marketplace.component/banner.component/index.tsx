@@ -62,7 +62,7 @@ const Banner = () => {
         <>
             {localState.loader &&
                 <DashboardShimmer />
-                || <>
+                ||
                     <div className="container mx-auto pt-5">
                         <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	items-center">
                             <div className="">
@@ -91,7 +91,7 @@ const Banner = () => {
                                     <Button type='primary' btnClassName='!px-12' handleClick={handleExplore}>
                                         Explore
                                     </Button>{' '}
-                                    <Button type='cancel' btnClassName='!px-12 !h-[42px] ml-[18px]' handleClick={handleExplore}>
+                                    <Button type='cancel' btnClassName='!px-12 !h-[48px] ml-[18px]' handleClick={handleExplore}>
                                         Create
                                     </Button>
                                 </div>
@@ -119,7 +119,8 @@ const Banner = () => {
                                     </Modal.Body>
                                 </Modal>
                             </div>
-                            <div className='lg:w-[400px] mx-auto'>
+                           <div className='flex justify-end'>
+                           <div className='lg:w-[400px]'>
                                 <Carousel data={localState.topNftDetails}>
                                     {localState.topNftDetails?.map((item) => (
                                         <div>
@@ -144,9 +145,10 @@ const Banner = () => {
 
                                 </Carousel>
                             </div>
+                           </div>
                         </div>
                     </div>
-                </>}
+              }
         </>
     );
 }

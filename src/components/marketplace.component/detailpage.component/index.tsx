@@ -1001,9 +1001,10 @@ const DetailPage = (props: any) => {
                     <div className="">
                       <div className="flex justify-between items-start mb-3 sm:mt-2">
                         <h1 className="text-3xl text-secondary font-semibold mb-3">
-                          {nftDetails?.name}
+                          {nftDetails?.name|| '--'}
                         </h1>
                         <DropdownMenus
+                        dropdownClass="dropdown-end"
                           btnContent={
                             <>
                               <span className="icon dots transform rotate-90"></span>
@@ -1012,49 +1013,7 @@ const DetailPage = (props: any) => {
                           dropdownList={dropdownList}
                         ></DropdownMenus>
                         {/* {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
-                        <NavDropdown
-                          title={<span className="icon more-nav"></span>}
-                          id="basic-nav-dropdown"
-                          className="detailpage-navmenu"
-                        >
-                          {/* {!nftDetails?.isPutonSale &&
-                              !nftDetails?.isPutOnAuction &&
-                              nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => handleShow("sale")}
-                          >
-                            Put on sale
-                          </NavDropdown.Item>
-                          {/* )} */}
-                          {/* {!nftDetails?.isPutOnAuction && !nftDetails?.isPutonSale && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => handleShow("auction")}
-                          >
-                            Put on auction
-                          </NavDropdown.Item>
-                          {/* )} */}
-
-                          {/* {nftDetails?.saleType == 'auction' ||
-                              (nftDetails?.saleType == 'Auction' && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => cancelAuctionorsale("auction")}
-                          >
-                            Cancel auction
-                          </NavDropdown.Item>
-                          {/* ))} */}
-                          {/* {nftDetails?.saleType == 'sale' ||
-                              (nftDetails?.saleType == 'Sale' && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => cancelAuctionorsale("sale")}
-                          >
-                            Cancel Sale
-                          </NavDropdown.Item>
-                          {/* ))} */}
-                        </NavDropdown>
+                       
                         {/* )} */}
                       </div>
                       {/* modal  */}
@@ -1423,24 +1382,24 @@ const DetailPage = (props: any) => {
                     </div>
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
-                        OG Wearables Charge
+                      Rarity
                       </p>
-                      <p className="text-secondary font-semibold my-1">Used</p>
-                      <p className="text-secondary">7% have this trait</p>
+                      <p className="text-secondary font-semibold my-1">Very Common</p>
+                      <p className="text-secondary">67% have this trait</p>
                     </div>
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
-                        OG Wearables Charge
+                      Space Doodles Charge
                       </p>
-                      <p className="text-secondary font-semibold my-1">Used</p>
-                      <p className="text-secondary">7% have this trait</p>
+                      <p className="text-secondary font-semibold my-1">Available</p>
+                      <p className="text-secondary">100% have this trait</p>
                     </div>
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
-                        OG Wearables Charge
+                      Type
                       </p>
-                      <p className="text-secondary font-semibold my-1">Used</p>
-                      <p className="text-secondary">7% have this trait</p>
+                      <p className="text-secondary font-semibold my-1">Dooplicator</p>
+                      <p className="text-secondary">100% have this trait</p>
                     </div>
                   </div>
                 </div>

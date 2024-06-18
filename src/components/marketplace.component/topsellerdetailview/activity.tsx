@@ -3,7 +3,7 @@ import Button from "../../../ui/Button";
 
 
 
-const Activity = ({ userClaims,fetchData }) => {
+const Activity = (props:any) => {
  
 
   return (
@@ -14,20 +14,21 @@ const Activity = ({ userClaims,fetchData }) => {
             <thead>
               <tr className="!bg-primary-content">
                 <th className="text-left text-base text-secondary font-bold">
-                No.
-                </th>
-                <th className="text-left text-base text-secondary font-bold">
-                Type
-                </th>
-                <th className="text-left text-base text-secondary font-bold">
-                Allocation Volume
-                </th>
-                <th className="text-left text-base text-secondary font-bold">
-                Price Per Token
+                S.No.
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                Purchase Volume
+                Date
                         </th>
+                <th className="text-left text-base text-secondary font-bold">
+                From
+                </th>
+                <th className="text-left text-base text-secondary font-bold">
+                To
+                </th>
+                <th className="text-left text-base text-secondary font-bold">
+                Price
+                </th>
+               
               </tr>
             </thead>
             <tbody>            
@@ -37,10 +38,15 @@ const Activity = ({ userClaims,fetchData }) => {
                       01
                       </p>
                     </td>
-                    <td>Private</td>
+                    <td>
+                        <p className="font-normal text-sm text-secondary">
+                        14-06-2024
+                        </p>
+                      </td>   
+                    <td>0x4a9Df2CF064...d9EE37c33929A</td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      10000
+                      0d9EE37c30xaf....0x4a9Df2CD8f8
                       </p>
                     </td>
                     <td>
@@ -48,31 +54,23 @@ const Activity = ({ userClaims,fetchData }) => {
                       0.01USDT
                       </p>
                     </td>
-                    <td>
-                        <p className="font-normal text-sm text-secondary">
-                        2000
-                        </p>
-                      </td>
-                    <td className="!p-2 text-right md:w-[217px]">                   
-                        <Button
-                          type="cancel"
-                          btnClassName="!py-0 px-6 min-w-[140px]"                         
-                        >                        
-                         Success
-                        </Button>
-                     
-                    </td>
-                  </tr>  
+                                    
+                  </tr> 
                   <tr>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      01
+                      02
                       </p>
                     </td>
-                    <td>Private</td>
+                    <td>
+                        <p className="font-normal text-sm text-secondary">
+                        14-06-2024
+                        </p>
+                      </td>   
+                    <td>0x4a9Df2CF064...d9EE37c33929A</td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      10000
+                      0d9EE37c30xaf....0x4a9Df2CD8f8
                       </p>
                     </td>
                     <td>
@@ -80,21 +78,9 @@ const Activity = ({ userClaims,fetchData }) => {
                       0.01USDT
                       </p>
                     </td>
-                    <td>
-                        <p className="font-normal text-sm text-secondary">
-                        2000
-                        </p>
-                      </td>
-                    <td className="!p-2 text-right md:w-[217px]">                   
-                        <Button
-                          type="primary"
-                          btnClassName="!py-0 px-6 min-w-[140px]"                         
-                        >                        
-                         Pending
-                        </Button>
+                                   
+                  </tr>   
                      
-                    </td>
-                  </tr>                
              
             </tbody>
           </table>
