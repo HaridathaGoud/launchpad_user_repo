@@ -437,7 +437,7 @@ const getUserclaims = async (
 };
 const getAboutpageData = async () => {
   return await axios.get(
-    "https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/aboutpages?populate=*"
+    "https://correct-respect-a6d2bfe249.strapiapp.com/api/aboutpages?populate=*"
   );
 };
 const getDocData = async () => {

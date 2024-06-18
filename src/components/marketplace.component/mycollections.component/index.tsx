@@ -137,7 +137,7 @@ function MyCollections(props: any) {
             />
           </Modal>
         }
-        <div className="grid gap-4 lg:grid-cols-5 md:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-3">
           {data &&
             !localState?.loader &&
             data?.map((item: any) => (
@@ -152,7 +152,7 @@ function MyCollections(props: any) {
                         ? () => saveView?.(item)
                         : () => navigateToAsset(item)
                     }
-                    type="plain"
+                    type="plain" btnClassName="w-full"
                   >
                     <div className="">
                       {" "}
@@ -179,7 +179,7 @@ function MyCollections(props: any) {
                     <Button
                       type="plain"
                       handleClick={() => addToFavorites(item)}
-                      btnClassName="p-2"
+                      btnClassName=""
                     >
                       {localState?.favoriteLoader?.id !== item.id && (
                         <span
@@ -206,10 +206,10 @@ function MyCollections(props: any) {
                     btnClassName="w-[100%]"
                   >
                     <div className="px-2 py-2.5">
-                      <p className="text-xs text-secondary truncate">
+                      <p className="text-xs text-left text-secondary truncate">
                         {item.creator}
                       </p>
-                      <h1 className="mb-2.5 text-base font-semibold truncate text-secondary">
+                      <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
                         {" "}
                         {item.name}{" "}
                       </h1>
