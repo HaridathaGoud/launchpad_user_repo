@@ -111,15 +111,15 @@ const handleTabChange=(selectedTab : any)=>{
     <Tabs
       tabs={tabs}
       activeTab={activeTab}
-      tabsClass={""}
+      tabsClass={"profile-subtabs mt-[26px]"}
       labelClass={""}
-      tabContentClass={""}
+      tabContentClass={"hidden"}
       iSTabChange={handleTabChange}
       setActiveTab={(state) => {
         setActiveTab(state);
       }}
     />
-     <div className='flex justify-between items-center gap-4'>
+     <div className='flex justify-between items-center gap-4 mt-6'>
      <SearchInputComponent handleSearch={handleSearch} handleChange={handleChange} handleSearchIcon={handleSearchIcon} search={state.searchValue}/>
         <div className="dropdown mr-2.5">
           <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: {state.type} <span className="icon drop-arrow"></span></div>
@@ -129,84 +129,104 @@ const handleTabChange=(selectedTab : any)=>{
           </ul>
         </div>
      </div>
-     <div className="grid lg:grid-cols-4 gap-4">
+    
      
-     {props?.featchNFTsCollection?.map((item:any,index:any)=>{
-     return <div
-     className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
+    <div className="relative container mx-auto profile-nfts lg:px-24 mt-10">
+    <div className='carousel w-full gap-4 py-2 px-2'>
+  
+  {props?.featchNFTsCollection?.map((item:any,index:any)=>{
+   return (
+    <>
+     <div className='carousel-item inline-block max-sm:w-full lg:w-[260px] xl:w-[300px]'>
+     <div
+   className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
+   >
+   <div className="cursor-pointer">
+     <Button
+       type="plain"
+       btnClassName='w-full'
      >
-     <div className="cursor-pointer">
-       <Button
-         type="plain"
-       >
-         <div className="">
-           {" "}
-             <Image
-               src={item?.image && !item?.image?.includes('null')
-               ? `${getNFTImageUrl(item?.image)}`
-               : defaultlogo}
-               alt=""
-               className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg`}
-             />
-         </div>
-       </Button>
-       <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
-         <Button
-           type="plain"
-           btnClassName="p-2"
-         >
-           <span
-             className={`icon like-white active`}
-             onClick={()=>saveFavorite(item)}
-           ></span>
-         </Button>
+       <div className="">
+         {" "}
+           <img
+             src={item?.image && !item?.image?.includes('null')
+             ? `${getNFTImageUrl(item?.image)}`
+             : defaultlogo}
+             alt=""
+             className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg`}
+           />
        </div>
+     </Button>
+     <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
        <Button
          type="plain"
-         btnClassName="w-[100%]"
+         btnClassName=""
        >
-         <div className="px-2 py-2.5 text-left">
-           <p className="text-xs text-secondary truncate">
-             {item?.name}
-           </p>
-           <div className="flex justify-between truncate mb-3 gap-2">
-             <p className="opacity-60 truncate text-secondary">
-               Price
-             </p>
-             <p className="font-semibold text-secondary flex-1 truncate text-right">
-               {item?.price}
-             </p>
-           </div>
-           <div className="flex justify-between gap-2">
-             <p className="opacity-60 truncate text-secondary">
-               Highest bid
-             </p>
-             <p className="font-semibold text-secondary flex-1 truncate text-right">
-               {item?.highestbid || 0}
-             </p>
-           </div>
-         </div>
+         <span
+           className={`icon like-white active`}
+           onClick={()=>saveFavorite(item)}
+         ></span>
        </Button>
-       <hr />
-       <div className="px-2.5 py-4 flex justify-between">
-         <div className="flex add-cart cursor-pointer">
-           <span className="icon card-cart"></span>
-           <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-             Add to Cart
-           </span>
+     </div>
+     <Button
+       type="plain"
+       btnClassName="w-[100%]"
+     >
+       <div className="px-2 py-2.5 text-left">
+         <p className="text-base text-secondary truncate">
+           {item?.name}
+         </p>
+         <p className="text-base font-semibold text-secondary truncate">
+           {item?.name}
+         </p>
+         <div className="flex justify-between truncate mt-2 mb-3 gap-2">
+           <p className="opacity-60 truncate text-secondary">
+             Price
+           </p>
+           <p className="font-semibold text-secondary flex-1 truncate text-right">
+             {item?.price}
+           </p>
          </div>
-         <div className="w-px border"></div>
-         <div className="flex shop-card cursor-pointer">
-           <span className="icon card-shop"></span>
-           <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-             Buy Now
-           </span>
+         <div className="flex justify-between gap-2">
+           <p className="opacity-60 truncate text-secondary">
+             Highest bid
+           </p>
+           <p className="font-semibold text-secondary flex-1 truncate text-right">
+             {item?.highestbid || 0}
+           </p>
          </div>
+       </div>
+     </Button>
+     <hr />
+     <div className="px-2.5 py-4 flex justify-between">
+       <div className="flex add-cart cursor-pointer">
+         <span className="icon card-cart"></span>
+         <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
+           Add to Cart
+         </span>
+       </div>
+       <div className="w-px border"></div>
+       <div className="flex shop-card cursor-pointer">
+         <span className="icon card-shop"></span>
+         <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
+           Buy Now
+         </span>
        </div>
      </div>
-       </div>
-     })}
-      </div>
+   </div>
+     </div>
+     </div>
+     </>
+     )
+   })}
+    
+  </div>
+  <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
+    <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
+    <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
+  </div>
+    </div>
+    
     </>
   );
 };

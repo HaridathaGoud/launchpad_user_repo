@@ -296,6 +296,10 @@ button:disabled{color:black !important;cursor: not-allowed !important;pointer-ev
 .checkbox:disabled{background-color: transparent !important;}
 .checkbox:disabled + span {filter: grayscale(1); cursor: not-allowed;}
 .drawer-side > .drawer-overlay{cursor: default !important;}
+.profile-subtabs .tab{background: transparent;border-bottom: 3px solid transparent !important;}
+.profile-subtabs{border-bottom: 1px solid #F0F1F2;}
+.profile-subtabs .tab:is(input:checked){color: #D60000;background-color: transparent;border-bottom: 3px solid #D60000 !important;border-radius: 0 !important;}
+.profile-subtabs .px-7{padding: 8px 14px !important;}
 @media (min-width:768px){
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
@@ -313,6 +317,9 @@ button:disabled{color:black !important;cursor: not-allowed !important;pointer-ev
 }
 @media (min-width: 1400px){
   .container {max-width: 1320px!important;}
+  }
+  @media (min-width: 768px) and (max-width: 1300px) {
+    .profile-nfts.container{max-width: 1000px !important;}
   }
 @media (max-width: 767.98px){
   .global-list{right: -56px;}
