@@ -51,7 +51,7 @@ const FooterComponent = () => {
               <span className={`telegram icon`}></span>
             </a>
             <a
-              href="https://discord.com/invite/62bJtveA"
+              href="https://discord.gg/Ud5EmQtw"
               target="_blank"
               rel="noreferrer"
             >

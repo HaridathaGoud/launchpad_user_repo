@@ -12,7 +12,7 @@ const formatErrorMessage = (error: any, from: any) => {
       error
     );
   }
-  return error;
+  return error?.message || error;
 };
 
 export default formatErrorMessage;

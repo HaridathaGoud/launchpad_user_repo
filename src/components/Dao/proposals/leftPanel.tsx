@@ -33,7 +33,7 @@ const DaoLeftPanel = (props) => {
     ) {
       getDetails();
     }
-  }, [isConnected, address]);
+  }, [isConnected, address,daoDetails]);
   const getDetails = async () => {
     const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
@@ -89,7 +89,6 @@ const DaoLeftPanel = (props) => {
     isConnected,
     userDetailsFromContract,
     daoDetails,
-    proposals,
     user?.id,
   ]);
   return (

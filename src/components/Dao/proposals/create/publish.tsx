@@ -1,5 +1,5 @@
 import React from "react";
-import Moment from "react-moment";
+import ConvertLocalFormat from "../../../../utils/dateFormat";
 const PublishProposal = ({ proposalDetails }) => {
   return (
     <div className="">
@@ -41,17 +41,13 @@ const PublishProposal = ({ proposalDetails }) => {
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-secondary opacity-50">Start Date & Time</p>
           <p className="">
-            <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
-              {proposalDetails?.startDate}
-            </Moment>
+              {ConvertLocalFormat(proposalDetails?.startDate,true)}
           </p>
         </div>
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-secondary opacity-50">End Date & Time</p>
           <p className="">
-            <Moment local={true} format={"DD/MM/YYYY HH:mm"}>
-              {proposalDetails?.endDate}
-            </Moment>
+              {ConvertLocalFormat(proposalDetails?.endDate,true)}
           </p>
         </div>
       </div>

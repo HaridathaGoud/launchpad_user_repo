@@ -12,9 +12,12 @@ export default function CreateFirstPraposal(props: any) {
   const [isChecked, setIsChecked] = useState(false);
   const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
-  const {daoDetails,user} = useSelector(
-    (state: any) => {return {daoDetails:state.proposal.daoDetails.data,user:state?.auth?.user}}
-  );
+  const { daoDetails, user } = useSelector((state: any) => {
+    return {
+      daoDetails: state.proposal.daoDetails.data,
+      user: state?.auth?.user,
+    };
+  });
   const [userDetailsFromContract, setUserDetailsFromContract] =
     useState<any>(null);
   useEffect(() => {
@@ -26,7 +29,7 @@ export default function CreateFirstPraposal(props: any) {
     ) {
       getDetails();
     }
-  }, [isConnected, address,user?.id]);
+  }, [isConnected, address, user?.id,daoDetails]);
   const getDetails = async () => {
     const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
@@ -72,7 +75,13 @@ export default function CreateFirstPraposal(props: any) {
           userDetailsFromContract?.balance >
             Number(daoDetails?.proposalCreationBalance)))
     );
-  }, [address, isConnected, userDetailsFromContract, daoDetails,user?.id]);
+  }, [
+    address,
+    isConnected,
+    userDetailsFromContract,
+    daoDetails,
+    user?.id,
+  ]);
   return (
     <>
       <div className="bg-base-300 py-[18px] px-5 rounded-lg shadow-md text-center">

@@ -74,7 +74,7 @@ const Projectscomponent = (props: any) => {
                       <div className={`flex gap-3 justify-between mt-3`}>
                         <img
                           src={
-                            item.publisherLogo ? item.publisherLogo : DefaultImg
+                            item.mediaImage || DefaultImg
                           }
                           className="rounded-full w-11 h-11 object-cover shrink-0"
                           alt=""

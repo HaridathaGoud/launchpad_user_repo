@@ -296,7 +296,7 @@ const ProjectDetailsCard = (props: any) => {
                   </p>
                   <p className="text-xs text-secondary">
                     {props.pjctInfo?.totalSoldTokens?.toLocaleString() || 0}/
-                    {props.pjctInfo?.intialsupply?.toLocaleString() || 0}
+                    {props.pjctInfo?.totalSupply?.toLocaleString() || 0}
                   </p>
                 </div>
               </div>
