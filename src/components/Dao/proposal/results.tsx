@@ -16,6 +16,7 @@ import {
 import Spinner from "../../loaders/spinner";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import {
+  getOwnerAddress,
   getProposalStatus,
   getRewardBalance,
   getVotingOptionColor,
@@ -36,22 +37,37 @@ const ProposalResults = (props: any) => {
     (state: any) => state?.vtg?.isCustomerVoted
   );
   const customer = useSelector((state: any) => state?.auth?.user);
-  const { readRewardBalance } = useContract();
+  const { readRewardBalance, getOwner } = useContract();
   useEffect(() => {
     if (isConnected && address) {
-      setBalance();
+      getDetails();
     }
   }, [isConnected, address]);
-  const setBalance = async () => {
+  const getDetails = async () => {
     const { amount, balanceError } = await getRewardBalance(
       readRewardBalance,
       params.projectToken,
       proposalDetails.tokenType
     );
+    const { ownerAddress, error } = await getOwnerAddress(
+      getOwner,
+      params.projectToken
+    );
+    let detailsToUpdate: any = state.userContractDetails || {};
     if (amount) {
-      dispatch({ type: "setUserBalance", payload: amount });
+      detailsToUpdate = { ...detailsToUpdate, balance: amount };
     } else {
+      detailsToUpdate = { ...detailsToUpdate, balance: amount };
       rootDispatch(setError({ message: balanceError, from: "contract" }));
+    }
+    if (ownerAddress) {
+      detailsToUpdate = { ...detailsToUpdate, owner: ownerAddress };
+    } else {
+      detailsToUpdate = { ...detailsToUpdate, owner: "" };
+      rootDispatch(setError({ message: error, from: "contract" }));
+    }
+    if (Object.keys(detailsToUpdate).length > 0) {
+      dispatch({ type: "setUserContractDetails", payload: detailsToUpdate });
     }
   };
   const hideVoteButtons =
@@ -156,9 +172,7 @@ const ProposalResults = (props: any) => {
         <h1 className="text-xl font-semibold mb-2 text-secondary mt-5">
           Current results
         </h1>
-        {proposalDetails?.loading && (
-          <DaoResultsShimmer/>
-        )}
+        {proposalDetails?.loading && <DaoResultsShimmer />}
         {!proposalDetails?.loading && (
           <div className={` daorightpanel-bg rounded-[15px] py-4 px-4`}>
             <div className="flex justify-between gap-5 mb-5">
@@ -192,9 +206,11 @@ const ProposalResults = (props: any) => {
               address &&
               proposalDetails?.data?.votingContractAddress &&
               !hideVoteButtons &&
-              state.userBalance &&
-              proposalDetails.data.status==='Pending' &&
-              state.userBalance > Number(proposalDetails?.data?.votingBalance) && (
+              proposalDetails.data.status === "Pending" &&
+              (state.userContractDetails?.owner === address ||
+                (state.userContractDetails?.balance &&
+                  Number(state.userContractDetails.balance) >
+                    Number(proposalDetails?.data?.votingBalance))) && (
                 <div>
                   <h2 className="text-base font-semibold mb-2 text-secondary">
                     {`${isVoted ? "Edit " : "Cast "}`}Your Vote
@@ -231,7 +247,7 @@ const ProposalResults = (props: any) => {
                     )}
                   </div>
                 </div>
-                )}
+              )}
             <div>
               {isVoted && (
                 <p className=" text-secondary my-4 text-center">
@@ -244,31 +260,32 @@ const ProposalResults = (props: any) => {
               address &&
               proposalDetails?.data?.votingContractAddress &&
               !hideVoteButtons &&
-              state.userBalance &&
-              proposalDetails.data.status==='Pending' &&
-              state.userBalance > Number(proposalDetails?.data?.votingBalance) &&
-              !hideVoteButtons&& (
+              proposalDetails.data.status === "Pending" &&
+              (state.userContractDetails?.owner === address ||
+                (state.userContractDetails?.balance &&
+                  Number(state.userContractDetails.balance) >
+                    Number(proposalDetails?.data?.votingBalance))) && (
                 // {!state?.isLoading && !hideVoteButtons && (
-              <div className="mb-2">
-                <Button
-                  handleClick={
-                    !isVoted
-                      ? () => handleVoting("new")
-                      : () => handleVoting("edit")
-                  }
-                  type="secondary"
-                  btnClassName={`w-full ${
-                    !isVoted ? "flex justify-center gap-2" : ""
-                  } `}
-                  disabled={state?.isSaving}
-                >
-                  <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
-                  {!isVoted && "Vote Now"}
-                  {isVoted && "Edit Vote"}
-                </Button>
-              </div>
-            // )}
-          )}
+                <div className="mb-2">
+                  <Button
+                    handleClick={
+                      !isVoted
+                        ? () => handleVoting("new")
+                        : () => handleVoting("edit")
+                    }
+                    type="secondary"
+                    btnClassName={`w-full ${
+                      !isVoted ? "flex justify-center gap-2" : ""
+                    } `}
+                    disabled={state?.isSaving}
+                  >
+                    <span>{!isVoted && state?.isSaving && <Spinner />} </span>{" "}
+                    {!isVoted && "Vote Now"}
+                    {isVoted && "Edit Vote"}
+                  </Button>
+                </div>
+                // )}
+              )}
             {/* {(state?.showEditButton || isVoted) && !hideVoteButtons && (
             <div>
               <div className="mb-2">

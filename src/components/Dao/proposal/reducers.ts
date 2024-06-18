@@ -4,7 +4,7 @@ export const resultsState = {
   selectedOption: null,
   isLoading: false,
   showEditButton: false,
-  userBalance:null,
+  userContractDetails:null,
 };
 
 export const resultsReducer = (state: any = resultsState, action: any) => {
@@ -19,8 +19,8 @@ export const resultsReducer = (state: any = resultsState, action: any) => {
       return { ...state, selectedOption: action.payload };
     case "setShowEditButton":
       return { ...state, showEditButton: action.payload };
-    case "setUserBalance":
-      return { ...state, userBalance: action.payload };
+    case "setUserContractDetails":
+      return { ...state, userContractDetails: action.payload };
     default:
       return state;
   }

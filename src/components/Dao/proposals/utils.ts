@@ -12,26 +12,26 @@ export const getRewardBalance = async (
   address: any,
   type: string
 ) => {
-  const response = await readRewardBalance(address);
-  if (response) {
+  try {
+    const response = await readRewardBalance(address);
     let _amt = response.toString();
-    if (_amt) {
-      return {
-        amount:
-          type === "ERC-20" ? parseFloat(ethers.utils.formatEther(_amt)) : _amt,
-        balanceError: null,
-      };
-    }
+    return {
+      amount:
+        type === "ERC-20" ? parseFloat(ethers.utils.formatEther(_amt)) : _amt,
+      balanceError: null,
+    };
+  } catch (error) {
+    return { balanceError: error, amount: null };
   }
-  return { balanceError: response, amount: null };
 };
 
 export const getOwnerAddress = async (getOwner: Function, address: any) => {
-  const response = await getOwner(address);
-  if (response) {
+  try {
+    const response = await getOwner(address);
     return { ownerAddress: response, error: null };
+  } catch (error) {
+    return { error: error, amount: null };
   }
-  return { error: response, amount: null };
 };
 export const getProposalStatus = (startingDate: any, endingDate: any) => {
   let date = new Date();
