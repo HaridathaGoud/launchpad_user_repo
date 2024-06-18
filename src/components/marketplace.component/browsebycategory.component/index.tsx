@@ -56,13 +56,11 @@ export default function BrowseByCategory() {
   return (
     <>
       {localState.browseByCategoryList.length > 0 && (
-        <>
           <div className="container mx-auto mt-[40px]">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-semibold text-secondary mb-4">Browse by category</h2>
               <a href="" className='text-primary text-base font-medium'>View All</a>
             </div>
-
             <div className="grid lg:grid-cols-4 gap-4">
               {getDisplayedItems().map((item: any, idx: any) =>
                 <Link to={'/marketplace/categoryview'} key={idx}>
@@ -95,7 +93,6 @@ export default function BrowseByCategory() {
               )}
             </div>
           </div>
-        </>
       )}
     </>
   );

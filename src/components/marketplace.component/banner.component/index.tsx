@@ -62,7 +62,7 @@ const Banner = () => {
         <>
             {localState.loader &&
                 <DashboardShimmer />
-                || <>
+                ||
                     <div className="container mx-auto pt-5">
                         <div className="grid gap-4 max-sm:flex md:grid-cols-2 max-sm:flex-col-reverse	items-center">
                             <div className="">
@@ -146,7 +146,7 @@ const Banner = () => {
                             </div>
                         </div>
                     </div>
-                </>}
+              }
         </>
     );
 }
