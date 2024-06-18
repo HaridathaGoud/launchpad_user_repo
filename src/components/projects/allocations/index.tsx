@@ -200,7 +200,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
                 dispatch({ type: "setIsBuying", payload: false });
                 dispatch({ type: "setShouldOpenDrawer", payload: false });
                 dispatch({ type: "setDrawerStep", payload: 1 });
-                rootDispatch(setToaster({ message: "Tokens buy successful!" }));
+                rootDispatch(setToaster({ message: "Tokens purchase successful!" }));
                 getAllocationDetails();
                 props.getDetails();
               })
