@@ -5,15 +5,15 @@ import StatusDetailview from './detailviewstatus';
 import NftCards from './Nftcards';
 import Button from '../../../ui/Button';
 import Activity from '../topsellerdetailview/activity';
-// import { clearHotCollectionsViewDetails, getHotCollectionsViewDetails } from './reducer';
+import { clearHotCollectionsViewDetails, fetchHotCollectionsViewDetails } from './reducer';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { setError } from '../../../reducers/layoutReducer';
 
 const HotcollectionView = (props: any) => {
   const params = useParams();
   const rootDispatch=useDispatch()
-  // const hotCollectionViewDetails = useSelector((store: any) => store.hotCollection.hotCollectionViewDetails);
+  const hotCollectionViewDetails = useSelector((store: any) => store.hotCollections?.hotCollectionViewDetails);
   const [activeTab, setActiveTab] = useState('items')
   const [cardDetails, setCardDetails] = useState(null)
 
@@ -21,28 +21,39 @@ const HotcollectionView = (props: any) => {
     setActiveTab(type)
   }
   useEffect(() => {
-    // getHotCollectionsData();
+    getHotCollectionsData();
     return () => {
-      // props.clearclearHotCollectionsViewDetails();
+      props.clearHotCollectionViewDetails();
     };
   }, []);
 
   const getHotCollectionsData = async () => {
-    props.fetchHotCollectionsViewDetails({
+    props.fetchHotCollectionViewDetails({
       data: null,
       id:params.collectionid
     });
   };
-  // if (hotCollectionViewDetails?.error) rootDispatch(setError(hotCollectionViewDetails?.error));
+  const handleclick = (type) => {
+    if (type == 'fb') {
+      window.open(hotCollectionViewDetails?.data?.facebook);
+    } else if (type == 'linkedin') {
+      window.open(hotCollectionViewDetails?.data?.linkedIn);
+    } else if (type == 'twiter') {
+      window.open(hotCollectionViewDetails?.data?.twitter);
+    } else if (type == 'web') {
+      window.open(hotCollectionViewDetails?.data?.websiteUrl);
+    }
+  };
+  // if (hotCollectionViewDetails?.error) rootDispatch(setError(hotCollectionViewDetails?.error));facebook
 
-  // console.log('hotCollectionViewDetails ',hotCollectionViewDetails);
+  // console.log('hotCollectionViewDetails ',hotCollectionViewDetails?.data);
   
   return (
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
       <div className='min-h-[320px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
-        <img src={'https://wallpapercave.com/wp/wp7241840.png'} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
+        <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-60 rounded-lg z-10'></div>
-          <div className="md:flex gap-12 items-center z-40">
+          {/* <div className="md:flex gap-12 items-center z-40">
             <img src={'https://i.pinimg.com/564x/b9/db/d9/b9dbd996972e8d1236c62241923a5493.jpg'} className="w-[150px] h-[150px] rounded-full object-cover" alt="" />
             <div>
               <div className='flex max-sm:mt-4 items-center'>
@@ -58,12 +69,12 @@ const HotcollectionView = (props: any) => {
                 <Button type='primary' ><span className='video-icon icon'></span>Subscribe with 2Matic / $1.32</Button>
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button></div>
             </div>
-          </div>
+          </div> */}
           <div className='flex gap-6 absolute right-10 bottom-6'>
-              <span className='icon fb cursor-pointer'></span>
-              <span className='icon linkedin cursor-pointer'></span>
-              <span className='icon twit cursor-pointer'></span>
-              <span className='icon network cursor-pointer'></span>
+              <span className='icon fb cursor-pointer' onClick={() => handleclick('fb')}></span>
+              <span className='icon linkedin cursor-pointer' onClick={() => handleclick('linkedin')}></span>
+              <span className='icon twit cursor-pointer' onClick={() => handleclick('twiter')}></span>
+              <span className='icon network cursor-pointer' onClick={() => handleclick('web')}></span>
             </div>
         </div>
         <div role="tablist" className="tabs tabstyle mt-[34px] customTabs  max-sm:overflow-x-auto scrollbar-hidden">
@@ -114,17 +125,17 @@ const HotcollectionView = (props: any) => {
         </div>
   );
 }
-const connectStateToProps = ({ oidc,hotCollection }: any) => {
-  return { oidc: oidc,hotCollection:hotCollection };
+const connectStateToProps = ({ oidc,hotCollections }: any) => {
+  return { oidc: oidc,hotCollections:hotCollections };
 };
 const connectDispatchToProps = (dispatch: any) => {
   return {
-    // fetchHotCollectionsViewDetails: (callback: any) => {
-    //   dispatch(getHotCollectionsViewDetails(callback));
-    // },
-    // clearclearHotCollectionsViewDetails: () => {
-    //   dispatch(clearHotCollectionsViewDetails());
-    // },
+    fetchHotCollectionViewDetails: (callback: any) => {
+      dispatch(fetchHotCollectionsViewDetails(callback));
+    },
+    clearHotCollectionViewDetails: () => {
+      dispatch(clearHotCollectionsViewDetails());
+    },
     dispatch,
   };
 };

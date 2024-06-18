@@ -12,6 +12,7 @@ import layoutReducer from "../reducers/layoutReducer";
 import portfolioReducer from "../reducers/portfolioReducer";
 import strapiReducer from "../components/strapi/docs/strapiReducer";
 import dashboardReducer from "../reducers/dashboardreducer";
+import { hotCollectionReducer } from "../components/marketplace.component/hotcollections.component/reducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -28,6 +29,7 @@ const rootReducerState = combineReducers({
   portfolio: portfolioReducer,
   strapiData:strapiReducer,
   dashboardReducer:dashboardReducer,
+  hotCollections:hotCollectionReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];
