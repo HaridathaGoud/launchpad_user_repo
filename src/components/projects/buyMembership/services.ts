@@ -172,12 +172,14 @@ export const mintNfts = async (funArgs: any, callbacks: any) => {
   }
 };
 
-const updateHash = async (data: any, files: any, userId: any) => {
+const updateHash = async (params:any) => {
+  const {data,files,userId,daoId}=params
   try {
     const response = await putForMinting("User/updatetransactionhash", {
       transactionHash: data.hash,
       files: files,
       customerId: userId,
+      daoId:daoId,
     });
     if (response.status === 200) {
       return;
@@ -190,7 +192,7 @@ const updateHash = async (data: any, files: any, userId: any) => {
 };
 
 export const updateTransactionHash = async (funArgs: any, callbacks: any) => {
-  const { data, files, userId } = funArgs;
+  const { data } = funArgs;
   const { onSuccess, onError } = callbacks;
   try {
     const txResponse = await waitForTransaction({ hash: data.hash });
@@ -198,7 +200,7 @@ export const updateTransactionHash = async (funArgs: any, callbacks: any) => {
     if (txResponse && txResponse.status === "reverted") {
       onError("Transaction Failed");
     } else {
-      const errorMessage = await updateHash(data, files, userId);
+      const errorMessage = await updateHash(funArgs);
       !errorMessage && onSuccess(txResponse);
       errorMessage && onError(isErrorDispaly(errorMessage));
     }

@@ -101,7 +101,7 @@ const BuyMembership = (props: any) => {
   };
   const onTransaction = async (txDetails: any, files: any) => {
     await updateTransactionHash(
-      { data: txDetails, files: files, userId: user.id },
+      { data: txDetails, files: files, userId: user.id,daoId:daoId },
       { onSuccess: onSuccessfulMint, onError: setErrorMessage }
     );
   };
