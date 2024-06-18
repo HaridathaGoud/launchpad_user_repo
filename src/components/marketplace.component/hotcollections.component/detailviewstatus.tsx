@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'react-bootstrap/Image';
 import Button from '../../../ui/Button';
-const   StatusDetailview = (props:any) => {
+const StatusDetailview = (props:any) => {
 const [selectedValue, setSelectedValue] = useState('All');
 const [selectedPricevalue, setSelectedPriceValue] = useState('Matic');
 const [selectedPriceLevel,setIsSelectdPricelevel]=useState(null)
@@ -24,14 +24,30 @@ const sendSelectedValue = (value) => {
            <div>
             <h1 className='text-lg font-semibold text-secondary mb-5'>Status</h1>
             <div className='flex items-center'>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center'> <input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" value="All" checked={selectedValue === 'All'} onChange={handleChange}  /><span></span>All</label>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" value="Buy Now"  checked={selectedValue === 'Buy Now'} onChange={handleChange}  /> <span></span>Buy Now</label>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" value="Live auction"  checked={selectedValue === 'Live auction'} onChange={handleChange} /> <span></span>Live auction</label>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center'>
+               <input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" 
+                value="All" 
+                checked={selectedValue === 'All'} 
+                onChange={handleChange}/>
+                <span>
+                    </span>All</label>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" 
+                value="Buy Now"  
+                checked={selectedValue === 'Buy Now'} 
+                onChange={handleChange} /> 
+                <span>
+                    </span>Buy Now</label>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" 
+                value="Live auction"  
+                checked={selectedValue === 'Live auction'}
+                 onChange={handleChange} /> <span>
+                    </span>Live auction</label>
             </div>
             <hr className='mt-[28px] mb-4' />
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
                 <div className="dropdown w-full">
-                    <div tabIndex={0} role="button" className="border text-secondary flex border-secondary bg-transparent hover:bg-transparent rounded-[25px] !py-2 !px-[14px]  w-full justify-between">{selectedPricevalue} <span className='icon drop-arrow'></span></div>
+                    <div tabIndex={0} role="button" className="border text-secondary flex border-secondary bg-transparent hover:bg-transparent rounded-[25px] !py-2 !px-[14px]  w-full justify-between">
+                        {selectedPricevalue} <span className='icon drop-arrow'></span></div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
                         <li><a  onClick={() => handleDropdownChange('Matic')}>Matic</a></li>
                         <li><a  onClick={() => handleDropdownChange('USDT')} >USDT</a></li>
