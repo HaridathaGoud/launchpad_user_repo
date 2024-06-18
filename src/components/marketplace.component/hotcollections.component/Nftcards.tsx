@@ -1,87 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Image from 'react-bootstrap/Image';
 import member from '../../../assets/images/dao-profile.png';
 import { Link } from 'react-router-dom';
 import gadha from '../../../assets/images/hanuman-gadha.png'
 import NftCardShimmer from './NftCardShimmer';
-
+// import apiCalls from "../utils/api";
+import apiCalls from '../../../utils/api';
 const NftCards = ({setCardDetails}) => {
+const [nftCollections,setIsNFTCollections] = useState(null);
+const pageSize = 10;
+const [pageNo,setIsPageNo]=useState(1);
+    const data = [
+        {
+            image: 'https://i.pinimg.com/236x/2a/a8/9a/2aa89ab8c33e56de598ac044415a4c3f.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Money Heist Gun',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+            badge: '#02325'
+        },
+        {
+            image: 'https://i.pinimg.com/564x/ab/b2/56/abb256bfaf1e55acccb672f9916ca872.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Money Heist mask',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        },
+        {
+            image: 'https://i.pinimg.com/236x/99/51/17/995117a6fe6df1d35810cc02bb85bbf6.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Money Heist Locker',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        },
+        {
+            image: 'https://i.pinimg.com/236x/08/4e/8d/084e8dcd86c67d675603201a9d5baac4.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Tokyo Doll',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        },
+        {
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXWuCVM7fV0daX8gS7iP_JipkpER1MZY0MBw&usqp=CAU',
+            seriesname: 'T- Series',
+            cardname: 'Hand Glows',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        },
+        {
+            image: 'https://i.pinimg.com/736x/97/24/71/972471bbcdcd28c6c98b1a3a2b2f58fd.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Arrows',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        },
+        {
+            image: 'https://i.pinimg.com/736x/ad/55/7f/ad557f5aaff21216b741815940debbfe.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Weapon Semblance Belt',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        },
+        {
+            image: 'https://i.pinimg.com/736x/ab/ff/db/abffdb02813b5d044568d418b1cd1b05.jpg',
+            seriesname: 'T- Series',
+            cardname: 'Leather Armor Ornate ',
+            price: '2.010 Matic',
+            highestbid: '0.15 Matic',
+        }
+    ]
 
-const data=[
-    {
-        image:'https://i.pinimg.com/236x/2a/a8/9a/2aa89ab8c33e56de598ac044415a4c3f.jpg',
-        seriesname:'T- Series',
-        cardname:'Money Heist Gun',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-        badge:'#02325'
-    },
-    {
-        image:'https://i.pinimg.com/564x/ab/b2/56/abb256bfaf1e55acccb672f9916ca872.jpg',
-        seriesname:'T- Series',
-        cardname:'Money Heist mask',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-    },
-    {
-        image:'https://i.pinimg.com/236x/99/51/17/995117a6fe6df1d35810cc02bb85bbf6.jpg',
-        seriesname:'T- Series',
-        cardname:'Money Heist Locker',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-    },
-    {
-        image:'https://i.pinimg.com/236x/08/4e/8d/084e8dcd86c67d675603201a9d5baac4.jpg',
-        seriesname:'T- Series',
-        cardname:'Tokyo Doll',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-    },
-    {
-        image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXWuCVM7fV0daX8gS7iP_JipkpER1MZY0MBw&usqp=CAU',
-        seriesname:'T- Series',
-        cardname:'Hand Glows',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-    },
-    {
-        image:'https://i.pinimg.com/736x/97/24/71/972471bbcdcd28c6c98b1a3a2b2f58fd.jpg',
-        seriesname:'T- Series',
-        cardname:'Arrows',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-    },
-    {
-        image:'https://i.pinimg.com/736x/ad/55/7f/ad557f5aaff21216b741815940debbfe.jpg',
-        seriesname:'T- Series',
-        cardname:'Weapon Semblance Belt',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
-    },
-    {
-        image:'https://i.pinimg.com/736x/ab/ff/db/abffdb02813b5d044568d418b1cd1b05.jpg',
-        seriesname:'T- Series',
-        cardname:'Leather Armor Ornate ',
-        price:'2.010 Matic',
-        highestbid:'0.15 Matic',
+    useEffect(()=>{
+        fetchNftsCollections();
+    },[])
+const fetchNftsCollections = (data, pageNo = 1, category = 'all', search = null, id = '', take = 10) => {
+    const skip = pageNo * take - take;
+    return async (dispatch) => {
+        dispatch(setLoaderAction(true));
+        const response = await apiCalls.getMarketplace(`"GetNftsByCollectionId"/${id}/${take}/${skip}/${category}/${search}/WMATIC/All/null`);
+        if (response.status === 200) {
+            const mergedData = skip > 0 ? [...data, ...response.data] : response.data
+            setIsNFTCollections(mergedData);
+            setIsPageNo(pageNo + 1);
+        } else {
+            // dispatch(setErrorAction(response));
+        }
+        // dispatch(setLoaderAction(false));
     }
-]
+}
 
     return (
         <>
+        {console.log(nftCollections,'nftCollections')}
         {data.map((item,index)=>(
              <>
-                {/* <div className="border shadow rounded-2xl h-full">
-                    <div className="animate-pulse space-x-4"></div>
-                    <div className="animate-pulse space-x-4 h-60">
-                        <div className="bg-slate-200 rounded-xl h-64"></div>
-                    </div>
-                    <div className="animate-pulse mt-2 py-[1rem] px-3">
-                        <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
-                        <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
-                        <div className="h-2 bg-slate-200 rounded-xl mt-8"></div>
-                    </div>
-                </div> */}
                 <NftCardShimmer/>
 
             <div onClick={()=>setCardDetails(item)}>
