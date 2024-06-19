@@ -57,7 +57,7 @@ export default function HotCollections() {
             {!localState.loader && (
               <div className='carousel container mx-auto gap-4 py-1'>
                 {visibleItems.map((item: any) => (
-                  <div className="carousel-item px-1">
+                  <div className="carousel-item px-1 max-sm:w-full">
 
                     <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
                       <div className="">
