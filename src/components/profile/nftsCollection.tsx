@@ -11,6 +11,7 @@ import SearchInputComponent from '../marketplace.component/hotcollections.compon
 import { fetchNftsCollection,saveFavoriteNFT,getFavoritedCount ,getCreatedCount,getOwnedCountData} from '../../reducers/marketplaceProfileReducer';
 import { store } from '../../store';
 import NftCardsShimmer from '../loaders/NftCardShimmer';
+import NoData from '../../ui/noData';
 const reducers = (state, action) => {
 	switch (action.type) {
 		case 'update':
@@ -104,7 +105,6 @@ const saveFavorite=(item:any)=>{
     isFavourite: item?.isFavourite ? false : true,
   };
   store.dispatch(saveFavoriteNFT(obj, (response:any) => {
-    console.log("Favorite saved:", response);
     let selectTabs=activeTab == 0 ? "GetNfts" : activeTab==1 ? "Favorites" : "GetOwnNfts";
     store.dispatch(getFavoritedCount(walletAddress))
     store.dispatch(fetchNftsCollection(walletAddress,data, 1, 8, null, data || null,props.auth.user?.id,selectTabs));
@@ -251,7 +251,10 @@ const getDisplayedItems = () => {
      </>
      )
    })}
-    
+          {props?.featchNFTsCollection?.collectionData?.data?.length === 0 &&
+            <div className='text-center'>
+              <NoData text={""} />
+            </div>}
   </div>
   <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
     <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1" onClick={() => handleSlideActions("previous")}></span>
