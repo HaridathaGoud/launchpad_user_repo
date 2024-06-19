@@ -2,14 +2,14 @@ import React,{ useEffect, useRef, useState } from 'react';
 import BreadCrumb from '../../../ui/breadcrumb';
 import { CollectionItems } from '../hotcollections.component/CollectionItems';
 import { useSelector } from 'react-redux';
+import { store } from '../../../store';
+import { saveFavoriteNFT } from '../../../reducers/marketplaceProfileReducer';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../../ui/Button';
 import SearchInputComponent from '../hotcollections.component/SearchComponent';
 import StatusDetailview from '../hotcollections.component/detailviewstatus';
 import NftCards from '../hotcollections.component/Nftcards';
 import NftCardDetailview from '../hotcollections.component/Nftcarddetailview';
-
-
 
 export default function CategoryView() {
   const searchInputRef=useRef<any>(null)
@@ -37,7 +37,19 @@ export default function CategoryView() {
       currency:currency,
       priceLevel:selecedLevel,
   }));
+  // ..... //
   }
+  const saveFavorite=(item:any)=>{
+    let obj = {
+      nftId: item?.id,
+      customerId: user?.id,
+      isFavourite: item?.isFavourite ? false : true,
+    };
+    store.dispatch(saveFavoriteNFT(obj, (response:any) => {
+     getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, searchValue.minMaxCategory);
+    }))
+  }
+  
   return (
    
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
@@ -86,7 +98,7 @@ export default function CategoryView() {
         handlePriceRangeSelection={handlePriceRangeSelection}
         activeTab={activeTab}
         getNftsDetails={getNftsDetails}
-        NftDetails={NftDetails} />
+        NftDetails={NftDetails} saveFavorite={saveFavorite}/>
         </div> 
     
   );

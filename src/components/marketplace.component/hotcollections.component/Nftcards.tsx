@@ -1,7 +1,7 @@
 import React from 'react';
 import NftCardsShimmer from '../../loaders/NftCardShimmer';
 import NoData from '../../../ui/noData';
-const NftCards = ({ NftDetails }) => {
+const NftCards = ({ NftDetails ,saveFavorite}) => {
     return (
         <>
         {NftDetails?.loading &&
@@ -11,7 +11,7 @@ const NftCards = ({ NftDetails }) => {
                     <div key={item?.id}>
                         <div className='shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]'>
                             <img src={item?.image} alt="" className='h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg' />
-                            <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
+                            <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full" onClick={()=>saveFavorite(item)}>
                                 <span className='icon like-white '></span>
                             </div>
                             {item?.badge && <span className='py-1 px-3 bg-primary text-white text-base font-semibold absolute rounded-tl-lg top-0 left-0'>{item?.badge}</span>}

@@ -9,7 +9,7 @@ export const CollectionItems = ({ setSearchInput,
   handlePriceRangeSelection,
   activeTab,
   getNftsDetails,
-  NftDetails, }) => {
+  NftDetails,saveFavorite }) => {
 
   return (<>
     <div className="mt-7 mb-[42px]">
@@ -41,7 +41,7 @@ export const CollectionItems = ({ setSearchInput,
         <StatusDetailview activeTab={activeTab} getNftsDetails={getNftsDetails} />
       </div>
       <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
-        <NftCards NftDetails={NftDetails}/>
+        <NftCards NftDetails={NftDetails} saveFavorite={saveFavorite}/>
       </div>
     </div>
 

@@ -3,6 +3,8 @@ import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CollectionTabs from './CollectionTabs'
 import Button from '../../../ui/Button';
+import { store } from '../../../store';
+import { saveFavoriteNFT } from '../../../reducers/marketplaceProfileReducer';
 import {
   clearCollectionsActivityData,
   clearHotCollectionsViewDetails,
@@ -102,6 +104,19 @@ const HotcollectionView = (props: any) => {
       : NftDetails;
     return !loading && data && data?.length === pageSize * (nextPage-1);
   }, [isActive, activityData, NftDetails]);
+
+  const saveFavorite=(item:any)=>{
+    let obj = {
+      nftId: item?.id,
+      customerId: user?.id,
+      isFavourite: item?.isFavourite ? false : true,
+    };
+    store.dispatch(saveFavoriteNFT(obj, (response:any) => {
+     getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, state.selection?.minMaxCategory);
+    }))
+  }
+  
+  
   return (
    
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
@@ -162,7 +177,7 @@ const HotcollectionView = (props: any) => {
             </div>
         </div>
         <hr className="bg-[#f8f6f6] my-6" />
-       <CollectionTabs 
+       <CollectionTabs saveFavorite={saveFavorite}
         searchInputRef={searchInputRef} setSearchInput={setSearchInput}
         minMaxCategory={state.selection.minMaxCategory}
          handlePriceRangeSelection={handlePriceRangeSelection} 
