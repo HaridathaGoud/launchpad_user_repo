@@ -8,7 +8,7 @@ const [selectedPriceLevel, setSelectedPriceLevel]=useState(null)
 
 const handleChange = (event) => {
     setSelectedValue(event.target.value);
-    props.getNftsDetails(event.target.value);
+    props.getNftsDetails(event.target.value,selectedPricevalue,selectedPriceLevel);
 };
 const handleDropdownChange = (value) => {
     setSelectedPricevalue(value);
