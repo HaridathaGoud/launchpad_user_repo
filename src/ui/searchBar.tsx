@@ -8,6 +8,7 @@ interface SearchBarProps {
   inputClass?: string;
   searchIconClass?: string;
   searchIconSize?: string;
+  placeholder?:string,
 }
 const SearchBar = ({
   onSearch,
@@ -16,6 +17,7 @@ const SearchBar = ({
   inputClass='',
   searchIconClass='',
   searchIconSize='',
+  placeholder='',
 }: SearchBarProps) => {
   const [userInput, setUserInput] = useState("");
   const handleSearch = (e: any) => {
@@ -33,7 +35,7 @@ const SearchBar = ({
     <div className={searchBarClass || "relative max-sm:mt-4"}>
       <input
         type="text"
-        placeholder="Search by project name"
+        placeholder={placeholder ||"Search by project name"} 
         onKeyUp={handleSearch}
         ref={inputRef}
         className={

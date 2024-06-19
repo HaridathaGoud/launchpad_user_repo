@@ -22,7 +22,7 @@ const setHotCollectionsViewData = (payload:any) => {
   }
   const clearCollectionsActivityData = () => {
     return (dispatch:any) => {
-      dispatch(setHotCollectionsViewData({ loading: false, data: null, nextPage: 1 }))
+      dispatch(setHotCollectionsActivityData({ loading: false, data: null, nextPage: 1 }))
     }
   }
   const SetNfts = (payload:any) => {
@@ -104,6 +104,7 @@ const setHotCollectionsViewData = (payload:any) => {
     return async (dispatch:any) => {
       dispatch(SetNfts({ key: 'NftDetails', loading: true, data: data }));
       try {
+        debugger
         const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all/${currency}/${status}/${search}`);
         // const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/15FD0929-71F5-4A01-BA8A-1B50930F0775/10/0/min%20to%20max/all%20items/null/all/null`)
         if (res.status === 200) {
@@ -138,7 +139,7 @@ export interface HotcollectionStateModel {
     hotCollectionViewDetails:any,
     hotCollectionsActivityDetails:any,
     NftDetails:any,
-    searchValue:string,
+    searchValue:any,
     activeTab:any,
     cardDetails:any,
     selection:any,
@@ -154,7 +155,7 @@ export const hotcollectionState = {
     activeTab:'',
     cardDetails:null,
     selection:{
-      searchValue:'',
+      searchValue:null,
       minMaxCategory:null,
     },
 
