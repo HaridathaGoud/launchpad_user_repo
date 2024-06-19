@@ -1,26 +1,50 @@
-import React,{ useEffect, useState } from 'react';
+import React,{ useEffect, useRef, useState } from 'react';
+import BreadCrumb from '../../../ui/breadcrumb';
+import { CollectionItems } from '../hotcollections.component/CollectionItems';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../../ui/Button';
 import SearchInputComponent from '../hotcollections.component/SearchComponent';
 import StatusDetailview from '../hotcollections.component/detailviewstatus';
 import NftCards from '../hotcollections.component/Nftcards';
 import NftCardDetailview from '../hotcollections.component/Nftcarddetailview';
-import BreadCrumb from '../../../ui/breadcrumb';
+
 
 
 export default function CategoryView() {
+  const searchInputRef=useRef<any>(null)
+  const [searchInput, setSearchInput] = useState(null);
+  const {user,NftDetails} = useSelector((store: any) => {
+    return {
+      user:store.auth.user,
+      NftDetails:store.hotCollections.NftDetails,
+    }
+  });
+  const [searchValue, setSearchValue]=useState({status:"all",currency:"WMATIC",priceLevel:null,minMaxCategory:null,selectedSearch:null})
   const [activeTab,setActiveTab]=useState('nft')
   const [cardDetails,setCardDetails]=useState(null)
   const handleTabChange=(e,type)=>{
     setActiveTab(type)
   }
+  const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
+    event.preventDefault();
+
+  };
+  const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any,on: string = "")=>{
+    setSearchValue(prevState => ({
+      ...prevState,
+      status: status,
+      currency:currency,
+      priceLevel:selecedLevel,
+  }));
+  }
   return (
-    <>
+   
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
        <BreadCrumb/>
        <h1 className='text-2xl text-secondary font-semibold'>Browse by category</h1>
       
-      <div className="mt-4 mb-[42px]">         
+      {/* <div className="mt-4 mb-[42px]">         
           <div className="md:flex justify-between">
             <SearchInputComponent/>
                         <div className="flex items-center max-sm:mt-2">
@@ -53,8 +77,17 @@ export default function CategoryView() {
           <NftCards setCardDetails={setCardDetails}/>        
           </div>
         </div>}
-        {cardDetails && <NftCardDetailview cardDetails={cardDetails}/>}
-        </div>
-    </>
+        {cardDetails && <NftCardDetailview cardDetails={cardDetails}/>} */}
+
+        <CollectionItems 
+        setSearchInput={setSearchInput}
+        searchInputRef={searchInputRef}
+        minMaxCategory={searchValue.minMaxCategory}
+        handlePriceRangeSelection={handlePriceRangeSelection}
+        activeTab={activeTab}
+        getNftsDetails={getNftsDetails}
+        NftDetails={NftDetails} />
+        </div> 
+    
   );
 }

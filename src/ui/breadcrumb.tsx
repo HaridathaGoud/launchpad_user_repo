@@ -68,7 +68,10 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList["launchpadTiers"];
     }else if (path.includes("portfolio")) {
       breadcrumbToUpdate = getBreadcrumbList["launchpadPortFolio"];
-    }else {
+    }else if (path.includes("categoryview")) {
+      breadcrumbToUpdate = getBreadcrumbList["marketplaceCategory"];
+    }
+    else {
       breadcrumbToUpdate = getBreadcrumbList["default"];
     }
 

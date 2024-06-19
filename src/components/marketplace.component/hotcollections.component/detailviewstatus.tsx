@@ -3,24 +3,24 @@ import Image from 'react-bootstrap/Image';
 import Button from '../../../ui/Button';
 const StatusDetailview = (props:any) => {
 const [selectedValue, setSelectedValue] = useState('All');
-const [selectedPricevalue, setSelectedPriceValue] = useState('Matic');
-const [selectedPriceLevel,setIsSelectdPricelevel]=useState(null)
+const [selectedPricevalue, setSelectedPricevalue] = useState('Matic');
+const [selectedPriceLevel, setSelectedPriceLevel]=useState(null)
 
 const handleChange = (event) => {
     setSelectedValue(event.target.value);
     props.getNftsDetails(event.target.value);
 };
 const handleDropdownChange = (value) => {
-    setSelectedPriceValue(value);
+    setSelectedPricevalue(value);
 };
 const handleApplyClick = () => {
     props.getNftsDetails(selectedValue,selectedPricevalue,selectedPriceLevel);
 };
 const sendSelectedValue = (value) => {
-    setIsSelectdPricelevel(value);
+    setSelectedPriceLevel(value);
 };
+
     return (
-        <>
            <div>
             <h1 className='text-lg font-semibold text-secondary mb-5'>Status</h1>
             <div className='flex items-center'>
@@ -124,8 +124,6 @@ const sendSelectedValue = (value) => {
                     </div>
                 </div>} */}
            </div>
-
-        </>
     );
 
 

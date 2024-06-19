@@ -1,12 +1,24 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { clearCollectionsActivityData, clearHotCollectionsViewDetails, clearNfts, fetchHotCollectionsActivityDetails, fetchHotCollectionsViewDetails, fetchNftsDetails, hotCollectionReducer, hotcollectionState } from './reducer';
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CollectionTabs from './CollectionTabs'
+import Button from '../../../ui/Button';
+import {
+  clearCollectionsActivityData,
+  clearHotCollectionsViewDetails,
+  clearNfts,
+  fetchHotCollectionsActivityDetails,
+  fetchHotCollectionsViewDetails,
+  fetchNftsDetails,
+  hotCollectionReducer
+  , hotcollectionState
+} from './reducer';
 const pageSize = 10;
 
 const HotcollectionView = (props: any) => {
   const params = useParams();
+  const searchInputRef=useRef<any>(null)
+  const [searchInput, setSearchInput] = useState(null);
   const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
   const {hotCollectionViewDetails,user,activityData,NftDetails} = useSelector((store: any) => {
     return {
@@ -16,23 +28,28 @@ const HotcollectionView = (props: any) => {
       NftDetails:store.hotCollections.NftDetails,
     }
   });
-  const [searchValue,setIsSearchValue]=useState({status:"all",currency:"WMATIC",priceLevel:null,minMaxCategory:null,selectedSearch:null})
-  
-  useEffect(() => {
+  const [searchValue, setSearchValue]=useState({status:"all",currency:"WMATIC",priceLevel:null,minMaxCategory:null,selectedSearch:null})
+  const [isActive, setIsActive] = useState(0);
+
+  useEffect(()=>{
     getHotCollectionsData();
-    getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory);
     return () => {
       props.clearHotCollectionViewDetails();
+    };
+  },[])
+  useEffect(() => {
+    getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory);
+    return () => {
+      props.clearNfts();
       props.clearCollectionsActivityData();
     };
-  }, []);
+  }, [isActive,searchInput]);
 
   const handleTabChange = (selectedTab: any) => {
-    if (selectedTab === 1) {
-      getHotCollectionsActivityData();
-    } else {
+    setSearchInput(null)
+     if(searchInputRef.current) searchInputRef.current.value=''
+     setIsActive(selectedTab);
       getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, state.selection?.minMaxCategory);
-    }
   };
 
   const getHotCollectionsData = async () => {
@@ -41,64 +58,37 @@ const HotcollectionView = (props: any) => {
       id:params.collectionid
     });
   };
-  const getHotCollectionsActivityData=()=>{
-    props.fetchHotCollectionsActivityDetails({
-      data: null,
-      id:user.id,
-      collectionId:params.collectionid,
-      page: 1,
-      take: pageSize,
-    });
-  }
-  const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any)=>{
-    setIsSearchValue(prevState => ({
+
+  const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any,on: string = "")=>{
+    setSearchValue(prevState => ({
       ...prevState,
       status: status,
       currency:currency,
       priceLevel:selecedLevel,
   }));
-    props.fetchNftsDetails({
-      data: null,
-      id:user.id,
-      collectionId:params.collectionid,
-      page: 1,
-      take: pageSize,
-      search: state.selection?.searchValue||null,
-      currency:currency,
-      status:status,
-      minMaxCategory:selecedLevel || minMaxCategory||null
-    })
+    if(isActive === 1){
+      props.fetchHotCollectionsActivityDetails({
+        data: on === "seeMore" ? activityData.data : null,
+        id:user.id,
+        collectionId:params.collectionid,
+        page: on === "seeMore" ? activityData.nextPage : 1,
+        take: pageSize,
+      });
+      return; 
+    }
+      props.fetchNftsDetails({
+        data: on === "seeMore" ? NftDetails.data : null,
+        id:user.id,
+        collectionId:params.collectionid,
+        page: on === "seeMore" ? NftDetails.nextPage : 1,
+        take: pageSize,
+        search: searchInput || state.selection?.searchValue,
+        currency:currency,
+        status:status,
+        minMaxCategory:selecedLevel || minMaxCategory||null
+      });
   }
 
-  const handleSearch=(e:any)=>{
-    let data=e.target.value.trim()
-    dispatch({ type: 'update', payload: { searchValue: data } });
-     if (e.key==='Enter') {
-      if(data == ""||data.includes(".")){	
-        e.preventDefault();
-      }
-      else{  
-        getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory);
-        e.preventDefault();
-       }	
-    }
-  }
-  const handleChange=(e:any)=>{
-    let data=e.target.value.trim()
-    dispatch({ type: 'update', payload: { searchValue: data } });
-    if(!data){
-       getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory);
-       e.preventDefault();
-     }
-  }
-  const handleSearchIcon = () => {
-    let data=state.selection.searchValue;
-    if(data == ""||data == null || data.includes(".")){	
-    }
-    else{
-      getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory);
-   }
-  };
   const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
     event.preventDefault();
     const minMaxCategory = type === 'high2low' ? 'high to low' : 'low to high';
@@ -106,7 +96,13 @@ const HotcollectionView = (props: any) => {
     getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, minMaxCategory);
   };
   
-  return (<>
+  const showSeeMore = useMemo(() => {
+    const { loading, data, nextPage } = isActive===1
+      ? activityData
+      : NftDetails;
+    return !loading && data && data?.length === pageSize * (nextPage-1);
+  }, [isActive, activityData, NftDetails]);
+  return (
    
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
       <div className='min-h-[320px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
@@ -166,19 +162,27 @@ const HotcollectionView = (props: any) => {
             </div>
         </div>
         <hr className="bg-[#f8f6f6] my-6" />
-       <CollectionTabs handleSearch={handleSearch}
-        handleChange={handleChange} 
-        handleSearchIcon={handleSearchIcon} 
-        searchValue={state.selection?.searchValue} 
+       <CollectionTabs 
+        searchInputRef={searchInputRef} setSearchInput={setSearchInput}
         minMaxCategory={state.selection.minMaxCategory}
          handlePriceRangeSelection={handlePriceRangeSelection} 
          getNftsDetails={getNftsDetails} 
          activityData={activityData}
          handleTabChange={handleTabChange}
          NftDetails={NftDetails}/>
-
+        {showSeeMore && (
+        <div className="flex justify-center items-center">
+          <Button type="plain" 
+          handleClick={() => getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory,'seeMore')}>
+          <span className="cursor-pointer text-base text-primary font-semibold">
+            See More
+          </span>
+          <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
+        </Button>
         </div>
-  </>);
+      )}
+        </div>
+  );
 }
 const connectStateToProps = ({ oidc,hotCollections }: any) => {
   return { oidc: oidc,hotCollections:hotCollections };
