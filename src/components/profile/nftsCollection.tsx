@@ -8,8 +8,9 @@ import Button from '../../ui/Button';
 import defaultlogo from '../../assets/images/default-logo.png';
 import Tabs from '../../ui/Tabs';
 import SearchInputComponent from '../marketplace.component/hotcollections.component/SearchComponent';
-import { fetchNftsCollection,saveFavoriteNFT,getFavoritedCount } from '../../reducers/marketplaceProfileReducer';
+import { fetchNftsCollection,saveFavoriteNFT,getFavoritedCount ,getCreatedCount,getOwnedCountData} from '../../reducers/marketplaceProfileReducer';
 import { store } from '../../store';
+import NftCardsShimmer from '../loaders/NftCardShimmer';
 const reducers = (state, action) => {
 	switch (action.type) {
 		case 'update':
@@ -22,31 +23,38 @@ const initialState = {
 	nftsCollections: [],
   pageNo:1,
   type:null,
-  searchValue:null
+  searchValue:null,
+  activeTab:0
 }
 const NFTCollection = (props: any) => {
 const [state, dispatch] = useReducer(reducers, initialState);
 const [activeTab, setActiveTab] = useState(0);
 const { walletAddress } = useParams();
 const pageSize = 10;
+const [currentIndex, setCurrentIndex] = useState(0);
+const items = props?.featchNFTsCollection?.collectionData?.data || [];
+const itemsPerPage = 4;
+useEffect(()=>{
+  store.dispatch(getCreatedCount(walletAddress,props.auth.user?.id))
+  store.dispatch(getFavoritedCount(walletAddress))
+  store.dispatch(getOwnedCountData(walletAddress))
+  store.dispatch(fetchNftsCollection(walletAddress,items, state.pageNo, pageSize, null, null,props.auth.user?.id));
+  dispatch({ type: 'update', payload: { pageNo: state.pageNo+1 } });
+},[]);
 const { loader, error, data, pageNo } = useSelector(
   (store: any) => store.exploreNfts
 );
-useEffect(()=>{
-  store.dispatch(fetchNftsCollection(walletAddress,data, state.pageNo, pageSize, null, null,props.auth.user?.id));
-},[]);
-
 const getNFTImageUrl = (file: any) => {
   const filePath = file?.replace('ipfs://', '');
   return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
 };
 const tabs = useMemo(() => {
   return [
-    { label: "Created", content: '' },
-    { label: "Favorited", content: '' },
-    { label: "Owned", content: '' },
+    { label: `Created (${props?.featchNFTsCollection?.createdNFTSCount?.data || 0})`, content: '' },
+    { label: `Favorited (${props?.featchNFTsCollection?.saveFavaratedCount?.data || 0})`, content: '' },
+    { label: `Owned (${props?.featchNFTsCollection?.ownedNFTsCount?.data || 0})`, content: '' },
   ];
-}, [activeTab])
+}, [activeTab,props?.featchNFTsCollection])
 const handleSearch=(e:any)=>{
   let data=e.target.value.trim()
   dispatch({ type: 'update', payload: { searchValue: data } });
@@ -89,7 +97,7 @@ const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseE
   }
 };
 
-const saveFavorite=(item)=>{
+const saveFavorite=(item:any)=>{
   let obj = {
     nftId: item?.id,
     customerId: props.auth.user?.id,
@@ -97,20 +105,44 @@ const saveFavorite=(item)=>{
   };
   store.dispatch(saveFavoriteNFT(obj, (response:any) => {
     console.log("Favorite saved:", response);
+    let selectTabs=activeTab == 0 ? "GetNfts" : activeTab==1 ? "Favorites" : "GetOwnNfts";
     store.dispatch(getFavoritedCount(walletAddress))
-    store.dispatch(fetchNftsCollection(walletAddress,data, 1, 8, null, data || null,props.auth.user?.id));
+    store.dispatch(fetchNftsCollection(walletAddress,data, 1, 8, null, data || null,props.auth.user?.id,selectTabs));
   }));
 }
 const handleTabChange=(selectedTab : any)=>{
  let selectTabs=selectedTab == 0 ? "GetNfts" : selectedTab==1 ? "Favorites" : "GetOwnNfts";
  console.log('Tab Action:', selectTabs);
+ setCurrentIndex(0);
+ dispatch({ type: 'update', payload: { activeTab: selectedTab } });
  store.dispatch(fetchNftsCollection(walletAddress,data, 1, 8, null, data || null,props.auth.user?.id,selectTabs));
 }
+
+const handleSlideActions = (direction) => {
+  if (direction === "previous") {
+      setCurrentIndex(prevIndex => (prevIndex === 0 ? Math.floor(items.length / itemsPerPage) * itemsPerPage : prevIndex - itemsPerPage));
+  } else if (direction === "next") {
+      setCurrentIndex(prevIndex => {
+          const newIndex = prevIndex >= items.length - itemsPerPage ? 0 : prevIndex + itemsPerPage;
+          if (newIndex >= items.length - itemsPerPage) {
+            let selectTabs=state.activeTab == 0 ? "GetNfts" : state.activeTab==1 ? "Favorites" : "GetOwnNfts";
+            store.dispatch(fetchNftsCollection(walletAddress,items, state.pageNo, 8, null, data || null,props.auth.user?.id,selectTabs));
+            dispatch({ type: 'update', payload: { pageNo: state.pageNo+1 } });
+          }
+          return newIndex;
+      });
+  }
+};
+
+const getDisplayedItems = () => {
+  return items.slice(currentIndex, currentIndex + itemsPerPage);
+};
   return (
     <>
+    {console.log(props?.featchNFTsCollection,'props?.featchNFTsCollection')}
     <Tabs
       tabs={tabs}
-      activeTab={activeTab}
+      activeTab={state.activeTab}
       tabsClass={"profile-subtabs mt-[26px]"}
       labelClass={""}
       tabContentClass={"hidden"}
@@ -133,8 +165,8 @@ const handleTabChange=(selectedTab : any)=>{
      
     <div className="relative container mx-auto profile-nfts lg:px-24 mt-10">
     <div className='carousel w-full gap-4 py-2 px-2'>
-  
-  {props?.featchNFTsCollection?.map((item:any,index:any)=>{
+    {props?.featchNFTsCollection?.collectionData?.loading && <NftCardsShimmer/>}
+  {getDisplayedItems()?.map((item:any,index:any)=>{
    return (
     <>
      <div className='carousel-item inline-block max-sm:w-full lg:w-[260px] xl:w-[300px]'>
@@ -222,8 +254,8 @@ const handleTabChange=(selectedTab : any)=>{
     
   </div>
   <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
-    <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
-    <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
+    <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1" onClick={() => handleSlideActions("previous")}></span>
+    <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]" onClick={() => handleSlideActions("next")}></span>
   </div>
     </div>
     
@@ -231,7 +263,7 @@ const handleTabChange=(selectedTab : any)=>{
   );
 };
 const connectStateToProps = ({ auth ,marketPlaceProfileReducer}: any) => {
-  return { auth: auth,featchNFTsCollection:marketPlaceProfileReducer?.data };
+  return { auth: auth,featchNFTsCollection:marketPlaceProfileReducer };
 };
 export default connect(connectStateToProps, (dispatch) => {
   return { dispatch };
