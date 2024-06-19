@@ -152,101 +152,101 @@ const CreateCollection = (props: any) => {
     let isValid = true;
     const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/u;
     const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-    let errors = {...localState.errors}
-            if (!val.logo) {
-                errors.logo = "Please provide logo image."
-                isValid = false
-            }
-            else{
-              errors.logo = ""
-              isValid = true
-            }
-            if (!val.bannerImage) {
-              errors.bannerImage = "Please provide banner image."
-              isValid = false
-            }
-            else{
-              errors.bannerImage = ""
-              isValid = true
-            }
-            if (!val.featuredImage) {
-              errors.featuredImage = "Please provide feature image."
-              isValid = false
-            }
-            else{
-              errors.bannerImage = ""
-              isValid = true
-            }
-            if (!val.collectionName) {
-              errors.collectionName = "Please provide Name"
-                isValid = false
-            }
-            else if (emojiRegex.test(val.collectionName)) {
-              errors.collectionName = "Name cannot contain emojis.";
-              isValid = false;
-            } else if (val.collectionName.length > 250) {
-              errors.collectionName = "Name cannot exceed 250 characters.";
-              isValid = false;
-            }
-            else{
-              errors.collectionName = ""
-              isValid = true
-            }
-            if (!val.description) {
-              errors.description = "Please provide Description"
-                isValid = false
-            }
-            else if (emojiRegex.test(val.description)) {
-              errors.description = "Description cannot contain emojis.";
-              isValid = false;
-            } else if (val.description.length > 1000) {
-              errors.description = "Description cannot exceed 1000 characters.";
-              isValid = false;
-            }
-            else{
-              errors.description = ""
-              isValid = true
-            }
-            if (!val.category) {
-              errors.category = "Please select Category"
-                isValid = false
-            }
-            else{
-              errors.category = ""
-              isValid = true
-            }
-            if (val.urls && !urlRegex.test(val.urls)) {
-              errors.urls = "Please provide a valid URL.";
-              isValid = false;
-            } else {
-              errors.urls= "";
-            }
-            if (val.websiteUrl && !urlRegex.test(val.websiteUrl)) {
-              errors.websiteUrl = "Please provide a valid URL.";
-              isValid = false;
-            } else {
-              errors.websiteUrl= "";
-            }
-            if (val.linkedIn && !urlRegex.test(val.linkedIn)) {
-              errors.linkedIn = "Please provide a valid URL.";
-              isValid = false;
-            } else {
-              errors.linkedIn= "";
-            }
-            if (val.facebook && !urlRegex.test(val.facebook)) {
-              errors.facebook = "Please provide a valid URL.";
-              isValid = false;
-            } else {
-              errors.facebook= "";
-            }
-            if (val.twitter && !urlRegex.test(val.twitter)) {
-              errors.twitter = "Please provide a valid URL.";
-              isValid = false;
-            } else {
-              errors.twitter= "";
-            }
-        return [isValid, errors]
-}
+    let errors = { ...localState.errors }
+    if (!val.logo) {
+      errors.logo = "Please provide logo image."
+      isValid = false
+    }
+    else {
+      errors.logo = ""
+      isValid = true
+    }
+    if (!val.bannerImage) {
+      errors.bannerImage = "Please provide banner image."
+      isValid = false
+    }
+    else {
+      errors.bannerImage = ""
+      isValid = true
+    }
+    if (!val.featuredImage) {
+      errors.featuredImage = "Please provide feature image."
+      isValid = false
+    }
+    else {
+      errors.bannerImage = ""
+      isValid = true
+    }
+    if (!val.collectionName) {
+      errors.collectionName = "Please provide Name"
+      isValid = false
+    }
+    else if (emojiRegex.test(val.collectionName)) {
+      errors.collectionName = "Name cannot contain emojis.";
+      isValid = false;
+    } else if (val.collectionName.length > 250) {
+      errors.collectionName = "Name cannot exceed 250 characters.";
+      isValid = false;
+    }
+    else {
+      errors.collectionName = ""
+      isValid = true
+    }
+    if (!val.description) {
+      errors.description = "Please provide Description"
+      isValid = false
+    }
+    else if (emojiRegex.test(val.description)) {
+      errors.description = "Description cannot contain emojis.";
+      isValid = false;
+    } else if (val.description.length > 1000) {
+      errors.description = "Description cannot exceed 1000 characters.";
+      isValid = false;
+    }
+    else {
+      errors.description = ""
+      isValid = true
+    }
+    if (!val.category) {
+      errors.category = "Please select Category"
+      isValid = false
+    }
+    else {
+      errors.category = ""
+      isValid = true
+    }
+    if (val.urls && !urlRegex.test(val.urls)) {
+      errors.urls = "Please provide a valid URL.";
+      isValid = false;
+    } else {
+      errors.urls = "";
+    }
+    if (val.websiteUrl && !urlRegex.test(val.websiteUrl)) {
+      errors.websiteUrl = "Please provide a valid URL.";
+      isValid = false;
+    } else {
+      errors.websiteUrl = "";
+    }
+    if (val.linkedIn && !urlRegex.test(val.linkedIn)) {
+      errors.linkedIn = "Please provide a valid URL.";
+      isValid = false;
+    } else {
+      errors.linkedIn = "";
+    }
+    if (val.facebook && !urlRegex.test(val.facebook)) {
+      errors.facebook = "Please provide a valid URL.";
+      isValid = false;
+    } else {
+      errors.facebook = "";
+    }
+    if (val.twitter && !urlRegex.test(val.twitter)) {
+      errors.twitter = "Please provide a valid URL.";
+      isValid = false;
+    } else {
+      errors.twitter = "";
+    }
+    return [isValid, errors]
+  }
   const handleSubmit = async (e: any) => {
     debugger
     // e.preventDefault();
@@ -373,7 +373,7 @@ const CreateCollection = (props: any) => {
     }
   };
   const uploadToServer = async (file: any, type: any) => {
-    let errors = {...localState.errors}
+    let errors = { ...localState.errors }
     localDispatch({ type: 'setIsLoading', payload: type });
     const body: any = new FormData();
     let fileType = {
@@ -570,7 +570,7 @@ const CreateCollection = (props: any) => {
                         maxLength={500}
                         onChange={(e) => handleChange(e, 'description')}
                       />
-                  {localState.errors.description && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.description}</span>}
+                      {localState.errors.description && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.description}</span>}
                     </div>
                     <div className="mb-6">
                       <label className="text-dark text-sm font-normal p-0 mb-2 label block">URLs</label>
@@ -584,7 +584,7 @@ const CreateCollection = (props: any) => {
                         className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         onChange={(e) => handleChange(e, 'urls')}
                       />
-                       {localState.errors.urls && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.urls}</span>}
+                      {localState.errors.urls && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.urls}</span>}
                     </div>
                     <div className="mb-6" >
                       <label className="text-dark text-sm font-normal p-0 mb-2 label block">Category and tags <span className='text-[#ff0000]'>*</span></label>
@@ -600,8 +600,8 @@ const CreateCollection = (props: any) => {
                         {localState.lookups?.collections?.map((item) => (
                           <option value={item.imageUrl}>{item.name}</option>
                         ))}
-                        </select>
-                   {localState.errors.category && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.category}</span>}
+                      </select>
+                      {localState.errors.category && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.category}</span>}
                     </div>
 
                     <div className="mb-6" >
@@ -648,7 +648,7 @@ const CreateCollection = (props: any) => {
                           onChange={(e) => handleChange(e, 'websiteUrl')}
                           maxLength={100}
                         />
-                          {localState.errors.websiteUrl && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.websiteUrl}</span>}
+                        {localState.errors.websiteUrl && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.websiteUrl}</span>}
                       </div>
                       <div className="mb-6 relative">
                         <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
@@ -662,7 +662,7 @@ const CreateCollection = (props: any) => {
                           onChange={(e) => handleChange(e, 'facebook')}
                           maxLength={100}
                         />
-                           {localState.errors.facebook && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.facebook}</span>}
+                        {localState.errors.facebook && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.facebook}</span>}
                       </div>
                       <div className="mb-6 relative">
                         <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
@@ -676,7 +676,7 @@ const CreateCollection = (props: any) => {
                           onChange={(e) => handleChange(e, 'twitter')}
                           maxLength={100}
                         />
-                            {localState.errors.twitter && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.twitter}</span>}
+                        {localState.errors.twitter && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.twitter}</span>}
                       </div>
                       <div className="mb-6 relative">
                         <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
@@ -690,7 +690,7 @@ const CreateCollection = (props: any) => {
                           onChange={(e) => handleChange(e, 'linkedIn')}
                           maxLength={100}
                         />
-                            {localState.errors.linkedIn && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.linkedIn}</span>}
+                        {localState.errors.linkedIn && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.linkedIn}</span>}
                       </div>
                     </div>
                     <div className="mt-4 flex justify-end gap-4 items-center">
