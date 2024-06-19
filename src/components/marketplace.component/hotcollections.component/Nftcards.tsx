@@ -1,5 +1,5 @@
 import React from 'react';
-import NftCardsShimmer from '../../loaders/NftCardShimmer';
+import NftCardsShimmer from './NftCardShimmer';
 import NoData from '../../../ui/noData';
 import Button from '../../../ui/Button';
 import Spinner from  '../../loaders/spinner'
@@ -18,8 +18,13 @@ const NftCards = ({ NftDetails ,addToFavorites,favoriteLoader,saveView,cardLoade
       
     return (
         <>
-        {NftDetails?.loading &&
-        <NftCardsShimmer/>}
+        {(NftDetails?.loading || cardLoader) &&
+            Array.from({ length: 6 }, (_, index) => (
+              <div key={index}>
+                <NftCardsShimmer />
+              </div>
+            ))}
+
             {!NftDetails?.loading && <>
                 {NftDetails?.data?.length >0 && NftDetails?.data?.map((item:any) => (
                     <div key={item?.id}>
