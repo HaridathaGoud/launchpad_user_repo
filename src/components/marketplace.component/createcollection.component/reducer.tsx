@@ -15,7 +15,8 @@ interface FormValues {
     websiteUrl: string,
     contractAddress: string,
     collectionType: string,
-    network:string
+    blockChain:string,
+    tokenNetwork:string,
 }
 interface FormErrors {
     logo: string,
@@ -24,6 +25,11 @@ interface FormErrors {
     collectionName: string,
     description: string,
     category: string,
+    urls:string,
+    websiteUrl:string,
+    linkedIn:string,
+    facebook:string,
+    twitter:string,
 }
 interface Lookups {
     collections: any[] | null;
@@ -57,7 +63,9 @@ export const formState: FormState = {
         websiteUrl: '',
         contractAddress: '',
         collectionType: '',
-        network:''
+        blockChain:'',
+        tokenNetwork:'MATIC'
+
     },
     errors: {
         logo: '',
@@ -66,6 +74,11 @@ export const formState: FormState = {
         collectionName: '',
         description: '',
         category: '',
+        urls:'',
+        websiteUrl:'',
+        linkedIn:'',
+        facebook:'',
+        twitter:'',
     },
     lookups: { collections: [], networks: [] },
     isLoading: '',
