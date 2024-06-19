@@ -2,11 +2,15 @@ export interface BrowserByCategoryStateModel {
     browseByCategoryList: any | [];
     loader: boolean;
     currentIndex: number;
+    favoriteLoader:any,
+    cardLoader:any,
 }
 export const browserByCategoryState = {
     browseByCategoryList: [],
     loader: false,
-    currentIndex: 0
+    currentIndex: 0,
+    favoriteLoader: { id: "", loading: false },
+    cardLoader:false,
 };
 
 export const browserByCategoryreducer = (state = browserByCategoryState, action) => {
@@ -19,6 +23,12 @@ export const browserByCategoryreducer = (state = browserByCategoryState, action)
             break;
         case "setCurrentIndex":
             state = { ...state, currentIndex: action.payload };
+            break;
+        case "setFavoriteLoader":
+            state = { ...state, favoriteLoader: action.payload };
+            break;
+        case "setCardLoader":
+            state = { ...state, cardLoader: action.payload };
             break;
         default:
             state = { ...state };
