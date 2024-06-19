@@ -19,7 +19,7 @@ import {
   getVotingOptionColor,
 } from "./utils";
 import Spinner from "../../loaders/spinner";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 import ProposalsShimmer from "../../loaders/daos/proposalsShimmer";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 

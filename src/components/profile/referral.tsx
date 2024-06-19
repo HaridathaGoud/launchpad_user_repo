@@ -7,7 +7,7 @@ import { Spinner } from "react-bootstrap";
 import { useAccount } from "wagmi";
 import { store } from "../../store";
 import { getEarnedBonous, getKyc } from "../../utils/api";
-import NoDataFound from "../../ui/nodatafound";
+import NoDataFound from "../../ui/noData";
 
 function Referrals(props: any) {
   const [copied, setCpoied] = useState(false);

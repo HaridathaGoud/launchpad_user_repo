@@ -1,5 +1,5 @@
 import React from "react";
-import NoDataFound from "../../ui/nodatafound";
+import NoDataFound from "../../ui/noData";
 import PortfolioShimmer from "../loaders/portfolioshimmer";
 const Investments = ({ userInvestments }) => {
   return (

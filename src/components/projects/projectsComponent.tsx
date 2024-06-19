@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ProjectCardShimmer from "../loaders/projects/projectCardShimmer";
 import Spinner from "../loaders/spinner";
 import BreadCrumb from "../../ui/breadcrumb";
-import NoDataFound from "../../ui/nodatafound";
+import NoDataFound from "../../ui/noData";
 import JoinProject from "../shared/joinProject";
 import ConvertLocalFormat from "../../utils/dateFormat";
 const statusColourList = {

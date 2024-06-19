@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "../../ui/Button";
-import NoDataFound from "../../ui/nodatafound";
+import NoDataFound from "../../ui/noData";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import ConvertLocalFormat from "../../utils/dateFormat";

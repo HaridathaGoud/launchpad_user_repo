@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../../ui/Button";
 import { connect } from "react-redux";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 
 const AllocationsView = (props) => {
   return (
@@ -73,7 +73,7 @@ const AllocationsView = (props) => {
                                 {" "}
                                 <Button
                                   type="primary"
-                                  btnClassName="!py-0 px-6"
+                                  btnClassName="!py-0 px-6 whitespace-nowrap"
                                   disabled={
                                     item.allocationVolume === 0 ||
                                     item?.allocationVolume <=

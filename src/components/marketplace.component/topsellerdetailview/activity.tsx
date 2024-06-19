@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import Button from "../../../ui/Button";
+import React from "react";
+import Moment from "react-moment";
+import AllocationsShimmer from "../../loaders/projects/allocationsShimmer";
+import NoData from "../../../ui/noData";
 
-
-
-const Activity = (props:any) => {
- 
+const Activity = ({ activityData }) => {
 
   return (
     <div>
@@ -14,77 +13,60 @@ const Activity = (props:any) => {
             <thead>
               <tr className="!bg-primary-content">
                 <th className="text-left text-base text-secondary font-bold">
-                S.No.
+                  S.No.
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                Date
-                        </th>
-                <th className="text-left text-base text-secondary font-bold">
-                From
+                  Date
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                To
+                  From
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                Price
+                  To
                 </th>
-               
+                <th className="text-left text-base text-secondary font-bold">
+                  Price
+                </th>
+
               </tr>
             </thead>
-            <tbody>            
+            {activityData?.data?.loading && <AllocationsShimmer />}
+            {!activityData?.data?.loading && <>
+              <tbody>
+                {activityData?.data?.length > 0 && activityData?.data?.map((item: any, index) => (
                   <tr>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      01
-                      </p>
-                    </td>
-                    <td>
-                        <p className="font-normal text-sm text-secondary">
-                        14-06-2024
-                        </p>
-                      </td>   
-                    <td>0x4a9Df2CF064...d9EE37c33929A</td>
-                    <td>
-                      <p className="font-normal text-sm text-secondary">
-                      0d9EE37c30xaf....0x4a9Df2CD8f8
+                        {index + 1}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      0.01USDT
+                        <Moment format="DD-MM-YYYY " className="blue-text">
+                          {item.date || "--"}
+                        </Moment>
                       </p>
                     </td>
-                                    
-                  </tr> 
-                  <tr>
+                    <td> {item?.from || '--'} </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      02
-                      </p>
-                    </td>
-                    <td>
-                        <p className="font-normal text-sm text-secondary">
-                        14-06-2024
-                        </p>
-                      </td>   
-                    <td>0x4a9Df2CF064...d9EE37c33929A</td>
-                    <td>
-                      <p className="font-normal text-sm text-secondary">
-                      0d9EE37c30xaf....0x4a9Df2CD8f8
+                        {item?.to || '--'}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                      0.01USDT
+                        {item?.price ? item?.price + ' USDT' : '--'}
                       </p>
                     </td>
-                                   
-                  </tr>   
-                     
-             
-            </tbody>
+
+                  </tr>
+                ))}
+                {activityData?.data?.length == 0 && <>
+                  <div className='text-center'> <NoData text={""} /></div></>}
+              </tbody>
+            </>}
           </table>
-         
+
         </div>
       </div>
     </div>
