@@ -11,7 +11,7 @@ import { useCollectionDeployer } from '../../../utils/useCollectionDeployer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { guid } from "../../../utils/constants";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-
+import { validationRules,urlRegex,emojiRegex} from './service';
 const CreateCollection = (props: any) => {
   const { token } = useParams();
   const rootDispatch = useDispatch();
@@ -26,7 +26,7 @@ const CreateCollection = (props: any) => {
       const categoriesPromise = await getCategories();
       const networksPromise = await getNetworks();
       const [categories, networks] = await Promise.all([categoriesPromise, networksPromise]);
-      if (categories.status === 200 && networks.status === 200) {
+      if (categories && categories.status === 200 && networks && networks.status === 200) {
         let _obj = { ...localState.lookups };
         _obj.collections = categories.data;
         _obj.networks = networks.data;
@@ -61,121 +61,21 @@ const CreateCollection = (props: any) => {
     }
   };
   const { createonChainErc721Collection, createonChainErc1155Collection } = useCollectionDeployer();
-  const { address } = useAccount();
 
-  // const validateFields = (val) => {
-  //   let isValid = true;
-  //   const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/u;
-  //   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
-  //   const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(val);
-  //   let errors = { ...localState.errors }
-  //   if (!val.logo) {
-  //     errors.logo = "Please provide logo image."
-  //     isValid = false
-  //   }
-  //   else {
-  //     errors.logo = ""
-  //   }
-  //   if (!val.bannerImage) {
-  //     errors.bannerImage = "Please provide banner image."
-  //     isValid = false
-  //   }
-  //   else {
-  //     errors.bannerImage = ""
-  //   }
-  //   if (!val.featuredImage) {
-  //     errors.featuredImage = "Please provide feature image."
-  //     isValid = false
-  //   }
-  //   else {
-  //     errors.featuredImage = ""
-  //   }
-  //   if (!val.collectionName) {
-  //     errors.collectionName = "Please provide Name"
-  //     isValid = false
-  //   }
-  //   else if ((emojiRegex.test(val.collectionName) || containsHTMLTags)) {
-  //     errors.collectionName = "Please enter valid content.";
-  //     isValid = false;
-  //   } else if (val.collectionName.length > 250) {
-  //     errors.collectionName = "Name cannot exceed 250 characters.";
-  //     isValid = false;
-  //   }
-  //   else {
-  //     errors.collectionName = ""
-  //   }
-  //   if (!val.description) {
-  //     errors.description = "Please provide Description"
-  //     isValid = false
-  //   }
-  //   else if ((emojiRegex.test(val.description) || containsHTMLTags)) {
-  //     errors.description = "Please enter valid content.";
-  //     isValid = false;
-  //   } else if (val.description.length > 1000) {
-  //     errors.description = "Description cannot exceed 1000 characters.";
-  //     isValid = false;
-  //   }
-  //   else {
-  //     errors.description = ""
-  //   }
-  //   if (!val.category) {
-  //     errors.category = "Please select Category"
-  //     isValid = false
-  //   }
-  //   else {
-  //     errors.category = ""
-  //   }
-  //   const urlFields = ['urls', 'websiteUrl', 'linkedIn', 'facebook', 'twitter'];
-  //   urlFields.forEach(field => {
-  //     if (val[field] && !urlRegex.test(val[field])) {
-  //       errors[field] = "Please provide a valid URL.";
-  //       isValid = false;
-  //     } else {
-  //       errors[field] = "";
-  //     }
-  //   });
-  //   return [isValid, errors]
-  // }
   const validateFields = (val) => {
     let isValid = true;
-    const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/u;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-    const htmlTagsRegex = /<\/?[a-z][\s\S]*>/i;
-
-    const validationRules = {
-      logo: { required: true, errorMsg: "Please provide logo image." },
-      bannerImage: { required: true, errorMsg: "Please provide banner image." },
-      featuredImage: { required: true, errorMsg: "Please provide feature image." },
-      collectionName: {
-        required: true,
-        errorMsg: "Please provide Name",
-        contentErrorMsg: "Please enter valid content.",
-        lengthErrorMsg: "Name cannot exceed 250 characters.",
-        validateContent: (value) => emojiRegex.test(value) || htmlTagsRegex.test(value),
-        validateLength: (value) => value.length > 250
-      },
-      description: {
-        required: true,
-        errorMsg: "Please provide Description",
-        contentErrorMsg: "Please enter valid content.",
-        lengthErrorMsg: "Description cannot exceed 1000 characters.",
-        validateContent: (value) => emojiRegex.test(value) || htmlTagsRegex.test(value),
-        validateLength: (value) => value.length > 1000
-      },
-      category: { required: true, errorMsg: "Please select Category" }
-    };
-
     const urlFields = ['urls', 'websiteUrl', 'linkedIn', 'facebook', 'twitter'];
     urlFields.forEach(field => {
       validationRules[field] = {
         required: false,
         validateContent: (value) => value && !urlRegex.test(value),
-        contentErrorMsg: "Please provide a valid URL."
+        validateNoEmojis: (value) => value && emojiRegex.test(value),
+        contentErrorMsg: "Please provide a valid URL.",
+        emojiErrorMsg: "Please enter valid content.",
       };
     });
 
     let errors = { ...localState.errors };
-
     Object.keys(validationRules).forEach(field => {
       const rule = validationRules[field];
       if (rule.required && !val[field]) {
@@ -184,17 +84,15 @@ const CreateCollection = (props: any) => {
       } else if (rule.validateContent && rule.validateContent(val[field])) {
         errors[field] = rule.contentErrorMsg;
         isValid = false;
-      } else if (rule.validateLength && rule.validateLength(val[field])) {
-        errors[field] = rule.lengthErrorMsg;
+      } else if (rule.validateNoEmojis && rule.validateNoEmojis(val[field])) {
+        errors[field] = rule.emojiErrorMsg;
         isValid = false;
-      } else {
+      }  else {
         errors[field] = "";
       }
     });
-
     return [isValid, errors];
   }
-
 
   const handleSubmit = async (e: any) => {
     let obj = {
@@ -220,7 +118,6 @@ const CreateCollection = (props: any) => {
         `ART_${obj.collectionName.slice(0, 3).toUpperCase()}`,
         'https://ybdott.azurewebsites.net/'
       );
-
       const provider = new ethers.providers.Web3Provider(window?.ethereum);
       const receipt = await provider.waitForTransaction(collectionRes.hash);
       obj["contractAddress"] = receipt.logs[0].address;
@@ -344,7 +241,6 @@ const CreateCollection = (props: any) => {
     router('/marketplace/mycollections');
   };
 
-  console.log(localState.lookups)
   return (
     <>
       <div>
@@ -458,7 +354,7 @@ const CreateCollection = (props: any) => {
                         className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         required
                         value={localState.values.collectionName}
-                        maxLength={200}
+                        maxLength={250}
                         onChange={(e) => handleChange(e, 'collectionName')}
                       />
                       {localState.errors.collectionName && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.collectionName}</span>}
@@ -473,7 +369,7 @@ const CreateCollection = (props: any) => {
                         rows={5}
                         value={localState.values.description}
                         required
-                        maxLength={500}
+                        maxLength={1000}
                         onChange={(e) => handleChange(e, 'description')}
                       />
                       {localState.errors.description && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.description}</span>}
