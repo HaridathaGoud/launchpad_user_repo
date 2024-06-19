@@ -1,18 +1,16 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import { useAccount } from 'wagmi';
 import { connect, useDispatch } from 'react-redux';
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import Toast from 'react-bootstrap/Toast';
 import BreadCrumb from '../../../ui/breadcrumb';
 import Button from '../../../ui/Button';
 import { store } from "../../../store";
 import { formReducer, formState } from './reducer';
 import Spinner from '../../loaders/spinner';
-import { apiUploadPost, getMarketplace, post, } from '../../../utils/api';
+import { apiUploadPost, getMarketplace, post } from '../../../utils/api';
 import { useCollectionDeployer } from '../../../utils/useCollectionDeployer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { guid } from "../../../utils/constants";
-import { setError,setToaster } from "../../../reducers/layoutReducer";
+import { setError, setToaster } from "../../../reducers/layoutReducer";
 
 const CreateCollection = (props: any) => {
   const { token } = useParams();
@@ -66,7 +64,6 @@ const CreateCollection = (props: any) => {
   const { address } = useAccount();
 
   const validateFields = (val) => {
-    debugger
     let isValid = true;
     const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/u;
     const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
@@ -140,7 +137,6 @@ const CreateCollection = (props: any) => {
     return [isValid, errors]
   }
   const handleSubmit = async (e: any) => {
-    debugger
     let obj = {
       ...localState.values,
       customerId: user?.user?.id || guid,
@@ -155,7 +151,7 @@ const CreateCollection = (props: any) => {
     } else {
       localDispatch({ type: 'setErrors', payload: {} });
     }
-    try{
+    try {
       rootDispatch(setError({ message: '' }));
       localDispatch({ type: 'setIsLoading', payload: 'save' });
       // if(token === 'ERC-721')
@@ -169,17 +165,17 @@ const CreateCollection = (props: any) => {
       const receipt = await provider.waitForTransaction(collectionRes.hash);
       obj["contractAddress"] = receipt.logs[0].address;
       const response = await post(`User/SaveCollection`, obj);
-      if(response){
+      if (response) {
         rootDispatch(setToaster({ message: "Collection has been successfully created" }));
       }
-      else{
+      else {
         rootDispatch(setError({ message: response }));
       }
     }
-    catch(error){
+    catch (error) {
       rootDispatch(setError({ message: error }));
     }
-    finally{
+    finally {
       localDispatch({ type: 'setIsLoading', payload: '' });
     }
     // } else if (token == 'ERC-1155') {
@@ -240,7 +236,6 @@ const CreateCollection = (props: any) => {
     }
   };
   const uploadToServer = async (file: any, type: any) => {
-    debugger
     let errors = { ...localState.errors }
     localDispatch({ type: 'setIsLoading', payload: type });
     const body: any = new FormData();
@@ -285,9 +280,9 @@ const CreateCollection = (props: any) => {
     _obj[key] = value;
     localDispatch({ type: 'setValues', payload: _obj })
   }
-    const handleBack = () => {
-      router('/marketplace/mycollections');
-    };
+  const handleBack = () => {
+    router('/marketplace/mycollections');
+  };
 
   console.log(localState.lookups)
   return (
@@ -558,15 +553,6 @@ const CreateCollection = (props: any) => {
             </section>
           </form>
         </div>
-      </div>
-      <div className='p-absolute toaster-center'>
-        <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
-          {/* <Toast show={scuess} className="text-center toster-component"> */}
-          <Toast.Body className="toaster-cust">
-            {/* <Image src={validSuccess} className='svalidation-error' /> <span>{success}</span>  */}
-          </Toast.Body>
-          {/* </Toast> */}
-        </ToastContainer>
       </div>
     </>
   );
