@@ -6,12 +6,13 @@ import Button from '../../../ui/Button';
 import { store } from "../../../store";
 import { formReducer, formState } from './reducer';
 import Spinner from '../../loaders/spinner';
-import { apiUploadPost, getMarketplace, post } from '../../../utils/api';
+import { apiUploadPost, getMarketplace, postMarketplace } from '../../../utils/api';
 import { useCollectionDeployer } from '../../../utils/useCollectionDeployer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { guid } from "../../../utils/constants";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import { validationRules,urlRegex,emojiRegex} from './service';
+import { ethers } from "ethers/lib";
 const CreateCollection = (props: any) => {
   const { token } = useParams();
   const rootDispatch = useDispatch();
@@ -121,9 +122,10 @@ const CreateCollection = (props: any) => {
       const provider = new ethers.providers.Web3Provider(window?.ethereum);
       const receipt = await provider.waitForTransaction(collectionRes.hash);
       obj["contractAddress"] = receipt.logs[0].address;
-      const response = await post(`User/SaveCollection`, obj);
+      const response = await postMarketplace(`User/SaveCollection`, obj);
       if (response) {
         rootDispatch(setToaster({ message: "Collection has been successfully created" }));
+        handleBack();
       }
       else {
         rootDispatch(setError({ message: response }));
