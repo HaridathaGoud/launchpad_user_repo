@@ -62,10 +62,9 @@ export const formState: FormState = {
         linkedIn: '',
         websiteUrl: '',
         contractAddress: '',
-        collectionType: '',
+        collectionType: 'ERC-721',
         blockChain:'',
         tokenNetwork:'MATIC'
-
     },
     errors: {
         logo: '',
