@@ -401,7 +401,7 @@ const CreateCollection = (props: any) => {
                       >
                         <option value="">Select Category</option>
                         {localState.lookups?.collections?.map((item) => (
-                          <option value={item.imageUrl}>{item.name}</option>
+                          <option value={item.name}>{item.name}</option>
                         ))}
                       </select>
                       {localState.errors.category && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.category}</span>}
