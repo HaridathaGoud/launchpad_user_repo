@@ -2,66 +2,6 @@ import React from 'react';
 import NftCardsShimmer from '../../loaders/NftCardShimmer';
 import NoData from '../../../ui/noData';
 const NftCards = ({ NftDetails }) => {
-    const data = [
-        {
-            image: 'https://i.pinimg.com/236x/2a/a8/9a/2aa89ab8c33e56de598ac044415a4c3f.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Money Heist Gun',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-            badge: '#02325'
-        },
-        {
-            image: 'https://i.pinimg.com/564x/ab/b2/56/abb256bfaf1e55acccb672f9916ca872.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Money Heist mask',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        },
-        {
-            image: 'https://i.pinimg.com/236x/99/51/17/995117a6fe6df1d35810cc02bb85bbf6.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Money Heist Locker',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        },
-        {
-            image: 'https://i.pinimg.com/236x/08/4e/8d/084e8dcd86c67d675603201a9d5baac4.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Tokyo Doll',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        },
-        {
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXWuCVM7fV0daX8gS7iP_JipkpER1MZY0MBw&usqp=CAU',
-            seriesname: 'T- Series',
-            cardname: 'Hand Glows',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        },
-        {
-            image: 'https://i.pinimg.com/736x/97/24/71/972471bbcdcd28c6c98b1a3a2b2f58fd.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Arrows',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        },
-        {
-            image: 'https://i.pinimg.com/736x/ad/55/7f/ad557f5aaff21216b741815940debbfe.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Weapon Semblance Belt',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        },
-        {
-            image: 'https://i.pinimg.com/736x/ab/ff/db/abffdb02813b5d044568d418b1cd1b05.jpg',
-            seriesname: 'T- Series',
-            cardname: 'Leather Armor Ornate ',
-            price: '2.010 Matic',
-            highestbid: '0.15 Matic',
-        }
-    ]
-
     return (
         <>
         {NftDetails?.loading &&
