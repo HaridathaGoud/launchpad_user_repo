@@ -27,7 +27,7 @@ const ProjectDetailsCard = (props: any) => {
               <div className="flex gap-2 items-start">
                 <div className="profile-image shrink-0">
                   <img
-                    src={props.pjctInfo?.publisherLogo || defaultlogo}
+                    src={props.pjctInfo?.mediaImage || defaultlogo}
                     className="h-12 w-12 rounded-full object-cover"
                     alt=""
                   />
