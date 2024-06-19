@@ -104,8 +104,8 @@ const setHotCollectionsViewData = (payload:any) => {
     return async (dispatch:any) => {
       dispatch(SetNfts({ key: 'NftDetails', loading: true, data: data }));
       try {
-        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all/${currency}/${status}/${search}`);
-        // const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/15FD0929-71F5-4A01-BA8A-1B50930F0775/10/0/min%20to%20max/all%20items/null/all/null`)
+        // const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all/${currency}/${status}/${search}`);
+        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/15FD0929-71F5-4A01-BA8A-1B50930F0775/10/0/min%20to%20max/all%20items/null/all/null`)
         if (res.status === 200) {
           dispatch(SetNfts({ key: 'NftDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {
@@ -142,6 +142,8 @@ export interface HotcollectionStateModel {
     activeTab:any,
     cardDetails:any,
     selection:any,
+    favoriteLoader: any;
+    cardLoader: any,
 }
 export const hotcollectionState = {
     loader: false,
@@ -157,6 +159,8 @@ export const hotcollectionState = {
       searchValue:null,
       minMaxCategory:null,
     },
+    favoriteLoader: { id: "", loading: false },
+    cardLoader:false,
 
 };
 
@@ -207,6 +211,12 @@ export const hotCollectionReducer = (state = hotcollectionState, action) => {
             case "update":
             state = { ...state, selection: action.payload };
             break;
+            case "setFavoriteLoader":
+            state = { ...state, favoriteLoader: action.payload };
+            break;
+            case "setCardLoader":
+           state = { ...state, cardLoader: action.payload };
+           break;
         default:
             state = { ...state };
     }

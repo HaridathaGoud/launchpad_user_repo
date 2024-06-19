@@ -11,7 +11,10 @@ const CollectionTabs = ({ minMaxCategory,
   NftDetails,
   setSearchInput,
   searchInputRef,
-  saveFavorite, }) => {
+  addToFavorites,
+  favoriteLoader,
+  saveView,
+  cardLoader }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = useMemo(() => {
@@ -22,8 +25,9 @@ const CollectionTabs = ({ minMaxCategory,
            setSearchInput={setSearchInput}
           minMaxCategory={minMaxCategory}
           handlePriceRangeSelection={handlePriceRangeSelection}
-          activeTab={activeTab} NftDetails={NftDetails}
-          getNftsDetails={getNftsDetails} saveFavorite={saveFavorite} />
+          activeTab={activeTab} NftDetails={NftDetails} saveView={saveView}
+          getNftsDetails={getNftsDetails} addToFavorites={addToFavorites}
+           favoriteLoader={favoriteLoader} cardLoader={cardLoader} />
       },
       { label: "Activity", content: <Activity activityData={activityData} /> },
     ];

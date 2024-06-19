@@ -1,7 +1,21 @@
 import React from 'react';
 import NftCardsShimmer from '../../loaders/NftCardShimmer';
 import NoData from '../../../ui/noData';
-const NftCards = ({ NftDetails ,saveFavorite}) => {
+import Button from '../../../ui/Button';
+import Spinner from  '../../loaders/spinner'
+import { useNavigate } from 'react-router-dom';
+import defaultlogo from '../../../assets/images/default-logo.png';
+import { useAccount } from 'wagmi';
+const NftCards = ({ NftDetails ,addToFavorites,favoriteLoader,saveView,cardLoader}) => {
+    const { address,isConnected } = useAccount();
+
+    const navigate = useNavigate();
+    const navigateToAsset = (item:any) => {
+        navigate(
+          `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
+        );
+      };
+      
     return (
         <>
         {NftDetails?.loading &&
@@ -10,11 +24,61 @@ const NftCards = ({ NftDetails ,saveFavorite}) => {
                 {NftDetails?.data?.length >0 && NftDetails?.data?.map((item:any) => (
                     <div key={item?.id}>
                         <div className='shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]'>
-                            <img src={item?.image} alt="" className='h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg' />
-                            <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full" onClick={()=>saveFavorite(item)}>
-                                <span className='icon like-white '></span>
+                            <Button
+                                handleClick={
+                                    isConnected
+                                        ? () => saveView?.(item)
+                                        :() => navigateToAsset(item)
+                                }
+                                type="plain" btnClassName="w-full"
+                            >
+                            <img 
+                            src={
+                                item?.image && !item?.image?.includes("null")
+                                  ? item.image.replace(
+                                      "ipfs://",
+                                      "https://ipfs.io/ipfs/"
+                                    )
+                                  : defaultlogo
+                              }
+                             alt="" 
+                             className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${
+                                item?.isUnlockPurchased &&
+                                address !== item?.walletAddress
+                                  ? "blur-image"
+                                  : ""
+                              }`} />
+                            </Button>
+                            <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
+                                <Button
+                                    type="plain"
+                                    handleClick={() => addToFavorites(item)}
+                                    btnClassName=""
+                                >
+                                    {favoriteLoader?.id !== item.id && (
+                                        <span
+                                            className={`icon like-white ${item?.isFavourite ? "active" : ""
+                                                }`}
+                                        ></span>
+                                    )}
+                                    {favoriteLoader?.id === item.id &&
+                                        favoriteLoader?.loading && (
+                                            <span>
+                                                <Spinner />
+                                            </span>
+                                        )}
+                                </Button>
                             </div>
                             {item?.badge && <span className='py-1 px-3 bg-primary text-white text-base font-semibold absolute rounded-tl-lg top-0 left-0'>{item?.badge}</span>}
+                            <Button
+                                handleClick={
+                                      isConnected
+                                        ? () => saveView(item)
+                                        :() => navigateToAsset(item)
+                                }
+                                type="plain"
+                                btnClassName="w-[100%]"
+                            > 
                             <div className='px-2 py-2.5'>
                                 <p className='text-xs text-secondary truncate'>{item?.seriesname}</p>
                                 <h2 className='mb-2.5 text-base font-semibold truncate text-secondary'>{item?.name}</h2>
@@ -33,6 +97,7 @@ const NftCards = ({ NftDetails ,saveFavorite}) => {
                                     <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Buy Now</span>
                                 </div>
                             </div>
+                            </Button>
                         </div>
                     </div>
                 ))}
