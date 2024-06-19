@@ -24,7 +24,6 @@ const CreateCollection = (props: any) => {
       const categoriesPromise = await getCategories();
       const networksPromise = await getNetworks();
       const [categories, networks] = await Promise.all([categoriesPromise, networksPromise]);
-
       if (categories.status === 200 && networks.status === 200) {
         let _obj = { ...localState.lookups };
         _obj.collections = categories.data;
@@ -32,7 +31,6 @@ const CreateCollection = (props: any) => {
         localDispatch({ type: 'setLookups', payload: _obj });
       }
     }
-
     getLookups();
   }, []);
   const getCategories = async () => {
@@ -151,7 +149,8 @@ const CreateCollection = (props: any) => {
   const validateFields = (val) => {
     let isValid = true;
     const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/u;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(val);
+    const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(val);
     let errors = { ...localState.errors }
     if (!val.logo) {
       errors.logo = "Please provide logo image."
@@ -181,8 +180,8 @@ const CreateCollection = (props: any) => {
       errors.collectionName = "Please provide Name"
       isValid = false
     }
-    else if (emojiRegex.test(val.collectionName)) {
-      errors.collectionName = "Name cannot contain emojis.";
+    else if ((emojiRegex.test(val.collectionName) || containsHTMLTags)) {
+      errors.collectionName = "Please enter valid content.";
       isValid = false;
     } else if (val.collectionName.length > 250) {
       errors.collectionName = "Name cannot exceed 250 characters.";
@@ -196,8 +195,8 @@ const CreateCollection = (props: any) => {
       errors.description = "Please provide Description"
       isValid = false
     }
-    else if (emojiRegex.test(val.description)) {
-      errors.description = "Description cannot contain emojis.";
+    else if ((emojiRegex.test(val.description) || containsHTMLTags)) {
+      errors.description = "Please enter valid content.";
       isValid = false;
     } else if (val.description.length > 1000) {
       errors.description = "Description cannot exceed 1000 characters.";
@@ -215,31 +214,31 @@ const CreateCollection = (props: any) => {
       errors.category = ""
       isValid = true
     }
-    if (val.urls && !urlRegex.test(val.urls)) {
+    if (val.urls && !urlRegex) {
       errors.urls = "Please provide a valid URL.";
       isValid = false;
     } else {
       errors.urls = "";
     }
-    if (val.websiteUrl && !urlRegex.test(val.websiteUrl)) {
+    if (val.websiteUrl && !urlRegex) {
       errors.websiteUrl = "Please provide a valid URL.";
       isValid = false;
     } else {
       errors.websiteUrl = "";
     }
-    if (val.linkedIn && !urlRegex.test(val.linkedIn)) {
+    if (val.linkedIn && !urlRegex) {
       errors.linkedIn = "Please provide a valid URL.";
       isValid = false;
     } else {
       errors.linkedIn = "";
     }
-    if (val.facebook && !urlRegex.test(val.facebook)) {
+    if (val.facebook && !urlRegex) {
       errors.facebook = "Please provide a valid URL.";
       isValid = false;
     } else {
       errors.facebook = "";
     }
-    if (val.twitter && !urlRegex.test(val.twitter)) {
+    if (val.twitter && !urlRegex) {
       errors.twitter = "Please provide a valid URL.";
       isValid = false;
     } else {
