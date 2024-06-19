@@ -85,18 +85,18 @@ const NftCards = ({ NftDetails ,addToFavorites,favoriteLoader,saveView,cardLoade
                                 btnClassName="w-[100%]"
                             > 
                             <div className='px-2 py-2.5'>
-                                <p className='text-xs text-secondary truncate'>{item?.seriesname}</p>
-                                <h2 className='mb-2.5 text-base font-semibold truncate text-secondary'>{item?.name}</h2>
-                                <div className="flex justify-between truncate mb-3 gap-2"> <p className='opacity-60 truncate text-secondary flex-1'>Price</p> <p className='font-semibold text-secondary flex-1 truncate text-right'>{item?.price}{' Matic'}</p> </div>
-                                <div className="flex justify-between gap-2"> <p className='opacity-60 text-secondary flex-1'>Highest bid</p>  <p className='font-semibold text-secondary flex-1 text-right truncate'>{item?.highestBid}{' Matic'}</p> </div>
+                                <p className='text-xs text-secondary truncate text-left'>{item?.seriesname}</p>
+                                <h2 className='mb-2.5 text-base font-semibold truncate text-secondary text-left'>{item?.name}</h2>
+                                <div className="flex justify-between truncate mb-3 gap-2"> <p className='opacity-60 truncate text-secondary flex-1 text-left'>Price</p> <p className='font-semibold text-secondary flex-1 truncate text-right'>{item?.price}{' Matic'}</p> </div>
+                                <div className="flex justify-between gap-2"> <p className='opacity-60 text-secondary flex-1 text-left'>Highest bid</p>  <p className='font-semibold text-secondary flex-1 text-right truncate'>{item?.highestBid}{' Matic'}</p> </div>
                             </div>
                             <hr />
-                            <div className='px-2.5 py-4 flex justify-between'>
+                            <div className='px-2.5 py-4 flex justify-center'>
                                 {/* <div className='flex add-cart cursor-pointer'>
                 <span className='icon card-cart'></span>
                 <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Add to Cart</span>
                                  </div> */}
-                                <div className='w-px border'></div>
+                                {/* <div className='w-px border'></div> */}
                                 <div className='flex shop-card cursor-pointer'>
                                     <span className='icon card-shop'></span>
                                     <span className='font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary'>Buy Now</span>
