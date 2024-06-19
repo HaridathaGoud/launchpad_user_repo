@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer, useRef } from 'react';
-import { useAccount } from 'wagmi';
 import { connect, useDispatch } from 'react-redux';
 import BreadCrumb from '../../../ui/breadcrumb';
 import Button from '../../../ui/Button';
