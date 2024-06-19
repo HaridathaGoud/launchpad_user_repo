@@ -127,11 +127,10 @@ export async function postSigner(url: string, obj: any) {
   });
 }
 
-export function get(url: string, tokenType: string) {
+export function get(url: string) {
   return axios.get(API_END_POINT + `${API_VERSION}${url}`, {
     headers: {
-      Authorization:
-        tokenType === "authorized" ? `${getToken()}` : `${getCombineToken()}`,
+      Authorization:`${getToken()}`,
     },
   });
 }
