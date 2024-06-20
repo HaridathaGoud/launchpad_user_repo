@@ -67,10 +67,10 @@ const sendSelectedValue = (value) => {
                     </ul>
                 </div>
                 <div className="join w-full mt-4">
-                    <button className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content rounded-tl-[25px] rounded-bl-[25px] text-sm font-normal !border-0 flex-1 py-2.5 px-[14px] text-left" 
+                    <button className=" join-item bg-info-content border-0 text-dark hover:bg-info-content rounded-tl-[25px] rounded-bl-[25px] text-sm font-normal !border-0 flex-1 py-2.5 px-[14px] text-left" 
                     onClick={()=>sendSelectedValue("Min")}>Min</button>
-                    <span className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
-                    <button className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content rounded-tr-[25px] rounded-br-[25px] text-sm font-normal flex-1 !border-0 px-[14px] text-right" 
+                    <span className=" join-item bg-info-content border-0 text-dark hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
+                    <button className=" join-item bg-info-content border-0 text-dark hover:bg-info-content rounded-tr-[25px] rounded-br-[25px] text-sm font-normal flex-1 !border-0 px-[14px] text-right" 
                     onClick={()=>sendSelectedValue("Max")}>Max</button>
                 </div>
                 <div className="text-right">

@@ -150,7 +150,7 @@ function MyCollections(props: any) {
             data?.map((item: any) => (
               <div className="">
 
-              <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
+              <div className="card bg-primary-content" onClick={() => handleHotCollectionItem(item)}>
                 <div className="">
                   <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px]" />
                 </div>

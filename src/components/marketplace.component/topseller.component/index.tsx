@@ -42,7 +42,7 @@ const TopSeller = () => {
                 <>
                     <div className="container mx-auto mt-5">
                         <div className="">
-                            <h2 className="mb-4 text-2xl font-semibold">Top Sellers</h2>
+                            <h2 className="mb-4 text-2xl font-semibold text-secondary">Top Sellers</h2>
                         </div>
                         <div className="">
                             {!topSellers.loading && (

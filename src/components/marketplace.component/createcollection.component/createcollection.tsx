@@ -279,14 +279,14 @@ const CreateCollection = (props: any) => {
                           />{' '}
                         </div>
                       )}
-                    <div className="absolute top-3 right-3">
+                    {localState.values.logo && <div className="absolute top-3 right-3">
                       <input
                         type="file"
                         name="myImage"
                         className="icon camera"
                         onChange={(e) => handlePicChange(e, 'logo')}
                       />
-                    </div>
+                    </div>}
                     </div>
                   </div>
                 </div>
@@ -317,6 +317,14 @@ const CreateCollection = (props: any) => {
                         {localState.errors.bannerImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.bannerImage}</span>}
                       </div>
                     )}
+                    {localState.values.bannerImage && <div className="absolute top-3 right-3">
+                      <input
+                        type="file"
+                        name="myImage"
+                        className="icon camera"
+                        onChange={(e) => handlePicChange(e, 'bannerImage')}
+                      />
+                    </div>}
                   </div>
                 </div>
               </div>
@@ -328,10 +336,9 @@ const CreateCollection = (props: any) => {
                   {localState.values.featuredImage && (
                         <img
                           src={localState.values?.featuredImage}
-                          width="350"
-                          height="450"
+                          
                           alt=""
-                          className="object-cover w-full"
+                          className="object-cover h-full w-full"
                         />
                       )}
                     <div>
@@ -352,6 +359,14 @@ const CreateCollection = (props: any) => {
                           {localState.errors.featuredImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.featuredImage}</span>}
                         </div>
                       )}
+                      {localState.values.featuredImage && <div className="absolute top-3 right-3">
+                      <input
+                        type="file"
+                        name="myImage"
+                        className="icon camera"
+                        onChange={(e) => handlePicChange(e, 'featuredImage')}
+                      />
+                    </div>}
                     </div>
                   </div>
                 </div>
