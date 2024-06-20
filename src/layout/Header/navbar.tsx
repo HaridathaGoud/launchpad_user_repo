@@ -58,7 +58,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   return (
     <div
       id="header"
-      className="sticky top-0 z-50 bg-success-content header-shadow"
+      className="sticky top-0 z-[99] bg-success-content header-shadow"
     >
       <div className="navbar bg-success-content container mx-auto lg:px-0 px-3">
         <div className="navbar-start">

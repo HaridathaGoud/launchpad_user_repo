@@ -104,8 +104,8 @@ const setHotCollectionsViewData = (payload:any) => {
     return async (dispatch:any) => {
       dispatch(SetNfts({ key: 'NftDetails', loading: true, data: data }));
       try {
-        // const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all/${currency}/${status}/${search}`);
-        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/15FD0929-71F5-4A01-BA8A-1B50930F0775/10/0/min%20to%20max/all%20items/null/all/null`)
+        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/${status}/${currency}/all/${search}`);
+        // const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/15FD0929-71F5-4A01-BA8A-1B50930F0775/10/0/min%20to%20max/all%20items/null/all/null`)
         if (res.status === 200) {
           dispatch(SetNfts({ key: 'NftDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {

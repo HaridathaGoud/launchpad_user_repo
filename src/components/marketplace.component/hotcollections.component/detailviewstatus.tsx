@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Image from 'react-bootstrap/Image';
+import React, {  useState } from 'react';
 import Button from '../../../ui/Button';
 const StatusDetailview = (props:any) => {
 const [selectedValue, setSelectedValue] = useState('All');
@@ -8,7 +7,7 @@ const [selectedPriceLevel, setSelectedPriceLevel]=useState(null)
 
 const handleChange = (event) => {
     setSelectedValue(event.target.value);
-    props.getNftsDetails(event.target.value);
+    props.getNftsDetails(selectedValue, selectedPricevalue, selectedPriceLevel);
 };
 const handleDropdownChange = (value) => {
     setSelectedPricevalue(value);
@@ -25,28 +24,42 @@ const sendSelectedValue = (value) => {
             <h1 className='text-lg font-semibold text-secondary mb-5'>Status</h1>
             <div className='flex items-center'>
                 <label htmlFor="" className='font-medium text-secondary relative flex items-center'>
-               <input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" 
-                value="All" 
-                checked={selectedValue === 'All'} 
-                onChange={handleChange}/>
+                    <input
+                        type="radio"
+                        name="radio-1"
+                        className="radio opacity-0 z-[1] relative"
+                        value="All"
+                        checked={selectedValue === 'All'}
+                        onChange={handleChange}
+                    />
                 <span>
                     </span>All</label>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" 
-                value="Buy Now"  
-                checked={selectedValue === 'Buy Now'} 
-                onChange={handleChange} /> 
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'>
+                    <input
+                        type="radio"
+                        name="radio-1"
+                        className="radio opacity-0 z-[1] relative"
+                        value="Buy Now"
+                        checked={selectedValue === 'Buy Now'}
+                        onChange={handleChange}
+                    />
                 <span>
                     </span>Buy Now</label>
-                <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" 
-                value="Live auction"  
-                checked={selectedValue === 'Live auction'}
-                 onChange={handleChange} /> <span>
+                <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'>
+                    <input
+                        type="radio"
+                        name="radio-1"
+                        className="radio opacity-0 z-[1] relative"
+                        value="Live auction"
+                        checked={selectedValue === 'Live auction'}
+                        onChange={handleChange}
+                    /> <span>
                     </span>Live auction</label>
             </div>
             <hr className='mt-[28px] mb-4' />
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
                 <div className="dropdown w-full">
-                    <div tabIndex={0} role="button" className="border text-secondary flex border-secondary bg-transparent hover:bg-transparent rounded-[25px] !py-2 !px-[14px]  w-full justify-between">
+                    <div tabIndex={0} className="border text-secondary flex border-secondary bg-transparent hover:bg-transparent rounded-[25px] !py-2 !px-[14px]  w-full justify-between">
                         {selectedPricevalue} <span className='icon drop-arrow'></span></div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
                         <li><a  onClick={() => handleDropdownChange('Matic')}>Matic</a></li>
@@ -54,15 +67,22 @@ const sendSelectedValue = (value) => {
                     </ul>
                 </div>
                 <div className="join w-full mt-4">
-                    <button className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content rounded-tl-[25px] rounded-bl-[25px] text-sm font-normal !border-0 flex-1 py-2.5 px-[14px] text-left" onClick={()=>sendSelectedValue("Min")}>Min</button>
+                    <button className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content rounded-tl-[25px] rounded-bl-[25px] text-sm font-normal !border-0 flex-1 py-2.5 px-[14px] text-left" 
+                    onClick={()=>sendSelectedValue("Min")}>Min</button>
                     <span className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
-                    <button className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content rounded-tr-[25px] rounded-br-[25px] text-sm font-normal flex-1 !border-0 px-[14px] text-right" onClick={()=>sendSelectedValue("Max")}>Max</button>
+                    <button className=" join-item bg-info-content border-0 text-secondary hover:bg-info-content rounded-tr-[25px] rounded-br-[25px] text-sm font-normal flex-1 !border-0 px-[14px] text-right" 
+                    onClick={()=>sendSelectedValue("Max")}>Max</button>
                 </div>
                 <div className="text-right">
-                    <Button children={'Apply'} btnClassName='uppercase mt-[18px] md:min-w-[132px]' type='secondary' handleClick={()=>handleApplyClick()}/>
+                    <Button children={'Apply'} 
+                    btnClassName='uppercase mt-[18px] md:min-w-[132px]' 
+                    type='secondary' 
+                    handleClick={()=>handleApplyClick()}
+                    />
                 </div>
 
               {/* Currently we commented this in feature it required */}
+
                 {/* {props.activeTab === 'nft' && <div >
                     <hr className='mt-[28px] mb-4' />
                     <div className="collapse collapse-arrow ">

@@ -252,7 +252,7 @@ const CreateCollection = (props: any) => {
             <section className="px-9 py-12 h-[350px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
               <div>
                 <div className='z-50 absolute max-sm:bottom-[-100px] md:relative'>
-                  <div className=" flex justify-center items-center text-center p-4 border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px]">
+                  <div className=" flex justify-center items-center text-center border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
                     <div>
                       <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
                       {localState.values.logo && (
@@ -261,13 +261,13 @@ const CreateCollection = (props: any) => {
                           width="250"
                           height="250"
                           alt=""
-                          className="rounded-[28px]"
+                          className="rounded-[28px] object-cover"
                         />
                       )}
                       {!localState.values.logo && (
                         <div >
                           <Button type='plain' btnClassName="icon image-upload c-pointer" handleClick={() => profileRef.current?.click("p")}></Button>
-                          <Button type='plain' btnClassName="text-base text-secondary font-normal cursor-pointer mt-5" handleClick={() => profileRef.current?.click("p")}>  Your Logo </Button>
+                          <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => profileRef.current?.click("p")}>  Your Logo </Button></p>
                           <p className="text-base text-secondary font-normal">  250 X 250  </p>
                           {localState.errors.logo && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.logo}</span>}
                           <input
@@ -278,7 +278,15 @@ const CreateCollection = (props: any) => {
                             onChange={(e) => handlePicChange(e, 'logo')}
                           />{' '}
                         </div>
-                      )}
+                      )}                      
+                    <div className="absolute top-3 right-3">
+                      <input
+                        type="file"
+                        name="myImage"
+                        className="icon camera"
+                        onChange={(e) => handlePicChange(e, 'logo')}
+                      />
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -304,7 +312,7 @@ const CreateCollection = (props: any) => {
                           ref={bannarRef}
                           onChange={(e) => handlePicChange(e, 'bannerImage')}
                         />
-                        <Button type='plain' btnClassName="text-base text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner </Button>
+                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner </Button></p>
                         <p className="text-base text-secondary font-normal">1100 X 350</p>
                         {localState.errors.bannerImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.bannerImage}</span>}
                       </div>
@@ -316,17 +324,18 @@ const CreateCollection = (props: any) => {
             <section className="mt-36 md:mt-9">
               <div className="grid lg:grid-cols-2 gap-6">
                 <div>
-                  <div className="flex justify-center items-center text-center p-4 border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[500px]">
-                    <div>
-                      {localState.values.featuredImage && (
+                  <div className="flex justify-center items-center text-center border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[500px] overflow-hidden">
+                  {localState.values.featuredImage && (
                         <img
                           src={localState.values?.featuredImage}
                           width="350"
                           height="450"
                           alt=""
-                          className=""
+                          className="object-cover w-full"
                         />
                       )}
+                    <div>
+                      
                       {!localState.values.featuredImage && (
                         <div className="" >
                           <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => featureRef.current?.click()}></Button>
@@ -338,7 +347,7 @@ const CreateCollection = (props: any) => {
                             ref={featureRef}
                             onChange={(e) => handlePicChange(e, 'featuredImage')}
                           />
-                          <Button type='plain' btnClassName="text-base text-secondary font-normal cursor-pointer mt-5" handleClick={() => featureRef.current?.click()}> Featured image </Button>
+                          <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => featureRef.current?.click()}> Featured image </Button></p>
                           <p className="text-base text-secondary font-normal">550X450</p>
                           {localState.errors.featuredImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.featuredImage}</span>}
                         </div>
