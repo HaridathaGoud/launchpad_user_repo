@@ -38,7 +38,7 @@ const MaticInput = (props: any) => {
         </p>
         <input
           type="text"
-          className="input disabled:!bg-inherit disabled:!cursor-default focus:outline-none input-bordered w-full !rounded-tr-[28px] !rounded-br-[28px] !rounded-tl-[0px] !rounded-bl-[0px] !border-slate-300 !h-[50px] border-l-0"
+          className="input disabled:!bg-inherit disabled:!cursor-default disabled:!text-[black] focus:outline-none input-bordered w-full !rounded-tr-[28px] !rounded-br-[28px] !rounded-tl-[0px] !rounded-bl-[0px] !border-slate-300 !h-[50px] border-l-0"
           value={props.price.toFixed(8)}
           // onChange={handleInputChange} refer feature/Launchapd_Dao_sprint26 commit name : changes in buymembership and applayout date: 20/06/2024
           disabled
