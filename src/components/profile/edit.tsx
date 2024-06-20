@@ -342,7 +342,7 @@ const ProfileEdit = ({
               htmlFor="profileDiscordId"
               className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
             >
-              Discord ID <span className="text-[red]">*</span>
+              Discord ID <span className="text-[red]"></span>
             </label>
             <input
               id="profileDiscordId"
@@ -358,7 +358,6 @@ const ProfileEdit = ({
                   e.target.value.trim().replace(/\s+/g, " ")
                 );
               }}
-              required
               placeholder="Discord ID"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}
