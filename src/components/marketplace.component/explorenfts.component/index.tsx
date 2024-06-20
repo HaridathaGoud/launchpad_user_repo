@@ -13,7 +13,10 @@ import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer"
 import WalletConnect from "../../../layout/Login/index";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
+import FilterComponent from "../filtercomponent";
+import StatusDetailview from "../hotcollections.component/detailviewstatus";
+import BreadCrumb from "../../../ui/breadcrumb";
 const pageSize = 10;
 const search = null;
 function ExploreNfts(props: any) {
@@ -84,7 +87,7 @@ function ExploreNfts(props: any) {
 
   const navigateToAsset = (item) => {
     navigate(
-      `/marketplace/assets/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
+      `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
     );
   };
   const saveView = async (item) => {
@@ -113,6 +116,7 @@ function ExploreNfts(props: any) {
     <>
       <div ref={scrollableRef}></div>
       <div className="container mx-auto pt-5 px-3 lg:px-0">
+      <BreadCrumb/>
         <h2 className="text-[24px] text-secondary font-semibold mb-3">
           Explore NFTs
         </h2>
@@ -126,7 +130,12 @@ function ExploreNfts(props: any) {
             />
           </Modal>
         }
-        <div className="grid gap-4 lg:grid-cols-5 md:grid-cols-3">
+        <FilterComponent/>
+        <div className='grid md:grid-cols-12 lg:gap-[45px]'>
+          <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
+            <StatusDetailview />
+          </div>
+          <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
           {data &&
             !localState?.loader &&
             data?.map((item: any) => (
@@ -141,10 +150,8 @@ function ExploreNfts(props: any) {
                         ? () => saveView?.(item)
                         : () => navigateToAsset(item)
                     }
-                    type="plain"
-                  >
-                    <div className="">
-                      {" "}
+                    type="plain" btnClassName="w-full"
+                  >  
                       <img
                         src={
                           item?.image && !item?.image?.includes("null")
@@ -161,14 +168,13 @@ function ExploreNfts(props: any) {
                             ? "blur-image"
                             : ""
                         }`}
-                      />
-                    </div>
+                      />                   
                   </Button>
                   <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
                     <Button
                       type="plain"
                       handleClick={() => addToFavorites(item)}
-                      btnClassName="p-2"
+                      btnClassName=""
                     >
                       {localState?.favoriteLoader?.id !== item.id && (
                         <span
@@ -195,10 +201,10 @@ function ExploreNfts(props: any) {
                     btnClassName="w-[100%]"
                   >
                     <div className="px-2 py-2.5">
-                      <p className="text-xs text-secondary truncate">
+                      <p className="text-xs text-secondary truncate text-left">
                         {item.creator}
                       </p>
-                      <h1 className="mb-2.5 text-base font-semibold truncate text-secondary">
+                      <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
                         {" "}
                         {item.name}{" "}
                       </h1>
@@ -253,9 +259,11 @@ function ExploreNfts(props: any) {
               </div>
             ))}
           {data?.length === 0 && !loader && (
-            <NoDataFound text ={''}/>
+            <div className="col-span-5">
+              <NoDataFound text ={''}/>
+            </div>
           )}
-        </div>
+       
         {data?.length === (pageNo - 1) * pageSize && (
           <div className="category-more">
             <div className="text-center mt-5">
@@ -272,6 +280,10 @@ function ExploreNfts(props: any) {
             </div>
           </div>
         )}
+          </div>
+        
+        </div>
+       
       </div>
     </>
   );

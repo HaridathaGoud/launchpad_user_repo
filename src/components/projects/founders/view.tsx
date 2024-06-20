@@ -57,9 +57,9 @@ const FoundingMembersView = () => {
           </>
         )}
         <BreadCrumb/>
-        <h1 className="text-base font-semibold mb-3 mt-5">Founding Members</h1>
+        <h1 className="text-base font-semibold text-secondary mb-3 mt-5">Founding Members</h1>
   
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-7 founding-members">
           {foundingmems.stakersData?.map((item) => (
             <div className="card !bg-base-100 border border-slate-200 transform transition-transform duration-500 hover:scale-[1.03]" key={item.walletAddress}>
               <div className="">
@@ -76,7 +76,7 @@ const FoundingMembersView = () => {
               </div>
               <div className="card-body px-3 py-6 flex flex-row justify-between">
                 <div className="flex-1 overflow-hidden">
-                  <h1 className="text-base font-semibold mb-3 truncate  ">
+                  <h1 className="text-base font-semibold mb-3 truncate  " title={item.userName}>
                   {  item.userName || "--"}
                   </h1>
                   <p className={`opacity-60 mb-3 text-base truncate`}>Earned</p>
@@ -84,7 +84,7 @@ const FoundingMembersView = () => {
                 </div>
                 <div className={`w-px bg-base-200 opacity-20`}></div>
                 <div className="text-right flex-1 truncate">
-                  <h1 className="font-semibold mb-3">
+                  <h1 className="font-semibold text-sm mb-3 flex justify-end" title={item.walletAddress}>
                     {item.walletAddress?.slice(0, 4) +
                       "...." +
                       item.walletAddress?.substring(
@@ -96,7 +96,7 @@ const FoundingMembersView = () => {
                               options={{ format: 'text/plain' }}
                               onCopy={() => handleCopy(item.walletAddress)}
                             >
-                              <span className={copied!==item.walletAddress ? 'icon md copy-icon cursor-pointer ms-0 pl-4' : 'icon md check-icon pl-4'} />
+                              <span className={copied!==item.walletAddress ? 'icon md copy-icon cursor-pointer ms-0 pl-4 shrink-0' : 'icon md check-icon pl-4 shrink-0'} />
                             </CopyToClipboard>
                   </h1>
                   {/* <p className="font-semibold mb-3 truncate">1k Matic</p>

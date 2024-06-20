@@ -139,11 +139,30 @@ const PutOnSale = (props: any) => {
   };
   return (
     <>
-      <Modal id='putonsale'>
-        <div>
-          <h2 className="text-lg text-dark font-semibold mb-4">Put on sale</h2>
-          {/* <span className="icon close c-pointer" onClick={props.handleClose}></span> */}
-        </div>
+      {/* <Modal id='putonsale'> */}
+      <form className="drawer drawer-end">
+      <input
+        id="my-drawer-4"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={props.showModal}
+        // onChange={() => closeDrawer(!isChecked)}
+      />
+      <div className="drawer-side z-[999]">
+        <label
+          htmlFor="my-drawer-4"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+          // onChange={handleDrawerClose}
+        ></label>
+        <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-xl text-secondary font-semibold">Put on sale</p>
+            <button
+              className="icon close cursor-pointer"
+              
+            ></button>
+          </div>
         <div>
 
           <div>
@@ -159,8 +178,9 @@ const PutOnSale = (props: any) => {
                   <p className="error-desc text-start">{saleErrorMsg}</p></div>
               </div></>
             )}
-            <form noValidate validated={validated}>
-              <div className="flex justify-between mb-4">
+            <form noValidate validated={validated} className='mt-28'>
+              <div className='bg-base-300 px-6 py-8 rounded-[20px] my-8'>
+              <div className="flex justify-between mb-4 ">
                 <div>
                   <label className="">Put on sale</label>
                   <p>you'll receive bids on this item</p>
@@ -234,22 +254,32 @@ const PutOnSale = (props: any) => {
                 </label>
                 {/* <Form.Check type="switch" id="custom-switch" disabled/> */}
               </div>
+              </div>
             </form>
           </div>
 
 
 
         </div>
-        <hr className='my-5' />
-        <div className='text-center'> <Button
-          type='secondary'
-          handleClick={(e) => placeONSaleorAuction(e, 'Sale')}
-          disabled={saleLoader}
-        >
-          <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Put on sale
-        </Button>
-        </div>
+        
+            <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
+              <Button
+                btnClassName="w-full mb-4 !min-h-[39px]"
+                type="replyCancel"
+                handleClick={props.handleClose}
+              >
+                Cancel
+              </Button>
 
+              <Button
+                btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
+                type="primary"
+                handleClick={(e) => placeONSaleorAuction(e, 'Sale')}
+                disabled={saleLoader}
+              >
+                <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Put on sale
+              </Button>
+            </div>
         <div className='p-absolute toaster-center'>
           {/* <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0" >
               <Toast show={scuess} className="text-center toster-component">
@@ -259,7 +289,10 @@ const PutOnSale = (props: any) => {
               </Toast>
             </ToastContainer> */}
         </div>
-      </Modal>
+        </div>
+      </div>
+    </form>
+      {/* </Modal> */}
 
     </>
   );

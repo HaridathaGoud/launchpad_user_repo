@@ -137,10 +137,10 @@ export const uploadToIPFS = async (funArgs: any, callbacks: any) => {
       }
       urisFromIPFSData.push(dataFromIPFS.path);
       fileNames.push({
-        fileName: item.serialNo,
+        fileName: item.serialNo || "Game Changer",
         ImageCid: result?.path,
         Description: item.description,
-        nftName: item.name,
+        nftName: item.name  || "Game Changer",
         cid: dataFromIPFS.path,
         coin: crypto,
         price: Number(nftPrice).toFixed(8),

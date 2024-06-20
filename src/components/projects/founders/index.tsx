@@ -6,7 +6,7 @@ import { get } from "../../../utils/api";
 import { setError } from "../../../reducers/layoutReducer";
 import { ProjecViewFoundingmembersShimmer } from "../../loaders/projects/projecViewFoundingmembersShimmer";
 import { Link } from "react-router-dom";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 
@@ -64,7 +64,7 @@ const FoundingMember = (props) => {
                   {/* <span className={` text-base-100 text-xs font-semibold inline-flex items-center justify-center w-6 h-6 bg-primary rounded-[50%] text-center absolute right-[-5px] bottom-0.5 border border-white`}>3%</span> */}
                 </div>
                 <p
-                  className={`text-base font-normal  text-secondary text-center`}
+                  className={`text-base font-normal  text-secondary text-center`} title={item.userName}
                 >
                   {item.userName || "--"}
                 </p>

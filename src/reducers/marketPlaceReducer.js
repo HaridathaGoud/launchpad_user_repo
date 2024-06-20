@@ -6,7 +6,7 @@ const SET_PAGE_NO = 'setPageNoAction'
 
 //dashboard action types
 const FETCH_TOP_SELLERS = "fetchTopSellersAction"
-
+const FETCH_TOP_COLLECTIONS = "featchTopCollections"
 
 
 //Explore NFTs actions
@@ -43,6 +43,12 @@ const fetchTopSellersAction = (payload) => {
     }
 }
 
+const featchTopCollections = (payload) => {
+    return {
+        type: FETCH_TOP_COLLECTIONS,
+        payload
+    }
+}
 //Explore Nfts methods:
 const clearNfts = () => {
     return (dispatch) => {
@@ -51,7 +57,13 @@ const clearNfts = () => {
         dispatch(fetchNftsAction(null))
     }
 }
-
+const clearCollections = () => {
+    return (dispatch) => {
+        dispatch(setLoaderAction(false))
+        dispatch(setPageNoAction(1))
+        dispatch(featchTopCollections(null))
+    }
+}
 const fetchNfts = (data, pageNo = 1, category = 'all', search = null, id = '', take = 10) => {
     const skip = pageNo * take - take;
     return async (dispatch) => {
@@ -90,8 +102,25 @@ const fetchTopSellers = (pageNo = 1, take = 4) => {
     }
 }
 
+const fetchCollections = (data, pageNo = 1, search = null,screenName,customerId) => {
+   let  take = 10
+    const skip = pageNo * take - take;
+    return async (dispatch) => {
+        dispatch(setLoaderAction(true));
+        // const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${category}/${search}/${id}`);
+        const response = screenName === '/marketplace/mycollections' ?  await apiCalls.getMarketplace(`User/GetCustomerCollections/${customerId}`) : await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
+        if (response.status === 200) {
+            const mergedData = skip > 0 ? [...data, ...response.data] : response.data
+            dispatch(featchTopCollections(mergedData));
+            dispatch(setPageNoAction(pageNo + 1))
 
-//Reducers: 
+        } else {
+            dispatch(setErrorAction(response));
+        }
+        dispatch(setLoaderAction(false));
+    }
+}
+//Reducers:
 
 let exploreNtfs = {
     data: null,
@@ -104,6 +133,9 @@ let exploreNtfs = {
 const exploreNtfsReducer = (state = exploreNtfs, action) => {
     switch (action.type) {
         case FETCH_NFTS:
+            state = { ...state, data: action.payload };
+            return state;
+        case FETCH_TOP_COLLECTIONS:
             state = { ...state, data: action.payload };
             return state;
         case SET_LOADER:
@@ -134,6 +166,7 @@ const marketPlaceDashboardReducer = (state = marketPlaceDashboardState, action) 
         case FETCH_TOP_SELLERS:
             state = { ...state, [key]: { ...state[key], ...payload } };
             return state;
+
         case SET_LOADER:
             state = { ...state, loader: action.payload }
             return state;
@@ -150,4 +183,4 @@ const marketPlaceDashboardReducer = (state = marketPlaceDashboardState, action) 
 
 const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer }
 export default marketPlaceReducer
-export { fetchNfts, clearNfts,fetchTopSellers };
+export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections };

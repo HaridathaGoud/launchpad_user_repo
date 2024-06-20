@@ -48,8 +48,8 @@ const CastandCrewMembersView = () => {
         )}
       </div>
       <BreadCrumb/>
-      <h1 className="text-base font-semibold mb-3 mt-5">Cast & Crew</h1>
-      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-7 founding-members">
+      <h1 className="text-base text-secondary font-semibold mb-3 mt-5">Cast & Crew</h1>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-7 founding-members">
         {castandcrews.cast_Crews?.map((item) => (
           <div className="card !bg-base-100 border border-slate-200 transform transition-transform duration-500 hover:scale-[1.03]" key={item.image+item.name}>
             <div className="">
@@ -61,7 +61,7 @@ const CastandCrewMembersView = () => {
             </div>
             <div className="card-body px-3 py-6 flex flex-row justify-between">
               <div className="flex-1">
-                <h1 className="text-base font-semibold mb-3 truncate">
+                <h1 className="text-base font-semibold mb-3 truncate" title={item.name}>
                   {item.name}
                 </h1>
                 <p className={`opacity-60 mb-3 text-base`}>Role</p>
@@ -70,8 +70,8 @@ const CastandCrewMembersView = () => {
               <div className={`w-px bg-base-200 opacity-20`}></div>
               <div className="text-right flex-1 truncate">
                 <h1 className="font-semibold mb-3">-</h1>            
-                <p className="font-semibold mb-3 truncate">{item.role}</p>               
-                <p className="font-semibold mb-3 truncate">
+                <p className="font-semibold mb-3 truncate" title={item.role}>{item.role}</p>               
+                <p className="font-semibold mb-3 truncate" title={item.bio}>
                   {item.bio || '--'}
                 </p>
               </div>

@@ -19,7 +19,7 @@ import BuyComponent from "../../../utils/buyNow";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import Moment from "react-moment";
 import Confirmations from "../../confirmation.modal";
-import defaultlogo from "../../../assets/images/default-logo.png";
+import defaultlogo from "../../../assets/images/default-bg.png";
 import useCopyToClipboard from "../../../hooks/useCopytoClipboard";
 import error from "../../../assets/images/error.svg";
 import ToastContainer from "react-bootstrap/ToastContainer";
@@ -33,12 +33,14 @@ import Button from "../../../ui/Button";
 import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { Modal, modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
+import thorntf from "../../../assets/images/thor.jpg"
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
-
+  const [showCancelSale, setshowCancelSale] = useState(false);
   const [show, setShow] = useState(false);
+  const [showdrawer, setshowdrawer] = useState(false);
   const [showBid, setShowBid] = useState(false);
   const [showBuyModal, setShowBuyModal] = useState(false);
   const [showAuction, setShowAuction] = useState(false);
@@ -75,6 +77,7 @@ const DetailPage = (props: any) => {
   const [acceptbtnLoader, setAcceptbtnLoader] = useState(false);
   const { tokenId, collectionAddress, nftId } = useParams();
   const [isCopied, handleCopy] = useCopyToClipboard();
+  const [isChecked, setIsChecked] = useState(false)
   const {
     getSignatureForBid,
     acceptBid,
@@ -132,6 +135,7 @@ const DetailPage = (props: any) => {
     // setShow(false);
     modalActions("putonsale", "close");
     modalActions("putonauction", "close");
+    setIsChecked(false)
     setSaleErrorMsg(false);
     setShowBuyModal(false);
     setSaveObj({
@@ -144,10 +148,11 @@ const DetailPage = (props: any) => {
   };
   const handleShow = (type: any) => {
     if (type == "sale") {
-      // setShow(true);
+      setShow(true);
       modalActions("putonsale", "open");
     } else if (type == "auction") {
       modalActions("putonauction", "open");
+      setIsChecked(true)
     }
     setSaveObj({
       tokenId: "",
@@ -414,6 +419,7 @@ const DetailPage = (props: any) => {
     setCancelType(val);
     // setCancelShow(true);
     modalActions("cancelsale", "open");
+    setshowCancelSale(true)
   };
   const handleCancelConfirm = () => {
     modalActions("cancelsale", "close");
@@ -651,7 +657,7 @@ const DetailPage = (props: any) => {
     await postMarketplace(`User/SaveViewer`, obj)
       .then((response: any) => {
         router(
-          `/marketplace/assets/${item.tokenId}/${
+          `/marketplace/nft/${item.tokenId}/${
             item?.collectionContractAddress || item?.creatorWalletAddress
           }/${item.id}`
         );
@@ -666,7 +672,7 @@ const DetailPage = (props: any) => {
   const notConnectCollectionClick = (item) => {
     scrollableRef.current.scrollIntoView(0, 0);
     router(
-      `/marketplace/assets/${item.tokenId}/${
+      `/marketplace/nft/${item.tokenId}/${
         item?.collectionContractAddress || item?.creatorWalletAddress
       }/${item.id}`
     );
@@ -692,7 +698,7 @@ const DetailPage = (props: any) => {
   return (
     <>
       <div ref={scrollableRef}></div>
-      <div className="container mx-auto px-3 lg-px-0">
+      <div className="container nft-detailview mx-auto px-3 lg-px-0">
         {errorMsg && (
           // <Alert variant="danger">
           //   <Image className='validation-error' src={validError} />
@@ -758,8 +764,8 @@ const DetailPage = (props: any) => {
         )) || (
           <>
             <section className="mt-5">
-              <div className="grid md:grid-cols-12 gap-[40px]">
-                <div className="md:col-span-5">
+              <div className="grid lg:grid-cols-12 gap-[40px]">
+                <div className="lg:col-span-5">
                   <div className="relative">
                     <div className="flex justify-between items-center absolute top-5 w-full px-5">
                       <div>
@@ -796,7 +802,7 @@ const DetailPage = (props: any) => {
                         //src={nftDetails?.image ? nftDetails?.image: defaultlogo }
                         alt=""
                         // className="detail-image"
-                        className={`${
+                        className={` h-[516px] ${
                           nftDetails?.isUnlockPurchased &&
                           address?.toLowerCase() !==
                             nftDetails?.creatorWalletAddress?.toLowerCase()
@@ -990,14 +996,15 @@ const DetailPage = (props: any) => {
                     </div>
                   </div>
                 </div>
-                <div className="md:col-span-7">
+                <div className="lg:col-span-7">
                   <div className="p-0">
                     <div className="">
                       <div className="flex justify-between items-start mb-3 sm:mt-2">
                         <h1 className="text-3xl text-secondary font-semibold mb-3">
-                          {nftDetails?.name}
+                          {nftDetails?.name|| '--'}
                         </h1>
                         <DropdownMenus
+                        dropdownClass="dropdown-end"
                           btnContent={
                             <>
                               <span className="icon dots transform rotate-90"></span>
@@ -1006,49 +1013,7 @@ const DetailPage = (props: any) => {
                           dropdownList={dropdownList}
                         ></DropdownMenus>
                         {/* {nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
-                        <NavDropdown
-                          title={<span className="icon more-nav"></span>}
-                          id="basic-nav-dropdown"
-                          className="detailpage-navmenu"
-                        >
-                          {/* {!nftDetails?.isPutonSale &&
-                              !nftDetails?.isPutOnAuction &&
-                              nftDetails?.ownerAddress?.toLowerCase() == address?.toLowerCase() && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => handleShow("sale")}
-                          >
-                            Put on sale
-                          </NavDropdown.Item>
-                          {/* )} */}
-                          {/* {!nftDetails?.isPutOnAuction && !nftDetails?.isPutonSale && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => handleShow("auction")}
-                          >
-                            Put on auction
-                          </NavDropdown.Item>
-                          {/* )} */}
-
-                          {/* {nftDetails?.saleType == 'auction' ||
-                              (nftDetails?.saleType == 'Auction' && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => cancelAuctionorsale("auction")}
-                          >
-                            Cancel auction
-                          </NavDropdown.Item>
-                          {/* ))} */}
-                          {/* {nftDetails?.saleType == 'sale' ||
-                              (nftDetails?.saleType == 'Sale' && ( */}
-                          <NavDropdown.Item
-                            href=""
-                            onClick={() => cancelAuctionorsale("sale")}
-                          >
-                            Cancel Sale
-                          </NavDropdown.Item>
-                          {/* ))} */}
-                        </NavDropdown>
+                       
                         {/* )} */}
                       </div>
                       {/* modal  */}
@@ -1084,129 +1049,174 @@ const DetailPage = (props: any) => {
                           collectionAddress={collectionAddress}
                         ></BuyComponent>
                       )}
-                      <Modal id="putonauction">
-                        <div className="p-4 justify-content-between">
-                          <h2 className="text-lg text-dark font-semibold">
-                            Checkout
-                          </h2>
-                          {/* <span className="icon close c-pointer" onClick={handleClose}></span> */}
-                        </div>
-                        <div className="text-center">
-                          {saleLoader && <Spinner></Spinner>}
-                        </div>
-                        {!saleLoader && (
-                          <div className="p-4 pb-2">
-                            {saleErrorMsg && (
-                              <div className="cust-error-bg">
-                                <div className="mr-4">
-                                  <img src={error} alt="" />
-                                </div>
-                                <div>
-                                  <div>
-                                    <img
-                                      className="validation-error"
-                                      src={validError}
-                                    />
-                                    <span>{saleErrorMsg}</span>
+                      {/* putonauction drawer start  */}
+                      {/* <Modal id="putonauction"> */}
+                      <form className="drawer drawer-end">
+                        <input
+                          id="my-drawer-4"
+                          type="checkbox"
+                          className="drawer-toggle"
+                          checked={isChecked}
+                        // onChange={() => closeDrawer(!isChecked)}
+                        />
+                        <div className="drawer-side z-[999]">
+                          <label
+                            htmlFor="my-drawer-4"
+                            aria-label="close sidebar"
+                            className="drawer-overlay"
+                          // onChange={handleDrawerClose}
+                          ></label>
+                          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xl text-secondary font-semibold">Checkout</p>
+                              <button
+                                className="icon close cursor-pointer"
+                                onClick={()=>setIsChecked(!isChecked)}
+                              ></button>
+                            </div>
+                            <div className="text-center">
+                              {saleLoader && <Spinner></Spinner>}
+                            </div>
+                            {!saleLoader && (
+                              <div className="p-4 pb-2">
+                                {saleErrorMsg && (
+                                  <div className="cust-error-bg">
+                                    <div className="mr-4">
+                                      <img src={error} alt="" />
+                                    </div>
+                                    <div>
+                                      <div>
+                                        <img
+                                          className="validation-error"
+                                          src={validError}
+                                        />
+                                        <span>{saleErrorMsg}</span>
+                                      </div>
+                                      <p className="error-title error-red text-start">
+                                        Error
+                                      </p>
+                                      <p className="error-desc text-start">
+                                        {saleErrorMsg}
+                                      </p>
+                                    </div>
                                   </div>
-                                  <p className="error-title error-red text-start">
-                                    Error
-                                  </p>
-                                  <p className="error-desc text-start">
-                                    {saleErrorMsg}
-                                  </p>
+                                )}
+
+                                <p className="text-dark mt-5">
+                                  NFT Marketplace is the platform where users can
+                                  purchase NFT assets directly from creator, Users
+                                  need to pay for the gas fee as well as platform
+                                  fee before purchasing the NFT. User can purchase
+                                  NFT also through bidding, where creator will
+                                  accept a price from the user
+                                </p>
+                              
+                                <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
+                                
+                                <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Service fee
+                              </p>
+                              <p className="text-end truncate text-secondary font-semibold">
+                              0.0000 ETH
+                              </p>
+                            </div>
+                                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">
+                                    Auction Price
+                                  </label>
+                                  <input
+                                    placeholder="Ex: 0.01 WMATIC"
+                                    aria-label="Username"
+                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                    onChange={(value) => handleChange(value)}
+                                  />
                                 </div>
                               </div>
                             )}
-
-                            <p className="text-dark">
-                              NFT Marketplace is the platform where users can
-                              purchase NFT assets directly from creator, Users
-                              need to pay for the gas fee as well as platform
-                              fee before purchasing the NFT. User can purchase
-                              NFT also through bidding, where creator will
-                              accept a price from the user
-                            </p>
-                            <div className="flex justify-between items-center gap-4 my-4">
-                              <label className="text-sm shrink-0 text-secondary opacity-50">
-                                Service fee
-                              </label>
-                              <p className="text-secondary truncate">
-                                0.0000 ETH
-                              </p>
-                            </div>
-                            <div className="mb-4">
-                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">
-                                Auction Price
-                              </label>
-                              <input
-                                placeholder="Ex: 0.01 WMATIC"
-                                aria-label="Username"
-                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                                onChange={(value) => handleChange(value)}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        <hr className="mb-4" />
-                        <div className="text-center">
+                           <div className="mt-40 lg:max-w-[300px] lg:mx-auto mb-5">
                           <Button
-                            btnClassName="custom-btn"
-                            type="secondary"
+                            btnClassName="w-full mb-4 !min-h-[39px]"
+                            type="replyCancel"
+                            handleClick={()=>setIsChecked(!isChecked)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            btnClassName="w-full !min-h-[39px] lg:px-3"
+                            type="primary"
                             disabled={saleLoader}
                             handleClick={() => placeONSaleorAuction("Auction")}
                           >
-                            <span>
-                              {btnLoader && (
-                                <Spinner size="sm" className="text-base-100" />
-                              )}{" "}
-                            </span>{" "}
+                            {btnLoader && (
+                                    <Spinner size="sm" className="text-base-100" />
+                                  )}
                             Put on Auction
                           </Button>
                         </div>
-                      </Modal>
-
-                      <Modal id="cancelsale">
-                        <div className="">
-                          <div className="text-lg text-dark font-semibold">
-                            Confirmation
-                          </div>
-                          <div>
-                            {/* <span
-                                className="icon close c-pointer modal-position"
-                                onClick={handleCancelConfirm}
-                              ></span> */}
                           </div>
                         </div>
+                      </form>
+                      {/* </Modal> */}
+                      {/* putonauction drawer end  */}
+                                  {/* cancel sale drawer start  */}
+                      {/* <Modal id="cancelsale"> */}
+                      <form className="drawer drawer-end">
+                        <input
+                          id="my-drawer-4"
+                          type="checkbox"
+                          className="drawer-toggle"
+                          checked={showCancelSale}
+                        // onChange={() => closeDrawer(!isChecked)}
+                        />
+                        <div className="drawer-side z-[999]">
+                          <label
+                            htmlFor="my-drawer-4"
+                            aria-label="close sidebar"
+                            className="drawer-overlay"
+                          // onChange={handleDrawerClose}
+                          ></label>
+                          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xl text-secondary font-semibold">Confirmation</p>
+                              <button
+                                className="icon close cursor-pointer"
+                                  onClick={()=>setshowCancelSale(!showCancelSale)}
+                              ></button>
+                            </div>
+                       
 
-                        <div>
-                          <p className="text-dark my-8">
-                            Are you sure, Do you want to cancel {cancelType}?
-                          </p>
+                            <div>
+                              <p className="text-dark my-8">
+                                Are you sure, Do you want to cancel {cancelType}?
+                              </p>
+                            </div>
+                           
+                            <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
+                              <Button
+                                type="replyCancel"
+                                handleClick={() => cancelSaleConfirm("No")}
+                                btnClassName="w-full mb-4 !min-h-[39px]"
+                              >
+                                No
+                              </Button>
+                              <Button
+                                type="primary"
+                                handleClick={() => cancelSaleConfirm("Yes")}
+                                btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
+                              >
+                                <span>
+                                  {btnLoader && (
+                                    <Spinner size="sm" className="text-base-100" />
+                                  )}{" "}
+                                </span>{" "}
+                                Yes
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                        <hr className="mb-4" />
-                        <div className="flex justify-center">
-                          <Button
-                            type="cancel"
-                            handleClick={() => cancelSaleConfirm("No")}
-                          >
-                            No
-                          </Button>
-                          <Button
-                            type="secondary"
-                            handleClick={() => cancelSaleConfirm("Yes")}
-                            btnClassName="custom-btn ms-2"
-                          >
-                            <span>
-                              {btnLoader && (
-                                <Spinner size="sm" className="text-base-100" />
-                              )}{" "}
-                            </span>{" "}
-                            Yes
-                          </Button>
-                        </div>
-                      </Modal>
-
+                      </form>
+                      {/* </Modal> */}
+ {/* cancel sale drawer end  */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <label className="font-semibold text-secondary">
@@ -1307,7 +1317,7 @@ const DetailPage = (props: any) => {
                   </div>
 
                   <div className="md:flex items-center justify-between mt-4">
-                    {nftDetails?.ownerAddress != address && (
+                    {/* {nftDetails?.ownerAddress != address && ( */}
                       <div>
                         {nftDetails?.saleType == "sale" ||
                           (nftDetails?.saleType == "Sale" &&
@@ -1320,7 +1330,7 @@ const DetailPage = (props: any) => {
                               >
                                 Buy Now
                               </Button>
-                            ))}
+                            ))} 
                         {nftDetails?.saleType == "sale" ||
                           (nftDetails?.saleType == "Sale" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
@@ -1331,7 +1341,7 @@ const DetailPage = (props: any) => {
                               >
                                 Place a bid
                               </Button>
-                            ))}
+                            ))} 
                         {nftDetails?.saleType == "auction" ||
                           (nftDetails?.saleType == "Auction" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
@@ -1339,14 +1349,15 @@ const DetailPage = (props: any) => {
                               <Button
                                 type="cancel"
                                 handleClick={getCheckPlaceBid}
+                                btnClassName="ml-2.5"
                               >
                                 Place a bid
                               </Button>
                             ))}
                       </div>
-                    )}
+                    {/*  )} */}
                     <div
-                      className={`max-sm:mt-4 border border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
+                      className={`max-sm:mt-4 border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
                     >
                       <span
                         className={`detail-minus icon cursor-pointer`}
@@ -1362,7 +1373,7 @@ const DetailPage = (props: any) => {
                   <h2 className="text-base font-semibold text-secondary mt-9 mb-3.5">
                     Properties
                   </h2>
-                  <div className="grid md:grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
                         OG Wearables Charge
@@ -1372,174 +1383,323 @@ const DetailPage = (props: any) => {
                     </div>
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
-                        OG Wearables Charge
+                      Rarity
                       </p>
-                      <p className="text-secondary font-semibold my-1">Used</p>
-                      <p className="text-secondary">7% have this trait</p>
+                      <p className="text-secondary font-semibold my-1">Very Common</p>
+                      <p className="text-secondary">67% have this trait</p>
                     </div>
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
-                        OG Wearables Charge
+                      Space Doodles Charge
                       </p>
-                      <p className="text-secondary font-semibold my-1">Used</p>
-                      <p className="text-secondary">7% have this trait</p>
+                      <p className="text-secondary font-semibold my-1">Available</p>
+                      <p className="text-secondary">100% have this trait</p>
                     </div>
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
-                        OG Wearables Charge
+                      Type
                       </p>
-                      <p className="text-secondary font-semibold my-1">Used</p>
-                      <p className="text-secondary">7% have this trait</p>
+                      <p className="text-secondary font-semibold my-1">Dooplicator</p>
+                      <p className="text-secondary">100% have this trait</p>
                     </div>
                   </div>
                 </div>
-                <Modal id="placebid">
-                  <div className="">
-                    <h2 className="text-lg text-dark font-semibold mb-4">
-                      Place a Bid
-                    </h2>
-                    {/* <span className="icon close c-pointer" onClick={handleCloseBid}></span> */}
-                  </div>
-
-                  <form
-                    noValidate
-                    validated={validated}
-                    onSubmit={(e) => placeBid(e)}
-                  >
-                    <div className="">
-                      <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm shrink-0 text-secondary opacity-50">
-                          Price
-                        </p>
-                        <p className="truncate text-secondary">
-                          {nftDetails?.price}{" "}
-                          <span>{nftDetails?.currency}</span>
-                        </p>
-                      </div>
-                      <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm shrink-0 text-secondary opacity-50">
-                          Buyer Fee
-                        </p>
-                        <p className="truncate text-secondary">
-                          {percentageValue} <span>{nftDetails?.currency}</span>
-                        </p>
-                      </div>
-                      <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm shrink-0 text-secondary opacity-50">
-                          Total Price
-                        </p>
-                        <p className="truncate text-secondary">
-                          {totalBuyValue} <span>{nftDetails?.currency}</span>
-                        </p>
-                      </div>
-                      <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                          Your Bid *
-                        </label>
-                        <input
-                          type="text"
-                          name="value"
-                          aria-label="Username"
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                          placeholder="Bidding Amount"
-                          onChange={(e) => handleChange(e, "bid")}
-                          isInvalid={!!validationError}
-                          feedback={validationError}
-                          required
-                          maxLength={13}
-                        />
-                        {validationError && (
-                          <>
-                            {" "}
-                            <p type="invalid">
-                              Please provide valid Bid Value.
-                            </p>
-                          </>
-                        )}
-                      </div>
-                      <div className="mb-4">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                          Crypto Type
-                        </label>
-                        <div className="relative ">
-                          <select
-                            aria-label="Default select example"
-                            className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                          >
-                            <option>MATIC</option>
-                            <option value="1">WMATIC</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="mb-5">
-                        <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                          Buy Price
-                        </label>
-                        <input
-                          placeholder="0.01 WETH"
-                          aria-label="Username"
-                          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                        />
-                      </div>
-                      <div className="">
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Your balance
-                          </p>
-                          <p className="truncate text-secondary">
-                            <span className=""> {data?.formatted}</span>{" "}
-                            <span className="">{nftDetails?.currency}</span>
-                          </p>
-                        </div>
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Your bidding balance
-                          </p>
-                          <p className="truncate text-secondary">
-                            0.0025 Matic
-                          </p>
-                        </div>
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Service fee
-                          </p>
-                          <p className="text-end truncate text-secondary">
-                            0.0025 WMatic
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm shrink-0 text-secondary opacity-50">
-                            Total bid amount
-                          </p>
-                          <p className="text-end truncate text-secondary">
-                            {0.0025 + data?.formatted} {nftDetails?.currency}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr className="mt-4" />
-                    <div className="mt-4 flex justify-center items-center">
-                      <Button
-                        btnClassName="custom-btn cancel-btn c-pointer"
-                        type="cancel"
-                        handleClick={handleCloseBid}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        btnClassName="custom-btn c-pointer ms-3"
-                        type="secondary"
-                        disabled={btnLoader}
-                      >
-                        <span>{btnLoader && <Spinner size="sm" />} </span>
-                        Place a bid
-                      </Button>
-                    </div>
-                  </form>
-                </Modal>
+            
               </div>
             </section>
+            {/* place a bid drawer start  */}
+              <form  className="drawer drawer-end">
+                  <input
+                    id="placebid"
+                    type="checkbox"
+                    className="drawer-toggle"
+                    checked={false}
+                  // onChange={() => closeDrawer(!isChecked)}
+                  />
+                  <div className="drawer-side z-[999]">
+                    <label
+                      htmlFor="my-drawer-4"
+                      aria-label="close sidebar"
+                      className="drawer-overlay"
+                    // onChange={handleDrawerClose}
+                    ></label>
+                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+                      <div className="flex justify-between items-center my-2">
+                        <h2 className="text-lg text-dark font-semibold mb-0">
+                          Place a Bid
+                        </h2>
+                        <span className="icon close cursor-pointer" ></span>
+                      </div>
 
+                      <form
+                        noValidate
+                        validated={validated}
+                        onSubmit={(e) => placeBid(e)}
+                      >
+                      {  <>
+                        <div className="">
+                       
+                          <div className="flex gap-5 items-center mt-10 mb-12">
+                         
+                        <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
+                          <div className="">
+                          
+                          
+                              <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
+                              Thor 3d #1654
+                              </p>
+                          
+                              <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                              Current Price
+                              </p>
+                              <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
+                              <span className=""> {data?.formatted || "--"}</span>{" "}
+                                <span className="">{nftDetails?.currency || "--"}</span>
+                              </p>
+                          </div>
+                        </div>
+                          <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
+                          <div className="mb-4 flex items-center justify-between px-4">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Price
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                                
+                                {nftDetails?.price || "--"}{" "}
+                              <span>{nftDetails?.currency || "--"}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between px-4">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Buyer Fee
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                              {percentageValue || "--"} <span>{nftDetails?.currency || "--"}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between px-4">
+                              <p className="text-sm shrink-0 text-secondary ">
+                              Total Price
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                              {totalBuyValue} <span>{nftDetails?.currency}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                Your Bid *
+                              </label>
+                              <input
+                                type="text"
+                                name="value"
+                                aria-label="Username"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                                placeholder="Bidding Amount"
+                                onChange={(e) => handleChange(e, "bid")}
+                                isInvalid={!!validationError}
+                                feedback={validationError}
+                                required
+                                maxLength={13}
+                              />
+                              {validationError && (
+                                <>
+                                  {" "}
+                                  <p type="invalid">
+                                    Please provide valid Bid Value.
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                            <div className="mb-4">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                Crypto Type
+                              </label>
+                              <div className="relative ">
+                                <select
+                                  aria-label="Default select example"
+                                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 !bg-white"
+                                >
+                                  <option>MATIC</option>
+                                  <option value="1">WMATIC</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="mb-5">
+                              <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
+                                Buy Price
+                              </label>
+                              <input
+                                placeholder="0.01 WETH"
+                                aria-label="Username"
+                                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                              />
+                            </div>
+                            <div className="px-4">
+                            <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Your balance
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                                <span className=""> {data?.formatted}</span>{" "}
+                                <span className="">{nftDetails?.currency}</span>
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Your bidding balance
+                              </p>
+                              <p className="truncate text-secondary font-semibold">
+                                0.0025 Matic
+                              </p>
+                            </div>
+                            <div className="mb-4 flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Service fee
+                              </p>
+                              <p className="text-end truncate text-secondary font-semibold">
+                                0.0025 WMatic
+                              </p>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm shrink-0 text-secondary ">
+                                Total bid amount
+                              </p>
+                              <p className="text-end truncate text-secondary font-semibold">
+                                {0.0025 + data?.formatted} {nftDetails?.currency}
+                              </p>
+                            </div>
+                          </div>
+                          </div>
+                          
+                        </div>
+
+                        <div className="mt-16 lg:max-w-[250px] lg:mx-auto mb-5">
+                          <Button
+                            btnClassName="w-full mb-4 !min-h-[39px]"
+                            type="replyCancel"
+                            handleClick={handleCloseBid}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
+                            type="primary"
+                            disabled={btnLoader}
+                          >
+                            <span>{btnLoader && <Spinner size="sm" />} </span>
+                            Place a bid
+                          </Button>
+                        </div>
+                        </>}
+                        {/* success section start */}
+                        {
+                          
+                        //   <div className='text-center relative mt-16'>   
+                        // <img src={validSuccess} alt="" className=' mx-auto ' />         
+                        // <div className='z-[1] relative'>
+                        // <img src={success} alt="" className='w-[124px] mx-auto' />
+                        // <h1 className='text-[28px] text-[#15AB3D] font-semibold mt-3'>Congratulations!</h1>
+                        // <p className='text-[18px] font-semibold text-secondary mt-4'>You Won this NFT</p>
+                        // </div>
+                        
+                        // <div className="flex gap-5 items-center mt-10 mb-12 justify-center">
+                         
+                        //  <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
+                        //    <div className="">
+                           
+                           
+                        //        <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0 text-left">
+                        //        Thor 3d #1654
+                        //        </p>
+                           
+                        //        <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0 text-left">
+                        //        Current Price
+                        //        </p>
+                        //        <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0 text-left">
+                        //        <span className=""> {data?.formatted || "--"}</span>{" "}
+                        //          <span className="">{nftDetails?.currency || "--"}</span>
+                        //        </p>
+                        //    </div>
+                        //  </div>
+                        // </div>
+                         
+                         }
+                          {/* success section end */}
+                      </form>
+                    </div>
+                  </div>
+                </form>
+                {/* place a bid drawer end  */}
+                {/* buy now drawer start  */}
+                <form  className="drawer drawer-end">
+                  <input
+                    id="placebid"
+                    type="checkbox"
+                    className="drawer-toggle"
+                    checked={false}
+                  // onChange={() => closeDrawer(!isChecked)}
+                  />
+                  <div className="drawer-side z-[999]">
+                    <label
+                      htmlFor="my-drawer-4"
+                      aria-label="close sidebar"
+                      className="drawer-overlay"
+                    // onChange={handleDrawerClose}
+                    ></label>
+                    <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+                      <div className="flex justify-between items-center">
+                        <h2 className="text-lg text-dark font-semibold mb-4">
+                          Place a Bid
+                        </h2>
+                        <span className="icon close cursor-pointer" ></span>
+                      </div>
+
+                      <form
+                        noValidate
+                        validated={validated}
+                        onSubmit={(e) => placeBid(e)}
+                      >
+                        <div className="flex gap-5 items-center mt-10">
+                         
+                        <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
+                          <div className="">
+                          
+                          
+                              <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
+                              Thor’s Hammer
+                              </p>
+                          
+                              <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                              Current Price
+                              </p>
+                              <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
+                              0.003 Matic
+                              </p>
+                          </div>
+                        </div>
+
+                        <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5">
+                          <Button
+                            btnClassName="w-full mb-4 !min-h-[39px]"
+                            type="replyCancel"
+                            handleClick={handleCloseBid}
+                          >
+                            Place A Bid
+                          </Button>
+                          <Button
+                            btnClassName="w-full !min-h-[39px] lg:px-3"
+                            type="primary"
+                            disabled={btnLoader}
+                          >
+                            <span>{btnLoader && <Spinner size="sm" />} </span>
+                            Own with 0.003Matic / $1.32
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </form>
+                {/* buy now drawer end  */}
             <h3 className="text-[24px] font-semibold text-secondary mb-1 mt-6">
               Bidding Details
             </h3>
@@ -1625,18 +1785,17 @@ const DetailPage = (props: any) => {
               </table>
               {bidData.length == 0 && (
                 <>
-                  <div className="text-center">
-                    <img src={nodata} alt="" className='mx-auto w-[95px]' />
-                    <h3 className="text-center text-secondary mt-2">No data found</h3>
-                  </div>
+                  <NoDataFound text ={''}/>
                 </>
               )}
             </div>
-            <section className="mt-5 ">
-              <h2 className="text-[24px] font-semibold text-secondary mb-1 mt-6">
+            <section className="mt-5">
+              <h2 className="text-[24px] font-semibold text-secondary mb-5 mt-6">
                 More from this collection
               </h2>
-              <div className="relative">
+              <div className="min-h-[250px]">
+
+              {moreCollection?.length !==0 && <div className="relative">
                 <div className="carousel gap-4 flex py-2 px-2 md:px-14">
                   {moreCollection?.map((item) => (
                     <div className="carousel-item shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]" key={item.name+item.walletAddress+item.image}>
@@ -1732,13 +1891,15 @@ const DetailPage = (props: any) => {
                   <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
                   <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
                 </div>
-              </div>
+              </div>}
               {moreCollection.length == 0 && (
                 <>
                   <NoDataFound text ={''}/>
                 </>
               )}
+              </div>
             </section>
+           
           </>
         )}
       </div>

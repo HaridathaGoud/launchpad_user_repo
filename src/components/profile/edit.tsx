@@ -119,13 +119,13 @@ const ProfileEdit = ({
         className="drawer-toggle"
         checked={isChecked}
       />
-      <div className="drawer-side z-10">
+      <div className="drawer-side z-[999]">
         <label
           htmlFor="my-drawer-4"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-20">
+        <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex items-center justify-between">
             <p className="text-xl text-secondary font-semibold">Edit Profile</p>
             <button
@@ -363,7 +363,6 @@ const ProfileEdit = ({
                   e.target.value.trim().replace(/\s+/g, " ")
                 );
               }}
-              required
               placeholder="Discord ID"
               maxLength={50}
               disabled={toasterMessage || state.buttonLoader}

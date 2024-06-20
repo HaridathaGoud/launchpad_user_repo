@@ -22,10 +22,14 @@ import ProposalsPageShimmer from "../components/loaders/daos/proposalsPageShimme
 import ProposalPageShimmer from "../components/loaders/daos/proposalPageShimmer";
 import PageSpinner from "./pageSpinner";
 import ProtectedRoute from "./protectedRoute";
-import MinnapadDashboard from "../components/strapi/minnapaddashboard";
+// import MinnapadDashboard from "../components/strapi/minnapaddashboard";
 import AboutUs from "../components/strapi/aboutus";
 import Docs from "../components/strapi/docs";
 import PortfolioShimmer from "../components/loaders/portfolioshimmer";
+import CreatenftComponent from "../components/marketplace.component/createnft.component";
+import Createcollection from "../components/marketplace.component/createcollection.component/createcollection";
+import HotcollectionView from "../components/marketplace.component/hotcollections.component/hotcollectionsview";
+import CategoryView from "../components/marketplace.component/browsebycategory.component/categoryview";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -43,7 +47,7 @@ const Staking = React.lazy(() => import("../components/staking"));
 const Tiers = React.lazy(() => import("../components/tiers"));
 const SumSub = React.lazy(() => import("../components/sumsub"));
 const Marketplace = React.lazy(
-  () => import("../components/marketplace.component/index")
+  () => import("../components/marketplace.component/dashboard.component")
 );
 const Daos = React.lazy(() => import("../components/Dao/dashboard/index"));
 const Proposals = React.lazy(() => import("../components/Dao/proposals/index"));
@@ -97,7 +101,7 @@ const Routes = () => {
         },
         { path: "/faq", element: <Faq />, errorElement: <ErrorPage /> },
         {
-          path: "/profile",
+          path: "/profile/:walletAddress?",
           element: (
             <React.Suspense fallback={<ProfileShimmer />}>
               <ProtectedRoute>
@@ -184,27 +188,52 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace",
+          path: "/marketplace/home",
           element: <Marketplace />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/explorenfts",
+          path: "/marketplace/explore",
           element: <ExploreNfts />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/topsellerdetailview",
+          path: "/marketplace/nft/create",
+          element: <CreatenftComponent />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collection/create",
+          element: <Createcollection />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collection/:collectionid/view",
+          element: <HotcollectionView />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collection/:id",
           element: <TopsellerDetailview />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/mycollections",
+          path: "/marketplace/collections",
           element: <MycollectionsComponent />,
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/assets/:tokenId?/:collectionAddress?/:nftId",
+          path: "/marketplace/mycollections",
+          element: <MycollectionsComponent />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/categoryview",
+          element: <CategoryView />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/nft/:tokenId?/:collectionAddress?/:nftId",
           element: <Detailpage />,
           errorElement: <ErrorPage />,
         },

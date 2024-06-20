@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../ui/NaviLink";
 import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
-import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
+import { getGlobalDropDown, getMarketplaceNavMenu, getNavBarDropdown, getNavMenu } from "./utils";
 import useArcanaAuth from "../../hooks/useArcanaAuth";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
     (action: string) => {
       switch (action) {
         case "profile":
-          navigate("/profile");
+          navigate(`/profile/${address}`);
           return;
         case "wallet":
           // modalActions('arcana-custom-wallet','open')
@@ -37,6 +37,9 @@ function Navbar({ changingAddress, handleDisconnect }) {
         case "disconnect":
           handleDisconnect();
           return;
+          case "mycollections":
+            navigate(`/marketplace/mycollections`);
+            return;
         default:
           return;
       }
@@ -45,7 +48,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
-      navMenuList: getNavMenu(navigate, pathname, user?.id),
+      navMenuList: getMarketplaceNavMenu(navigate, pathname, user?.id),
       navBarDropDownMenu: getNavBarDropdown(
         handleDropdownAction,
         pathname,
@@ -58,7 +61,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   return (
     <div
       id="header"
-      className="sticky top-0 z-50 bg-success-content header-shadow"
+      className="sticky top-0 z-[99] bg-success-content header-shadow"
     >
       <div className="navbar bg-success-content container mx-auto lg:px-0 px-3">
         <div className="navbar-start">

@@ -75,7 +75,7 @@ const Tabs = (props: any) => {
           />
           <p className="text-secondary text-sm font-normal">Claimable Only</p>
         </div>
-        <SearchBar onSearch={setSearchInput} inputRef={searchInputRef} />
+        <SearchBar onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search by project name"/>
       </div>
       {isInvestmentsActive && <Investments userInvestments={userInvestments} />}
       {!isInvestmentsActive && <Claims userClaims={userClaims} fetchData={fetchData} />}

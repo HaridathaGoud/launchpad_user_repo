@@ -436,7 +436,7 @@ const getUserclaims = async (
 };
 const getAboutpageData = async () => {
   return await axios.get(
-    "https://wonderful-baseball-df5acc8ae6.strapiapp.com/api/aboutpages?populate=*"
+    "https://correct-respect-a6d2bfe249.strapiapp.com/api/aboutpages?populate=*"
   );
 };
 const getDocData = async () => {
@@ -451,7 +451,7 @@ const getDocsRestData = async () => {
 };
 
 
-// Coin gekko : 
+// Coin gekko :
 
 const getFiatAmount=async (ids:string[] |string, vsCurrencies='usd')=>{
   return await axios.get(COIN_GECKO_API_END_POINT+COIN_GECKO_API_VERSION+`simple/price`,{
@@ -489,6 +489,6 @@ const apiCalls = {
   getAboutpageData,
   getDocData,
   getDocsRestData,
-  getFiatAmount
+  getFiatAmount,
 };
 export default apiCalls;

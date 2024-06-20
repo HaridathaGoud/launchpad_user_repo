@@ -2,7 +2,7 @@ import React from "react";
 import styles from '../projectdetails.module.css';
 import member from '../../../assets/images/default-avatar.jpg';
 import { Link } from "react-router-dom";
-import NoDataFound from "../../../ui/nodatafound";
+import NoDataFound from "../../../ui/noData";
 
 const CastAndCrewMember = (props) => {
   return (
@@ -24,7 +24,7 @@ const CastAndCrewMember = (props) => {
               {item.name}
             </p>
             <p
-              className={`text-info text-base font-normal text-center role-text`}
+              className={`text-info text-base font-normal text-center role-text`} title={item.role}
             >
               as {item.role}
             </p>

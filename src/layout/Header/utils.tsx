@@ -11,6 +11,11 @@ export const getGlobalDropDown = (navigate: Function) => {
       image: "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
       action: () => navigate("/daos"),
     },
+    {
+      name: "Marketplace",
+      image: "https://dottdevstoragespace.blob.core.windows.net/images/dao.png",
+      action: () => navigate("/marketplace/home"),
+    },
   ];
 };
 export const getNavMenu = (
@@ -127,5 +132,54 @@ export const getNavBarDropdown = (
             handleDropdownAction("disconnect");
           },
         },
+        {
+          name: "My Collections",
+          action: () => {
+            handleDropdownAction("mycollections");
+          },
+        },
       ];
 };
+
+export const getMarketplaceNavMenu =(navigate: Function,
+  currentPath: string | undefined,
+  userId: string | undefined)=>{
+   return  [
+    {
+      path: "/marketplace/home",
+      name: "Home",
+      action: () => navigate("/home"),
+      isActive: currentPath?.includes("/marketplace/home"),
+    },
+    {
+      path: "/marketplace/explore",
+      name: "Explore",
+      action: () => navigate("/explore"),
+      isActive: currentPath?.includes("/marketplace/explore"),
+    },
+    {
+      path: "/marketplace/nft/create",
+      name: "Create",
+      action: () => navigate("/marketplace/nft/create"),
+      isActive: currentPath?.includes("/marketplace/nft/create"),
+    },
+    {
+      path:"/marketplace/collections",
+      name: "Collections",
+      action: () => navigate("/marketplace/collections"),
+      isActive: currentPath?.includes("/collections"),
+    },
+    {
+      path: "/aboutus",
+      name: "About Us",
+      action: () => navigate("/aboutus"),
+      isActive: currentPath?.includes("/aboutus"),
+    },
+    // {
+    //   path: "/docs",
+    //   name: "Docs",
+    //   action: () => navigate("/docs"),
+    //   isActive: currentPath?.includes("/docs"),
+    // },
+  ];
+}

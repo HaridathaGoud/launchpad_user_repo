@@ -14,7 +14,7 @@ const TopSellerCarousal = () => {
   );
   useEffect(() => {
     store.dispatch(fetchTopSellers(1, pageSize));
-    if (error) srootDispatch(setError({message:error}));
+    if (error) rootDispatch(setError({message:error}));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [currentIndex, setCurrentIndex] = useState(0);
   const handleSlideActions = (action: any) => {
@@ -68,7 +68,7 @@ const TopSellerCarousal = () => {
               {!loader && (
                 <div className="carousel container mx-auto gap-3 p-2" >
                   {visibleItems?.map((item: any, idx: any) => (
-                    <NaviLink path={`/topsellerdetailview`}>
+                    <NaviLink path={`/collection/${item.id}`}>
                       <div
                         key={idx}
                         className="carousel-item inline-block max-sm:w-full md:w-[380px] pl-1"
@@ -88,13 +88,13 @@ const TopSellerCarousal = () => {
                               {item?.name || item?.walletAddress}
                             </h4>
                             <div className="mt-3 mb-2">
-                              <p className="text-info">Flour Price</p>
+                              <p className="text-info text-sm font-normal">Flour Price</p>
                               <p className="text-[16px] text-dark">
                                 {item?.flourPice || 0} Matic
                               </p>
                             </div>
                             <div>
-                              <p className="text-info">Volume</p>
+                              <p className="text-info text-sm font-normal">Volume</p>
                               <p className="text-[16px] text-dark">
                                 {item?.volume || 0} Matic
                               </p>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ProjectCardShimmer from "../loaders/projects/projectCardShimmer";
 import Spinner from "../loaders/spinner";
 import BreadCrumb from "../../ui/breadcrumb";
-import NoDataFound from "../../ui/nodatafound";
+import NoDataFound from "../../ui/noData";
 import JoinProject from "../shared/joinProject";
 import ConvertLocalFormat from "../../utils/dateFormat";
 const statusColourList = {
@@ -40,7 +40,6 @@ const Projectscomponent = (props: any) => {
                   View All
                 </Link>
               )}
-
               {props.pageSize >= 9 && (
                 <div className="mb-3 d-flex">
                   <div className="relative">
@@ -51,7 +50,7 @@ const Projectscomponent = (props: any) => {
                       onKeyUp={(value) => props?.handleSearch(value)}
                       ref={props.endedIgosRef}
                     />
-                    <span
+                    <button
                       className="icon md search absolute right-4 bottom-4 cursor-pointer md:w-72"
                       onClick={() => props?.handleSearchIcon(props?.search)}
                     />
@@ -92,7 +91,6 @@ const Projectscomponent = (props: any) => {
                               ></span>{" "}
                               {item?.publicOrPrivateStatus}
                             </p>
-
                             <p className="text-warning-content">
                               <span
                                 className={`icon  ${
@@ -228,12 +226,12 @@ const Projectscomponent = (props: any) => {
             !props.loader && (
               <div className="text-center mt-4">
                 {" "}
-                <span
+                <button
                   onClick={props.fetchMoreData}
                   className="cursor-pointer text-base text-primary font-semibold"
                 >
                   See More
-                </span>
+                </button>
                 <span
                   onClick={props.fetchMoreData}
                   className="mx-auto block icon see-more cursor-pointer mt-[-4px]"
@@ -255,5 +253,4 @@ const Projectscomponent = (props: any) => {
     </>
   );
 };
-
 export default Projectscomponent;
