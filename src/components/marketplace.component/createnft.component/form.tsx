@@ -142,17 +142,15 @@ const Form = ({
 
           <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
             {values.imageUrl && (
-              <div>
+              <div className="w-full h-full">
                 <img
-                  src={values.imageUrl}
-                  width="250"
-                  height="250"
+                  src={values.imageUrl}                 
                   alt={""}
                   className="w-full h-full object-cover rounded-[28px]"
                 />
                 <Button
                   type="plain"
-                  btnClassName="icon camera create-nft-cam c-pointer"
+                  btnClassName="icon camera absolute top-3 right-3 create-nft-cam c-pointer"
                   handleClick={(e) => deleteImage(e)}
                 ></Button>
               </div>
