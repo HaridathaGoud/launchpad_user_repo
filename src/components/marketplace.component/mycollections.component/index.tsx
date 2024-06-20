@@ -24,7 +24,7 @@ function MyCollections(props: any) {
   const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+  const user = store.getState().auth;
   const scrollableRef = useRef<any>(null);
   const { loader, error, data, pageNo } = useSelector(
     (store: any) => store.exploreNfts
@@ -33,16 +33,16 @@ function MyCollections(props: any) {
   const rootDispatch = useDispatch();
   useEffect(() => {
     // store.dispatch(fetchNfts(data, 1, "all", search, props.auth.user?.id));
-    store.dispatch(fetchCollections(data, 1, search));
+    store.dispatch(fetchCollections(data, 1, search,location?.pathname,user?.user?.id ));
     scrollableRef?.current?.scrollIntoView(0, 0);
     if (error) rootDispatch(setError({message:error}))
 
     return () => {
       store.dispatch(clearNfts());
     };
-  }, [props.auth.user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.auth.user?.id,location?.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
   const loadmore = () => {
-    store.dispatch(fetchCollections(data, pageNo, search));
+    store.dispatch(fetchCollections(data, pageNo, search,location?.pathname,user?.user?.id ));
   };
   const addToFavorites = (item: any) => {
     if (isConnected) {
@@ -117,9 +117,6 @@ function MyCollections(props: any) {
   const handleButtonClick = () => {
     navigate('/marketplace/collection/create');
   };
-  const handleHotCollectionItem = () =>{
-
-  }
   return (
     <>
       <div ref={scrollableRef}></div>
@@ -150,7 +147,7 @@ function MyCollections(props: any) {
             data?.map((item: any) => (
               <div className="">
 
-              <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
+              <div className="card bg-primary-content lg:w-[300px] " onClick={() => saveView(item)}>
                 <div className="">
                   <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px]" />
                 </div>

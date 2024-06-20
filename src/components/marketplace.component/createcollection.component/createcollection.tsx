@@ -256,14 +256,14 @@ const CreateCollection = (props: any) => {
                   {localState.values.logo && (
                         <img
                           src={localState.values.logo}
-                          
+
                           alt=""
                           className="rounded-[28px] h-full w-full object-cover"
                         />
                       )}
                     <div>
                       <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
-                     
+
                       {!localState.values.logo && (
                         <div >
                           <Button type='plain' btnClassName="icon image-upload c-pointer" handleClick={() => profileRef.current?.click("p")}></Button>
