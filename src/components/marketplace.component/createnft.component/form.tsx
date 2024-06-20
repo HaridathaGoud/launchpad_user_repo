@@ -268,10 +268,11 @@ const Form = ({
                       </p>
                     </div>
                   </div>
-                  <span
-                    className="icon add-btn cursor-pointer"
-                    onClick={() => modalActions("nftPropsModal", "open")}
-                  ></span>
+                  <Button
+                  type="plain"
+                    btnClassName="icon add-btn cursor-pointer"
+                    handleClick={() => modalActions("nftPropsModal", "open")}
+                  ></Button>
                 </div>
                 <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
                   {values?.properties?.map((property: Property, index) => (
@@ -351,8 +352,8 @@ const Form = ({
                     <input
                       type="checkbox"
                       id="custom-switch"
-                      // onClick={(e) => handleToggle(e, "isPutonSale")}
-                      // disabled={showAuctionFields && true}
+                      checked={values.isPutOnSale}
+                      onChange={(e) => handleChange("isPutOnSale",e.target.checked)}
                       className="checkbox checkbox-error opacity-0"
                     />
 
