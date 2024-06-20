@@ -253,17 +253,17 @@ const CreateCollection = (props: any) => {
               <div>
                 <div className='z-50 absolute max-sm:bottom-[-100px] md:relative'>
                   <div className=" flex justify-center items-center text-center border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
-                    <div>
-                      <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
-                      {localState.values.logo && (
+                  {localState.values.logo && (
                         <img
                           src={localState.values.logo}
-                          width="250"
-                          height="250"
+                          
                           alt=""
-                          className="rounded-[28px] object-cover"
+                          className="rounded-[28px] h-full w-full object-cover"
                         />
                       )}
+                    <div>
+                      <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
+                     
                       {!localState.values.logo && (
                         <div >
                           <Button type='plain' btnClassName="icon image-upload c-pointer" handleClick={() => profileRef.current?.click("p")}></Button>
