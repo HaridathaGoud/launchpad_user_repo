@@ -1319,10 +1319,10 @@ const DetailPage = (props: any) => {
                   <div className="md:flex items-center justify-between mt-4">
                     {/* {nftDetails?.ownerAddress != address && ( */}
                       <div>
-                        {/* {nftDetails?.saleType == "sale" ||
+                        {nftDetails?.saleType == "sale" ||
                           (nftDetails?.saleType == "Sale" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
-                              address?.toLowerCase() && ( */}
+                              address?.toLowerCase() && (
                               <Button
                                 type="secondary"
                                 btnClassName="mr-2.5"
@@ -1330,20 +1330,9 @@ const DetailPage = (props: any) => {
                               >
                                 Buy Now
                               </Button>
-                            {/* ))} */}
-                        {/* {nftDetails?.saleType == "sale" ||
+                            ))} 
+                        {nftDetails?.saleType == "sale" ||
                           (nftDetails?.saleType == "Sale" &&
-                            nftDetails?.ownerAddress?.toLowerCase() !=
-                              address?.toLowerCase() && ( */}
-                              <Button
-                                type="cancel"
-                                handleClick={getCheckPlaceBid}
-                              >
-                                Place a bid
-                              </Button>
-                            {/* // ))} */}
-                        {nftDetails?.saleType == "auction" ||
-                          (nftDetails?.saleType == "Auction" &&
                             nftDetails?.ownerAddress?.toLowerCase() !=
                               address?.toLowerCase() && (
                               <Button
@@ -1352,11 +1341,23 @@ const DetailPage = (props: any) => {
                               >
                                 Place a bid
                               </Button>
+                            ))} 
+                        {nftDetails?.saleType == "auction" ||
+                          (nftDetails?.saleType == "Auction" &&
+                            nftDetails?.ownerAddress?.toLowerCase() !=
+                              address?.toLowerCase() && (
+                              <Button
+                                type="cancel"
+                                handleClick={getCheckPlaceBid}
+                                btnClassName="ml-2.5"
+                              >
+                                Place a bid
+                              </Button>
                             ))}
                       </div>
                     {/*  )} */}
                     <div
-                      className={`max-sm:mt-4 border border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
+                      className={`max-sm:mt-4 border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
                     >
                       <span
                         className={`detail-minus icon cursor-pointer`}
@@ -1372,7 +1373,7 @@ const DetailPage = (props: any) => {
                   <h2 className="text-base font-semibold text-secondary mt-9 mb-3.5">
                     Properties
                   </h2>
-                  <div className="grid md:grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
                       <p className="text-neutral font-semibold">
                         OG Wearables Charge

@@ -168,35 +168,35 @@ function TrendingNfts(props) {
                             className=" truncate"
                             onClick={() => handleProfileRedirect(item)}
                           >
-                            <label className="text-secondary text-base">
+                            <label className="text-secondary text-base" title={item?.creatorName || item?.creatorWalletAddress}>
                               {item?.creatorName || item?.creatorWalletAddress}
                             </label>
-                            <p className="text-lg text-secondary font-semibold truncate">
+                            <p className="text-lg text-secondary font-semibold truncate" title={item.nftName}>
                               {" "}
                               {item.nftName}{" "}
                             </p>
                           </div>
                           <div className="mt-4 pb-5">
                             <div className="flex justify-between items-center">
-                              <label className="text-secondary text-base">
+                              <label className="text-secondary text-base flex-1">
                                 Price
                               </label>
-                              <p className="text-base font-semibold text-secondary">
-                                {item?.value ? item?.value : "--"}{" "}
-                                {item?.value
+                              <p className="text-base font-semibold text-secondary justify-end flex flex-1 text-right truncate" title={item?.value ? item?.value : "--"}>
+                               <span className="truncate"> {item?.value ? item?.value : "--"}{" "}</span>
+                                <span>{item?.value
                                   ? process.env.REACT_APP_CURRENCY_SYMBOL
-                                  : ""}{" "}
+                                  : ""}{" "}</span>
                               </p>
                             </div>
                             <div className="flex justify-between items-center mt-2">
-                              <label className="text-secondary text-base">
+                              <label className="text-secondary text-base flex-1">
                                 Highest bid
                               </label>
-                              <p className="text-base font-semibold text-secondary ">
-                                {item?.highestBid ? item?.highestBid : "--"}{" "}
-                                {item?.highestBid
+                              <p className="text-base font-semibold text-secondary justify-end flex flex-1 text-right truncate " title={item?.highestBid ? item?.highestBid : "--"}>
+                               <span className="truncate"> {item?.highestBid ? item?.highestBid : "--"}{" "}</span>
+                                <span>{item?.highestBid
                                   ? process.env.REACT_APP_CURRENCY_SYMBOL
-                                  : ""}
+                                  : ""}</span>
                               </p>
                             </div>
                           </div>

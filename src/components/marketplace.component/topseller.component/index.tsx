@@ -64,7 +64,7 @@ const TopSeller = () => {
                                                         />
                                                     </div>
                                                     <div className="truncate">
-                                                        <h4 className="truncate text-xl font-semibold capitalize text-white">
+                                                        <h4 className="truncate text-xl font-semibold capitalize text-white" title={item?.name || item?.walletAddress}>
                                                             {item?.name || item?.walletAddress}
                                                         </h4>
                                                         <div className="mt-3 mb-2">
