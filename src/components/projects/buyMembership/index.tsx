@@ -3,7 +3,6 @@ import { ethers } from "ethers";
 import useContract from "../../../hooks/useContract";
 import MaticInput from "../../inputs/maticforminput";
 import Button from "../../../ui/Button";
-import { modalActions } from "../../../ui/Modal";
 import { useAccount } from "wagmi";
 import { connect, useDispatch, useSelector } from "react-redux";
 import Spinner from "../../loaders/spinner";
@@ -17,7 +16,6 @@ import {
 } from "./services";
 import { buyMembershipReducer, buyMembershipState } from "./reducer";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-// import Success from "./success";
 import BuyMembershipShimmers from "../../loaders/projects/buyMembershipShimmer";
 
 const BuyMembership = (props: any) => {
@@ -152,7 +150,8 @@ const BuyMembership = (props: any) => {
         <div className="lg:px-[55px]">
           <div className="mt-7 text-center">
             <MaticInput
-              value={localState.inputCount}
+             price={localState.inputCount*localState.nftPrice}
+              value={(isConnected && address) ? localState.inputCount : 0}
               setValue={(value: any) => {
                 localDispatch({
                   type: "setInputCount",
