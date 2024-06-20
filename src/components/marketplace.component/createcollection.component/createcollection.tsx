@@ -278,7 +278,7 @@ const CreateCollection = (props: any) => {
                             onChange={(e) => handlePicChange(e, 'logo')}
                           />{' '}
                         </div>
-                      )}                      
+                      )}
                     <div className="absolute top-3 right-3">
                       <input
                         type="file"
@@ -335,7 +335,7 @@ const CreateCollection = (props: any) => {
                         />
                       )}
                     <div>
-                      
+
                       {!localState.values.featuredImage && (
                         <div className="" >
                           <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => featureRef.current?.click()}></Button>
