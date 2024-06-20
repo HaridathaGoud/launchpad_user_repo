@@ -23,7 +23,7 @@ const InformationPanel = () => {
               <p className={`text-sm text-secondary opacity-50`}>
                 Strategies(s)
               </p>
-              <div className="mr-2">
+              <div className="mr-2 text-secondary">
                 {proposalDetails?.data?.strategy || "--"}
               </div>
             </div>
