@@ -1,6 +1,6 @@
 import React,{useMemo,useReducer,useRef } from 'react';
 import 'react-multi-carousel/lib/styles.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams} from 'react-router-dom';
 import { connect,useDispatch } from 'react-redux';
 import Button from '../../ui/Button';
@@ -32,12 +32,11 @@ const initialState = {
   pageSize:8,
   seeMoreLoader:false,
   favoriteLoader:false,
-  selectedFavaratedID:null
+  selectedFavaratedID:null,
+  searchInput:null
 }
 const NFTCollection = (props: any) => {
 const [state, dispatch] = useReducer(reducers, initialState);
-const [activeTab, setActiveTab] = useState(0);
-const [searchInput, setSearchInput] = useState(null);
 const previousData = props?.featchNFTsCollection?.collectionData?.data || [];
 const { walletAddress } = useParams();
 const rootDispatch = useDispatch()
@@ -52,12 +51,16 @@ useEffect(()=>{
 },[]);
 
 useEffect(()=>{
-  const selectTabs = getSelectTabs(activeTab);
-  store.dispatch(fetchNftsCollection(selectTabs,address,!searchInput ? 1 : state.pageNo, state.pageSize, state.type, searchInput =='' ? null : searchInput,props.auth.user?.id,!searchInput && previousData,(callback)=>{
-    let _pageNo = state.pageNo + 1;
-    dispatch({ type: 'update', payload: { pageNo: _pageNo } });
+  const selectTabs = getSelectTabs(state.activeTab);
+  store.dispatch(fetchNftsCollection(selectTabs,address,!state.searchInput ? 1 : state.pageNo, state.pageSize, state.type, state.searchInput =='' ? null : state.searchInput,props.auth.user?.id,!state?.searchInput && previousData,(callback)=>{
+    if(callback.status == 200){
+      let _pageNo = state.pageNo + 1;
+      dispatch({ type: 'update', payload: { pageNo: _pageNo } });
+    }else{
+      rootDispatch(setError({ message: callback }));
+    }
   }));
-},[searchInput,address])
+},[state.searchInput,address])
 const getNFTImageUrl = (file: any) => {
   const filePath = file?.replace('ipfs://', '');
   return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
@@ -68,7 +71,7 @@ const tabs = useMemo(() => {
     { label: `Favorited (${props?.featchNFTsCollection?.saveFavaratedCount?.data || 0})`, content: '' },
     { label: `Owned (${props?.featchNFTsCollection?.ownedNFTsCount?.data || 0})`, content: '' },
   ];
-}, [activeTab,props?.featchNFTsCollection])
+}, [state?.activeTab,props?.featchNFTsCollection])
 
 const getSelectTabs = (activeTab) => {
   switch(activeTab) {
@@ -85,13 +88,13 @@ const getSelectTabs = (activeTab) => {
 
 const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
   event.preventDefault();
-  const selectTabs = getSelectTabs(activeTab);
+  const selectTabs = getSelectTabs(state?.activeTab);
   if (type === 'high2low') {
     dispatch({ type: 'update', payload: { type: 'high to low' } });
-    store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress,  1, 8, 'high to low', searchInput, props.auth.user?.id));//previousData
+    store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress,  1, 8, 'high to low', state?.searchInput, props.auth.user?.id));
   } else if (type === 'low2high') {
     dispatch({ type: 'update', payload: { type: 'low to high' } });
-    store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, 'low to high', searchInput, props.auth.user?.id));//previousData
+    store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, 'low to high', state?.searchInput, props.auth.user?.id));
   }
 };
 
@@ -104,9 +107,9 @@ const saveFavorite=(item:any)=>{
   };
   store.dispatch(saveFavoriteNFT(obj, (response:any) => {
     if(response.status == 200){
-      const selectTabs = getSelectTabs(activeTab);
+      const selectTabs = getSelectTabs(state?.activeTab);
       store.dispatch(getFavoritedCount(address || walletAddress))
-      store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, state.type, searchInput,props.auth.user?.id,previousData))
+      store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, state.type, state?.searchInput,props.auth.user?.id,previousData))
       rootDispatch(
         setToaster({
           message: `Nft ${
@@ -120,18 +123,19 @@ const saveFavorite=(item:any)=>{
   }));
 }
 const handleTabChange=(selectedTab : any)=>{
-  setSearchInput(null)
   if(searchInputRef.current) searchInputRef.current.value=''
- let selectTabs=selectedTab == 0 ? "GetNfts" : selectedTab==1 ? "Favorites" : "GetOwnNfts";
- dispatch({ type: 'update', payload: { activeTab: selectedTab,showSeeMore:true } });
- store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, state.type, null,props.auth.user?.id,previousData));
+ const selectTabs = getSelectTabs(selectedTab); 
+ store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, state?.pageSize, state.type, null,props.auth.user?.id,previousData,(response)=>{
+  dispatch({ type: 'update', payload: { pageNo:2} });
+ }));
+ dispatch({ type: 'update', payload: { activeTab: selectedTab,showSeeMore:true,searchInput:null ,pageNo:1} });
 }
 const loadMoreNFTS=()=>{
-  const selectTabs = getSelectTabs(activeTab);
-  store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, state.pageNo, state.pageSize, state.type, searchInput,props.auth.user?.id,previousData,(response)=>{
+  const selectTabs = getSelectTabs(state?.activeTab);
+  store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, state.pageNo, state.pageSize, state.type, state?.searchInput,props.auth.user?.id,previousData,(response)=>{
     if(response){
       let _pageNo = state.pageNo + 1;
-      dispatch({ type: 'update', payload: { pageNo: _pageNo, showSeeMore: response.data.length == 0 && false ,seeMoreLoader:false} });
+      dispatch({ type: 'update', payload: { pageNo: _pageNo, showSeeMore: response.data.length < 8 && false ,seeMoreLoader:false} });
     }
   }));
 }
@@ -145,11 +149,13 @@ const loadMoreNFTS=()=>{
       tabContentClass={"hidden"}
       iSTabChange={(selectedTab)=>handleTabChange(selectedTab)}
       setActiveTab={(state) => {
-        setActiveTab(state);
+        dispatch({ type: 'update', payload: {activeTab:state} })
       }}
     />
      <div className='flex justify-between items-center gap-4 mt-6'>
-     <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
+     <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative'
+     onSearch={(input) => dispatch({ type: 'update', payload: {searchInput:input} })}
+     inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
         <div className="dropdown mr-2.5">
           <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: {state.type} <span className="icon drop-arrow"></span></div>
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -243,8 +249,7 @@ const loadMoreNFTS=()=>{
      </>
      )
    })}
-
-          {props?.featchNFTsCollection?.collectionData?.data?.length === 0 &&
+          {(!props?.featchNFTsCollection?.collectionData?.data || props.featchNFTsCollection.collectionData.data.length === 0) &&
             <div className='lg:col-span-4 md:col-span-3'>
               <NoData text={""} />
             </div>}
@@ -256,7 +261,7 @@ const loadMoreNFTS=()=>{
            </span>
            <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
          </Button></div>
-          )}
+          )} 
     </div>
     </>
   );

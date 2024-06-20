@@ -60,11 +60,9 @@ const fetchNftsCollection = (selectTabs, walletAddress, pageNo, pageSize, catego
           dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: errorMessage }));
         }
       } catch (error) {
-        const errorMessage = error.message || 'An error occurred';
-        setError({ message: errorMessage });
-        dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: errorMessage }));
+        dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: apiCalls.isErrorDispaly(error) }));
         if (callback) {
-          callback({ status: 500, message: errorMessage });
+          callback({ status: 500, message: error });
         }
       }
     };
