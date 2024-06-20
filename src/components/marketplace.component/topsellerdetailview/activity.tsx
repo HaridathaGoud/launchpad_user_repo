@@ -19,13 +19,13 @@ const Activity = ({ activityData }) => {
                   Date
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                  From
+                  Name
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                  To
+                Description
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                  Price
+                  Type
                 </th>
 
               </tr>
@@ -47,15 +47,15 @@ const Activity = ({ activityData }) => {
                         </Moment>
                       </p>
                     </td>
-                    <td> {item?.from || '--'} </td>
+                    <td> {item?.name || '--'} </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        {item?.to || '--'}
+                        {item?.description || '--'}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        {item?.price ? item?.price + ' USDT' : '--'}
+                        {item?.type || '--'}
                       </p>
                     </td>
 

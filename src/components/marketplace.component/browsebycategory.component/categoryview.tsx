@@ -39,7 +39,8 @@ export default function CategoryView() {
   }
   const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
     event.preventDefault();
-
+    const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
+    localDispatch({ type: 'update', payload: { minMaxCategory } });
   };
   const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any,on: string = "")=>{
     setSearchValue(prevState => ({
@@ -162,7 +163,7 @@ export default function CategoryView() {
         <CollectionItems 
         setSearchInput={setSearchInput}
         searchInputRef={searchInputRef}
-        minMaxCategory={searchValue.minMaxCategory}
+        minMaxCategory={localState.selection.minMaxCategory || searchValue.minMaxCategory}
         handlePriceRangeSelection={handlePriceRangeSelection}
         activeTab={activeTab}
         getNftsDetails={getNftsDetails}

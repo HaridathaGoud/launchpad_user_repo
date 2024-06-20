@@ -74,6 +74,7 @@ const setHotCollectionsViewData = (payload:any) => {
       dispatch(setHotCollectionsActivityData({ key: 'hotCollectionsActivityDetails', loading: true, data: data }));
       try {
         const res = await apiCalls.getMarketplace(`User/Activities/${collectionId}/${id}/${take}/${skip}`);
+        // const res = await apiCalls.getMarketplace(`User/Activities/15FD0929-71F5-4A01-BA8A-1B50930F0775/3C30FDF3-3D62-43B5-AB12-6C1939745DE9/10/0`)
         if (res.status === 200) {
           dispatch(setHotCollectionsActivityData({ key: 'hotCollectionsActivityDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {
