@@ -54,7 +54,10 @@ const ProfileEdit = ({
     dispatch({ type: "setFormErrors", payload: {} });
     dispatch({ type: "setFormData", payload: { ...profile } });
   };
-
+  const trimField = (field: any) => {
+    let value = state.formData[field]?.trim() || '';
+    setField(field, value);
+};
   const saveDetails = async (event: any) => {
     let isUpdate = true;
     event.preventDefault();
@@ -148,12 +151,13 @@ const ProfileEdit = ({
               onChange={(e) => {
                 setField("firstName", e.target.value);
               }}
-              onBlur={(e) => {
-                setField(
-                  "firstName",
-                  e.target.value.trim().replace(/\s+/g, " ")
-                );
-              }}
+              onBlur={() => trimField('firstName')}
+              // onBlur={(e) => {
+              //   setField(
+              //     "firstName",
+              //     e.target.value.trim().replace(/\s+/g, " ")
+              //   );
+              // }}
               required
               disabled={toasterMessage || state.buttonLoader}
             />
@@ -181,12 +185,13 @@ const ProfileEdit = ({
               onChange={(e) => {
                 setField("lastName", e.target.value);
               }}
-              onBlur={(e) => {
-                setField(
-                  "lastName",
-                  e.target.value.trim().replace(/\s+/g, " ")
-                );
-              }}
+              onBlur={() => trimField('lastName')}
+              // onBlur={(e) => {
+              //   setField(
+              //     "lastName",
+              //     e.target.value.trim().replace(/\s+/g, " ")
+              //   );
+              // }}
               required
               disabled={toasterMessage || state.buttonLoader}
             />

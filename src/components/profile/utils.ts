@@ -30,14 +30,14 @@ export const validateForm = (form: ProfileModel) => {
     }
   };
   validateField(
-    firstName || "",
+    firstName?.trim() || "",
     "firstName",
     true,
     (value: string) => acceptOnlyAlphabets(value),
     "Invalid first name"
   );
   validateField(
-    lastName || "",
+    lastName?.trim() || "",
     "lastName",
     true,
     (value: string) => acceptOnlyAlphabets(value),
