@@ -74,12 +74,12 @@ const HotcollectionView = (props: any) => {
     });
   };
 
-  const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any,on: string = "")=>{
+  const getNftsDetails=async(status:any,currency:any,selectedLevel:any,minMaxCategory:any,on: string = "")=>{
     setSearchValue(prevState => ({
       ...prevState,
       status: status,
       currency:currency,
-      priceLevel:selecedLevel,
+      priceLevel:selectedLevel,
   }));
     if(isActive === 1){
       props.fetchHotCollectionsActivityDetails({
@@ -100,7 +100,7 @@ const HotcollectionView = (props: any) => {
         search: searchInput || state.selection?.searchValue,
         currency:currency,
         status:status,
-        minMaxCategory:selecedLevel || minMaxCategory||null
+        minMaxCategory:selectedLevel || minMaxCategory||null
       });
   }
 

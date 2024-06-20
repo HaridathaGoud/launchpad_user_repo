@@ -6,8 +6,9 @@ const [selectedPricevalue, setSelectedPricevalue] = useState('Matic');
 const [selectedPriceLevel, setSelectedPriceLevel]=useState(null)
 
 const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-    props.getNftsDetails(selectedValue, selectedPricevalue, selectedPriceLevel);
+    const newStatus = event.target.value;
+    setSelectedValue(newStatus);
+    props.getNftsDetails(newStatus, selectedPricevalue, selectedPriceLevel);
 };
 const handleDropdownChange = (value) => {
     setSelectedPricevalue(value);

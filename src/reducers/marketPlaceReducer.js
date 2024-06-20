@@ -102,12 +102,13 @@ const fetchTopSellers = (pageNo = 1, take = 4) => {
     }
 }
 
-const fetchCollections = (data, pageNo = 1, search = null, take = 10) => {
+const fetchCollections = (data, pageNo = 1, search = null,screenName,customerId) => {
+   let  take = 10
     const skip = pageNo * take - take;
     return async (dispatch) => {
         dispatch(setLoaderAction(true));
         // const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${category}/${search}/${id}`);
-        const response = await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
+        const response = screenName === '/marketplace/mycollections' ?  await apiCalls.getMarketplace(`User/GetCustomerCollections/${customerId}`) : await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
         if (response.status === 200) {
             const mergedData = skip > 0 ? [...data, ...response.data] : response.data
             dispatch(featchTopCollections(mergedData));

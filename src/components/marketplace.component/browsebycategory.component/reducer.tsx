@@ -4,6 +4,7 @@ export interface BrowserByCategoryStateModel {
     currentIndex: number;
     favoriteLoader:any,
     cardLoader:any,
+    selection:any,
 }
 export const browserByCategoryState = {
     browseByCategoryList: [],
@@ -11,6 +12,10 @@ export const browserByCategoryState = {
     currentIndex: 0,
     favoriteLoader: { id: "", loading: false },
     cardLoader:false,
+    selection:{
+        searchValue:null,
+        minMaxCategory:null,
+      },
 };
 
 export const browserByCategoryreducer = (state = browserByCategoryState, action) => {
@@ -29,6 +34,9 @@ export const browserByCategoryreducer = (state = browserByCategoryState, action)
             break;
         case "setCardLoader":
             state = { ...state, cardLoader: action.payload };
+            break;
+        case "update":
+            state = { ...state, selection: action.payload };
             break;
         default:
             state = { ...state };
