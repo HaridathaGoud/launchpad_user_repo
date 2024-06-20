@@ -1,24 +1,13 @@
-import React, {  useState } from 'react';
+import React from 'react';
 import Button from '../../../ui/Button';
-const StatusDetailview = (props:any) => {
-const [selectedValue, setSelectedValue] = useState('All');
-const [selectedPricevalue, setSelectedPricevalue] = useState('Matic');
-const [selectedPriceLevel, setSelectedPriceLevel]=useState(null)
-
-const handleChange = (event) => {
-    const newStatus = event.target.value;
-    setSelectedValue(newStatus);
-    props.getNftsDetails(newStatus, selectedPricevalue, selectedPriceLevel);
-};
-const handleDropdownChange = (value) => {
-    setSelectedPricevalue(value);
-};
-const handleApplyClick = () => {
-    props.getNftsDetails(selectedValue,selectedPricevalue,selectedPriceLevel);
-};
-const sendSelectedValue = (value) => {
-    setSelectedPriceLevel(value);
-};
+const StatusDetailview = ({
+    handleChange,
+    handleDropdownChange,
+    handleApplyClick,
+    sendSelectedValue,
+    selectedStatus,
+    selectedCurrency,
+}) => {
 
     return (
            <div>
@@ -27,10 +16,10 @@ const sendSelectedValue = (value) => {
                 <label htmlFor="" className='font-medium text-secondary relative flex items-center'>
                     <input
                         type="radio"
-                        name="radio-1"
+                        // name="radio-1"
                         className="radio opacity-0 z-[1] relative"
                         value="All"
-                        checked={selectedValue === 'All'}
+                        checked={selectedStatus === 'All'}
                         onChange={handleChange}
                     />
                 <span>
@@ -38,10 +27,10 @@ const sendSelectedValue = (value) => {
                 <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'>
                     <input
                         type="radio"
-                        name="radio-1"
+                        // name="radio-1"
                         className="radio opacity-0 z-[1] relative"
                         value="Buy Now"
-                        checked={selectedValue === 'Buy Now'}
+                        checked={selectedStatus === 'Buy Now'}
                         onChange={handleChange}
                     />
                 <span>
@@ -49,10 +38,10 @@ const sendSelectedValue = (value) => {
                 <label htmlFor="" className='font-medium text-secondary relative flex items-center whitespace-nowrap'>
                     <input
                         type="radio"
-                        name="radio-1"
+                        // name="radio-1"
                         className="radio opacity-0 z-[1] relative"
                         value="Live auction"
-                        checked={selectedValue === 'Live auction'}
+                        checked={selectedStatus === 'Live auction'}
                         onChange={handleChange}
                     /> <span>
                     </span>Live auction</label>
@@ -61,7 +50,7 @@ const sendSelectedValue = (value) => {
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
                 <div className="dropdown w-full">
                     <div tabIndex={0} className="border text-secondary flex border-secondary bg-transparent hover:bg-transparent rounded-[25px] !py-2 !px-[14px]  w-full justify-between">
-                        {selectedPricevalue} <span className='icon drop-arrow'></span></div>
+                        {selectedCurrency} <span className='icon drop-arrow'></span></div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
                         <li><a  onClick={() => handleDropdownChange('Matic')}>Matic</a></li>
                         <li><a  onClick={() => handleDropdownChange('USDT')} >USDT</a></li>

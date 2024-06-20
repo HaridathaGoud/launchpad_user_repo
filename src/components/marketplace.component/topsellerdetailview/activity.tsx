@@ -2,9 +2,14 @@ import React from "react";
 import Moment from "react-moment";
 import AllocationsShimmer from "../../loaders/projects/allocationsShimmer";
 import NoData from "../../../ui/noData";
+import { useSelector } from "react-redux";
 
-const Activity = ({ activityData }) => {
-
+const Activity = (props:any) => {
+  const {activityData} = useSelector((store: any) => {
+    return {
+      activityData:store?.hotCollections.hotCollectionsActivityDetails
+    }
+  });
   return (
     <div>
       <div className="mb-6 max-sm:w-full overflow-auto">
@@ -61,12 +66,11 @@ const Activity = ({ activityData }) => {
 
                   </tr>
                 ))}
-                {activityData?.data?.length == 0 && <>
-                  <div className='text-center'> <NoData text={""} /></div></>}
               </tbody>
             </>}
           </table>
-
+          {activityData?.data?.length == 0 && <>
+            <div className='text-center '> <NoData text={""} /></div></>}
         </div>
       </div>
     </div>
