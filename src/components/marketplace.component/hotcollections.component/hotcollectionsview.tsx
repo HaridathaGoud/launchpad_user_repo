@@ -177,7 +177,7 @@ const HotcollectionView = (props: any) => {
       : NftDetails;
     return !loading && data && data?.length === pageSize * (nextPage-1);
   }, [isActive, activityData, NftDetails]);
-
+ 
   
   return (
    
@@ -204,38 +204,46 @@ const HotcollectionView = (props: any) => {
             </div>
           </div> */}
           <div className='flex gap-6 absolute z-10 right-10 bottom-6'>
-          <a
-              href="https://www.facebook.com/YellowblockNet/"
+            {hotCollectionViewDetails?.data?.facebook && 
+              <a
+              href={hotCollectionViewDetails?.data?.facebook}
               target="_blank"
               rel="noreferrer"
             >
               {" "}
               <span className='icon fb cursor-pointer'></span>
               </a>
+               }
+            {hotCollectionViewDetails?.data?.linkedIn &&
               <a
-              href="https://www.facebook.com/YellowblockNet/"
+              href={hotCollectionViewDetails?.data?.linkedIn}
               target="_blank"
               rel="noreferrer"
-            >
+              >
               {" "}
               <span className='icon linkedin cursor-pointer'></span>
-              </a>
+              </a> 
+            }
+            {hotCollectionViewDetails?.data?.twitter && 
               <a
-              href="https://twitter.com/YellowblockNet"
+              href={hotCollectionViewDetails?.data?.twitter}
               target="_blank"
               rel="noreferrer"
             >
               {" "}
               <span className='icon twit cursor-pointer'></span>
               </a>
+            }
+            {hotCollectionViewDetails?.data?.websiteUrl && 
               <a
-              href="https://x.com/DOTT73762"
+              href={hotCollectionViewDetails?.data?.websiteUrl}
               target="_blank"
               rel="noreferrer"
             >
               {" "}
               <span className='icon network cursor-pointer'></span>
               </a>
+            }
             </div>
         </div>
         <hr className="bg-[#f8f6f6] my-6" />
