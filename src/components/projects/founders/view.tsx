@@ -57,7 +57,7 @@ const FoundingMembersView = () => {
           </>
         )}
         <BreadCrumb/>
-        <h1 className="text-base font-semibold mb-3 mt-5">Founding Members</h1>
+        <h1 className="text-base font-semibold text-secondary mb-3 mt-5">Founding Members</h1>
   
         <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-7 founding-members">
           {foundingmems.stakersData?.map((item) => (

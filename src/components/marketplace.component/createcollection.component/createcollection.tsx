@@ -252,7 +252,7 @@ const CreateCollection = (props: any) => {
             <section className="px-9 py-12 h-[350px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
               <div>
                 <div className='z-50 absolute max-sm:bottom-[-100px] md:relative'>
-                  <div className=" flex justify-center items-center text-center border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
+                  <div className=" flex justify-center items-center text-center border-dashed bg-[#fff] border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
                   {localState.values.logo && (
                         <img
                           src={localState.values.logo}
