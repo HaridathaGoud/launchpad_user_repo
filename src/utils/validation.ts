@@ -42,8 +42,8 @@ export const validateUrl =(value:any)=>{
 
 export const acceptOnlyAlphabets = (value:any)=>{
   validateContentRule(value)
-  const reg = /^[a-zA-Z]+$/;
-  if ( value && reg.test(value) || value.match(emojiRejex)) {
+  const reg = /^[a-zA-Z\s]+$/;
+  if ( value && reg.test(value)) {
     return false;
   }
   return true;

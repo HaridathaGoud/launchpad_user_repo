@@ -37,6 +37,9 @@ function Navbar({ changingAddress, handleDisconnect }) {
         case "disconnect":
           handleDisconnect();
           return;
+          case "mycollections":
+            navigate(`/marketplace/mycollections`);
+            return;
         default:
           return;
       }

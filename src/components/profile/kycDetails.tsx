@@ -198,7 +198,7 @@ const KycDetails = ({ kycStatus, id }) => {
                   <div
                     className={`${
                       item?.idType === "SELFIE" ? "avatar" : ""
-                    } w-full overflow-hidden rounded-xl`}
+                    } w-full overflow-hidden rounded-xl mt-2`}
                     key={item.idType}
                   >
                     <div

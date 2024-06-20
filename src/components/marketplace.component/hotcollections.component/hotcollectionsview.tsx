@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
+import {  useParams } from 'react-router-dom';
 import CollectionTabs from './CollectionTabs'
 import Button from '../../../ui/Button';
-import { useAccount } from "wagmi";
-import { modalActions } from "../../../ui/Modal";
 import {
   clearCollectionsActivityData,
   clearHotCollectionsViewDetails,
@@ -15,19 +13,12 @@ import {
   hotCollectionReducer
   , hotcollectionState
 } from './reducer';
-import { setError, setToaster } from '../../../reducers/layoutReducer';
-import { saveFavorite, saveViews } from '../mycollections.component/services';
-const pageSize = 10;
+import HotcollectionviewShimmer from './hotcollectionviewshimmer';
+const pageSize = 6;
 
 const HotcollectionView = (props: any) => {
   const params = useParams();
-  const {  isConnected } = useAccount();
-  const rootDispatch = useDispatch();
-  const navigate = useNavigate();
-  const searchInputRef=useRef<any>(null)
-  const [searchInput, setSearchInput] = useState(null);
   const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
-  const errorMessage=useSelector(((store:any)=>store.layoutReducer.error.message))
   const {hotCollectionViewDetails,user,activityData,NftDetails} = useSelector((store: any) => {
     return {
       hotCollectionViewDetails:store.hotCollections.hotCollectionViewDetails,
@@ -36,7 +27,7 @@ const HotcollectionView = (props: any) => {
       NftDetails:store.hotCollections.NftDetails,
     }
   });
-  const [searchValue, setSearchValue]=useState({status:"all",currency:"WMATIC",priceLevel:null,minMaxCategory:null,selectedSearch:null})
+  const [searchValue, setSearchValue]=useState({status:"all",currency:"Matic",priceLevel:null,minMaxCategory:'min to max',selectedSearch:null})
   const [isActive, setIsActive] = useState(0);
 
   useEffect(()=>{
@@ -46,25 +37,16 @@ const HotcollectionView = (props: any) => {
     };
   },[])
   useEffect(() => {
-    getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory);
+    getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory);
     return () => {
       props.clearNfts();
       props.clearCollectionsActivityData();
     };
-  }, [isActive,searchInput]);
+  }, [isActive]);
 
-  const addToFavorites = (item: any) => {
-    if (isConnected) {
-      saveFavoriteNft(item);
-    } else {
-      modalActions("connect-wallet-model-exploreNfts", "open");
-    }
-  };
   const handleTabChange = (selectedTab: any) => {
-    setSearchInput(null)
-     if(searchInputRef.current) searchInputRef.current.value=''
      setIsActive(selectedTab);
-      getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, state.selection?.minMaxCategory);
+      getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, state.selection?.minMaxCategory||searchValue.minMaxCategory);
   };
 
   const getHotCollectionsData = async () => {
@@ -74,13 +56,14 @@ const HotcollectionView = (props: any) => {
     });
   };
 
-  const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any,on: string = "")=>{
+  const getNftsDetails=async(status:any,currency:any,selectedLevel:any,minMaxCategory:any,on: string = "")=>{
     setSearchValue(prevState => ({
       ...prevState,
       status: status,
       currency:currency,
-      priceLevel:selecedLevel,
+      priceLevel:selectedLevel,
   }));
+  
     if(isActive === 1){
       props.fetchHotCollectionsActivityDetails({
         data: on === "seeMore" ? activityData.data : null,
@@ -97,88 +80,25 @@ const HotcollectionView = (props: any) => {
         collectionId:params.collectionid,
         page: on === "seeMore" ? NftDetails.nextPage : 1,
         take: pageSize,
-        search: searchInput || state.selection?.searchValue,
+        search:searchValue.selectedSearch,
         currency:currency,
         status:status,
-        minMaxCategory:selecedLevel || minMaxCategory||null
+        minMaxCategory:selectedLevel || minMaxCategory||null
       });
   }
 
-  const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
-    event.preventDefault();
-    const minMaxCategory = type === 'high2low' ? 'high to low' : 'low to high';
-    dispatch({ type: 'update', payload: { minMaxCategory } });
-    getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, minMaxCategory);
-  };
-
-  const saveFavoriteNft = async (item: any) => {
-    errorMessage && rootDispatch(setError({message:''}))
-    dispatch({
-      type: "setFavoriteLoader",
-      payload: { id: item.id, loading: true },
-    });
-    try {
-      let obj = {
-        nftId: item.id,
-        customerId: user?.id,
-        isFavourite: !item.isFavourite,
-      };
-      const { status, error } = await saveFavorite(obj);
-      if (status) {
-        rootDispatch(
-          setToaster({
-            message: `Nft ${
-              item.isFavourite ? "removed from" : "added to"
-            } Favorites!`,
-          })
-        );
-        getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, state.selection?.minMaxCategory);
-      }
-      if (error) rootDispatch(setError({message:error}));
-    } catch (error) {
-      rootDispatch(setError({message:"Something went wrong, please try again!"}))
-    } finally {
-      dispatch({
-        type: "setFavoriteLoader",
-        payload: { id: "", loading: false },
-      });
-    }
-  };
-  const saveView = async (item) => {
-    dispatch({
-      type: "setCardLoader",
-      payload: true,
-    });
-    try {
-      let obj = {
-        nftId: item.id,
-        customerId: user?.id,
-      };
-      const { status, error } = await saveViews(obj);
-      if (status) navigateToAsset(item);
-      if (error) rootDispatch(setError({message:error}));
-    } catch (_) {
-      rootDispatch(setError({message:"Something went wrong, please try again!"}))
-    } finally {
-      dispatch({
-        type: "setCardLoader",
-        payload: false,
-      });
-    }
-  };
-  const navigateToAsset = (item) => {
-    navigate(
-      `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
-    );
-  };
   const showSeeMore = useMemo(() => {
     const { loading, data, nextPage } = isActive===1
       ? activityData
       : NftDetails;
     return !loading && data && data?.length === pageSize * (nextPage-1);
   }, [isActive, activityData, NftDetails]);
+ 
+  
   return (
-   
+      <>
+      {hotCollectionViewDetails.loading && <HotcollectionviewShimmer/> }
+      {!hotCollectionViewDetails.loading && 
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
       <div className='min-h-[320px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
@@ -202,56 +122,55 @@ const HotcollectionView = (props: any) => {
             </div>
           </div> */}
           <div className='flex gap-6 absolute z-10 right-10 bottom-6'>
-          <a
-              href="https://www.facebook.com/YellowblockNet/"
+            {hotCollectionViewDetails?.data?.facebook && 
+              <a
+              href={hotCollectionViewDetails?.data?.facebook}
               target="_blank"
               rel="noreferrer"
             >
               {" "}
               <span className='icon fb cursor-pointer'></span>
               </a>
+               }
+            {hotCollectionViewDetails?.data?.linkedIn &&
               <a
-              href="https://www.facebook.com/YellowblockNet/"
+              href={hotCollectionViewDetails?.data?.linkedIn}
               target="_blank"
               rel="noreferrer"
-            >
+              >
               {" "}
               <span className='icon linkedin cursor-pointer'></span>
-              </a>
+              </a> 
+            }
+            {hotCollectionViewDetails?.data?.twitter && 
               <a
-              href="https://twitter.com/YellowblockNet"
+              href={hotCollectionViewDetails?.data?.twitter}
               target="_blank"
               rel="noreferrer"
             >
               {" "}
               <span className='icon twit cursor-pointer'></span>
               </a>
+            }
+            {hotCollectionViewDetails?.data?.websiteUrl && 
               <a
-              href="https://x.com/DOTT73762"
+              href={hotCollectionViewDetails?.data?.websiteUrl}
               target="_blank"
               rel="noreferrer"
             >
               {" "}
               <span className='icon network cursor-pointer'></span>
               </a>
+            }
             </div>
         </div>
         <hr className="bg-[#f8f6f6] my-6" />
-       <CollectionTabs addToFavorites={addToFavorites}
-       favoriteLoader={state.favoriteLoader}
-        searchInputRef={searchInputRef} setSearchInput={setSearchInput}
-        minMaxCategory={state.selection.minMaxCategory}
-         handlePriceRangeSelection={handlePriceRangeSelection} 
-         getNftsDetails={getNftsDetails} 
-         activityData={activityData}
-         handleTabChange={handleTabChange}
-         NftDetails={NftDetails}
-         saveView={saveView}
-         cardLoader={state.cardLoader} />
+       <CollectionTabs  handleTabChange={handleTabChange}   />
+
         {showSeeMore && (
         <div className="flex justify-center items-center">
           <Button type="plain" 
-          handleClick={() => getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory,'seeMore')}>
+          handleClick={() => getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory,'seeMore')}>
           <span className="cursor-pointer text-base text-primary font-semibold">
             See More
           </span>
@@ -260,7 +179,8 @@ const HotcollectionView = (props: any) => {
         </div>
       )}
         </div>
-  );
+      }
+        </> );
 }
 const connectStateToProps = ({ oidc,hotCollections }: any) => {
   return { oidc: oidc,hotCollections:hotCollections };

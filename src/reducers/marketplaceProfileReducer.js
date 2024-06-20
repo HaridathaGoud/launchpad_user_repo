@@ -1,20 +1,14 @@
 import apiCalls from "../utils/api";
-import { get, post,getCustomer } from '../utils/api';
+import { getTopNft, postMarketplace } from '../utils/api';
+import { setError, setToaster }  from './layoutReducer'
 const FETCH_NFTS_COLLECTION = "featchNFTsCollection";
-const SET_PAGE_NO = 'setPageNoAction';
 const SETISFAVARATODCOUNT = "saveFavaratedCount";
 const IS_CREATED_COUNT="isCreatedCount";
 const IS_OWNED_NFTS_COUNT="isOwnedNFTsCount";
+const SAVEFAVARATED_NFT = "saveFavaratedNft";
 const featchNFTsCollection = (payload) => {
     return {
         type: FETCH_NFTS_COLLECTION,
-        payload
-    }
-}
-
-const setPageNoAction = (payload) => {
-    return {
-        type: SET_PAGE_NO,
         payload
     }
 }
@@ -24,7 +18,12 @@ const saveFavaratedCount = (payload) => {
         payload
     }
 }
-
+const saveFavaratedNft = (payload) => {
+    return {
+        type: SAVEFAVARATED_NFT,
+        payload
+    }
+}
 const isCreatedCount = (payload) => {
     return {
         type: IS_CREATED_COUNT,
@@ -38,38 +37,69 @@ const isOwnedNFTsCount = (payload) => {
     }
 }
 
-const fetchNftsCollection = (walletAddress,data,pageNo, take, category, search = null, id = '',selectTabs) => {
-    const skip = pageNo * take - take;
+const fetchNftsCollection = (selectTabs, walletAddress, pageNo, pageSize, category, search, id, data = [], callback) => {
+    const skip = pageNo * pageSize - pageSize;
+    const take = pageSize;
+  
     return async (dispatch) => {
-        dispatch(featchNFTsCollection({ key: 'collectionData', loading: true, data: null,error:null }));
+      dispatch(featchNFTsCollection({ key: 'collectionData', loading: true, data: null, error: null }));
+  
+      try {
         const response = await apiCalls.getMarketplace(`User/${selectTabs || "GetNfts"}/${walletAddress}/${take}/${skip}/${category}/${search}/${id}`);
-        if (response.status == 200) {
-            const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
-            dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: mergedData,error:null }));
-            dispatch(setPageNoAction(pageNo + 1));
+        
+        if (response) {
+          if (callback) {
+            callback(response);
+          }
+          const previousData = Array.isArray(data) ? data : [];
+          const mergedData = pageNo === 1 ? [...response.data] : [...previousData, ...response.data];
+          dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: mergedData, error: null }));
         } else {
-            dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null,error:apiCalls.isErrorDispaly(response) }));
+          const errorMessage = apiCalls.isErrorDispaly(response);
+          setError({ message: errorMessage });
+          dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: errorMessage }));
         }
-    }
-}
+      } catch (error) {
+        dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: apiCalls.isErrorDispaly(error) }));
+        if (callback) {
+          callback({ status: 500, message: error });
+        }
+      }
+    };
+  };
+  
 
-const saveFavoriteNFT = (obj,callback) => {
+const saveFavoriteNFT = (obj, callback) => {
     return async (dispatch) => {
-        const response = await post(`User/SaveFavorite`, obj);
-        if (response.status == 200) {
-            dispatch(saveFavaratedCount({key:'saveFavaratedCount',data:response.data,loading:false,error:null}));
-            if(callback){
-                callback(response)
-            }
+      dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: 0, loading: true, error: null }));
+  
+      try {
+        const response = await postMarketplace('User/SaveFavorite', obj);
+  
+        if (response.status === 200) {
+          dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: response?.data, loading: false, error: null }));
+          if (callback) {
+            callback(response);
+          }
         } else {
-            dispatch(saveFavaratedCount({key:'saveFavaratedCount',data:null,loading:false,error:apiCalls.isErrorDispaly(response)}));
+          dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: 0, loading: false, error: apiCalls.isErrorDispaly(response) }));
+          if (callback) {
+            callback(response);
+          }
         }
-    }
-}
+      } catch (error) {
+        dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: 0, loading: false, error: error.message || 'An error occurred' }));
+        if (callback) {
+          callback({ status: 500, message: error });
+        }
+      }
+    };
+  };
+  
 
 const getFavoritedCount = (useraddress) => {
     return async (dispatch) => {
-        const res = await get(`User/FavoritesCount/${useraddress}`);
+        const res = await getTopNft(`User/FavoritesCount/${useraddress}`);
         if (res.status == 200) {
             dispatch(saveFavaratedCount({key:'getFavaratedCount',data:res.data,loading:false,error:null}));
         } else {
@@ -80,7 +110,7 @@ const getFavoritedCount = (useraddress) => {
 
 const getCreatedCount = (useraddress,customerId) => {
     return async (dispatch) => {
-        const res = await get(`User/CreatorsCount/${useraddress}/${customerId}`);
+        const res = await getTopNft(`User/CreatorsCount/${useraddress}/${customerId}`);
         if (res.status == 200) {
             dispatch(isCreatedCount({key:'createdNFTSCount',data:res.data,loading:false,error:null}));
         } else {
@@ -91,7 +121,7 @@ const getCreatedCount = (useraddress,customerId) => {
 
 const getOwnedCountData = (useraddress) => {
     return async (dispatch) => {
-        const res = await get(`User/currentownerscount/${useraddress}`);
+        const res = await getTopNft(`User/currentownerscount/${useraddress}`);
         if (res.status == 200) {
             dispatch(isOwnedNFTsCount({key:'ownedNFTsCount',data:res.data,loading:false,error:null}));
         } else {
@@ -102,26 +132,26 @@ const getOwnedCountData = (useraddress) => {
 
 let nftsCollections = {
     collectionData:{data:null,loading:false,error:null,page:1},
-    saveFavaratedCount:{data:null,loader:false,error:null},
+    saveFavaratedCount:{data:0,loading:false,error:null},
     getFavaratedCount:{data:null,loader:false,error:null},
     createdNFTSCount:{data:null,loader:false,error:null},
     ownedNFTsCount:{data:null,loader:false,error:null},
+    saveFavaratedNft:{data:null,loading:false,error:null},
     data: null,
     loader: false,
     error: '',
-    pageNo: 1,
 }
 const ntfsCollectionsReducer = (state = nftsCollections, action) => {
     switch (action.type) {
         case FETCH_NFTS_COLLECTION:
             state = { ...state, collectionData: action.payload };
             return state;
-        case SET_PAGE_NO:
-            state = { ...state, pageNo: action.payload };
-            return state;
         case SETISFAVARATODCOUNT:
             state = { ...state, saveFavaratedCount: action.payload };
-            return state;  
+            return state; 
+        case SAVEFAVARATED_NFT:
+            state = { ...state, saveFavaratedNft: action.payload };
+            return state;
         case IS_CREATED_COUNT:
              state = { ...state, createdNFTSCount: action.payload };
              return state; 

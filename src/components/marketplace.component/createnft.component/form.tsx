@@ -135,24 +135,22 @@ const Form = ({
         <div>
           <label
             htmlFor="nftImageCreate"
-            className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
+            className="text-secondary text-sm font-normal p-0 mb-2 label ml-4 block"
           >
             Upload file <span className="text-[#ff0000]">*</span>
           </label>
 
           <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
             {values.imageUrl && (
-              <div>
+              <div className="w-full h-full">
                 <img
-                  src={values.imageUrl}
-                  width="250"
-                  height="250"
+                  src={values.imageUrl}                 
                   alt={""}
                   className="w-full h-full object-cover rounded-[28px]"
                 />
                 <Button
                   type="plain"
-                  btnClassName="icon camera create-nft-cam c-pointer"
+                  btnClassName="icon camera absolute top-3 right-3 create-nft-cam c-pointer"
                   handleClick={(e) => deleteImage(e)}
                 ></Button>
               </div>
@@ -307,7 +305,7 @@ const Form = ({
             />
 
             <div className="mb-6 p-relative">
-              <label className="text-dark text-sm font-normal p-0 mb-2 label block">
+              <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
                 Network
               </label>
               <div className="dropdown dropdown-end w-full nft-dropdown">
@@ -315,7 +313,7 @@ const Form = ({
                   role="button"
                   className="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                 >
-                  <img className="scale-[0.8]" src={matic} alt="matic" /> Matic
+                  <img className="scale-[0.8]" src={matic} alt="matic" /> <span className="text-secondary">Matic</span>
                 </div>
                 <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
                   <li className="flex flex-row items-center gap-2">
@@ -466,7 +464,7 @@ const Form = ({
               <input
                 aria-label="Username"
                 type="text"
-                className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                className="input mt-3 input-bordered w-full rounded-[28px] text-secondary bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10"
                 placeholder="Enter Unlock Description"
                 required
               />
@@ -497,7 +495,7 @@ const Form = ({
                 {modalProperties?.map((property: any, index: number) => (
                   <div className="my-6 flex gap-4 items-center " key={index}>
                     <div>
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
                         Type
                       </label>
                       <input
@@ -523,7 +521,7 @@ const Form = ({
                     </div>
                     {"  "}
                     <div className="">
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
                         Value*
                       </label>
 

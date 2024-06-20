@@ -1,6 +1,6 @@
 import React,{ useEffect, useReducer, useRef, useState } from 'react';
 import BreadCrumb from '../../../ui/breadcrumb';
-import { CollectionItems } from '../hotcollections.component/CollectionItems';
+import  CollectionItems  from '../hotcollections.component/CollectionItems';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAccount } from 'wagmi';
 import { store } from '../../../store';
@@ -39,7 +39,8 @@ export default function CategoryView() {
   }
   const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
     event.preventDefault();
-
+    const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
+    localDispatch({ type: 'update', payload: { minMaxCategory } });
   };
   const getNftsDetails=async(status:any,currency:any,selecedLevel:any,minMaxCategory:any,on: string = "")=>{
     setSearchValue(prevState => ({
@@ -159,17 +160,7 @@ export default function CategoryView() {
         </div>}
         {cardDetails && <NftCardDetailview cardDetails={cardDetails}/>} */}
 
-        <CollectionItems 
-        setSearchInput={setSearchInput}
-        searchInputRef={searchInputRef}
-        minMaxCategory={searchValue.minMaxCategory}
-        handlePriceRangeSelection={handlePriceRangeSelection}
-        activeTab={activeTab}
-        getNftsDetails={getNftsDetails}
-        NftDetails={NftDetails} addToFavorites={addToFavorites}
-        favoriteLoader={localState?.favoriteLoader}
-        saveView={saveView}
-         cardLoader={localState?.cardLoader}/>
+        <CollectionItems activeTab={activeTab} />
         </div> 
     
   );

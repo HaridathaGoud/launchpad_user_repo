@@ -452,7 +452,7 @@ const getDocsRestData = async () => {
 };
 
 
-// Coin gekko : 
+// Coin gekko :
 
 const getFiatAmount=async (ids:string[] |string, vsCurrencies='usd')=>{
   return await axios.get(COIN_GECKO_API_END_POINT+COIN_GECKO_API_VERSION+`simple/price`,{
@@ -490,6 +490,6 @@ const apiCalls = {
   getAboutpageData,
   getDocData,
   getDocsRestData,
-  getFiatAmount
+  getFiatAmount,
 };
 export default apiCalls;

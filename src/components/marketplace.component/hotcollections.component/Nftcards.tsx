@@ -1,24 +1,116 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import NftCardsShimmer from './NftCardShimmer';
 import NoData from '../../../ui/noData';
 import Button from '../../../ui/Button';
 import Spinner from  '../../loaders/spinner'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import defaultlogo from '../../../assets/images/default-logo.png';
 import { useAccount } from 'wagmi';
-const NftCards = ({ NftDetails ,addToFavorites,favoriteLoader,saveView,cardLoader}) => {
-    const { address,isConnected } = useAccount();
+import { useDispatch,useSelector } from 'react-redux';
+import { modalActions } from '../../../ui/Modal';
+import { setError, setToaster } from '../../../reducers/layoutReducer';
+import { fetchNftsDetails, hotCollectionReducer, hotcollectionState } from './reducer';
+import { saveFavorite, saveViews } from '../mycollections.component/services';
+import { store } from '../../../store';
+const pageSize = 6;
 
+const NftCards = (props:any) => {
+    const rootDispatch = useDispatch();
     const navigate = useNavigate();
+    const params = useParams();
+    const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
+    const { address,isConnected } = useAccount();
+    const {user,NftDetails,errorMessage} = useSelector((store: any) => {
+        return {
+          user:store.auth.user,
+          NftDetails:store.hotCollections.NftDetails,
+          errorMessage:store.layoutReducer.error.message
+        }
+      });
+    
+   
     const navigateToAsset = (item:any) => {
         navigate(
           `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
         );
       };
+      const addToFavorites = (item: any) => {
+        if (isConnected) {
+          saveFavoriteNft(item);
+        } else {
+          modalActions("connect-wallet-model-exploreNfts", "open");
+        }
+      };
+  
+      const saveFavoriteNft = async (item: any) => {
+        errorMessage && rootDispatch(setError({message:''}))
+        dispatch({
+          type: "setFavoriteLoader",
+          payload: { id: item.id, loading: true },
+        });
+        try {
+          let obj = {
+            nftId: item.id,
+            customerId: user?.id,
+            isFavourite: !item.isFavourite,
+          };
+          const { status, error } = await saveFavorite(obj);
+          if (status) {
+            rootDispatch(
+              setToaster({
+                message: `Nft ${
+                  item.isFavourite ? "removed from" : "added to"
+                } Favorites!`,
+              })
+            );
+            store.dispatch(fetchNftsDetails({
+              take:pageSize,
+              page:1,
+              collectionId:params.collectionid,
+              minMaxCategory:state.selectedPriceLevel,
+              status:state.selectedStatus,
+              currency:state.selectedCurrency,
+              search:null,
+              data:null,
+             }));
+          }
+          if (error) rootDispatch(setError({message:error}));
+        } catch (error) {
+          rootDispatch(setError({message:"Something went wrong, please try again!"}))
+        } finally {
+          dispatch({
+            type: "setFavoriteLoader",
+            payload: { id: "", loading: false },
+          });
+        }
+      };
+  
+      const saveView = async (item) => {
+        dispatch({
+          type: "setCardLoader",
+          payload: true,
+        });
+        try {
+          let obj = {
+            nftId: item.id,
+            customerId: user?.id,
+          };
+          const { status, error } = await saveViews(obj);
+          if (status) navigateToAsset(item);
+          if (error) rootDispatch(setError({message:error}));
+        } catch (_) {
+          rootDispatch(setError({message:"Something went wrong, please try again!"}))
+        } finally {
+          dispatch({
+            type: "setCardLoader",
+            payload: false,
+          });
+        }
+      };
       
     return (
         <>
-        {(NftDetails?.loading || cardLoader) &&
+        {(NftDetails?.loading || state?.cardLoader) &&
             Array.from({ length: 6 }, (_, index) => (
               <div key={index}>
                 <NftCardsShimmer />
@@ -60,14 +152,14 @@ const NftCards = ({ NftDetails ,addToFavorites,favoriteLoader,saveView,cardLoade
                                     handleClick={() => addToFavorites(item)}
                                     btnClassName=""
                                 >
-                                    {favoriteLoader?.id !== item.id && (
+                                    {state?.favoriteLoader?.id !== item.id && (
                                         <span
                                             className={`icon like-white ${item?.isFavourite ? "active" : ""
                                                 }`}
                                         ></span>
                                     )}
-                                    {favoriteLoader?.id === item.id &&
-                                        favoriteLoader?.loading && (
+                                    {state?.favoriteLoader?.id === item.id &&
+                                        state?.favoriteLoader?.loading && (
                                             <span>
                                                 <Spinner />
                                             </span>
@@ -107,8 +199,10 @@ const NftCards = ({ NftDetails ,addToFavorites,favoriteLoader,saveView,cardLoade
                     </div>
                 ))}
                 {!NftDetails?.data?.length && 
-                <div className='text-center'> 
+               <div className='md:col-span-2 xl:col-span-3'>
+                 <div className='text-center'> 
                 <NoData text={""} />
+                </div>
                 </div>}
                 
             </>}
