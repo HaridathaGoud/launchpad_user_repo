@@ -24,7 +24,7 @@ const CastAndCrewMember = (props) => {
               {item.name}
             </p>
             <p
-              className={`text-info text-base font-normal text-center role-text`}
+              className={`text-info text-base font-normal text-center role-text`} title={item.role}
             >
               as {item.role}
             </p>

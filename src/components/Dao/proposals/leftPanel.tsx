@@ -230,7 +230,7 @@ const DaoLeftPanel = (props) => {
               className="drawer-overlay"
               onClick={handleCancel}
             ></label>
-            <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-24">
+            <div className="menu p-4 w-full md:w-80 min-h-full bg-white text-base-content pt-6">
               <CreateProposal
                 close={handleCancel}
                 pjctInfo={props?.pjctInfo}
