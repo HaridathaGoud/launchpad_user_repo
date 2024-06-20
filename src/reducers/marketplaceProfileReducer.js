@@ -1,5 +1,5 @@
 import apiCalls from "../utils/api";
-import { getTopNft, post,getCustomer } from '../utils/api';
+import { getTopNft, postMarketplace } from '../utils/api';
 import { setError, setToaster }  from './layoutReducer'
 const FETCH_NFTS_COLLECTION = "featchNFTsCollection";
 const SETISFAVARATODCOUNT = "saveFavaratedCount";
@@ -76,7 +76,7 @@ const saveFavoriteNFT = (obj, callback) => {
       dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: 0, loading: true, error: null }));
   
       try {
-        const response = await post('User/SaveFavorite', obj);
+        const response = await postMarketplace('User/SaveFavorite', obj);
   
         if (response.status === 200) {
           dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: response?.data, loading: false, error: null }));

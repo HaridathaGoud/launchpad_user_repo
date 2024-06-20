@@ -1,19 +1,19 @@
-import React,{useMemo,useReducer } from 'react';
-import Image from 'react-bootstrap/Image';
+import React,{useMemo,useReducer,useRef } from 'react';
 import 'react-multi-carousel/lib/styles.css';
 import { useEffect, useState } from 'react';
-import {Link, useParams} from 'react-router-dom';
-import { connect,useDispatch,useSelector } from 'react-redux';
+import { useParams} from 'react-router-dom';
+import { connect,useDispatch } from 'react-redux';
 import Button from '../../ui/Button';
 import defaultlogo from '../../assets/images/default-logo.png';
 import Tabs from '../../ui/Tabs';
-import SearchInputComponent from '../marketplace.component/hotcollections.component/SearchComponent';
 import { fetchNftsCollection,saveFavoriteNFT,getFavoritedCount ,getCreatedCount,getOwnedCountData} from '../../reducers/marketplaceProfileReducer';
 import { store } from '../../store';
 import NftCardsShimmer from '../loaders/NftCardShimmer';
 import NoData from '../../ui/noData';
 import Spinner from '../loaders/spinner';
 import { setError, setToaster } from '../../reducers/layoutReducer';
+import SearchBar from '../../ui/searchBar';
+import { useAccount } from "wagmi";
 const reducers = (state, action) => {
 	switch (action.type) {
 		case 'update':
@@ -26,7 +26,6 @@ const initialState = {
 	nftsCollections: [],
   pageNo:1,
   type:null,
-  searchValue:null,
   activeTab:0,
   isLastIndex:false,
   showSeeMore:true,
@@ -38,20 +37,27 @@ const initialState = {
 const NFTCollection = (props: any) => {
 const [state, dispatch] = useReducer(reducers, initialState);
 const [activeTab, setActiveTab] = useState(0);
-const { walletAddress } = useParams();
+const [searchInput, setSearchInput] = useState(null);
 const previousData = props?.featchNFTsCollection?.collectionData?.data || [];
+const { walletAddress } = useParams();
 const rootDispatch = useDispatch()
+const searchInputRef=useRef<any>(null)
+const { address } = useAccount();
+
+
 useEffect(()=>{
-  store.dispatch(getCreatedCount(walletAddress,props.auth.user?.id))
-  store.dispatch(getFavoritedCount(walletAddress))
-  store.dispatch(getOwnedCountData(walletAddress))
+  store.dispatch(getCreatedCount(address || walletAddress,props.auth.user?.id))
+  store.dispatch(getFavoritedCount(address || walletAddress))
+  store.dispatch(getOwnedCountData(address || walletAddress))
+},[]);
+
+useEffect(()=>{
   const selectTabs = getSelectTabs(activeTab);
-  store.dispatch(fetchNftsCollection(selectTabs,walletAddress,state.pageNo, state.pageSize, state.type, state.searchValue,props.auth.user?.id,previousData,(callback)=>{
+  store.dispatch(fetchNftsCollection(selectTabs,address,!searchInput ? 1 : state.pageNo, state.pageSize, state.type, searchInput =='' ? null : searchInput,props.auth.user?.id,!searchInput && previousData,(callback)=>{
     let _pageNo = state.pageNo + 1;
     dispatch({ type: 'update', payload: { pageNo: _pageNo } });
   }));
-},[]);
-
+},[searchInput,address])
 const getNFTImageUrl = (file: any) => {
   const filePath = file?.replace('ipfs://', '');
   return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
@@ -76,49 +82,16 @@ const getSelectTabs = (activeTab) => {
       return "";
   }
 };
-const handleSearch=(e:any)=>{
-  const selectTabs = getSelectTabs(activeTab);
-  let data=e.target.value.trim()
-  dispatch({ type: 'update', payload: { searchValue: data } });
-   if (e.key==='Enter') {
-    if(data == ""||data.includes(".")){	
-      e.preventDefault();
-    }
-    else{
-      store.dispatch(fetchNftsCollection(selectTabs,walletAddress, state.pageNo, 8, state.type, state.searchValue,props.auth.user?.id,));//previousData
-      e.preventDefault();
-     }	
-  }
-}
-
-const handleChange=(e:any)=>{
-  let data=e.target.value.trim()
-  dispatch({ type: 'update', payload: { searchValue: data } });
-  if(!data){
-    const selectTabs = getSelectTabs(activeTab);
-    store.dispatch(fetchNftsCollection(selectTabs,walletAddress, state.pageNo, 8, state.type, state.searchValue,props.auth.user?.id));//previousData
-     e.preventDefault();
-   }
-}
-const handleSearchIcon = () => {
-  let data=state.searchValue;
-  if(data == ""||data == null || data.includes(".")){	
-  }
-  else{
-    const selectTabs = getSelectTabs(activeTab);
-    store.dispatch(fetchNftsCollection(selectTabs,walletAddress, state.pageNo, 8, state.type, data || null,props.auth.user?.id));//previousData
- }
-};
 
 const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
   event.preventDefault();
   const selectTabs = getSelectTabs(activeTab);
   if (type === 'high2low') {
     dispatch({ type: 'update', payload: { type: 'high to low' } });
-    store.dispatch(fetchNftsCollection(selectTabs,walletAddress,  1, 8, 'high to low', state.searchValue, props.auth.user?.id));//previousData
+    store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress,  1, 8, 'high to low', searchInput, props.auth.user?.id));//previousData
   } else if (type === 'low2high') {
     dispatch({ type: 'update', payload: { type: 'low to high' } });
-    store.dispatch(fetchNftsCollection(selectTabs,walletAddress, 1, 8, 'low to high', state.searchValue, props.auth.user?.id));//previousData
+    store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, 'low to high', searchInput, props.auth.user?.id));//previousData
   }
 };
 
@@ -132,21 +105,30 @@ const saveFavorite=(item:any)=>{
   store.dispatch(saveFavoriteNFT(obj, (response:any) => {
     if(response.status == 200){
       const selectTabs = getSelectTabs(activeTab);
-      store.dispatch(getFavoritedCount(walletAddress))
-      store.dispatch(fetchNftsCollection(selectTabs,walletAddress, 1, 8, state.type, state.searchValue,props.auth.user?.id,previousData))
+      store.dispatch(getFavoritedCount(address || walletAddress))
+      store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, state.type, searchInput,props.auth.user?.id,previousData))
+      rootDispatch(
+        setToaster({
+          message: `Nft ${
+            item.isFavourite ? "removed from" : "added to"
+          } Favorites!`,
+        })
+      );
     }else{
       rootDispatch(setError({ message: response }));
     }
   }));
 }
 const handleTabChange=(selectedTab : any)=>{
+  setSearchInput(null)
+  if(searchInputRef.current) searchInputRef.current.value=''
  let selectTabs=selectedTab == 0 ? "GetNfts" : selectedTab==1 ? "Favorites" : "GetOwnNfts";
- dispatch({ type: 'update', payload: { activeTab: selectedTab,showSeeMore:true,searchValue:null } });
- store.dispatch(fetchNftsCollection(selectTabs,walletAddress, 1, 8, state.type, null,props.auth.user?.id,previousData));
+ dispatch({ type: 'update', payload: { activeTab: selectedTab,showSeeMore:true } });
+ store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, 8, state.type, null,props.auth.user?.id,previousData));
 }
 const loadMoreNFTS=()=>{
   const selectTabs = getSelectTabs(activeTab);
-  store.dispatch(fetchNftsCollection(selectTabs,walletAddress, state.pageNo, state.pageSize, state.type, state.searchValue,props.auth.user?.id,previousData,(response)=>{
+  store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, state.pageNo, state.pageSize, state.type, searchInput,props.auth.user?.id,previousData,(response)=>{
     if(response){
       let _pageNo = state.pageNo + 1;
       dispatch({ type: 'update', payload: { pageNo: _pageNo, showSeeMore: response.data.length == 0 && false ,seeMoreLoader:false} });
@@ -167,7 +149,7 @@ const loadMoreNFTS=()=>{
       }}
     />
      <div className='flex justify-between items-center gap-4 mt-6'>
-     <SearchInputComponent handleSearch={handleSearch} handleChange={handleChange} handleSearchIcon={handleSearchIcon} search={state.searchValue}/>
+     <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
         <div className="dropdown mr-2.5">
           <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: {state.type} <span className="icon drop-arrow"></span></div>
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -176,7 +158,6 @@ const loadMoreNFTS=()=>{
           </ul>
         </div>
      </div>
-    
      
     <div className="relative mt-6 ">
     {props?.featchNFTsCollection?.collectionData?.loading && <NftCardsShimmer/>}
@@ -264,7 +245,7 @@ const loadMoreNFTS=()=>{
    })}
 
           {props?.featchNFTsCollection?.collectionData?.data?.length === 0 &&
-            <div className='text-center'>
+            <div className='lg:col-span-4 md:col-span-3'>
               <NoData text={""} />
             </div>}
   </div>
