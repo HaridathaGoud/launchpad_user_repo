@@ -117,39 +117,32 @@ function Navbar({ changingAddress, handleDisconnect }) {
                     ></label>
                     <div className="menu px-4 pt-2 w-full min-h-full bg-white text-base-content">
                       <div className="text-right">
-                        <span className="icon close cursor-pointer" onClick={handleCancel}></span>
-                        <ul className="pl-[34px] pt-2 ">
-                          {navMenuList.map(({ name, type, path, menu }) => {
-                            return (
-                              <li className="group !hover:bg-transparent mb-4" key={name}>
-                                {type === 'dropdown' && <DropdownMenus
-                                  btnContent={<span className="!hover:bg-transparent">
-                                    <NaviLink
-                                      path={path}
-                                      type="primary"
-                                      className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                                    >
-                                      {name}
-                                    </NaviLink>
-                                  </span>}
-                                  dropdownClass="md:dropdown-end dropdown-hover"
-                                  dropdownList={menu}
-                                  addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
-                                  addToMenuBtnClass="text-center py-4"
-                                  menuItemClass="border border-t-0"
-                                  isHover={true}
-                                />}
-                                {type === 'link' && path && <NaviLink
+                        <span className="icon close cursor-pointer" onClick={handleCancel}></span>                       
+                        <ul className="pl-[34px] pt-2">
+                          {navMenuList.map(({ name, type, path, menu }) => (
+                            <React.Fragment key={name}>
+                              <li className="group !hover:bg-transparent mb-4">
+                                <NaviLink
                                   path={path}
                                   type="primary"
                                   className="mr-[30px] text-secondary cursor-pointer bg-transparent"
                                 >
                                   {name}
-                                </NaviLink>}
-
+                                </NaviLink>
                               </li>
-                            );
-                          })}
+                              {type === 'dropdown' && menu && menu.map((dropdownItem) => (
+                                <li className="group !hover:bg-transparent mb-4" key={dropdownItem.name}>
+                                  <NaviLink
+                                    path={dropdownItem.path}
+                                    type="primary"
+                                    className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                                  >
+                                    {dropdownItem.name}
+                                  </NaviLink>
+                                </li>
+                              ))}
+                            </React.Fragment>
+                          ))}
                         </ul>
                       </div>
                     </div>

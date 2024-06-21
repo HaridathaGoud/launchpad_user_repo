@@ -214,11 +214,11 @@ export const getNavMenu = (
       type:'link',
       path:"/aboutus",
     },
-    {
-      name: "Docs",
-      type:'link',
-      path:"/docs",
-    },
+    // {
+    //   name: "Docs",
+    //   type:'link',
+    //   path:"/docs",
+    // },
   ]
 };
 
