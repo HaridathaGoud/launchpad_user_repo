@@ -27,6 +27,7 @@ import Button from "../../../ui/Button";
 import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
+import NoDataFound from "../../../ui/noData";
 import thorntf from "../../../assets/images/thor.jpg"
 
 const DetailPage = (props: any) => {
