@@ -124,7 +124,7 @@ const saveFavorite=(item:any)=>{
 }
 const handleTabChange=(selectedTab : any)=>{
   if(searchInputRef.current) searchInputRef.current.value=''
- const selectTabs = getSelectTabs(selectedTab); 
+ const selectTabs = getSelectTabs(selectedTab);
  store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, 1, state?.pageSize, state.type, null,props.auth.user?.id,previousData,(response)=>{
   dispatch({ type: 'update', payload: { pageNo:2} });
  }));
@@ -168,11 +168,11 @@ const reDirectToBuy=(item)=>{
           </ul>
         </div>
      </div>
-     
+
     <div className="relative mt-6 ">
     {props?.featchNFTsCollection?.collectionData?.loading &&  !state?.seeMoreLoader && <NftCardsShimmer/>}
     <div className='grid gap-4 lg:grid-cols-4 md:grid-cols-3'>
-   
+
   {props?.featchNFTsCollection?.collectionData?.data?.map((item:any,index:any)=>{
    return (
     <>
@@ -209,7 +209,7 @@ const reDirectToBuy=(item)=>{
            />
        </div>
      </Button>
-     
+
      <Button
        type="plain"
        btnClassName="w-[100%]"
@@ -245,14 +245,14 @@ const reDirectToBuy=(item)=>{
          <span className="icon card-shop"></span>
          <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"
           >
-           Buy Now
+          { item?.isPutOnSale && "Put On Sale"}
          </span>
        </div>
      </div>}
    </div>
      </div>
    </div>
-    
+
      </>
      )
    })}
@@ -268,7 +268,7 @@ const reDirectToBuy=(item)=>{
            </span>
            <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
          </Button></div>
-          )} 
+          )}
     </div>
     </>
   );
