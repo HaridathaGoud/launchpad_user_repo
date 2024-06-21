@@ -63,7 +63,7 @@ export default function BrowseByCategory() {
             </div>
             <div className="grid lg:grid-cols-4 gap-4">
               {getDisplayedItems().map((item: any, idx: any) =>
-                <Link to={'/marketplace/categoryview'} key={idx}>
+                <Link to={`/marketplace/categoryview/${item?.id}`} key={idx}>
                   <div className='card bg-primary-content border border-slate-200 w-full'>
                     <img src={item?.image || defaultbg} className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
                     <div className="flex gap-1 mt-1">
