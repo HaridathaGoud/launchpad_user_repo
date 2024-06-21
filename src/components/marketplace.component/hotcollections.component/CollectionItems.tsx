@@ -16,6 +16,7 @@ const pageSize = 6;
     const rootDispatch = useDispatch();
     const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
     const [searchInput, setSearchInput] = useState(null);
+    const [activeContent, setActiveContent] = useState<any>('content1');
     const searchInputRef=useRef<any>(null)
     const scrollableRef = useRef<any>(null);
     const {NftDetails} = useSelector((store: any) => {
@@ -34,7 +35,6 @@ const pageSize = 6;
         search:searchInput,
         data:NftDetails.data,
        }));
-       scrollableRef?.current?.scrollIntoView(0, 0);
        if (NftDetails.error) rootDispatch(setError({message:NftDetails.error}))
 
         return () => {
@@ -71,6 +71,12 @@ const pageSize = 6;
   const sendSelectedValue = (value:any) => {
     dispatch({ type: 'setSelectedPriceLevel', payload: value });
   };
+  const showContent1 = () => {
+    setActiveContent('content1');
+  };
+  const showContent2 = () => {
+    setActiveContent('content2');
+  };
   
   return (<>
   <div ref={scrollableRef}></div>
@@ -85,10 +91,10 @@ const pageSize = 6;
               <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
             </ul>
           </div>
-          <span className='bg-accent p-2.5 rounded cursor-pointer'>
+          <span className='bg-accent p-2.5 rounded cursor-pointer' onClick={showContent1}>
             <span className="icon filter-squre"></span>
           </span>
-          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer">
+          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer" onClick={showContent2}>
             <span className="icon properties"></span>
           </span>
           {/* <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
@@ -108,11 +114,15 @@ const pageSize = 6;
         handleApplyClick={handleApplyClick}
         selectedCurrency={state.selectedCurrency}  />
       </div>
+      
       <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
+      {activeContent === 'content1' && (
         <NftCards />
+        )}
+        {activeContent === 'content2' && (
+          <ListView data={NftDetails}/>)}
       </div>
     </div>
-    {/* <ListView/> */}
   </>)
 }
 const connectStateToProps = ({ oidc,collectionReducer }: any) => {
