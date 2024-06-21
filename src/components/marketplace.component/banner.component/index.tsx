@@ -18,9 +18,27 @@ const Banner = () => {
     const { isConnected } = useAccount();
     const router = useNavigate();
     useEffect(() => {
+        getCountDetails();
         getTopNftDetails();
     }, [isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
-
+    const getCountDetails = async () => {
+        try {
+            localDispatch({ type: 'setLoader', payload: true });
+            let response = await getTopNft('User/Users');
+            if (response.status === 200) {
+                localDispatch({ type: 'setCountDetails', payload: response.data });
+            }
+            else {
+                rootDispatch(setError({ message: response }));
+            }
+        }
+        catch (error) {
+            rootDispatch(setError({ message: error }));
+        }
+        finally {
+            localDispatch({ type: 'setLoader', payload: false });
+        }
+    }
 
     const getTopNftDetails = async () => {
         try {
@@ -56,7 +74,7 @@ const Banner = () => {
     //     setModalShow(true)
     //   }
     // }
-
+console.log(localState.countDetails)
 
     return (
         <>
