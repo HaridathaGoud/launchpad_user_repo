@@ -37,9 +37,9 @@ function Navbar({ changingAddress, handleDisconnect }) {
         case "disconnect":
           handleDisconnect();
           return;
-          case "mycollections":
-            navigate(`/marketplace/mycollections`);
-            return;
+        case "mycollections":
+          navigate(`/marketplace/mycollections`);
+          return;
         default:
           return;
       }
@@ -102,17 +102,35 @@ function Navbar({ changingAddress, handleDisconnect }) {
           </div>
 
           <div className="navbar-center hidden lg:flex ">
-            <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 ">
-              {navMenuList.map(({ path, name }) => {
+            <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 items-center ">
+              {navMenuList.map(({ name, type, path,menu }) => {
                 return (
-                  <li className="group" key={path}>
-                    <NaviLink
+                  <li className="group !hover:bg-transparent" key={name}>
+                    {type === 'dropdown' && <DropdownMenus
+                      btnContent={<span className="!hover:bg-transparent">
+                        <NaviLink
                       path={path}
                       type="primary"
                       className="mr-[30px] text-secondary cursor-pointer bg-transparent"
                     >
                       {name}
                     </NaviLink>
+                      </span>}
+                      dropdownClass="md:dropdown-end dropdown-hover"
+                      dropdownList={menu}
+                      addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
+                      addToMenuBtnClass="text-center py-4"
+                      menuItemClass="border border-t-0"
+                      isHover={true}
+                    />}
+                    {type === 'link' && path && <NaviLink
+                      path={path}
+                      type="primary"
+                      className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                    >
+                      {name}
+                    </NaviLink>}
+
                   </li>
                 );
               })}
@@ -126,9 +144,9 @@ function Navbar({ changingAddress, handleDisconnect }) {
               btnContent={<span className="icon menu-icon"></span>}
               dropdownClass="md:dropdown-end"
               dropdownList={globalDropdown}
-              addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
+              addToMenuClass="!min-w-[254px] grid  global-list mt-5"
               addToMenuBtnClass="text-center py-4"
-              menuItemClass="border border-t-0"
+              menuItemClass=""
             />
           </div>
           {!isConnected &&
