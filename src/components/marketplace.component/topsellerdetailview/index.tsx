@@ -80,7 +80,7 @@ const TopsellerDetailview = ({ buynft }) => {
                   <span className="icon filter-squre"></span>
                 </span>
                 <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer">
-                  <span className="icon filter-dots"></span>
+                  <span className="icon properties"></span>
                 </span>
                 <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
                   <span className="icon filter-cart"></span>
@@ -106,7 +106,7 @@ const TopsellerDetailview = ({ buynft }) => {
                   <span className="icon filter-squre"></span>
                 </span>
                 <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer">
-                  <span className="icon filter-dots"></span>
+                  <span className="icon properties"></span>
                 </span>
                 <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
                   <span className="icon filter-cart"></span>
