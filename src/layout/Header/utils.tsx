@@ -167,6 +167,12 @@ export const getNavBarDropdown = (
             handleDropdownAction("disconnect");
           },
         },
+        {
+          name: "My Collections",
+          action: () => {
+            handleDropdownAction("mycollections");
+          }
+        },
       ]
     : [
         {

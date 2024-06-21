@@ -176,11 +176,24 @@ const reDirectToBuy=(item)=>{
   {props?.featchNFTsCollection?.collectionData?.data?.map((item:any,index:any)=>{
    return (
     <>
-    
+   <div className='relative'>
+   <div className="bg-black top-3 z-10 absolute cursor-pointer right-3 rounded-full">
+       <Button
+         type="plain"
+         btnClassName=""
+         handleClick={()=>saveFavorite(item)}
+       >
+         <span
+           className={`icon like-white ${item.isFavourite && "active"}`}
+         ></span>
+         {props?.featchNFTsCollection?.saveFavaratedCount?.loading && (<span>
+         {state.selectedFavaratedID === item.id && <Spinner />}</span>)}
+       </Button>
+     </div>
      <div
-   className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
-   >
-   <div className="cursor-pointer" onClick={()=>reDirectToBuy(item)}>
+   className="mt-1 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
+   onClick={()=>reDirectToBuy(item)}>
+   <div className="cursor-pointer" >
      <Button
        type="plain"
        btnClassName='w-full'
@@ -196,19 +209,7 @@ const reDirectToBuy=(item)=>{
            />
        </div>
      </Button>
-     <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
-       <Button
-         type="plain"
-         btnClassName=""
-         handleClick={()=>saveFavorite(item)}
-       >
-         <span
-           className={`icon like-white ${item.isFavourite && "active"}`}
-         ></span>
-         {props?.featchNFTsCollection?.saveFavaratedCount?.loading && (<span>
-         {state.selectedFavaratedID === item.id && <Spinner />}</span>)}
-       </Button>
-     </div>
+     
      <Button
        type="plain"
        btnClassName="w-[100%]"
@@ -250,6 +251,7 @@ const reDirectToBuy=(item)=>{
      </div>}
    </div>
      </div>
+   </div>
     
      </>
      )

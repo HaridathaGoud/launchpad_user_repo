@@ -57,7 +57,7 @@ const KycDetails = ({ kycStatus, id }) => {
     kycStatus === null
   ) {
     return (
-      <div className="">
+      <div className="pl-3">
         <h4 className="font-semibold text-lg text-secondary mt-[26px]">KYC Details</h4>
         <p className="text-sm text-secondary font-normal mt-1">
           KYC not yet completed, Please click below button to update KYC details
@@ -85,7 +85,7 @@ const KycDetails = ({ kycStatus, id }) => {
   }
   return (
     <>
-      <div className="">
+      <div className="pl-3 mt-[26px]">
         <h2 className="font-semibold text-lg text-secondary mb-4">Personal</h2>
         {
           <>
@@ -186,7 +186,7 @@ const KycDetails = ({ kycStatus, id }) => {
         }
       </div>
 
-     {identityDetails && <div className="">
+     {identityDetails && <div className="pl-3">
         <h2 className="font-semibold text-lg text-secondary mb-3">
           Identification Documents
         </h2>

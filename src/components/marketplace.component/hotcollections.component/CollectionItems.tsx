@@ -2,10 +2,11 @@ import React, { useEffect, useReducer, useRef, useState } from 'react'
 import StatusDetailview from './detailviewstatus'
 import NftCards from './Nftcards'
 import SearchBar from '../../../ui/searchBar'
-import { fetchNftsDetails, hotCollectionReducer, hotcollectionState } from './reducer'
+import {  hotCollectionReducer, hotcollectionState } from './reducer'
 import {  connect} from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { store } from '../../../store';
+import { fetchNftsDetails } from '../../../reducers/collectionReducer'
 const pageSize = 6;
 
  const CollectionItems = (props:any) => {
@@ -98,8 +99,8 @@ const pageSize = 6;
 
   </>)
 }
-const connectStateToProps = ({ oidc,hotCollections }: any) => {
-  return { oidc: oidc,hotCollections:hotCollections };
+const connectStateToProps = ({ oidc,collectionReducer }: any) => {
+  return { oidc: oidc,collectionReducer:collectionReducer };
 };
 export default connect(connectStateToProps, (dispatch) => {
   return { dispatch };

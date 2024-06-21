@@ -3,12 +3,11 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
 import { useLocation, useNavigate } from "react-router-dom";
-import { clearNfts, fetchNfts ,fetchCollections} from "../../../reducers/marketPlaceReducer";
+import { clearNfts, fetchCollections} from "../../../reducers/marketPlaceReducer";
 import { store } from "../../../store";
-import { saveFavorite, saveViews } from "./services";
+import { saveFavorite } from "./services";
 import Button from "../../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
-import Spinner from "../../loaders/spinner";
 import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
 import WalletConnect from "../../../layout/Login";
 import { Modal, modalActions } from "../../../ui/Modal";
@@ -19,8 +18,6 @@ const pageSize = 10;
 const search = null;
 function MyCollections(props: any) {
   const { address, isConnected } = useAccount();
-
-
   const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,7 +29,6 @@ function MyCollections(props: any) {
   const errorMessage=useSelector(((store:any)=>store.layoutReducer.error.message))
   const rootDispatch = useDispatch();
   useEffect(() => {
-    // store.dispatch(fetchNfts(data, 1, "all", search, props.auth.user?.id));
     store.dispatch(fetchCollections(data, 1, search,location?.pathname,user?.user?.id ));
     scrollableRef?.current?.scrollIntoView(0, 0);
     if (error) rootDispatch(setError({message:error}))
@@ -44,79 +40,14 @@ function MyCollections(props: any) {
   const loadmore = () => {
     store.dispatch(fetchCollections(data, pageNo, search,location?.pathname,user?.user?.id ));
   };
-  const addToFavorites = (item: any) => {
-    if (isConnected) {
-      saveFavoriteNft(item);
-    } else {
-      modalActions("connect-wallet-model-exploreNfts", "open");
-    }
-  };
-  const saveFavoriteNft = async (item: any) => {
-    errorMessage && rootDispatch(setError({message:''}))
-    localDispatch({
-      type: "setFavoriteLoader",
-      payload: { id: item.id, loading: true },
-    });
-    try {
-      let obj = {
-        nftId: item.id,
-        customerId: props.auth.user?.id,
-        isFavourite: !item.isFavourite,
-      };
-      const { status, error } = await saveFavorite(obj);
-      if (status) {
-        rootDispatch(
-          setToaster({
-            message: `Nft ${
-              item.isFavourite ? "removed from" : "added to"
-            } Favorites!`,
-          })
-        );
-        store.dispatch(
-          fetchCollections(data, 1, null, data.length)
-        );
-      }
-      if (error) rootDispatch(setError({message:error}));
-    } catch (error) {
-      rootDispatch(setError({message:"Something went wrong, please try again!"}))
-    } finally {
-      localDispatch({
-        type: "setFavoriteLoader",
-        payload: { id: "", loading: false },
-      });
-    }
-  };
 
-  const navigateToAsset = (item) => {
-    navigate(
-      `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
-    );
-  };
-  const saveView = async (item) => {
-    localDispatch({
-      type: "setLoader",
-      payload: true,
-    });
-    try {
-      let obj = {
-        nftId: item.id,
-        customerId: props.auth.user?.id,
-      };
-      const { status, error } = await saveViews(obj);
-      if (status) navigateToAsset(item);
-      if (error) rootDispatch(setError({message:error}));
-    } catch (_) {
-      rootDispatch(setError({message:"Something went wrong, please try again!"}))
-    } finally {
-      localDispatch({
-        type: "setLoader",
-        payload: false,
-      });
-    }
-  };
   const handleButtonClick = () => {
     navigate('/marketplace/collection/create');
   };
+  const handleCardView = (item) =>{
+    navigate(`/marketplace/collection/${item.id}/view`
+    );
+  }
   return (
     <>
       <div ref={scrollableRef}></div>
@@ -125,7 +56,7 @@ function MyCollections(props: any) {
        <div className="flex justify-between items-center mb-[28px]">
         <div>
         <h2 className="text-[24px] text-secondary font-semibold mb-3">
-        View {location?.pathname === "/marketplace/mycollections" ? "my collections" : "collections"}
+        {location?.pathname === "/marketplace/mycollections" ? "My Collections" : "Collections"}
         </h2>
         <p className="text-secondary opacity-60">Create, curate, and manage collections of unique NFTs to share and sell.</p>
         </div>
@@ -146,8 +77,7 @@ function MyCollections(props: any) {
             !localState?.loader &&
             data?.map((item: any) => (
               <div className="">
-
-              <div className="card bg-primary-content lg:w-[300px] " onClick={() => saveView(item)}>
+              <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleCardView(item)}>
                 <div className="">
                   <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px]" />
                 </div>
@@ -179,124 +109,7 @@ function MyCollections(props: any) {
                   </div>
                 </div>
               </div>
-
-
             </div>
-              // <div
-              //   className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
-              //   key={item.id}
-              // >
-              //   <div className="cursor-pointer">
-              //     <Button
-              //       handleClick={
-              //         isConnected
-              //           ? () => saveView?.(item)
-              //           : () => navigateToAsset(item)
-              //       }
-              //       type="plain" btnClassName="w-full"
-              //     >
-              //       <div className="">
-              //         {" "}
-              //         <img
-              //           src={
-              //             item?.logo && !item?.logo?.includes("null")
-              //               ? item.logo.replace(
-              //                   "ipfs://",
-              //                   "https://ipfs.io/ipfs/"
-              //                 )
-              //               : defaultlogo
-              //           }
-              //           alt=""
-              //           className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${
-              //             item?.isUnlockPurchased &&
-              //             address !== item?.walletAddress
-              //               ? "blur-image"
-              //               : ""
-              //           }`}
-              //         />
-              //       </div>
-              //     </Button>
-              //     <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
-              //       <Button
-              //         type="plain"
-              //         handleClick={() => addToFavorites(item)}
-              //         btnClassName=""
-              //       >
-              //         {localState?.favoriteLoader?.id !== item.id && (
-              //           <span
-              //             className={`icon like-white ${
-              //               item?.isFavourite ? "active" : ""
-              //             }`}
-              //           ></span>
-              //         )}
-              //         {localState?.favoriteLoader?.id === item.id &&
-              //           localState?.favoriteLoader?.loading && (
-              //             <span>
-              //               <Spinner />
-              //             </span>
-              //           )}
-              //       </Button>
-              //     </div>
-              //     <Button
-              //       handleClick={
-              //         isConnected
-              //           ? () => saveView(item)
-              //           : () => navigateToAsset(item)
-              //       }
-              //       type="plain"
-              //       btnClassName="w-[100%]"
-              //     >
-              //       <div className="px-2 py-2.5">
-              //         <p className="text-xs text-left text-secondary truncate">
-              //           {item.creator}
-              //         </p>
-              //         <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
-              //           {" "}
-              //           {item.collectionName}{" "}
-              //         </h1>
-
-              //         <div className="flex justify-between truncate mb-3 gap-2">
-              //           <p className="opacity-60 truncate text-secondary">
-              //             Price
-              //           </p>
-              //           <p className="font-semibold text-secondary flex-1 truncate text-right">
-              //             {item.price ? item.price : "--"}{" "}
-              //             {item.currency && item.price
-              //               ? item.currency.toUpperCase()
-              //               : " "}
-              //           </p>
-              //         </div>
-              //         <div className="flex justify-between gap-2">
-              //           <p className="opacity-60 truncate text-secondary">
-              //             Highest bid
-              //           </p>
-              //           <p className="font-semibold text-secondary flex-1 truncate text-right">
-              //             {item.highestBid ? item.highestBid : "--"}{" "}
-              //             {item.currency && item.highestBid
-              //               ? item.currency.toUpperCase()
-              //               : " "}
-              //           </p>
-              //         </div>
-              //       </div>
-              //     </Button>
-              //     <hr />
-              //     <div className="px-2.5 py-4 flex justify-between">
-              //       <div className="flex add-cart cursor-pointer">
-              //         <span className="icon card-cart"></span>
-              //         <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-              //           Add to Cart
-              //         </span>
-              //       </div>
-              //       <div className="w-px border"></div>
-              //       <div className="flex shop-card cursor-pointer">
-              //         <span className="icon card-shop"></span>
-              //         <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-              //           Buy Now
-              //         </span>
-              //       </div>
-              //     </div>
-              //   </div>
-              // </div>
             ))}
           {(loader || localState?.loader) &&
             Array.from({ length: pageSize }, (_, index) => (

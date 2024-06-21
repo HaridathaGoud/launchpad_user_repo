@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Activity = (props:any) => {
   const {activityData} = useSelector((store: any) => {
     return {
-      activityData:store?.hotCollections.hotCollectionsActivityDetails
+      activityData:store?.collectionReducer.hotCollectionsActivityDetails
     }
   });
   return (

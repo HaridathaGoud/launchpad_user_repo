@@ -1,4 +1,4 @@
-import apiCalls from "../../../utils/api";
+import apiCalls from "../utils/api";
 const SET_HOT_COLLECTIONS_VIEW_DATA = "setHotCollectionsViewData";
 const SET_HOT_COLLECTIONS_ACTIVITY_DATA = "setHotCollectionsActivityData";
 const SET_NFTS='SetNfts';
@@ -132,54 +132,18 @@ const setHotCollectionsViewData = (payload:any) => {
   }
 
 export interface HotcollectionStateModel {
-    loader: boolean;
-    hotCollectionData: any | [];
-    currentIndex: number;
     hotCollectionViewDetails:any,
     hotCollectionsActivityDetails:any,
     NftDetails:any,
-    searchValue:any,
-    activeTab:any,
-    cardDetails:any,
-    selection:any,
-    favoriteLoader: any;
-    cardLoader: any,
-    selectedStatus:string,
-    selectedCurrency:string,
-    selectedPriceLevel:any,
 }
 export const hotcollectionState = {
-    loader: false,
-    hotCollectionData: [],
-    currentIndex: 0,
     hotCollectionViewDetails: { loading: false, data: null, nextPage: 1 },
     hotCollectionsActivityDetails: { loading: false, data: null, nextPage: 1 },
     NftDetails: { loading: false, data: null, nextPage: 1 },
-    searchValue:'',
-    activeTab:'',
-    cardDetails:null,
-    selection:{
-      searchValue:null,
-      minMaxCategory:'min to max',
-    },
-    favoriteLoader: { id: "", loading: false },
-    cardLoader:false,
-    selectedStatus:'All',
-    selectedCurrency:'Matic',
-    selectedPriceLevel:'min to max'
 };
 
-export const hotCollectionReducer = (state = hotcollectionState, action) => {
+ const collectionReducer = (state = hotcollectionState, action) => {
     switch (action.type) {
-        case "setLoader":
-            state = { ...state, loader: action.payload };
-            break;
-        case "setHotCollectionData":
-            state = { ...state, hotCollectionData: action.payload };
-            break;
-        case "setCurrentIndex":
-            state = { ...state, currentIndex: action.payload };
-            break;
         case SET_HOT_COLLECTIONS_VIEW_DATA: 
             return {
                 ...state, hotCollectionViewDetails: {
@@ -207,40 +171,17 @@ export const hotCollectionReducer = (state = hotcollectionState, action) => {
                     nextPage: action.payload.nextPage 
                 },
             }; 
-            case "setActiveTab":
-            state = { ...state, activeTab: action.payload };
-            break;
-            case "setCardDetails": 
-            state = { ...state, cardDetails: action.payload };
-            break;
-            case "update":
-            state = { ...state, selection: action.payload };
-            break;
-            case "setFavoriteLoader":
-            state = { ...state, favoriteLoader: action.payload };
-            break;
-            case "setCardLoader":
-           state = { ...state, cardLoader: action.payload };
-           break;
-           case "setSelectedCurrency":
-           state = { ...state, selectedCurrency: action.payload };
-           break;
-           case "setSelectedStatus":
-           state = { ...state, selectedStatus: action.payload };
-           break;
-           case "setSelectedPriceLevel":
-           state = { ...state, selectedPriceLevel: action.payload };
-           break;
         default:
             state = { ...state };
     }
     return state;
 };
+export default collectionReducer
 export {
-    // clearHotCollectionsViewDetails,
-    // fetchHotCollectionsViewDetails,
-    // clearCollectionsActivityData,
-    // fetchHotCollectionsActivityDetails,
-    // fetchNftsDetails,
-    // clearNfts,
+    clearHotCollectionsViewDetails,
+    fetchHotCollectionsViewDetails,
+    clearCollectionsActivityData,
+    fetchHotCollectionsActivityDetails,
+    fetchNftsDetails,
+    clearNfts,
 }

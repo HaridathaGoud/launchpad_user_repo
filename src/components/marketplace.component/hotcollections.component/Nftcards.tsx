@@ -9,9 +9,10 @@ import { useAccount } from 'wagmi';
 import { useDispatch,useSelector } from 'react-redux';
 import { modalActions } from '../../../ui/Modal';
 import { setError, setToaster } from '../../../reducers/layoutReducer';
-import { fetchNftsDetails, hotCollectionReducer, hotcollectionState } from './reducer';
+import {  hotCollectionReducer, hotcollectionState } from './reducer';
 import { saveFavorite, saveViews } from '../mycollections.component/services';
 import { store } from '../../../store';
+import { fetchNftsDetails } from '../../../reducers/collectionReducer';
 const pageSize = 6;
 
 const NftCards = (props:any) => {
@@ -23,7 +24,7 @@ const NftCards = (props:any) => {
     const {user,NftDetails,errorMessage} = useSelector((store: any) => {
         return {
           user:store.auth.user,
-          NftDetails:store.hotCollections.NftDetails,
+          NftDetails:store.collectionReducer.NftDetails,
           errorMessage:store.layoutReducer.error.message
         }
       });
