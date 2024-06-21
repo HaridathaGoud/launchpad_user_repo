@@ -205,6 +205,8 @@ const CreateCollection = (props: any) => {
       'image/PNG': true,
       'image/JPG': true,
       'image/JPEG': true,
+      'image/gif': true,
+      'image/GIF': true
     };
     body.append('file', file);
     if (fileType[file.type]) {
@@ -336,7 +338,7 @@ const CreateCollection = (props: any) => {
                   {localState.values.featuredImage && (
                         <img
                           src={localState.values?.featuredImage}
-                          
+
                           alt=""
                           className="object-cover h-full w-full"
                         />
