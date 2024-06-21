@@ -9,7 +9,6 @@ const fetchTopSellersAction = (payload) => {
 }
 
   const fetchTopSellers = (information) => {
-    debugger
     const {take,page, data } = information;
     const skip = take * (page) - take;
     return async (dispatch) => {

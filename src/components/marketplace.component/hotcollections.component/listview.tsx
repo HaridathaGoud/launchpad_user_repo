@@ -88,7 +88,7 @@ const ListView = ({ userClaims,fetchData }) => {
                       {" "}
                     
                         <Button
-                          type="primary"
+                          type="secondary"
                           btnClassName="!py-0 px-6"
                         >               
                           Buy Now

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import {  useParams } from 'react-router-dom';
 import CollectionTabs from './CollectionTabs'
 import Button from '../../../ui/Button';
@@ -11,10 +11,12 @@ import { clearCollectionsActivityData,
    fetchHotCollectionsActivityDetails, 
    fetchHotCollectionsViewDetails, 
    fetchNftsDetails } from '../../../reducers/collectionReducer';
+import { setError } from '../../../reducers/layoutReducer';
 const pageSize = 6;
 
 const HotcollectionView = (props: any) => {
   const params = useParams();
+  const rootDispatch = useDispatch();
   const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
   const {hotCollectionViewDetails,user,activityData,NftDetails} = useSelector((store: any) => {
     return {
@@ -24,17 +26,21 @@ const HotcollectionView = (props: any) => {
       NftDetails:store.collectionReducer.NftDetails,
     }
   });
-  const [searchValue, setSearchValue]=useState({status:"all",currency:"Matic",priceLevel:null,minMaxCategory:'min to max',selectedSearch:null})
+  const [searchValue, setSearchValue]=useState({status:"All",currency:"Matic",priceLevel:null,minMaxCategory:'min to max',selectedSearch:null})
   const [isActive, setIsActive] = useState(0);
 
   useEffect(()=>{
     getHotCollectionsData();
+    if (hotCollectionViewDetails.error) rootDispatch(setError({message:hotCollectionViewDetails.error}))
+
     return () => {
       props.clearHotCollectionViewDetails();
     };
   },[])
   useEffect(() => {
-    getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory);
+    getNftsDetails(state.selectedStatus,state.selectedCurrency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory);
+    if (NftDetails.error) rootDispatch(setError({message:NftDetails.error}))
+
     return () => {
       props.clearNfts();
       props.clearCollectionsActivityData();
@@ -43,7 +49,7 @@ const HotcollectionView = (props: any) => {
 
   const handleTabChange = (selectedTab: any) => {
      setIsActive(selectedTab);
-      getNftsDetails(searchValue.status, searchValue.currency, searchValue.priceLevel, state.selection?.minMaxCategory||searchValue.minMaxCategory);
+      getNftsDetails(state.selectedStatus, state.selectedCurrency, searchValue.priceLevel, state.selection?.minMaxCategory||searchValue.minMaxCategory);
   };
 
   const getHotCollectionsData = async () => {

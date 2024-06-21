@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer } from "react";
+import React, { useEffect, useRef, useReducer, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
@@ -17,30 +17,55 @@ import NoDataFound from "../../../ui/noData";
 import FilterComponent from "../filtercomponent";
 import StatusDetailview from "../hotcollections.component/detailviewstatus";
 import BreadCrumb from "../../../ui/breadcrumb";
-const pageSize = 10;
-const search = null;
+import SearchBar from "../../../ui/searchBar";
+const pageSize = 6;
 function ExploreNfts(props: any) {
   const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
   const navigate = useNavigate();
-
   const scrollableRef = useRef<any>(null);
+  const searchInputRef=useRef<any>(null)
+  const [searchInput, setSearchInput] = useState(null);
+
   const { loader, error, data, pageNo } = useSelector(
     (store: any) => store.exploreNfts
   );
   const errorMessage=useSelector(((store:any)=>store.layoutReducer.error.message))
   const rootDispatch = useDispatch();
   useEffect(() => {
-    store.dispatch(fetchNfts(data, 1, "all", search, props.auth.user?.id));
+    store.dispatch(fetchNfts({ 
+      pageNo:pageNo,
+      take:pageSize,
+      categoryName:'all',
+      searchBy:searchInput,
+      price:localState.selection.minMaxCategory||localState.selectedPriceLevel,
+      quatity:'all%20items',
+      currency:localState.selectedCurrency,
+      status:localState.selectedStatus,
+      customerId:props.auth.user?.id,
+      data:data,
+    }));
     scrollableRef?.current?.scrollIntoView(0, 0);
     if (error) rootDispatch(setError({message:error}))
 
     return () => {
       store.dispatch(clearNfts());
     };
-  }, [props.auth.user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.auth.user?.id,searchInput,localState.selectedStatus,localState.selection.minMaxCategory]); // eslint-disable-line react-hooks/exhaustive-deps
   const loadmore = () => {
-    store.dispatch(fetchNfts(data, pageNo, "all", search, props.auth.user?.id));
+    store.dispatch(fetchNfts({ 
+      pageNo:pageNo,
+      take:pageSize,
+      categoryName:'all',
+      searchBy:searchInput,
+      price:localState.selection.minMaxCategory||localState.selectedPriceLevel,
+      quatity:'all%20items',
+      currency:localState.selectedCurrency,
+      status:localState.selectedStatus,
+      customerId:props.auth.user?.id,
+      data:data,
+    }));
+    // store.dispatch(fetchNfts(data, pageNo, "all", searchInput, props.auth.user?.id));
   };
   const addToFavorites = (item: any) => {
     if (isConnected) {
@@ -70,9 +95,21 @@ function ExploreNfts(props: any) {
             } Favorites!`,
           })
         );
-        store.dispatch(
-          fetchNfts(data, 1, "all", null, props.auth.user?.id, data.length)
-        );
+        store.dispatch(fetchNfts({ 
+          pageNo:pageNo,
+          take:pageSize,
+          categoryName:'all',
+          searchBy:searchInput,
+          price:localState.selection.minMaxCategory||localState.selectedPriceLevel,
+          quatity:'all%20items',
+          currency:localState.selectedCurrency,
+          status:localState.selectedStatus,
+          customerId:props.auth.user?.id,
+          data:data,
+        }));
+        // store.dispatch(
+        //   fetchNfts(data, 1, "all", null, props.auth.user?.id, data.length)
+        // );
       }
       if (error) rootDispatch(setError({message:error}));
     } catch (error) {
@@ -112,6 +149,37 @@ function ExploreNfts(props: any) {
       });
     }
   };
+  const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
+    event.preventDefault();
+    const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
+    localDispatch({ type: 'update', payload: { minMaxCategory } });
+  };
+
+  const handleChange = (event: any) => {
+    const newStatus = event.target.value;
+    localDispatch({ type: 'setSelectedStatus', payload: newStatus });
+  };
+  const handleDropdownChange = (value: any) => {
+    localDispatch({ type: 'setSelectedCurrency', payload: value });
+  };
+  const sendSelectedValue = (value:any) => {
+    localDispatch({ type: 'setSelectedPriceLevel', payload: value });
+  };
+  const handleApplyClick = () => {
+    store.dispatch(fetchNfts({ 
+      pageNo:pageNo,
+      take:pageSize,
+      categoryName:'all',
+      searchBy:searchInput,
+      price:localState.selection.minMaxCategory||localState.selectedPriceLevel,
+      quatity:'all%20items',
+      currency:localState.selectedCurrency,
+      status:localState.selectedStatus,
+      customerId:props.auth.user?.id,
+      data:data,
+    }));
+    // store.dispatch(fetchNfts(data, pageNo, "all", searchInput, props.auth.user?.id));
+  };
   return (
     <>
       <div ref={scrollableRef}></div>
@@ -130,10 +198,40 @@ function ExploreNfts(props: any) {
             />
           </Modal>
         }
-        <FilterComponent/>
+        {/* <FilterComponent/> */}
+        <div className="mt-7 mb-[42px]">
+      <div className="md:flex justify-between gap-4">
+        <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
+        <div className="flex items-center max-sm:mt-2">
+          <div className="dropdown mr-2.5">
+            <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: {localState.selection.minMaxCategory||localState.selectedPriceLevel} <span className="icon drop-arrow"></span></div>
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li onClick={(event) => handlePriceRangeSelection(event, 'low2high')} ><a>Low</a></li>
+              <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
+            </ul>
+          </div>
+          <span className='bg-accent p-2.5 rounded cursor-pointer'>
+            <span className="icon filter-squre"></span>
+          </span>
+          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer">
+            <span className="icon filter-dots"></span>
+          </span>
+          {/* <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
+            <span className="icon filter-cart"></span>
+            <span className='bg-primary text-white w-[16px] top-[-4px] right-[4px] text-xs h-[16px] inline-block flex justify-center items-center absolute rounded-full'>4</span>
+          </span> */}
+        </div>
+      </div>
+    </div>
         <div className='grid md:grid-cols-12 lg:gap-[45px]'>
           <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
-            <StatusDetailview />
+          <StatusDetailview 
+        handleChange={handleChange} 
+        handleDropdownChange={handleDropdownChange}
+        sendSelectedValue={sendSelectedValue}
+        selectedStatus={localState.selectedStatus}
+        handleApplyClick={handleApplyClick}
+        selectedCurrency={localState.selectedCurrency}  />
           </div>
           <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
           {data &&

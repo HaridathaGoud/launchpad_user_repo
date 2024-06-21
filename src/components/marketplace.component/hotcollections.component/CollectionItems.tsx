@@ -3,18 +3,26 @@ import StatusDetailview from './detailviewstatus'
 import NftCards from './Nftcards'
 import SearchBar from '../../../ui/searchBar'
 import {  hotCollectionReducer, hotcollectionState } from './reducer'
-import {  connect} from 'react-redux'
+import {  connect, useDispatch, useSelector} from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { store } from '../../../store';
-import { fetchNftsDetails } from '../../../reducers/collectionReducer'
+import { clearNfts, fetchNftsDetails } from '../../../reducers/collectionReducer'
+import ListView from './listview'
+import { setError } from '../../../reducers/layoutReducer'
 const pageSize = 6;
 
  const CollectionItems = (props:any) => {
     const params = useParams();
+    const rootDispatch = useDispatch();
     const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
     const [searchInput, setSearchInput] = useState(null);
     const searchInputRef=useRef<any>(null)
-
+    const scrollableRef = useRef<any>(null);
+    const {NftDetails} = useSelector((store: any) => {
+      return {
+        NftDetails:store.collectionReducer.NftDetails,
+      }
+    });
     useEffect(()=>{
       store.dispatch(fetchNftsDetails({
         take:pageSize,
@@ -24,9 +32,16 @@ const pageSize = 6;
         status:state.selectedStatus,
         currency:state.selectedCurrency,
         search:searchInput,
-        data:null,
+        data:NftDetails.data,
        }));
+       scrollableRef?.current?.scrollIntoView(0, 0);
+       if (NftDetails.error) rootDispatch(setError({message:NftDetails.error}))
+
+        return () => {
+          store.dispatch(clearNfts());
+        };
     },[searchInput,state.selectedStatus,state.selection.minMaxCategory])
+    
     const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
       event.preventDefault();
       const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
@@ -58,6 +73,7 @@ const pageSize = 6;
   };
   
   return (<>
+  <div ref={scrollableRef}></div>
     <div className="mt-7 mb-[42px]">
       <div className="md:flex justify-between gap-4">
         <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
@@ -96,7 +112,7 @@ const pageSize = 6;
         <NftCards />
       </div>
     </div>
-
+    {/* <ListView/> */}
   </>)
 }
 const connectStateToProps = ({ oidc,collectionReducer }: any) => {
