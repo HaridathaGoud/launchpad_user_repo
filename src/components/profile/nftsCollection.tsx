@@ -132,6 +132,7 @@ const handleTabChange=(selectedTab : any)=>{
 }
 const loadMoreNFTS=()=>{
   const selectTabs = getSelectTabs(state?.activeTab);
+  dispatch({ type: 'update', payload: { seeMoreLoader:true} });
   store.dispatch(fetchNftsCollection(selectTabs,address || walletAddress, state.pageNo, state.pageSize, state.type, state?.searchInput,props.auth.user?.id,previousData,(response)=>{
     if(response){
       let _pageNo = state.pageNo + 1;
@@ -166,7 +167,7 @@ const loadMoreNFTS=()=>{
      </div>
      
     <div className="relative mt-6 ">
-    {props?.featchNFTsCollection?.collectionData?.loading && <NftCardsShimmer/>}
+    {props?.featchNFTsCollection?.collectionData?.loading &&  !state?.seeMoreLoader && <NftCardsShimmer/>}
     <div className='grid gap-4 lg:grid-cols-4 md:grid-cols-3'>
    
   {props?.featchNFTsCollection?.collectionData?.data?.map((item:any,index:any)=>{
@@ -249,7 +250,7 @@ const loadMoreNFTS=()=>{
      </>
      )
    })}
-          {(!props?.featchNFTsCollection?.collectionData?.data || props.featchNFTsCollection.collectionData.data.length === 0) &&
+          {(!props?.featchNFTsCollection?.collectionData?.data || props.featchNFTsCollection.collectionData.data.length === 0) && !props?.featchNFTsCollection?.collectionData?.loading &&
             <div className='lg:col-span-4 md:col-span-3'>
               <NoData text={""} />
             </div>}
