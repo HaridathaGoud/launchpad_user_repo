@@ -12,7 +12,6 @@ import layoutReducer from "../reducers/layoutReducer";
 import portfolioReducer from "../reducers/portfolioReducer";
 import strapiReducer from "../components/strapi/docs/strapiReducer";
 import dashboardReducer from "../reducers/dashboardreducer";
-import { hotCollectionReducer } from "../components/marketplace.component/hotcollections.component/reducer";
 import marketPlaceProfileReducer from "../reducers/marketplaceProfileReducer";
 import collectionReducer from "../reducers/collectionReducer";
 const persistConfig = {
@@ -31,7 +30,6 @@ const rootReducerState = combineReducers({
   portfolio: portfolioReducer,
   strapiData:strapiReducer,
   dashboardReducer:dashboardReducer,
-  hotCollections:hotCollectionReducer,
   collectionReducer:collectionReducer,
   marketPlaceProfileReducer:marketPlaceProfileReducer.ntfsCollectionsReducer,
   createNft:marketPlaceReducer.createNftReducer
