@@ -5,12 +5,14 @@ import { getKyc } from "../../utils/api";
 import Moment from "react-moment";
 import { setError } from "../../reducers/layoutReducer";
 import { useDispatch } from "react-redux";
+import KycShimmer from "../marketplace.component/loaders/kycshimmer";
 
 const KycDetails = ({ kycStatus, id }) => {
   const navigate = useNavigate();
   const rootDispatch=useDispatch()
   const [userDetails, setUserDetails] = useState<any>(null);
   const [identityDetails, setIdentityDetails] = useState<any>(null);
+  const [identityDetailsLoader,setIdentityDetailsLoader]=useState(false)
   const shouldLog = useRef(true);
   useEffect(() => {
     if (id && shouldLog.current) {
@@ -21,9 +23,11 @@ const KycDetails = ({ kycStatus, id }) => {
 
   const getCustomerKycDetail = async (id: any) => {
     try {
+      setIdentityDetailsLoader(true)
       let response = await getKyc(`Sumsub/getKYCInformation/${id}`);
       if (response.statusText.toLowerCase() === "ok") {
         setUserDetails(response.data);
+        setIdentityDetailsLoader(false)
         let products = response.data.idTypes;
         const result = products?.reduce((acc, obj) => {
           const key = obj.idType;
@@ -36,9 +40,11 @@ const KycDetails = ({ kycStatus, id }) => {
         const tableData = result ? Object.entries(result) : null;
         setIdentityDetails(tableData);
       } else {
+        setIdentityDetailsLoader(false)
         rootDispatch(setError({message:response}))
       }
     } catch (error) {
+      setIdentityDetailsLoader(false)
       rootDispatch(setError({message:error}))
     }
   };
@@ -83,6 +89,7 @@ const KycDetails = ({ kycStatus, id }) => {
         <h2 className="font-semibold text-lg text-secondary mb-4">Personal</h2>
         {
           <>
+          {identityDetailsLoader && <><KycShimmer/></>}
             {userDetails && (
               <>
                 <div className="grid md:grid-cols-4 mb-4">

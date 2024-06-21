@@ -25,7 +25,7 @@ const Banner = () => {
     const getTopNftDetails = async () => {
         try {
             localDispatch({ type: 'setLoader', payload: true });
-            let response = await getTopNft('User/topnfts');
+            let response = await getTopNft('User/TopNftRecords');
             if (response.status === 200) {
                 localDispatch({ type: 'setTopNftDetails', payload: response.data });
             }
@@ -127,16 +127,14 @@ const Banner = () => {
                                             <div className='new-banner'>
                                                 <div className="banner-image">
                                                     <img className='h-[594px]'
-                                                        src={
-                                                            item?.image && !item?.image?.includes('null')
-                                                            && `${getNFTImageUrl(item?.image)}`
-                                                        }
+                                                        src={item?.image && !item?.image?.includes('null')
+                                                            && `${getNFTImageUrl(localState.topNftDetails[0]?.image)}`}
                                                         alt="" />
                                                 </div>
                                                 <div className="offer-card">
                                                     <div>
                                                         <label>Name</label>
-                                                        <h3>{item.nftName}</h3>
+                                                        <h3>{item?.nftName}</h3>
                                                     </div>
                                                 </div>
                                             </div>
