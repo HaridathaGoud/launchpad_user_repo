@@ -1,16 +1,17 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import { ethers } from "ethers";
 import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import BreadCrumb from "../../../ui/breadcrumb";
 import Button from "../../../ui/Button";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import Form from "./form";
 import { formReducer, formState } from "./reducer";
-import { FormState } from "./models";
+import { store } from "../../../store";
+import { clearCreateNft, clearNetworks, clearUserCollections, getNetworks, getUserCollections } from "../../../reducers/marketPlaceReducer";
 const projectId = process.env.REACT_APP_PROJECTID;
 const projectSecret = process.env.REACT_APP_PROJECTSECRET;
 const authorization = "Basic " + btoa(projectId + ":" + projectSecret);
@@ -28,110 +29,26 @@ function CreateNft(props: any) {
     useCollectionDeployer();
   // const { connectWallet } = useConnectWallet();
   const scrollableRef = useRef<any>(null);
-  const handleChange = (e: any, key: any) => {
-    const value = e.target.value;
-    const reg = /<(.|\n)*?>/g;
-    const emojiRejex =
-      /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff]|[\u2010-\u2017])/g;
-    const isNumber = /^[0-9].*$/.test(value);
-    const checkpercent = /^\d+(\.\d{1,2})?$/.test(value);
-    // const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(value);
-    // const containsEmoji = /[\u{1F300}-\u{1F6FF}]/u.test(value);
-    // const containsNonAlphabetic = !/^[\p{L} ]+$/u.test(value);
-    const containsHTMLTags = /<\/?[a-z][\s\S]*>/i.test(value);
-    const containsEmoji = /[\u{1F300}-\u{1F6FF}]/u.test(value);
-    const containsNonAlphabetic = !/^[\p{L} ,.;]+$/u.test(value);
-    const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
-    if (key == "name") {
-      if (containsHTMLTags || containsEmoji || containsNonAlphabetic) {
-        // setIsNameError("Please enter valid content");
-      } else {
-        // setIsNameError(null);
-      }
-    } else if (key == "external_Link") {
-      // if (value && (reg.test(value) || value.match(emojiRejex))) {
-      //   setExternalError('Please enter valid content');
-      // } else {
-      //   setExternalError(null)
-      // }
-      if (!pattern.test(value)) {
-        // setExternalError("Please enter valid content");
-      } else if (value && (reg.test(value) || value.match(emojiRejex))) {
-        // setExternalError("Please enter valid content");
-      } else {
-        // setExternalError(null);
-      }
-    } else if (key == "description") {
-      if (value && (reg.test(value) || value.match(emojiRejex))) {
-        // setIsDescription("Please enter valid content");
-      } else {
-        // setIsDescription(null);
-      }
-    } else if (key == "royaltifee") {
-      if (
-        !isNumber ||
-        (value && (reg.test(value) || value.match(emojiRejex) || !checkpercent))
-      ) {
-        // setRoyaltiValidationError("Please enter only numbers");
-      } else {
-        // setRoyaltiValidationError(null);
-      }
-    } else if (key == "salePrice") {
-      if (
-        !isNumber ||
-        (value && (reg.test(value) || value.match(emojiRejex)))
-      ) {
-        // setSaleValidationError("Please enter only numbers");
-      } else {
-        // setSaleValidationError(null);
-      }
-    } else if (key == "auctionPrice") {
-      if (
-        !isNumber ||
-        (value && (reg.test(value) || value.match(emojiRejex)))
-      ) {
-        // setAuctionValidationError("Please enter only numbers");
-      } else {
-        // setAuctionValidationError(null);
-      }
-    }
-    let _obj: any = { ...localState.values };
-    _obj[key] = value;
-    // setProfile(_obj);
-  };
-  // useEffect(() => {
-  //   if (shouldLog.current) {
-  //     shouldLog.current = false;
-  //     checkWalletAndProceed();
-  //   }
-  //   scrollableRef?.current?.scrollIntoView(0,0);
-  // }, []);
-  // async function checkWalletAndProceed() {
-  //   const response = await connectWallet();
-  //   if (response) {
-  //     getCollectionLu();
-  //   }
-  // }
+  const user=useSelector((store:any)=>store.auth.user)
   function _provider() {
     const _connector: any = window?.ethereum;
     const provider = new ethers.providers.Web3Provider(_connector);
     return provider;
   }
 
-  // const getCollectionLu = async () => {
-  //   // window.scroll(0,0);
-  //   scrollableRef?.current?.scrollIntoView(0,0);
-  //   setLoadings(true)
-  //   let id = props.auth.user.id;
-  //   let res = await get(`User/CollectionLu/${id}/ERC-721`);
-  //   if (res) {
-  //     setLoadings(false)
-  //     setcollectionsLu(res.data);
-  //     let _obj = { ...profile };
-  //     setProfile(_obj);
-  //   }
-  //   setLoadings(false)
-  // };
+  useEffect(()=>{
+    if(user?.id){
+      store.dispatch(getUserCollections({customerId:user.id,collectionType:'ERC-721'}))
+    }
+  },[user?.id])
+  useEffect(()=>{
+    store.dispatch(getNetworks())
+    return ()=>{
+      store.dispatch(clearUserCollections())
+      store.dispatch(clearCreateNft())
+      store.dispatch(clearNetworks())
+    }
+  },[])
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     // if (
@@ -375,12 +292,6 @@ function CreateNft(props: any) {
   }
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handlePicChange = (e: any) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      uploadToServer(file);
-    }
-  };
 
   // const uploadToServer = async (file: any) => {
   //   setPicLoader(true)
@@ -551,7 +462,6 @@ function CreateNft(props: any) {
           updateState={updateState}
           inputRef={inputRef}
           deleteImage={deleteImage}
-          handlePicChange={handlePicChange}
           collectionsLu={[]}
         />
       </div>

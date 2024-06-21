@@ -34,6 +34,7 @@ const rootReducerState = combineReducers({
   hotCollections:hotCollectionReducer,
   collectionReducer:collectionReducer,
   marketPlaceProfileReducer:marketPlaceProfileReducer.ntfsCollectionsReducer,
+  createNft:marketPlaceReducer.createNftReducer
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];
