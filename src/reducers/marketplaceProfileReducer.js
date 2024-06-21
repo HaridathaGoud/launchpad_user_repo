@@ -1,5 +1,5 @@
 import apiCalls from "../utils/api";
-import { getTopNft, post,getCustomer } from '../utils/api';
+import { getTopNft, postMarketplace } from '../utils/api';
 import { setError, setToaster }  from './layoutReducer'
 const FETCH_NFTS_COLLECTION = "featchNFTsCollection";
 const SETISFAVARATODCOUNT = "saveFavaratedCount";
@@ -60,11 +60,9 @@ const fetchNftsCollection = (selectTabs, walletAddress, pageNo, pageSize, catego
           dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: errorMessage }));
         }
       } catch (error) {
-        const errorMessage = error.message || 'An error occurred';
-        setError({ message: errorMessage });
-        dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: errorMessage }));
+        dispatch(featchNFTsCollection({ key: 'collectionData', loading: false, data: null, error: apiCalls.isErrorDispaly(error) }));
         if (callback) {
-          callback({ status: 500, message: errorMessage });
+          callback({ status: 500, message: error });
         }
       }
     };
@@ -76,7 +74,7 @@ const saveFavoriteNFT = (obj, callback) => {
       dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: 0, loading: true, error: null }));
   
       try {
-        const response = await post('User/SaveFavorite', obj);
+        const response = await postMarketplace('User/SaveFavorite', obj);
   
         if (response.status === 200) {
           dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: response?.data, loading: false, error: null }));

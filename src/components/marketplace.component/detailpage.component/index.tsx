@@ -698,7 +698,7 @@ const DetailPage = (props: any) => {
   return (
     <>
       <div ref={scrollableRef}></div>
-      <div className="container mx-auto px-3 lg-px-0">
+      <div className="container nft-detailview mx-auto px-3 lg-px-0">
         {errorMsg && (
           // <Alert variant="danger">
           //   <Image className='validation-error' src={validError} />
@@ -764,8 +764,8 @@ const DetailPage = (props: any) => {
         )) || (
           <>
             <section className="mt-5">
-              <div className="grid md:grid-cols-12 gap-[40px]">
-                <div className="md:col-span-5">
+              <div className="grid lg:grid-cols-12 gap-[40px]">
+                <div className="lg:col-span-5">
                   <div className="relative">
                     <div className="flex justify-between items-center absolute top-5 w-full px-5">
                       <div>
@@ -996,7 +996,7 @@ const DetailPage = (props: any) => {
                     </div>
                   </div>
                 </div>
-                <div className="md:col-span-7">
+                <div className="lg:col-span-7">
                   <div className="p-0">
                     <div className="">
                       <div className="flex justify-between items-start mb-3 sm:mt-2">

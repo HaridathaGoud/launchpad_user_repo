@@ -1,37 +1,20 @@
 import React, { useMemo, useState } from 'react'
-import { CollectionItems } from './CollectionItems';
 import Tabs from '../../../ui/Tabs';
 import Activity from '../topsellerdetailview/activity';
+import CollectionItems from './CollectionItems';
 
-const CollectionTabs = ({ minMaxCategory,
-  handlePriceRangeSelection,
-  getNftsDetails,
-  activityData,
-  handleTabChange,
-  NftDetails,
-  setSearchInput,
-  searchInputRef,
-  addToFavorites,
-  favoriteLoader,
-  saveView,
-  cardLoader }) => {
+const CollectionTabs = ({
+  handleTabChange }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = useMemo(() => {
     return [
       {
-        label: "Items", content: <CollectionItems
-           searchInputRef={searchInputRef}
-           setSearchInput={setSearchInput}
-          minMaxCategory={minMaxCategory}
-          handlePriceRangeSelection={handlePriceRangeSelection}
-          activeTab={activeTab} NftDetails={NftDetails} saveView={saveView}
-          getNftsDetails={getNftsDetails} addToFavorites={addToFavorites}
-           favoriteLoader={favoriteLoader} cardLoader={cardLoader} />
+        label: "Items", content: <CollectionItems activeTab={activeTab}  />
       },
-      { label: "Activity", content: <Activity activityData={activityData} /> },
+      { label: "Activity", content: <Activity /> },
     ];
-  }, [activeTab, minMaxCategory, handlePriceRangeSelection, getNftsDetails, activityData, CollectionItems])
+  }, [activeTab, CollectionItems])
   return (
     <Tabs
       tabs={tabs}

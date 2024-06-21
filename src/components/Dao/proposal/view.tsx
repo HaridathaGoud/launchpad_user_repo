@@ -60,8 +60,8 @@ const Proposal = () => {
                 <div>
                   <div className="pt-2">
                     <div>
-                      <div className="lg:flex justify-between items-center mb-3.5">
-                        <div className="flex items-center flex-wrap max-sm:gap-2">
+                      <div className="xl:flex justify-between gap-6 xl:gap-4 items-center mb-3.5">
+                        <div className="flex items-center flex-1 gap-1 max-sm:gap-2">
                           <div className="w-9 h-9 mr-2 shrink-0">
                             <img
                               src={user.profilePicUrl || defaultProfile}

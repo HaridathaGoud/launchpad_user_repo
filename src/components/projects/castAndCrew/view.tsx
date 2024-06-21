@@ -48,7 +48,7 @@ const CastandCrewMembersView = () => {
         )}
       </div>
       <BreadCrumb/>
-      <h1 className="text-base font-semibold mb-3 mt-5">Cast & Crew</h1>
+      <h1 className="text-base text-secondary font-semibold mb-3 mt-5">Cast & Crew</h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-7 founding-members">
         {castandcrews.cast_Crews?.map((item) => (
           <div className="card !bg-base-100 border border-slate-200 transform transition-transform duration-500 hover:scale-[1.03]" key={item.image+item.name}>

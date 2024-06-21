@@ -61,7 +61,7 @@ export default function HotCollections() {
 
                     <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
                       <div className="">
-                        <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px]" />
+                        <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                       </div>
                       <div className="p-5">
                         <h4 className="font-semibold text-2xl capitalize text-secondary truncate" title={item.collectionName}>{item.collectionName}</h4>
