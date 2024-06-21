@@ -144,7 +144,7 @@ const Form = ({
             {values.imageUrl && (
               <div className="w-full h-full">
                 <img
-                  src={values.imageUrl}                 
+                  src={values.imageUrl}
                   alt={""}
                   className="w-full h-full object-cover rounded-[28px]"
                 />
@@ -159,12 +159,12 @@ const Form = ({
               <div className="">
                 <div className="text-center">
                   <span
-                  // type="plain"
+                    // type="plain"
                     className="icon image-upload cursor-pointer"
                     // handleClick={() => inputRef.current?.click()}
                   ></span>
                   <p
-                  // type="plain"
+                    // type="plain"
                     // handleClick={() => inputRef.current?.click()}
                     className="my-5 cursor-pointer text-base font-semibold text-secondary opacity-60"
                   >
@@ -267,7 +267,7 @@ const Form = ({
                     </div>
                   </div>
                   <Button
-                  type="plain"
+                    type="plain"
                     btnClassName="icon add-btn cursor-pointer"
                     handleClick={() => modalActions("nftPropsModal", "open")}
                   ></Button>
@@ -305,15 +305,16 @@ const Form = ({
             />
 
             <div className="mb-6 p-relative">
-              <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
+              <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
                 Network
-              </label>
+              </p>
               <div className="dropdown dropdown-end w-full nft-dropdown">
                 <div
-                  role="button"
+                  // role="button"
                   className="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                 >
-                  <img className="scale-[0.8]" src={matic} alt="matic" /> <span className="text-secondary">Matic</span>
+                  <img className="scale-[0.8]" src={matic} alt="matic" />{" "}
+                  <span className="text-secondary">Matic</span>
                 </div>
                 <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
                   <li className="flex flex-row items-center gap-2">
@@ -351,7 +352,9 @@ const Form = ({
                       type="checkbox"
                       id="custom-switch"
                       checked={values.isPutOnSale}
-                      onChange={(e) => handleChange("isPutOnSale",e.target.checked)}
+                      onChange={(e) =>
+                        handleChange("isPutOnSale", e.target.checked)
+                      }
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -363,7 +366,7 @@ const Form = ({
                 </label>
               </div>
 
-              {values.putOnSale && (
+              {values.isPutOnSale && (
                 <>
                   {" "}
                   <p className="text-secondary opacity-50 text-sm">
@@ -376,7 +379,9 @@ const Form = ({
                         type="text"
                         className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         placeholder="Enter the price"
-                        onChange={(e) => handleChange(e, "salePrice")}
+                        onChange={(e) =>
+                          handleChange("salePrice", e.target.value)
+                        }
                         maxLength={13}
                         required
                       />
@@ -403,7 +408,9 @@ const Form = ({
                     <input
                       type="checkbox"
                       id="custom-switch"
-                      // onClick={(e) => handleToggle(e, "isPutonAuction")}
+                      onChange={(e) =>
+                        handleChange("isPutonAuction", e.target.checked)
+                      }
                       // disabled={showSaleFields && true}
                       className="checkbox checkbox-error opacity-0"
                     />
@@ -411,12 +418,12 @@ const Form = ({
                     <span></span>
                   </span>
                 </label>
-                <label className="text-xl font-normal text-secondary ml-3">
+                <p className="text-xl font-normal text-secondary ml-3">
                   Put on auction
-                </label>
+                </p>
               </div>
 
-              {values.putOnAuction && (
+              {values.isPutonAuction && (
                 <>
                   {" "}
                   <p className="text-secondary opacity-50 text-sm">
@@ -428,7 +435,9 @@ const Form = ({
                       type="text"
                       className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                       placeholder="Enter the price per one bid"
-                      onChange={(e) => handleChange(e, "auctionPrice")}
+                      onChange={(e) =>
+                        handleChange("auctionPrice", e.target.value)
+                      }
                       maxLength={13}
                       required
                     />
@@ -439,10 +448,8 @@ const Form = ({
                       {values.network || "MATIC"}
                     </span>
                   </div>
-                  {"" && (
-                    <p className="cust-validmsg">
-                      Please provide valid Sale Price.
-                    </p>
+                  {errors["auctionPrice"] && (
+                    <p className="cust-validmsg">{errors["auctionPrice"]}</p>
                   )}
                 </>
               )}
@@ -452,22 +459,26 @@ const Form = ({
                 <input
                   type="checkbox"
                   className="toggle"
-                  // onClick={(e) => handleToggle(e, "isUnlockPurchased")}
+                  onChange={(e: any) =>
+                    handleChange("isUnlockPurchased", e.target.checked)
+                  }
                 />
-                <label className="text-xl font-normal text-secondary ml-3">
+                <p className="text-xl font-normal text-secondary ml-3">
                   Unlock once purchased
-                </label>
+                </p>
               </div>
               <p className="text-secondary text-sm opacity-50 mt-3">
                 Content will be unlocked after successful transaction
               </p>
-              <input
-                aria-label="Username"
-                type="text"
-                className="input mt-3 input-bordered w-full rounded-[28px] text-secondary bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                placeholder="Enter Unlock Description"
-                required
-              />
+              {values.isUnlockPurchased && (
+                <input
+                  aria-label="Username"
+                  type="text"
+                  className="input mt-3 input-bordered w-full rounded-[28px] text-secondary bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                  placeholder="Enter Unlock Description"
+                  required
+                />
+              )}
             </div>
             <div className="flex gap-4 items-center justify-end">
               <Button
