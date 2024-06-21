@@ -146,6 +146,11 @@ export const getNavMenu = (
 
   return [
     {
+      name: "Portfolio",
+      path:"/portfolio",
+      type:'link'
+    },
+    {
       name: "Launchpad",
       type:'dropdown',
       path:'/dashboard',
@@ -170,7 +175,11 @@ export const getNavMenu = (
               },
       ]
     },
-   
+    {
+      name: "Daos",
+      path:"/daos",
+      type:'link'
+    },
     {
       name: "Marketplace",
       type:'dropdown',
@@ -197,12 +206,6 @@ export const getNavMenu = (
                 isActive: currentPath?.includes("/marketplace/nft/create"),
               },
       ]
-    },
-   
-    {
-      name: "Daos",
-      path:"/daos",
-      type:'link'
     },
     {
       name: "Portfolio",
