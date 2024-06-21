@@ -18,9 +18,27 @@ const Banner = () => {
     const { isConnected } = useAccount();
     const router = useNavigate();
     useEffect(() => {
+        getCountDetails();
         getTopNftDetails();
     }, [isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
-
+    const getCountDetails = async () => {
+        try {
+            localDispatch({ type: 'setLoader', payload: true });
+            let response = await getTopNft('User/Users');
+            if (response.status === 200) {
+                localDispatch({ type: 'setCountDetails', payload: response.data });
+            }
+            else {
+                rootDispatch(setError({ message: response }));
+            }
+        }
+        catch (error) {
+            rootDispatch(setError({ message: error }));
+        }
+        finally {
+            localDispatch({ type: 'setLoader', payload: false });
+        }
+    }
 
     const getTopNftDetails = async () => {
         try {
@@ -56,7 +74,7 @@ const Banner = () => {
     //     setModalShow(true)
     //   }
     // }
-
+console.log(localState.countDetails)
 
     return (
         <>
@@ -74,17 +92,17 @@ const Banner = () => {
                                 <h1 className="text-[62px] font-semibold text-primary leading-[1.1]">NFTs</h1>
                                 <div className="flex gap-[30px] items-center my-6">
                                     <div>
-                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>200+</h2>
+                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>{localState.countDetails?.userActive}</h2>
                                         <p className='text-base font-medium text-primary'>User Active</p>
                                     </div>
                                     <div>
-                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>40+</h2>
+                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>{localState.countDetails?.artWorks}</h2>
                                         <p className='text-base font-medium text-primary'>Art Works</p>
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         <h2 className='text-[30px] text-secondary font-semibold leading-none'>32+</h2>
                                         <p className='text-base font-medium text-primary'>Artist</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="banner-btns">
                                     <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => { }} onWalletClose={() => setModalShow(false)} />

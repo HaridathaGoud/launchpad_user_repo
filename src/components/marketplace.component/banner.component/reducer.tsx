@@ -1,12 +1,14 @@
 export interface BannerStateModel {
     currentIndex: number;
     topNftDetails: [] | any;
-    loader:boolean;
+    loader: boolean;
+    countDetails: {} | any;
 }
 export const bannerState = {
     currentIndex: 0,
     topNftDetails: [],
-    loader:false
+    loader: false,
+    countDetails: null
 };
 
 export const bannerReducer = (state = bannerState, action) => {
@@ -16,6 +18,9 @@ export const bannerReducer = (state = bannerState, action) => {
             break;
         case "setTopNftDetails":
             state = { ...state, topNftDetails: action.payload };
+            break;
+        case "setCountDetails":
+            state = { ...state, countDetails: action.payload };
             break;
         case "setLoader":
             state = { ...state, loader: action.payload };

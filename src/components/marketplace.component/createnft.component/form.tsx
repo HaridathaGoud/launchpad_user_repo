@@ -6,20 +6,14 @@ import Select from "../../../ui/select";
 import matic from "../../../assets/images/matic-img.svg";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { validateProperties } from "./validation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
 import { Property } from "./models";
 import NoData from "../../../ui/noData";
 import { apiUploadPost } from "../../../utils/api";
+import CreatenftShimmer from "./createnftshimmer";
 
-const Form = ({
-  state,
-  updateState,
-  inputRef,
-  deleteImage,
-  handlePicChange,
-  collectionsLu,
-}) => {
+const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
   const {
     values,
     errors,
@@ -27,6 +21,10 @@ const Form = ({
     propertiesToUpdate: modalProperties,
   } = state;
   const dispatch = useDispatch();
+  const { userCollections, networks } = useSelector((store: any) => {
+    const detailsForForm = store.createNft;
+    return detailsForForm;
+  });
   const handleChange = (field: string, value: any) => {
     const valuesToUpdate = { ...values };
     valuesToUpdate[field] = value;
@@ -141,7 +139,7 @@ const Form = ({
           </label>
 
           <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
-            {values.imageUrl && (
+            {values.imageUrl && state.isLoading !== "uploadingImageUrl" && (
               <div className="w-full h-full">
                 <img
                   src={values.imageUrl}
@@ -151,11 +149,18 @@ const Form = ({
                 <Button
                   type="plain"
                   btnClassName="icon camera absolute top-3 right-3 create-nft-cam c-pointer"
-                  handleClick={(e) => deleteImage(e)}
-                ></Button>
+                  // handleClick={(e) => deleteImage(e)}
+                >
+                  <input
+                    type="file"
+                    name="myImage"
+                    className="icon camera"
+                    onChange={handleUpload}
+                  />
+                </Button>
               </div>
             )}
-            {!values.imageUrl && (
+            {!values.imageUrl && state.isLoading !== "uploadingImageUrl" && (
               <div className="">
                 <div className="text-center">
                   <span
@@ -194,15 +199,9 @@ const Form = ({
                 </div>
               </div>
             )}
-            {/* dont remove this camera icon
-              <div className="text-lg-center values-icons cust-pf-icons">
-                <input
-                  type="file"
-                  name="myImage"
-                  className="icon camera"
-                  onChange={(e) => handlePicChange(e, 'bannar')}
-                />
-              </div> */}
+            {state.isLoading === "uploadingImageUrl" && (
+              <CreatenftShimmer.ImageShimmer />
+            )}
           </div>
         </div>
         <div>
@@ -225,11 +224,11 @@ const Form = ({
               maxLength={500}
             />
 
-            {/* <p className="text-secondary opacity-60 ">
-                  DOTT will include a link to this URL on this item's detail
-                  page, so that users can click to learn more about it. You are
-                  welcome to link to your own webpage with more details.
-                </p> */}
+            <p className="text-secondary opacity-60 ">
+              DOTT will include a link to this URL on this item's detail page,
+              so that users can click to learn more about it. You are welcome to
+              link to your own webpage with more details.
+            </p>
             <TextArea
               label="Description"
               value={values.description}
@@ -239,13 +238,13 @@ const Form = ({
               error={errors["description"]}
               isRequired={false}
             />
-            {/* <p className="text-secondary opacity-60 mb-2">
-                  This is the collection where your item will appear.
-                </p> */}
+            <p className="text-secondary opacity-60 mb-2">
+              This is the collection where your item will appear.
+            </p>
             <Select
               inputBoxClass="mb-6 p-relative"
               value={values.collection}
-              options={collectionsLu || []}
+              options={userCollections.data || []}
               onChange={handleChange}
               fieldName="collection"
               error={errors["collection"]}
@@ -310,13 +309,17 @@ const Form = ({
               </p>
               <div className="dropdown dropdown-end w-full nft-dropdown">
                 <div
-                  // role="button"
+                  tabIndex={0}
+                  role="button"
                   className="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                 >
                   <img className="scale-[0.8]" src={matic} alt="matic" />{" "}
                   <span className="text-secondary">Matic</span>
                 </div>
-                <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full"
+                >
                   <li className="flex flex-row items-center gap-2">
                     {" "}
                     <img
