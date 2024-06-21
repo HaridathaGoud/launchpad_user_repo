@@ -8,6 +8,10 @@ const SET_PAGE_NO = 'setPageNoAction'
 const FETCH_TOP_SELLERS = "fetchTopSellersAction"
 const FETCH_TOP_COLLECTIONS = "featchTopCollections"
 
+//Create NFT Action Types:
+const FETCH_USER_COLLECTIONS = "fetchUserCollections"
+const FETCH_NETWORKS = "fetchNetworks"
+const SAVE_NFT = "saveNft"
 
 //Explore NFTs actions
 const fetchNftsAction = (payload) => {
@@ -34,6 +38,29 @@ const setPageNoAction = (payload) => {
         payload
     }
 }
+
+// Create nft actions 
+
+const fetchUserCollections = (payload) => {
+    return {
+        type: FETCH_USER_COLLECTIONS,
+        payload
+    }
+}
+const fetchNetworks = (payload) => {
+    return {
+        type: FETCH_NETWORKS,
+        payload
+    }
+}
+
+const saveNft = (payload) => {
+    return {
+        type: SAVE_NFT,
+        payload
+    }
+}
+
 //Dashboard Actions
 
 const fetchTopSellersAction = (payload) => {
@@ -102,13 +129,15 @@ const fetchTopSellers = (pageNo = 1, take = 4) => {
     }
 }
 
-const fetchCollections = (data, pageNo = 1, search = null,screenName,customerId) => {
-   let  take = 10
+const fetchCollections = (data, pageNo, search, screenName, customerId) => {
+    pageNo=pageNo || 1
+    search=search || null
+    let take = 10
     const skip = pageNo * take - take;
     return async (dispatch) => {
         dispatch(setLoaderAction(true));
         // const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${category}/${search}/${id}`);
-        const response = screenName === '/marketplace/mycollections' ?  await apiCalls.getMarketplace(`User/GetCustomerCollections/${customerId}`) : await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
+        const response = screenName === '/marketplace/mycollections' ? await apiCalls.getMarketplace(`User/GetCustomerCollections/${customerId}`) : await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
         if (response.status === 200) {
             const mergedData = skip > 0 ? [...data, ...response.data] : response.data
             dispatch(featchTopCollections(mergedData));
@@ -120,6 +149,75 @@ const fetchCollections = (data, pageNo = 1, search = null,screenName,customerId)
         dispatch(setLoaderAction(false));
     }
 }
+
+
+//create nft methods:
+const clearUserCollections = () => {
+    return (dispatch) => {
+        dispatch(fetchUserCollections({ loading: false,data:[],error:'' }))
+    }
+}
+const getUserCollections = (params) => {
+    const { customerId, collectionType } = params
+    return async (dispatch) => {
+        try {
+            dispatch(fetchUserCollections({ loading: true, data: [], error: '' }));
+            const response = await apiCalls.getMarketplace(`User/CollectionLu/${customerId}/${collectionType}`);
+            if (response.status === 200) {
+                dispatch(fetchUserCollections({ loading: false, data: response.data, error: '' }));
+            } else {
+                dispatch(fetchUserCollections({ loading: false, data: [], error: response }));
+            }
+        } catch (err) {
+            dispatch(fetchUserCollections({ loading: false, data: [], error: err }));
+        }
+
+    }
+}
+const clearNetworks = () => {
+    return (dispatch) => {
+        dispatch(fetchNetworks({ loading: false,data:[],error:'' }))
+    }
+}
+const getNetworks = () => {
+    return async (dispatch) => {
+        try {
+            dispatch(fetchNetworks({ loading: true, data: [], error: '' }));
+            const response = await apiCalls.getMarketplace(`User/networkslu`);
+            if (response.status === 200) {
+                dispatch(fetchNetworks({ loading: false, data: response.data, error: '' }));
+            } else {
+                dispatch(fetchNetworks({ loading: false, data: [], error: response }));
+            }
+        } catch (err) {
+            dispatch(fetchNetworks({ loading: false, data: [], error: err }));
+        }
+
+    }
+}
+const clearCreateNft = () => {
+    return (dispatch) => {
+        dispatch(saveNft({ saving: false,status:[],error:'' }))
+    }
+}
+const createNft = (params) => {
+    const { requestObject } = params
+    return async (dispatch) => {
+        try {
+            dispatch(saveNft({ saving: true, status: false, error: '' }));
+            const response = await apiCalls.postMarketplace(`User/SaveNFT`, requestObject);
+            if (response.status === 200) {
+                dispatch(saveNft({ saving: false, status: true, error: '' }));
+            } else {
+                dispatch(saveNft({ saving: true, status: false, error: response }));
+            }
+        } catch (err) {
+            dispatch(saveNft({ saving: true, status: false, error: err }));
+        }
+
+    }
+}
+
 //Reducers:
 
 let exploreNtfs = {
@@ -128,8 +226,6 @@ let exploreNtfs = {
     error: '',
     pageNo: 1,
 }
-
-
 const exploreNtfsReducer = (state = exploreNtfs, action) => {
     switch (action.type) {
         case FETCH_NFTS:
@@ -181,6 +277,28 @@ const marketPlaceDashboardReducer = (state = marketPlaceDashboardState, action) 
     }
 }
 
-const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer }
+const createNftState = {
+    userCollections: { loading: false, data: [], error: '' },
+    networks: { loading: false, data: [], error: '' },
+    saveNft: { saving: false, status: false, error: '' },
+}
+const createNftReducer = (state, action) => {
+    state = state || createNftState
+    switch (action.type) {
+        case FETCH_USER_COLLECTIONS:
+            state = { ...state, userCollections: action.payload };
+            return state;
+        case FETCH_NETWORKS:
+            state = { ...state, networks: action.payload };
+            return state;
+        case SAVE_NFT:
+            state = { ...state, saveNft: action.payload };
+            return state;
+        default:
+            return state;
+    }
+}
+
+const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer }
 export default marketPlaceReducer
-export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections };
+export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks,clearUserCollections,clearNetworks,clearCreateNft };
