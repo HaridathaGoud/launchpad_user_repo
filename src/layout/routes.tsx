@@ -236,7 +236,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/categoryview",
+          path: "/marketplace/categoryview/:collectionid",
           element: <CategoryView />,
           errorElement: <ErrorPage />,
         },
