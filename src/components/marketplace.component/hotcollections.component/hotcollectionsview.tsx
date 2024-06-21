@@ -3,17 +3,14 @@ import { connect, useSelector } from 'react-redux';
 import {  useParams } from 'react-router-dom';
 import CollectionTabs from './CollectionTabs'
 import Button from '../../../ui/Button';
-import {
-  clearCollectionsActivityData,
-  clearHotCollectionsViewDetails,
-  clearNfts,
-  fetchHotCollectionsActivityDetails,
-  fetchHotCollectionsViewDetails,
-  fetchNftsDetails,
-  hotCollectionReducer
-  , hotcollectionState
-} from './reducer';
+import {hotCollectionReducer, hotcollectionState} from './reducer';
 import HotcollectionviewShimmer from './hotcollectionviewshimmer';
+import { clearCollectionsActivityData,
+   clearHotCollectionsViewDetails, 
+   clearNfts, 
+   fetchHotCollectionsActivityDetails, 
+   fetchHotCollectionsViewDetails, 
+   fetchNftsDetails } from '../../../reducers/collectionReducer';
 const pageSize = 6;
 
 const HotcollectionView = (props: any) => {
@@ -21,10 +18,10 @@ const HotcollectionView = (props: any) => {
   const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
   const {hotCollectionViewDetails,user,activityData,NftDetails} = useSelector((store: any) => {
     return {
-      hotCollectionViewDetails:store.hotCollections.hotCollectionViewDetails,
+      hotCollectionViewDetails:store.collectionReducer.hotCollectionViewDetails,
       user:store.auth.user,
-      activityData:store?.hotCollections.hotCollectionsActivityDetails,
-      NftDetails:store.hotCollections.NftDetails,
+      activityData:store?.collectionReducer.hotCollectionsActivityDetails,
+      NftDetails:store.collectionReducer.NftDetails,
     }
   });
   const [searchValue, setSearchValue]=useState({status:"all",currency:"Matic",priceLevel:null,minMaxCategory:'min to max',selectedSearch:null})
@@ -182,8 +179,8 @@ const HotcollectionView = (props: any) => {
       }
         </> );
 }
-const connectStateToProps = ({ oidc,hotCollections }: any) => {
-  return { oidc: oidc,hotCollections:hotCollections };
+const connectStateToProps = ({ oidc,collectionReducer }: any) => {
+  return { oidc: oidc,collectionReducer:collectionReducer };
 };
 const connectDispatchToProps = (dispatch: any) => {
   return {

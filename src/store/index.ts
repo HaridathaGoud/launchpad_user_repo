@@ -14,6 +14,7 @@ import strapiReducer from "../components/strapi/docs/strapiReducer";
 import dashboardReducer from "../reducers/dashboardreducer";
 import { hotCollectionReducer } from "../components/marketplace.component/hotcollections.component/reducer";
 import marketPlaceProfileReducer from "../reducers/marketplaceProfileReducer";
+import collectionReducer from "../reducers/collectionReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -31,6 +32,7 @@ const rootReducerState = combineReducers({
   strapiData:strapiReducer,
   dashboardReducer:dashboardReducer,
   hotCollections:hotCollectionReducer,
+  collectionReducer:collectionReducer,
   marketPlaceProfileReducer:marketPlaceProfileReducer.ntfsCollectionsReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
