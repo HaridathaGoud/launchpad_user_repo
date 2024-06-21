@@ -50,11 +50,15 @@ const Select = ({
           "input input-bordered w-full text-secondary rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
         }
         value={value}
-        onChange={(e) => onChange(fieldName, e.target.value)}
+        onChange={(event) => {
+          const selected = event.target.selectedOptions[0];
+          const selectedObject=selected.dataset.value
+          onChange(fieldName, event.target.value,JSON.parse(selectedObject))
+        }}
       >
         {defaultOption && <option value="">{defaultOption}</option>}
         {options.map((item: any) => (
-          <option key={item[optionValue]} value={item[optionValue]}>
+          <option key={item[optionValue]} value={item[optionValue]} data-value={JSON.stringify(item)}>
             {item[optionText]}
           </option>
         ))}

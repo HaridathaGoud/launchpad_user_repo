@@ -4,6 +4,7 @@ import {
   writeContract,
   getWalletClient,
   waitForTransaction,
+  signMessage
 } from "wagmi/actions";
 import ERC721 from "../contracts/erc721factory.json";
 import ERC1155 from "../contracts/erc1155factory.json";
@@ -13,7 +14,7 @@ import USER1155 from "../contracts/user1155contract.json";
 import Trade from "../contracts/trade.json";
 import { ethers, utils } from "ethers";
 import PaymentToken from "../contracts/paymenttoken.json";
-type addressType = `0x${string}`;
+export type addressType = `0x${string}`;
 export function useCollectionDeployer() {
   const { address } = useAccount();
   async function getSign(data_types: string[], values: any[]) {
@@ -55,7 +56,7 @@ export function useCollectionDeployer() {
   ) {
     const config = await prepareWriteContract({
       abi: ERC721.abi,
-      address: ERC721.contractAddress  as addressType,
+      address: ERC721.contractAddress as addressType,
       functionName: "deploy",
       args: [salt(ERC721.contractAddress), name, symbol, tokenUriPrefix],
     });
@@ -91,25 +92,30 @@ export function useCollectionDeployer() {
     type: string,
     nftPrice: any
   ) {
-    const unitPrice = (nftPrice * 10 ** 18).toString();
-    const nonce = Math.floor(new Date().getTime() / 1000);
-    var hash = ethers.utils.solidityKeccak256(
-      ["address", "uint256", "address", "uint256", "uint256"],
-      [
-        contractAddress,
-        tokenId,
-        process.env.REACT_APP_ERC20WMATIC_TOKEN,
-        unitPrice,
-        nonce,
-      ]
-    );
-    const msgHash = ethers.utils.arrayify(hash);
-    const walletClient = await getWalletClient();
-    const signHash = await walletClient?.signMessage({
-      message: { raw: msgHash },
-    });
-    const sign = await splitSign(signHash);
-    return JSON.stringify({ sign, nonce });
+    try{
+      const unitPrice = (nftPrice * 10 ** 18).toString();
+      const nonce = Math.floor(new Date().getTime() / 1000);
+      const hash = ethers.utils.solidityKeccak256(
+        ["address", "uint256", "address", "uint256", "uint256"],
+        [
+          contractAddress,
+          tokenId,
+          process.env.REACT_APP_ERC20WMATIC_TOKEN,
+          unitPrice,
+          nonce,
+        ]
+      );
+      // const msgHash = ethers.utils.arrayify(hash);
+      // const walletClient = await getWalletClient();
+      const signHash = await signMessage({
+        message:  hash ,
+      });
+      const sign = await splitSign(signHash);
+      return {status:true,data:JSON.stringify({ sign, nonce })}
+
+    }catch(error){
+      return {status:false,data:error}
+    }
   }
   async function getBidConfirmation(nftPrice: any) {
     let unitPrice = Number(nftPrice);
@@ -150,7 +156,7 @@ export function useCollectionDeployer() {
     var msgHash: Uint8Array = ethers.utils.arrayify(hash);
     const walletClient = await getWalletClient();
     var signHash = await walletClient?.signMessage({
-      message: { raw: msgHash as addressType|Uint8Array },
+      message: { raw: msgHash as addressType | Uint8Array },
     });
     var sign = await splitSign(signHash);
     return JSON.stringify({ sign, nonce });
@@ -159,13 +165,13 @@ export function useCollectionDeployer() {
     contractAddress: addressType,
     callback: Function
   ) {
-    const config = await prepareWriteContract({
-      abi: USER721.abi,
-      address: contractAddress,
-      functionName: "setApprovalForAll",
-      args: [Proxy.contractAddress, true],
-    });
     try {
+      const config = await prepareWriteContract({
+        abi: USER721.abi,
+        address: contractAddress,
+        functionName: "setApprovalForAll",
+        args: [Proxy.contractAddress, true],
+      });
       const receipt = await writeContract(config);
       callback({ ok: true, data: receipt });
     } catch (error) {
@@ -178,15 +184,21 @@ export function useCollectionDeployer() {
     royaltyFee: number,
     callback: Function
   ) {
-    const config = await prepareWriteContract({
-      abi: USER721.abi,
-      address: contractAddress,
-      functionName: "mint",
-      args: [tokenURI, royaltyFee],
-    });
     try {
+      const config = await prepareWriteContract({
+        abi: USER721.abi,
+        address: contractAddress,
+        functionName: "mint",
+        args: [tokenURI, royaltyFee],
+        // gasLimit: 700000,
+        // gasPrice: ethers.utils.parseUnits("50", "gwei"),
+      });
       const receipt = await writeContract(config);
-      callback({ ok: true, data: receipt });
+      if (receipt.hash) {
+        const transaction = await waitForTransaction({ hash: receipt.hash });
+        console.log(transaction);
+        callback({ ok: true, data: transaction });
+      }
     } catch (error) {
       callback({ ok: false, data: error });
     }
@@ -280,7 +292,7 @@ export function useCollectionDeployer() {
     ];
     const config = await prepareWriteContract({
       abi: Trade.abi,
-      address: Trade.contractAddress  as addressType,
+      address: Trade.contractAddress as addressType,
       functionName: "executeBid",
       args: [orderStruct, [sign.sign.v, sign.sign.r, sign.sign.s, sign.nonce]],
     });

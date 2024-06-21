@@ -130,8 +130,8 @@ const fetchTopSellers = (pageNo = 1, take = 4) => {
 }
 
 const fetchCollections = (data, pageNo, search, screenName, customerId) => {
-    pageNo=pageNo || 1
-    search=search || null
+    pageNo = pageNo || 1
+    search = search || null
     let take = 10
     const skip = pageNo * take - take;
     return async (dispatch) => {
@@ -154,7 +154,7 @@ const fetchCollections = (data, pageNo, search, screenName, customerId) => {
 //create nft methods:
 const clearUserCollections = () => {
     return (dispatch) => {
-        dispatch(fetchUserCollections({ loading: false,data:[],error:'' }))
+        dispatch(fetchUserCollections({ loading: false, data: [], error: '' }))
     }
 }
 const getUserCollections = (params) => {
@@ -176,7 +176,7 @@ const getUserCollections = (params) => {
 }
 const clearNetworks = () => {
     return (dispatch) => {
-        dispatch(fetchNetworks({ loading: false,data:[],error:'' }))
+        dispatch(fetchNetworks({ loading: false, data: [], error: '' }))
     }
 }
 const getNetworks = () => {
@@ -195,26 +195,17 @@ const getNetworks = () => {
 
     }
 }
-const clearCreateNft = () => {
-    return (dispatch) => {
-        dispatch(saveNft({ saving: false,status:[],error:'' }))
-    }
-}
-const createNft = (params) => {
+const createNft = async (params) => {
     const { requestObject } = params
-    return async (dispatch) => {
-        try {
-            dispatch(saveNft({ saving: true, status: false, error: '' }));
-            const response = await apiCalls.postMarketplace(`User/SaveNFT`, requestObject);
-            if (response.status === 200) {
-                dispatch(saveNft({ saving: false, status: true, error: '' }));
-            } else {
-                dispatch(saveNft({ saving: true, status: false, error: response }));
-            }
-        } catch (err) {
-            dispatch(saveNft({ saving: true, status: false, error: err }));
+    try {
+        const response = await apiCalls.postMarketplace(`User/SaveNFT`, requestObject);
+        if (response.status === 200) {
+            return { status: true, error: '' }
+        } else {
+            return { status: false, error: response }
         }
-
+    } catch (err) {
+        return { status: false, error: err }
     }
 }
 
@@ -279,8 +270,7 @@ const marketPlaceDashboardReducer = (state = marketPlaceDashboardState, action) 
 
 const createNftState = {
     userCollections: { loading: false, data: [], error: '' },
-    networks: { loading: false, data: [], error: '' },
-    saveNft: { saving: false, status: false, error: '' },
+    networks: { loading: false, data: [], error: '' }
 }
 const createNftReducer = (state, action) => {
     state = state || createNftState
@@ -291,9 +281,6 @@ const createNftReducer = (state, action) => {
         case FETCH_NETWORKS:
             state = { ...state, networks: action.payload };
             return state;
-        case SAVE_NFT:
-            state = { ...state, saveNft: action.payload };
-            return state;
         default:
             return state;
     }
@@ -301,4 +288,4 @@ const createNftReducer = (state, action) => {
 
 const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer }
 export default marketPlaceReducer
-export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks,clearUserCollections,clearNetworks,clearCreateNft };
+export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks, clearUserCollections, clearNetworks };

@@ -15,6 +15,9 @@ export const formState: FormState = {
     isPutOnAuction: false,
     isUnlockPurchased: false,
     unlockDescription: "",
+    salePrice: "",
+    auctionPrice: "",
+    filePath: "",
   },
   errors: {
     imageUrl: "",
@@ -30,9 +33,10 @@ export const formState: FormState = {
     isPutOnAuction: "",
     isUnlockPurchased: "",
     unlockDescription: "",
+    salePrice: "",
+    auctionPrice: "",
   },
-  modalToOpen: "",
-  lookups: { collections: null, networks: null },
+  modalStep: 0,
   isLoading: "",
   propertyErrors: [],
   propertiesToUpdate: null,
@@ -47,12 +51,6 @@ export const formReducer = (state: FormState, action: Action) => {
     case "setErrors":
       state = { ...state, errors: action.payload };
       return state;
-    case "setModalToOpen":
-      state = { ...state, modalToOpen: action.payload };
-      return state;
-    case "setLookups":
-      state = { ...state, lookups: action.payload };
-      return state;
     case "setIsLoading":
       state = { ...state, isLoading: action.payload };
       return state;
@@ -61,6 +59,9 @@ export const formReducer = (state: FormState, action: Action) => {
       return state;
     case "setPropertiesToUpdate":
       state = { ...state, propertiesToUpdate: action.payload };
+      return state;
+    case "setModalStep":
+      state = { ...state, modalStep: action.payload };
       return state;
     default:
       return state;

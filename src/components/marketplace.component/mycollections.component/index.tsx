@@ -77,9 +77,9 @@ function MyCollections(props: any) {
             !localState?.loader &&
             data?.map((item: any) => (
               <div className="">
-              <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleCardView(item)}>
+              <div className="card bg-primary-content" onClick={() => handleCardView(item)}>
                 <div className="">
-                  <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px]" />
+                  <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                 </div>
                 <div className="p-5">
                   <h4 className="font-semibold text-2xl capitalize text-secondary">{item.collectionName}</h4>

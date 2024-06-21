@@ -12,6 +12,7 @@ interface DropdownPropsModal {
   addToMenuClass?: string;
   addToMenuItemClass?: string;
   addToMenuBtnClass?: string;
+  isHover?:boolean;
 }
 const getClass = (baseClass: string, newClass: string | undefined, addToBase: string | undefined) => {
   let classToUpdate: string = baseClass;

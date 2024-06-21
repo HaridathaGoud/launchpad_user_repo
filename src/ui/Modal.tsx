@@ -4,6 +4,7 @@ interface ModalProps {
   children: any;
   modalClass?: string;
   onClose?:Function;
+  showClose?:boolean
 }
 export function modalActions(id:string, action:string,onModalAction?:Function) {
   const modal = document.getElementById(id);
@@ -17,21 +18,21 @@ export function modalActions(id:string, action:string,onModalAction?:Function) {
     modal?.classList.remove("modal-open");
   }
 }
-export function Modal({ id, children, modalClass,onClose }: ModalProps) {
+export function Modal({ id, children, modalClass,onClose,showClose=true }: ModalProps) {
   return (
     <dialog id={id} className="modal">
       <div
         className={`modal-box w-11/12 max-w-2xl rounded-[15px] ${modalClass}`}
       >
         <form method="dialog">
-          <button
+          {showClose && <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             onClick={() => {
               onClose?.()
               modalActions(id, "close")}}
           >
             ✕
-          </button>
+          </button>}
         </form>
         {children}
         <div className="modal-action"></div>
