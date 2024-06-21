@@ -1,8 +1,8 @@
 import React from "react";
 import Moment from "react-moment";
-import AllocationsShimmer from "../../loaders/projects/allocationsShimmer";
 import NoData from "../../../ui/noData";
 import { useSelector } from "react-redux";
+import PortfolioShimmer from "../../loaders/portfolioshimmer";
 
 const Activity = (props:any) => {
   const {activityData} = useSelector((store: any) => {
@@ -10,6 +10,7 @@ const Activity = (props:any) => {
       activityData:store?.collectionReducer.hotCollectionsActivityDetails
     }
   });
+  
   return (
     <div>
       <div className="mb-6 max-sm:w-full overflow-auto">
@@ -32,13 +33,11 @@ const Activity = (props:any) => {
                 <th className="text-left text-base text-secondary font-bold">
                   Type
                 </th>
-
               </tr>
             </thead>
-            {activityData?.data?.loading && <AllocationsShimmer />}
-            {!activityData?.data?.loading && <>
               <tbody>
-                {activityData?.data?.length > 0 && activityData?.data?.map((item: any, index) => (
+              {activityData?.data?.length > 0 &&
+                activityData?.data?.map((item: any, index:any) => (
                   <tr>
                     <td>
                       <p className="font-normal text-sm text-secondary">
@@ -65,12 +64,18 @@ const Activity = (props:any) => {
                     </td>
 
                   </tr>
-                ))}
-              </tbody>
-            </>}
+                ))
+              }
+              {!activityData.data?.length && !activityData?.loading && (
+                <tr className="!bg-transparent">
+                  <td colSpan={6} className="text-center ">
+                  <NoData text={""} />
+                  </td>
+                </tr>
+              )}
+            </tbody>
           </table>
-          {activityData?.data?.length == 0 && <>
-            <div className='text-center '> <NoData text={""} /></div></>}
+          {activityData?.loading && <PortfolioShimmer.Tab />}
         </div>
       </div>
     </div>

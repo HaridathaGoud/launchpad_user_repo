@@ -245,7 +245,7 @@ const reDirectToBuy=(item)=>{
          <span className="icon card-shop"></span>
          <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"
           >
-          { item?.isPutOnSale && "Put On Sale"}
+            Put On Sale
          </span>
        </div>
      </div>}

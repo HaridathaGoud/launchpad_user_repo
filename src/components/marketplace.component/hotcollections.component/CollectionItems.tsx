@@ -3,18 +3,27 @@ import StatusDetailview from './detailviewstatus'
 import NftCards from './Nftcards'
 import SearchBar from '../../../ui/searchBar'
 import {  hotCollectionReducer, hotcollectionState } from './reducer'
-import {  connect} from 'react-redux'
+import {  connect, useDispatch, useSelector} from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { store } from '../../../store';
-import { fetchNftsDetails } from '../../../reducers/collectionReducer'
+import { clearNfts, fetchNftsDetails } from '../../../reducers/collectionReducer'
+import ListView from './listview'
+import { setError } from '../../../reducers/layoutReducer'
 const pageSize = 6;
 
  const CollectionItems = (props:any) => {
     const params = useParams();
+    const rootDispatch = useDispatch();
     const [state, dispatch] = useReducer(hotCollectionReducer, hotcollectionState);
     const [searchInput, setSearchInput] = useState(null);
+    const [activeContent, setActiveContent] = useState<any>('content1');
     const searchInputRef=useRef<any>(null)
-
+    const scrollableRef = useRef<any>(null);
+    const {NftDetails} = useSelector((store: any) => {
+      return {
+        NftDetails:store.collectionReducer.NftDetails,
+      }
+    });
     useEffect(()=>{
       store.dispatch(fetchNftsDetails({
         take:pageSize,
@@ -24,9 +33,15 @@ const pageSize = 6;
         status:state.selectedStatus,
         currency:state.selectedCurrency,
         search:searchInput,
-        data:null,
+        data:NftDetails.data,
        }));
+       if (NftDetails.error) rootDispatch(setError({message:NftDetails.error}))
+
+        return () => {
+          store.dispatch(clearNfts());
+        };
     },[searchInput,state.selectedStatus,state.selection.minMaxCategory])
+    
     const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
       event.preventDefault();
       const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
@@ -56,8 +71,15 @@ const pageSize = 6;
   const sendSelectedValue = (value:any) => {
     dispatch({ type: 'setSelectedPriceLevel', payload: value });
   };
+  const showContent1 = () => {
+    setActiveContent('content1');
+  };
+  const showContent2 = () => {
+    setActiveContent('content2');
+  };
   
   return (<>
+  <div ref={scrollableRef}></div>
     <div className="mt-7 mb-[42px]">
       <div className="md:flex justify-between gap-4">
         <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
@@ -69,11 +91,11 @@ const pageSize = 6;
               <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
             </ul>
           </div>
-          <span className='bg-accent p-2.5 rounded cursor-pointer'>
+          <span className='bg-accent p-2.5 rounded cursor-pointer' onClick={showContent1}>
             <span className="icon filter-squre"></span>
           </span>
-          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer">
-            <span className="icon filter-dots"></span>
+          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer" onClick={showContent2}>
+            <span className="icon properties"></span>
           </span>
           {/* <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
             <span className="icon filter-cart"></span>
@@ -92,11 +114,15 @@ const pageSize = 6;
         handleApplyClick={handleApplyClick}
         selectedCurrency={state.selectedCurrency}  />
       </div>
+      
       <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
+      {activeContent === 'content1' && (
         <NftCards />
+        )}
+        {activeContent === 'content2' && (
+          <ListView data={NftDetails}/>)}
       </div>
     </div>
-
   </>)
 }
 const connectStateToProps = ({ oidc,collectionReducer }: any) => {
