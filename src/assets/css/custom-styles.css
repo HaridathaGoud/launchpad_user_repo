@@ -325,6 +325,8 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
     .profile-nfts.container{max-width: 1000px !important;}
   }
 @media (max-width: 767.98px){
+  .mobile-header ul li:nth-child(2),.mobile-header ul li:nth-child(3),.mobile-header ul li:nth-child(4),.mobile-header ul li:nth-child(6),.mobile-header ul li:nth-child(7),.mobile-header ul li:nth-child(8){padding-left: 12px;list-style: disc;position: relative;}
+  .mobile-header ul li:nth-child(2)::before,.mobile-header ul li:nth-child(3)::before,.mobile-header ul li:nth-child(4)::before,.mobile-header ul li:nth-child(6)::before,.mobile-header ul li:nth-child(7)::before,.mobile-header ul li:nth-child(8)::before{content: '\25CF';position: absolute; left: 2px;font-size: 10px;}
   .mobile-header.drawer-end .drawer-toggle:checked ~ .drawer-side > *:not(.drawer-overlay) {
     transform: translateX(-10%);
 }

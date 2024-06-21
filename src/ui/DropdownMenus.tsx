@@ -107,6 +107,7 @@ function DropdownMenus({
                     className="mx-auto"
                   />
                 )}
+                {/* <span className={`${dropdownContent.icon}`}></span> */}
                 {dropdownContent.name}
               </button>
             </li>

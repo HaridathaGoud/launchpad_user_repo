@@ -146,6 +146,11 @@ export const getNavMenu = (
 
   return [
     {
+      name: "Portfolio",
+      path:"/portfolio",
+      type:'link'
+    },
+    {
       name: "Launchpad",
       type:'dropdown',
       path:'/dashboard',
@@ -155,22 +160,29 @@ export const getNavMenu = (
                 name: "Projects",
                 action: () => navigate("/projects"),
                 isActive: currentPath?.includes("/projects"),
+                icon:'icon menu-icon',
               },
               {
                 path: "/staking",
                 name: "Staking",
                 action: () => navigate("/staking"),
                 isActive: currentPath?.includes("/staking"),
+                icon:'icon menu-icon',
               },
               {
                 path: "/tiers",
                 name: "Tiers",
                 action: () => navigate("/tiers"),
                 isActive: currentPath?.includes("/tiers"),
+                icon:'icon menu-icon',
               },
       ]
     },
-   
+    {
+      name: "Daos",
+      path:"/daos",
+      type:'link'
+    },
     {
       name: "Marketplace",
       type:'dropdown',
@@ -182,6 +194,7 @@ export const getNavMenu = (
                 name: "Explore",
                 action: () => navigate("/marketplace/explore"),
                 isActive: currentPath?.includes("/marketplace/explore"),
+                icon:'icon menu-icon',
               },
               
               {
@@ -189,20 +202,16 @@ export const getNavMenu = (
                 name: "Collections",
                 action: () => navigate("/marketplace/collections"),
                 isActive: currentPath?.includes("/collections"),
+                icon:'icon menu-icon',
               },
               {
                 path: "/marketplace/nft/create",
                 name: "Create Nft",
                 action: () => navigate("/marketplace/nft/create"),
                 isActive: currentPath?.includes("/marketplace/nft/create"),
+                icon:'icon menu-icon',
               },
       ]
-    },
-   
-    {
-      name: "Daos",
-      path:"/daos",
-      type:'link'
     },
     {
       name: "Portfolio",
@@ -214,11 +223,11 @@ export const getNavMenu = (
       type:'link',
       path:"/aboutus",
     },
-    {
-      name: "Docs",
-      type:'link',
-      path:"/docs",
-    },
+    // {
+    //   name: "Docs",
+    //   type:'link',
+    //   path:"/docs",
+    // },
   ]
 };
 
