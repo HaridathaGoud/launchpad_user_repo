@@ -48,7 +48,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
-      navMenuList: getMarketplaceNavMenu(navigate, pathname, user?.id),
+      navMenuList: getNavMenu(navigate, pathname, user?.id),
       navBarDropDownMenu: getNavBarDropdown(
         handleDropdownAction,
         pathname,
