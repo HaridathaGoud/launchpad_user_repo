@@ -92,11 +92,11 @@ console.log(localState.countDetails)
                                 <h1 className="text-[62px] font-semibold text-primary leading-[1.1]">NFTs</h1>
                                 <div className="flex gap-[30px] items-center my-6">
                                     <div>
-                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>200+</h2>
+                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>{localState.countDetails?.userActive}</h2>
                                         <p className='text-base font-medium text-primary'>User Active</p>
                                     </div>
                                     <div>
-                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>40+</h2>
+                                        <h2 className='text-[30px] text-secondary font-semibold leading-none'>{localState.countDetails?.artWorks}</h2>
                                         <p className='text-base font-medium text-primary'>Art Works</p>
                                     </div>
                                     {/* <div>

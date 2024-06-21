@@ -56,7 +56,7 @@ function MyCollections(props: any) {
        <div className="flex justify-between items-center mb-[28px]">
         <div>
         <h2 className="text-[24px] text-secondary font-semibold mb-3">
-        View {location?.pathname === "/marketplace/mycollections" ? "my collections" : "collections"}
+        {location?.pathname === "/marketplace/mycollections" ? "My Collections" : "Collections"}
         </h2>
         <p className="text-secondary opacity-60">Create, curate, and manage collections of unique NFTs to share and sell.</p>
         </div>
