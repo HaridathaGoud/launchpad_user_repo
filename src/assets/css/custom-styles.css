@@ -325,6 +325,9 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
     .profile-nfts.container{max-width: 1000px !important;}
   }
 @media (max-width: 767.98px){
+  .mobile-header.drawer-end .drawer-toggle:checked ~ .drawer-side > *:not(.drawer-overlay) {
+    transform: translateX(-10%);
+}
   .top-sellers{flex: 320px 0;}
   .top-sellers .carousel-item{width: 320px;}
   .global-list{right: -56px;}
