@@ -180,7 +180,7 @@ export const getNavMenu = (
               {
                 path: "/marketplace/explore",
                 name: "Explore",
-                action: () => navigate("/explore"),
+                action: () => navigate("/marketplace/explore"),
                 isActive: currentPath?.includes("/marketplace/explore"),
               },
               
