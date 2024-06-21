@@ -171,10 +171,11 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                   <p
                     // type="plain"
                     // handleClick={() => inputRef.current?.click()}
-                    className="my-5 cursor-pointer text-base font-semibold text-secondary opacity-60"
+                    className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60"
                   >
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
                   </p>
+                  <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 500 * 500 Resolution</p>
                   <div className="w-[140px] mx-auto relative h-12">
                     <input
                       required
