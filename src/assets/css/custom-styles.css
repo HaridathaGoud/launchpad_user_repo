@@ -325,6 +325,8 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
     .profile-nfts.container{max-width: 1000px !important;}
   }
 @media (max-width: 767.98px){
+  .top-sellers{flex: 320px 0;}
+  .top-sellers .carousel-item{width: 320px;}
   .global-list{right: -56px;}
   .drawer-side::-webkit-scrollbar{scrollbar-width: 0;display: none;}
   #mySidebar{position: absolute;z-index: 999;background: #cb7c7c;height: 100%;}
