@@ -1,7 +1,7 @@
 import React,{useMemo,useReducer,useRef } from 'react';
 import 'react-multi-carousel/lib/styles.css';
 import { useEffect } from 'react';
-import { useParams} from 'react-router-dom';
+import { useParams,useNavigate} from 'react-router-dom';
 import { connect,useDispatch } from 'react-redux';
 import Button from '../../ui/Button';
 import defaultlogo from '../../assets/images/default-logo.png';
@@ -42,7 +42,7 @@ const { walletAddress } = useParams();
 const rootDispatch = useDispatch()
 const searchInputRef=useRef<any>(null)
 const { address } = useAccount();
-
+const navigate = useNavigate();
 
 useEffect(()=>{
   store.dispatch(getCreatedCount(address || walletAddress,props.auth.user?.id))
@@ -140,6 +140,9 @@ const loadMoreNFTS=()=>{
     }
   }));
 }
+const reDirectToBuy=(item)=>{
+  navigate(`/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`)
+}
   return (
     <>
     <Tabs
@@ -177,7 +180,7 @@ const loadMoreNFTS=()=>{
      <div
    className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
    >
-   <div className="cursor-pointer">
+   <div className="cursor-pointer" onClick={()=>reDirectToBuy(item)}>
      <Button
        type="plain"
        btnClassName='w-full'
@@ -239,7 +242,8 @@ const loadMoreNFTS=()=>{
      {item?.isPutOnSale && (item?.walletAddress !== walletAddress )&& <div className="px-2.5 py-4 flex justify-center">
        <div className="flex shop-card cursor-pointer">
          <span className="icon card-shop"></span>
-         <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
+         <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"
+          >
            Buy Now
          </span>
        </div>
