@@ -99,10 +99,10 @@ console.log(localState.countDetails)
                                         <h2 className='text-[30px] text-secondary font-semibold leading-none'>40+</h2>
                                         <p className='text-base font-medium text-primary'>Art Works</p>
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         <h2 className='text-[30px] text-secondary font-semibold leading-none'>32+</h2>
                                         <p className='text-base font-medium text-primary'>Artist</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="banner-btns">
                                     <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => { }} onWalletClose={() => setModalShow(false)} />
