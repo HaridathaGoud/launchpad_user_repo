@@ -50,6 +50,30 @@ export const getNavMenu = (
         isActive: currentPath?.includes("/tiers"),
       },
       {
+        path: "/marketplace/home",
+        name: "Home",
+        action: () => navigate("/home"),
+        isActive: currentPath?.includes("/marketplace/home"),
+      },
+      {
+        path: "/marketplace/explore",
+        name: "Explore",
+        action: () => navigate("/explore"),
+        isActive: currentPath?.includes("/marketplace/explore"),
+      },
+      {
+        path: "/marketplace/nft/create",
+        name: "Create",
+        action: () => navigate("/marketplace/nft/create"),
+        isActive: currentPath?.includes("/marketplace/nft/create"),
+      },
+      {
+        path:"/marketplace/collections",
+        name: "Collections",
+        action: () => navigate("/marketplace/collections"),
+        isActive: currentPath?.includes("/collections"),
+      },
+      {
         path: "/aboutus",
         name: "About Us",
         action: () => navigate("/aboutus"),
