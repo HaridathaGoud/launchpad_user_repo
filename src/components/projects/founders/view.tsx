@@ -57,7 +57,7 @@ const FoundingMembersView = () => {
           </>
         )}
         <BreadCrumb/>
-        <h1 className="text-base font-semibold mb-3 mt-5">Founding Members</h1>
+        <h1 className="text-base font-semibold text-secondary mb-3 mt-5">Founding Members</h1>
   
         <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-7 founding-members">
           {foundingmems.stakersData?.map((item) => (
@@ -84,7 +84,7 @@ const FoundingMembersView = () => {
                 </div>
                 <div className={`w-px bg-base-200 opacity-20`}></div>
                 <div className="text-right flex-1 truncate">
-                  <h1 className="font-semibold mb-3">
+                  <h1 className="font-semibold text-sm mb-3 flex justify-end" title={item.walletAddress}>
                     {item.walletAddress?.slice(0, 4) +
                       "...." +
                       item.walletAddress?.substring(
@@ -96,7 +96,7 @@ const FoundingMembersView = () => {
                               options={{ format: 'text/plain' }}
                               onCopy={() => handleCopy(item.walletAddress)}
                             >
-                              <span className={copied!==item.walletAddress ? 'icon md copy-icon cursor-pointer ms-0 pl-4' : 'icon md check-icon pl-4'} />
+                              <span className={copied!==item.walletAddress ? 'icon md copy-icon cursor-pointer ms-0 pl-4 shrink-0' : 'icon md check-icon pl-4 shrink-0'} />
                             </CopyToClipboard>
                   </h1>
                   {/* <p className="font-semibold mb-3 truncate">1k Matic</p>

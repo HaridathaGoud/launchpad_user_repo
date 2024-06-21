@@ -34,15 +34,15 @@ function AboutUs(props:any) {
         <div className="bg-[#E7F4FA] bg-about relative">
           <div className='container mx-auto grid md:grid-cols-2 items-center px-3 lg:px-0'>
             <div>
-              <h1 className='text-[40px] font-semibold text-secondary'>{item.attributes?.abouttitle} <span className='text-primary'>{item.attributes.primarytitle}</span> {item.attributes.suffixtitle} </h1>
-              <p className='text-base text-base-200 font-normal mt-4'>{item.attributes?.ybDescription}</p>
+              <h1 className='text-[40px] font-semibold text-dark'>{item.attributes?.abouttitle} <span className='text-primary'>{item.attributes.primarytitle}</span> {item.attributes.suffixtitle} </h1>
+              <p className='text-base  font-normal mt-4 text-dark'>{item.attributes?.ybDescription}</p>
               <div className="flex gap-16 my-6">
                 <div>
-                  <h1 className='text-[48px] font-semibold text-secondary'>{item.attributes?.expvalue}</h1>
+                  <h1 className='text-[48px] font-semibold text-dark'>{item.attributes?.expvalue}</h1>
                   <p className='text-base font-medium text-primary'>{item.attributes?.explabel}</p>
                 </div>
                 <div>
-                  <h1 className='text-[48px] font-semibold text-secondary'>{item.attributes?.devvalue}</h1>
+                  <h1 className='text-[48px] font-semibold text-dark'>{item.attributes?.devvalue}</h1>
                   <p className='text-base font-medium text-primary'>{item.attributes.devlabel}</p>
                 </div>
               </div>

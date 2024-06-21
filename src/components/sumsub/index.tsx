@@ -47,7 +47,7 @@ const SumSub = () => {
     getCustomerDetail();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const getCustomerDetail = async () => {
-    let response = await get(`User/CustomerDetails/${address}`);
+    let response = await getKyc(`User/CustomerDetails/${address}`);
     if (response) {
       setProfile(response.data);
       store.dispatch(setUserID(response.data));

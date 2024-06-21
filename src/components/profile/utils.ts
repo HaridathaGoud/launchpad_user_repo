@@ -69,7 +69,7 @@ export const validateForm = (form: ProfileModel) => {
   validateField(
     discordId || "",
     "discordId",
-    true,
+    false,
     (value: string) => validateContentRule(value),
     "Invalid discord Id"
   );

@@ -38,7 +38,7 @@ const Select = ({
     <div className={inputBoxClass}>
       <label
         className={
-          labelClass || "text-dark text-sm font-normal p-0 mb-2 label block"
+          labelClass || "text-secondary text-sm font-normal p-0 mb-2 label block"
         }
       >
         {label} {isRequired && <span className="text-[#ff0000]">*</span>}
@@ -47,7 +47,7 @@ const Select = ({
         placeholder={placeholder || "Select option"}
         className={
           inputClass ||
-          "input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+          "input input-bordered w-full text-secondary rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
         }
         value={value}
         onChange={(e) => onChange(fieldName, e.target.value)}

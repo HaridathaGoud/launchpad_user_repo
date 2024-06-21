@@ -22,7 +22,7 @@ import ProposalsPageShimmer from "../components/loaders/daos/proposalsPageShimme
 import ProposalPageShimmer from "../components/loaders/daos/proposalPageShimmer";
 import PageSpinner from "./pageSpinner";
 import ProtectedRoute from "./protectedRoute";
-import MinnapadDashboard from "../components/strapi/minnapaddashboard";
+// import MinnapadDashboard from "../components/strapi/minnapaddashboard";
 import AboutUs from "../components/strapi/aboutus";
 import Docs from "../components/strapi/docs";
 import PortfolioShimmer from "../components/loaders/portfolioshimmer";
@@ -215,6 +215,11 @@ const Routes = () => {
         {
           path: "/marketplace/collection/:id",
           element: <TopsellerDetailview />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/collections",
+          element: <MycollectionsComponent />,
           errorElement: <ErrorPage />,
         },
         {

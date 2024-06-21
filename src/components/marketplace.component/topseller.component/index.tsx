@@ -42,7 +42,7 @@ const TopSeller = () => {
                 <>
                     <div className="container mx-auto mt-5">
                         <div className="">
-                            <h2 className="mb-4 text-2xl font-semibold">Top Sellers</h2>
+                            <h2 className="mb-4 text-2xl font-semibold text-secondary">Top Sellers</h2>
                         </div>
                         <div className="">
                             {!topSellers.loading && (
@@ -64,7 +64,7 @@ const TopSeller = () => {
                                                         />
                                                     </div>
                                                     <div className="truncate">
-                                                        <h4 className="truncate text-xl font-semibold capitalize text-white">
+                                                        <h4 className="truncate text-xl font-semibold capitalize text-white" title={item?.name || item?.walletAddress}>
                                                             {item?.name || item?.walletAddress}
                                                         </h4>
                                                         <div className="mt-3 mb-2">

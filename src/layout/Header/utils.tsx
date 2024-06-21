@@ -132,6 +132,12 @@ export const getNavBarDropdown = (
             handleDropdownAction("disconnect");
           },
         },
+        {
+          name: "My Collections",
+          action: () => {
+            handleDropdownAction("mycollections");
+          },
+        },
       ];
 };
 
@@ -158,10 +164,10 @@ export const getMarketplaceNavMenu =(navigate: Function,
       isActive: currentPath?.includes("/marketplace/nft/create"),
     },
     {
-      path:"/marketplace/mycollections",
-      name: "mycollections",
-      action: () => navigate("/marketplace/mycollections"),
-      isActive: currentPath?.includes("/mycollections"),
+      path:"/marketplace/collections",
+      name: "Collections",
+      action: () => navigate("/marketplace/collections"),
+      isActive: currentPath?.includes("/collections"),
     },
     {
       path: "/aboutus",

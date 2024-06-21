@@ -74,6 +74,7 @@ const setHotCollectionsViewData = (payload:any) => {
       dispatch(setHotCollectionsActivityData({ key: 'hotCollectionsActivityDetails', loading: true, data: data }));
       try {
         const res = await apiCalls.getMarketplace(`User/Activities/${collectionId}/${id}/${take}/${skip}`);
+        // const res = await apiCalls.getMarketplace(`User/Activities/15FD0929-71F5-4A01-BA8A-1B50930F0775/3C30FDF3-3D62-43B5-AB12-6C1939745DE9/10/0`)
         if (res.status === 200) {
           dispatch(setHotCollectionsActivityData({ key: 'hotCollectionsActivityDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {
@@ -104,7 +105,8 @@ const setHotCollectionsViewData = (payload:any) => {
     return async (dispatch:any) => {
       dispatch(SetNfts({ key: 'NftDetails', loading: true, data: data }));
       try {
-        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/${status}/${currency}/all/${search}`);
+        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all%20items/${currency}/${status}/${search}`);
+                                                                                                             //{price}/{quatity}/{currency}/{status}/{searchBy}
         // const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/15FD0929-71F5-4A01-BA8A-1B50930F0775/10/0/min%20to%20max/all%20items/null/all/null`)
         if (res.status === 200) {
           dispatch(SetNfts({ key: 'NftDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
@@ -144,6 +146,9 @@ export interface HotcollectionStateModel {
     selection:any,
     favoriteLoader: any;
     cardLoader: any,
+    selectedStatus:string,
+    selectedCurrency:string,
+    selectedPriceLevel:any,
 }
 export const hotcollectionState = {
     loader: false,
@@ -157,11 +162,13 @@ export const hotcollectionState = {
     cardDetails:null,
     selection:{
       searchValue:null,
-      minMaxCategory:null,
+      minMaxCategory:'min to max',
     },
     favoriteLoader: { id: "", loading: false },
     cardLoader:false,
-
+    selectedStatus:'All',
+    selectedCurrency:'Matic',
+    selectedPriceLevel:'min to max'
 };
 
 export const hotCollectionReducer = (state = hotcollectionState, action) => {
@@ -216,6 +223,15 @@ export const hotCollectionReducer = (state = hotcollectionState, action) => {
             break;
             case "setCardLoader":
            state = { ...state, cardLoader: action.payload };
+           break;
+           case "setSelectedCurrency":
+           state = { ...state, selectedCurrency: action.payload };
+           break;
+           case "setSelectedStatus":
+           state = { ...state, selectedStatus: action.payload };
+           break;
+           case "setSelectedPriceLevel":
+           state = { ...state, selectedPriceLevel: action.payload };
            break;
         default:
             state = { ...state };

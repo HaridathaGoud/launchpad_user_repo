@@ -252,18 +252,18 @@ const CreateCollection = (props: any) => {
             <section className="px-9 py-12 h-[350px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
               <div>
                 <div className='z-50 absolute max-sm:bottom-[-100px] md:relative'>
-                  <div className=" flex justify-center items-center text-center border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
-                    <div>
-                      <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
-                      {localState.values.logo && (
+                  <div className=" flex justify-center items-center text-center border-dashed bg-[#fff] border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
+                  {localState.values.logo && (
                         <img
                           src={localState.values.logo}
-                          width="250"
-                          height="250"
+
                           alt=""
-                          className="rounded-[28px] object-cover"
+                          className="rounded-[28px] h-full w-full object-cover"
                         />
                       )}
+                    <div>
+                      <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
+
                       {!localState.values.logo && (
                         <div >
                           <Button type='plain' btnClassName="icon image-upload c-pointer" handleClick={() => profileRef.current?.click("p")}></Button>
@@ -278,15 +278,15 @@ const CreateCollection = (props: any) => {
                             onChange={(e) => handlePicChange(e, 'logo')}
                           />{' '}
                         </div>
-                      )}                      
-                    <div className="absolute top-3 right-3">
+                      )}
+                    {localState.values.logo && <div className="absolute top-3 right-3">
                       <input
                         type="file"
                         name="myImage"
                         className="icon camera"
                         onChange={(e) => handlePicChange(e, 'logo')}
                       />
-                    </div>
+                    </div>}
                     </div>
                   </div>
                 </div>
@@ -317,6 +317,14 @@ const CreateCollection = (props: any) => {
                         {localState.errors.bannerImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.bannerImage}</span>}
                       </div>
                     )}
+                    {localState.values.bannerImage && <div className="absolute top-3 right-3">
+                      <input
+                        type="file"
+                        name="myImage"
+                        className="icon camera"
+                        onChange={(e) => handlePicChange(e, 'bannerImage')}
+                      />
+                    </div>}
                   </div>
                 </div>
               </div>
@@ -328,14 +336,13 @@ const CreateCollection = (props: any) => {
                   {localState.values.featuredImage && (
                         <img
                           src={localState.values?.featuredImage}
-                          width="350"
-                          height="450"
+                          
                           alt=""
-                          className="object-cover w-full"
+                          className="object-cover h-full w-full"
                         />
                       )}
                     <div>
-                      
+
                       {!localState.values.featuredImage && (
                         <div className="" >
                           <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => featureRef.current?.click()}></Button>
@@ -352,17 +359,25 @@ const CreateCollection = (props: any) => {
                           {localState.errors.featuredImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.featuredImage}</span>}
                         </div>
                       )}
+                      {localState.values.featuredImage && <div className="absolute top-3 right-3">
+                      <input
+                        type="file"
+                        name="myImage"
+                        className="icon camera"
+                        onChange={(e) => handlePicChange(e, 'featuredImage')}
+                      />
+                    </div>}
                     </div>
                   </div>
                 </div>
                 <div>
                   <div >
                     <div className="mb-6">
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Name<span className='text-[#ff0000]'>*</span></label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Name<span className='text-[#ff0000]'>*</span></label>
                       <input
                         type="text"
                         placeholder="Name"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        className="input input-bordered text-secondary bg-transparent w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         required
                         value={localState.values.collectionName}
                         maxLength={250}
@@ -371,12 +386,12 @@ const CreateCollection = (props: any) => {
                       {localState.errors.collectionName && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.collectionName}</span>}
                     </div>
                     <div className="mb-6">
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Description<span className='text-[#ff0000]'>*</span></label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Description<span className='text-[#ff0000]'>*</span></label>
                       <p className="text-secondary opacity-60 mb-2 text-sm">Markdown syntax is supported. 0 of 1000 characters used</p>
                       <textarea
                         as="textarea"
                         placeholder="Description"
-                        className="textarea textarea-bordered w-full resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
+                        className="textarea bg-transparent border-[#a5a5a5] textarea-bordered w-full resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
                         rows={5}
                         value={localState.values.description}
                         required
@@ -386,7 +401,7 @@ const CreateCollection = (props: any) => {
                       {localState.errors.description && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.description}</span>}
                     </div>
                     <div className="mb-6">
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">URLs</label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">URLs</label>
                       <p className="text-secondary opacity-60 mb-2 text-sm">
                         Customize your URL on OpenSea. Must only contain lowercase letters, numbers, and hyphens.
                       </p>
@@ -394,17 +409,17 @@ const CreateCollection = (props: any) => {
                         type="text"
                         value={localState.values.urls}
                         placeholder="Example : Treasures of the sea"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        className="input input-bordered text-secondary bg-transparent w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         onChange={(e) => handleChange(e, 'urls')}
                       />
                       {localState.errors.urls && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.urls}</span>}
                     </div>
                     <div className="mb-6" >
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Category and tags <span className='text-[#ff0000]'>*</span></label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Category and tags <span className='text-[#ff0000]'>*</span></label>
                       <p className="text-secondary opacity-60 mb-2 text-sm">Make your items more discoverable on Minnapad by adding category.</p>
                       <select
                         aria-label="Default select example"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+                        className="input input-bordered text-secondary text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                         value={localState.values.category}
                         onChange={(e) => handleChange(e, 'category')}
                         required
@@ -418,11 +433,11 @@ const CreateCollection = (props: any) => {
                     </div>
 
                     <div className="mb-6" >
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Network</label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Network</label>
                       <p className="text-secondary opacity-60 mb-2 text-sm">Select the blockchain where you'd like new items from this collection to be added by default.</p>
                       <select
                         aria-label="Default select example"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+                        className="input input-bordered text-secondary text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
                         value={localState.values.blockChain}
                         onChange={(e) => handleChange(e, 'blockChain')}
                         required
@@ -434,21 +449,21 @@ const CreateCollection = (props: any) => {
                       </select>
                     </div>
                     <div className="mb-6" >
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Payment tokens</label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Payment tokens</label>
                     </div>
                     <div className="mb-6">
                       <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
                         <div className='flex gap-[14px] bg-base-300 p-[6px] rounded-[28px] border border-[#A5A5A5]'>
                           <span className='matic-purple icon'></span>
                           <div>
-                            <p className='text-base font-bold'>Matic</p>
-                            <p className='text-xs font-light'>Matic</p>
+                            <p className='text-base text-secondary font-bold'>Matic</p>
+                            <p className='text-xs text-secondary font-light'>Matic</p>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="mb-6 relative" >
-                      <label className="text-dark text-sm font-normal p-0 mb-2 label block">Links</label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Links</label>
                       <div className="mb-6 relative">
                         <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
                           <span className="icon globe-icon "></span>
@@ -457,7 +472,7 @@ const CreateCollection = (props: any) => {
                           id="web-url"
                           placeholder="Your site.io"
                           aria-describedby="basic-addon3"
-                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
+                          className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'websiteUrl')}
                           maxLength={100}
                         />
@@ -471,7 +486,7 @@ const CreateCollection = (props: any) => {
                           id="icon-fb"
                           placeholder="https://"
                           aria-describedby="basic-addon3"
-                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
+                          className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'facebook')}
                           maxLength={100}
                         />
@@ -485,7 +500,7 @@ const CreateCollection = (props: any) => {
                           id="icon-twitter"
                           placeholder="https://"
                           aria-describedby="basic-addon3"
-                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
+                          className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'twitter')}
                           maxLength={100}
                         />
@@ -499,7 +514,7 @@ const CreateCollection = (props: any) => {
                           id="icon-linkedIn"
                           placeholder="https://"
                           aria-describedby="basic-addon3"
-                          className="input pl-16 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
+                          className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'linkedIn')}
                           maxLength={100}
                         />

@@ -2,9 +2,14 @@ import React from "react";
 import Moment from "react-moment";
 import AllocationsShimmer from "../../loaders/projects/allocationsShimmer";
 import NoData from "../../../ui/noData";
+import { useSelector } from "react-redux";
 
-const Activity = ({ activityData }) => {
-
+const Activity = (props:any) => {
+  const {activityData} = useSelector((store: any) => {
+    return {
+      activityData:store?.hotCollections.hotCollectionsActivityDetails
+    }
+  });
   return (
     <div>
       <div className="mb-6 max-sm:w-full overflow-auto">
@@ -19,13 +24,13 @@ const Activity = ({ activityData }) => {
                   Date
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                  From
+                  Name
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                  To
+                Description
                 </th>
                 <th className="text-left text-base text-secondary font-bold">
-                  Price
+                  Type
                 </th>
 
               </tr>
@@ -47,26 +52,25 @@ const Activity = ({ activityData }) => {
                         </Moment>
                       </p>
                     </td>
-                    <td> {item?.from || '--'} </td>
+                    <td> {item?.name || '--'} </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        {item?.to || '--'}
+                        {item?.description || '--'}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        {item?.price ? item?.price + ' USDT' : '--'}
+                        {item?.type || '--'}
                       </p>
                     </td>
 
                   </tr>
                 ))}
-                {activityData?.data?.length == 0 && <>
-                  <div className='text-center'> <NoData text={""} /></div></>}
               </tbody>
             </>}
           </table>
-
+          {activityData?.data?.length == 0 && <>
+            <div className='text-center '> <NoData text={""} /></div></>}
         </div>
       </div>
     </div>
