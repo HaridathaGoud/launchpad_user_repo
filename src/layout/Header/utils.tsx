@@ -198,9 +198,15 @@ export const getNavMenu = (
               },
       ]
     },
+   
     {
       name: "Daos",
       path:"/daos",
+      type:'link'
+    },
+    {
+      name: "Portfolio",
+      path:"/portfolio",
       type:'link'
     },
     {
