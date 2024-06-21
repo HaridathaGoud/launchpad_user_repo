@@ -146,6 +146,11 @@ export const getNavMenu = (
 
   return [
     {
+      name: "Portfolio",
+      path:"/portfolio",
+      type:'link'
+    },
+    {
       name: "Launchpad",
       type:'dropdown',
       path:'/dashboard',
@@ -170,7 +175,11 @@ export const getNavMenu = (
               },
       ]
     },
-   
+    {
+      name: "Daos",
+      path:"/daos",
+      type:'link'
+    },
     {
       name: "Marketplace",
       type:'dropdown',
@@ -180,7 +189,7 @@ export const getNavMenu = (
               {
                 path: "/marketplace/explore",
                 name: "Explore",
-                action: () => navigate("/explore"),
+                action: () => navigate("/marketplace/explore"),
                 isActive: currentPath?.includes("/marketplace/explore"),
               },
               
@@ -199,8 +208,8 @@ export const getNavMenu = (
       ]
     },
     {
-      name: "Daos",
-      path:"/daos",
+      name: "Portfolio",
+      path:"/portfolio",
       type:'link'
     },
     {
@@ -208,11 +217,11 @@ export const getNavMenu = (
       type:'link',
       path:"/aboutus",
     },
-    {
-      name: "Docs",
-      type:'link',
-      path:"/docs",
-    },
+    // {
+    //   name: "Docs",
+    //   type:'link',
+    //   path:"/docs",
+    // },
   ]
 };
 
