@@ -46,9 +46,9 @@ const AppLayout = () => {
     if (isConnected && address && !user?.id) {
       getCustomerDetails(address);
     }
-    if(!isConnected && !address){
-      store.dispatch(setUserID({ id: '', name: '' }));
-      store.dispatch(setArcanaUserDetails({isLoggedIn:false}))
+    if (!isConnected && !address) {
+      store.dispatch(setUserID({ id: "", name: "" }));
+      store.dispatch(setArcanaUserDetails({ isLoggedIn: false }));
     }
   }, [isConnected, address]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -88,23 +88,31 @@ const AppLayout = () => {
       getStakeFlag();
       return;
     }
-    if (
-      !supportedChainIds.includes(chain?.id)
-    ) {
+    if (!supportedChainIds.includes(chain?.id)) {
       rootDispatch(
         setError({
           message: "Your current network is unsupported.",
           type: "warning",
         })
       );
-    } else if (
-      supportedChainIds.includes(chain?.id)
-    ) {
+    } else if (supportedChainIds.includes(chain?.id)) {
       rootDispatch(setError({ message: "" }));
     }
   };
-  const dispatchCustomerDetails = (data: any) => {
-    store.dispatch(setUserID(data));
+  const dispatchCustomerDetails = async (data: any) => {
+    const dataToUpdate = { ...data };
+    if (!data.token) {
+      const response = await getKyc(`User/GetAuthorizationToken/${data.id}`);
+      if (response.status === 200) {
+        dataToUpdate.token = response.data;
+      } else {
+        isConnected && address && await onDisconnect()
+        throw new Error(
+          "Oops! An error occurred. Please try logging in again."
+        );
+      }
+    }
+    store.dispatch(setUserID(dataToUpdate));
     store.dispatch(walletAddress(address || ""));
   };
   const getCustomerDetails = async (address: string | undefined) => {
@@ -113,11 +121,13 @@ const AppLayout = () => {
       try {
         const res = await getKyc(`User/CustomerDetails/${address}`);
         if (res.statusText?.toLowerCase() === "ok" || res.status === 200) {
-          dispatchCustomerDetails(res?.data);
+          await dispatchCustomerDetails(res?.data);
         } else {
+          isConnected  && await onDisconnect()
           rootDispatch(setError({ message: res }));
         }
       } catch (error) {
+        isConnected && await onDisconnect()
         rootDispatch(setError({ message: error.message || error }));
       } finally {
         setChangingAddress(false);
@@ -135,7 +145,7 @@ const AppLayout = () => {
       await disconnectAsync();
       auth.connected && (await auth.logout?.());
       rootDispatch(setArcanaUserDetails({ isLoggedIn: false }));
-      rootDispatch(setUserID({ id: '', name: '' }));
+      rootDispatch(setUserID({ id: "", name: "" }));
     } catch (error) {
       rootDispatch(setError({ message: error.message || error }));
     } finally {
@@ -155,7 +165,7 @@ const AppLayout = () => {
             changingAddress={changingAddress}
             onDisconnect={onDisconnect}
           />
-          <Login onWalletConect={(account:any) => console.log(account)} />
+          <Login onWalletConect={(account: any) => console.log(account)} />
           <div className="">
             {error?.message && (
               <ErrorMessage

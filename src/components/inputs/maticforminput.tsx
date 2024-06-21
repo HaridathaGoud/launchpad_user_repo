@@ -27,16 +27,6 @@ const MaticInput = (props: any) => {
     setValidationError(error);
     props.setValue(valueFromValidation);
   };
-  const notNumber = (value: string) => {
-    return /^[0-9\s]*$/.test(value);
-  };
-  const handleInputChange = (e: any) => {
-    const value = e.target.value;
-    if (!notNumber(value)) return;
-    const [valueFromValidation, error] = validateInput(value);
-    setValidationError(error);
-    props.setValue(valueFromValidation);
-  };
   return (
     <div className="mt-2 relative">
       <div className={`input-group flex ${styles.maticInput}`}>
@@ -48,9 +38,10 @@ const MaticInput = (props: any) => {
         </p>
         <input
           type="text"
-          className="input focus:outline-none input-bordered w-full !rounded-tr-[28px] !rounded-br-[28px] !rounded-tl-[0px] !rounded-bl-[0px] !border-slate-300 !h-[50px] border-l-0"
-          value={props.value}
-          onChange={handleInputChange}
+          className="input disabled:!bg-inherit disabled:!cursor-default disabled:!text-[black] focus:outline-none input-bordered w-full !rounded-tr-[28px] !rounded-br-[28px] !rounded-tl-[0px] !rounded-bl-[0px] !border-slate-300 !h-[50px] border-l-0"
+          value={props.price.toFixed(8)}
+          // onChange={handleInputChange} refer feature/Launchapd_Dao_sprint26 commit name : changes in buymembership and applayout date: 20/06/2024
+          disabled
         />
         <div
           className={`${styles.maticActions} bg-base-100 absolute flex gap-3 items-center right-3.5 top-3.5`}

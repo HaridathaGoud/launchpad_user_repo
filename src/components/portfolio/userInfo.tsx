@@ -95,7 +95,7 @@ const UserInfo = () => {
       </div>
       <div>
         <div className="my-4">
-          <div className="flex justify-start gap-4 items-center h-[17px]">
+          <div className="flex justify-start gap-1 items-center h-[17px]">
             <p className="text-sm font-normal text-secondary opacity-[0.9]">
               {process.env.REACT_APP_CURRENCY}
             </p>
@@ -107,7 +107,7 @@ const UserInfo = () => {
              data-tip={"Refetch"}>
                <Button
                 type="plain"
-                btnClassName={""}
+                btnClassName={"flex justify-center items-center"}
                 handleClick={() => fetchBalances()}
                 disabled={refetchingNativeBalance}
               >
@@ -117,11 +117,8 @@ const UserInfo = () => {
             )}
           </div>
           <div className="mt-2">
-            <p className="font-medium	text-sm text-secondary w-[40px]">
-              {currencyBalance > 0 ? currencyBalance?.toFixed(8) : "0.00"}
-            </p>
-            <p className="font-normal	text-[12px] text-secondary">
-              (1 {process.env.REACT_APP_CURRENCY} ~ {usd?.toFixed(2)} $)
+            <p className="font-medium	text-sm text-secondary">
+              {currencyBalance > 0 ? `${currencyBalance?.toFixed(8)} ~ ${(currencyBalance*usd)?.toFixed(2)} $` : "0.00 ~ 0.00 $"} 
             </p>
           </div>
         </div>
