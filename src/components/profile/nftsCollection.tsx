@@ -167,7 +167,7 @@ const loadMoreNFTS=()=>{
      </div>
      
     <div className="relative mt-6 ">
-    {props?.featchNFTsCollection?.collectionData?.loading && <NftCardsShimmer/>}
+    {props?.featchNFTsCollection?.collectionData?.loading &&  !state?.seeMoreLoader && <NftCardsShimmer/>}
     <div className='grid gap-4 lg:grid-cols-4 md:grid-cols-3'>
    
   {props?.featchNFTsCollection?.collectionData?.data?.map((item:any,index:any)=>{
