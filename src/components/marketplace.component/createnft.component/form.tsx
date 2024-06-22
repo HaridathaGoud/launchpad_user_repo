@@ -181,6 +181,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         const result = await ipfsClient.add(nftMetadata);
         result.path && (await mint(result));
         updateState("setIsLoading", 'redirecting');
+        window.scrollTo(0,0)
       } else {
         updateState("setErrors", errors);
         dispatch(
