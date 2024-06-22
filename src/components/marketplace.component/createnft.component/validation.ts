@@ -23,6 +23,9 @@ export const validateForm = (form: FormValues) => {
     salePrice,
     auctionPrice,
     unlockDescription,
+    crypto,
+    isPutonSale,
+    isPutOnAuction
   } = form;
   const errors: any = {};
   const validateField = (
@@ -49,6 +52,9 @@ export const validateForm = (form: FormValues) => {
   validateField(collection || "", "collection", true);
   validateField(properties || "", "properties", true);
   validateField(network || "", "network", true);
+  if(isPutonSale || isPutOnAuction){
+    validateField(crypto || "", "crypto", true);
+  }
   validateField(
     description || "",
     "description",

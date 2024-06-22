@@ -12,6 +12,8 @@ interface TextAreaProps {
   labelClass?: string;
   inputClass?: string;
   errorClass?: string;
+  inputInfo?: string;
+  inputInfoClass?: string;
 }
 const TextArea = ({
   label,
@@ -26,16 +28,26 @@ const TextArea = ({
   labelClass,
   inputClass,
   errorClass,
+  inputInfo,
+  inputInfoClass,
 }: TextAreaProps) => {
   return (
     <div className={inputBoxClass}>
-      <label
-        className={
-          labelClass || "text-secondary text-sm font-normal p-0 mb-2 label block"
-        }
-      >
-        {label} {isRequired && <span className="text-[#ff0000]">*</span>}
-      </label>
+      {label && (
+        <label
+          className={
+            labelClass ||
+            "text-secondary text-sm font-normal p-0 mb-2 label block"
+          }
+        >
+          {label} {isRequired && <span className="text-[#ff0000]">*</span>}
+        </label>
+      )}
+      {inputInfo && (
+        <p className={inputInfoClass || "text-secondary opacity-60 "}>
+          {inputInfo}
+        </p>
+      )}
       <textarea
         aria-label="With textarea"
         value={value}
