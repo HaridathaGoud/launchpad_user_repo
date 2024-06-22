@@ -180,6 +180,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         let nftMetadata = JSON.stringify(obj);
         const result = await ipfsClient.add(nftMetadata);
         result.path && (await mint(result));
+        updateState("setIsLoading", 'redirecting');
       } else {
         updateState("setErrors", errors);
         dispatch(
@@ -188,14 +189,16 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               "Validation errors occurred. Please check the fields and try again!",
           })
         );
+        updateState("setIsLoading", '');
       }
     } catch (error) {
       const putOnSaleFrom=state.modalStep<=2 ? 'contract':'';
       const otherFrom=state.modalStep<=1 ? 'contract':''
       const from=values.isPutonSale  ? putOnSaleFrom :otherFrom
       dispatch(setError({ message: error,from }));
+      updateState("setIsLoading", '');
     } finally {
-      updateState("setState", { isLoading: "", modalStep: 0 });
+      updateState("setModalStep", 0);
       modalActions("putOnSaleSteps", "close");
     }
   };
