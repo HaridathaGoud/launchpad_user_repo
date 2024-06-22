@@ -102,7 +102,7 @@ const HotcollectionView = (props: any) => {
       <>
       {hotCollectionViewDetails.loading && <HotcollectionviewShimmer/> }
       {!hotCollectionViewDetails.loading && 
-      <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
+      <div className="max-sm:px-3 md:mt-5 px-0 container mx-auto">
       <div className='min-h-[350px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-60 rounded-lg z-10'></div>
@@ -124,6 +124,19 @@ const HotcollectionView = (props: any) => {
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button></div>
             </div>
           </div> */}
+          <div className="md:flex gap-12 items-center z-40">
+            <img src={'https://i.pinimg.com/564x/b9/db/d9/b9dbd996972e8d1236c62241923a5493.jpg'} className="w-[150px] h-[150px] rounded-full object-cover shrink-0" alt="" />
+            <div>
+              <div className='flex max-sm:mt-4 items-center'>
+                <p className='text-white font-semibold text-[32px] leading-8 mr-2'>Marvel Entertainment</p>
+              </div>
+              <div className="flex text-[18px] font-medium gap-2.5">
+                <p className='text-white mt-2'>By : Star Studios   </p>               
+              </div>
+              <p className='text-white mt-3 text-base pr-4'>The film was first conceived by Mukerji in 2011, with core elements inspired by Indian history and stories he heard in his childhood. Its development was first revealed in July 2014 with a planned release for 2016, but its official announcement arrived in October 2017 revealing that the film would be titled Brahmāstra and would be a trilogy.</p>
+             
+          </div>
+          </div>
           <div className='flex gap-6 absolute z-10 right-10 bottom-6'>
             {hotCollectionViewDetails?.data?.facebook && 
               <a
