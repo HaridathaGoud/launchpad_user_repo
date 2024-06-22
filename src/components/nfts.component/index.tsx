@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useReducer, useState } from "react";
+import React, { useEffect, useRef, useReducer} from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useAccount } from "wagmi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { clearNfts, fetchNfts } from "../../reducers/marketPlaceReducer";
 import { store } from "../../store";
 import { saveFavorite, saveViews } from "./services";
@@ -9,62 +9,58 @@ import Button from "../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
 import Spinner from "../loaders/spinner";
 import FoundingMemberSimmer from "../loaders/projects/foundingmembersshimmer";
-import WalletConnect from '../../layout/Login/index'
-import { Modal, modalActions } from "../../ui/Modal";
+import { modalActions } from "../../ui/Modal";
 import { setError, setToaster } from "../../reducers/layoutReducer";
 import NoDataFound from "../../ui/noData";
-import FilterComponent from "../marketplace.component/filtercomponent";
 import StatusDetailview from "../marketplace.component/hotcollections.component/detailviewstatus";
-import BreadCrumb from "../../ui/breadcrumb";
 import SearchBar from "../../ui/searchBar";
 import ListView from "../marketplace.component/hotcollections.component/listview";
-import NFTCollection from '../nfts.component'
-
+import { guid } from "../../utils/constants";
+import defaultlogo from '../../assets/images/default-logo.png';
 const pageSize = 6;
 function Nfts(props: any) {
     const { address, isConnected } = useAccount();
+    const params = useParams();
+    console.log(params,"23");
     const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
     const navigate = useNavigate();
     const scrollableRef = useRef<any>(null);
     const searchInputRef = useRef<any>(null)
-    const [searchInput, setSearchInput] = useState(null);
-    const [activeContent, setActiveContent] = useState<any>('content1');
     const { loader, error, data, pageNo } = useSelector(
         (store: any) => store.exploreNfts
     );
+    console.log(loader, error, data, pageNo )
     const nftDetails = useSelector((storage: any) => storage.exploreNfts)
     const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
     const user = useSelector((state: any) => state.auth.user);
     const rootDispatch = useDispatch();
+
     useEffect(() => {
         debugger
-        if (props?.type === 'explorenfs') {
-            let obj = { ...localState.values };
-            obj.data = data;
-            obj.customerId = user?.id
-            store.dispatch(fetchNfts( obj ));
-        }
+        let obj = { ...localState.values };
+        obj.data = data;
+        obj.collectionid = params?.collectionid;
+        obj.customerId = user?.id || guid;
+        obj.walletAddress = params?.walletAddress;
+        obj.activeTab = props?.selectTabs || "GetNfts"
+        store.dispatch(fetchNfts(obj, props?.type));
         scrollableRef?.current?.scrollIntoView(0, 0);
-        if (error) rootDispatch(setError({ message: error }))
+        if (error) {
+            rootDispatch(setError({ message: error }));
+        }
         return () => {
             store.dispatch(clearNfts());
         };
-    }, [user?.id, localState.values]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [ localState.values,props?.selectedTabs,props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
+
     const loadmore = () => {
-        if (props?.type === 'explorenfs')
-            store.dispatch(fetchNfts({
-                pageNo: pageNo,
-                take: pageSize,
-                categoryName: 'all',
-                searchBy: searchInput,
-                price: localState.selection.minMaxCategory || localState.selectedPriceLevel,
-                quatity: 'all%20items',
-                currency: localState.selectedCurrency,
-                status: localState.selectedStatus,
-                customerId: props.auth.user?.id,
-                data: data,
-            }));
-        // store.dispatch(fetchNfts(data, pageNo, "all", searchInput, props.auth.user?.id));
+        let obj = { ...localState.values };
+        obj.data = data;
+        obj.pageNo = pageNo;
+        obj.collectionid = params?.collectionid;
+        obj.walletAddress = params?.walletAddress;
+        obj.customerId = user?.id || guid;
+        store.dispatch(fetchNfts(obj,props?.type));
     };
     const addToFavorites = (item: any) => {
         if (isConnected) {
@@ -74,6 +70,7 @@ function Nfts(props: any) {
         }
     };
     const saveFavoriteNft = async (item: any) => {
+        debugger
         errorMessage && rootDispatch(setError({ message: '' }))
         localDispatch({
             type: "setFavoriteLoader",
@@ -85,7 +82,7 @@ function Nfts(props: any) {
                 customerId: props.auth.user?.id,
                 isFavourite: !item.isFavourite,
             };
-            const { status, error } = props?.type === 'explorenfs' && await saveFavorite(obj);
+            const { status, error } = await saveFavorite(obj);
             if (status) {
                 rootDispatch(
                     setToaster({
@@ -93,21 +90,13 @@ function Nfts(props: any) {
                             } Favorites!`,
                     })
                 );
-                store.dispatch(fetchNfts({
-                    pageNo: pageNo,
-                    take: pageSize,
-                    categoryName: 'all',
-                    searchBy: searchInput,
-                    price: localState.selection.minMaxCategory || localState.selectedPriceLevel,
-                    quatity: 'all%20items',
-                    currency: localState.selectedCurrency,
-                    status: localState.selectedStatus,
-                    customerId: props.auth.user?.id,
-                    data: data,
-                }));
-                // store.dispatch(
-                //   fetchNfts(data, 1, "all", null, props.auth.user?.id, data.length)
-                // );
+                let obj = { ...localState.values };
+                // obj.data = data;
+                obj.collectionid = params?.collectionid;
+                obj.customerId = user?.id || guid;
+                obj.walletAddress = params?.walletAddress;
+                obj.activeTab = props?.selectTabs || "GetNfts"
+                store.dispatch(fetchNfts(obj,props?.type));
             }
             if (error) rootDispatch(setError({ message: error }));
         } catch (error) {
@@ -148,7 +137,6 @@ function Nfts(props: any) {
         }
     };
     const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
-        debugger
         event.preventDefault();
         const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
         let obj = { ...localState.values }
@@ -157,41 +145,16 @@ function Nfts(props: any) {
     };
 
     const handleChange = (event: any) => {
-        debugger
         let obj = { ...localState.values }
         const newStatus = event.target.value;
         obj.status = newStatus
         localDispatch({ type: 'setValues', payload: obj });
     };
-    // const handleDropdownChange = (value: any) => {
-    //     localDispatch({ type: 'setSelectedCurrency', payload: value });
-    // };
-    const sendSelectedValue = (value: any) => {
-        //     let obj = {...localState.values}
-        //     obj.quatity = currency
-        // localDispatch({type:'setValues', payload: obj})
-        //     localDispatch({ type: 'setSelectedPriceLevel', payload: value });
-    };
-    const handleApplyClick = () => {
-        // store.dispatch(fetchNfts({
-        //     pageNo: pageNo,
-        //     take: pageSize,
-        //     categoryName: 'all',
-        //     searchBy: searchInput,
-        //     price: localState.selection.minMaxCategory || localState.selectedPriceLevel,
-        //     quatity: 'all%20items',
-        //     currency: localState.selectedCurrency,
-        //     status: localState.selectedStatus,
-        //     customerId: props.auth.user?.id,
-        //     data: data,
-        // }));
-        // store.dispatch(fetchNfts(data, pageNo, "all", searchInput, props.auth.user?.id));
-    };
     const showContent1 = () => {
-        setActiveContent('content1');
+        localDispatch({ type: 'setActiveContent', payload: 'content1' });
     };
     const showContent2 = () => {
-        setActiveContent('content2');
+        localDispatch({ type: 'setActiveContent', payload: 'content2' });
     };
     const handleQuantity = (quantity) => {
         let obj = { ...localState.values }
@@ -203,8 +166,7 @@ function Nfts(props: any) {
         obj.currency = currency
         localDispatch({ type: 'setValues', payload: obj })
     }
-    const handleSearch = (event) =>{
-        debugger
+    const handleSearch = (event) => {
         let obj = { ...localState.values }
         obj.searchBy = event
         localDispatch({ type: 'setValues', payload: obj })
@@ -213,7 +175,6 @@ function Nfts(props: any) {
         <>
             <div ref={scrollableRef}></div>
             <div className="container mx-auto pt-5 px-3 lg:px-0">
-                {/* <FilterComponent/> */}
                 <div className="mt-7 mb-[42px]">
                     <div className="md:flex justify-between gap-4">
                         <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={handleSearch} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... " />
@@ -238,16 +199,13 @@ function Nfts(props: any) {
                     <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
                         <StatusDetailview
                             handleChange={handleChange}
-                            // handleDropdownChange={handleDropdownChange}
-                            // sendSelectedValue={sendSelectedValue}
-                            // handleApplyClick={handleApplyClick}
-                            selectedObj = {localState.values}
+                            selectedObj={localState.values}
                             handleQuantity={handleQuantity}
                             handleCurrency={handleCurrency}
                         />
                     </div>
                     <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
-                        {activeContent === 'content1' && <>
+                        {localState.activeContent === 'content1' && <>
                             {data &&
                                 !localState?.loader &&
                                 data?.map((item: any) => (
@@ -375,7 +333,7 @@ function Nfts(props: any) {
                             )}
                         </>}
 
-                        {activeContent === 'content2' && (
+                        {localState.activeContent === 'content2' && (
                             <ListView data={nftDetails} />)}
 
                         {data?.length === (pageNo - 1) * pageSize && (
