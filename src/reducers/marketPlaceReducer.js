@@ -39,7 +39,7 @@ const setPageNoAction = (payload) => {
     }
 }
 
-// Create nft actions 
+// Create nft actions
 
 const fetchUserCollections = (payload) => {
     return {
@@ -92,6 +92,7 @@ const clearCollections = () => {
     }
 }
 const fetchNfts = (information) => {
+    debugger
     const { pageNo,take,categoryName,searchBy,price,quatity,currency,status,customerId,data } = information;
     const skip = pageNo * take - take;
     return async (dispatch) => {
