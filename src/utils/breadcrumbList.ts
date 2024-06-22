@@ -46,11 +46,11 @@ export const getBreadcrumbList = {
       { name: props.proposalTitle.charAt(0).toUpperCase()+props.proposalTitle.slice(1), path: "" },
     ];
   },
-  launchpadProjectFoundingMembers: (project: any) => [
+  launchpadProjectInvestors: (project: any) => [
     { name: "Launchpad", path: "/" },
     { name: "Projects", path: "/projects" },
     { name: project.projectName.charAt(0).toUpperCase()+project.projectName.slice(1), path: project.projectPath },
-    { name: "Founding Members", path: "" },
+    { name: "Investors", path: "" },
   ],
   launchpadProjectCastAndCrew: (project: any) => [
     { name: "Launchpad", path: "/" },

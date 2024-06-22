@@ -254,7 +254,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/projects/:projectName/:projectId/foundingmembers",
+          path: "/projects/:projectName/:projectId/investors",
           element: <FoundingMembersView />,
           errorElement: <ErrorPage />,
         },
