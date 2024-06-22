@@ -1789,7 +1789,7 @@ const DetailPage = (props: any) => {
               </h2>
               <div className="min-h-[250px]">
 
-              {moreCollection?.length !==0 && <div className="relative">
+              {moreCollection?.length !==0 && <div className="relative container">
                 <div className="carousel gap-4 flex py-2 px-2 md:px-14">
                   {moreCollection?.map((item) => (
                     <div className="carousel-item more-collection shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]" key={item.name+item.walletAddress+item.image}>

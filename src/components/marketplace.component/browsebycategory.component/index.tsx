@@ -62,9 +62,9 @@ export default function BrowseByCategory() {
               <h2 className="text-2xl font-semibold text-secondary mb-4">Browse by category</h2>
               <NaviLink path='/marketplace/browsebyviewall' className='text-primary text-base font-medium'>View All</NaviLink>
             </div>
-            <div className="grid lg:grid-cols-4 gap-4">
+            <div className="carousel container mx-auto gap-4 py-1 browse-catogery">
               {getDisplayedItems().map((item: any, idx: any) =>
-                <Link to={`/marketplace/categoryview/${item?.id}`} key={idx}>
+                <Link to={`/marketplace/categoryview/${item?.id}`} key={idx} className='carousel-item px-1 max-sm:w-full'>
                   <div className='card bg-primary-content border border-slate-200 w-full'>
                     <img src={item?.image || defaultbg} className='h-[130px] object-cover rounded-t-2xl w-full' alt="" />
                     <div className="flex gap-1 mt-1">
