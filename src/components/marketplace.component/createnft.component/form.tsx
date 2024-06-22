@@ -447,6 +447,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         error={formErrors["crypto"]}
                         label=""
                         defaultOption="Currency"
+                        errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
                     </div>
                     {formErrors["salePrice"] && (
