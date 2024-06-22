@@ -77,7 +77,7 @@ function CreateNft() {
         tokenId: tokenId,
         collectionId: collection.id,
         properties: JSON.stringify(properties),
-        salePrice: salePrice || auctionPrice,
+        salePrice: salePrice || auctionPrice || 0,
         saleToken: "WMATIC",
         saleType: sale || auction,
         collectionType: "ERC-721",
