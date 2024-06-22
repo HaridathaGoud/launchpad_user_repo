@@ -424,7 +424,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     You'll receive bids on this item
                   </p>
                   <div className="mb-3 ">
-                    <div className="flex relative">
+                    <div className="flex relative puton-sale">
                       <input
                         aria-label="Username"
                         type="text"
@@ -437,7 +437,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         required
                       />
                        <Select
-                        inputBoxClass="absolute right-0 px-3 top-5 border-l"
+                        inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
                         inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
                         value={values.crypto || ""}
                         options={currencies || []}
@@ -486,7 +486,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   <p className="text-secondary opacity-50 text-sm">
                     You'll receive bids on this item
                   </p>
-                  <div className="flex relative">
+                  <div className="flex relative puton-sale">
                     <input
                       aria-label="Username"
                       type="text"
@@ -499,7 +499,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       required
                     />
                       <Select
-                        inputBoxClass="absolute right-0 px-3 top-5 border-l"
+                        inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
                         inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
                         value={values.crypto || ""}
                         options={currencies || []}
