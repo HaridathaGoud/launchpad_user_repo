@@ -105,10 +105,10 @@ export function useCollectionDeployer() {
           nonce,
         ]
       );
-      // const msgHash = ethers.utils.arrayify(hash);
-      // const walletClient = await getWalletClient();
-      const signHash = await signMessage({
-        message:  hash ,
+      const msgHash = ethers.utils.arrayify(hash);
+      const walletClient = await getWalletClient();
+      const signHash = await walletClient?.signMessage({
+        message: { raw: msgHash as addressType | Uint8Array },
       });
       const sign = await splitSign(signHash);
       return {status:true,data:JSON.stringify({ sign, nonce })}
@@ -226,7 +226,7 @@ export function useCollectionDeployer() {
     let nftAddress = contract_address;
     let abi;
     type = type.replace("-", "");
-    if (type == "ERC721") {
+    if (type === "ERC-721") {
       abi = USER721.abi;
     } else {
       abi = USER1155.abi;
@@ -236,7 +236,7 @@ export function useCollectionDeployer() {
       address,
       process.env.REACT_APP_ERC20WMATIC_TOKEN,
       nftAddress,
-      type === "ERC721" ? 1 : 0,
+      type === "ERC-721" ? 1 : 0,
       unitPrice,
       amount,
       token_id,

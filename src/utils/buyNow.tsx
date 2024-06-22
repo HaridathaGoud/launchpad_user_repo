@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import thorntf from "../assets/images/thor.jpg";
 import { useBalance, useAccount } from "wagmi";
 import { useCollectionDeployer } from "./useCollectionDeployer";
 import { get, post } from "./api";
@@ -9,7 +10,7 @@ import Button from "../ui/Button";
 import Spinner from "../components/loaders/spinner";
 import { setError, setToaster } from "../reducers/layoutReducer";
 const BuyComponent = (props: any) => {
-  const rootDispatch=useDispatch()
+  const rootDispatch = useDispatch();
   const router = useNavigate();
   const { address } = useAccount();
   // const { data } = useBalance({ address: address });
@@ -60,94 +61,134 @@ const BuyComponent = (props: any) => {
         if (response.data.isPutOnSale) {
           let response = await post(`/User/SaveBuy`, obj);
           if (response) {
-            rootDispatch(setToaster({ message: "NFT purchase successful!" ,callback:() => {
-              modalActions("marketplace-buy-now", "close");
-              router(`/accounts/${address}`);
-            }}));
+            rootDispatch(
+              setToaster({
+                message: "NFT purchase successful!",
+                callback: () => {
+                  modalActions("marketplace-buy-now", "close");
+                  router(`/profile/${address}`);
+                },
+              })
+            );
           } else {
-            rootDispatch(setError({message:response}))
+            rootDispatch(setError({ message: response }));
           }
         }
       } catch (error) {
-        rootDispatch(setError({message:error}))
+        console.log(error)
+        rootDispatch(setError({ message: error, from: "contract" }));
       } finally {
         setBtnLoader(false);
       }
     } else {
       setBtnLoader(false);
-      modalActions("marketplace-buy-now", "close");
     }
   };
 
   return (
-    <>
-      <Modal id="marketplace-buy-now">
-        <form onSubmit={(e) => buyNow(e)}>
-          <div className="p-3 justify-content-between">
-            <h2 className="text-dark text-lg font-semibold">Checkout</h2>
-          </div>
-          {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
+    <form className="drawer drawer-end">
+      <input
+        id="buyNftDrawer"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={props.isOpen}
+      />
+      <div className="drawer-side z-[999]">
+        <label
+          htmlFor="buyNftDrawer"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+          <form onSubmit={(e) => buyNow(e)}>
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg text-dark font-semibold mb-4">Checkout</h2>
+              <Button type="plain" disabled={btnLoader} handleClick={()=>props?.setIsOpen(false)}><span className="icon close cursor-pointer"></span></Button>
+            </div>
+
+            <div className="flex gap-5 items-center mt-10">
+              <img
+                className="w-[112px] h-[112px] object-cover rounded-[15px]"
+                src={props.getNFTImageUrl(props.nftDetails?.image)}
+                alt={props?.nftDetails?.name}
+              />
+              <div className="">
+                <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
+                  {props?.nftDetails?.name}
+                </p>
+
+                <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                  Current Price
+                </p>
+                <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
+                  {props.nftDetails?.price || props.nftDetails?.value}{" "}
+                  {props.nftDetails?.currency?.toUpperCase() ||
+                    process.env.REACT_APP_CURRENCY_SYMBOL}
+                </p>
+              </div>
+            </div>
+            {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                     {!saleLoader && ( */}
 
-          <div className="p-3">
-            <p className="text-dark mb-3">
-              NFT Marketplace is the platform where users can purchase NFT
-              assets directly from creator, Users need to pay for the gas fee as
-              well as platform fee before purchasing the NFT. User can purchase
-              NFT also through bidding, where creator will accept a price from
-              the user
-            </p>
-
-            <div className="flex justify-between items-center my-4">
-              <p className="text-sm shrink-0 text-secondary opacity-50">
-                Buy Price
-              </p>
-              <p className="truncate text-secondary text-end">
-                {props.nftDetails?.price || props.nftDetails?.value}{" "}
-                {props.nftDetails?.currency?.toUpperCase() ||
-                  process.env.REACT_APP_CURRENCY_SYMBOL}
-              </p>
-            </div>
-            <div className="flex justify-between items-center mb-4">
-              <p className="text-sm shrink-0 text-secondary opacity-50">
-                Buyer Fee
-              </p>
-              <p className="truncate text-secondary text-end">
-                {percentageValue}{" "}
-                {props.nftDetails?.currency?.toUpperCase() ||
-                  process.env.REACT_APP_CURRENCY_SYMBOL}
-              </p>
-            </div>
-            <div className="flex justify-between items-center">
-              <p className="text-sm shrink-0 text-secondary opacity-50">
-                Total Buy Price
-              </p>
-              <p className="truncate text-secondary text-end">
-                {totalBuyValue}{" "}
-                {props.nftDetails?.currency?.toUpperCase() ||
-                  process.env.REACT_APP_CURRENCY_SYMBOL}
-              </p>
-            </div>
-          </div>
-          <hr />
-          <div className="flex justify-center mt-5">
+            {/* <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5"> */}
+            {/* <div className="flex justify-between items-center my-4">
+                <p className="text-sm shrink-0 text-secondary opacity-50">
+                  Buy Price
+                </p>
+                <p className="truncate text-secondary text-end">
+                  {props.nftDetails?.price || props.nftDetails?.value}{" "}
+                  {props.nftDetails?.currency?.toUpperCase() ||
+                    process.env.REACT_APP_CURRENCY_SYMBOL}
+                </p>
+              </div>
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-sm shrink-0 text-secondary opacity-50">
+                  Buyer Fee
+                </p>
+                <p className="truncate text-secondary text-end">
+                  {percentageValue}{" "}
+                  {props.nftDetails?.currency?.toUpperCase() ||
+                    process.env.REACT_APP_CURRENCY_SYMBOL}
+                </p>
+              </div> */}
+            {/* <div className="flex justify-between items-center">
+                <p className="text-sm shrink-0 text-secondary opacity-50">
+                  Total Buy Price
+                </p>
+                <p className="truncate text-secondary text-end">
+                  {totalBuyValue}{" "}
+                  {props.nftDetails?.currency?.toUpperCase() ||
+                    process.env.REACT_APP_CURRENCY_SYMBOL}
+                </p>
+              </div> */}
+            {/* </div> */}
+            {/* <hr /> */}
+            <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5 flex flex-col gap-2">
             <Button
-              btnClassName="flex gap-2"
-              type="secondary"
-              disabled={btnLoader}
-              handleClick={(e: any) => buyNow(e)}
-            >
-              {btnLoader && (
-                <span>
-                  <Spinner />{" "}
-                </span>
-              )}{" "}
-              Buy Now
-            </Button>
-          </div>
-        </form>
-      </Modal>
-    </>
+                btnClassName="w-full !min-h-[39px] lg:px-3"
+                type="secondary"
+                disabled={btnLoader}
+                handleClick={() => props?.setIsOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                btnClassName="w-full !min-h-[39px] lg:px-3"
+                type="primary"
+                disabled={btnLoader}
+                handleClick={(e: any) => buyNow(e)}
+              >
+                <span>{btnLoader && <Spinner size="sm" />} </span>
+                Own with {props.nftDetails?.price ||
+                  props.nftDetails?.value}{" "}
+                {props.nftDetails?.currency?.toUpperCase() ||
+                  process.env.REACT_APP_CURRENCY_SYMBOL}
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </form>
   );
 };
 const connectStateToProps = ({ auth }: any) => {
