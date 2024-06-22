@@ -30,6 +30,8 @@ import CreatenftComponent from "../components/marketplace.component/createnft.co
 import Createcollection from "../components/marketplace.component/createcollection.component/createcollection";
 import HotcollectionView from "../components/marketplace.component/hotcollections.component/hotcollectionsview";
 import CategoryView from "../components/marketplace.component/browsebycategory.component/categoryview";
+import BrowseByCategoryViewAll from "../components/marketplace.component/browsebycategory.component/browsebycategoryviewall";
+import HotCollectionsViewAll from "../components/marketplace.component/hotcollections.component/hotcollectionsviewall";
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
@@ -235,8 +237,18 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
+          path: "/marketplace/hotcollectionsviewall",
+          element: <HotCollectionsViewAll />,
+          errorElement: <ErrorPage />,
+        },
+        {
           path: "/marketplace/mycollections",
           element: <MycollectionsComponent />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/marketplace/browsebyviewall",
+          element: <BrowseByCategoryViewAll />,
           errorElement: <ErrorPage />,
         },
         {
