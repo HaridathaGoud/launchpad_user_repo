@@ -22,7 +22,28 @@ export const getBreadcrumbList = {
   ],
   marketplaceCategory:[
     { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
     { name: "Browse by Category", path: "" },
+  ],
+  marketplaceHotCollectionViewAll:[
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Hot Collections", path: "" },
+  ],
+  marketplaceBrowseByCategoryAll:[
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Browse by Category", path: "" },
+  ],
+  marketplaceCollections:[
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Collections", path: "" },
+  ],
+  marketplaceExplore:[
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Explore", path: "" },
   ],
   launchpadProjectsWithStatus: (status: any) => {
     return [
@@ -73,4 +94,5 @@ export const getBreadcrumbList = {
     { name: "Proposals", path: props.proposalsPath },
     { name: props.proposalTitle.charAt(0).toUpperCase()+props.proposalTitle.slice(1), path: "" },
   ],
+
 };
