@@ -161,6 +161,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     updateState("setIsLoading", "saving");
     try {
       const {isValid,errors}=validateForm(values);
+      console.log(isValid,errors)
       if(isValid){
         let obj = {
           description: values.description,
@@ -180,22 +181,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     } finally {
       updateState("setIsLoading", "");
     }
-
-    // else {
-    //   setValidated(true);
-    //   setLoader(false);
-    // }
-    // else {
-    //   setValidated(true);
-    //   setLoader(false);
-    //   window.scroll({
-    //     top: 150,
-    //     left: 100,
-    //     behavior: 'smooth',
-    //   });
-    // }
-
-    console.log(values);
   };
   return (
     <form className="mt-4">

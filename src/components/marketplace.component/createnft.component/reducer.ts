@@ -26,7 +26,7 @@ export const formState: FormState = {
     description: "",
     collection: "",
     properties: "",
-    supply: "",
+    supply: "1",
     network: "",
     royalities: "",
     isPutonSale: "",
