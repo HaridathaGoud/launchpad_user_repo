@@ -93,11 +93,11 @@ const clearCollections = () => {
 }
 const fetchNfts = (information) => {
     debugger
-    const { pageNo,take,categoryName,searchBy,price,quatity,currency,status,customerId,data } = information;
+    const { pageNo,take,categoryName,searchBy,price,quantity,currency,status,customerId,data } = information;
     const skip = pageNo * take - take;
     return async (dispatch) => {
         dispatch(setLoaderAction(true));
-        const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quatity}/${currency}/${status}/${customerId}`)
+        const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity}/${currency}/${status}/${customerId}`)
         if (response.status === 200) {
             const mergedData = skip > 0 ? [...data, ...response.data] : response.data
             dispatch(fetchNftsAction(mergedData));

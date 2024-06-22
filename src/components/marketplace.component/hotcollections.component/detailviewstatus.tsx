@@ -67,8 +67,8 @@ const StatusDetailview = ({
                         type="radio"
                         // name="radio-1"
                         className="radio opacity-0 z-[1] relative"
-                        value="Live auction"
-                        checked={selectedObj?.status === 'Live auction'}
+                        value="auction"
+                        checked={selectedObj?.status === 'auction'}
                         onChange={handleChange}
                     /> <span>
                     </span>Live auction</label>
@@ -116,7 +116,7 @@ const StatusDetailview = ({
                     <div className="collapse-content px-0">
                         <div className='flex items-center justify-between'>
                             <p className='text-secondary'>All</p>
-                            <label htmlFor="" className='font-medium text-secondary relative '><input type="radio" checked={selectedObj?.quantity === "all items"} name="radio-1" className="radio opacity-0 z-[1] relative" onClick={() => handleQuantity('All')} /><span></span></label>
+                            <label htmlFor="" className='font-medium text-secondary relative '><input type="radio" checked={selectedObj?.quantity === "All Items"} name="radio-1" className="radio opacity-0 z-[1] relative" onClick={() => handleQuantity('All Items')} /><span></span></label>
                         </div>
                         <div className='flex items-center justify-between my-3'>
                             <p className='text-secondary'>Single items</p>

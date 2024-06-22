@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useReducer, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { clearNfts, fetchNfts } from "../../../reducers/marketPlaceReducer";
