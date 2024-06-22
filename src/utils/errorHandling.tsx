@@ -1,4 +1,5 @@
 const isErrorDispaly = (objValue: any) => {
+  console.log(objValue)
   if (objValue?.data && typeof objValue?.data === 'string') {
     return objValue?.data;
   } else if (objValue?.response?.data && typeof objValue?.response?.data === "object") {
@@ -40,6 +41,12 @@ const isErrorDispaly = (objValue: any) => {
   else if (typeof objValue == 'string') {
     return objValue
   }
+  // if (typeof objValue === 'string') {
+  //     return "Insufficient Funds";
+  // }
+  // else if (objValue && typeof objValue === 'object') {
+  //     return "Insufficient Funds";
+  // }
   else {
     return 'Something went wrong please try again!';
   }

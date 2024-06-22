@@ -115,7 +115,7 @@ const pageSize = 6;
         selectedCurrency={state.selectedCurrency}  />
       </div>
       
-      <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
+      <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 ${activeContent === 'content1'? 'grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]':''} `}>
       {activeContent === 'content1' && (
         <NftCards />
         )}

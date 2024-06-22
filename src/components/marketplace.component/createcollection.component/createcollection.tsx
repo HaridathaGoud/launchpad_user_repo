@@ -96,6 +96,7 @@ const CreateCollection = (props: any) => {
   }
 
   const handleSubmit = async (e: any) => {
+    localState.errors && rootDispatch(setError({message:''}))
     let obj = {
       ...localState.values,
       customerId: user?.user?.id || guid,
@@ -128,7 +129,7 @@ const CreateCollection = (props: any) => {
         handleBack();
       }
       else {
-        rootDispatch(setError({ message: response }));
+        rootDispatch(setError({ message: response,from: "contract" }));
       }
     }
     catch (error) {

@@ -3,12 +3,14 @@ export interface BannerStateModel {
     topNftDetails: [] | any;
     loader: boolean;
     countDetails: {} | any;
+    isModalOpen : boolean;
 }
 export const bannerState = {
     currentIndex: 0,
     topNftDetails: [],
     loader: false,
-    countDetails: null
+    countDetails: null,
+    isModalOpen : false
 };
 
 export const bannerReducer = (state = bannerState, action) => {
@@ -25,6 +27,9 @@ export const bannerReducer = (state = bannerState, action) => {
         case "setLoader":
             state = { ...state, loader: action.payload };
             break;
+            case "setModalShow":
+                state = { ...state, isModalOpen: action.payload };
+                break;
         default:
             state = { ...state };
     }

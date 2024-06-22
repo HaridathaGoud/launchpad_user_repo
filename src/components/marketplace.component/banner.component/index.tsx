@@ -10,6 +10,7 @@ import DashboardShimmer from '../loaders/carouselShimmer';
 import { bannerReducer, bannerState } from './reducer';
 import { setError } from "../../../reducers/layoutReducer";
 import { useDispatch } from 'react-redux';
+import ConnectToWallet from '../../ConnectToWallet';
 const Banner = () => {
     const rootDispatch = useDispatch();
     const [localState, localDispatch] = useReducer(bannerReducer, bannerState);
@@ -60,21 +61,27 @@ const Banner = () => {
     }
 
     const handleExplore = () => {
-        router(`/marketplace/explorenfts`);
+        router(`/marketplace/explore`);
     };
     const handleClose = () => setShow(false);
     const getNFTImageUrl = (file: any) => {
         return file
     };
-    // ---We Need To ConnectMetamask in Feature-------
-    // const metaMaskConnect =async() => {
+
+    const metaMaskConnect =async() => {
+        debugger
     //   if(isConnected){
-    //     router("/create/single");
+        router("/marketplace/nft/create");
     //   }else{
-    //     setModalShow(true)
+    //     if (!isConnected) {
+    //         return <ConnectToWallet />;
+    //       }
     //   }
-    // }
-console.log(localState.countDetails)
+    }
+    const handleCreate = () =>{
+        metaMaskConnect();
+    }
+
 
     return (
         <>
@@ -109,7 +116,7 @@ console.log(localState.countDetails)
                                     <Button type='primary' btnClassName='!px-12' handleClick={handleExplore}>
                                         Explore
                                     </Button>{' '}
-                                    <Button type='cancel' btnClassName='!px-12 !h-[48px] ml-[18px]' handleClick={handleExplore}>
+                                    <Button type='cancel' btnClassName='!px-12 !h-[48px] ml-[18px]' handleClick={handleCreate}>
                                         Create
                                     </Button>
                                 </div>
