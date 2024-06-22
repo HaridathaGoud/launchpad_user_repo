@@ -209,7 +209,7 @@ function ExploreNfts(props: any) {
           </Modal>
         }
         {/* <FilterComponent/> */}
-        <Nfts type="explorenfs"/>
+        <Nfts type="explorenfs" customerId={props.auth.user?.id}/>
       </div>
     </>
   );

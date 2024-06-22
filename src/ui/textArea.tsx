@@ -58,7 +58,7 @@ const TextArea = ({
         onChange={(e) => onChange(fieldName, e.target.value)}
         className={
           inputClass ||
-          "textarea textarea-bordered w-full text-secondary bg-transparent border-[#a5a5a5] resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
+          "textarea textarea-bordered w-full disabled:bg-transparent text-secondary bg-transparent border-[#a5a5a5] resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
         }
         rows={rows || 5}
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}

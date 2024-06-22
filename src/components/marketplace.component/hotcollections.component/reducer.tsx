@@ -41,11 +41,11 @@ export const hotCollectionReducer = (state = hotcollectionState, action) => {
             break;
         case "setCurrentIndex":
             state = { ...state, currentIndex: action.payload };
-            break; 
+            break;
             case "setActiveTab":
             state = { ...state, activeTab: action.payload };
             break;
-            case "setCardDetails": 
+            case "setCardDetails":
             state = { ...state, cardDetails: action.payload };
             break;
             case "update":
