@@ -303,6 +303,7 @@ button:disabled{color:black !important;cursor: not-allowed !important;pointer-ev
 input[type=file]::file-selector-button{margin-right:20px;border:none;background:0 0!important;padding:10px 20px;border-radius:10px;cursor:pointer;color:transparent}
 html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .nft-detailview .drawer-side{overflow-x: hidden;}
+.puton-sale select {  -moz-appearance: none;  -webkit-appearance: none;  appearance: none;  background-image: none;background-position: right 8px center !important;} 
 @media (min-width:768px){
   .more-collection{flex: 255px 0 !important;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}
