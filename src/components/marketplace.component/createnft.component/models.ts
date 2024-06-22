@@ -45,7 +45,7 @@ export type PropertyArray = Property[];
 
 export interface FormState {
   values: FormValues;
-  errors: FormErrors;
+  errors: FormErrors | object;
   isLoading: string;
   propertyErrors: PropertyArray;
   propertiesToUpdate: Properties | null;
