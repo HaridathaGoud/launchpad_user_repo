@@ -58,7 +58,7 @@ export const validateForm = (form: FormValues) => {
   validateField(
     description || "",
     "description",
-    true,
+    false,
     (value: string) => commonReg(value) || emojiRejex(value),
     "Invalid description"
   );
