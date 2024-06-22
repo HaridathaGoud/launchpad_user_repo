@@ -33,7 +33,7 @@ const getModalSteps = (isPutOnSale: boolean) => {
 const Form = ({ state, updateState, inputRef, mint }) => {
   const {
     values,
-    errors:formErrors,
+    errors: formErrors,
     propertyErrors,
     propertiesToUpdate: modalProperties,
   } = state;
@@ -42,9 +42,9 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
   });
-  const currencies=useMemo(()=>{
-    return values.network?.currencies || []
-  },[values.network])
+  const currencies = useMemo(() => {
+    return values.network?.currencies || [];
+  }, [values.network]);
   const handleChange = (field: string, value: any, selectedValue?: any) => {
     const valuesToUpdate = { ...values };
     if (field === "isPutOnAuction" && valuesToUpdate["isPutonSale"])
@@ -101,7 +101,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
       updateState("setValues", { ...values, properties: propertiesToUpdate });
       updateState("setPropertyErrors", []);
       modalActions("nftPropsModal", "close");
-      dispatch(setError({ message: "" }));
     }
     if (!isValid && errors) {
       updateState("setPropertyErrors", errors);
@@ -165,7 +164,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     try {
       const { isValid, errors } = validateForm(values);
       if (isValid) {
-        Object.keys(formErrors).length>0 && updateState('setErrors',{})
+        Object.keys(formErrors).length > 0 && updateState("setErrors", {});
         let obj = {
           description: values.description,
           external_url: values.externalLink,
@@ -296,6 +295,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               fieldName="description"
               error={formErrors["description"]}
               isRequired={false}
+              maxLength={500}
               inputInfo=" This is the collection where your item will appear."
             />
             <Select
@@ -346,13 +346,12 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   ))}
                 </div>
               </div>
-              
             </div>
             {formErrors?.["properties"] && (
-                  <p className="text-sm font-normal text-red-600 ">
-                    {formErrors?.["properties"]}
-                  </p>
-                )}
+              <p className="text-sm font-normal text-red-600 ">
+                {formErrors?.["properties"]}
+              </p>
+            )}
             {/* <p className="text-secondary opacity-60 ">
                   The number of items that can be minted. No gas cost to you!
                 </p> */}
@@ -371,7 +370,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 Network <span className="text-[#ff0000]">*</span>
               </p>
               <CustomSelect
-                selectedValue={values.network || ""}
+                selectedValue={values.network || networks?.[0] || null}
                 valueField={"name"}
                 imageField={"icon"}
                 optionKey={"name"}
@@ -380,11 +379,11 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 onSelect={(value: any) => handleChange("network", value)}
                 placeholder={"Select Network"}
               />
-               {formErrors?.["network"] && (
-                  <p className="text-sm font-normal text-red-600 ">
-                    {formErrors?.["network"]}
-                  </p>
-                )}
+              {formErrors?.["network"] && (
+                <p className="text-sm font-normal text-red-600 ">
+                  {formErrors?.["network"]}
+                </p>
+              )}
             </div>
             <NumberInput
               label="Royalties"
@@ -436,7 +435,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         maxLength={13}
                         required
                       />
-                       <Select
+                      <Select
                         inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
                         inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
                         value={values.crypto || ""}
@@ -452,7 +451,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     </div>
                     {formErrors["salePrice"] && (
                       <p className="text-sm font-normal text-red-600 ">
-                       {formErrors["salePrice"]}
+                        {formErrors["salePrice"]}
                       </p>
                     )}
                   </div>
@@ -498,22 +497,24 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       maxLength={13}
                       required
                     />
-                      <Select
-                        inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
-                        inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
-                        value={values.crypto || ""}
-                        options={currencies || []}
-                        onChange={handleChange}
-                        optionText="currency"
-                        optionValue="currency"
-                        fieldName="crypto"
-                        error={formErrors["crypto"]}
-                        label=""
-                        defaultOption="Currency"
-                      />
+                    <Select
+                      inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
+                      inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
+                      value={values.crypto || ""}
+                      options={currencies || []}
+                      onChange={handleChange}
+                      optionText="currency"
+                      optionValue="currency"
+                      fieldName="crypto"
+                      error={formErrors["crypto"]}
+                      label=""
+                      defaultOption="Currency"
+                    />
                   </div>
                   {formErrors["auctionPrice"] && (
-                    <p className="cust-validmsg">{formErrors["auctionPrice"]}</p>
+                    <p className="cust-validmsg">
+                      {formErrors["auctionPrice"]}
+                    </p>
                   )}
                 </>
               )}
@@ -538,6 +539,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 <TextArea
                   label="Unlock Description"
                   value={values.unlockDescription}
+                  maxLength={1000}
                   onChange={handleChange}
                   inputBoxClass="mb-6"
                   fieldName="unlockDescription"

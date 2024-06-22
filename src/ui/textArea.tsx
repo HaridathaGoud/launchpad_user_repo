@@ -14,6 +14,7 @@ interface TextAreaProps {
   errorClass?: string;
   inputInfo?: string;
   inputInfoClass?: string;
+  rows?:number;
 }
 const TextArea = ({
   label,
@@ -30,6 +31,7 @@ const TextArea = ({
   errorClass,
   inputInfo,
   inputInfoClass,
+  rows
 }: TextAreaProps) => {
   return (
     <div className={inputBoxClass}>
@@ -56,7 +58,7 @@ const TextArea = ({
           inputClass ||
           "textarea textarea-bordered w-full text-secondary bg-transparent border-[#a5a5a5] resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
         }
-        rows={5}
+        rows={rows || 5}
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}
         maxLength={maxLength}
       />
