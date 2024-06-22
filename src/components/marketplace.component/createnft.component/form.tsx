@@ -12,8 +12,27 @@ import { Property } from "./models";
 import NoData from "../../../ui/noData";
 import { apiUploadPost } from "../../../utils/api";
 import CreatenftShimmer from "./createnftshimmer";
-
-const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
+import ipfsClient from "../../../utils/ipfsClient";
+import CustomSelect from "./customSelect";
+import NumberInput from "../../../ui/numberInput";
+import { store } from "../../../store";
+import Spinner from "../../loaders/spinner";
+const getModalSteps = (isPutOnSale: boolean) => {
+  const steps = [
+    { title: "Approval", message: "Please provide approval for NFT transfer" },
+    { title: "Mint", message: "Send transaction to mint NFT" },
+  ];
+  return isPutOnSale
+    ? [
+        ...steps,
+        {
+          title: "Signature",
+          message: "Please sign to place NFT on Sale in Marketplace",
+        },
+      ]
+    : steps;
+};
+const Form = ({ state, updateState, inputRef, mint }) => {
   const {
     values,
     errors,
@@ -25,13 +44,21 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
   });
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: any, selectedValue?: any) => {
     const valuesToUpdate = { ...values };
-    valuesToUpdate[field] = value;
+    if (field === "isPutOnAuction" && valuesToUpdate["isPutonSale"])
+      valuesToUpdate["isPutonSale"] = false;
+    if (field === "isPutonSale" && valuesToUpdate["isPutOnAuction"])
+      valuesToUpdate["isPutOnAuction"] = false;
+    if (field === "collection") {
+      valuesToUpdate["collection"] = selectedValue;
+    } else {
+      valuesToUpdate[field] = value;
+    }
     updateState("setValues", valuesToUpdate);
   };
   const addProperties = () => {
-    const propertyToAdd = { type: "", value: "" };
+    const propertyToAdd = { trait_type: "", value: "" };
     const propertiesToUpdate = modalProperties
       ? [...modalProperties, propertyToAdd]
       : [propertyToAdd];
@@ -70,6 +97,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
     if (isValid) {
       const propertiesToUpdate = modalProperties ? [...modalProperties] : null;
       updateState("setValues", { ...values, properties: propertiesToUpdate });
+      updateState("setPropertyErrors", []);
       modalActions("nftPropsModal", "close");
     }
     if (!isValid && errors) {
@@ -105,6 +133,8 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
           dispatch(setError({ message: "" }));
           const valuesToUpdate = { ...values };
           valuesToUpdate.imageUrl = response.data[0];
+          const result = await ipfsClient.add(file);
+          valuesToUpdate.filePath = result.path;
           updateState("setValues", valuesToUpdate);
         } else {
           dispatch(setError({ message: response }));
@@ -126,7 +156,44 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
       updateState("setIsLoading", "");
     }
   };
-  const createNFT = (e) => {};
+  const createNFT = async (e: any) => {
+    e.preventDefault();
+    updateState("setIsLoading", "saving");
+    try {
+      let obj = {
+        description: values.description,
+        external_url: values.externalLink,
+        image: `ipfs://${values.filePath}`,
+        name: values.name,
+        attributes: JSON.stringify(values.properties),
+      };
+      let nftMetadata = JSON.stringify(obj);
+      const result = await ipfsClient.add(nftMetadata);
+      if (result.path) {
+        await mint(result);
+      }
+    } catch (error) {
+      store.dispatch(setError({ message: error }));
+    } finally {
+      updateState("setIsLoading", "");
+    }
+
+    // else {
+    //   setValidated(true);
+    //   setLoader(false);
+    // }
+    // else {
+    //   setValidated(true);
+    //   setLoader(false);
+    //   window.scroll({
+    //     top: 150,
+    //     left: 100,
+    //     behavior: 'smooth',
+    //   });
+    // }
+
+    console.log(values);
+  };
   return (
     <form className="mt-4">
       <div className="grid lg:grid-cols-2 gap-6">
@@ -149,7 +216,6 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                 <Button
                   type="plain"
                   btnClassName="icon camera absolute top-3 right-3 create-nft-cam c-pointer"
-                  // handleClick={(e) => deleteImage(e)}
                 >
                   <input
                     type="file"
@@ -171,10 +237,11 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                   <p
                     // type="plain"
                     // handleClick={() => inputRef.current?.click()}
-                    className="my-5 cursor-pointer text-base font-semibold text-secondary opacity-60"
+                    className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60"
                   >
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
                   </p>
+                  <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 500 * 500 Resolution</p>
                   <div className="w-[140px] mx-auto relative h-12">
                     <input
                       required
@@ -223,7 +290,6 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
               error={errors["externalLink"]}
               maxLength={500}
             />
-
             <p className="text-secondary opacity-60 ">
               DOTT will include a link to this URL on this item's detail page,
               so that users can click to learn more about it. You are welcome to
@@ -243,7 +309,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
             </p>
             <Select
               inputBoxClass="mb-6 p-relative"
-              value={values.collection}
+              value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
               fieldName="collection"
@@ -279,7 +345,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                     >
                       <div className="avatar-box me-lg-2">
                         <label className="text-base text-primary font-normal break-words">
-                          {property.type}
+                          {property.trait_type}
                         </label>
                         <p className="text-base text-secondary font-normal break-words">
                           {property.value}
@@ -307,44 +373,24 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
               <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
                 Network
               </p>
-              <div className="dropdown dropdown-end w-full nft-dropdown">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
-                >
-                  <img className="scale-[0.8]" src={matic} alt="matic" />{" "}
-                  <span className="text-secondary">Matic</span>
-                </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full"
-                >
-                  <li className="flex flex-row items-center gap-2">
-                    {" "}
-                    <img
-                      className="p-0 hover:bg-transparent scale-[0.8]"
-                      src={matic}
-                      alt="matic"
-                    ></img>
-                    <a className="hover:bg-transparent p-0">Matic</a>
-                  </li>
-                </ul>
-              </div>
-              {/* <select  
-                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
-                >
-                  <option value=""> <img src={matic}></img>  Matic</option>                       
-                </select> */}
+              <CustomSelect
+                selectedValue={values.network || ""}
+                valueField={"name"}
+                imageField={"image"}
+                optionKey={"name"}
+                hasImage={false}
+                options={networks.data || []}
+                onSelect={(value: any) => handleChange("network", value)}
+                placeholder={"Select Network"}
+              />
             </div>
-            <TextInput
+            <NumberInput
               label="Royalties"
               value={values.royalities}
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="royalities"
               error={""}
-              maxLength={20}
               placeholder="Suggested: 10%, 20%, 30%"
             />
             <div className="mb-6 ">
@@ -352,11 +398,11 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                 <label className="cursor-pointer relative inline-block mt-2">
                   <span className="align-middle">
                     <input
-                      type="checkbox"
-                      id="custom-switch"
-                      checked={values.isPutOnSale}
+                      type="radio"
+                      name="isPuton"
+                      checked={values.isPutonSale}
                       onChange={(e) =>
-                        handleChange("isPutOnSale", e.target.checked)
+                        handleChange("isPutonSale", e.target.checked)
                       }
                       className="checkbox checkbox-error opacity-0"
                     />
@@ -369,7 +415,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                 </label>
               </div>
 
-              {values.isPutOnSale && (
+              {values.isPutonSale && (
                 <>
                   {" "}
                   <p className="text-secondary opacity-50 text-sm">
@@ -392,7 +438,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                         id="basic-addon3"
                         className=" absolute right-0 px-3 top-5 border-l "
                       >
-                        {values.network || "MATIC"}
+                        {values.network?.["name"] || "MATIC"}
                       </span>
                     </div>
                     {"" && (
@@ -409,12 +455,11 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                 <label className="cursor-pointer relative inline-block mt-2">
                   <span className="align-middle">
                     <input
-                      type="checkbox"
-                      id="custom-switch"
+                      type="radio"
+                      name="isPuton"
                       onChange={(e) =>
-                        handleChange("isPutonAuction", e.target.checked)
+                        handleChange("isPutOnAuction", e.target.checked)
                       }
-                      // disabled={showSaleFields && true}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -426,7 +471,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                 </p>
               </div>
 
-              {values.isPutonAuction && (
+              {values.isPutOnAuction && (
                 <>
                   {" "}
                   <p className="text-secondary opacity-50 text-sm">
@@ -448,7 +493,7 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                       id="basic-addon3"
                       className=" absolute right-0 px-3 top-5 border-l "
                     >
-                      {values.network || "MATIC"}
+                      {values.network?.["name"] || "MATIC"}
                     </span>
                   </div>
                   {errors["auctionPrice"] && (
@@ -474,12 +519,14 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                 Content will be unlocked after successful transaction
               </p>
               {values.isUnlockPurchased && (
-                <input
-                  aria-label="Username"
-                  type="text"
-                  className="input mt-3 input-bordered w-full rounded-[28px] text-secondary bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                  placeholder="Enter Unlock Description"
-                  required
+                <TextArea
+                  label="Unlock Description"
+                  value={values.unlockDescription}
+                  onChange={handleChange}
+                  inputBoxClass="mb-6"
+                  fieldName="unlockDescription"
+                  error={errors["unlockDescription"]}
+                  isRequired={true}
                 />
               )}
             </div>
@@ -487,17 +534,22 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
               <Button
                 btnClassName="min-w-[128px] h-[48px]"
                 type="cancel"
-                //   disabled={loader}
+                disabled={state.isLoading === "saving"}
               >
-                {/* <span>{loader && <Spinner size="sm" />} </span> */}
                 Cancel
               </Button>
               <Button
                 btnClassName="min-w-[128px]"
                 type="primary"
-                //   disabled={loader}
+                handleClick={(e: any) => createNFT(e)}
+                disabled={state.isLoading === "saving"}
               >
-                {/* <span>{loader && <Spinner size="sm" />} </span>. */}
+                {state.isLoading === "saving" && (
+                  <span>
+                    {" "}
+                    <Spinner size="loading-sm" />
+                  </span>
+                )}
                 Create
               </Button>
             </div>
@@ -510,16 +562,16 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                   <div className="my-6 flex gap-4 items-center " key={index}>
                     <div>
                       <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
-                        Type
+                        Trait type
                       </label>
                       <input
                         type="text"
                         className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         placeholder="Type"
-                        value={property.type}
+                        value={property.trait_type}
                         onChange={(event) =>
                           handlePropertiesChange(
-                            "type",
+                            "trait_type",
                             event.target.value,
                             index
                           )
@@ -527,9 +579,9 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                         maxLength={13}
                         required
                       />
-                      {propertyErrors?.[index]?.["type"] && (
+                      {propertyErrors?.[index]?.["trait_type"] && (
                         <p className="text-sm font-normal text-red-600 ">
-                          {propertyErrors?.[index]?.["type"]}
+                          {propertyErrors?.[index]?.["trait_type"]}
                         </p>
                       )}
                     </div>
@@ -592,6 +644,25 @@ const Form = ({ state, updateState, inputRef, deleteImage, collectionsLu }) => {
                   Save
                 </Button>
               </div>
+            </Modal>
+            <Modal id={"putOnSaleSteps"}>
+              <ul className="steps">
+                {getModalSteps(values.isPutonSale)?.map(
+                  (step: any, index: number) => {
+                    return (
+                      <li
+                        className={`step ${
+                          index <= state.modalStep ? "step-primary" : ""
+                        }`}
+                        key={step.title}
+                      >
+                        <p>{step.title}</p>
+                        <p>{step.message}</p>
+                      </li>
+                    );
+                  }
+                )}
+              </ul>
             </Modal>
           </div>
         </div>

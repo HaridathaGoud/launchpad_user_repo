@@ -1,13 +1,8 @@
-import { Row, Col, Card, Tabs, Tab, Container } from "react-bootstrap";
-import InputGroup from "react-bootstrap/InputGroup";
+
 import Image from "react-bootstrap/Image";
-import Form from "react-bootstrap/Form";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
-// import Modal from 'react-bootstrap/Modal';
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { getMarketplace, postMarketplace } from "../../../utils/api";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -27,11 +22,10 @@ import Toast from "react-bootstrap/Toast";
 import validSuccess from "../../../assets/images/success.png";
 import UserContract from "../../../contracts/user721contract.json";
 import WalletConnect from "../../shared/connect.wallet";
-import loadimg from "../../../assets/images/loader.svg";
 import successimg from "../../../assets/images/success.svg";
 import Button from "../../../ui/Button";
 import DetailpageShimmer from "../loaders/detailpageShimmer";
-import { Modal, modalActions } from "../../../ui/Modal";
+import { modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
 import NoDataFound from "../../../ui/noData";
 import thorntf from "../../../assets/images/thor.jpg"

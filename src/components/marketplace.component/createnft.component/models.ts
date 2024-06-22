@@ -3,15 +3,18 @@ export interface FormValues {
   name: string;
   externalLink: string;
   description: string;
-  collection: string | null;
+  collection: any;
   properties: string | null;
   supply: number;
-  network: string | null;
+  network: any;
   royalities: number;
   isPutonSale: boolean;
   isPutOnAuction: boolean;
   isUnlockPurchased: boolean;
   unlockDescription: string;
+  salePrice: string;
+  auctionPrice: string;
+  filePath: any;
 }
 export interface FormErrors {
   imageUrl: string;
@@ -27,26 +30,24 @@ export interface FormErrors {
   isPutOnAuction: string;
   isUnlockPurchased: string;
   unlockDescription: string;
+  salePrice: string;
+  auctionPrice: string;
 }
 
 export interface Property {
-  type: string;
+  trait_type: string;
   value: string;
 }
 export type Properties = Property[];
 export type PropertyArray = Property[];
-export interface Lookups {
-  collections: any[] | null;
-  networks: any[] | null;
-}
+
 export interface FormState {
   values: FormValues;
   errors: FormErrors;
-  lookups: Lookups;
-  modalToOpen: string;
   isLoading: string;
-  propertyErrors:PropertyArray;
-  propertiesToUpdate:Properties | null;
+  propertyErrors: PropertyArray;
+  propertiesToUpdate: Properties | null;
+  modalStep: number;
 }
 export interface Action {
   type: string;
