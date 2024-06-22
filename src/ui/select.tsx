@@ -18,6 +18,7 @@ interface SelectProps {
   defaultOption?: string;
   inputInfo?: string;
   inputInfoClass?:string;
+  disabled?:boolean;
 }
 const Select = ({
   label,
@@ -37,6 +38,7 @@ const Select = ({
   defaultOption,
   inputInfo,
   inputInfoClass,
+  disabled
 }: SelectProps) => {
   return (
     <div className={inputBoxClass}>
@@ -65,6 +67,7 @@ const Select = ({
             : null;
           onChange(fieldName, event.target.value, selectedObject);
         }}
+        disabled={disabled}
       >
         {defaultOption && (
           <option value="" data-value={""}>

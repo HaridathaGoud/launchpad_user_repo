@@ -77,6 +77,15 @@ export const validateForm = (form: FormValues) => {
     "Invalid royality fee"
   );
   validateField(
+    royalities,
+    "royalities",
+    true,
+    (value: string) => {
+      return Number(value)>100
+    },
+    "Royality fee exceeds 100%"
+  );
+  validateField(
     salePrice,
     "salePrice",
     false,

@@ -15,6 +15,7 @@ interface TextAreaProps {
   inputInfo?: string;
   inputInfoClass?: string;
   rows?:number;
+  disabled?:boolean;
 }
 const TextArea = ({
   label,
@@ -31,7 +32,8 @@ const TextArea = ({
   errorClass,
   inputInfo,
   inputInfoClass,
-  rows
+  rows,
+  disabled
 }: TextAreaProps) => {
   return (
     <div className={inputBoxClass}>
@@ -61,6 +63,7 @@ const TextArea = ({
         rows={rows || 5}
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}
         maxLength={maxLength}
+        disabled={disabled}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>

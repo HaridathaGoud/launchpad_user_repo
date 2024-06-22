@@ -15,7 +15,8 @@ interface TextInputProps{
   inputType?:string,
   onKeyUp?:Function,
   inputInfo?:string,
-  inputInfoClass?:string
+  inputInfoClass?:string,
+  disabled?:boolean
 }
 const TextInput = ({
   label,
@@ -34,6 +35,7 @@ const TextInput = ({
   onKeyUp,
   inputInfo,
   inputInfoClass,
+  disabled
 }:TextInputProps) => {
 
   return (
@@ -58,6 +60,7 @@ const TextInput = ({
         onChange={(e) => onChange(fieldName, e.target.value)}
         onKeyUp={onKeyUp ? (e:any)=>onKeyUp(fieldName,e) : ()=>{}}
         maxLength={maxLength}
+        disabled={disabled}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>

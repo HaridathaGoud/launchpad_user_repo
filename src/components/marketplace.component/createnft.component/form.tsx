@@ -235,13 +235,9 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               <div className="">
                 <div className="text-center">
                   <span
-                    // type="plain"
                     className="icon image-upload cursor-pointer"
-                    // handleClick={() => inputRef.current?.click()}
                   ></span>
                   <p
-                    // type="plain"
-                    // handleClick={() => inputRef.current?.click()}
                     className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60"
                   >
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
@@ -261,7 +257,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     <Button
                       btnClassName="absolute left-0 top-0 cursor-pointer"
                       type="primary"
-                      //   handleClick={() => inputRef.current?.click()}
                     >
                       Choose File
                     </Button>
@@ -288,6 +283,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               inputBoxClass="mb-6"
               fieldName="name"
               error={formErrors["name"]}
+              disabled={state.isLoading!==''}
             />
             <TextInput
               label="External link"
@@ -295,6 +291,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="externalLink"
+              disabled={state.isLoading!==''}
               error={formErrors["externalLink"]}
               maxLength={500}
               inputInfo="DOTT will include a link to this URL on this item's detail page,
@@ -306,6 +303,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.description}
               onChange={handleChange}
               inputBoxClass="mb-6"
+              disabled={state.isLoading!==''}
               fieldName="description"
               error={formErrors["description"]}
               isRequired={false}
@@ -317,6 +315,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
+              disabled={state.isLoading!==''}
               fieldName="collection"
               error={formErrors["collection"]}
               label="Collection"
@@ -340,6 +339,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     type="plain"
                     btnClassName="icon add-btn cursor-pointer"
                     handleClick={() => modalActions("nftPropsModal", "open")}
+                    disabled={state.isLoading!==''}
                   ></Button>
                 </div>
                 <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
@@ -392,6 +392,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 options={networks.data || []}
                 onSelect={(value: any) => handleChange("network", value)}
                 placeholder={"Select Network"}
+                disabled={state.isLoading!==''}
               />
               {formErrors?.["network"] && (
                 <p className="text-sm font-normal text-red-600 ">
@@ -405,9 +406,10 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="royalities"
-              error={""}
+              error={formErrors['royalities']}
               isInteger={true}
               placeholder="Suggested: 10%, 20%, 30%"
+              disabled={state.isLoading!==''}
             />
             <div className="mb-6 ">
               <div className="flex items-center">
@@ -420,6 +422,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutonSale", e.target.checked)
                       }
+                      disabled={state.isLoading!==''}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -447,6 +450,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         onChange={(e) =>
                           handleChange("salePrice", e.target.value)
                         }
+                        disabled={state.isLoading!==''}
                         maxLength={13}
                         required
                       />
@@ -461,6 +465,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         fieldName="crypto"
                         error={formErrors["crypto"]}
                         label=""
+                        disabled={state.isLoading!==''}
                         defaultOption="Currency"
                         errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
@@ -484,6 +489,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutOnAuction", e.target.checked)
                       }
+                      disabled={state.isLoading!==''}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -510,6 +516,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("auctionPrice", e.target.value)
                       }
+                      disabled={state.isLoading!==''}
                       maxLength={13}
                       required
                     />
@@ -524,6 +531,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       fieldName="crypto"
                       error={formErrors["crypto"]}
                       label=""
+                      disabled={state.isLoading!==''}
                       defaultOption="Currency"
                     />
                   </div>
@@ -543,6 +551,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   onChange={(e: any) =>
                     handleChange("isUnlockPurchased", e.target.checked)
                   }
+                  disabled={state.isLoading!==''}
                 />
                 <p className="text-xl font-normal text-secondary ml-3">
                   Unlock once purchased
@@ -561,6 +570,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   fieldName="unlockDescription"
                   error={formErrors["unlockDescription"]}
                   isRequired={true}
+                  disabled={state.isLoading!==''}
                 />
               )}
             </div>

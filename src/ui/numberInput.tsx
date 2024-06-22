@@ -72,10 +72,11 @@ const NumberInput = ({
         }
         value={cleanedValue}
         onChange={handleChange}
+        disabled={disabled}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>
-          error
+          {error}
         </p>
       )}
     </div>
