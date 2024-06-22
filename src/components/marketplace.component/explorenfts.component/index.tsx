@@ -19,6 +19,7 @@ import StatusDetailview from "../hotcollections.component/detailviewstatus";
 import BreadCrumb from "../../../ui/breadcrumb";
 import SearchBar from "../../../ui/searchBar";
 import ListView from "../hotcollections.component/listview";
+import Nfts from '../../nfts.component'
 const pageSize = 6;
 function ExploreNfts(props: any) {
   const { address, isConnected } = useAccount();
@@ -35,7 +36,7 @@ function ExploreNfts(props: any) {
   const errorMessage=useSelector(((store:any)=>store.layoutReducer.error.message))
   const rootDispatch = useDispatch();
   useEffect(() => {
-    store.dispatch(fetchNfts({ 
+    store.dispatch(fetchNfts({
       pageNo:pageNo,
       take:pageSize,
       categoryName:'all',
@@ -55,7 +56,7 @@ function ExploreNfts(props: any) {
     };
   }, [props.auth.user?.id,searchInput,localState.selectedStatus,localState.selection.minMaxCategory]); // eslint-disable-line react-hooks/exhaustive-deps
   const loadmore = () => {
-    store.dispatch(fetchNfts({ 
+    store.dispatch(fetchNfts({
       pageNo:pageNo,
       take:pageSize,
       categoryName:'all',
@@ -97,7 +98,7 @@ function ExploreNfts(props: any) {
             } Favorites!`,
           })
         );
-        store.dispatch(fetchNfts({ 
+        store.dispatch(fetchNfts({
           pageNo:pageNo,
           take:pageSize,
           categoryName:'all',
@@ -169,7 +170,7 @@ function ExploreNfts(props: any) {
     localDispatch({ type: 'setSelectedPriceLevel', payload: value });
   };
   const handleApplyClick = () => {
-    store.dispatch(fetchNfts({ 
+    store.dispatch(fetchNfts({
       pageNo:pageNo,
       take:pageSize,
       categoryName:'all',
@@ -208,190 +209,7 @@ function ExploreNfts(props: any) {
           </Modal>
         }
         {/* <FilterComponent/> */}
-        <div className="mt-7 mb-[42px]">
-      <div className="md:flex justify-between gap-4">
-        <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={setSearchInput} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... "/>
-        <div className="flex items-center max-sm:mt-2">
-          <div className="dropdown mr-2.5">
-            <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: {localState.selection.minMaxCategory||localState.selectedPriceLevel} <span className="icon drop-arrow"></span></div>
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-              <li onClick={(event) => handlePriceRangeSelection(event, 'low2high')} ><a>Low</a></li>
-              <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
-            </ul>
-          </div>
-          <span className='bg-accent p-2.5 rounded cursor-pointer' onClick={showContent1}>
-            <span className="icon filter-squre"></span>
-          </span>
-          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer" onClick={showContent2}>
-            <span className="icon filter-dots"></span>
-          </span>
-          {/* <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
-            <span className="icon filter-cart"></span>
-            <span className='bg-primary text-white w-[16px] top-[-4px] right-[4px] text-xs h-[16px] inline-block flex justify-center items-center absolute rounded-full'>4</span>
-          </span> */}
-        </div>
-      </div>
-    </div>
-        <div className='grid md:grid-cols-12 lg:gap-[45px]'>
-          <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
-          <StatusDetailview 
-        handleChange={handleChange} 
-        handleDropdownChange={handleDropdownChange}
-        sendSelectedValue={sendSelectedValue}
-        selectedStatus={localState.selectedStatus}
-        handleApplyClick={handleApplyClick}
-        selectedCurrency={localState.selectedCurrency}  />
-          </div>
-          <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
-            {activeContent === 'content1' && <>
-              {data &&
-                !localState?.loader &&
-                data?.map((item: any) => (
-                  <div
-                    className="mt-3 shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
-                    key={item.id}
-                  >
-                    <div className="cursor-pointer">
-                      <Button
-                        handleClick={
-                          isConnected
-                            ? () => saveView?.(item)
-                            : () => navigateToAsset(item)
-                        }
-                        type="plain" btnClassName="w-full"
-                      >
-                        <img
-                          src={
-                            item?.image && !item?.image?.includes("null")
-                              ? item.image.replace(
-                                "ipfs://",
-                                "https://ipfs.io/ipfs/"
-                              )
-                              : defaultlogo
-                          }
-                          alt=""
-                          className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${item?.isUnlockPurchased &&
-                              address !== item?.walletAddress
-                              ? "blur-image"
-                              : ""
-                            }`}
-                        />
-                      </Button>
-                      <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
-                        <Button
-                          type="plain"
-                          handleClick={() => addToFavorites(item)}
-                          btnClassName=""
-                        >
-                          {localState?.favoriteLoader?.id !== item.id && (
-                            <span
-                              className={`icon like-white ${item?.isFavourite ? "active" : ""
-                                }`}
-                            ></span>
-                          )}
-                          {localState?.favoriteLoader?.id === item.id &&
-                            localState?.favoriteLoader?.loading && (
-                              <span>
-                                <Spinner />
-                              </span>
-                            )}
-                        </Button>
-                      </div>
-                      <Button
-                        handleClick={
-                          isConnected
-                            ? () => saveView(item)
-                            : () => navigateToAsset(item)
-                        }
-                        type="plain"
-                        btnClassName="w-[100%]"
-                      >
-                        <div className="px-2 py-2.5">
-                          <p className="text-xs text-secondary truncate text-left">
-                            {item.creator}
-                          </p>
-                          <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
-                            {" "}
-                            {item.name}{" "}
-                          </h1>
-
-                          <div className="flex justify-between truncate mb-3 gap-2">
-                            <p className="opacity-60 truncate text-secondary">
-                              Price
-                            </p>
-                            <p className="font-semibold text-secondary flex-1 truncate text-right">
-                              {item.price ? item.price : "--"}{" "}
-                              {item.currency && item.price
-                                ? item.currency.toUpperCase()
-                                : " "}
-                            </p>
-                          </div>
-                          <div className="flex justify-between gap-2">
-                            <p className="opacity-60 truncate text-secondary">
-                              Highest bid
-                            </p>
-                            <p className="font-semibold text-secondary flex-1 truncate text-right">
-                              {item.highestBid ? item.highestBid : "--"}{" "}
-                              {item.currency && item.highestBid
-                                ? item.currency.toUpperCase()
-                                : " "}
-                            </p>
-                          </div>
-                        </div>
-                      </Button>
-                      <hr />
-                      <div className="px-2.5 py-4 flex justify-between">
-                        <div className="flex add-cart cursor-pointer">
-                          <span className="icon card-cart"></span>
-                          <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                            Add to Cart
-                          </span>
-                        </div>
-                        <div className="w-px border"></div>
-                        <div className="flex shop-card cursor-pointer">
-                          <span className="icon card-shop"></span>
-                          <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                            Buy Now
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              {(loader || localState?.loader) &&
-                Array.from({ length: pageSize }, (_, index) => (
-                  <div key={index}>
-                    <FoundingMemberSimmer />
-                  </div>
-                ))}
-              {data?.length === 0 && !loader && (
-                <div className="col-span-5">
-                  <NoDataFound text={''} />
-                </div>
-              )}
-            </>}
-
-            {activeContent === 'content2' && (
-              <ListView data={nftDetails}/>)}
-
-            {data?.length === (pageNo - 1) * pageSize && (
-              <div className="category-more">
-                <div className="text-center mt-5">
-                  <span
-                    onClick={loadmore}
-                    className="cursor-pointer text-base text-primary font-semibold"
-                  >
-                    See More
-                  </span>
-                  <i
-                    className="icon block mx-auto see-more cursor-pointer"
-                    onClick={loadmore}
-                  ></i>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <Nfts type="explorenfs"/>
       </div>
     </>
   );
