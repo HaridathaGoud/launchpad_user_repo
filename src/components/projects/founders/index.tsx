@@ -99,7 +99,7 @@ const FoundingMember = (props) => {
 
           {props.foundingmemsData?.stakersData?.length !== 0 && (
             <Link
-              to={`/projects/${props?.projectName}/${props?.projectId}/foundingmembers`}
+              to={`/projects/${props?.projectName}/${props?.projectId}/investors`}
             >
               <div
                 className={`bg-base-content w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer `}
