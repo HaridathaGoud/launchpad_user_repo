@@ -151,9 +151,23 @@ function Nfts(props: any) {
         localDispatch({ type: 'setValues', payload: obj });
     };
     const showContent1 = () => {
+        let obj = { ...localState.values };
+        // obj.data = data;
+        obj.collectionid = params?.collectionid;
+        obj.customerId = user?.id || guid;
+        obj.walletAddress = params?.walletAddress;
+        obj.activeTab = props?.selectTabs || "GetNfts"
+        store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content1' });
     };
     const showContent2 = () => {
+        let obj = { ...localState.values };
+        // obj.data = data;
+        obj.collectionid = params?.collectionid;
+        obj.customerId = user?.id || guid;
+        obj.walletAddress = params?.walletAddress;
+        obj.activeTab = props?.selectTabs || "GetNfts"
+        store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content2' });
     };
     const handleQuantity = (quantity) => {
@@ -326,7 +340,7 @@ function Nfts(props: any) {
                                         <FoundingMemberSimmer />
                                     </div>
                                 ))}
-                            {data?.length === 0 && !loader && (
+                            { data?.length === 0 && !(loader) && (
                                 <div className="col-span-5">
                                     <NoDataFound text={''} />
                                 </div>

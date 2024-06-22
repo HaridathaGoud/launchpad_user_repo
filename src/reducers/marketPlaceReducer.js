@@ -111,6 +111,7 @@ const fetchNfts = (information, screenName) => {
                 const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
                 dispatch(fetchNftsAction(mergedData));
                 dispatch(setPageNoAction(pageNo + 1));
+                dispatch(setLoaderAction(false));
             } else {
                 dispatch(setErrorAction(response));
             }

@@ -10,7 +10,7 @@ const ListView = (props:any) => {
   const navigate = useNavigate();
   const navigateToAsset = (item:any) => {
     navigate(`/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`) };
-    
+
   return (
     <div>
       <div className="mb-6 max-sm:w-full overflow-auto">
@@ -44,7 +44,7 @@ const ListView = (props:any) => {
                 props?.data?.data?.map((item: any, index: any) => (
                   <tr>
                     <td>
-                      <div className="flex gap-4 items-center"> 
+                      <div className="flex gap-4 items-center">
                         <img src=
                         {
                           item?.image && !item?.image?.includes("null")
@@ -63,7 +63,7 @@ const ListView = (props:any) => {
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        {item?.bestoffer || '--'} 
+                        {item?.bestoffer || '--'}
                       </p>
                     </td>
                     <td>
@@ -85,7 +85,7 @@ const ListView = (props:any) => {
                     </td>
                     <td className="!p-2 text-right md:w-[217px]">
                       {" "}
-                    {item.isPutOnSale && 
+                    {item.isPutOnSale &&
                       <Button
                         type="secondary"
                         btnClassName="!py-0 px-6"
@@ -93,12 +93,12 @@ const ListView = (props:any) => {
                       >
                         Buy Now
                       </Button>
-                     } 
+                     }
                     </td>
                   </tr>
                   ))
-               }  
-                {!props?.data?.data?.length && !props?.data?.loading && (
+               }
+                {props?.data?.data?.length === 0 && !props?.data?.loading && (
                 <tr className="!bg-transparent">
                   <td colSpan={6} className="text-center ">
                   <NoData text={""} />
