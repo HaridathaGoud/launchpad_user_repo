@@ -1,12 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import ConnectWallet from '../ui/connectButton';
+import ConnectToWallet from '../components/ConnectToWallet';
 
 const ProtectedRoute = ({ children }) => {
     const user=useSelector((store:any)=>store.auth.user)
     if (!user || !user?.id) {
-        return <ConnectWallet/>;
+        return <ConnectToWallet/>;
     }
     return children;
 };
