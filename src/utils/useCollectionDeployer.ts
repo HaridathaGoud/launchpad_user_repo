@@ -173,9 +173,9 @@ export function useCollectionDeployer() {
         args: [Proxy.contractAddress, true],
       });
       const receipt = await writeContract(config);
-      callback({ ok: true, data: receipt });
+      await callback({ ok: true, data: receipt });
     } catch (error) {
-      callback({ ok: false, data: error });
+      await callback({ ok: false, data: error });
     }
   }
   async function mintTo721(
@@ -197,10 +197,10 @@ export function useCollectionDeployer() {
       if (receipt.hash) {
         const transaction = await waitForTransaction({ hash: receipt.hash });
         console.log(transaction);
-        callback({ ok: true, data: transaction });
+        await callback({ ok: true, data: transaction });
       }
     } catch (error) {
-      callback({ ok: false, data: error });
+      await callback({ ok: false, data: error });
     }
   }
   async function buyAsset(

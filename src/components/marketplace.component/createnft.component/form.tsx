@@ -3,7 +3,6 @@ import Button from "../../../ui/Button";
 import TextInput from "../../../ui/textInput";
 import TextArea from "../../../ui/textArea";
 import Select from "../../../ui/select";
-import matic from "../../../assets/images/matic-img.svg";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { validateForm, validateProperties } from "./validation";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,6 @@ import CreatenftShimmer from "./createnftshimmer";
 import ipfsClient from "../../../utils/ipfsClient";
 import CustomSelect from "./customSelect";
 import NumberInput from "../../../ui/numberInput";
-import { store } from "../../../store";
 import Spinner from "../../loaders/spinner";
 const getModalSteps = (isPutOnSale: boolean) => {
   const steps = [
@@ -99,6 +97,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
       updateState("setValues", { ...values, properties: propertiesToUpdate });
       updateState("setPropertyErrors", []);
       modalActions("nftPropsModal", "close");
+      dispatch(setError({message:''}))
     }
     if (!isValid && errors) {
       updateState("setPropertyErrors", errors);
@@ -161,7 +160,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     updateState("setIsLoading", "saving");
     try {
       const {isValid,errors}=validateForm(values);
-      console.log(isValid,errors)
       if(isValid){
         let obj = {
           description: values.description,
@@ -177,9 +175,10 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         updateState('setErrors',errors)
       }
     } catch (error) {
-      store.dispatch(setError({ message: error }));
+     dispatch(setError({ message: error }));
     } finally {
       updateState("setIsLoading", "");
+      updateState('setModalSteps',0)
     }
   };
   return (
@@ -342,12 +341,17 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     </div>
                   ))}
                 </div>
+                {errors?.['properties'] && (
+                        <p className="text-sm font-normal text-red-600 ">
+                          {errors?.['properties']}
+                        </p>
+                      )}
               </div>
             </div>
             {/* <p className="text-secondary opacity-60 ">
                   The number of items that can be minted. No gas cost to you!
                 </p> */}
-            <TextInput
+            {/* <TextInput
               label="Supply"
               value={values.supply}
               onChange={handleChange}
@@ -355,7 +359,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               fieldName="supply"
               error={""}
               maxLength={20}
-            />
+            /> */}
 
             <div className="mb-6 p-relative">
               <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
@@ -364,9 +368,9 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               <CustomSelect
                 selectedValue={values.network || ""}
                 valueField={"name"}
-                imageField={"image"}
+                imageField={"icon"}
                 optionKey={"name"}
-                hasImage={false}
+                hasImage={true}
                 options={networks.data || []}
                 onSelect={(value: any) => handleChange("network", value)}
                 placeholder={"Select Network"}
@@ -429,7 +433,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         {values.network?.["name"] || "MATIC"}
                       </span>
                     </div>
-                    {"" && (
+                    {errors['salePrice'] && (
                       <p className="text-sm font-normal text-red-600 ">
                         Please provide valid Sale Price.
                       </p>

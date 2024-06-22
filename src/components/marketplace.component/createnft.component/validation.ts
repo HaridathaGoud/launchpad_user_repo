@@ -1,7 +1,4 @@
 import { FormValues } from "./models";
-import {
-  validateContentRule,
-} from "../../../utils/validation";
 const commonReg = (value: any) => /<(.|\n)*?>/g.test(value);
 const checkpercent = (value: any) => /^\d+(\.\d{1,2})?$/.test(value);
 const emojiRejex = (value:any)=> {
@@ -39,8 +36,6 @@ export const validateForm = (form: FormValues) => {
       errors[fieldName] = "Is required";
     } else if (validationFunc?.(field)) {
       errors[fieldName] = errorMessage || `Invalid ${fieldName.toLowerCase()}`;
-    }else{
-      errors[fieldName]=''
     }
   };
   validateField(imageUrl || "", "imageUrl", true);
@@ -129,14 +124,14 @@ export const validateProperties = (properties: any) => {
       property.trait_type || "",
       "trait_type",
       true,
-      (value: string) => validateContentRule(value),
-      "Invalid type"
+      (value: string) => (commonReg(value) || emojiRejex(value)),
+      "Invalid trait type"
     );
     const value = validateField(
       property.value || "",
       "value",
       true,
-      (value: string) => validateContentRule(value),
+      (value: string) =>  (commonReg(value) || emojiRejex(value)),
       "Invalid value"
     );
     if (trait_type || value) isValid = false;

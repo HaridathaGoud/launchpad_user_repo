@@ -106,8 +106,8 @@ function CreateNft() {
         await mintTo721(
           values.collection?.contractAddress,
           process.env.REACT_APP_IPFS_PREFIX + `/${path}`,
-          values.royalities,
-          (response: any) => saveDetails(path, response)
+          Number(values.royalities),
+          async (response: any) => await saveDetails(path, response)
         );
       } else {
         throw data;
@@ -121,8 +121,9 @@ function CreateNft() {
     const contractAddress: addressType = values.collection?.contractAddress;
     modalActions("putOnSaleSteps", "open");
     try {
-      await setApprovalForAll(contractAddress, (response: any) =>
-        mintNFT(path, response)
+      await setApprovalForAll(contractAddress,async (response: any) =>{
+       await mintNFT(path, response)
+      }
       );
     } catch (error) {
       throw error;
