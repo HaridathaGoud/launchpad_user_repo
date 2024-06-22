@@ -4,6 +4,7 @@ import listimg from '../../../assets/images/default-nft.png'
 import NoData from "../../../ui/noData";
 import PortfolioShimmer from "../../loaders/portfolioshimmer";
 import { useNavigate } from "react-router-dom";
+import Moment from "react-moment";
 
 const ListView = (props:any) => {
   const navigate = useNavigate();
@@ -39,38 +40,52 @@ const ListView = (props:any) => {
               </tr>
             </thead>
             <tbody>
-              {props?.data?.length > 0 &&
-                props?.data?.map((item: any, index: any) => (
+              {props?.data?.data?.length > 0 && !props?.data?.loading &&
+                props?.data?.data?.map((item: any, index: any) => (
                   <tr>
                     <td>
-                      <div className="flex gap-4 items-center"> <img src={listimg} className="w-[50px] h-[50px] object-cover rounded-2xl" alt="" /> <p>Null Stone</p></div>
+                      <div className="flex gap-4 items-center"> 
+                        <img src=
+                        {
+                          item?.image && !item?.image?.includes("null")
+                            ? item.image.replace(
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )
+                            : listimg
+                        }
+                         className="w-[50px] h-[50px] object-cover rounded-2xl" alt="" />
+                         <p>{item?.name}</p>
+                         </div>
                     </td>
                     <td>
-                      <p className="font-normal text-sm text-secondary"> 0.0001 ETH</p>
+                      <p className="font-normal text-sm text-secondary">{item?.price ? (item?.price+' Matic') :'--'  } </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        --
+                        {item?.bestoffer || '--'} 
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        0.024 MAGIC
+                        {item?.lastsale ? (item?.lastsale+' Matic') : '--'}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        Raygan6
+                        {item?.creator || '--'}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        2d ago
+                      <Moment format="DD-MM-YYYY " className="blue-text">
+                          {item.date || "--"}
+                        </Moment>
                       </p>
                     </td>
                     <td className="!p-2 text-right md:w-[217px]">
                       {" "}
-
+                    {item.isPutOnSale && 
                       <Button
                         type="secondary"
                         btnClassName="!py-0 px-6"
@@ -78,12 +93,12 @@ const ListView = (props:any) => {
                       >
                         Buy Now
                       </Button>
-
+                     } 
                     </td>
                   </tr>
-                ))
-               }
-                {!props?.data?.length && !props?.data?.loading && (
+                  ))
+               }  
+                {!props?.data?.data?.length && !props?.data?.loading && (
                 <tr className="!bg-transparent">
                   <td colSpan={6} className="text-center ">
                   <NoData text={""} />
