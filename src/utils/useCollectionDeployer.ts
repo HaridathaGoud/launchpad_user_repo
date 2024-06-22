@@ -196,7 +196,6 @@ export function useCollectionDeployer() {
       const receipt = await writeContract(config);
       if (receipt.hash) {
         const transaction = await waitForTransaction({ hash: receipt.hash });
-        console.log(transaction);
         await callback({ ok: true, data: transaction });
       }
     } catch (error) {

@@ -689,7 +689,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 </Button>
               </div>
             </Modal>
-            <Modal id={"putOnSaleSteps"}>
+            <Modal id={"putOnSaleSteps"} showClose={false}>
+              <div className="flex flex-col justify-center items-center">
               <ul className="steps">
                 {getModalSteps(values.isPutonSale)?.map(
                   (step: any, index: number) => {
@@ -700,13 +701,20 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         }`}
                         key={step.title}
                       >
-                        <p>{step.title}</p>
+                        <p className="font-medium">{step.title}</p>
                         <p>{step.message}</p>
                       </li>
                     );
                   }
                 )}
               </ul>
+              <div className="mt-6 flex justify-center gap-2">
+                {state.modalStep===0 && <p className="text-primary font-medium">Waiting for Approval...</p>}
+                {state.modalStep===1 && <p className="text-primary font-medium">Minting NFT...</p>}
+                {state.modalStep===2 && <p className="text-primary font-medium">Getting signature for sale...</p>}
+                <span className="text-base"><Spinner/></span>
+              </div>
+              </div>
             </Modal>
           </div>
         </div>

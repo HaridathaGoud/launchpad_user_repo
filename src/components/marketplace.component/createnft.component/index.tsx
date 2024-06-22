@@ -54,7 +54,7 @@ function CreateNft() {
       const sale = updatedValues.isPutonSale ? "Sale" : null;
       const auction = updatedValues.isPutOnAuction ? "Auction" : null;
       if (updatedValues.isPutonSale) {
-        updateState("setModalStep", localState.modalStep+1);
+        updateState("setModalStep", 2);
         const { status, data } = await getSignatureForSale(
           collection.contractAddress,
           tokenId,
@@ -64,7 +64,7 @@ function CreateNft() {
         if (status === true) signature = data;
         else throw data;
       }
-      updateState("setModalStep", localState.modalStep+1);
+      updateState("setModalStep", updatedValues.isPutonSale ? 3 : 2);
       let obj = {
         ...updatedValues,
         customerId: user.id,
@@ -101,7 +101,7 @@ function CreateNft() {
     const { values } = localState;
     try {
       if (ok) {
-        updateState("setModalStep", localState.modalStep+1);
+        updateState("setModalStep", 1);
         await mintTo721(
           values.collection?.contractAddress,
           process.env.REACT_APP_IPFS_PREFIX + `/${path}`,
