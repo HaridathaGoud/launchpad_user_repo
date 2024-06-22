@@ -6,6 +6,7 @@ export interface FormValues {
   collection: any;
   properties: string | null;
   supply: string;
+  crypto:string;
   network: any;
   royalities: string;
   isPutonSale: boolean;
@@ -24,6 +25,7 @@ export interface FormErrors {
   collection: string;
   properties: string;
   supply: string;
+  crypto:string;
   network: string;
   royalities: string;
   isPutonSale: string;
@@ -43,7 +45,7 @@ export type PropertyArray = Property[];
 
 export interface FormState {
   values: FormValues;
-  errors: FormErrors;
+  errors: FormErrors | object;
   isLoading: string;
   propertyErrors: PropertyArray;
   propertiesToUpdate: Properties | null;

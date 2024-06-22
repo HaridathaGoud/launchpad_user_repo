@@ -8,9 +8,10 @@ export const formState: FormState = {
     description: "",
     collection: null,
     properties: null,
-    supply: 0,
+    supply: '1',
+    crypto:'Matic',
     network: null,
-    royalities: 0,
+    royalities: '',
     isPutonSale: false,
     isPutOnAuction: false,
     isUnlockPurchased: false,
@@ -19,23 +20,7 @@ export const formState: FormState = {
     auctionPrice: "",
     filePath: "",
   },
-  errors: {
-    imageUrl: "",
-    name: "",
-    externalLink: "",
-    description: "",
-    collection: "",
-    properties: "",
-    supply: "1",
-    network: "",
-    royalities: "",
-    isPutonSale: "",
-    isPutOnAuction: "",
-    isUnlockPurchased: "",
-    unlockDescription: "",
-    salePrice: "",
-    auctionPrice: "",
-  },
+  errors: {},
   modalStep: 0,
   isLoading: "",
   propertyErrors: [],
@@ -45,6 +30,9 @@ export const formState: FormState = {
 export const formReducer = (state: FormState, action: Action) => {
   state = state || formState;
   switch (action.type) {
+    case 'setState':
+      state = { ...state, ...action.payload};
+      return state;
     case "setValues":
       state = { ...state, values: action.payload };
       return state;

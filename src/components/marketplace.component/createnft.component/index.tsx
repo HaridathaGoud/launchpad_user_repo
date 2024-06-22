@@ -64,6 +64,7 @@ function CreateNft() {
         if (status === true) signature = data;
         else throw data;
       }
+      updateState("setModalStep", updatedValues.isPutonSale ? 3 : 2);
       let obj = {
         ...updatedValues,
         customerId: user.id,
@@ -87,8 +88,6 @@ function CreateNft() {
       };
       const { status, error } = await createNft({ requestObject: obj });
       if(status){
-        modalActions("putOnSaleSteps",'close')
-        updateState('setModalSteps',0)
         store.dispatch(setToaster({message:"NFT mint successful!"}))
       }else{
         throw error
@@ -106,8 +105,8 @@ function CreateNft() {
         await mintTo721(
           values.collection?.contractAddress,
           process.env.REACT_APP_IPFS_PREFIX + `/${path}`,
-          values.royalities,
-          (response: any) => saveDetails(path, response)
+          Number(values.royalities),
+          async (response: any) => await saveDetails(path, response)
         );
       } else {
         throw data;
@@ -121,8 +120,9 @@ function CreateNft() {
     const contractAddress: addressType = values.collection?.contractAddress;
     modalActions("putOnSaleSteps", "open");
     try {
-      await setApprovalForAll(contractAddress, (response: any) =>
-        mintNFT(path, response)
+      await setApprovalForAll(contractAddress,async (response: any) =>{
+       await mintNFT(path, response)
+      }
       );
     } catch (error) {
       throw error;

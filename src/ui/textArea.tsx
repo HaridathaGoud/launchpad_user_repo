@@ -12,6 +12,10 @@ interface TextAreaProps {
   labelClass?: string;
   inputClass?: string;
   errorClass?: string;
+  inputInfo?: string;
+  inputInfoClass?: string;
+  rows?:number;
+  disabled?:boolean;
 }
 const TextArea = ({
   label,
@@ -26,27 +30,40 @@ const TextArea = ({
   labelClass,
   inputClass,
   errorClass,
+  inputInfo,
+  inputInfoClass,
+  rows,
+  disabled
 }: TextAreaProps) => {
   return (
     <div className={inputBoxClass}>
-      <label
-        className={
-          labelClass || "text-secondary text-sm font-normal p-0 mb-2 label block"
-        }
-      >
-        {label} {isRequired && <span className="text-[#ff0000]">*</span>}
-      </label>
+      {label && (
+        <label
+          className={
+            labelClass ||
+            "text-secondary text-sm font-normal p-0 mb-2 label block"
+          }
+        >
+          {label} {isRequired && <span className="text-[#ff0000]">*</span>}
+        </label>
+      )}
+      {inputInfo && (
+        <p className={inputInfoClass || "text-secondary opacity-60 "}>
+          {inputInfo}
+        </p>
+      )}
       <textarea
         aria-label="With textarea"
         value={value}
         onChange={(e) => onChange(fieldName, e.target.value)}
         className={
           inputClass ||
-          "textarea textarea-bordered w-full text-secondary bg-transparent border-[#a5a5a5] resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
+          "textarea textarea-bordered w-full disabled:bg-transparent text-secondary bg-transparent border-[#a5a5a5] resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
         }
-        rows={5}
+        rows={rows || 5}
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}
         maxLength={maxLength}
+        disabled={disabled}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>

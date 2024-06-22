@@ -16,6 +16,9 @@ interface SelectProps {
   optionText?: string;
   optionValue?: string;
   defaultOption?: string;
+  inputInfo?: string;
+  inputInfoClass?:string;
+  disabled?:boolean;
 }
 const Select = ({
   label,
@@ -33,16 +36,23 @@ const Select = ({
   optionText = "name",
   optionValue = "code",
   defaultOption,
+  inputInfo,
+  inputInfoClass,
+  disabled
 }: SelectProps) => {
   return (
     <div className={inputBoxClass}>
-      <label
-        className={
-          labelClass || "text-secondary text-sm font-normal p-0 mb-2 label block"
-        }
-      >
-        {label} {isRequired && <span className="text-[#ff0000]">*</span>}
-      </label>
+      {label && (
+        <label
+          className={
+            labelClass ||
+            "text-secondary text-sm font-normal p-0 mb-2 label block"
+          }
+        >
+          {label} {isRequired && <span className="text-[#ff0000]">*</span>}
+        </label>
+      )}
+      {inputInfo && <p className={inputInfoClass ||"text-secondary opacity-60 "}>{inputInfo}</p>}
       <select
         placeholder={placeholder || "Select option"}
         className={
@@ -52,13 +62,24 @@ const Select = ({
         value={value}
         onChange={(event) => {
           const selected = event.target.selectedOptions[0];
-          const selectedObject=selected.dataset.value
-          onChange(fieldName, event.target.value,JSON.parse(selectedObject))
+          const selectedObject = selected.dataset.value
+            ? JSON.parse(selected.dataset.value)
+            : null;
+          onChange(fieldName, event.target.value, selectedObject);
         }}
+        disabled={disabled}
       >
-        {defaultOption && <option value="">{defaultOption}</option>}
+        {defaultOption && (
+          <option value="" data-value={""}>
+            {defaultOption}
+          </option>
+        )}
         {options.map((item: any) => (
-          <option key={item[optionValue]} value={item[optionValue]} data-value={JSON.stringify(item)}>
+          <option
+            key={item[optionValue]}
+            value={item[optionValue]}
+            data-value={JSON.stringify(item)}
+          >
             {item[optionText]}
           </option>
         ))}

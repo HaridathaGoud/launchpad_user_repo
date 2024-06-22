@@ -1,7 +1,4 @@
 import { FormValues } from "./models";
-import {
-  validateContentRule,
-} from "../../../utils/validation";
 const commonReg = (value: any) => /<(.|\n)*?>/g.test(value);
 const checkpercent = (value: any) => /^\d+(\.\d{1,2})?$/.test(value);
 const emojiRejex = (value:any)=> {
@@ -26,6 +23,9 @@ export const validateForm = (form: FormValues) => {
     salePrice,
     auctionPrice,
     unlockDescription,
+    crypto,
+    isPutonSale,
+    isPutOnAuction
   } = form;
   const errors: any = {};
   const validateField = (
@@ -39,8 +39,6 @@ export const validateForm = (form: FormValues) => {
       errors[fieldName] = "Is required";
     } else if (validationFunc?.(field)) {
       errors[fieldName] = errorMessage || `Invalid ${fieldName.toLowerCase()}`;
-    }else{
-      errors[fieldName]=''
     }
   };
   validateField(imageUrl || "", "imageUrl", true);
@@ -54,10 +52,13 @@ export const validateForm = (form: FormValues) => {
   validateField(collection || "", "collection", true);
   validateField(properties || "", "properties", true);
   validateField(network || "", "network", true);
+  if(isPutonSale || isPutOnAuction){
+    validateField(crypto || "", "crypto", true);
+  }
   validateField(
     description || "",
     "description",
-    true,
+    false,
     (value: string) => commonReg(value) || emojiRejex(value),
     "Invalid description"
   );
@@ -74,6 +75,15 @@ export const validateForm = (form: FormValues) => {
     true,
     (value: string) => !isNumber(value) ||commonReg(value) || emojiRejex(value) || !checkpercent(value),
     "Invalid royality fee"
+  );
+  validateField(
+    royalities,
+    "royalities",
+    true,
+    (value: string) => {
+      return Number(value)>100
+    },
+    "Royality fee exceeds 100%"
   );
   validateField(
     salePrice,
@@ -129,14 +139,14 @@ export const validateProperties = (properties: any) => {
       property.trait_type || "",
       "trait_type",
       true,
-      (value: string) => validateContentRule(value),
-      "Invalid type"
+      (value: string) => (commonReg(value) || emojiRejex(value)),
+      "Invalid trait type"
     );
     const value = validateField(
       property.value || "",
       "value",
       true,
-      (value: string) => validateContentRule(value),
+      (value: string) =>  (commonReg(value) || emojiRejex(value)),
       "Invalid value"
     );
     if (trait_type || value) isValid = false;

@@ -1792,11 +1792,11 @@ const DetailPage = (props: any) => {
               {moreCollection?.length !==0 && <div className="relative">
                 <div className="carousel gap-4 flex py-2 px-2 md:px-14">
                   {moreCollection?.map((item) => (
-                    <div className="carousel-item shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]" key={item.name+item.walletAddress+item.image}>
+                    <div className="carousel-item more-collection shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]" key={item.name+item.walletAddress+item.image}>
                       {/* <Link className="nav-link" href={`/assets/${item.tokenId}/${item.collectionContractAddress}/${item.id}`}> */}
-                      <div>
+                      <div className="w-full">
                         <div
-                          className="cursor-pointer"
+                          className="cursor-pointer w-full"
                           onClick={
                             isConnected
                               ? () => moreCollectionClick(item)
@@ -1861,14 +1861,14 @@ const DetailPage = (props: any) => {
                           </div>
                         </div>
                         <hr />
-                        <div className="px-2.5 py-4 flex justify-between">
-                          <div className="flex add-cart cursor-pointer">
+                        <div className="px-2.5 py-4 flex justify-center">
+                          {/* <div className="flex add-cart cursor-pointer">
                             <span className="icon card-cart"></span>
                             <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
                               Add to Cart
                             </span>
                           </div>
-                          <div className="w-px border"></div>
+                          <div className="w-px border"></div> */}
                           <div className="flex shop-card cursor-pointer">
                             <span className="icon card-shop"></span>
                             <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">

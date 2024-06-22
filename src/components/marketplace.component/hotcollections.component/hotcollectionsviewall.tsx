@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setError } from "../../../reducers/layoutReducer";
 import Button from "../../../ui/Button";
 import NaviLink from '../../../ui/NaviLink';
-export default function HotCollections() {
+export default function HotCollectionsViewAll() {
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(hotCollectionReducer, hotcollectionState);
   const router = useNavigate();
@@ -56,7 +56,6 @@ export default function HotCollections() {
           <div className="container mx-auto mt-[40px]">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-secondary mb-4">Hot Collections</h2>
-            <NaviLink path='/marketplace/hotcollectionsviewall' className='text-primary text-base font-medium'>View All</NaviLink>
            </div>
             {!localState.loader && (
               <div className='carousel container mx-auto gap-4 py-1'>
@@ -101,20 +100,7 @@ export default function HotCollections() {
               </div>
 
             )}
-            <div className="mt-5">
-              {(
-                <Button handleClick={() => handleSlideActions("previous")} btnClassName="!p-0 !shadow-none !bg-transparent">
-                  {" "}
-                  <span className="icon carousal-left-arrow cursor-pointer mr-1"></span>
-                </Button>
-              )}
-              {(
-                <Button handleClick={() => handleSlideActions("next")} btnClassName="!p-0 !shadow-none !bg-transparent">
-                  {" "}
-                  <span className="icon carousal-right-arrow cursor-pointer"></span>
-                </Button>
-              )}
-            </div>
+            
 
           </div>
         </>

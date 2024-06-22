@@ -14,6 +14,9 @@ interface TextInputProps{
   errorClass?:string,
   inputType?:string,
   onKeyUp?:Function,
+  inputInfo?:string,
+  inputInfoClass?:string,
+  disabled?:boolean
 }
 const TextInput = ({
   label,
@@ -30,17 +33,21 @@ const TextInput = ({
   errorClass,
   inputType='text',
   onKeyUp,
+  inputInfo,
+  inputInfoClass,
+  disabled
 }:TextInputProps) => {
 
   return (
     <div className={inputBoxClass}>
-      <label
+    {label &&  <label
         className={
           labelClass || "text-secondary text-sm font-normal p-0 mb-2 label block"
         }
       >
         {label} {isRequired && <span className="text-[#ff0000]">*</span>}
-      </label>
+      </label>}
+      {inputInfo && <p className={inputInfoClass ||"text-secondary opacity-60 "}>{inputInfo}</p>}
       <input
         name={fieldName}
         type={inputType}
@@ -53,6 +60,7 @@ const TextInput = ({
         onChange={(e) => onChange(fieldName, e.target.value)}
         onKeyUp={onKeyUp ? (e:any)=>onKeyUp(fieldName,e) : ()=>{}}
         maxLength={maxLength}
+        disabled={disabled}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>

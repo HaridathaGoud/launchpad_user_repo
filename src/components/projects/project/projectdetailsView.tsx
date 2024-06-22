@@ -54,7 +54,7 @@ const ProjectdetailsView = (props: any) => {
             {props.loader && <ProjectFeedShimmer />}
           </div>
           <h4 className={`text-base font-semibold text-secondary mb-2 mt-8`}>
-            Founding Members
+          Investors
           </h4>
           <FoundingMember
             projectId={props.projectId}

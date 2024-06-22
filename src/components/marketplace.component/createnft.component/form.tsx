@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Button from "../../../ui/Button";
 import TextInput from "../../../ui/textInput";
 import TextArea from "../../../ui/textArea";
 import Select from "../../../ui/select";
-import matic from "../../../assets/images/matic-img.svg";
 import { Modal, modalActions } from "../../../ui/Modal";
 import { validateForm, validateProperties } from "./validation";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,6 @@ import CreatenftShimmer from "./createnftshimmer";
 import ipfsClient from "../../../utils/ipfsClient";
 import CustomSelect from "./customSelect";
 import NumberInput from "../../../ui/numberInput";
-import { store } from "../../../store";
 import Spinner from "../../loaders/spinner";
 const getModalSteps = (isPutOnSale: boolean) => {
   const steps = [
@@ -35,7 +33,7 @@ const getModalSteps = (isPutOnSale: boolean) => {
 const Form = ({ state, updateState, inputRef, mint }) => {
   const {
     values,
-    errors,
+    errors: formErrors,
     propertyErrors,
     propertiesToUpdate: modalProperties,
   } = state;
@@ -44,6 +42,9 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
   });
+  const currencies = useMemo(() => {
+    return values.network?.currencies || [];
+  }, [values.network]);
   const handleChange = (field: string, value: any, selectedValue?: any) => {
     const valuesToUpdate = { ...values };
     if (field === "isPutOnAuction" && valuesToUpdate["isPutonSale"])
@@ -58,6 +59,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     updateState("setValues", valuesToUpdate);
   };
   const addProperties = () => {
+    dispatch(setError({ message: "" }));
     const propertyToAdd = { trait_type: "", value: "" };
     const propertiesToUpdate = modalProperties
       ? [...modalProperties, propertyToAdd]
@@ -131,11 +133,12 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         const response = await apiUploadPost(`Upload/UploadFileNew`, body);
         if (response.statusText.toLowerCase() === "ok") {
           dispatch(setError({ message: "" }));
-          const valuesToUpdate = { ...values };
-          valuesToUpdate.imageUrl = response.data[0];
           const result = await ipfsClient.add(file);
-          valuesToUpdate.filePath = result.path;
-          updateState("setValues", valuesToUpdate);
+          updateState("setValues", {
+            ...values,
+            imageUrl: response.data[0],
+            filePath: result.path,
+          });
         } else {
           dispatch(setError({ message: response }));
         }
@@ -156,13 +159,17 @@ const Form = ({ state, updateState, inputRef, mint }) => {
       updateState("setIsLoading", "");
     }
   };
+  const clearErrors = () => {
+    updateState("setErrors", {});
+    dispatch(setError({ message: "" }));
+  };
   const createNFT = async (e: any) => {
     e.preventDefault();
     updateState("setIsLoading", "saving");
     try {
-      const {isValid,errors}=validateForm(values);
-      console.log(isValid,errors)
-      if(isValid){
+      const { isValid, errors } = validateForm(values);
+      if (isValid) {
+        Object.keys(formErrors).length > 0 && clearErrors();
         let obj = {
           description: values.description,
           external_url: values.externalLink,
@@ -172,14 +179,24 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         };
         let nftMetadata = JSON.stringify(obj);
         const result = await ipfsClient.add(nftMetadata);
-        (result.path) && await mint(result);
-      }else{
-        updateState('setErrors',errors)
+        result.path && (await mint(result));
+      } else {
+        updateState("setErrors", errors);
+        dispatch(
+          setError({
+            message:
+              "Validation errors occurred. Please check the fields and try again!",
+          })
+        );
       }
     } catch (error) {
-      store.dispatch(setError({ message: error }));
+      const putOnSaleFrom=state.modalStep<=2 ? 'contract':'';
+      const otherFrom=state.modalStep<=1 ? 'contract':''
+      const from=values.isPutonSale  ? putOnSaleFrom :otherFrom
+      dispatch(setError({ message: error,from }));
     } finally {
-      updateState("setIsLoading", "");
+      updateState("setState", { isLoading: "", modalStep: 0 });
+      modalActions("putOnSaleSteps", "close");
     }
   };
   return (
@@ -190,7 +207,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
             htmlFor="nftImageCreate"
             className="text-secondary text-sm font-normal p-0 mb-2 label ml-4 block"
           >
-            Upload file <span className="text-[#ff0000]">*</span>
+            Upload NFT Image <span className="text-[#ff0000]">*</span>
           </label>
 
           <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
@@ -218,18 +235,17 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               <div className="">
                 <div className="text-center">
                   <span
-                    // type="plain"
                     className="icon image-upload cursor-pointer"
-                    // handleClick={() => inputRef.current?.click()}
                   ></span>
                   <p
-                    // type="plain"
-                    // handleClick={() => inputRef.current?.click()}
                     className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60"
                   >
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
                   </p>
-                  <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 500 * 500 Resolution</p>
+                  <p className="text-sm opacity-60 mb-4">
+                    <span className="font-semibold">Note: </span>For Better
+                    Appearance Upload 500 * 500 Resolution
+                  </p>
                   <div className="w-[140px] mx-auto relative h-12">
                     <input
                       required
@@ -241,14 +257,13 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     <Button
                       btnClassName="absolute left-0 top-0 cursor-pointer"
                       type="primary"
-                      //   handleClick={() => inputRef.current?.click()}
                     >
                       Choose File
                     </Button>
                   </div>
-                  {errors["imageUrl"] && (
+                  {formErrors["imageUrl"] && (
                     <p className="text-sm font-normal text-red-600 mt-4">
-                      {errors["imageUrl"]}
+                      {formErrors["imageUrl"]}
                     </p>
                   )}
                 </div>
@@ -267,7 +282,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="name"
-              error={errors["name"]}
+              error={formErrors["name"]}
+              disabled={state.isLoading!==''}
             />
             <TextInput
               label="External link"
@@ -275,44 +291,44 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="externalLink"
-              error={errors["externalLink"]}
+              disabled={state.isLoading!==''}
+              error={formErrors["externalLink"]}
               maxLength={500}
-            />
-            <p className="text-secondary opacity-60 ">
-              DOTT will include a link to this URL on this item's detail page,
+              inputInfo="DOTT will include a link to this URL on this item's detail page,
               so that users can click to learn more about it. You are welcome to
-              link to your own webpage with more details.
-            </p>
+              link to your own webpage with more details."
+            />
             <TextArea
               label="Description"
               value={values.description}
               onChange={handleChange}
               inputBoxClass="mb-6"
+              disabled={state.isLoading!==''}
               fieldName="description"
-              error={errors["description"]}
+              error={formErrors["description"]}
               isRequired={false}
+              maxLength={500}
+              inputInfo=" This is the collection where your item will appear."
             />
-            <p className="text-secondary opacity-60 mb-2">
-              This is the collection where your item will appear.
-            </p>
             <Select
               inputBoxClass="mb-6 p-relative"
               value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
+              disabled={state.isLoading!==''}
               fieldName="collection"
-              error={errors["collection"]}
+              error={formErrors["collection"]}
               label="Collection"
               defaultOption="Select Collection"
             />
-            <div className="border border-[#A5A5A5] rounded-[28px] mb-6">
+            <div className="border border-[#A5A5A5] rounded-[28px]">
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <span className="icon properties"></span>
                     <div className="ms-2">
                       <h6 className="text-secondary text-base font-normal">
-                        Properties
+                        Properties <span className="text-[#ff0000]">*</span>
                       </h6>
                       <p className="text-secondary text-sm font-normal">
                         Textual traits that show up as rectangles
@@ -323,6 +339,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     type="plain"
                     btnClassName="icon add-btn cursor-pointer"
                     handleClick={() => modalActions("nftPropsModal", "open")}
+                    disabled={state.isLoading!==''}
                   ></Button>
                 </div>
                 <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
@@ -344,10 +361,15 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 </div>
               </div>
             </div>
+            {formErrors?.["properties"] && (
+              <p className="text-sm font-normal text-red-600 ">
+                {formErrors?.["properties"]}
+              </p>
+            )}
             {/* <p className="text-secondary opacity-60 ">
                   The number of items that can be minted. No gas cost to you!
                 </p> */}
-            <TextInput
+            {/* <TextInput
               label="Supply"
               value={values.supply}
               onChange={handleChange}
@@ -355,22 +377,28 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               fieldName="supply"
               error={""}
               maxLength={20}
-            />
+            /> */}
 
-            <div className="mb-6 p-relative">
+            <div className="mb-6 mt-6 p-relative">
               <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
-                Network
+                Network <span className="text-[#ff0000]">*</span>
               </p>
               <CustomSelect
-                selectedValue={values.network || ""}
+                selectedValue={values.network || networks?.[0] || null}
                 valueField={"name"}
-                imageField={"image"}
+                imageField={"icon"}
                 optionKey={"name"}
-                hasImage={false}
+                hasImage={true}
                 options={networks.data || []}
                 onSelect={(value: any) => handleChange("network", value)}
                 placeholder={"Select Network"}
+                disabled={state.isLoading!==''}
               />
+              {formErrors?.["network"] && (
+                <p className="text-sm font-normal text-red-600 ">
+                  {formErrors?.["network"]}
+                </p>
+              )}
             </div>
             <NumberInput
               label="Royalties"
@@ -378,8 +406,10 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="royalities"
-              error={""}
+              error={formErrors['royalities']}
+              isInteger={true}
               placeholder="Suggested: 10%, 20%, 30%"
+              disabled={state.isLoading!==''}
             />
             <div className="mb-6 ">
               <div className="flex items-center">
@@ -392,6 +422,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutonSale", e.target.checked)
                       }
+                      disabled={state.isLoading!==''}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -410,7 +441,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     You'll receive bids on this item
                   </p>
                   <div className="mb-3 ">
-                    <div className="flex relative">
+                    <div className="flex relative puton-sale">
                       <input
                         aria-label="Username"
                         type="text"
@@ -419,19 +450,29 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         onChange={(e) =>
                           handleChange("salePrice", e.target.value)
                         }
+                        disabled={state.isLoading!==''}
                         maxLength={13}
                         required
                       />
-                      <span
-                        id="basic-addon3"
-                        className=" absolute right-0 px-3 top-5 border-l "
-                      >
-                        {values.network?.["name"] || "MATIC"}
-                      </span>
+                      <Select
+                        inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
+                        inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
+                        value={values.crypto || ""}
+                        options={currencies || []}
+                        onChange={handleChange}
+                        optionText="currency"
+                        optionValue="currency"
+                        fieldName="crypto"
+                        error={formErrors["crypto"]}
+                        label=""
+                        disabled={state.isLoading!==''}
+                        defaultOption="Currency"
+                        errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
+                      />
                     </div>
-                    {"" && (
+                    {formErrors["salePrice"] && (
                       <p className="text-sm font-normal text-red-600 ">
-                        Please provide valid Sale Price.
+                        {formErrors["salePrice"]}
                       </p>
                     )}
                   </div>
@@ -448,6 +489,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutOnAuction", e.target.checked)
                       }
+                      disabled={state.isLoading!==''}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -465,7 +507,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   <p className="text-secondary opacity-50 text-sm">
                     You'll receive bids on this item
                   </p>
-                  <div className="flex relative">
+                  <div className="flex relative puton-sale">
                     <input
                       aria-label="Username"
                       type="text"
@@ -474,18 +516,29 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("auctionPrice", e.target.value)
                       }
+                      disabled={state.isLoading!==''}
                       maxLength={13}
                       required
                     />
-                    <span
-                      id="basic-addon3"
-                      className=" absolute right-0 px-3 top-5 border-l "
-                    >
-                      {values.network?.["name"] || "MATIC"}
-                    </span>
+                    <Select
+                      inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
+                      inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
+                      value={values.crypto || ""}
+                      options={currencies || []}
+                      onChange={handleChange}
+                      optionText="currency"
+                      optionValue="currency"
+                      fieldName="crypto"
+                      error={formErrors["crypto"]}
+                      label=""
+                      disabled={state.isLoading!==''}
+                      defaultOption="Currency"
+                    />
                   </div>
-                  {errors["auctionPrice"] && (
-                    <p className="cust-validmsg">{errors["auctionPrice"]}</p>
+                  {formErrors["auctionPrice"] && (
+                    <p className="cust-validmsg">
+                      {formErrors["auctionPrice"]}
+                    </p>
                   )}
                 </>
               )}
@@ -498,6 +551,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   onChange={(e: any) =>
                     handleChange("isUnlockPurchased", e.target.checked)
                   }
+                  disabled={state.isLoading!==''}
                 />
                 <p className="text-xl font-normal text-secondary ml-3">
                   Unlock once purchased
@@ -510,11 +564,13 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 <TextArea
                   label="Unlock Description"
                   value={values.unlockDescription}
+                  maxLength={1000}
                   onChange={handleChange}
                   inputBoxClass="mb-6"
                   fieldName="unlockDescription"
-                  error={errors["unlockDescription"]}
+                  error={formErrors["unlockDescription"]}
                   isRequired={true}
+                  disabled={state.isLoading!==''}
                 />
               )}
             </div>
@@ -633,7 +689,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 </Button>
               </div>
             </Modal>
-            <Modal id={"putOnSaleSteps"}>
+            <Modal id={"putOnSaleSteps"} showClose={false}>
+              <div className="flex flex-col justify-center items-center">
               <ul className="steps">
                 {getModalSteps(values.isPutonSale)?.map(
                   (step: any, index: number) => {
@@ -644,13 +701,20 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         }`}
                         key={step.title}
                       >
-                        <p>{step.title}</p>
+                        <p className="font-medium">{step.title}</p>
                         <p>{step.message}</p>
                       </li>
                     );
                   }
                 )}
               </ul>
+              <div className="mt-6 flex justify-center gap-2">
+                {state.modalStep===0 && <p className="text-primary font-medium">Waiting for Approval...</p>}
+                {state.modalStep===1 && <p className="text-primary font-medium">Minting NFT...</p>}
+                {state.modalStep===2 && <p className="text-primary font-medium">Getting signature for sale...</p>}
+                <span className="text-base"><Spinner/></span>
+              </div>
+              </div>
             </Modal>
           </div>
         </div>

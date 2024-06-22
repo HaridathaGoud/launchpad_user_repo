@@ -21,9 +21,9 @@ const BreadCrumb = () => {
         );
       } else {
         if (params.projectName && !params.proposalTitle) {
-          if (path.includes("foundingmembers")) {
+          if (path.includes("investors")) {
             breadcrumbToUpdate = getBreadcrumbList[
-              "launchpadProjectFoundingMembers"
+              "launchpadProjectInvestors"
             ]({
               projectName: params.projectName,
               projectPath: `/projects/${params.projectName}/${params.projectId}/null`,

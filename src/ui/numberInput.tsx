@@ -12,8 +12,12 @@ interface NumberInputProps {
   inputClass?: string;
   errorClass?: string;
   inputType?: string;
-  maxDecimals?:number
+  maxDecimals?:number;
+  isInteger?:boolean;
+  disabled?:boolean;
 }
+const decimalRegex=/^\d{1,}(\.\d{0,2})?$/
+const integerRegex=/^\d+$/
 const NumberInput = ({
   label,
   fieldName,
@@ -26,21 +30,26 @@ const NumberInput = ({
   labelClass,
   inputClass,
   errorClass,
-  maxDecimals=2,
+  isInteger,
+  disabled,
   inputType = "text",
 }: NumberInputProps) => {
   const [cleanedValue, setCleanedValue] = useState("");
   const handleChange = (e: any) => {
     const cleanedValue = e.target.value.replace(/,/g, "");
-    const [wholePart, decimalPart] = cleanedValue.split(".");
-    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const formattedValue =
-      decimalPart !== undefined
-        ? `${formattedWholePart}.${decimalPart}`
-        : formattedWholePart;
-    if (!cleanedValue || cleanedValue.match(/^\d{1,}(\.\d{0,2})?$/)) {
-      setCleanedValue(cleanedValue);
-      onChange?.(fieldName, formattedValue);
+    let formattedValue=cleanedValue;
+    if(isInteger){
+      const [wholePart, decimalPart] = cleanedValue.split(".");
+      const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      formattedValue =
+        decimalPart !== undefined
+          ? `${formattedWholePart}.${decimalPart}`
+          : formattedWholePart;
+    }
+    const regex=isInteger ? integerRegex:decimalRegex
+    if (!cleanedValue || cleanedValue.match(regex)) {
+      setCleanedValue(formattedValue);
+      onChange?.(fieldName, cleanedValue);
     }
   };
   return (
@@ -63,10 +72,11 @@ const NumberInput = ({
         }
         value={cleanedValue}
         onChange={handleChange}
+        disabled={disabled}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>
-          error
+          {error}
         </p>
       )}
     </div>
