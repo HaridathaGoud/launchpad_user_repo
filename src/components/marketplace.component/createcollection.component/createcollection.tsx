@@ -133,7 +133,7 @@ const CreateCollection = (props: any) => {
       }
     }
     catch (error) {
-      rootDispatch(setError({ message: error }));
+      rootDispatch(setError({ message: error?.message || error}));
     }
     finally {
       localDispatch({ type: 'setIsLoading', payload: '' });
@@ -315,7 +315,7 @@ const CreateCollection = (props: any) => {
                           ref={bannarRef}
                           onChange={(e) => handlePicChange(e, 'bannerImage')}
                         />
-                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner </Button></p>                       
+                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner </Button></p>
                         <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 1100 * 350 Resolution</p>
                         {localState.errors.bannerImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.bannerImage}</span>}
                       </div>

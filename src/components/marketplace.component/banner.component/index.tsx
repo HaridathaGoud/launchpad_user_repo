@@ -69,14 +69,7 @@ const Banner = () => {
     };
 
     const metaMaskConnect =async() => {
-        debugger
-    //   if(isConnected){
         router("/marketplace/nft/create");
-    //   }else{
-    //     if (!isConnected) {
-    //         return <ConnectToWallet />;
-    //       }
-    //   }
     }
     const handleCreate = () =>{
         metaMaskConnect();
