@@ -79,7 +79,7 @@ export default function HotCollectionsViewAll() {
                 {!localState.loader && localState.hotCollectionData?.length > 0 &&
                 localState.hotCollectionData.map((item: any) => (
                   <div className="">
-                    <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
+                    <div className="card bg-primary-content" onClick={() => handleHotCollectionItem(item)}>
                       <div className="">
                         <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                       </div>
@@ -123,8 +123,10 @@ export default function HotCollectionsViewAll() {
                 </div>}
 
               
-          {hasMore && !localState.loader && (
-          <div className="flex justify-center items-center">
+         
+              </div>
+              {hasMore && !localState.loader && (
+          <div className="flex justify-center items-center mt-6">
             <Button type="plain"
               handleClick={handleSeeMore}>
               <span className="cursor-pointer text-base text-primary font-semibold">
@@ -134,7 +136,6 @@ export default function HotCollectionsViewAll() {
             </Button>
           </div>
            )} 
-              </div>
           </div>
         </>
   );
