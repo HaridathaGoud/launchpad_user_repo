@@ -207,7 +207,11 @@ const Routes = () => {
         },
         {
           path: "/marketplace/nft/create",
-          element: <CreatenftComponent />,
+          element:
+         (
+          <ProtectedRoute>
+             <CreatenftComponent />
+          </ProtectedRoute>),
           errorElement: <ErrorPage />,
         },
         {
