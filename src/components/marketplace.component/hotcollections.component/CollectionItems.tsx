@@ -91,11 +91,11 @@ const pageSize = 6;
               <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
             </ul>
           </div>
-          <span className='bg-accent p-2.5 rounded cursor-pointer' onClick={showContent1}>
-            <span className="icon filter-squre"></span>
+          <span className={` p-2.5 rounded cursor-pointer ${activeContent === 'content1' ? 'bg-primary':'bg-accent'}`} onClick={showContent1}>
+          <span className={`icon filter-squre ${activeContent === 'content1' ? 'invert':''}`}></span>
           </span>
-          <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer" onClick={showContent2}>
-            <span className="icon properties"></span>
+          <span className={`mx-4 bg-accent p-2.5 rounded cursor-pointer ${activeContent === 'content2' ? 'bg-primary':'bg-accent'}`} onClick={showContent2}>
+          <span className={`icon properties ${activeContent === 'content2' ? 'invert':''}`}></span>
           </span>
           {/* <span className='bg-accent p-2.5 rounded relative cursor-pointer'>
             <span className="icon filter-cart"></span>

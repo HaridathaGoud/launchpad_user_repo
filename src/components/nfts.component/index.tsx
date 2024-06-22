@@ -225,11 +225,11 @@ function Nfts(props: any) {
                                     <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
                                 </ul>
                             </div>
-                            <span className='bg-accent p-2.5 rounded cursor-pointer' onClick={showContent1}>
-                                <span className="icon filter-squre"></span>
+                            <span className={` p-2.5 rounded cursor-pointer ${activeContent === 'content1' ? 'bg-primary':'bg-accent'}`} onClick={showContent1}>
+                            <span className={`icon filter-squre ${activeContent === 'content1' ? 'invert':''}`}></span>
                             </span>
-                            <span className="mx-4 bg-accent p-2.5 rounded cursor-pointer" onClick={showContent2}>
-                                <span className="icon filter-dots"></span>
+                            <span className={`mx-4 bg-accent p-2.5 rounded cursor-pointer ${activeContent === 'content2' ? 'bg-primary':'bg-accent'}`} onClick={showContent2}>
+                            <span className={`icon properties ${activeContent === 'content2' ? 'invert':''}`}></span>
                             </span>
                         </div>
                     </div>
@@ -246,7 +246,7 @@ function Nfts(props: any) {
                             handleCurrency={handleCurrency}
                         />
                     </div>
-                    <div className='col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]'>
+                    <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 ${activeContent === 'content1' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]' : ''} `}>
                         {activeContent === 'content1' && <>
                             {data &&
                                 !localState?.loader &&
