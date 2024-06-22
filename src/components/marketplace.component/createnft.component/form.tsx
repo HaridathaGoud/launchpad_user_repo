@@ -56,6 +56,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     updateState("setValues", valuesToUpdate);
   };
   const addProperties = () => {
+    dispatch(setError({message:''}))
     const propertyToAdd = { trait_type: "", value: "" };
     const propertiesToUpdate = modalProperties
       ? [...modalProperties, propertyToAdd]
