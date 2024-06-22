@@ -165,7 +165,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     try {
       const { isValid, errors } = validateForm(values);
       if (isValid) {
-        Object.keys(formErrors).length>0 && updateState('setErrors',{})
         let obj = {
           description: values.description,
           external_url: values.externalLink,
@@ -448,6 +447,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         error={formErrors["crypto"]}
                         label=""
                         defaultOption="Currency"
+                        errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
                     </div>
                     {formErrors["salePrice"] && (
