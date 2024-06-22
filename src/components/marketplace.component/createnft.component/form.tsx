@@ -180,6 +180,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         let nftMetadata = JSON.stringify(obj);
         const result = await ipfsClient.add(nftMetadata);
         result.path && (await mint(result));
+        updateState("setIsLoading", "redirecting");
+        window.scrollTo(0, 0);
       } else {
         updateState("setErrors", errors);
         dispatch(
@@ -188,14 +190,16 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               "Validation errors occurred. Please check the fields and try again!",
           })
         );
+        updateState("setIsLoading", "");
       }
     } catch (error) {
-      const putOnSaleFrom=state.modalStep<=2 ? 'contract':'';
-      const otherFrom=state.modalStep<=1 ? 'contract':''
-      const from=values.isPutonSale  ? putOnSaleFrom :otherFrom
-      dispatch(setError({ message: error,from }));
+      const putOnSaleFrom = state.modalStep <= 2 ? "contract" : "";
+      const otherFrom = state.modalStep <= 1 ? "contract" : "";
+      const from = values.isPutonSale ? putOnSaleFrom : otherFrom;
+      dispatch(setError({ message: error, from }));
+      updateState("setIsLoading", "");
     } finally {
-      updateState("setState", { isLoading: "", modalStep: 0 });
+      updateState("setModalStep", 0);
       modalActions("putOnSaleSteps", "close");
     }
   };
@@ -234,12 +238,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
             {!values.imageUrl && state.isLoading !== "uploadingImageUrl" && (
               <div className="">
                 <div className="text-center">
-                  <span
-                    className="icon image-upload cursor-pointer"
-                  ></span>
-                  <p
-                    className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60"
-                  >
+                  <span className="icon image-upload cursor-pointer"></span>
+                  <p className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60">
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
                   </p>
                   <p className="text-sm opacity-60 mb-4">
@@ -283,7 +283,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               inputBoxClass="mb-6"
               fieldName="name"
               error={formErrors["name"]}
-              disabled={state.isLoading!==''}
+              disabled={state.isLoading !== ""}
             />
             <TextInput
               label="External link"
@@ -291,7 +291,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="externalLink"
-              disabled={state.isLoading!==''}
+              disabled={state.isLoading !== ""}
               error={formErrors["externalLink"]}
               maxLength={500}
               inputInfo="DOTT will include a link to this URL on this item's detail page,
@@ -303,23 +303,23 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.description}
               onChange={handleChange}
               inputBoxClass="mb-6"
-              disabled={state.isLoading!==''}
+              disabled={state.isLoading !== ""}
               fieldName="description"
               error={formErrors["description"]}
               isRequired={false}
               maxLength={500}
-              inputInfo=" This is the collection where your item will appear."
             />
             <Select
               inputBoxClass="mb-6 p-relative"
               value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
-              disabled={state.isLoading!==''}
+              disabled={state.isLoading !== ""}
               fieldName="collection"
               error={formErrors["collection"]}
               label="Collection"
               defaultOption="Select Collection"
+              inputInfo=" This is the collection where your item will appear."
             />
             <div className="border border-[#A5A5A5] rounded-[28px]">
               <div className="p-4">
@@ -339,7 +339,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     type="plain"
                     btnClassName="icon add-btn cursor-pointer"
                     handleClick={() => modalActions("nftPropsModal", "open")}
-                    disabled={state.isLoading!==''}
+                    disabled={state.isLoading !== ""}
                   ></Button>
                 </div>
                 <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
@@ -392,7 +392,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 options={networks.data || []}
                 onSelect={(value: any) => handleChange("network", value)}
                 placeholder={"Select Network"}
-                disabled={state.isLoading!==''}
+                disabled={state.isLoading !== ""}
               />
               {formErrors?.["network"] && (
                 <p className="text-sm font-normal text-red-600 ">
@@ -406,10 +406,10 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="royalities"
-              error={formErrors['royalities']}
+              error={formErrors["royalities"]}
               isInteger={true}
               placeholder="Suggested: 10%, 20%, 30%"
-              disabled={state.isLoading!==''}
+              disabled={state.isLoading !== ""}
             />
             <div className="mb-6 ">
               <div className="flex items-center">
@@ -422,7 +422,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutonSale", e.target.checked)
                       }
-                      disabled={state.isLoading!==''}
+                      disabled={state.isLoading !== ""}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -450,7 +450,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         onChange={(e) =>
                           handleChange("salePrice", e.target.value)
                         }
-                        disabled={state.isLoading!==''}
+                        disabled={state.isLoading !== ""}
                         maxLength={13}
                         required
                       />
@@ -465,7 +465,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         fieldName="crypto"
                         error={formErrors["crypto"]}
                         label=""
-                        disabled={state.isLoading!==''}
+                        disabled={state.isLoading !== ""}
                         defaultOption="Currency"
                         errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
@@ -489,7 +489,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutOnAuction", e.target.checked)
                       }
-                      disabled={state.isLoading!==''}
+                      disabled={state.isLoading !== ""}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -516,7 +516,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("auctionPrice", e.target.value)
                       }
-                      disabled={state.isLoading!==''}
+                      disabled={state.isLoading !== ""}
                       maxLength={13}
                       required
                     />
@@ -531,7 +531,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       fieldName="crypto"
                       error={formErrors["crypto"]}
                       label=""
-                      disabled={state.isLoading!==''}
+                      disabled={state.isLoading !== ""}
                       defaultOption="Currency"
                     />
                   </div>
@@ -551,7 +551,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   onChange={(e: any) =>
                     handleChange("isUnlockPurchased", e.target.checked)
                   }
-                  disabled={state.isLoading!==''}
+                  disabled={state.isLoading !== ""}
                 />
                 <p className="text-xl font-normal text-secondary ml-3">
                   Unlock once purchased
@@ -570,7 +570,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   fieldName="unlockDescription"
                   error={formErrors["unlockDescription"]}
                   isRequired={true}
-                  disabled={state.isLoading!==''}
+                  disabled={state.isLoading !== ""}
                 />
               )}
             </div>
@@ -691,29 +691,41 @@ const Form = ({ state, updateState, inputRef, mint }) => {
             </Modal>
             <Modal id={"putOnSaleSteps"} showClose={false}>
               <div className="flex flex-col justify-center items-center">
-              <ul className="steps">
-                {getModalSteps(values.isPutonSale)?.map(
-                  (step: any, index: number) => {
-                    return (
-                      <li
-                        className={`step ${
-                          index <= state.modalStep ? "step-primary" : ""
-                        }`}
-                        key={step.title}
-                      >
-                        <p className="font-medium">{step.title}</p>
-                        <p>{step.message}</p>
-                      </li>
-                    );
-                  }
-                )}
-              </ul>
-              <div className="mt-6 flex justify-center gap-2">
-                {state.modalStep===0 && <p className="text-primary font-medium">Waiting for Approval...</p>}
-                {state.modalStep===1 && <p className="text-primary font-medium">Minting NFT...</p>}
-                {state.modalStep===2 && <p className="text-primary font-medium">Getting signature for sale...</p>}
-                <span className="text-base"><Spinner/></span>
-              </div>
+                <ul className="steps">
+                  {getModalSteps(values.isPutonSale)?.map(
+                    (step: any, index: number) => {
+                      return (
+                        <li
+                          className={`step ${
+                            index <= state.modalStep ? "step-primary" : ""
+                          }`}
+                          key={step.title}
+                        >
+                          <p className="font-medium">{step.title}</p>
+                          <p>{step.message}</p>
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+                <div className="mt-6 flex justify-center gap-2">
+                  {state.modalStep === 0 && (
+                    <p className="text-primary font-medium">
+                      Waiting for Approval...
+                    </p>
+                  )}
+                  {state.modalStep === 1 && (
+                    <p className="text-primary font-medium">Minting NFT...</p>
+                  )}
+                  {state.modalStep === 2 && values.isPutonSale && (
+                    <p className="text-primary font-medium">
+                      Getting signature for sale...
+                    </p>
+                  )}
+                  <span className="text-base">
+                    <Spinner />
+                  </span>
+                </div>
               </div>
             </Modal>
           </div>

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setError } from "../../../reducers/layoutReducer";
 import Button from "../../../ui/Button";
 import NaviLink from '../../../ui/NaviLink';
+import BreadCrumb from '../../../ui/breadcrumb';
 export default function HotCollectionsViewAll() {
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(hotCollectionReducer, hotcollectionState);
@@ -54,6 +55,7 @@ export default function HotCollectionsViewAll() {
       {localState.hotCollectionData?.length > 0 && (
         <>
           <div className="container mx-auto mt-[40px]">
+          <BreadCrumb/>
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-secondary mb-4">Hot Collections</h2>
            </div>

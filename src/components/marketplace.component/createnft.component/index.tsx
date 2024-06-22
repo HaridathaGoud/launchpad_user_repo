@@ -17,7 +17,12 @@ import {
 } from "../../../reducers/marketPlaceReducer";
 import { modalActions } from "../../../ui/Modal";
 import { setToaster } from "../../../reducers/layoutReducer";
+import { useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
+import CreatenftShimmer from "./createnftshimmer";
 function CreateNft() {
+  const navigate = useNavigate();
+  const { address } = useAccount();
   const [localState, localDispatch] = useReducer(formReducer, formState);
   const { setApprovalForAll, getSignatureForSale, mintTo721 } =
     useCollectionDeployer();
@@ -72,7 +77,7 @@ function CreateNft() {
         tokenId: tokenId,
         collectionId: collection.id,
         properties: JSON.stringify(properties),
-        salePrice: salePrice || auctionPrice,
+        salePrice: salePrice || auctionPrice || 0,
         saleToken: "WMATIC",
         saleType: sale || auction,
         collectionType: "ERC-721",
@@ -87,10 +92,19 @@ function CreateNft() {
         signature,
       };
       const { status, error } = await createNft({ requestObject: obj });
-      if(status){
-        store.dispatch(setToaster({message:"NFT mint successful!"}))
-      }else{
-        throw error
+      if (status) {
+        store.dispatch(
+          setToaster({
+            message: "NFT creation successful!",
+            callback: () => {
+              navigate(`/profile/${address}`);
+              updateState('setIsLoading','')
+            },
+            callbackTimeout: 2000,
+          })
+        );
+      } else {
+        throw error;
       }
     } else {
       throw data;
@@ -120,10 +134,9 @@ function CreateNft() {
     const contractAddress: addressType = values.collection?.contractAddress;
     modalActions("putOnSaleSteps", "open");
     try {
-      await setApprovalForAll(contractAddress,async (response: any) =>{
-       await mintNFT(path, response)
-      }
-      );
+      await setApprovalForAll(contractAddress, async (response: any) => {
+        await mintNFT(path, response);
+      });
     } catch (error) {
       throw error;
     }
@@ -136,7 +149,8 @@ function CreateNft() {
   return (
     <>
       <div ref={scrollableRef}></div>
-      <div className="container mx-auto mt-4 px-3 lg:px-0">
+      {localState.isLoading==='redirecting' && <CreatenftShimmer/>}
+      {localState.isLoading!=='redirecting' &&<div className="container mx-auto mt-4 px-3 lg:px-0">
         <BreadCrumb />{" "}
         <Form
           state={{ ...localState }}
@@ -144,7 +158,7 @@ function CreateNft() {
           inputRef={inputRef}
           mint={mint}
         />
-      </div>
+      </div>}
     </>
   );
 }
