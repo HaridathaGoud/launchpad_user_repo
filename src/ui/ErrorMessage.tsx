@@ -55,7 +55,7 @@ const ErrorMessage = ({ errorMessage, setErrorMessage, onCloseCallback ,type}) =
         </div>
         <div className='items-center py-2 px-12'>
           <h2 className={`warning ${messageType['textStyles']['primary']} text-[24px] font-medium not-italic`}>{messageType['text']}</h2>
-          <p className={`pt-2 ${messageType['textStyles']['primary']} font-[500] text-[13px] not-italic`}>{errorMessage.length > 40 ? <>
+          <p className={`pt-2 ${messageType['textStyles']['primary']} font-[500] text-[13px] not-italic break-all`}>{errorMessage.length > 40 ? <>
             {errorMessage.slice(0, 31)}
             {!readMore && <button onClick={() => handleReadError('more')} className={`font-[700] ${messageType['textStyles']['primary']}`}> &nbsp; ...read more</button>}
             {readMore && <><span>{errorMessage.slice(31)}</span>
