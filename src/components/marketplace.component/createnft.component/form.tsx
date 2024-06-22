@@ -717,7 +717,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   {state.modalStep === 1 && (
                     <p className="text-primary font-medium">Minting NFT...</p>
                   )}
-                  {state.modalStep === 2 && (
+                  {state.modalStep === 2 && values.isPutonSale && (
                     <p className="text-primary font-medium">
                       Getting signature for sale...
                     </p>
