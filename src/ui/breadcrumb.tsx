@@ -70,6 +70,14 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList["launchpadPortFolio"];
     }else if (path.includes("categoryview")) {
       breadcrumbToUpdate = getBreadcrumbList["marketplaceCategory"];
+    }else if(path.includes("hotcollectionsviewall")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceHotCollectionViewAll'];
+    }else if(path.includes("browsebyviewall")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll']; 
+    }else if(path.includes("explore")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];  
+    }else if(path.includes("collections")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections']; 
     }
     else {
       breadcrumbToUpdate = getBreadcrumbList["default"];

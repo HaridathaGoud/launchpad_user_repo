@@ -23,7 +23,7 @@ export const nftsState = {
       categoryName:'All',
       searchBy: null,
       price:'min to max',
-      quantity:'all items',
+      quantity:'All Items',
       currency:'Matic',
       status: 'All',
       customerId:'',

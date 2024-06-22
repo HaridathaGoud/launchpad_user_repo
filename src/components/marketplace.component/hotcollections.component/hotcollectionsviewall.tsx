@@ -1,4 +1,4 @@
-import React,{ useEffect, useReducer } from 'react';
+import React,{ useEffect, useReducer, useState } from 'react';
 import { getMarketplace } from '../../../utils/api';
 import 'react-multi-carousel/lib/styles.css';
 import { useNavigate } from 'react-router-dom';
@@ -7,25 +7,34 @@ import { useDispatch } from 'react-redux';
 import { setError } from "../../../reducers/layoutReducer";
 import Button from "../../../ui/Button";
 import NaviLink from '../../../ui/NaviLink';
+import BreadCrumb from '../../../ui/breadcrumb';
+import NftCardsShimmer from './NftCardShimmer';
+import NoData from '../../../ui/noData';
+
 export default function HotCollectionsViewAll() {
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(hotCollectionReducer, hotcollectionState);
   const router = useNavigate();
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true); 
   useEffect(() => {
     localDispatch({ type: 'setCurrentIndex', payload: 0 });
-    getHotCollectionsData();
+    getHotCollectionsData(0);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const getHotCollectionsData = async () => {
+  const getHotCollectionsData = async (pageNumber) => {
     try {
-      localDispatch({ type: 'setLoader', payload: true });
-       let response =  await getMarketplace(`User/HotCollectionsData/10/0/${null}/${null}`)
-      if (response.status === 200) {
-        localDispatch({ type: 'setHotCollectionData', payload: response.data });
-      }
-      else {
-        rootDispatch(setError({ message: response }));
-      }
+        localDispatch({ type: 'setLoader', payload: true });
+        let response = await getMarketplace(`User/HotCollectionsData/8/${pageNumber}/${null}/${null}`);
+        if (response.status === 200) {
+          const newData = response.data;
+          if (newData.length < 8) {
+            setHasMore(false);
+          }
+          localDispatch({ type: 'setHotCollectionData', payload: [...localState.hotCollectionData, ...newData] });
+        } else {
+          rootDispatch(setError({ message: response }));
+        }
     } catch (error) {
       rootDispatch(setError({ message: error }));
     }
@@ -47,22 +56,30 @@ export default function HotCollectionsViewAll() {
       localDispatch({ type: 'setCurrentIndex', payload: newIndex });
     }
   };
-
-  const visibleItems = localState.hotCollectionData ? [...localState.hotCollectionData?.slice(localState.currentIndex), ...localState.hotCollectionData?.slice(0, localState.currentIndex)].slice(0, 4) : [];
+  const handleSeeMore = () => {
+    const nextPage = page + 8;
+    setPage(nextPage);
+    getHotCollectionsData(nextPage);
+  }
+  
   return (
     <>
-      {localState.hotCollectionData?.length > 0 && (
-        <>
           <div className="container mx-auto mt-[40px]">
+          <BreadCrumb/>
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-secondary mb-4">Hot Collections</h2>
            </div>
-            {!localState.loader && (
-              <div className='carousel container mx-auto gap-4 py-1'>
-                {visibleItems.map((item: any) => (
-                  <div className="carousel-item px-1 max-sm:w-full">
-
-                    <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
+              <div className='grid md:grid-cols-3 xl:grid-cols-4 gap-[16px]'>
+              {localState.loader &&
+                Array.from({ length: 8 }, (_, index) => (
+                  <div key={index}>
+                    <NftCardsShimmer />
+                  </div>
+                ))}
+                {!localState.loader && localState.hotCollectionData?.length > 0 &&
+                localState.hotCollectionData.map((item: any) => (
+                  <div className="">
+                    <div className="card bg-primary-content" onClick={() => handleHotCollectionItem(item)}>
                       <div className="">
                         <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                       </div>
@@ -97,14 +114,29 @@ export default function HotCollectionsViewAll() {
 
 
                   </div>))}
+
+                  {!localState.hotCollectionData?.length && 
+               <div className='md:col-span-2 xl:col-span-3'>
+                 <div className='text-center'> 
+                <NoData text={""} />
+                </div>
+                </div>}
+
+              
+         
               </div>
-
-            )}
-            
-
+              {hasMore && !localState.loader && (
+          <div className="flex justify-center items-center mt-6">
+            <Button type="plain"
+              handleClick={handleSeeMore}>
+              <span className="cursor-pointer text-base text-primary font-semibold">
+                See More
+              </span>
+              <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
+            </Button>
+          </div>
+           )} 
           </div>
         </>
-      )}
-    </>
   );
 }
