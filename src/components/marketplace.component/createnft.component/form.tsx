@@ -133,11 +133,12 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         const response = await apiUploadPost(`Upload/UploadFileNew`, body);
         if (response.statusText.toLowerCase() === "ok") {
           dispatch(setError({ message: "" }));
-          const valuesToUpdate = { ...values };
-          valuesToUpdate.imageUrl = response.data[0];
           const result = await ipfsClient.add(file);
-          valuesToUpdate.filePath = result.path;
-          updateState("setValues", valuesToUpdate);
+          updateState("setValues", {
+            ...values,
+            imageUrl: response.data[0],
+            filePath: result.path,
+          });
         } else {
           dispatch(setError({ message: response }));
         }
@@ -158,10 +159,10 @@ const Form = ({ state, updateState, inputRef, mint }) => {
       updateState("setIsLoading", "");
     }
   };
-  const clearErrors=()=>{
-    updateState("setErrors", {})
-    dispatch(setError({message:''}))
-  }
+  const clearErrors = () => {
+    updateState("setErrors", {});
+    dispatch(setError({ message: "" }));
+  };
   const createNFT = async (e: any) => {
     e.preventDefault();
     updateState("setIsLoading", "saving");
@@ -181,13 +182,21 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         result.path && (await mint(result));
       } else {
         updateState("setErrors", errors);
-        dispatch(setError({message:"Validation errors occurred. Please check the fields and try again!"}))
+        dispatch(
+          setError({
+            message:
+              "Validation errors occurred. Please check the fields and try again!",
+          })
+        );
       }
     } catch (error) {
-      dispatch(setError({ message: error }));
+      const putOnSaleFrom=state.modalStep<=2 ? 'contract':'';
+      const otherFrom=state.modalStep<=1 ? 'contract':''
+      const from=values.isPutonSale  ? putOnSaleFrom :otherFrom
+      dispatch(setError({ message: error,from }));
     } finally {
-      updateState("setIsLoading", "");
-      updateState("setModalSteps", 0);
+      updateState("setState", { isLoading: "", modalStep: 0 });
+      modalActions("putOnSaleSteps", "close");
     }
   };
   return (
@@ -397,6 +406,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               inputBoxClass="mb-6"
               fieldName="royalities"
               error={""}
+              isInteger={true}
               placeholder="Suggested: 10%, 20%, 30%"
             />
             <div className="mb-6 ">

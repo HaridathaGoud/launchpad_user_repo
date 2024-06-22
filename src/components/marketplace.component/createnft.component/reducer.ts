@@ -30,6 +30,9 @@ export const formState: FormState = {
 export const formReducer = (state: FormState, action: Action) => {
   state = state || formState;
   switch (action.type) {
+    case 'setState':
+      state = { ...state, ...action.payload};
+      return state;
     case "setValues":
       state = { ...state, values: action.payload };
       return state;
