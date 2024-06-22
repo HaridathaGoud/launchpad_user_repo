@@ -5,7 +5,7 @@ import TextArea from "../../../ui/textArea";
 import Select from "../../../ui/select";
 import matic from "../../../assets/images/matic-img.svg";
 import { Modal, modalActions } from "../../../ui/Modal";
-import { validateProperties } from "./validation";
+import { validateForm, validateProperties } from "./validation";
 import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
 import { Property } from "./models";
@@ -160,17 +160,20 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     e.preventDefault();
     updateState("setIsLoading", "saving");
     try {
-      let obj = {
-        description: values.description,
-        external_url: values.externalLink,
-        image: `ipfs://${values.filePath}`,
-        name: values.name,
-        attributes: JSON.stringify(values.properties),
-      };
-      let nftMetadata = JSON.stringify(obj);
-      const result = await ipfsClient.add(nftMetadata);
-      if (result.path) {
-        await mint(result);
+      const {isValid,errors}=validateForm(values);
+      if(isValid){
+        let obj = {
+          description: values.description,
+          external_url: values.externalLink,
+          image: `ipfs://${values.filePath}`,
+          name: values.name,
+          attributes: JSON.stringify(values.properties),
+        };
+        let nftMetadata = JSON.stringify(obj);
+        const result = await ipfsClient.add(nftMetadata);
+        (result.path) && await mint(result);
+      }else{
+        updateState('setErrors',errors)
       }
     } catch (error) {
       store.dispatch(setError({ message: error }));

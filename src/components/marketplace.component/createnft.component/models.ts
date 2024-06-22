@@ -5,9 +5,9 @@ export interface FormValues {
   description: string;
   collection: any;
   properties: string | null;
-  supply: number;
+  supply: string;
   network: any;
-  royalities: number;
+  royalities: string;
   isPutonSale: boolean;
   isPutOnAuction: boolean;
   isUnlockPurchased: boolean;
