@@ -304,6 +304,7 @@ input[type=file]::file-selector-button{margin-right:20px;border:none;background:
 html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .nft-detailview .drawer-side{overflow-x: hidden;}
 @media (min-width:768px){
+  .more-collection{flex: 255px 0 !important;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
 }
