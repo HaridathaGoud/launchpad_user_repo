@@ -17,6 +17,18 @@ export const nftsState = {
       searchValue:null,
       minMaxCategory:'min to max',
     },
+    values: {
+      pageNo: 1,
+      take:6,
+      categoryName:'All',
+      searchBy: null,
+      price:'min to max',
+      quantity:'all items',
+      currency:'Matic',
+      status: 'All',
+      customerId:'',
+      data:'',
+  },
 };
 
 export const nftsReducer = (state = nftsState, action) => {
@@ -42,6 +54,9 @@ export const nftsReducer = (state = nftsState, action) => {
     case "setSelectedPriceLevel":
       state = { ...state, selectedPriceLevel: action.payload };
       break;
+      case "setValues":
+        state = { ...state, values: action.payload };
+        return state;
     default:
       state = { ...state };
   }
