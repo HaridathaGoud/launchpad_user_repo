@@ -158,13 +158,17 @@ const Form = ({ state, updateState, inputRef, mint }) => {
       updateState("setIsLoading", "");
     }
   };
+  const clearErrors=()=>{
+    updateState("setErrors", {})
+    dispatch(setError({message:''}))
+  }
   const createNFT = async (e: any) => {
     e.preventDefault();
     updateState("setIsLoading", "saving");
     try {
       const { isValid, errors } = validateForm(values);
       if (isValid) {
-        Object.keys(formErrors).length > 0 && updateState("setErrors", {});
+        Object.keys(formErrors).length > 0 && clearErrors();
         let obj = {
           description: values.description,
           external_url: values.externalLink,
@@ -177,6 +181,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         result.path && (await mint(result));
       } else {
         updateState("setErrors", errors);
+        dispatch(setError({message:"Validation errors occurred. Please check the fields and try again!"}))
       }
     } catch (error) {
       dispatch(setError({ message: error }));
