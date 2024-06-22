@@ -56,7 +56,7 @@ const TextInput = ({
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600"}>
-          error
+          {error}
         </p>
       )}
     </div>

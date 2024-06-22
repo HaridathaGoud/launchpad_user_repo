@@ -5,11 +5,9 @@ import ConnectWallet from '../ui/connectButton';
 
 const ProtectedRoute = ({ children }) => {
     const user=useSelector((store:any)=>store.auth.user)
-
     if (!user || !user?.id) {
         return <ConnectWallet/>;
     }
-
     return children;
 };
 

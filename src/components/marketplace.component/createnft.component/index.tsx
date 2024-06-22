@@ -39,9 +39,7 @@ function CreateNft() {
   }, []);
   const saveDetails = async (path, responseAfterMint: any) => {
     const { ok, data } = responseAfterMint;
-
     if (ok) {
-      console.log(data);
       const tokenId = parseInt(data.logs[0].topics[3]);
       const {
         collection,
@@ -49,6 +47,7 @@ function CreateNft() {
         properties,
         salePrice,
         auctionPrice,
+        filePath,
         ...updatedValues
       } = localState.values;
       let signature = "";
@@ -68,7 +67,7 @@ function CreateNft() {
       let obj = {
         ...updatedValues,
         customerId: user.id,
-        // imageUrl: `ipfs://${filePath}`,
+        imageUrl: `ipfs://${filePath}`,
         tokenId: tokenId,
         collectionId: collection.id,
         properties: JSON.stringify(properties),
