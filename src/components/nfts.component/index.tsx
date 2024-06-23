@@ -96,13 +96,16 @@ const Nfts = forwardRef((props: any, ref) => {
                             } Favorites!`,
                     })
                 );
-                let obj = { ...localState.values };
-                // obj.data = data;
-                obj.collectionid = params?.collectionid;
-                obj.customerId = user?.id || guid;
-                obj.walletAddress = params?.walletAddress;
-                obj.activeTab = props?.selectedTab || "GetNfts"
-                store.dispatch(fetchNfts(obj,props?.type));
+                data?.map((_item) =>{
+                     if(_item.id === item?.id){
+                          _item.isFavourite = !item?.isFavourite
+                     }
+                })
+                // obj.collectionid = params?.collectionid;
+                // obj.customerId = user?.id || guid;
+                // obj.walletAddress = params?.walletAddress;
+                // obj.activeTab = props?.selectedTab || "GetNfts"
+                // store.dispatch(fetchNfts(obj,props?.type));
             }
             if (error) rootDispatch(setError({ message: error }));
         } catch (error) {

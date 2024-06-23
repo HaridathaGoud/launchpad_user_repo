@@ -64,7 +64,7 @@ export const formState: FormState = {
         websiteUrl: '',
         contractAddress: '',
         collectionType: 'ERC-721',
-        blockChain:'',
+        blockChain:'Polygon',
         tokenNetwork:'MATIC'
     },
     errors: {

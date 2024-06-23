@@ -102,7 +102,7 @@ const CreateCollection = (props: any) => {
       ...localState.values,
       customerId: user?.user?.id || guid,
       id: guid,
-      blockChain : localState.values?.blockChain?.name,
+      blockChain : localState.values?.blockChain?.name || localState.values?.blockChain,
       contractAddress: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS
     };
     const [isValidate, errors] = validateFields(obj);
@@ -441,7 +441,7 @@ const CreateCollection = (props: any) => {
                         Network <span className="text-[#ff0000]">*</span>
                       </p>
                       <CustomSelect
-                        selectedValue={localState.values.blockChain}
+                        selectedValue={localState.lookups?.networks[0]}
                         valueField={"name"}
                         imageField={"icon"}
                         optionKey={"name"}
