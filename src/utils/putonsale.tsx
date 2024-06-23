@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Spinner } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { postMarketplace } from "./api";
 import { useCollectionDeployer } from "./useCollectionDeployer";
 import Button from "../ui/Button";
 import NumberInput from "../ui/numberInput";
 import { setError, setToaster } from "../reducers/layoutReducer";
+import Spinner from "../components/loaders/spinner";
 export const validateForm = (form: any) => {
   const { value } = form;
   const errors: any = {};
@@ -216,7 +216,7 @@ const PutOnSale = (props: any) => {
               >
                 <span>
                   {isLoading !=='' && (
-                    <Spinner size="sm" />
+                    <Spinner size="loading-sm" />
                   )}{" "}
                 </span>{" "}
                 Put on sale
