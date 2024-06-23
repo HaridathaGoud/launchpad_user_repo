@@ -6,12 +6,14 @@ export const validationRules = {
     logo: { required: true, errorMsg: "Please provide logo image." },
     bannerImage: { required: true, errorMsg: "Please provide banner image." },
     featuredImage: { required: true, errorMsg: "Please provide feature image." },
+
     collectionName: {
       required: true,
       errorMsg: "Please provide Name",
       contentErrorMsg: "Please enter valid content.",
       validateContent: (value) => emojiRegex.test(value) || htmlTagsRegex.test(value),
     },
+    blockChain : {required: true, errorMsg : "Please select Network"},
     description: {
       required: true,
       errorMsg: "Please provide Description",

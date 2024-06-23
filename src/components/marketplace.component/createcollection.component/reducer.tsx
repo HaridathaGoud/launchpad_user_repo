@@ -30,6 +30,7 @@ interface FormErrors {
     linkedIn:string,
     facebook:string,
     twitter:string,
+    blockChain:string
 }
 interface Lookups {
     collections: any[] | null;
@@ -78,6 +79,7 @@ export const formState: FormState = {
         linkedIn:'',
         facebook:'',
         twitter:'',
+        blockChain:''
     },
     lookups: { collections: [], networks: [] },
     isLoading: '',

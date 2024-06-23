@@ -102,6 +102,7 @@ const CreateCollection = (props: any) => {
       ...localState.values,
       customerId: user?.user?.id || guid,
       id: guid,
+      blockChain : localState.values?.blockChain?.name,
       contractAddress: process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS
     };
     const [isValidate, errors] = validateFields(obj);
@@ -437,7 +438,7 @@ const CreateCollection = (props: any) => {
                     </div>
                     <div className="mb-6 mt-6 p-relative">
                       <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
-                        Network <span className="text-[#ff0000]"></span>
+                        Network <span className="text-[#ff0000]">*</span>
                       </p>
                       <CustomSelect
                         selectedValue={localState.values.blockChain}
@@ -450,6 +451,7 @@ const CreateCollection = (props: any) => {
                         placeholder={"Select Network"}
                         disabled={false}
                       />
+                       {localState.errors.blockChain && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.blockChain}</span>}
                     </div>
                     <div className="mb-6" >
                       <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Payment tokens</label>
