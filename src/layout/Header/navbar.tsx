@@ -9,8 +9,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../ui/NaviLink";
 import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
-import { getGlobalDropDown, getMarketplaceNavMenu, getNavBarDropdown, getNavMenu } from "./utils";
+import {
+  getGlobalDropDown,
+  getNavBarDropdown,
+  getNavMenu,
+} from "./utils";
 import useArcanaAuth from "../../hooks/useArcanaAuth";
+import Sidebar from "./sidebar";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -24,7 +29,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleToggle = () => {
-    setIsChecked(!isChecked);
+    setIsChecked((prev) => !prev);
   };
 
   const handleCancel = () => {
@@ -81,95 +86,29 @@ function Navbar({ changingAddress, handleDisconnect }) {
           </div>
           <div className="flex items-center">
             <div className="w-[26px] lg:hidden mr-2">
-               <svg
+              <svg
                 onClick={handleToggle}
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 17 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 1h15M1 7h15M1 13h15"
-                    />
-                  </svg>
-                  {isChecked && (
-                <div className="drawer drawer-end mobile-header">
-                  <input
-                    id="my-drawer-4"
-                    type="checkbox"
-                    className="drawer-toggle"
-                    checked={isChecked}
-                  />
-                  <div className="drawer-content">
-                    {/* <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary">Open drawer</label> */}
-                  </div>
-                  <div className="drawer-side mt-16 z-[999]">
-                    <label
-                      htmlFor="my-drawer-4"
-                      aria-label="close sidebar"
-                      className="drawer-overlay"
-                      onClick={handleCancel}
-                    ></label>
-                    <div className="menu px-4 pt-2 w-full min-h-full bg-white text-base-content">
-                      <div className="text-right">
-                        <span className="icon close cursor-pointer" onClick={handleCancel}></span>                       
-                        <ul className="pl-[34px] pt-2">
-                          {navMenuList.map(({ name, type, path, menu }) => (
-                            <React.Fragment key={name}>
-                              <li className="group !hover:bg-transparent mb-4">
-                                <NaviLink
-                                  path={path}
-                                  type="primary"
-                                  className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                                >
-                                  {name}
-                                </NaviLink>
-                              </li>
-                              {type === 'dropdown' && menu && menu.map((dropdownItem) => (
-                                <li className="group !hover:bg-transparent mb-4" key={dropdownItem.name}>
-                                  <NaviLink
-                                    path={dropdownItem.path}
-                                    type="primary"
-                                    className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                                  >
-                                    {dropdownItem.name}
-                                  </NaviLink>
-                                </li>
-                              ))}
-                            </React.Fragment>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                )}
-              {/* <DropdownMenus
-                btnContent={
-                  <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 17 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 1h15M1 7h15M1 13h15"
-                    />
-                  </svg>
-                }
-                dropdownList={navMenuList}
-                addToMenuClass="mt-7"
-              /> */}
+                className="w-5 h-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 17 14"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 1h15M1 7h15M1 13h15"
+                />
+              </svg>
+              {isChecked && (
+                <Sidebar
+                  list={navMenuList}
+                  isChecked={isChecked}
+                  closeDrawer={handleCancel}
+                />
+              )}
             </div>
             <div className="pr-4 lg:hidden">
               <NaviLink path={"/dashboard"} type="primary">
@@ -180,34 +119,39 @@ function Navbar({ changingAddress, handleDisconnect }) {
 
           <div className="navbar-center hidden lg:flex ">
             <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 items-center ">
-              {navMenuList.map(({ name, type, path,menu }) => {
+              {navMenuList.map(({ name, type, path, menu }) => {
                 return (
                   <li className="group !hover:bg-transparent" key={name}>
-                    {type === 'dropdown' && <DropdownMenus
-                      btnContent={<span className="!hover:bg-transparent">
-                        <NaviLink
-                      path={path}
-                      type="primary"
-                      className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                    >
-                      {name}
-                    </NaviLink>
-                      </span>}
-                      dropdownClass="md:dropdown-end dropdown-hover"
-                      dropdownList={menu}
-                      addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
-                      addToMenuBtnClass="text-center py-4"
-                      menuItemClass="border border-t-0"
-                      isHover={true}
-                    />}
-                    {type === 'link' && path && <NaviLink
-                      path={path}
-                      type="primary"
-                      className="mr-[30px] text-secondary cursor-pointer bg-transparent"
-                    >
-                      {name}
-                    </NaviLink>}
-
+                    {type === "dropdown" && (
+                      <DropdownMenus
+                        btnContent={
+                          <span className="!hover:bg-transparent">
+                            <NaviLink
+                              path={path}
+                              type="primary"
+                              className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                            >
+                              {name}
+                            </NaviLink>
+                          </span>
+                        }
+                        dropdownClass="md:dropdown-end dropdown-hover"
+                        dropdownList={menu}
+                        addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
+                        addToMenuBtnClass="text-center py-4"
+                        menuItemClass="border border-t-0"
+                        isHover={true}
+                      />
+                    )}
+                    {type === "link" && path && (
+                      <NaviLink
+                        path={path}
+                        type="primary"
+                        className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                      >
+                        {name}
+                      </NaviLink>
+                    )}
                   </li>
                 );
               })}

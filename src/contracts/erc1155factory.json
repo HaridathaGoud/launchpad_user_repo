@@ -1,14 +1,34 @@
 {
-  "contractAddress": "0xf0CD287dC515551907b14700C0b00058Af3ef0d4",
+  "contractAddress": "0xD0Be795AE513AD678C08c97aF306f64ea656C4C5",
   "abi": [
     {
       "anonymous": false,
       "inputs": [
-        { "indexed": false, "internalType": "address", "name": "owner", "type": "address" },
-        { "indexed": false, "internalType": "address", "name": "contractAddress", "type": "address" }
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "contractAddress",
+          "type": "address"
+        }
       ],
       "name": "Deployed",
       "type": "event"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "name": "contractRegistry",
+      "outputs": [
+        { "internalType": "address", "name": "owner", "type": "address" },
+        { "internalType": "bool", "name": "exists", "type": "bool" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [
@@ -18,7 +38,9 @@
         { "internalType": "string", "name": "tokenURIPrefix", "type": "string" }
       ],
       "name": "deploy",
-      "outputs": [{ "internalType": "address", "name": "addr", "type": "address" }],
+      "outputs": [
+        { "internalType": "address", "name": "addr", "type": "address" }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     }

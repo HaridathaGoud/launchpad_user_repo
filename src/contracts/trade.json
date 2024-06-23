@@ -1,38 +1,18 @@
 {
-  "contractAddress": "0x54eCe3C68eF08eD732Fb1Ccc3B9eEEe72f9799c7",
+  "contractAddress": "0xa16Ca68886864C2f7B3404Ce4218571396a8375C",
   "abi": [
-    { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
     {
-      "anonymous": false,
       "inputs": [
+        { "internalType": "uint8", "name": "_buyerFee", "type": "uint8" },
+        { "internalType": "uint8", "name": "_sellerFee", "type": "uint8" },
         {
-          "indexed": false,
-          "internalType": "address",
-          "name": "previousAdmin",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "newAdmin",
+          "internalType": "contract ITransferProxy",
+          "name": "_transferProxy",
           "type": "address"
         }
       ],
-      "name": "AdminChanged",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "beacon",
-          "type": "address"
-        }
-      ],
-      "name": "BeaconUpgraded",
-      "type": "event"
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
     {
       "anonymous": false,
@@ -119,19 +99,6 @@
         }
       ],
       "name": "ExecuteBid",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint8",
-          "name": "version",
-          "type": "uint8"
-        }
-      ],
-      "name": "Initialized",
       "type": "event"
     },
     {
@@ -280,19 +247,6 @@
       "type": "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "implementation",
-          "type": "address"
-        }
-      ],
-      "name": "Upgraded",
-      "type": "event"
-    },
-    {
       "inputs": [],
       "name": "ADMIN_ROLE",
       "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
@@ -323,7 +277,7 @@
               "type": "address"
             },
             {
-              "internalType": "enum MarketplaceUpgradeable.BuyingAssetType",
+              "internalType": "enum Marketplace.BuyingAssetType",
               "name": "nftType",
               "type": "uint8"
             },
@@ -336,7 +290,7 @@
             { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
             { "internalType": "uint256", "name": "qty", "type": "uint256" }
           ],
-          "internalType": "struct MarketplaceUpgradeable.Order",
+          "internalType": "struct Marketplace.Order",
           "name": "order",
           "type": "tuple"
         },
@@ -347,7 +301,7 @@
             { "internalType": "bytes32", "name": "s", "type": "bytes32" },
             { "internalType": "uint256", "name": "nonce", "type": "uint256" }
           ],
-          "internalType": "struct MarketplaceUpgradeable.Sign",
+          "internalType": "struct Marketplace.Sign",
           "name": "sign",
           "type": "tuple"
         }
@@ -381,7 +335,7 @@
               "type": "address"
             },
             {
-              "internalType": "enum MarketplaceUpgradeable.BuyingAssetType",
+              "internalType": "enum Marketplace.BuyingAssetType",
               "name": "nftType",
               "type": "uint8"
             },
@@ -394,7 +348,7 @@
             { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
             { "internalType": "uint256", "name": "qty", "type": "uint256" }
           ],
-          "internalType": "struct MarketplaceUpgradeable.Order",
+          "internalType": "struct Marketplace.Order",
           "name": "order",
           "type": "tuple"
         },
@@ -405,7 +359,7 @@
             { "internalType": "bytes32", "name": "s", "type": "bytes32" },
             { "internalType": "uint256", "name": "nonce", "type": "uint256" }
           ],
-          "internalType": "struct MarketplaceUpgradeable.Sign",
+          "internalType": "struct Marketplace.Sign",
           "name": "sign",
           "type": "tuple"
         }
@@ -445,31 +399,9 @@
       "type": "function"
     },
     {
-      "inputs": [
-        { "internalType": "uint8", "name": "_buyerFee", "type": "uint8" },
-        { "internalType": "uint8", "name": "_sellerFee", "type": "uint8" },
-        {
-          "internalType": "contract ITransferProxyUpgradeable",
-          "name": "_transferProxy",
-          "type": "address"
-        }
-      ],
-      "name": "initialize",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "owner",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "proxiableUUID",
-      "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -541,39 +473,12 @@
       "name": "transferProxy",
       "outputs": [
         {
-          "internalType": "contract ITransferProxyUpgradeable",
+          "internalType": "contract ITransferProxy",
           "name": "",
           "type": "address"
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newImplementation",
-          "type": "address"
-        }
-      ],
-      "name": "upgradeTo",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newImplementation",
-          "type": "address"
-        },
-        { "internalType": "bytes", "name": "data", "type": "bytes" }
-      ],
-      "name": "upgradeToAndCall",
-      "outputs": [],
-      "stateMutability": "payable",
       "type": "function"
     }
   ]
