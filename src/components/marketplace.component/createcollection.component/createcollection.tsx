@@ -120,7 +120,8 @@ const CreateCollection = (props: any) => {
       const collectionRes = await createonChainErc721Collection(
         obj.collectionName,
         `ART_${obj.collectionName.slice(0, 3).toUpperCase()}`,
-        'https://ybdott.azurewebsites.net/'
+        process.env.REACT_APP_URL
+        // 'https://ybdott.azurewebsites.net/'
       );
       const provider = new ethers.providers.Web3Provider(window?.ethereum);
       const receipt = await provider.waitForTransaction(collectionRes.hash);
