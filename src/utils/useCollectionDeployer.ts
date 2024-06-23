@@ -180,6 +180,7 @@ export function useCollectionDeployer() {
         args: [Proxy.contractAddress, true],
       });
       const receipt = await writeContract(config);
+      await waitForTransaction({hash:receipt.hash})
       await callback({ ok: true, data: receipt });
     } catch (error) {
       await callback({ ok: false, data: error });
