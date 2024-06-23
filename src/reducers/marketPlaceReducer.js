@@ -92,15 +92,15 @@ const clearCollections = () => {
     }
 }
 const fetchNfts = (information, screenName) => {
-    const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data,walletAddress,activeTab } = information;
+    const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data,walletAddress,activeTab,amount } = information;
     const skip = pageNo * take - take;
     return async (dispatch) => {
         dispatch(setLoaderAction(true));
         let url;
         if (screenName === 'explorenfs') {
-            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${customerId}`;
+            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "1 to 100"}/${customerId}`;
         } else if (screenName === 'hot collections') {
-            url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${searchBy}`;
+            url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "1 to 100"}/${searchBy}`;
         }
         else if(screenName === 'profile'){
             url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`
@@ -303,4 +303,4 @@ const createNftReducer = (state, action) => {
 
 const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer }
 export default marketPlaceReducer
-export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks, clearUserCollections, clearNetworks };
+export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks, clearUserCollections, clearNetworks,fetchNftsAction };

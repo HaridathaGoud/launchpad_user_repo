@@ -6,6 +6,7 @@ const SETISFAVARATODCOUNT = "saveFavaratedCount";
 const IS_CREATED_COUNT="isCreatedCount";
 const IS_OWNED_NFTS_COUNT="isOwnedNFTsCount";
 const SAVEFAVARATED_NFT = "saveFavaratedNft";
+const TAB_COUNT_UPDATED = "tabCountUpdated";
 const featchNFTsCollection = (payload) => {
     return {
         type: FETCH_NFTS_COLLECTION,
@@ -36,17 +37,22 @@ const isOwnedNFTsCount = (payload) => {
         payload
     }
 }
-
+const tabCountUpdated = (payload) => {
+  return {
+      type: TAB_COUNT_UPDATED,
+      payload
+  }
+}
 const fetchNftsCollection = (selectTabs, walletAddress, pageNo, pageSize, category, search, id, data = [], callback) => {
     const skip = pageNo * pageSize - pageSize;
     const take = pageSize;
-  
+
     return async (dispatch) => {
       dispatch(featchNFTsCollection({ key: 'collectionData', loading: true, data: null, error: null }));
-  
+
       try {
         const response = await apiCalls.getMarketplace(`User/${selectTabs || "GetNfts"}/${walletAddress}/${take}/${skip}/${category}/${search}/${id}`);
-        
+
         if (response) {
           if (callback) {
             callback(response);
@@ -67,15 +73,15 @@ const fetchNftsCollection = (selectTabs, walletAddress, pageNo, pageSize, catego
       }
     };
   };
-  
+
 
 const saveFavoriteNFT = (obj, callback) => {
     return async (dispatch) => {
       dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: 0, loading: true, error: null }));
-  
+
       try {
         const response = await postMarketplace('User/SaveFavorite', obj);
-  
+
         if (response.status === 200) {
           dispatch(saveFavaratedNft({ key: 'saveFavaratedNft', data: response?.data, loading: false, error: null }));
           if (callback) {
@@ -95,7 +101,7 @@ const saveFavoriteNFT = (obj, callback) => {
       }
     };
   };
-  
+
 
 const getFavoritedCount = (useraddress) => {
     return async (dispatch) => {
@@ -140,6 +146,7 @@ let nftsCollections = {
     data: null,
     loader: false,
     error: '',
+    isTabCountUpdated: false,
 }
 const ntfsCollectionsReducer = (state = nftsCollections, action) => {
     switch (action.type) {
@@ -148,20 +155,23 @@ const ntfsCollectionsReducer = (state = nftsCollections, action) => {
             return state;
         case SETISFAVARATODCOUNT:
             state = { ...state, saveFavaratedCount: action.payload };
-            return state; 
+            return state;
         case SAVEFAVARATED_NFT:
             state = { ...state, saveFavaratedNft: action.payload };
             return state;
         case IS_CREATED_COUNT:
              state = { ...state, createdNFTSCount: action.payload };
-             return state; 
+             return state;
              case IS_OWNED_NFTS_COUNT:
              state = { ...state, ownedNFTsCount: action.payload };
-             return state;          
+             return state;
+             case TAB_COUNT_UPDATED:
+              state = { ...state, isTabCountUpdated: action.payload };
+              return state;
         default:
             return state;
     }
 }
 const marketPlaceProfileReducer = { ntfsCollectionsReducer }
 export default marketPlaceProfileReducer
-export {fetchNftsCollection,saveFavoriteNFT,getFavoritedCount,getCreatedCount,getOwnedCountData};
+export {fetchNftsCollection,saveFavoriteNFT,getFavoritedCount,getCreatedCount,getOwnedCountData,tabCountUpdated};

@@ -33,6 +33,7 @@ export const nftsState = {
     collectionid: '',
     walletAddress :'',
     activeTab:'',
+    amount:'',
   },
 };
 
