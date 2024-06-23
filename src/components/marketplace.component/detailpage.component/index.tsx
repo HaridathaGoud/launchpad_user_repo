@@ -10,7 +10,6 @@ import { useBalance, useAccount } from "wagmi";
 import PutOnSale from "../../../utils/putonsale";
 import BuyComponent from "../../../utils/buyNow";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
-import Moment from "react-moment";
 import Confirmations from "../../confirmation.modal";
 import defaultlogo from "../../../assets/images/default-bg.png";
 import useCopyToClipboard from "../../../hooks/useCopytoClipboard";
@@ -28,6 +27,7 @@ import DropdownMenus from "../../../ui/DropdownMenus";
 import NoDataFound from "../../../ui/noData";
 import Details from "./details";
 import BiddingDetails from "./biddingDetails";
+import MoreFromCollection from "./moreFromCollection";
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
@@ -703,63 +703,6 @@ const DetailPage = (props: any) => {
     <>
       <div ref={scrollableRef}></div>
       <div className="container nft-detailview mx-auto px-3 lg-px-0">
-        {errorMsg && (
-          // <Alert variant="danger">
-          //   <Image className='validation-error' src={validError} />
-          //   <span>{errorMsg}</span>
-          // </Alert>
-          <div className="cust-error-bg">
-            <div className="mr-4">
-              <img src={error} alt="" />
-            </div>
-            <div>
-              <p className="error-title error-red">Error</p>
-              <p className="error-desc">{errorMsg}</p>
-            </div>
-          </div>
-        )}
-        {placeABidError && (
-          <div className="cust-error-bg">
-            <div className="mr-4">
-              <img src={error} alt="" />
-            </div>
-            <div>
-              <p className="error-title error-red">Error</p>
-              <p className="error-desc">{placeABidError}</p>
-            </div>
-          </div>
-        )}
-        {metaConnectionError && (
-          // <Alert variant="danger">
-          //   <Image className='validation-error' src={validError} />
-          //   <span>{metaConnectionError}</span>
-          // </Alert>
-          <div className="cust-error-bg">
-            <div className="mr-4">
-              <img src={error} alt="" />
-            </div>
-            <div>
-              <p className="error-title error-red">Error</p>
-              <p className="error-desc">{metaConnectionError}</p>
-            </div>
-          </div>
-        )}
-        {successMsg && (
-          // <Alert role="alert">
-
-          //   <Image className='validation-error' src={validSuccess} />
-          //   <span>{successMsg && 'Bid successful'}</span>{' '}
-          // </Alert>
-          <div className="cust-error-bg">
-            <div className="mr-4">
-              <img src={successimg} alt="" />
-            </div>
-            <div>
-              <p className="error-title">Congratulations !</p>
-              <p className="error-desc">{successMsg && "Bid successful"}</p>
-            </div>
-          </div>
-        )}
         {loader && <DetailpageShimmer />}
         {!loader && (
           <>
@@ -1444,193 +1387,19 @@ const DetailPage = (props: any) => {
                 </div>
               </form>
             )}
-            {/* place a bid drawer end  */}
-            {/* buy now drawer start  */}
-            {/* <form className="drawer drawer-end">
-              <input
-                id="placebid"
-                type="checkbox"
-                className="drawer-toggle"
-                checked={false}
-                // onChange={() => closeDrawer(!isChecked)}
-              />
-              <div className="drawer-side z-[999]">
-                <label
-                  htmlFor="my-drawer-4"
-                  aria-label="close sidebar"
-                  className="drawer-overlay"
-                  // onChange={handleDrawerClose}
-                ></label>
-                <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
-                  <div className="flex justify-between items-center">
-                    <h2 className="text-lg text-dark font-semibold mb-4">
-                      Place a Bid
-                    </h2>
-                    <span className="icon close cursor-pointer"></span>
-                  </div>
 
-                  <form
-                    noValidate
-                    validated={validated}
-                    onSubmit={(e) => placeBid(e)}
-                  >
-                    <div className="flex gap-5 items-center mt-10">
-                      <img
-                        className="w-[112px] h-[112px] object-cover rounded-[15px]"
-                        src={thorntf}
-                        alt="nft-image"
-                      />
-                      <div className="">
-                        <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
-                          Thor’s Hammer
-                        </p>
-
-                        <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
-                          Current Price
-                        </p>
-                        <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
-                          0.003 Matic
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5">
-                      <Button
-                        btnClassName="w-full mb-4 !min-h-[39px]"
-                        type="replyCancel"
-                        handleClick={handleCloseBid}
-                      >
-                        Place A Bid
-                      </Button>
-                      <Button
-                        btnClassName="w-full !min-h-[39px] lg:px-3"
-                        type="primary"
-                        disabled={btnLoader}
-                      >
-                        <span>{btnLoader && <Spinner size="sm" />} </span>
-                        Own with 0.003Matic / $1.32
-                      </Button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </form> */}
-            {/* buy now drawer end  */}
-            <BiddingDetails nftDetails={nftDetails} bidData={bidData} executeBid={executeBid}/>
-            <section className="mt-5">
-              <h2 className="text-[24px] font-semibold text-secondary mb-5 mt-6">
-                More from this collection
-              </h2>
-              <div className="min-h-[250px]">
-                {moreCollection?.length !== 0 && (
-                  <div className="relative container">
-                    <div className="carousel gap-4 flex py-2 px-2 md:px-14">
-                      {moreCollection?.map((item) => (
-                        <div
-                          className="carousel-item more-collection shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
-                          key={item.name + item.walletAddress + item.image}
-                        >
-                          {/* <Link className="nav-link" href={`/assets/${item.tokenId}/${item.collectionContractAddress}/${item.id}`}> */}
-                          <div className="w-full">
-                            <div
-                              className="cursor-pointer w-full"
-                              onClick={
-                                isConnected
-                                  ? () => moreCollectionClick(item)
-                                  : () => notConnectCollectionClick(item)
-                              }
-                            >
-                              <img
-                                src={
-                                  item?.image
-                                    ? `${getNFTImageUrl(item?.image)}`
-                                    : defaultlogo
-                                }
-                                className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg ${
-                                  item?.isUnlockPurchased &&
-                                  address?.toLowerCase() !==
-                                    item?.walletAddress?.toLowerCase()
-                                    ? ""
-                                    : ""
-                                }`}
-                                alt=""
-                              />
-                            </div>
-                            <div className="cursor-pointer bg-black top-3 absolute cursor-pointer right-3 rounded-full">
-                              <span
-                                className={`icon like-white  ${
-                                  item?.isFavourite ? "active" : ""
-                                }`}
-                                onClick={() => gotoFev(item)}
-                              ></span>
-                            </div>
-                            <div className="px-2 py-2.5">
-                              <p className="text-xs text-secondary truncate">
-                                Avengers
-                              </p>
-                              <h1 className="mb-2.5 text-base font-semibold truncate text-secondary">
-                                {" "}
-                                {item.name}{" "}
-                              </h1>
-                              <div className="flex justify-between truncate mb-3 gap-2">
-                                <p className="opacity-60 truncate text-secondary flex-1">
-                                  Price
-                                </p>
-                                <p className="font-semibold text-secondary flex-1 truncate text-right">
-                                  {item.price ? item.price : "--"}{" "}
-                                  {item.price
-                                    ? item.currency ||
-                                      process.env.REACT_APP_CURRENCY_SYMBOL
-                                    : ""}
-                                </p>
-                              </div>
-                              <div className="flex justify-between gap-2">
-                                <p className="opacity-60 text-secondary flex-1">
-                                  Highest bid
-                                </p>
-                                <p className="font-semibold text-secondary flex-1 text-right truncate">
-                                  {item.highestBid ? item.highestBid : "--"}{" "}
-                                  {item.highestBid
-                                    ? item.currency ||
-                                      process.env.REACT_APP_CURRENCY_SYMBOL
-                                    : ""}
-                                </p>
-                              </div>
-                            </div>
-                            <hr />
-                            <div className="px-2.5 py-4 flex justify-center">
-                              {/* <div className="flex add-cart cursor-pointer">
-                            <span className="icon card-cart"></span>
-                            <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                              Add to Cart
-                            </span>
-                          </div>
-                          <div className="w-px border"></div> */}
-                              <div className="flex shop-card cursor-pointer">
-                                <span className="icon card-shop"></span>
-                                <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                                  Buy Now
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          {/* </Link> */}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
-                      <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
-                      <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
-                    </div>
-                  </div>
-                )}
-                {moreCollection.length == 0 && (
-                  <>
-                    <NoDataFound text={""} />
-                  </>
-                )}
-              </div>
-            </section>
+            <BiddingDetails
+              nftDetails={nftDetails}
+              bidData={bidData}
+              executeBid={executeBid}
+            />
+            <MoreFromCollection
+              gotoFev={gotoFev}
+              getNFTImageUrl={getNFTImageUrl}
+              moreCollection={moreCollection}
+              moreCollectionClick={moreCollectionClick}
+              notConnectCollectionClick={notConnectCollectionClick}
+            />
           </>
         )}
       </div>

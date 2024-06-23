@@ -6,7 +6,7 @@ import NoDataFound from "../../../ui/noData";
 const BiddingDetails = ({nftDetails,bidData,executeBid}) => {
     const {address}=useAccount()
   return (
-    <div>
+    <section>
         <h3 className="text-[24px] font-semibold text-secondary mb-1 mt-6">
               Bidding Details
             </h3>
@@ -92,7 +92,7 @@ const BiddingDetails = ({nftDetails,bidData,executeBid}) => {
               {bidData?.length === 0 && (<NoDataFound text={""} />
               )}
             </div>
-    </div>
+    </section>
   )
 }
 

@@ -10,7 +10,7 @@ const Details = ({
   getDate,
 }) => {
   return (
-    <div className="shadow rounded-lg bg-primary-content mt-4">
+    <section className="shadow rounded-lg bg-primary-content mt-4">
       <div className="px-2.5 py-2">
         <div className="flex justify-between items-center mb-7">
           <h1 className="text-2xl font-semibold text-secondary">Overview</h1>
@@ -162,7 +162,7 @@ const Details = ({
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
