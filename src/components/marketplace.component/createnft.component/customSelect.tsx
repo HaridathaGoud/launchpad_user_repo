@@ -19,11 +19,9 @@ const CustomSelect = ({
   const {ref:dropdownRef}=useOutsideClick(handleOutsideClick);
   function handleOutsideClick(){
     setIsOpen(false)
-    dropdownRef?.current?.removeAttribute("dropdown-open");
   }
   const handleSelection=(option:any)=>{
     setIsOpen(false)
-    dropdownRef?.current?.removeAttribute("dropdown-open");
     onSelect(option)
   }
   return (

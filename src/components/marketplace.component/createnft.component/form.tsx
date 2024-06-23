@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Button from "../../../ui/Button";
 import TextInput from "../../../ui/textInput";
 import TextArea from "../../../ui/textArea";
@@ -42,6 +42,11 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
   });
+  useEffect(()=>{
+    if(networks.data){
+      updateState('setValues',{...values,network:networks.data?.[0]})
+    }
+  },[networks.data])
   const currencies = useMemo(() => {
     return values.network?.currencies || [];
   }, [values.network]);
@@ -315,11 +320,11 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
-              disabled={state.isLoading !== ""}
+              disabled={state.isLoading !== "" || userCollections.loading}
               fieldName="collection"
               error={formErrors["collection"]}
               label="Collection"
-              defaultOption="Select Collection"
+              defaultOption={userCollections.loading ? "Please wait..." : "Select Collection"}
               inputInfo=" This is the collection where your item will appear."
             />
             <div className="border border-[#A5A5A5] rounded-[28px]">
@@ -385,7 +390,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 Network <span className="text-[#ff0000]">*</span>
               </p>
               <CustomSelect
-                selectedValue={values.network || networks.data?.[0] || null}
+                selectedValue={values.network || null}
                 valueField={"name"}
                 imageField={"icon"}
                 optionKey={"name"}
