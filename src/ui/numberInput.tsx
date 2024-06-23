@@ -15,8 +15,12 @@ interface NumberInputProps {
   maxDecimals?:number;
   isInteger?:boolean;
   disabled?:boolean;
+  allowDecimals?:number;
 }
-const decimalRegex=/^\d{1,}(\.\d{0,2})?$/
+function getDecimalRegex(decimalPlaces:number) {
+  return new RegExp(`^\\d{1,}(\\.\\d{0,${decimalPlaces}})?$`);
+}
+
 const integerRegex=/^\d+$/
 const NumberInput = ({
   label,
@@ -33,6 +37,7 @@ const NumberInput = ({
   isInteger,
   disabled,
   inputType = "text",
+  allowDecimals=2,
 }: NumberInputProps) => {
   const [cleanedValue, setCleanedValue] = useState("");
   const handleChange = (e: any) => {
@@ -46,7 +51,7 @@ const NumberInput = ({
           ? `${formattedWholePart}.${decimalPart}`
           : formattedWholePart;
     }
-    const regex=isInteger ? integerRegex:decimalRegex
+    const regex=isInteger ? integerRegex:getDecimalRegex(allowDecimals)
     if (!cleanedValue || cleanedValue.match(regex)) {
       setCleanedValue(formattedValue);
       onChange?.(fieldName, cleanedValue);
@@ -54,14 +59,14 @@ const NumberInput = ({
   };
   return (
     <div className={inputBoxClass}>
-      <label
+      {label && <label
         className={
           labelClass ||
           "text-secondary text-sm font-normal p-0 mb-2 label block"
         }
       >
         {label} {isRequired && <span className="text-[#ff0000]">*</span>}
-      </label>
+      </label>}
       <input
         name={fieldName}
         type={inputType}

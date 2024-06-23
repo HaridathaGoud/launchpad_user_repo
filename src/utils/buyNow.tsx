@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import thorntf from "../assets/images/thor.jpg";
-import { useBalance, useAccount } from "wagmi";
+import {  useAccount } from "wagmi";
 import { useCollectionDeployer } from "./useCollectionDeployer";
-import { get, getMarketplace, post, postMarketplace } from "./api";
-import { Modal, modalActions } from "../ui/Modal";
+import {getMarketplace, postMarketplace } from "./api";
 import Button from "../ui/Button";
 import Spinner from "../components/loaders/spinner";
 import { setError, setToaster } from "../reducers/layoutReducer";
@@ -36,7 +34,7 @@ const BuyComponent = (props: any) => {
     e.preventDefault();
     const obj = {
       nftId: nftId || props.nftDetails?.id,
-      customerId: props.auth.user.id,
+      customerId: props.auth?.user?.id,
       value: props.nftDetails?.price,
       CollectionContractAddress: props.collectionAddress,
       crypto: "WMATIC",
@@ -59,11 +57,11 @@ const BuyComponent = (props: any) => {
         if (response.data.isPutOnSale) {
           let response = await postMarketplace(`/User/SaveBuy`, obj);
           if (response) {
+            props?.setIsOpen(false)
             rootDispatch(
               setToaster({
                 message: "NFT purchase successful!",
                 callback: () => {
-                  modalActions("marketplace-buy-now", "close");
                   router(`/profile/${address}`);
                 },
               })
@@ -73,7 +71,6 @@ const BuyComponent = (props: any) => {
           }
         }
       } catch (error) {
-        console.log(error)
         rootDispatch(setError({ message: error, from: "contract" }));
       } finally {
         setBtnLoader(false);
@@ -87,6 +84,8 @@ const BuyComponent = (props: any) => {
         type="checkbox"
         className="drawer-toggle"
         checked={props.isOpen}
+        onChange={()=>props?.setIsOpen(false)}
+        disabled={btnLoader}
       />
       <div className="drawer-side z-[999]">
         <label

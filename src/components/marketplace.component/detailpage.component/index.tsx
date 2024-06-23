@@ -1,159 +1,64 @@
-import Image from "react-bootstrap/Image";
 import "react-multi-carousel/lib/styles.css";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { getMarketplace, postMarketplace } from "../../../utils/api";
-import { Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import moment from "moment";
 import { useBalance, useAccount } from "wagmi";
 import PutOnSale from "../../../utils/putonsale";
 import BuyComponent from "../../../utils/buyNow";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
-import Confirmations from "../../confirmation.modal";
 import defaultlogo from "../../../assets/images/default-bg.png";
 import useCopyToClipboard from "../../../hooks/useCopytoClipboard";
-import error from "../../../assets/images/error.svg";
-import ToastContainer from "react-bootstrap/ToastContainer";
-import Toast from "react-bootstrap/Toast";
-import validSuccess from "../../../assets/images/success.png";
-import UserContract from "../../../contracts/user721contract.json";
-import WalletConnect from "../../shared/connect.wallet";
-import successimg from "../../../assets/images/success.svg";
 import Button from "../../../ui/Button";
 import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
-import NoDataFound from "../../../ui/noData";
 import Details from "./details";
 import BiddingDetails from "./biddingDetails";
 import MoreFromCollection from "./moreFromCollection";
+import PlaceBid from "./placeBid";
+import PutOnAuction from "./putOnAuction";
+import CancelSaleOrAuction from "./cancelSaleOrAuction";
 
 const DetailPage = (props: any) => {
-  const [modalShow, setModalShow] = React.useState(false);
-  const [showCancelSale, setshowCancelSale] = useState(false);
-  const [show, setShow] = useState(false);
-  const [showBid, setShowBid] = useState(false);
-  const [showBuyModal, setShowBuyModal] = useState(false);
-  const [showAuction, setShowAuction] = useState(false);
+  const [drawerToOpen, setDrawerToOpen] = useState("");
   const [nftDetails, setNftDetails] = useState<any>();
   const [errorMsg, setErrorMsg] = useState(false);
-  const [metaConnectionError, setMetaConnectionError] = useState(false);
   const [placeABidError, setPlaceABidError] = useState(false);
   const [loader, setLoader] = useState(true);
   const [favCount, setfavCount] = useState();
   const [viewsCount, setviewsCount] = useState();
   const [nftcontractDetails, setNFTContractdetails] = useState<any>();
-  const [saveObj, setSaveObj] = useState({
-    tokenId: "",
-    customerId: "",
-    value: 0,
-    crypto: "",
-    saleType: "",
-  });
-  const [saleErrorMsg, setSaleErrorMsg] = useState(false);
-  const [saleLoader, setSaleLoader] = useState(false);
-  const [nftProperties, setNFTProperties] = useState();
-  const [nftPropAttributes, setnftAttributes] = useState<any[]>([]);
-  const [cancelShow, setCancelShow] = useState(false);
-  const [cancelType, setCancelType] = useState();
   const [moreCollection, setmoreCollection] = useState<any[]>([]);
   const [fav, setFav] = useState(false);
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useBalance({ address: address });
+  const { data } = useBalance({ address: address });
   const router = useNavigate();
-  const [validated, setValidated] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(null);
   const [bidData, setBidData] = useState([]);
   const [btnLoader, setBtnLoader] = useState(false);
-  const [acceptbtnLoader, setAcceptbtnLoader] = useState(false);
   const { tokenId, collectionAddress, nftId } = useParams();
   const { isCopied, handleCopy } = useCopyToClipboard();
-  const [isChecked, setIsChecked] = useState(false);
-  const {
-    getSignatureForBid,
-    acceptBid,
-    getBidConfirmation,
-    setApprovalForAll,
-    parseError,
-  } = useCollectionDeployer();
-  const [validationError, setValidationError] = useState(null);
-  const [bidValue, setBidValue] = useState();
-  const [updateSaleAmount, setUpdateSaleAmount] = useState();
-  const [success, setSuccess] = useState(null);
-  const [scuess, setSucess] = useState(false);
+  const { acceptBid } = useCollectionDeployer();
   const [putanAction, setisPutOnAction] = useState(null);
   const [putanSale, setisPutOnSale] = useState(null);
   const [percentageValue, setPercentageValue] = useState();
   const [totalBuyValue, setTotalBuyValue] = useState();
   const [count, setCount] = useState(1);
-  const [confirmations, setConfirmations] = useState({
-    showModal: false,
-    titles: [
-      {
-        title: "Place a bid confirmation",
-        message: "Please confirm the transaction",
-      },
-      {
-        title: "Signature",
-        message: "Please sign to place NFT on sale in marketplace",
-      },
-    ],
-    main_title: "Follow Steps",
-    currentStep: 1,
-  });
   const scrollableRef = useRef<any>(null);
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
-
-  const handleClose = () => {
-    // setShow(false);
-    modalActions("putonsale", "close");
-    modalActions("putonauction", "close");
-    setIsChecked(false);
-    setSaleErrorMsg(false);
-    setShowBuyModal(false);
-    setSaveObj({
-      tokenId: "",
-      customerId: "",
-      value: 0,
-      crypto: "",
-      saleType: "",
-    });
-  };
-  const handleShow = (type: any) => {
-    if (type == "sale") {
-      setShow(true);
-      modalActions("putonsale", "open");
-    } else if (type == "auction") {
-      modalActions("putonauction", "open");
-      setIsChecked(true);
+  const handleDrawerToOpen = (
+    drawer: string,
+    shouldConnect: boolean = true
+  ) => {
+    if ((!isConnected || !props?.auth.user?.id) && shouldConnect) {
+      modalActions("walletConnectModal", "open");
+      return;
     }
-    setSaveObj({
-      tokenId: "",
-      customerId: "",
-      value: 0,
-      crypto: "",
-      saleType: "",
-    });
-    setSaleErrorMsg(false);
+    if (drawer) {
+      setDrawerToOpen(drawer);
+      return;
+    }
+    setDrawerToOpen("");
   };
   const updateCounter = () => {
     setCount(count + 1);
@@ -166,11 +71,9 @@ const DetailPage = (props: any) => {
     loadFavoritesCount();
     loadNFTViewsCount();
     getNFTContractdetails();
-    getNFTProperties();
+    // getNFTProperties();
     getbidData();
-    setMetaConnectionError(null);
-    setSuccessMsg(null);
-    setErrorMsg(null);
+    // setMetaConnectionError(null);
   }
   const getPlaceABid = async () => {
     let response = await getMarketplace(`User/nfttype/${nftId}`);
@@ -181,7 +84,6 @@ const DetailPage = (props: any) => {
   };
   useEffect(() => {
     if (address) {
-      setSuccessMsg(null);
       setPlaceABidError(false);
     }
     if (tokenId && collectionAddress && nftId) {
@@ -284,101 +186,16 @@ const DetailPage = (props: any) => {
     var dateIn = moment(date, "YYYY/MM/DD");
     return dateIn.format("DD/MM/YYYY");
   };
-  const handleChange = (value: any, type: any) => {
-    if (type == "bid") {
-      const data = value.target.value;
-      const isNumber = /^[0-9].*$/.test(data);
-      setBidValue(data);
-      if (!isNumber) {
-        setValidationError("Please enter only numbers");
-      } else {
-        setValidationError(null);
-      }
-    }
-    let obj = Object.assign({}, saveObj);
-    obj.value = value.target.value;
-    setSaveObj(obj);
-  };
-  const placeONSaleorAuction = async (type: any) => {
-    setBtnLoader(true);
-    let obj: any = Object.assign({}, saveObj);
-    if (obj.value == "0") {
-      setSaleErrorMsg("Amount must be greater than zero");
-      setBtnLoader(false);
-    } else {
-      obj.customerId = props.auth.user?.id;
-      obj.nftId = nftId ? nftId : "";
-      obj.crypto = nftDetails?.currency || "WMATIC";
-      obj.saleType = type;
-      setSaleLoader(true);
-      setApprovalForAll(collectionAddress, UserContract.abi, async (res) => {
-        if (res.ok) {
-          let response = await postMarketplace(`User/SaveSale`, obj);
-          if (response) {
-            setSucess(true);
-            setBtnLoader(false);
-            setSuccess("Nft has been placed on Auction successfully");
-            setTimeout(() => {
-              setSucess(false);
-            }, 2000);
-            setSaleLoader(false);
-            loadNftDetails();
-            if (type == "Sale") {
-              setShow(false);
-              setBtnLoader(false);
-            } else {
-              setShowAuction(false);
-              setBtnLoader(false);
-            }
-          } else {
-            setSaleLoader(false);
-            setSaleErrorMsg(isErrorDispaly(response));
-            if (type == "Sale") {
-              setShow(false);
-              setBtnLoader(false);
-            } else {
-              setShowAuction(false);
-              setBtnLoader(false);
-            }
-          }
-        } else {
-          setSaleLoader(false);
-          setSaleErrorMsg(isErrorDispaly(res.data));
-          if (type == "Sale") {
-            setShow(false);
-            setBtnLoader(false);
-          } else {
-            setShowAuction(true);
-            setBtnLoader(false);
-          }
-        }
-      });
-    }
-  };
-  const getNFTProperties = async () => {
-    let response = await getMarketplace(
-      `User/NFTProperties/${tokenId}/${collectionAddress}`
-    );
-    if (response) {
-      setNFTProperties(response.data);
-      response.data?.attributes &&
-        setnftAttributes(JSON.parse(response.data?.attributes));
-    } else {
-      setErrorMsg(isErrorDispaly(response));
-    }
-  };
   const gotoFavorite = (val: any) => {
     if (isConnected) {
       savefavroite(val);
     } else {
-      setModalShow(true);
     }
   };
   const gotoFev = (item: any) => {
     if (isConnected) {
       moreCollectionSavefavroite(item);
     } else {
-      setModalShow(true);
     }
   };
   const savefavroite = async (val: any) => {
@@ -409,154 +226,11 @@ const DetailPage = (props: any) => {
       setErrorMsg(isErrorDispaly(response));
     }
   };
-  const cancelAuctionorsale = async (val: any) => {
-    setCancelType(val);
-    // setCancelShow(true);
-    modalActions("cancelsale", "open");
-    setshowCancelSale(true);
-  };
-  const handleCancelConfirm = () => {
-    modalActions("cancelsale", "close");
-  };
-  const cancelSaleConfirm = async (type: any) => {
-    setBtnLoader(true);
-    const obj = {
-      nftId: nftId,
-      currentOwnerId: nftDetails?.ownerId,
-      saleType: cancelType,
-    };
-    if (type == "Yes") {
-      let response = await postMarketplace(`User/CancelSale`, obj);
-      if (response) {
-        setSucess(true);
-        setBtnLoader(false);
-        setSuccess(
-          cancelType == "sale"
-            ? "Sale cancelled successfully"
-            : "Auction cancelled successfully"
-        );
-        setTimeout(() => {
-          setSucess(false);
-        }, 2000);
-        loadNftDetails();
-        setCancelShow(false);
-        loadFavoritesCount();
-        getbidData();
-      } else {
-        setBtnLoader(false);
-        setCancelShow(false);
-        setErrorMsg(isErrorDispaly(response));
-      }
-    } else {
-      setBtnLoader(false);
-      setCancelShow(false);
-    }
-  };
   const getNFTImageUrl = (file: any) => {
     const filePath = file?.replace("ipfs://", "");
     return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
   };
-  const handleCloseBid = () => {
-    setShowBid(false);
-    setValidationError(null);
-  };
 
-  const handleShowBid = () => {
-    if (isConnected) {
-      modalActions("placebid", "open");
-      setSuccessMsg(null);
-      getPlaceABid();
-      setPlaceABidError(null);
-      setValidated(false);
-      setShowBid(true);
-      setMetaConnectionError(null);
-    } else {
-      // setMetaConnectionError("Please connect your wallet...")
-      window.scrollTo(0, 0);
-    }
-  };
-  const getCheckPlaceBid = () => {
-    if (isConnected) {
-      handleShowBid();
-    } else {
-      // setModalShow(true)
-
-      modalActions("marketplace-wallet-connect", "open");
-    }
-  };
-  const placeBid = async (e: any) => {
-    setBtnLoader(true);
-    e.preventDefault();
-    const form = e.currentTarget;
-    let obj = {
-      nftId: nftId,
-      customerId: props.auth.user.id,
-      value: parseFloat(bidValue),
-      crypto: "WMATIC",
-    };
-
-    if (form.checkValidity() === true && validationError == null) {
-      try {
-        setConfirmations({ ...confirmations, showModal: true, currentStep: 1 });
-        await getBidConfirmation(obj.value);
-        setConfirmations({ ...confirmations, showModal: true, currentStep: 2 });
-        const signature = await getSignatureForBid(
-          collectionAddress,
-          tokenId,
-          obj.value,
-          nftDetails.supply
-        );
-        obj.signature = signature;
-        if (putanAction || putanSale) {
-          let response = await postMarketplace(`User/SaveNftBid`, obj);
-          if (response) {
-            setValidated(true);
-            setBtnLoader(false);
-            setSucess(true);
-            setSuccess("Bid has been placed successfully");
-            setTimeout(() => {
-              setSucess(false);
-              getbidData();
-            }, 2000);
-            setShowBid(false);
-            setConfirmations({ ...confirmations, showModal: false });
-          } else {
-            setBtnLoader(false);
-            setValidated(false);
-            setShowBid(false);
-            setErrorMsg(isErrorDispaly(error));
-            setSuccessMsg(null);
-            setConfirmations({ ...confirmations, showModal: false });
-            setErrorMsg(isErrorDispaly(response));
-          }
-        } else {
-          setBtnLoader(false);
-          setConfirmations({ ...confirmations, showModal: false });
-        }
-      } catch (error) {
-        setConfirmations({ ...confirmations, showModal: false });
-        setBtnLoader(false);
-        setPlaceABidError(isErrorDispaly(error));
-        setShowBid(false);
-        window.scroll(0, 0);
-        //setShowBid(false);
-      }
-    } else {
-      setBtnLoader(false);
-      setValidated(true);
-      //setShowBid(false);
-      setSuccessMsg(null);
-      setConfirmations({ ...confirmations, showModal: false });
-    }
-  };
-  const getCheckBuy = (item: any) => {
-    if (isConnected) {
-      setShowBuyModal(true);
-    } else {
-      // setModalShow(true)
-      modalActions("walletConnectModal", "open");
-    }
-  };
   const getbidData = async () => {
     let response = await getMarketplace(`User/biddata/${nftId}/${10}/${0}`);
     if (response) {
@@ -565,72 +239,12 @@ const DetailPage = (props: any) => {
       setErrorMsg(isErrorDispaly(response));
     }
   };
-  const executeBid = async (item: any) => {
-    setConfirmations({
-      titles: [
-        {
-          title: "Executing Bid",
-          message:
-            "After successful transaction NFT will be transferred to buyer",
-        },
-      ],
-      showModal: true,
-      currentStep: 1,
-      main_title: "Accept Bid",
-    });
-    setAcceptbtnLoader(true);
-    const obj = {
-      nftId: nftId,
-      value: item.biddingAmount,
-      crypto: "WMATIC",
-      buyerAddress: item.bidderAddress,
-      BidId: item.bidId,
-      TransactionHash: collectionAddress,
-    };
-    try {
-      const acceptBidObj = await acceptBid(
-        collectionAddress,
-        nftDetails.collectionType,
-        item.biddingAmount,
-        tokenId,
-        item.signature,
-        item.bidderAddress,
-        1
-      );
-      let response = await postMarketplace(`User/SaveAcceptBid`, obj);
-      if (response) {
-        setSucess(true);
-        setSuccess("Bid accepted succesfully");
-        setTimeout(() => {
-          setSucess(false);
-          router(`/accounts/${address}`);
-        }, 2000);
-        setErrorMsg(null);
-        setAcceptbtnLoader(false);
-        setConfirmations({ ...confirmations, showModal: false });
-      } else {
-        setAcceptbtnLoader(false);
-        setConfirmations({ ...confirmations, showModal: false });
-        setErrorMsg(isErrorDispaly(response));
-      }
-    } catch (error) {
-      window.scroll(0, 0);
-      setErrorMsg(isErrorDispaly(error));
-      setConfirmations({ ...confirmations, showModal: false });
-    }
-  };
 
   const goToAccount = (item: any, type: any) => {
     if (type == "creator") {
       router(`/accounts/${item?.creatorWalletAddress || address}`);
     } else if (type == "currentOwner") {
       router(`/accounts/${item?.ownerAddress || address}`);
-    }
-  };
-  const handleUpdateAmount = (childData: any) => {
-    setUpdateSaleAmount(childData);
-    if (childData) {
-      loadNftDetails();
     }
   };
 
@@ -668,7 +282,7 @@ const DetailPage = (props: any) => {
       list = [
         {
           name: "Cancel sale",
-          action: () => cancelAuctionorsale("sale"),
+          action: () => handleDrawerToOpen("cancelSaleOrAuction"),
           isActive: false,
         },
       ];
@@ -677,7 +291,7 @@ const DetailPage = (props: any) => {
       list = [
         {
           name: "Cancel auction",
-          action: () => cancelAuctionorsale("auction"),
+          action: () => handleDrawerToOpen("cancelSaleOrAuction"),
           isActive: false,
         },
       ];
@@ -686,12 +300,12 @@ const DetailPage = (props: any) => {
       list = [
         {
           name: "Put on sale",
-          action: () => handleShow("sale"),
+          action: () => handleDrawerToOpen("putOnSale"),
           isActive: false,
         },
         {
           name: "Put on auction",
-          action: () => handleShow("auction"),
+          action: () => handleDrawerToOpen("putOnAuction"),
           isActive: false,
         },
       ];
@@ -714,11 +328,6 @@ const DetailPage = (props: any) => {
                       <div>
                         <span className="icon matic-detail "></span>
                       </div>
-                      <WalletConnect
-                        showWalletModal={modalShow}
-                        onWalletConect={(addr) => {}}
-                        onWalletClose={() => setModalShow(false)}
-                      />
                       <div className="flex items-center">
                         <div className="bg-black cursor-pointer rounded-full px-2">
                           <span className="text-white align-middle">
@@ -789,211 +398,6 @@ const DetailPage = (props: any) => {
                           />
                         )}
                       </div>
-                      <PutOnSale
-                        refresh={loadNftDetails}
-                        nftDetails={nftDetails}
-                        handleClose={() => setShow(false)}
-                        showModal={show}
-                        updateAmount={handleUpdateAmount}
-                        reqFields={{
-                          tokenId: tokenId,
-                          data: data,
-                          auth: props.auth,
-                          collectionAddress: collectionAddress,
-                        }}
-                      ></PutOnSale>
-
-                      {nftDetails && showBuyModal && (
-                        <BuyComponent
-                          isOpen={showBuyModal}
-                          setIsOpen={setShowBuyModal}
-                          handleClose={() => setShowBuyModal(false)}
-                          nftDetails={nftDetails}
-                          collectionAddress={collectionAddress}
-                          getNFTImageUrl={getNFTImageUrl}
-                        />
-                      )}
-                      {/* putonauction drawer start  */}
-                      {/* <Modal id="putonauction"> */}
-                      <form className="drawer drawer-end">
-                        <input
-                          id="my-drawer-4"
-                          type="checkbox"
-                          className="drawer-toggle"
-                          checked={isChecked}
-                          // onChange={() => closeDrawer(!isChecked)}
-                        />
-                        <div className="drawer-side z-[999]">
-                          <label
-                            htmlFor="my-drawer-4"
-                            aria-label="close sidebar"
-                            className="drawer-overlay"
-                            // onChange={handleDrawerClose}
-                          ></label>
-                          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
-                            <div className="flex items-center justify-between">
-                              <p className="text-xl text-secondary font-semibold">
-                                Checkout
-                              </p>
-                              <button
-                                className="icon close cursor-pointer"
-                                onClick={() => setIsChecked(!isChecked)}
-                              ></button>
-                            </div>
-                            <div className="text-center">
-                              {saleLoader && <Spinner></Spinner>}
-                            </div>
-                            {!saleLoader && (
-                              <div className="p-4 pb-2">
-                                {saleErrorMsg && (
-                                  <div className="cust-error-bg">
-                                    <div className="mr-4">
-                                      <img src={error} alt="" />
-                                    </div>
-                                    <div>
-                                      <div>
-                                        <img
-                                          className="validation-error"
-                                          src={validError}
-                                        />
-                                        <span>{saleErrorMsg}</span>
-                                      </div>
-                                      <p className="error-title error-red text-start">
-                                        Error
-                                      </p>
-                                      <p className="error-desc text-start">
-                                        {saleErrorMsg}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
-
-                                <p className="text-dark mt-5">
-                                  NFT Marketplace is the platform where users
-                                  can purchase NFT assets directly from creator,
-                                  Users need to pay for the gas fee as well as
-                                  platform fee before purchasing the NFT. User
-                                  can purchase NFT also through bidding, where
-                                  creator will accept a price from the user
-                                </p>
-
-                                <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
-                                  <div className="mb-4 flex items-center justify-between">
-                                    <p className="text-sm shrink-0 text-secondary ">
-                                      Service fee
-                                    </p>
-                                    <p className="text-end truncate text-secondary font-semibold">
-                                      0.0000 ETH
-                                    </p>
-                                  </div>
-                                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block">
-                                    Auction Price
-                                  </label>
-                                  <input
-                                    placeholder="Ex: 0.01 WMATIC"
-                                    aria-label="Username"
-                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                                    onChange={(value) => handleChange(value)}
-                                  />
-                                </div>
-                              </div>
-                            )}
-                            <div className="mt-40 lg:max-w-[300px] lg:mx-auto mb-5">
-                              <Button
-                                btnClassName="w-full mb-4 !min-h-[39px]"
-                                type="replyCancel"
-                                handleClick={() => setIsChecked(!isChecked)}
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                btnClassName="w-full !min-h-[39px] lg:px-3"
-                                type="primary"
-                                disabled={saleLoader}
-                                handleClick={() =>
-                                  placeONSaleorAuction("Auction")
-                                }
-                              >
-                                {btnLoader && (
-                                  <Spinner
-                                    size="sm"
-                                    className="text-base-100"
-                                  />
-                                )}
-                                Put on Auction
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                      {/* </Modal> */}
-                      {/* putonauction drawer end  */}
-                      {/* cancel sale drawer start  */}
-                      {/* <Modal id="cancelsale"> */}
-                      <form className="drawer drawer-end">
-                        <input
-                          id="my-drawer-4"
-                          type="checkbox"
-                          className="drawer-toggle"
-                          checked={showCancelSale}
-                          // onChange={() => closeDrawer(!isChecked)}
-                        />
-                        <div className="drawer-side z-[999]">
-                          <label
-                            htmlFor="my-drawer-4"
-                            aria-label="close sidebar"
-                            className="drawer-overlay"
-                            // onChange={handleDrawerClose}
-                          ></label>
-                          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
-                            <div className="flex items-center justify-between">
-                              <p className="text-xl text-secondary font-semibold">
-                                Confirmation
-                              </p>
-                              <button
-                                className="icon close cursor-pointer"
-                                onClick={() =>
-                                  setshowCancelSale(!showCancelSale)
-                                }
-                              ></button>
-                            </div>
-
-                            <div>
-                              <p className="text-dark my-8">
-                                Are you sure, Do you want to cancel {cancelType}
-                                ?
-                              </p>
-                            </div>
-
-                            <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
-                              <Button
-                                type="replyCancel"
-                                handleClick={() => cancelSaleConfirm("No")}
-                                btnClassName="w-full mb-4 !min-h-[39px]"
-                              >
-                                No
-                              </Button>
-                              <Button
-                                type="primary"
-                                handleClick={() => cancelSaleConfirm("Yes")}
-                                btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
-                              >
-                                <span>
-                                  {btnLoader && (
-                                    <Spinner
-                                      size="sm"
-                                      className="text-base-100"
-                                    />
-                                  )}{" "}
-                                </span>{" "}
-                                Yes
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                      {/* </Modal> */}
-                      {/* cancel sale drawer end  */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <h1 className="font-semibold text-secondary">
@@ -1109,18 +513,17 @@ const DetailPage = (props: any) => {
                             <Button
                               type="secondary"
                               btnClassName="mr-2.5"
-                              handleClick={getCheckBuy}
+                              handleClick={() => handleDrawerToOpen("buyNow")}
                             >
                               Buy Now
                             </Button>
                           )}
                         {nftDetails?.saleType &&
-                          nftDetails?.saleType === "Auction" &&
                           nftDetails?.ownerAddress?.toLowerCase() !==
                             address?.toLowerCase() && (
                             <Button
                               type="cancel"
-                              handleClick={getCheckPlaceBid}
+                              handleClick={() => handleDrawerToOpen("placeBid")}
                               btnClassName="ml-2.5"
                             >
                               Place a bid
@@ -1169,229 +572,26 @@ const DetailPage = (props: any) => {
               </div>
             </section>
             {/* place a bid drawer start  */}
-            {showBid && (
-              <form className="drawer drawer-end">
-                <input
-                  id="placebid"
-                  type="checkbox"
-                  className="drawer-toggle"
-                  checked={showBid}
-                  // onChange={() => closeDrawer(!isChecked)}
-                />
-                <div className="drawer-side z-[999]">
-                  <label
-                    htmlFor="placebid"
-                    aria-label="close sidebar"
-                    className="drawer-overlay"
-                    // onChange={handleDrawerClose}
-                  ></label>
-                  <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
-                    <div className="flex justify-between items-center my-2">
-                      <h2 className="text-lg text-dark font-semibold mb-0">
-                        Place a Bid
-                      </h2>
-                      <span className="icon close cursor-pointer"></span>
-                    </div>
-
-                    <form onSubmit={(e) => placeBid(e)}>
-                      {
-                        <>
-                          <div className="">
-                            <div className="flex gap-5 items-center mt-10 mb-12">
-                              <img
-                                className="w-[112px] h-[112px] object-cover rounded-[15px]"
-                                src={nftDetails.image}
-                                alt={nftDetails.name}
-                              />
-                              <div className="">
-                                <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0">
-                                  {nftDetails.name}
-                                </p>
-
-                                <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
-                                  Current Price
-                                </p>
-                                <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
-                                  <span className="">
-                                    {" "}
-                                    {data?.formatted || "--"}
-                                  </span>{" "}
-                                  <span className="">
-                                    {nftDetails?.currency || "--"}
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
-                              <div className="mb-4 flex items-center justify-between px-4">
-                                <p className="text-sm shrink-0 text-secondary ">
-                                  Price
-                                </p>
-                                <p className="truncate text-secondary font-semibold">
-                                  {nftDetails?.price || "--"}{" "}
-                                  <span>{nftDetails?.currency || "--"}</span>
-                                </p>
-                              </div>
-                              <div className="mb-4 flex items-center justify-between px-4">
-                                <p className="text-sm shrink-0 text-secondary ">
-                                  Buyer Fee
-                                </p>
-                                <p className="truncate text-secondary font-semibold">
-                                  {percentageValue || "--"}{" "}
-                                  <span>{nftDetails?.currency || "--"}</span>
-                                </p>
-                              </div>
-                              <div className="mb-4 flex items-center justify-between px-4">
-                                <p className="text-sm shrink-0 text-secondary ">
-                                  Total Price
-                                </p>
-                                <p className="truncate text-secondary font-semibold">
-                                  {totalBuyValue}{" "}
-                                  <span>{nftDetails?.currency}</span>
-                                </p>
-                              </div>
-                              <div className="mb-4">
-                                <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                                  Your Bid *
-                                </label>
-                                <input
-                                  type="text"
-                                  name="value"
-                                  aria-label="Username"
-                                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                                  placeholder="Bidding Amount"
-                                  onChange={(e) => handleChange(e, "bid")}
-                                  required
-                                  maxLength={13}
-                                />
-                                {validationError && (
-                                  <>
-                                    {" "}
-                                    <p>Please provide valid Bid Value.</p>
-                                  </>
-                                )}
-                              </div>
-                              <div className="mb-4">
-                                <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                                  Crypto Type
-                                </label>
-                                <div className="relative ">
-                                  <select
-                                    aria-label="Default select example"
-                                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 !bg-white"
-                                  >
-                                    <option>MATIC</option>
-                                    <option value="1">WMATIC</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div className="mb-5">
-                                <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                                  Buy Price
-                                </label>
-                                <input
-                                  placeholder="0.01 WETH"
-                                  aria-label="Username"
-                                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                                />
-                              </div>
-                              <div className="px-4">
-                                <div className="mb-4 flex items-center justify-between">
-                                  <p className="text-sm shrink-0 text-secondary ">
-                                    Your balance
-                                  </p>
-                                  <p className="truncate text-secondary font-semibold">
-                                    <span className=""> {data?.formatted}</span>{" "}
-                                    <span className="">
-                                      {nftDetails?.currency}
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="mb-4 flex items-center justify-between">
-                                  <p className="text-sm shrink-0 text-secondary ">
-                                    Your bidding balance
-                                  </p>
-                                  <p className="truncate text-secondary font-semibold">
-                                    0.0025 Matic
-                                  </p>
-                                </div>
-                                <div className="mb-4 flex items-center justify-between">
-                                  <p className="text-sm shrink-0 text-secondary ">
-                                    Service fee
-                                  </p>
-                                  <p className="text-end truncate text-secondary font-semibold">
-                                    0.0025 WMatic
-                                  </p>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <p className="text-sm shrink-0 text-secondary ">
-                                    Total bid amount
-                                  </p>
-                                  <p className="text-end truncate text-secondary font-semibold">
-                                    {0.0025 + data?.formatted}{" "}
-                                    {nftDetails?.currency}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="mt-16 lg:max-w-[250px] lg:mx-auto mb-5">
-                            <Button
-                              btnClassName="w-full mb-4 !min-h-[39px]"
-                              type="replyCancel"
-                              handleClick={handleCloseBid}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
-                              type="primary"
-                              disabled={btnLoader}
-                            >
-                              <span>{btnLoader && <Spinner size="sm" />} </span>
-                              Place a bid
-                            </Button>
-                          </div>
-                        </>
-                      }
-                      {/* success section start */}
-                      {
-                        //   <div className='text-center relative mt-16'>
-                        // <img src={validSuccess} alt="" className=' mx-auto ' />
-                        // <div className='z-[1] relative'>
-                        // <img src={success} alt="" className='w-[124px] mx-auto' />
-                        // <h1 className='text-[28px] text-[#15AB3D] font-semibold mt-3'>Congratulations!</h1>
-                        // <p className='text-[18px] font-semibold text-secondary mt-4'>You Won this NFT</p>
-                        // </div>
-                        // <div className="flex gap-5 items-center mt-10 mb-12 justify-center">
-                        //  <img className="w-[112px] h-[112px] object-cover rounded-[15px]" src={thorntf} alt="nft-image" />
-                        //    <div className="">
-                        //        <p className="truncate text-[28px] text-secondary font-semibold leading-8 mb-0 text-left">
-                        //        Thor 3d #1654
-                        //        </p>
-                        //        <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0 text-left">
-                        //        Current Price
-                        //        </p>
-                        //        <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0 text-left">
-                        //        <span className=""> {data?.formatted || "--"}</span>{" "}
-                        //          <span className="">{nftDetails?.currency || "--"}</span>
-                        //        </p>
-                        //    </div>
-                        //  </div>
-                        // </div>
-                      }
-                      {/* success section end */}
-                    </form>
-                  </div>
-                </div>
-              </form>
+            {drawerToOpen === "placeBid" && (
+              <PlaceBid
+                nftDetails={nftDetails}
+                nftId={nftId}
+                collectionAddress={collectionAddress}
+                show={drawerToOpen === "placeBid"}
+                setShow={handleDrawerToOpen}
+                data={data}
+                percentageValue={percentageValue}
+                totalBuyValue={totalBuyValue}
+                tokenId={tokenId}
+              />
             )}
 
             <BiddingDetails
               nftDetails={nftDetails}
               bidData={bidData}
-              executeBid={executeBid}
+              nftId={nftId}
+              collectionAddress={collectionAddress}
+              tokenId={tokenId}
             />
             <MoreFromCollection
               gotoFev={gotoFev}
@@ -1400,19 +600,51 @@ const DetailPage = (props: any) => {
               moreCollectionClick={moreCollectionClick}
               notConnectCollectionClick={notConnectCollectionClick}
             />
+             <PutOnSale
+                        refresh={loadNftDetails}
+                        nftDetails={nftDetails}
+                        setShow={handleDrawerToOpen}
+                        show={drawerToOpen === "putOnSale"}
+                        reqFields={{
+                          tokenId: tokenId,
+                          data: data,
+                          auth: props.auth,
+                          collectionAddress: collectionAddress,
+                        }}
+                      ></PutOnSale>
+
+                      {nftDetails && drawerToOpen === "buyNow" && (
+                        <BuyComponent
+                          isOpen={drawerToOpen === "buyNow"}
+                          setIsOpen={handleDrawerToOpen}
+                          handleClose={handleDrawerToOpen}
+                          nftDetails={nftDetails}
+                          collectionAddress={collectionAddress}
+                          getNFTImageUrl={getNFTImageUrl}
+                        />
+                      )}
+                      {/* putonauction drawer start  */}
+                      <PutOnAuction
+                        refresh={loadNftDetails}
+                        nftDetails={nftDetails}
+                        setShow={handleDrawerToOpen}
+                        show={drawerToOpen === "putOnAuction"}
+                        tokenId={tokenId}
+                        collectionAddress={collectionAddress}
+                      />
+                      {/* putonauction drawer end  */}
+                      {/* cancel sale or autction drawer start  */}
+                      <CancelSaleOrAuction
+                        type={nftDetails?.isPutonSale ? "Sale" : "Auction"}
+                        show={drawerToOpen === "cancelSaleOrAuction"}
+                        setShow={handleDrawerToOpen}
+                        nftDetails={nftDetails}
+                        nftId={nftId}
+                        refresh={loadNftDetails}
+                      />
+                      {/* cancel sale or auction drawer end  */}
           </>
         )}
-      </div>
-      <Confirmations {...confirmations} />
-      <div className="p-absolute toaster-center">
-        <ToastContainer className="p-3 cust-nametoster position-fixed bottom-0">
-          <Toast show={scuess} className="text-center toster-component">
-            <Toast.Body className="toaster-cust">
-              <Image src={validSuccess} className="svalidation-error" />{" "}
-              <span>{success}</span>
-            </Toast.Body>
-          </Toast>
-        </ToastContainer>
       </div>
     </>
   );
