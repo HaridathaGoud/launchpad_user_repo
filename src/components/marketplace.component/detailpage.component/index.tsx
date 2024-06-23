@@ -1,6 +1,6 @@
 import Image from "react-bootstrap/Image";
 import "react-multi-carousel/lib/styles.css";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { getMarketplace, postMarketplace } from "../../../utils/api";
 import { Spinner } from "react-bootstrap";
@@ -26,12 +26,13 @@ import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
 import NoDataFound from "../../../ui/noData";
+import Details from "./details";
+import BiddingDetails from "./biddingDetails";
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
   const [showCancelSale, setshowCancelSale] = useState(false);
   const [show, setShow] = useState(false);
-  const [showdrawer, setshowdrawer] = useState(false);
   const [showBid, setShowBid] = useState(false);
   const [showBuyModal, setShowBuyModal] = useState(false);
   const [showAuction, setShowAuction] = useState(false);
@@ -67,7 +68,7 @@ const DetailPage = (props: any) => {
   const [btnLoader, setBtnLoader] = useState(false);
   const [acceptbtnLoader, setAcceptbtnLoader] = useState(false);
   const { tokenId, collectionAddress, nftId } = useParams();
-  const [isCopied, handleCopy] = useCopyToClipboard();
+  const { isCopied, handleCopy } = useCopyToClipboard();
   const [isChecked, setIsChecked] = useState(false);
   const {
     getSignatureForBid,
@@ -759,12 +760,8 @@ const DetailPage = (props: any) => {
             </div>
           </div>
         )}
-        {/* {loader && <div className='d-flex align-items-center justify-content-center loader-center'><Spinner></Spinner></div>} */}
-        {(loader && (
-          <>
-            <DetailpageShimmer />
-          </>
-        )) || (
+        {loader && <DetailpageShimmer />}
+        {!loader && (
           <>
             <section className="mt-5">
               <div className="grid lg:grid-cols-12 gap-[40px]">
@@ -784,12 +781,18 @@ const DetailPage = (props: any) => {
                           <span className="text-white align-middle">
                             {favCount}
                           </span>
-                          <span
-                            className={`icon like-white ${
-                              nftDetails?.isFavorite ? "active" : ""
-                            }`}
-                            onClick={() => gotoFavorite(nftDetails?.isFavorite)}
-                          ></span>
+                          <Button
+                            type="plain"
+                            handleClick={() =>
+                              gotoFavorite(nftDetails?.isFavorite)
+                            }
+                          >
+                            <span
+                              className={`icon like-white ${
+                                nftDetails?.isFavorite ? "active" : ""
+                              }`}
+                            ></span>
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -809,196 +812,20 @@ const DetailPage = (props: any) => {
                           nftDetails?.isUnlockPurchased &&
                           address?.toLowerCase() !==
                             nftDetails?.creatorWalletAddress?.toLowerCase()
-                            ? "w-full object-cover rounded-2xl"
+                            ? "w-full object-cover rounded-2xl blur"
                             : "w-full object-cover rounded-2xl"
                         }`}
                       />
                     </div>
-                    {/* <Image src={detailimage} alt="" className="detail-image" /> */}
                   </div>
-                  <div className="shadow rounded-lg bg-primary-content mt-4">
-                    <div className="px-2.5 py-2">
-                      <div className="flex justify-between items-center mb-7">
-                        <h1 className="text-2xl font-semibold text-secondary">
-                          Overview
-                        </h1>
-                        <p className="text-secondary text-base font-semibold">
-                          {"By"}
-                          <span className="text-neutral ml-1">
-                            {nftDetails?.creatorName ||
-                              nftDetails?.creatorWalletAddress?.slice(0, 4) +
-                                "...." +
-                                nftDetails?.creatorWalletAddress?.substring(
-                                  nftDetails?.creatorWalletAddress?.length - 4,
-                                  nftDetails?.creatorWalletAddress?.length
-                                )}
-                            <span className="copy-space">
-                              {!nftDetails?.creatorName &&
-                                nftDetails?.creatorWalletAddress && (
-                                  <span
-                                    className={`${
-                                      !isCopied
-                                        ? "icon md copy-icon c-pointer ms-0"
-                                        : "icon md check-icon"
-                                    }`}
-                                    onClick={() =>
-                                      handleCopy(
-                                        nftDetails?.creatorWalletAddress
-                                      )
-                                    }
-                                  />
-                                )}
-                            </span>
-                          </span>
-                        </p>
-                      </div>
-
-                      {nftDetails?.description && (
-                        <>
-                          <h3 className="text-base font-semibold text-secondary mb-4">
-                            Description
-                          </h3>
-                          <p className="text-secondary">
-                            {nftDetails?.description}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                    <hr className="mt-[22px] mb-3" />
-                    <div className="px-2.5 pt-2 pb-6">
-                      <h1 className="text-base font-semibold text-secondary mb-4">
-                        Details
-                      </h1>
-                      <div className="grid md:grid-cols-3 gap-4">
-                        <div>
-                          <label className="font-semibold text-secondary">
-                            Contract Address
-                          </label>
-                          {nftcontractDetails?.contractAddress != null && (
-                            <h4 className="text-neutral font-semibold break-all">
-                              {nftcontractDetails?.contractAddress?.slice(
-                                0,
-                                4
-                              ) +
-                                "...." +
-                                nftcontractDetails?.contractAddress?.substring(
-                                  nftcontractDetails?.contractAddress.length -
-                                    4,
-                                  nftcontractDetails?.contractAddress.length
-                                )}{" "}
-                              <span className="copy-space">
-                                {nftcontractDetails?.contractAddress && (
-                                  <Button
-                                    type="plain"
-                                    btnClassName={`${
-                                      !isCopied
-                                        ? "icon md copy-icon c-pointer ms-0"
-                                        : "icon md check-icon"
-                                    }`}
-                                    handleClick={() =>
-                                      handleCopy(
-                                        nftcontractDetails?.contractAddress
-                                      )
-                                    }
-                                  />
-                                )}
-                              </span>
-                            </h4>
-                          )}
-
-                          {nftcontractDetails?.contractAddress == null && (
-                            <h4 className="text-neutral font-semibold break-all">
-                              {collectionAddress}
-                              <span className="copy-space">
-                                {collectionAddress &&
-                                  nftcontractDetails?.contractAddress ==
-                                    null && (
-                                    <span
-                                      className={`${
-                                        !isCopied
-                                          ? "icon md copy-icon c-pointer ms-0"
-                                          : "icon md check-icon"
-                                      }`}
-                                      onClick={() =>
-                                        handleCopy(collectionAddress)
-                                      }
-                                    />
-                                  )}
-                              </span>
-                            </h4>
-                          )}
-                        </div>
-                        <div>
-                          <label className="font-semibold text-secondary">
-                            Token ID
-                          </label>
-                          <h4 className="text-neutral font-semibold break-all">
-                            {nftcontractDetails?.tokenId || "--"}
-                          </h4>
-                        </div>
-                        <div>
-                          <label className="font-semibold text-secondary">
-                            Token Standard
-                          </label>
-                          <h4 className="text-neutral font-semibold break-all">
-                            {nftcontractDetails?.tokenStandard || "--"}
-                          </h4>
-                        </div>
-                        <div>
-                          <label className="font-semibold text-secondary">
-                            Chain
-                          </label>
-                          <h4 className="text-neutral font-semibold break-all">
-                            Polygon
-                          </h4>
-                          {/* <h4 className="overview-value">{nftcontractDetails?.blockChain}</h4> */}
-                        </div>
-                        <div>
-                          <label className="font-semibold text-secondary">
-                            Last Updated
-                          </label>
-                          <h4 className="text-neutral font-semibold break-all">
-                            {getDate(nftcontractDetails?.date)}
-                          </h4>
-                        </div>
-                        <div>
-                          <label className="font-semibold text-secondary">
-                            Creator Earnings
-                          </label>
-                          <h4 className="text-neutral font-semibold break-all">
-                            {nftcontractDetails?.creatorEarning || "0%"}
-                          </h4>
-                        </div>
-                        {nftcontractDetails?.externalLink && (
-                          <div className="col-span-3">
-                            <label className="font-semibold text-secondary">
-                              External Link
-                            </label>
-                            {nftcontractDetails?.externalLink && (
-                              <h4 className="text-neutral font-semibold break-all">
-                                <span
-                                  onClick={() =>
-                                    window.open(
-                                      nftcontractDetails?.externalLink,
-                                      "_blank"
-                                    )
-                                  }
-                                  className=" c-pointer"
-                                >
-                                  {(!nftcontractDetails?.externalLink && "-") ||
-                                    nftcontractDetails?.externalLink}
-                                </span>
-                              </h4>
-                            )}
-                            {!nftcontractDetails?.externalLink && (
-                              <h4>{"-"}</h4>
-                            )}
-                            {/* <h4 className="overview-value mt-2">{nftcontractDetails?.externalLink}</h4> */}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  <Details
+                    nftDetails={nftDetails}
+                    nftcontractDetails={nftcontractDetails}
+                    isCopied={isCopied}
+                    handleCopy={handleCopy}
+                    getDate={getDate}
+                    collectionAddress={collectionAddress}
+                  />
                 </div>
                 <div className="lg:col-span-7">
                   <div className="p-0">
@@ -1019,17 +846,6 @@ const DetailPage = (props: any) => {
                           />
                         )}
                       </div>
-                      {/* modal  */}
-
-                      {/* {show && (
-                    <SaleComponent
-                      nftDetails={nftDetails}
-                      showModal={show}
-                      reqFields={{ tokenId: tokenId, data: data, auth: props.auth }}
-                      handleClose={() => setShow(false)}
-                    ></SaleComponent>
-                  )} */}
-
                       <PutOnSale
                         refresh={loadNftDetails}
                         nftDetails={nftDetails}
@@ -1237,50 +1053,56 @@ const DetailPage = (props: any) => {
                       {/* cancel sale drawer end  */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                          <label className="font-semibold text-secondary">
+                          <h1 className="font-semibold text-secondary">
                             Creator
-                          </label>
-                          <div className="text-neutral font-semibold">
-                            <span
-                              onClick={() => goToAccount(nftDetails, "creator")}
-                              className=" cursor-pointer"
+                          </h1>
+                          <div className="">
+                            <Button
+                              handleClick={() =>
+                                goToAccount(nftDetails, "creator")
+                              }
+                              type="plain"
                             >
-                              {nftDetails?.creatorName ||
-                                (nftDetails?.creatorWalletAddress
-                                  ? nftDetails?.creatorWalletAddress?.slice(
-                                      0,
-                                      4
-                                    ) +
-                                    "...." +
-                                    nftDetails?.creatorWalletAddress?.substring(
-                                      nftDetails?.creatorWalletAddress?.length -
+                              <span className="text-neutral font-semibold cursor-pointer">
+                                {nftDetails?.creatorName ||
+                                  (nftDetails?.creatorWalletAddress
+                                    ? nftDetails?.creatorWalletAddress?.slice(
+                                        0,
                                         4
-                                    )
-                                  : "Un named")}
-                            </span>
+                                      ) +
+                                      "...." +
+                                      nftDetails?.creatorWalletAddress?.substring(
+                                        nftDetails?.creatorWalletAddress
+                                          ?.length - 4
+                                      )
+                                    : "Un named")}
+                              </span>
+                            </Button>
                           </div>
                         </div>
                         <div>
-                          <label className="font-semibold text-secondary">
+                          <h1 className="font-semibold text-secondary">
                             Current Owner
-                          </label>
-                          <div className="text-neutral font-semibold ">
-                            <span
-                              onClick={() =>
+                          </h1>
+                          <div className="">
+                            <Button
+                              type="plain"
+                              handleClick={() =>
                                 goToAccount(nftDetails, "currentOwner")
                               }
-                              className="cursor-pointer"
                             >
-                              {" "}
-                              {nftDetails?.ownerName ||
-                                (nftDetails?.ownerAddress
-                                  ? nftDetails?.ownerAddress?.slice(0, 4) +
-                                    "...." +
-                                    nftDetails?.ownerAddress?.substring(
-                                      nftDetails?.ownerAddress?.length - 4
-                                    )
-                                  : "Un named")}
-                            </span>
+                              <span className="text-neutral font-semibold cursor-pointer">
+                                {" "}
+                                {nftDetails?.ownerName ||
+                                  (nftDetails?.ownerAddress
+                                    ? nftDetails?.ownerAddress?.slice(0, 4) +
+                                      "...." +
+                                      nftDetails?.ownerAddress?.substring(
+                                        nftDetails?.ownerAddress?.length - 4
+                                      )
+                                    : "Un named")}
+                              </span>
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -1334,36 +1156,36 @@ const DetailPage = (props: any) => {
                     </div>
                   </div>
 
-                  <div className="md:flex items-center justify-between mt-4">
-                    {/* {nftDetails?.ownerAddress != address && ( */}
-                    <div>
-                      {nftDetails?.saleType &&
-                        nftDetails?.saleType === "Sale" &&
-                        nftDetails?.ownerAddress?.toLowerCase() !==
-                          address?.toLowerCase() && (
-                          <Button
-                            type="secondary"
-                            btnClassName="mr-2.5"
-                            handleClick={getCheckBuy}
-                          >
-                            Buy Now
-                          </Button>
-                        )}
-                      {nftDetails?.saleType &&
-                        nftDetails?.saleType === "Auction" &&
-                        nftDetails?.ownerAddress?.toLowerCase() !==
-                          address?.toLowerCase() && (
-                          <Button
-                            type="cancel"
-                            handleClick={getCheckPlaceBid}
-                            btnClassName="ml-2.5"
-                          >
-                            Place a bid
-                          </Button>
-                        )}
-                    </div>
-                    {/*  )} */}
-                    <div
+                  <div className="md:flex items-center justify-between">
+                    {nftDetails?.ownerAddress !== address && (
+                      <div className="mt-4">
+                        {nftDetails?.saleType &&
+                          nftDetails?.saleType === "Sale" &&
+                          nftDetails?.ownerAddress?.toLowerCase() !==
+                            address?.toLowerCase() && (
+                            <Button
+                              type="secondary"
+                              btnClassName="mr-2.5"
+                              handleClick={getCheckBuy}
+                            >
+                              Buy Now
+                            </Button>
+                          )}
+                        {nftDetails?.saleType &&
+                          nftDetails?.saleType === "Auction" &&
+                          nftDetails?.ownerAddress?.toLowerCase() !==
+                            address?.toLowerCase() && (
+                            <Button
+                              type="cancel"
+                              handleClick={getCheckPlaceBid}
+                              btnClassName="ml-2.5"
+                            >
+                              Place a bid
+                            </Button>
+                          )}
+                      </div>
+                    )}
+                    {/* <div
                       className={`max-sm:mt-4 border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
                     >
                       <span
@@ -1375,7 +1197,7 @@ const DetailPage = (props: any) => {
                         className={`detail-plus icon cursor-pointer`}
                         onClick={updateCounter}
                       ></span>
-                    </div>
+                    </div> */}
                   </div>
                   <h2 className="text-base font-semibold text-secondary mt-9 mb-3.5">
                     Properties
@@ -1383,7 +1205,10 @@ const DetailPage = (props: any) => {
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {nftDetails.properties.map((property: any) => {
                       return (
-                        <div className="border border-[#939393] px-5 py-4 text-center rounded-lg">
+                        <div
+                          key={property.trait_type + property.value}
+                          className="border border-[#939393] px-5 py-4 text-center rounded-lg"
+                        >
                           <p className="text-neutral font-semibold">
                             {property.trait_type}
                           </p>
@@ -1691,95 +1516,7 @@ const DetailPage = (props: any) => {
               </div>
             </form> */}
             {/* buy now drawer end  */}
-            <h3 className="text-[24px] font-semibold text-secondary mb-1 mt-6">
-              Bidding Details
-            </h3>
-
-            <div className="max-sm:w-full overflow-auto px-1">
-              <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px]  ">
-                <thead>
-                  <tr className="">
-                    <th className="text-left text-base text-secondary font-bold">
-                      S.No
-                    </th>
-                    <th className="text-left text-base text-secondary font-bold">
-                      Date
-                    </th>
-                    <th className="text-left text-base text-secondary font-bold">
-                      Buyer Address
-                    </th>
-                    <th className="text-left text-base text-secondary font-bold">
-                      Bidding Amount
-                    </th>
-                    <th className="text-left text-base text-secondary font-bold">
-                      Creator Name
-                    </th>
-                    <th className="text-left text-base text-secondary font-bold"></th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {bidData?.map((item: any, idx: any) => (
-                    <tr className="" key={idx}>
-                      <td
-                        scope="row"
-                        className="font-normal text-sm text-secondary"
-                      >
-                        {idx + 1}
-                      </td>
-                      <td className="font-normal text-sm text-secondary">
-                        <Moment format="DD-MM-YYYY " className="blue-text">
-                          {item.bidDate || "--"}
-                        </Moment>
-                      </td>
-                      <td className="font-normal text-sm text-secondary">
-                        {item.bidderAddress || "--"}
-                      </td>
-                      <td className="font-normal text-sm text-secondary">
-                        {item.biddingAmount + " " || "--"}
-                        {item.crypto ? item.crypto : ""}
-                      </td>
-                      <td className="font-normal text-sm text-secondary">
-                        {item.creatorName || "--"}
-                      </td>
-
-                      <td>
-                        {/* <Button
-                            onClick={() =>
-                              acceptBid(
-                                collectionAddress,
-                                nftDetails.collectionType,
-                                item.biddingAmount,
-                                tokenId,
-                                item.signature,
-                                item.bidderAddress,
-                                1,
-                              )
-                            }
-                          >
-                            Accept Bid
-                          </Button> */}{" "}
-                        {nftDetails?.ownerAddress.toLowerCase() ===
-                          address?.toLowerCase() && (
-                          <Button
-                            btnClassName="px-5 lg:px-5"
-                            handleClick={() => executeBid(item)}
-                          >
-                            Accept Bid{" "}
-                            {/* <span>{acceptbtnLoader && <Spinner size="sm" />} </span> */}
-                          </Button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {bidData.length == 0 && (
-                <>
-                  <NoDataFound text={""} />
-                </>
-              )}
-            </div>
+            <BiddingDetails nftDetails={nftDetails} bidData={bidData} executeBid={executeBid}/>
             <section className="mt-5">
               <h2 className="text-[24px] font-semibold text-secondary mb-5 mt-6">
                 More from this collection
