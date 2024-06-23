@@ -2,12 +2,11 @@ import "react-multi-carousel/lib/styles.css";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { getMarketplace, postMarketplace } from "../../../utils/api";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import moment from "moment";
 import { useBalance, useAccount } from "wagmi";
 import PutOnSale from "../../../utils/putonsale";
 import BuyComponent from "../../../utils/buyNow";
-import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import defaultlogo from "../../../assets/images/default-bg.png";
 import useCopyToClipboard from "../../../hooks/useCopytoClipboard";
 import Button from "../../../ui/Button";
@@ -20,12 +19,12 @@ import MoreFromCollection from "./moreFromCollection";
 import PlaceBid from "./placeBid";
 import PutOnAuction from "./putOnAuction";
 import CancelSaleOrAuction from "./cancelSaleOrAuction";
+import { setError } from "../../../reducers/layoutReducer";
 
 const DetailPage = (props: any) => {
+  const rootDispatch = useDispatch();
   const [drawerToOpen, setDrawerToOpen] = useState("");
   const [nftDetails, setNftDetails] = useState<any>();
-  const [errorMsg, setErrorMsg] = useState(false);
-  const [placeABidError, setPlaceABidError] = useState(false);
   const [loader, setLoader] = useState(true);
   const [favCount, setfavCount] = useState();
   const [viewsCount, setviewsCount] = useState();
@@ -36,12 +35,8 @@ const DetailPage = (props: any) => {
   const { data } = useBalance({ address: address });
   const router = useNavigate();
   const [bidData, setBidData] = useState([]);
-  const [btnLoader, setBtnLoader] = useState(false);
   const { tokenId, collectionAddress, nftId } = useParams();
   const { isCopied, handleCopy } = useCopyToClipboard();
-  const { acceptBid } = useCollectionDeployer();
-  const [putanAction, setisPutOnAction] = useState(null);
-  const [putanSale, setisPutOnSale] = useState(null);
   const [percentageValue, setPercentageValue] = useState();
   const [totalBuyValue, setTotalBuyValue] = useState();
   const [count, setCount] = useState(1);
@@ -75,20 +70,9 @@ const DetailPage = (props: any) => {
     getbidData();
     // setMetaConnectionError(null);
   }
-  const getPlaceABid = async () => {
-    let response = await getMarketplace(`User/nfttype/${nftId}`);
-    if (response) {
-      setisPutOnAction(response.data.isPutOnAuction);
-      setisPutOnSale(response.data.isPutOnSale);
-    }
-  };
   useEffect(() => {
-    if (address) {
-      setPlaceABidError(false);
-    }
     if (tokenId && collectionAddress && nftId) {
       initialize();
-      setPlaceABidError(false);
     }
   }, [tokenId, collectionAddress, nftId, isConnected]);
   useEffect(() => {
@@ -96,10 +80,7 @@ const DetailPage = (props: any) => {
   }, []);
   const loadNftDetails = async () => {
     setLoader(true);
-    setBtnLoader(false);
-    let response = await getMarketplace(
-      `User/NFTDetails/${nftId}/${props.auth.user.id || ""}`
-    )
+    await getMarketplace(`User/NFTDetails/${nftId}/${props.auth.user.id || ""}`)
       .then((response: any) => {
         const { properties, ...data } = response.data;
         const propertiesToUpdate = properties ? JSON.parse(properties) : [];
@@ -111,7 +92,7 @@ const DetailPage = (props: any) => {
       })
       .catch((error: any) => {
         setLoader(false);
-        setErrorMsg(isErrorDispaly(error));
+        rootDispatch(setError(error));
       });
   };
   const percentage = (details) => {
@@ -129,7 +110,7 @@ const DetailPage = (props: any) => {
       setmoreCollection(morenftRes.data);
       scrollableRef.current?.scrollIntoView(0, 0);
     } else {
-      setErrorMsg(isErrorDispaly(morenftRes));
+      rootDispatch(setError({message:morenftRes}));
       scrollableRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -139,7 +120,7 @@ const DetailPage = (props: any) => {
     if (response) {
       setfavCount(response.data);
     } else {
-      setErrorMsg(isErrorDispaly(response));
+      rootDispatch(setError(response));
     }
   };
   const loadNFTViewsCount = async () => {
@@ -147,7 +128,7 @@ const DetailPage = (props: any) => {
     if (response) {
       setviewsCount(response.data);
     } else {
-      setErrorMsg(isErrorDispaly(response));
+      rootDispatch(setError(response));
     }
   };
   const getNFTContractdetails = async () => {
@@ -157,29 +138,7 @@ const DetailPage = (props: any) => {
     if (response) {
       setNFTContractdetails(response.data);
     } else {
-      setErrorMsg(isErrorDispaly(response));
-    }
-  };
-  const isErrorDispaly = (objValue: any) => {
-    if (
-      (objValue.response?.data?.title &&
-        typeof objValue.response?.data?.title === "string") ||
-      objValue.reason
-    ) {
-      return objValue.response?.data?.title || objValue.reason;
-    } else if (
-      objValue.originalError &&
-      typeof objValue.originalError.message === "string"
-    ) {
-      return objValue.originalError.message;
-    } else if (objValue.shortMessage) {
-      if (objValue.shortMessage?.includes("The total cost")) {
-        return "Low balance";
-      } else {
-        return objValue.shortMessage;
-      }
-    } else {
-      return "Something went wrong please try again!";
+      rootDispatch(setError(response));
     }
   };
   const getDate = (date: any) => {
@@ -209,7 +168,7 @@ const DetailPage = (props: any) => {
       loadNftDetails();
       loadFavoritesCount();
     } else {
-      setErrorMsg(isErrorDispaly(response));
+      rootDispatch(setError(response));
     }
   };
   const moreCollectionSavefavroite = async (item: any) => {
@@ -223,7 +182,7 @@ const DetailPage = (props: any) => {
       loadNftDetails();
       loadFavoritesCount();
     } else {
-      setErrorMsg(isErrorDispaly(response));
+      rootDispatch(setError(response));
     }
   };
   const getNFTImageUrl = (file: any) => {
@@ -236,7 +195,7 @@ const DetailPage = (props: any) => {
     if (response) {
       setBidData(response.data);
     } else {
-      setErrorMsg(isErrorDispaly(response));
+      rootDispatch(setError(response));
     }
   };
 
@@ -260,11 +219,10 @@ const DetailPage = (props: any) => {
             item?.collectionContractAddress || item?.creatorWalletAddress
           }/${item.id}`
         );
-        // window.scroll(0, 0)
         scrollableRef.current.scrollIntoView(0, 0);
       })
       .catch((error: any) => {
-        setErrorMsg(isErrorDispaly(error));
+        rootDispatch(setError(error));
       });
   };
 
@@ -600,49 +558,49 @@ const DetailPage = (props: any) => {
               moreCollectionClick={moreCollectionClick}
               notConnectCollectionClick={notConnectCollectionClick}
             />
-             <PutOnSale
-                        refresh={loadNftDetails}
-                        nftDetails={nftDetails}
-                        setShow={handleDrawerToOpen}
-                        show={drawerToOpen === "putOnSale"}
-                        reqFields={{
-                          tokenId: tokenId,
-                          data: data,
-                          auth: props.auth,
-                          collectionAddress: collectionAddress,
-                        }}
-                      ></PutOnSale>
+            <PutOnSale
+              refresh={loadNftDetails}
+              nftDetails={nftDetails}
+              setShow={handleDrawerToOpen}
+              show={drawerToOpen === "putOnSale"}
+              reqFields={{
+                tokenId: tokenId,
+                data: data,
+                auth: props.auth,
+                collectionAddress: collectionAddress,
+              }}
+            ></PutOnSale>
 
-                      {nftDetails && drawerToOpen === "buyNow" && (
-                        <BuyComponent
-                          isOpen={drawerToOpen === "buyNow"}
-                          setIsOpen={handleDrawerToOpen}
-                          handleClose={handleDrawerToOpen}
-                          nftDetails={nftDetails}
-                          collectionAddress={collectionAddress}
-                          getNFTImageUrl={getNFTImageUrl}
-                        />
-                      )}
-                      {/* putonauction drawer start  */}
-                      <PutOnAuction
-                        refresh={loadNftDetails}
-                        nftDetails={nftDetails}
-                        setShow={handleDrawerToOpen}
-                        show={drawerToOpen === "putOnAuction"}
-                        tokenId={tokenId}
-                        collectionAddress={collectionAddress}
-                      />
-                      {/* putonauction drawer end  */}
-                      {/* cancel sale or autction drawer start  */}
-                      <CancelSaleOrAuction
-                        type={nftDetails?.isPutonSale ? "Sale" : "Auction"}
-                        show={drawerToOpen === "cancelSaleOrAuction"}
-                        setShow={handleDrawerToOpen}
-                        nftDetails={nftDetails}
-                        nftId={nftId}
-                        refresh={loadNftDetails}
-                      />
-                      {/* cancel sale or auction drawer end  */}
+            {nftDetails && drawerToOpen === "buyNow" && (
+              <BuyComponent
+                isOpen={drawerToOpen === "buyNow"}
+                setIsOpen={handleDrawerToOpen}
+                handleClose={handleDrawerToOpen}
+                nftDetails={nftDetails}
+                collectionAddress={collectionAddress}
+                getNFTImageUrl={getNFTImageUrl}
+              />
+            )}
+            {/* putonauction drawer start  */}
+            <PutOnAuction
+              refresh={loadNftDetails}
+              nftDetails={nftDetails}
+              setShow={handleDrawerToOpen}
+              show={drawerToOpen === "putOnAuction"}
+              tokenId={tokenId}
+              collectionAddress={collectionAddress}
+            />
+            {/* putonauction drawer end  */}
+            {/* cancel sale or autction drawer start  */}
+            <CancelSaleOrAuction
+              type={nftDetails?.isPutonSale ? "Sale" : "Auction"}
+              show={drawerToOpen === "cancelSaleOrAuction"}
+              setShow={handleDrawerToOpen}
+              nftDetails={nftDetails}
+              nftId={nftId}
+              refresh={loadNftDetails}
+            />
+            {/* cancel sale or auction drawer end  */}
           </>
         )}
       </div>
