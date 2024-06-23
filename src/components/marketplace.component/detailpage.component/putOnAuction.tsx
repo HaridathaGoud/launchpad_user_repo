@@ -79,15 +79,10 @@ const PutOnAuction = ({
       const response = await postMarketplace(`User/SaveSale`, saveObject);
       if (response.status === 200) {
         dispatch(
-          setToaster({
-            message: "NFT has been successfully put on sale",
-            callback: () => {
-              refresh();
-              clearState();
-            },
-            callbackTimeout: 1000,
-          })
+          setToaster({ message: "NFT has been successfully put on sale" })
         );
+        refresh();
+        clearState();
       } else {
         throw response;
       }
@@ -133,7 +128,9 @@ const PutOnAuction = ({
         ></label>
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex items-center justify-between">
-            <p className="text-xl text-secondary font-semibold">Put on auction</p>
+            <p className="text-xl text-secondary font-semibold">
+              Put on auction
+            </p>
             <Button
               type="plain"
               handleClick={() => setShow(false)}
@@ -190,9 +187,7 @@ const PutOnAuction = ({
               disabled={isLoading !== ""}
               handleClick={() => placeONSaleorAuction("Auction")}
             >
-              {isLoading !== "" && (
-                <Spinner size="loading-sm" />
-              )}
+              {isLoading !== "" && <Spinner size="loading-sm" />}
               Put on Auction
             </Button>
           </div>
