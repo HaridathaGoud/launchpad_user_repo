@@ -218,14 +218,14 @@ export function useCollectionDeployer() {
     // let percentage= 0.01*nft_price
     let percentage = (nft_price * 1) / 100;
     const _amount = ethers.utils.parseUnits(
-      (nft_price + percentage).toString(),
+      (nft_price + percentage).toFixed(8),
       "ether"
     );
     let amount = _amount;
     let nftAddress = contract_address;
     let abi;
     type = type.replace("-", "");
-    if (type === "ERC-721") {
+    if (type === "ERC721") {
       abi = USER721.abi;
     } else {
       abi = USER1155.abi;
@@ -235,7 +235,7 @@ export function useCollectionDeployer() {
       address,
       process.env.REACT_APP_ERC20WMATIC_TOKEN,
       nftAddress,
-      type === "ERC-721" ? 1 : 0,
+      type === "ERC721" ? 1 : 0,
       unitPrice,
       amount,
       token_id,
@@ -252,7 +252,7 @@ export function useCollectionDeployer() {
         [sign?.sign?.v, sign?.sign.r, sign?.sign.s, sign?.nonce],
       ],
     });
-    return writeContract(config);
+    return await writeContract(config);
   }
   async function acceptBid(
     contract_address: string,
