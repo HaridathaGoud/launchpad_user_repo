@@ -201,10 +201,12 @@ const DetailPage = (props: any) => {
   };
 
   const goToAccount = (item: any, type: any) => {
-    if (type == "creator") {
-      router(`/accounts/${item?.creatorWalletAddress || address}`);
-    } else if (type == "currentOwner") {
-      router(`/accounts/${item?.ownerAddress || address}`);
+    if (type === "creator") {
+      router(`/profile/${item?.creatorWalletAddress || address}`);
+      return;
+    } 
+    if (type === "currentOwner") {
+      router(`/profile/${item?.ownerAddress || address}`);
     }
   };
 
