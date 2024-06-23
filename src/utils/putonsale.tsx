@@ -27,7 +27,7 @@ export const validateForm = (form: any) => {
     "value",
     true,
     (value) => Number(value) < 0.0001,
-    "Amount must be greate than 0"
+    "Amount must be greater than 0"
   );
   let isValid = true;
   if (Object.keys(errors).length > 0) {
