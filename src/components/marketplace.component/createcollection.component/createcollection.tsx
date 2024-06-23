@@ -11,8 +11,9 @@ import { useCollectionDeployer } from '../../../utils/useCollectionDeployer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { guid } from "../../../utils/constants";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
-import { validationRules,urlRegex,emojiRegex} from './service';
+import { validationRules, urlRegex, emojiRegex } from './service';
 import { ethers } from "ethers/lib";
+import CustomSelect from '../createnft.component/customSelect';
 const CreateCollection = (props: any) => {
   const { token } = useParams();
   const rootDispatch = useDispatch();
@@ -88,7 +89,7 @@ const CreateCollection = (props: any) => {
       } else if (rule.validateNoEmojis && rule.validateNoEmojis(val[field])) {
         errors[field] = rule.emojiErrorMsg;
         isValid = false;
-      }  else {
+      } else {
         errors[field] = "";
       }
     });
@@ -96,7 +97,7 @@ const CreateCollection = (props: any) => {
   }
 
   const handleSubmit = async (e: any) => {
-    localState.errors && rootDispatch(setError({message:''}))
+    localState.errors && rootDispatch(setError({ message: '' }))
     let obj = {
       ...localState.values,
       customerId: user?.user?.id || guid,
@@ -129,11 +130,11 @@ const CreateCollection = (props: any) => {
         handleBack();
       }
       else {
-        rootDispatch(setError({ message: response,from: "contract" }));
+        rootDispatch(setError({ message: response, from: "contract" }));
       }
     }
     catch (error) {
-      rootDispatch(setError({ message: error?.message || error}));
+      rootDispatch(setError({ message: error?.message || error }));
     }
     finally {
       localDispatch({ type: 'setIsLoading', payload: '' });
@@ -237,7 +238,7 @@ const CreateCollection = (props: any) => {
     }
   };
   const handleChange = (e: any, key: any) => {
-    const value = e.target.value;
+    const value = key === 'blockChain' ? e : e.target.value;
     let _obj = { ...localState.values };
     _obj[key] = value;
     localDispatch({ type: 'setValues', payload: _obj })
@@ -256,14 +257,14 @@ const CreateCollection = (props: any) => {
               <div>
                 <div className='z-50 absolute max-sm:bottom-[-100px] md:relative'>
                   <div className=" flex justify-center items-center text-center border-dashed bg-[#fff] border border-[#A5A5A5] relative rounded-[28px] h-[250px] w-[250px] overflow-hidden">
-                  {localState.values.logo && (
-                        <img
-                          src={localState.values.logo}
+                    {localState.values.logo && (
+                      <img
+                        src={localState.values.logo}
 
-                          alt=""
-                          className="rounded-[28px] h-full w-full object-cover"
-                        />
-                      )}
+                        alt=""
+                        className="rounded-[28px] h-full w-full object-cover"
+                      />
+                    )}
                     <div>
                       <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
 
@@ -282,14 +283,14 @@ const CreateCollection = (props: any) => {
                           />{' '}
                         </div>
                       )}
-                    {localState.values.logo && <div className="absolute top-3 right-3">
-                      <input
-                        type="file"
-                        name="myImage"
-                        className="icon camera"
-                        onChange={(e) => handlePicChange(e, 'logo')}
-                      />
-                    </div>}
+                      {localState.values.logo && <div className="absolute top-3 right-3">
+                        <input
+                          type="file"
+                          name="myImage"
+                          className="icon camera"
+                          onChange={(e) => handlePicChange(e, 'logo')}
+                        />
+                      </div>}
                     </div>
                   </div>
                 </div>
@@ -336,14 +337,14 @@ const CreateCollection = (props: any) => {
               <div className="grid lg:grid-cols-2 gap-6">
                 <div>
                   <div className="flex justify-center items-center text-center border-dashed border border-[#A5A5A5] relative rounded-[28px] h-[500px] overflow-hidden">
-                  {localState.values.featuredImage && (
-                        <img
-                          src={localState.values?.featuredImage}
+                    {localState.values.featuredImage && (
+                      <img
+                        src={localState.values?.featuredImage}
 
-                          alt=""
-                          className="object-cover h-full w-full"
-                        />
-                      )}
+                        alt=""
+                        className="object-cover h-full w-full"
+                      />
+                    )}
                     <div>
 
                       {!localState.values.featuredImage && (
@@ -363,13 +364,13 @@ const CreateCollection = (props: any) => {
                         </div>
                       )}
                       {localState.values.featuredImage && <div className="absolute top-3 right-3">
-                      <input
-                        type="file"
-                        name="myImage"
-                        className="icon camera"
-                        onChange={(e) => handlePicChange(e, 'featuredImage')}
-                      />
-                    </div>}
+                        <input
+                          type="file"
+                          name="myImage"
+                          className="icon camera"
+                          onChange={(e) => handlePicChange(e, 'featuredImage')}
+                        />
+                      </div>}
                     </div>
                   </div>
                 </div>
@@ -434,22 +435,21 @@ const CreateCollection = (props: any) => {
                       </select>
                       {localState.errors.category && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.category}</span>}
                     </div>
-
-                    <div className="mb-6" >
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Network</label>
-                      <p className="text-secondary opacity-60 mb-2 text-sm">Select the blockchain where you'd like new items from this collection to be added by default.</p>
-                      <select
-                        aria-label="Default select example"
-                        className="input input-bordered text-secondary text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
-                        value={localState.values.blockChain}
-                        onChange={(e) => handleChange(e, 'blockChain')}
-                        required
-                      >
-                        <option value="">Select</option>
-                        {localState.lookups?.networks.map((item) => (
-                          <option value={item.name}>{item.name}</option>
-                        ))}
-                      </select>
+                    <div className="mb-6 mt-6 p-relative">
+                      <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
+                        Network <span className="text-[#ff0000]"></span>
+                      </p>
+                      <CustomSelect
+                        selectedValue={localState.values.blockChain}
+                        valueField={"name"}
+                        imageField={"icon"}
+                        optionKey={"name"}
+                        hasImage={true}
+                        options={localState.lookups?.networks || []}
+                        onSelect={(value: any) => handleChange(value, 'blockChain')}
+                        placeholder={"Select Network"}
+                        disabled={false}
+                      />
                     </div>
                     <div className="mb-6" >
                       <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Payment tokens</label>

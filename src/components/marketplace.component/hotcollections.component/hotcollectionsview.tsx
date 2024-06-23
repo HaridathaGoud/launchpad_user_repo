@@ -6,10 +6,10 @@ import Button from '../../../ui/Button';
 import {hotCollectionReducer, hotcollectionState} from './reducer';
 import HotcollectionviewShimmer from './hotcollectionviewshimmer';
 import { clearCollectionsActivityData,
-   clearHotCollectionsViewDetails, 
-   clearNfts, 
-   fetchHotCollectionsActivityDetails, 
-   fetchHotCollectionsViewDetails, 
+   clearHotCollectionsViewDetails,
+   clearNfts,
+   fetchHotCollectionsActivityDetails,
+   fetchHotCollectionsViewDetails,
    fetchNftsDetails } from '../../../reducers/collectionReducer';
 import { setError } from '../../../reducers/layoutReducer';
 const pageSize = 6;
@@ -66,7 +66,7 @@ const HotcollectionView = (props: any) => {
       currency:currency,
       priceLevel:selectedLevel,
   }));
-  
+
     if(isActive === 1){
       props.fetchHotCollectionsActivityDetails({
         data: on === "seeMore" ? activityData.data : null,
@@ -75,7 +75,7 @@ const HotcollectionView = (props: any) => {
         page: on === "seeMore" ? activityData.nextPage : 1,
         take: pageSize,
       });
-      return; 
+      return;
     }
       props.fetchNftsDetails({
         data: on === "seeMore" ? NftDetails.data : null,
@@ -96,12 +96,12 @@ const HotcollectionView = (props: any) => {
       : NftDetails;
     return !loading && data && data?.length === pageSize * (nextPage-1);
   }, [isActive, activityData, NftDetails]);
- 
-  
+
+
   return (
       <>
       {hotCollectionViewDetails.loading && <HotcollectionviewShimmer/> }
-      {!hotCollectionViewDetails.loading && 
+      {!hotCollectionViewDetails.loading &&
       <div className="max-sm:px-3 md:mt-5 px-0 container mx-auto">
       <div className='min-h-[350px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
@@ -113,7 +113,7 @@ const HotcollectionView = (props: any) => {
                 <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{hotCollectionViewDetails?.data?.collectionName ||'--'}</p>
               </div>
               <div className="flex text-[18px] font-medium gap-2.5">
-                <p className='text-white mt-2'>By : {hotCollectionViewDetails?.data?.creatorName ||'--'}   </p>               
+                <p className='text-white mt-2'>By : {hotCollectionViewDetails?.data?.creatorName ||'--'}   </p>
               </div>
               <p className='text-white mt-3 text-base pr-4'>
                 {hotCollectionViewDetails?.data?.description ||'--'}
@@ -121,7 +121,7 @@ const HotcollectionView = (props: any) => {
           </div>
           </div>
           <div className='flex gap-6 absolute z-10 right-10 bottom-6'>
-            {hotCollectionViewDetails?.data?.facebook && 
+            {hotCollectionViewDetails?.data?.facebook &&
               <a
               href={hotCollectionViewDetails?.data?.facebook}
               target="_blank"
@@ -139,9 +139,9 @@ const HotcollectionView = (props: any) => {
               >
               {" "}
               <span className='icon linkedin cursor-pointer'></span>
-              </a> 
+              </a>
             }
-            {hotCollectionViewDetails?.data?.twitter && 
+            {hotCollectionViewDetails?.data?.twitter &&
               <a
               href={hotCollectionViewDetails?.data?.twitter}
               target="_blank"
@@ -151,7 +151,7 @@ const HotcollectionView = (props: any) => {
               <span className='icon twit cursor-pointer'></span>
               </a>
             }
-            {hotCollectionViewDetails?.data?.websiteUrl && 
+            {hotCollectionViewDetails?.data?.websiteUrl &&
               <a
               href={hotCollectionViewDetails?.data?.websiteUrl}
               target="_blank"
@@ -166,9 +166,9 @@ const HotcollectionView = (props: any) => {
         <hr className="bg-[#f8f6f6] my-6" />
        <CollectionTabs  handleTabChange={handleTabChange}   />
 
-        {showSeeMore && (
+        {/* {showSeeMore && (
         <div className="flex justify-center items-center">
-          <Button type="plain" 
+          <Button type="plain"
           handleClick={() => getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory,'seeMore')}>
           <span className="cursor-pointer text-base text-primary font-semibold">
             See More
@@ -176,7 +176,7 @@ const HotcollectionView = (props: any) => {
           <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
         </Button>
         </div>
-      )}
+      )} */}
         </div>
       }
         </> );

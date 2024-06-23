@@ -1788,7 +1788,7 @@ const DetailPage = (props: any) => {
               </h2>
               <div className="min-h-[250px]">
                 {moreCollection?.length !== 0 && (
-                  <div className="relative">
+                  <div className="relative container">
                     <div className="carousel gap-4 flex py-2 px-2 md:px-14">
                       {moreCollection?.map((item) => (
                         <div

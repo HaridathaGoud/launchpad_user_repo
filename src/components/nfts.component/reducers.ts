@@ -2,32 +2,37 @@ export interface NftsStateModel {
   favoriteLoader: any;
   cardLoader: any;
   category: string;
-  selectedStatus:string,
-  selectedCurrency:string,
-  selection:any,
+  selectedStatus: string,
+  selectedCurrency: string,
+  selection: any,
+
 }
 export const nftsState = {
   category: "all",
   favoriteLoader: { id: "", loading: false },
   loader: false,
-  selectedStatus:'All',
-    selectedCurrency:'Matic',
-    selectedPriceLevel:'min to max',
-    selection:{
-      searchValue:null,
-      minMaxCategory:'min to max',
-    },
-    values: {
-      pageNo: 1,
-      take:6,
-      categoryName:'All',
-      searchBy: null,
-      price:'min to max',
-      quantity:'All Items',
-      currency:'Matic',
-      status: 'All',
-      customerId:'',
-      data:'',
+  activeContent: 'content1',
+  selectedStatus: 'All',
+  selectedCurrency: 'Matic',
+  selectedPriceLevel: 'min to max',
+  selection: {
+    searchValue: null,
+    minMaxCategory: 'min to max',
+  },
+  values: {
+    pageNo: 1,
+    take: 6,
+    categoryName: 'All',
+    searchBy: null,
+    price: 'min to max',
+    quantity: 'All Items',
+    currency: 'Matic',
+    status: 'All',
+    customerId: '',
+    data: '',
+    collectionid: '',
+    walletAddress :'',
+    activeTab:'',
   },
 };
 
@@ -54,9 +59,12 @@ export const nftsReducer = (state = nftsState, action) => {
     case "setSelectedPriceLevel":
       state = { ...state, selectedPriceLevel: action.payload };
       break;
-      case "setValues":
-        state = { ...state, values: action.payload };
-        return state;
+    case "setValues":
+      state = { ...state, values: action.payload };
+      return state;
+    case "setActiveContent":
+      state = { ...state, activeContent: action.payload };
+      return state;
     default:
       state = { ...state };
   }

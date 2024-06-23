@@ -91,24 +91,37 @@ const clearCollections = () => {
         dispatch(featchTopCollections(null))
     }
 }
-const fetchNfts = (information) => {
-    debugger
-    const { pageNo,take,categoryName,searchBy,price,quantity,currency,status,customerId,data } = information;
+const fetchNfts = (information, screenName) => {
+    const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data,walletAddress,activeTab } = information;
     const skip = pageNo * take - take;
     return async (dispatch) => {
         dispatch(setLoaderAction(true));
-        const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity}/${currency}/${status}/${customerId}`)
-        if (response.status === 200) {
-            const mergedData = skip > 0 ? [...data, ...response.data] : response.data
-            dispatch(fetchNftsAction(mergedData));
-            dispatch(setPageNoAction(pageNo + 1))
-
-        } else {
-            dispatch(setErrorAction(response));
+        let url;
+        if (screenName === 'explorenfs') {
+            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${customerId}`;
+        } else if (screenName === 'hot collections') {
+            url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${searchBy}`;
         }
-        dispatch(setLoaderAction(false));
-    }
-}
+        else if(screenName === 'profile'){
+            url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${categoryName}/${searchBy}/${customerId}`
+        }
+        try {
+            const response = await apiCalls.getMarketplace(url);
+            if (response.status === 200) {
+                const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
+                dispatch(fetchNftsAction(mergedData));
+                dispatch(setPageNoAction(pageNo + 1));
+                dispatch(setLoaderAction(false));
+            } else {
+                dispatch(setErrorAction(response));
+            }
+        } catch (error) {
+            dispatch(setErrorAction({ message: error.message }));
+        } finally {
+            dispatch(setLoaderAction(false));
+        }
+    };
+};
 
 //dashboard methods:
 
