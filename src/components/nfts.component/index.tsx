@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer} from "react";
+import React, { useEffect, useRef, useReducer, forwardRef,useImperativeHandle} from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +18,7 @@ import ListView from "../marketplace.component/hotcollections.component/listview
 import { guid } from "../../utils/constants";
 import defaultlogo from '../../assets/images/default-logo.png';
 const pageSize = 6;
-function Nfts(props: any) {
+const Nfts = forwardRef((props: any, ref) => {
     const { address, isConnected } = useAccount();
     const params = useParams();
     console.log(params,"23");
@@ -34,9 +34,18 @@ function Nfts(props: any) {
     const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
     const user = useSelector((state: any) => state.auth.user);
     const rootDispatch = useDispatch();
-
+    // useImperativeHandle(ref, () => ({
+    //     selectedTab: (selectedTab) => {
+    //         debugger
+    //         let obj = { ...localState.values };
+    //         obj.data = data;
+    //         obj.collectionid = params?.collectionid;
+    //         obj.customerId = user?.id || guid;
+    //         obj.walletAddress = params?.walletAddress;
+    //         obj.activeTab = selectedTab|| "GetNfts"
+    //         store.dispatch(fetchNfts(obj, props?.type));
+    //     }}))
     useEffect(() => {
-        debugger
         let obj = { ...localState.values };
         obj.data = data;
         obj.collectionid = params?.collectionid;
@@ -51,8 +60,17 @@ function Nfts(props: any) {
         return () => {
             store.dispatch(clearNfts());
         };
-    }, [ localState.values,props?.selectedTabs,props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [ localState.values,props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() =>{
+        let obj = { ...localState.values };
+        obj.data = data;
+        obj.collectionid = params?.collectionid;
+        obj.customerId = user?.id || guid;
+        obj.walletAddress = params?.walletAddress;
+        obj.activeTab = props?.selectedTab|| "GetNfts"
+        store.dispatch(fetchNfts(obj, props?.type));
+    },[props?.selectedTab])
     const loadmore = () => {
         let obj = { ...localState.values };
         obj.data = data;
@@ -70,7 +88,6 @@ function Nfts(props: any) {
         }
     };
     const saveFavoriteNft = async (item: any) => {
-        debugger
         errorMessage && rootDispatch(setError({ message: '' }))
         localDispatch({
             type: "setFavoriteLoader",
@@ -327,7 +344,7 @@ function Nfts(props: any) {
                                                 <div className="flex shop-card cursor-pointer">
                                                     <span className="icon card-shop"></span>
                                                     <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                                                        Buy Now
+                                                       {localState.values?.status==='auction' ? "Place a bid" :"Buy Now"}
                                                     </span>
                                                 </div>
                                             </div>
@@ -371,7 +388,7 @@ function Nfts(props: any) {
             </div>
         </>
     );
-}
+})
 const connectStateToProps = ({ auth }: any) => {
     return { auth: auth };
 };
