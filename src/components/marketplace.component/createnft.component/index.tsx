@@ -52,7 +52,6 @@ function CreateNft() {
         properties,
         salePrice,
         auctionPrice,
-        filePath,
         ...updatedValues
       } = localState.values;
       let signature = "";
@@ -73,7 +72,7 @@ function CreateNft() {
       let obj = {
         ...updatedValues,
         customerId: user.id,
-        imageUrl: `ipfs://${filePath}`,
+        imageUrl: `ipfs://${localState.image.filePath}`,
         tokenId: tokenId,
         collectionId: collection.id,
         properties: JSON.stringify(properties),

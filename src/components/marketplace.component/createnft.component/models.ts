@@ -1,5 +1,4 @@
 export interface FormValues {
-  imageUrl: string;
   name: string;
   externalLink: string;
   description: string;
@@ -15,7 +14,10 @@ export interface FormValues {
   unlockDescription: string;
   salePrice: string;
   auctionPrice: string;
-  filePath: any;
+}
+export interface ImageUrl{
+  imageUrl:string;
+  filePath:string;
 }
 export interface FormErrors {
   imageUrl: string;
@@ -50,6 +52,7 @@ export interface FormState {
   propertyErrors: PropertyArray;
   propertiesToUpdate: Properties | null;
   modalStep: number;
+  image:ImageUrl
 }
 export interface Action {
   type: string;

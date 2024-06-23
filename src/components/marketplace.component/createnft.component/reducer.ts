@@ -2,7 +2,6 @@ import { Action, FormState } from "./models";
 
 export const formState: FormState = {
   values: {
-    imageUrl: "",
     name: "",
     externalLink: "",
     description: "",
@@ -18,7 +17,10 @@ export const formState: FormState = {
     unlockDescription: "",
     salePrice: "",
     auctionPrice: "",
-    filePath: "",
+  },
+  image:{
+    imageUrl:'',
+    filePath:''
   },
   errors: {},
   modalStep: 0,
@@ -32,6 +34,9 @@ export const formReducer = (state: FormState, action: Action) => {
   switch (action.type) {
     case 'setState':
       state = { ...state, ...action.payload};
+      return state;
+    case 'setImage':
+      state={...state,image:action.payload};
       return state;
     case "setValues":
       state = { ...state, values: action.payload };
