@@ -191,7 +191,7 @@ const PutOnAuction = ({
               handleClick={() => placeONSaleorAuction("Auction")}
             >
               {isLoading !== "" && (
-                <Spinner size="loading-sm" spinnerClass="text-base-100" />
+                <Spinner size="loading-sm" />
               )}
               Put on Auction
             </Button>

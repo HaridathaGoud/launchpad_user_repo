@@ -42,7 +42,7 @@ const PutOnSale = (props: any) => {
     value: "",
   });
   const [formErrors, setFormErrors] = useState({});
-  const [loading, setIsLoading] = useState("");
+  const [isLoading, setIsLoading] = useState("");
   const { getSignatureForSale, setApprovalForAll } = useCollectionDeployer();
   const handleChange = (field: string, value: any) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
@@ -125,7 +125,7 @@ const PutOnSale = (props: any) => {
           className="drawer-toggle"
           checked={props.show}
           onChange={() => props.setShow(false)}
-          disabled={loading !== ""}
+          disabled={isLoading !== ""}
         />
         <div className="drawer-side z-[999]">
           <label
@@ -140,7 +140,7 @@ const PutOnSale = (props: any) => {
               </p>
               <Button
                 type="plain"
-                disabled={loading !== ""}
+                disabled={isLoading !== ""}
                 handleClick={() => props.setShow(false)}
               >
                 <span className="icon close cursor-pointer"></span>
@@ -203,7 +203,7 @@ const PutOnSale = (props: any) => {
                 btnClassName="w-full mb-4 !min-h-[39px]"
                 type="replyCancel"
                 handleClick={()=>props.setShow(false)}
-                disabled={loading !== ""}
+                disabled={isLoading !== ""}
               >
                 Cancel
               </Button>
@@ -212,11 +212,11 @@ const PutOnSale = (props: any) => {
                 btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
                 type="primary"
                 handleClick={() => placeONSaleorAuction("Sale")}
-                disabled={loading !== ""}
+                disabled={isLoading !== ""}
               >
                 <span>
-                  {loading === "putOnSale" && (
-                    <Spinner size="sm" className="text-base-100" />
+                  {isLoading !=='' && (
+                    <Spinner size="sm" />
                   )}{" "}
                 </span>{" "}
                 Put on sale
