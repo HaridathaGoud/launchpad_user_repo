@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../../ui/Button";
 import useOutsideClick from "../../../hooks/useOutsideClick";
+import Spinner from "../../loaders/spinner";
 
 const CustomSelect = ({
   selectedValue,
@@ -12,6 +13,7 @@ const CustomSelect = ({
   onSelect,
   placeholder,
   disabled,
+  loading=false,
 }) => {
   const [isOpen,setIsOpen]=useState(false)
   const {ref:dropdownRef}=useOutsideClick(handleOutsideClick);
@@ -44,6 +46,7 @@ const CustomSelect = ({
         )}{" "}
         {selectedValue && <span className="text-secondary">{selectedValue?.[valueField]}</span>}
         {!selectedValue && <span className="text-base-200">{placeholder}</span>}
+        {loading && <Spinner/>}
       </div>
      {isOpen && <ul
         tabIndex={0}
