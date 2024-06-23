@@ -1,10 +1,9 @@
 import Image from "react-bootstrap/Image";
 import "react-multi-carousel/lib/styles.css";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { getMarketplace, postMarketplace } from "../../../utils/api";
 import { Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import moment from "moment";
 import { useBalance, useAccount } from "wagmi";
@@ -27,7 +26,6 @@ import DetailpageShimmer from "../loaders/detailpageShimmer";
 import { modalActions } from "../../../ui/Modal";
 import DropdownMenus from "../../../ui/DropdownMenus";
 import NoDataFound from "../../../ui/noData";
-import thorntf from "../../../assets/images/thor.jpg";
 
 const DetailPage = (props: any) => {
   const [modalShow, setModalShow] = React.useState(false);
