@@ -20,6 +20,7 @@ import PlaceBid from "./placeBid";
 import PutOnAuction from "./putOnAuction";
 import CancelSaleOrAuction from "./cancelSaleOrAuction";
 import { setError } from "../../../reducers/layoutReducer";
+import NoData from "../../../ui/noData";
 
 const DetailPage = (props: any) => {
   const rootDispatch = useDispatch();
@@ -526,6 +527,7 @@ const DetailPage = (props: any) => {
                       );
                     })}
                   </div>
+                  {(!nftDetails?.properties?.length || !nftDetails.properties) && <NoData text={""} />}
                 </div>
               </div>
             </section>
