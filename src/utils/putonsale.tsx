@@ -67,7 +67,7 @@ const PutOnSale = (props: any) => {
     } else {
       setSaleLoader(true);
       if (form.checkValidity() === true && validationError == null) {
-        setApprovalForAll(props?.reqFields?.collectionAddress, UserContract.abi, async (response) => {
+        setApprovalForAll(props?.reqFields?.collectionAddress, async (response) => {
           if (response.ok) {
             let signature = await getSignatureForSale(
               props.reqFields?.collectionAddress || props.nftDetails?.collectionContractAddress,
@@ -81,7 +81,7 @@ const PutOnSale = (props: any) => {
               ? props.nftDetails?.currency
               : process.env.REACT_APP_CURRENCY_SYMBOL || 'Matic';
             obj.saleType = type;
-            obj.signature = signature;
+            obj.signature = signature.data;
             obj.nftId = props.nftDetails?.id;
             let response = await postMarketplace(`User/SaveSale`, obj);
             if (response) {

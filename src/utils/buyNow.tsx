@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import thorntf from "../assets/images/thor.jpg";
 import { useBalance, useAccount } from "wagmi";
 import { useCollectionDeployer } from "./useCollectionDeployer";
-import { get, post } from "./api";
+import { get, getMarketplace, post, postMarketplace } from "./api";
 import { Modal, modalActions } from "../ui/Modal";
 import Button from "../ui/Button";
 import Spinner from "../components/loaders/spinner";
@@ -34,7 +34,6 @@ const BuyComponent = (props: any) => {
   const buyNow = async (e: any) => {
     setBtnLoader(true);
     e.preventDefault();
-    const form = e.currentTarget;
     const obj = {
       nftId: nftId || props.nftDetails?.id,
       customerId: props.auth.user.id,
@@ -44,7 +43,6 @@ const BuyComponent = (props: any) => {
       TransactionHash: "",
       TokenId: null,
     };
-    if (form.checkValidity() === true) {
       try {
         const buyObj = await buyAsset(
           props.nftDetails.signature,
@@ -57,9 +55,9 @@ const BuyComponent = (props: any) => {
         );
         obj.TransactionHash = buyObj.hash;
         obj.TokenId = props.nftDetails.tokenId;
-        let response = await get(`User/nfttype/${nftId}`);
+        let response = await getMarketplace(`User/nfttype/${nftId}`);
         if (response.data.isPutOnSale) {
-          let response = await post(`/User/SaveBuy`, obj);
+          let response = await postMarketplace(`/User/SaveBuy`, obj);
           if (response) {
             rootDispatch(
               setToaster({
@@ -75,13 +73,11 @@ const BuyComponent = (props: any) => {
           }
         }
       } catch (error) {
+        console.log(error)
         rootDispatch(setError({ message: error, from: "contract" }));
       } finally {
         setBtnLoader(false);
       }
-    } else {
-      setBtnLoader(false);
-    }
   };
 
   return (
