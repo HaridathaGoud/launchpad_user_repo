@@ -98,9 +98,9 @@ const fetchNfts = (information, screenName) => {
         dispatch(setLoaderAction(true));
         let url;
         if (screenName === 'explorenfs') {
-            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "1 to 100"}/${customerId}`;
+            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "0 to 100"}/${customerId}`;
         } else if (screenName === 'hot collections') {
-            url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "1 to 100"}/${searchBy}`;
+            url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "0 to 100"}/${searchBy}`;
         }
         else if(screenName === 'profile'){
             url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`
