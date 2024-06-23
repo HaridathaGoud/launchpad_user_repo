@@ -202,7 +202,7 @@ const PutOnSale = (props: any) => {
               <Button
                 btnClassName="w-full mb-4 !min-h-[39px]"
                 type="replyCancel"
-                handleClick={props.handleClose}
+                handleClick={()=>props.setShow(false)}
                 disabled={loading !== ""}
               >
                 Cancel

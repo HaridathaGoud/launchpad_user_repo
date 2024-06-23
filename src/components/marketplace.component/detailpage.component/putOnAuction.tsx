@@ -133,7 +133,7 @@ const PutOnAuction = ({
         ></label>
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex items-center justify-between">
-            <p className="text-xl text-secondary font-semibold">Checkout</p>
+            <p className="text-xl text-secondary font-semibold">Put on auction</p>
             <Button
               type="plain"
               handleClick={() => setShow(false)}
