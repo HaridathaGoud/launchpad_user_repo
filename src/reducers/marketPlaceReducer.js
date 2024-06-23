@@ -103,7 +103,7 @@ const fetchNfts = (information, screenName) => {
             url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${searchBy}`;
         }
         else if(screenName === 'profile'){
-            url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${categoryName}/${searchBy}/${customerId}`
+            url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`
         }
         try {
             const response = await apiCalls.getMarketplace(url);

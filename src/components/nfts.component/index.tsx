@@ -34,24 +34,13 @@ const Nfts = forwardRef((props: any, ref) => {
     const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
     const user = useSelector((state: any) => state.auth.user);
     const rootDispatch = useDispatch();
-    // useImperativeHandle(ref, () => ({
-    //     selectedTab: (selectedTab) => {
-    //         debugger
-    //         let obj = { ...localState.values };
-    //         obj.data = data;
-    //         obj.collectionid = params?.collectionid;
-    //         obj.customerId = user?.id || guid;
-    //         obj.walletAddress = params?.walletAddress;
-    //         obj.activeTab = selectedTab|| "GetNfts"
-    //         store.dispatch(fetchNfts(obj, props?.type));
-    //     }}))
     useEffect(() => {
         let obj = { ...localState.values };
         obj.data = data;
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectTabs || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
         scrollableRef?.current?.scrollIntoView(0, 0);
         if (error) {
@@ -68,7 +57,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectedTab|| "GetNfts"
+        obj.activeTab =  props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
     },[props?.selectedTab])
     const loadmore = () => {
@@ -112,7 +101,7 @@ const Nfts = forwardRef((props: any, ref) => {
                 obj.collectionid = params?.collectionid;
                 obj.customerId = user?.id || guid;
                 obj.walletAddress = params?.walletAddress;
-                obj.activeTab = props?.selectTabs || "GetNfts"
+                obj.activeTab = props?.selectedTab || "GetNfts"
                 store.dispatch(fetchNfts(obj,props?.type));
             }
             if (error) rootDispatch(setError({ message: error }));
@@ -154,6 +143,7 @@ const Nfts = forwardRef((props: any, ref) => {
         }
     };
     const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
+        debugger
         event.preventDefault();
         const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
         let obj = { ...localState.values }
@@ -173,7 +163,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectTabs || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content1' });
     };
@@ -183,7 +173,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectTabs || "GetNfts"
+        obj.activeTab =  props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content2' });
     };
@@ -227,14 +217,14 @@ const Nfts = forwardRef((props: any, ref) => {
                     </div>
                 </div>
                 <div className='grid md:grid-cols-12 lg:gap-[45px]'>
-                    <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
+                    {props?.type !== 'profile' && <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
                         <StatusDetailview
                             handleChange={handleChange}
                             selectedObj={localState.values}
                             handleQuantity={handleQuantity}
                             handleCurrency={handleCurrency}
                         />
-                    </div>
+                    </div>}
                     <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 ${localState?.activeContent === 'content1' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]' : ''} `}>
                         {localState?.activeContent === 'content1' && <>
                             {data &&

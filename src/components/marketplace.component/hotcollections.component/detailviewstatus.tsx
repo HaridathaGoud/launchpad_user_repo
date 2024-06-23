@@ -8,7 +8,7 @@ const StatusDetailview = ({
     handleChange,
     handleCurrency,
     handleQuantity,
-    selectedObj
+    selectedObj,
 }) => {
     const rootDispatch = useDispatch();
     const [networks, setNewtworks] = useState([]);
@@ -68,37 +68,25 @@ const StatusDetailview = ({
             </div>
             <hr className='mt-[28px] mb-4' />
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
-                {/* <div className="dropdown w-full">
-                    <div tabIndex={0} className="border text-secondary flex border-secondary bg-transparent hover:bg-transparent rounded-[25px] !py-2 !px-[14px]  w-full justify-between">
-                        {selectedCurrency} <span className='icon drop-arrow'></span></div>
-                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full">
-                        <li><a  onClick={() => handleDropdownChange('Matic')}>Matic</a></li>
-                        <li><a  onClick={() => handleDropdownChange('USDT')} >USDT</a></li>
-                    </ul>
-                </div> */}
-                <div className="join w-full mt-4">
-                    <div className='flex items-center'>
+            <div className="join w-full mt-4">
+                <div className='flex items-center'>
                     <button className=" join-item bg-info-content  text-dark hover:bg-info-content rounded-tl-[25px] rounded-bl-[25px] text-sm font-normal !border-0 flex-1 py-2.5 px-[14px] text-left"
                     >Min</button><input className='border w-full focus:rounded-none h-full px-2' type="text" />
-                    </div>
-                    <span className=" join-item bg-info-content  text-dark hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
-                    <div className='flex items-center'>
+                </div>
+                <span className=" join-item bg-info-content  text-dark hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
+                <div className='flex items-center'>
                     <input className='border h-full w-full focus:rounded-none px-2' type="text" />
                     <button className=" join-item bg-info-content h-full text-dark hover:bg-info-content rounded-tr-[25px] rounded-br-[25px] text-sm font-normal flex-1 !border-0 px-[14px] text-right"
-                   >Max</button>
-                    </div>
+                    >Max</button>
                 </div>
-                <div className="text-right">
-                    <Button children={'Apply'}
+            </div>
+            <div className="text-right">
+                <Button children={'Apply'}
                     btnClassName='uppercase mt-[18px] md:min-w-[132px]'
                     type='secondary'
 
-                    />
-                </div>
-
-            {/* Currently we commented this in feature it required */}
-
-            {/* {props.activeTab === 'nft' && */}
+                />
+            </div>
             <div >
                 <hr className='mt-[28px] mb-4' />
                 <div className="collapse collapse-arrow ">
