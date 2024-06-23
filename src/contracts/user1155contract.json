@@ -373,18 +373,7 @@
       "inputs": [
         { "internalType": "string", "name": "_tokenURI", "type": "string" },
         { "internalType": "uint96", "name": "_royaltyFee", "type": "uint96" },
-        { "internalType": "uint256", "name": "supply", "type": "uint256" },
-        {
-          "components": [
-            { "internalType": "uint8", "name": "v", "type": "uint8" },
-            { "internalType": "bytes32", "name": "r", "type": "bytes32" },
-            { "internalType": "bytes32", "name": "s", "type": "bytes32" },
-            { "internalType": "uint256", "name": "nonce", "type": "uint256" }
-          ],
-          "internalType": "struct TESTDev1155.Sign",
-          "name": "sign",
-          "type": "tuple"
-        }
+        { "internalType": "uint256", "name": "supply", "type": "uint256" }
       ],
       "name": "mint",
       "outputs": [

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Button from "../../../ui/Button";
 import TextInput from "../../../ui/textInput";
 import TextArea from "../../../ui/textArea";
@@ -32,6 +32,7 @@ const getModalSteps = (isPutOnSale: boolean) => {
 };
 const Form = ({ state, updateState, inputRef, mint }) => {
   const {
+    image,
     values,
     errors: formErrors,
     propertyErrors,
@@ -42,6 +43,11 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
   });
+  useEffect(()=>{
+    if(networks.data){
+      updateState('setValues',{...values,network:networks.data?.[0]})
+    }
+  },[networks.data])
   const currencies = useMemo(() => {
     return values.network?.currencies || [];
   }, [values.network]);
@@ -134,8 +140,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         if (response.statusText.toLowerCase() === "ok") {
           dispatch(setError({ message: "" }));
           const result = await ipfsClient.add(file);
-          updateState("setValues", {
-            ...values,
+          updateState("setImage", {
             imageUrl: response.data[0],
             filePath: result.path,
           });
@@ -167,7 +172,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     e.preventDefault();
     updateState("setIsLoading", "saving");
     try {
-      const { isValid, errors } = validateForm(values);
+      const { isValid, errors } = validateForm({...values,imageUrl:image.imageUrl});
       if (isValid) {
         Object.keys(formErrors).length > 0 && clearErrors();
         let obj = {
@@ -215,10 +220,10 @@ const Form = ({ state, updateState, inputRef, mint }) => {
           </label>
 
           <div className="mb-6 flex justify-center items-center h-[300px] md:h-[500px] border-dashed border border-[#A5A5A5] relative rounded-[28px]">
-            {values.imageUrl && state.isLoading !== "uploadingImageUrl" && (
+            {image.imageUrl && state.isLoading !== "uploadingImageUrl" && (
               <div className="w-full h-full">
                 <img
-                  src={values.imageUrl}
+                  src={image.imageUrl}
                   alt={""}
                   className="w-full h-full object-cover rounded-[28px]"
                 />
@@ -235,7 +240,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 </Button>
               </div>
             )}
-            {!values.imageUrl && state.isLoading !== "uploadingImageUrl" && (
+            {!image.imageUrl && state.isLoading !== "uploadingImageUrl" && (
               <div className="">
                 <div className="text-center">
                   <span className="icon image-upload cursor-pointer"></span>
@@ -283,7 +288,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               inputBoxClass="mb-6"
               fieldName="name"
               error={formErrors["name"]}
-              disabled={state.isLoading !== ""}
+              disabled={state.isLoading==='saving'}
             />
             <TextInput
               label="External link"
@@ -292,7 +297,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               isRequired={false}
               inputBoxClass="mb-6"
               fieldName="externalLink"
-              disabled={state.isLoading !== ""}
+              disabled={state.isLoading==='saving'}
               error={formErrors["externalLink"]}
               maxLength={500}
               inputInfo="DOTT will include a link to this URL on this item's detail page,
@@ -304,7 +309,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.description}
               onChange={handleChange}
               inputBoxClass="mb-6"
-              disabled={state.isLoading !== ""}
+              disabled={state.isLoading==='saving'}
               fieldName="description"
               error={formErrors["description"]}
               isRequired={true}
@@ -315,11 +320,11 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
-              disabled={state.isLoading !== ""}
+              disabled={state.isLoading==='saving' || userCollections.loading}
               fieldName="collection"
               error={formErrors["collection"]}
               label="Collection"
-              defaultOption="Select Collection"
+              defaultOption={userCollections.loading ? "Please wait..." : "Select Collection"}
               inputInfo=" This is the collection where your item will appear."
             />
             <div className="border border-[#A5A5A5] rounded-[28px]">
@@ -340,7 +345,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     type="plain"
                     btnClassName="icon add-btn cursor-pointer"
                     handleClick={() => modalActions("nftPropsModal", "open")}
-                    disabled={state.isLoading !== ""}
+                    disabled={state.isLoading==='saving'}
                   ></Button>
                 </div>
                 <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
@@ -385,7 +390,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 Network <span className="text-[#ff0000]">*</span>
               </p>
               <CustomSelect
-                selectedValue={values.network || networks.data?.[0] || null}
+                selectedValue={values.network || null}
                 valueField={"name"}
                 imageField={"icon"}
                 optionKey={"name"}
@@ -394,7 +399,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 onSelect={(value: any) => handleChange("network", value)}
                 placeholder={networks.loading ? "Please wait...":"Select Network..."}
                 loading={networks.loading}
-                disabled={state.isLoading !== "" || networks.loading}
+                disabled={state.isLoading==='saving' || networks.loading}
               />
               {formErrors?.["network"] && (
                 <p className="text-sm font-normal text-red-600 ">
@@ -411,7 +416,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               error={formErrors["royalities"]}
               isInteger={true}
               placeholder="Suggested: 10%, 20%, 30%"
-              disabled={state.isLoading !== ""}
+              disabled={state.isLoading==='saving'}
             />
             <div className="mb-6 ">
               <div className="flex items-center">
@@ -424,7 +429,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutonSale", e.target.checked)
                       }
-                      disabled={state.isLoading !== ""}
+                      disabled={state.isLoading==='saving'}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -452,7 +457,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         onChange={(e) =>
                           handleChange("salePrice", e.target.value)
                         }
-                        disabled={state.isLoading !== ""}
+                        disabled={state.isLoading==='saving'}
                         maxLength={13}
                         required
                       />
@@ -467,7 +472,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         fieldName="crypto"
                         error={formErrors["crypto"]}
                         label=""
-                        disabled={state.isLoading !== ""}
+                        disabled={state.isLoading==='saving'}
                         defaultOption="Currency"
                         errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
@@ -491,7 +496,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutOnAuction", e.target.checked)
                       }
-                      disabled={state.isLoading !== ""}
+                      disabled={state.isLoading==='saving'}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -518,7 +523,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("auctionPrice", e.target.value)
                       }
-                      disabled={state.isLoading !== ""}
+                      disabled={state.isLoading==='saving'}
                       maxLength={13}
                       required
                     />
@@ -533,7 +538,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       fieldName="crypto"
                       error={formErrors["crypto"]}
                       label=""
-                      disabled={state.isLoading !== ""}
+                      disabled={state.isLoading==='saving'}
                       defaultOption="Currency"
                     />
                   </div>
@@ -553,7 +558,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   onChange={(e: any) =>
                     handleChange("isUnlockPurchased", e.target.checked)
                   }
-                  disabled={state.isLoading !== ""}
+                  disabled={state.isLoading==='saving'}
                 />
                 <p className="text-xl font-normal text-secondary ml-3">
                   Unlock once purchased
@@ -572,7 +577,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   fieldName="unlockDescription"
                   error={formErrors["unlockDescription"]}
                   isRequired={true}
-                  disabled={state.isLoading !== ""}
+                  disabled={state.isLoading==='saving'}
                 />
               )}
             </div>

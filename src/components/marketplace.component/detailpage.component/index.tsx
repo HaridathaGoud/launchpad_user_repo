@@ -1146,7 +1146,7 @@ const DetailPage = (props: any) => {
                     Properties
                   </h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {nftDetails.properties.map((property: any) => {
+                    {nftDetails.properties?.map((property: any) => {
                       return (
                         <div
                           key={property.trait_type + property.value}
