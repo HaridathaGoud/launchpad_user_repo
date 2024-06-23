@@ -1,9 +1,9 @@
 import React, { useMemo, useReducer, useRef, useEffect } from 'react';
 import 'react-multi-carousel/lib/styles.css';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import Tabs from '../../ui/Tabs';
-import { getFavoritedCount, getCreatedCount, getOwnedCountData } from '../../reducers/marketplaceProfileReducer';
+import { getFavoritedCount, getCreatedCount, getOwnedCountData, tabCountUpdated } from '../../reducers/marketplaceProfileReducer';
 import { store } from '../../store';
 import { useAccount } from "wagmi";
 import Nfts from '../nfts.component';
@@ -27,6 +27,7 @@ const initialState = {
 
 const NFTCollection = (props) => {
   const nftRef = useRef(null);
+  const rootDispatch = useDispatch();
   const [state, dispatch] = useReducer(reducers, initialState);
   const { walletAddress } = useParams();
   const { address } = useAccount();
@@ -35,7 +36,8 @@ const NFTCollection = (props) => {
     store.dispatch(getCreatedCount(address || walletAddress, props.auth.user?.id));
     store.dispatch(getFavoritedCount(address || walletAddress));
     store.dispatch(getOwnedCountData(address || walletAddress));
-  }, [address, walletAddress, props.auth.user?.id]);
+    rootDispatch(tabCountUpdated(false));
+  }, [address, walletAddress, props.auth.user?.id,props?.featchNFTsCollection?.isTabCountUpdated]);
 
   useEffect(() => {
     dispatch({ type: 'setActiveTab', payload: 0 });
@@ -43,10 +45,6 @@ const NFTCollection = (props) => {
     dispatch({ type: 'setSelectedTab', payload: selectTabs });
   }, [address]);
 
-  const getNFTImageUrl = (file) => {
-    const filePath = file?.replace('ipfs://', '');
-    return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
-  };
 
   const tabs = useMemo(() => {
     return [
@@ -54,7 +52,7 @@ const NFTCollection = (props) => {
       { label: `Favorited (${props?.featchNFTsCollection?.saveFavaratedCount?.data || 0})`, content: '' },
       { label: `Owned (${props?.featchNFTsCollection?.ownedNFTsCount?.data || 0})`, content: '' },
     ];
-  }, [props?.featchNFTsCollection]);
+  }, [props?.featchNFTsCollection,state.activeTab]);
 
   const getSelectTabs = (activeTab) => {
     switch (activeTab) {
@@ -70,7 +68,6 @@ const NFTCollection = (props) => {
   };
 
   const handleTabChange = (selectedTab) => {
-    debugger
     dispatch({ type: 'setActiveTab', payload: selectedTab });
     const selectTabs = getSelectTabs(selectedTab);
     dispatch({ type: 'setSelectedTab', payload: selectTabs });

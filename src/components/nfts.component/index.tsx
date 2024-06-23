@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useReducer, forwardRef,useImperativeHandle} from "react";
+import React, { useEffect, useRef, useReducer, forwardRef, useImperativeHandle } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { useNavigate, useParams } from "react-router-dom";
-import { clearNfts, fetchNfts } from "../../reducers/marketPlaceReducer";
+import { clearNfts, fetchNfts, fetchNftsAction } from "../../reducers/marketPlaceReducer";
 import { store } from "../../store";
 import { saveFavorite, saveViews } from "./services";
 import Button from "../../ui/Button";
@@ -17,11 +17,11 @@ import SearchBar from "../../ui/searchBar";
 import ListView from "../marketplace.component/hotcollections.component/listview";
 import { guid } from "../../utils/constants";
 import defaultlogo from '../../assets/images/default-logo.png';
+import { tabCountUpdated } from "../../reducers/marketplaceProfileReducer";
 const pageSize = 6;
 const Nfts = forwardRef((props: any, ref) => {
     const { address, isConnected } = useAccount();
     const params = useParams();
-    console.log(params,"23");
     const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
     const navigate = useNavigate();
     const scrollableRef = useRef<any>(null);
@@ -29,7 +29,6 @@ const Nfts = forwardRef((props: any, ref) => {
     const { loader, error, data, pageNo } = useSelector(
         (store: any) => store.exploreNfts
     );
-    console.log(loader, error, data, pageNo )
     const nftDetails = useSelector((storage: any) => storage.exploreNfts)
     const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
     const user = useSelector((state: any) => state.auth.user);
@@ -42,24 +41,24 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.walletAddress = params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
-        scrollableRef?.current?.scrollIntoView(0, 0);
+        // scrollableRef?.current?.scrollIntoView(0, 0);
         if (error) {
             rootDispatch(setError({ message: error }));
         }
         return () => {
             store.dispatch(clearNfts());
         };
-    }, [ localState.values,props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [localState.values, props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(() =>{
+    useEffect(() => {
         let obj = { ...localState.values };
         obj.data = data;
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab =  props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
-    },[props?.selectedTab])
+    }, [props?.selectedTab])
     const loadmore = () => {
         let obj = { ...localState.values };
         obj.data = data;
@@ -67,7 +66,8 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.walletAddress = params?.walletAddress;
         obj.customerId = user?.id || guid;
-        store.dispatch(fetchNfts(obj,props?.type));
+        obj.activeTab = props?.selectedTab || "GetNfts"
+        store.dispatch(fetchNfts(obj, props?.type));
     };
     const addToFavorites = (item: any) => {
         if (isConnected) {
@@ -96,16 +96,35 @@ const Nfts = forwardRef((props: any, ref) => {
                             } Favorites!`,
                     })
                 );
-                data?.map((_item) =>{
-                     if(_item.id === item?.id){
-                          _item.isFavourite = !item?.isFavourite
-                     }
-                })
-                // obj.collectionid = params?.collectionid;
-                // obj.customerId = user?.id || guid;
-                // obj.walletAddress = params?.walletAddress;
-                // obj.activeTab = props?.selectedTab || "GetNfts"
-                // store.dispatch(fetchNfts(obj,props?.type));
+                if (props?.type !== "profile") {
+                    data?.map((_item) => {
+                        if (_item.id === item?.id) {
+                            _item.isFavourite = !item?.isFavourite
+                        }
+                    })
+                }
+                else {
+                    // if(props?.selectedTab === 'GetNfts'){
+                    //     data?.map((_item) => {
+                    //         if (_item.id === item?.id) {
+                    //             _item.isFavourite = !item?.isFavourite
+                    //         }
+                    //     })
+                    // }
+                    // else if(props?.selectedTab === 'Favorites'){
+                    //     let _data = data?.filter(_item => _item.id !== item?.id);
+                    //     console.log(_data);
+                    //    store.dispatch(fetchNftsAction(_data));
+                    // }
+                    let obj = { ...localState.values }
+                    obj.collectionid = params?.collectionid;
+                    obj.customerId = user?.id || guid;
+                    obj.walletAddress = params?.walletAddress;
+                    obj.activeTab = props?.selectedTab || "GetNfts"
+                    store.dispatch(fetchNfts(obj, props?.type));
+                    rootDispatch(tabCountUpdated(true));
+                }
+
             }
             if (error) rootDispatch(setError({ message: error }));
         } catch (error) {
@@ -146,7 +165,6 @@ const Nfts = forwardRef((props: any, ref) => {
         }
     };
     const handlePriceRangeSelection = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => {
-        debugger
         event.preventDefault();
         const minMaxCategory = type === 'high2low' ? 'max to min' : 'min to max';
         let obj = { ...localState.values }
@@ -176,7 +194,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab =  props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts"
         store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content2' });
     };
@@ -195,6 +213,22 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.searchBy = event
         localDispatch({ type: 'setValues', payload: obj })
     }
+    const handleMinMax = (min, max) => {
+        if (parseFloat(min) > parseFloat(max)) {
+            rootDispatch(setError({ message: "Min Amount is must be greater than Max Amount" }));
+        }
+        else {
+            rootDispatch(setError({ message: "" }));
+            let obj = { ...localState.values }
+            obj.amount = (min && max) ? `${min} to ${max}` : min ? `${min} to 0` : max ? `0 to ${max}` : null
+            localDispatch({ type: 'setValues', payload: obj })
+        }
+    }
+    const getNFTImageUrl = (file) => {
+        const filePath = file?.replace('ipfs://', '');
+        return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
+    };
+
     return (
         <>
             <div ref={scrollableRef}></div>
@@ -210,11 +244,11 @@ const Nfts = forwardRef((props: any, ref) => {
                                     <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
                                 </ul>
                             </div>
-                            <span className={` p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content1' ? 'bg-primary':'bg-accent'}`} onClick={showContent1}>
-                            <span className={`icon filter-squre ${localState?.activeContent === 'content1' ? 'invert':''}`}></span>
+                            <span className={` p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content1' ? 'bg-primary' : 'bg-accent'}`} onClick={showContent1}>
+                                <span className={`icon filter-squre ${localState?.activeContent === 'content1' ? 'invert' : ''}`}></span>
                             </span>
-                            <span className={`mx-4 bg-accent p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content2' ? 'bg-primary':'bg-accent'}`} onClick={showContent2}>
-                            <span className={`icon properties ${localState?.activeContent === 'content2' ? 'invert':''}`}></span>
+                            <span className={`mx-4 bg-accent p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content2' ? 'bg-primary' : 'bg-accent'}`} onClick={showContent2}>
+                                <span className={`icon properties ${localState?.activeContent === 'content2' ? 'invert' : ''}`}></span>
                             </span>
                         </div>
                     </div>
@@ -226,6 +260,7 @@ const Nfts = forwardRef((props: any, ref) => {
                             selectedObj={localState.values}
                             handleQuantity={handleQuantity}
                             handleCurrency={handleCurrency}
+                            handleApply={handleMinMax}
                         />
                     </div>}
                     <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 ${localState?.activeContent === 'content1' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]' : ''} `}>
@@ -247,6 +282,17 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 type="plain" btnClassName="w-full"
                                             >
                                                 <img
+                                                    src={item?.image && !item?.image?.includes('null')
+                                                        ? `${getNFTImageUrl(item?.image)}`
+                                                        : defaultlogo}
+                                                    alt=""
+                                                    className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${item?.isUnlockPurchased &&
+                                                        address !== item?.walletAddress
+                                                        ? "blur-image"
+                                                        : ""
+                                                        }`}
+                                                />
+                                                {/* <img
                                                     src={
                                                         item?.image && !item?.image?.includes("null")
                                                             ? item.image.replace(
@@ -261,7 +307,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                                         ? "blur-image"
                                                         : ""
                                                         }`}
-                                                />
+                                                /> */}
                                             </Button>
                                             <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
                                                 <Button
@@ -327,19 +373,37 @@ const Nfts = forwardRef((props: any, ref) => {
                                             </Button>
                                             <hr />
                                             <div className="px-2.5 py-4 flex justify-between">
-                                                {/* <div className="flex add-cart cursor-pointer">
-                                                    <span className="icon card-cart"></span>
-                                                    <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                                                        Add to Cart
-                                                    </span>
-                                                </div> */}
+                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
+                                                    <div className="flex shop-card cursor-pointer">
+                                                        <span className="icon card-shop"></span>
+                                                        <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
+                                                        >
+                                                            Put On Sale
+                                                        </Button>
+                                                    </div>
+                                                </div>}
+                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
+                                                    <div className="flex shop-card cursor-pointer">
+                                                        <span className="icon card-shop"></span>
+                                                        <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
+                                                        >
+                                                            Put On Auction
+                                                        </Button>
+                                                    </div>
+                                                </div>}
                                                 <div className="w-px border"></div>
-                                                <div className="flex shop-card cursor-pointer">
+                                                {(item?.isPutOnSale && (item?.walletAddress !== address)) && <div className="flex shop-card cursor-pointer">
                                                     <span className="icon card-shop"></span>
-                                                    <span className="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary">
-                                                       {localState.values?.status==='auction' ? "Place a bid" :"Buy Now"}
-                                                    </span>
-                                                </div>
+                                                    <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
+                                                        Buy Now
+                                                    </Button>
+                                                </div>}
+                                                {(item?.isPutOnAuction && (item?.walletAddress !== address)) && <div className="flex shop-card cursor-pointer">
+                                                    <span className="icon card-shop"></span>
+                                                    <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
+                                                        Place a Bid
+                                                    </Button>
+                                                </div>}
                                             </div>
                                         </div>
                                     </div>
@@ -350,7 +414,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                         <FoundingMemberSimmer />
                                     </div>
                                 ))}
-                            { data?.length === 0 && !(loader) && (
+                            {(data?.length === 0 || data === null) && !(loader) && (
                                 <div className="col-span-5">
                                     <NoDataFound text={''} />
                                 </div>

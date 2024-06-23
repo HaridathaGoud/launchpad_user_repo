@@ -1,34 +1,44 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../ui/Button';
 import { getMarketplace } from '../../../utils/api';
 import { setError } from "../../../reducers/layoutReducer";
 import { useDispatch } from 'react-redux';
+import NumberInput from '../../../ui/numberInput';
 
 const StatusDetailview = ({
     handleChange,
     handleCurrency,
     handleQuantity,
     selectedObj,
+    handleApply
 }) => {
     const rootDispatch = useDispatch();
-    const [networks, setNewtworks] = useState([]);
+    const [networks, setNetworks] = useState([]);
+    const [minValue, setMinValue] = useState('');
+    const [maxValue, setMaxValue] = useState('');
 
     useEffect(() => {
         getNetworks();
-    }, [])
+    }, []);
+
     const getNetworks = async () => {
         try {
-            const response = await getMarketplace(`User/networkslu`);
+            const response = await getMarketplace('User/networkslu');
             if (response.status === 200) {
-                setNewtworks(response.data[0]?.currencies);
+                setNetworks(response.data[0]?.currencies);
             } else {
                 rootDispatch(setError({ message: response }));
             }
         } catch (error) {
-            rootDispatch(setError({ message: error }));
+            rootDispatch(setError({ message: error.message }));
         }
     };
-    console.log(selectedObj)
+
+    const handleAmountChange = (fieldName, value) => {
+        if (fieldName === 'min') setMinValue(value);
+        if (fieldName === 'max') setMaxValue(value);
+    };
+console.log(selectedObj)
     return (
         <div>
             <h1 className='text-lg font-semibold text-secondary mb-5'>Status</h1>
@@ -36,7 +46,6 @@ const StatusDetailview = ({
                 <label htmlFor="" className='font-medium text-secondary relative flex items-center'>
                     <input
                         type="radio"
-                        // name="radio-1"
                         className="radio opacity-0 z-[1] relative"
                         value="All"
                         checked={selectedObj?.status === 'All'}
@@ -47,7 +56,6 @@ const StatusDetailview = ({
                 <label htmlFor="" className='font-medium text-secondary relative flex items-center mx-2.5 whitespace-nowrap'>
                     <input
                         type="radio"
-                        // name="radio-1"
                         className="radio opacity-0 z-[1] relative"
                         value="Buy Now"
                         checked={selectedObj?.status === 'Buy Now'}
@@ -70,21 +78,39 @@ const StatusDetailview = ({
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
             <div className="join w-full mt-4">
                 <div className='flex items-center'>
-                    <button className=" join-item bg-info-content  text-dark hover:bg-info-content rounded-tl-[25px] rounded-bl-[25px] text-sm font-normal !border-0 flex-1 py-2.5 px-[14px] text-left"
-                    >Min</button><input className='border w-full focus:rounded-none h-full px-2' type="text" />
+                    <NumberInput
+                        label="Min"
+                        value={minValue}
+                        inputBoxClass="mb-6"
+                        fieldName="min"
+                        error={null}
+                        isInteger={false}
+                        onChange={handleAmountChange}
+                        isRequired={false}
+                        disabled={false}
+                    />
                 </div>
-                <span className=" join-item bg-info-content  text-dark hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
+                <span className="join-item bg-info-content text-dark hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
                 <div className='flex items-center'>
-                    <input className='border h-full w-full focus:rounded-none px-2' type="text" />
-                    <button className=" join-item bg-info-content h-full text-dark hover:bg-info-content rounded-tr-[25px] rounded-br-[25px] text-sm font-normal flex-1 !border-0 px-[14px] text-right"
-                    >Max</button>
+                    <NumberInput
+                        label="Max"
+                        value={maxValue}
+                        inputBoxClass="mb-6"
+                        fieldName="max"
+                        error={null}
+                        isInteger={false}
+                        onChange={handleAmountChange}
+                        isRequired={false}
+                        disabled={false}
+                    />
                 </div>
             </div>
             <div className="text-right">
-                <Button children={'Apply'}
+                <Button
+                    children={'Apply'}
                     btnClassName='uppercase mt-[18px] md:min-w-[132px]'
                     type='secondary'
-
+                    handleClick={() => handleApply(minValue, maxValue)}
                 />
             </div>
             <div >
@@ -132,8 +158,6 @@ const StatusDetailview = ({
             </div>
         </div>
     );
-
-
 };
 
 export default StatusDetailview;
