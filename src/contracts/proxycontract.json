@@ -1,52 +1,7 @@
 {
-  "contractAddress": "0xED0930193c4b1E21078D7206daa65c565A15B675",
+  "contractAddress": "0x80d3bd86e9E1C1F68D8b9F1a231c2F0bad3c10C7",
   "abi": [
     { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "previousAdmin",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "newAdmin",
-          "type": "address"
-        }
-      ],
-      "name": "AdminChanged",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "beacon",
-          "type": "address"
-        }
-      ],
-      "name": "BeaconUpgraded",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint8",
-          "name": "version",
-          "type": "uint8"
-        }
-      ],
-      "name": "Initialized",
-      "type": "event"
-    },
     {
       "anonymous": false,
       "inputs": [
@@ -147,19 +102,6 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "implementation",
-          "type": "address"
-        }
-      ],
-      "name": "Upgraded",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
           "name": "from",
           "type": "address"
         },
@@ -206,7 +148,7 @@
     {
       "inputs": [
         {
-          "internalType": "contract IERC1155Upgradeable",
+          "internalType": "contract IERC1155",
           "name": "token",
           "type": "address"
         },
@@ -224,7 +166,7 @@
     {
       "inputs": [
         {
-          "internalType": "contract IERC20Upgradeable",
+          "internalType": "contract IERC20",
           "name": "token",
           "type": "address"
         },
@@ -240,7 +182,7 @@
     {
       "inputs": [
         {
-          "internalType": "contract IERC721Upgradeable",
+          "internalType": "contract IERC721",
           "name": "token",
           "type": "address"
         },
@@ -284,13 +226,6 @@
     },
     {
       "inputs": [],
-      "name": "initialize",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "operator",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
@@ -300,13 +235,6 @@
       "inputs": [],
       "name": "owner",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "proxiableUUID",
-      "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -346,33 +274,6 @@
       "name": "transferOwnership",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newImplementation",
-          "type": "address"
-        }
-      ],
-      "name": "upgradeTo",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newImplementation",
-          "type": "address"
-        },
-        { "internalType": "bytes", "name": "data", "type": "bytes" }
-      ],
-      "name": "upgradeToAndCall",
-      "outputs": [],
-      "stateMutability": "payable",
       "type": "function"
     }
   ]

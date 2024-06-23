@@ -75,7 +75,6 @@ const BuyComponent = (props: any) => {
           }
         }
       } catch (error) {
-        console.log(error)
         rootDispatch(setError({ message: error, from: "contract" }));
       } finally {
         setBtnLoader(false);

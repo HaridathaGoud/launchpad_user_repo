@@ -4,7 +4,6 @@ import {
   writeContract,
   getWalletClient,
   waitForTransaction,
-  signMessage
 } from "wagmi/actions";
 import ERC721 from "../contracts/erc721factory.json";
 import ERC1155 from "../contracts/erc1155factory.json";
