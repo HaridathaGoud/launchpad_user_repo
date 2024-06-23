@@ -67,29 +67,33 @@ const PutOnSale = (props: any) => {
           : "ERC721",
         formValues.value
       );
-      setCurrentStep(2);
-      const saveObject = {
-        customerId: props.reqFields.auth.user?.id,
-        tokenId: props.reqFields.tokenId ? props.reqFields.tokenId : "",
-        crypto: props.nftDetails?.currency
-          ? props.nftDetails?.currency
-          : process.env.REACT_APP_CURRENCY_SYMBOL || "Matic",
-        saleType: type,
-        value: formValues.value,
-        signature: signature.data,
-        nftId: props.nftDetails?.id,
-      };
-      const response = await postMarketplace(`User/SaveSale`, saveObject);
-      if (response.status === 200) {
-        dispatch(
-          setToaster({
-            message: "NFT has been successfully put on sale",
-          })
-        );
-        props.refresh();
-        clearState();
+      if (signature.status) {
+        setCurrentStep(2);
+        const saveObject = {
+          customerId: props.reqFields.auth.user?.id,
+          tokenId: props.reqFields.tokenId ? props.reqFields.tokenId : "",
+          crypto: props.nftDetails?.currency
+            ? props.nftDetails?.currency
+            : process.env.REACT_APP_CURRENCY_SYMBOL || "Matic",
+          saleType: type,
+          value: formValues.value,
+          signature: signature.data,
+          nftId: props.nftDetails?.id,
+        };
+        const response = await postMarketplace(`User/SaveSale`, saveObject);
+        if (response.status === 200) {
+          dispatch(
+            setToaster({
+              message: "NFT has been successfully put on sale",
+            })
+          );
+          props.refresh();
+          clearState();
+        } else {
+          throw response;
+        }
       } else {
-        throw response;
+        throw signature.data;
       }
     } else {
       throw response.data;
@@ -202,7 +206,7 @@ const PutOnSale = (props: any) => {
               <Button
                 btnClassName="w-full mb-4 !min-h-[39px]"
                 type="replyCancel"
-                handleClick={()=>props.setShow(false)}
+                handleClick={() => props.setShow(false)}
                 disabled={isLoading !== ""}
               >
                 Cancel
@@ -215,9 +219,7 @@ const PutOnSale = (props: any) => {
                 disabled={isLoading !== ""}
               >
                 <span>
-                  {isLoading !=='' && (
-                    <Spinner size="loading-sm" />
-                  )}{" "}
+                  {isLoading !== "" && <Spinner size="loading-sm" />}{" "}
                 </span>{" "}
                 Put on sale
               </Button>
