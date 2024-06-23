@@ -121,7 +121,11 @@ export function useCollectionDeployer() {
     unitPrice = unitPrice * 10 ** 18;
     // let percentage= 0.01*nftPrice
     let percentage = (nftPrice * 1) / 100;
-    const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
+    // const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
+    const _amount = ethers.utils.parseUnits(
+      (nftPrice+ percentage).toFixed(8),
+      "ether"
+    );
     let amount = _amount;
     await deposit(amount);
     await approveERC20(Proxy.contractAddress, amount);
@@ -132,13 +136,17 @@ export function useCollectionDeployer() {
     nftPrice: any,
     quantity: any
   ) {
-    let unitPrice = Number(nftPrice);
+    // let unitPrice = Number(nftPrice);
     let qty = quantity;
-    unitPrice = unitPrice * 10 ** 18;
+    // unitPrice = unitPrice * 10 ** 18;
     var nftAddress = contract_address;
     // let percentage= 0.01*nftPrice
     let percentage = (nftPrice * 1) / 100;
-    const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
+    const _amount = ethers.utils.parseUnits(
+      (nftPrice+ percentage).toFixed(8),
+      "ether"
+    );
+    // const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
     let amount = _amount;
     let nonce = Math.floor(new Date().getTime() / 1000);
     var hash = ethers.utils.solidityKeccak256(
@@ -252,7 +260,9 @@ export function useCollectionDeployer() {
         [sign?.sign?.v, sign?.sign.r, sign?.sign.s, sign?.nonce],
       ],
     });
-    return await writeContract(config);
+    const response= await writeContract(config);
+    await waitForTransaction({hash:response.hash});
+    return response
   }
   async function acceptBid(
     contract_address: string,
@@ -294,7 +304,9 @@ export function useCollectionDeployer() {
       functionName: "executeBid",
       args: [orderStruct, [sign.sign.v, sign.sign.r, sign.sign.s, sign.nonce]],
     });
-    return writeContract(config);
+    const { hash } = await writeContract(config);
+     await waitForTransaction({ hash });
+    return hash
   }
   async function approveERC20(contractAddress: any, amount: any) {
     const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || "";
@@ -305,7 +317,7 @@ export function useCollectionDeployer() {
       args: [contractAddress, amount],
     });
     const { hash } = await writeContract(config);
-    return waitForTransaction({ hash });
+    return await waitForTransaction({ hash });
   }
   async function deposit(amount: any) {
     const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || "";
@@ -316,7 +328,7 @@ export function useCollectionDeployer() {
       value: amount,
     });
     const { hash } = await writeContract(config);
-    return waitForTransaction({ hash });
+    return await waitForTransaction({ hash });
   }
   function parseError(message) {
     let _message =

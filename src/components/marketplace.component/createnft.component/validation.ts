@@ -10,7 +10,7 @@ const containsEmoji = (value: any) => /[\u{1F300}-\u{1F6FF}]/u.test(value);
 const containsNonAlphabetic = (value: any) => !/^[\p{L} ,.;]+$/u.test(value);
 const urlPattern = (value: any) => /^(ftp|http|https):\/\/[^ "]+$/.test(value);
 const isNumber = (value: any) => /^[0-9].*$/.test(value);
-export const validateForm = (form: FormValues) => {
+export const validateForm = (form:any) => {
   const {
     imageUrl,
     name,
