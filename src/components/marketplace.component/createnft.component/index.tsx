@@ -151,7 +151,7 @@ function CreateNft() {
       <div ref={scrollableRef}></div>
       {localState.isLoading==='redirecting' && <CreatenftShimmer/>}
       {localState.isLoading!=='redirecting' &&<div className="container mx-auto mt-4 px-3 lg:px-0">
-        <BreadCrumb />{" "}
+        {/* <BreadCrumb />{" "} */}
         <Form
           state={{ ...localState }}
           updateState={updateState}

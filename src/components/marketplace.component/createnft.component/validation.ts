@@ -50,7 +50,7 @@ export const validateForm = (form: FormValues) => {
     "Invalid Name"
   );
   validateField(collection || "", "collection", true);
-  validateField(properties || "", "properties", true);
+  validateField(properties || "", "properties", false);
   validateField(network || "", "network", true);
   if(isPutonSale || isPutOnAuction){
     validateField(crypto || "", "crypto", true);
@@ -58,15 +58,15 @@ export const validateForm = (form: FormValues) => {
   validateField(
     description || "",
     "description",
-    false,
+    true,
     (value: string) => commonReg(value) || emojiRejex(value),
     "Invalid description"
   );
   validateField(
     externalLink,
     "externalLink",
-    true,
-    (value: string) => !urlPattern(value) || commonReg(value) || emojiRejex(value),
+    false,
+    (value: string) => value ? (!urlPattern(value) || commonReg(value) || emojiRejex(value)) : false,
     "Invalid external link"
   );
   validateField(

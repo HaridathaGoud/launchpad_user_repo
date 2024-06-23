@@ -289,6 +289,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               label="External link"
               value={values.externalLink}
               onChange={handleChange}
+              isRequired={false}
               inputBoxClass="mb-6"
               fieldName="externalLink"
               disabled={state.isLoading !== ""}
@@ -306,7 +307,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               disabled={state.isLoading !== ""}
               fieldName="description"
               error={formErrors["description"]}
-              isRequired={false}
+              isRequired={true}
               maxLength={500}
             />
             <Select
@@ -328,7 +329,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     <span className="icon properties"></span>
                     <div className="ms-2">
                       <h6 className="text-secondary text-base font-normal">
-                        Properties <span className="text-[#ff0000]">*</span>
+                        Properties
                       </h6>
                       <p className="text-secondary text-sm font-normal">
                         Textual traits that show up as rectangles
@@ -384,15 +385,16 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 Network <span className="text-[#ff0000]">*</span>
               </p>
               <CustomSelect
-                selectedValue={values.network || networks?.[0] || null}
+                selectedValue={values.network || networks.data?.[0] || null}
                 valueField={"name"}
                 imageField={"icon"}
                 optionKey={"name"}
                 hasImage={true}
                 options={networks.data || []}
                 onSelect={(value: any) => handleChange("network", value)}
-                placeholder={"Select Network"}
-                disabled={state.isLoading !== ""}
+                placeholder={networks.loading ? "Please wait...":"Select Network..."}
+                loading={networks.loading}
+                disabled={state.isLoading !== "" || networks.loading}
               />
               {formErrors?.["network"] && (
                 <p className="text-sm font-normal text-red-600 ">
@@ -657,10 +659,12 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       )}
                     </div>
                     <div className="mt-6">
-                      <span
-                        className="icon delete-icon ml-2 cursor-pointer"
-                        onClick={() => handleDeleteProperty(index)}
-                      ></span>
+                      <Button
+                        type="plain"
+                        handleClick={() => handleDeleteProperty(index)}
+                      >
+                        <span className="icon delete-icon ml-2 cursor-pointer"></span>
+                      </Button>
                     </div>
                   </div>
                 ))}
