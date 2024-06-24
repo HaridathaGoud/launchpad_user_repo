@@ -7,11 +7,10 @@ import {
 } from "wagmi/actions";
 import ERC721 from "../contracts/erc721factory.json";
 import ERC1155 from "../contracts/erc1155factory.json";
-import Proxy from "../contracts/proxycontract.json";
 import USER721 from "../contracts/user721contract.json";
 import USER1155 from "../contracts/user1155contract.json";
 import Trade from "../contracts/trade.json";
-import { ethers, utils } from "ethers";
+import { ethers } from "ethers";
 import PaymentToken from "../contracts/paymenttoken.json";
 export type addressType = `0x${string}`;
 export function useCollectionDeployer() {
@@ -55,9 +54,9 @@ export function useCollectionDeployer() {
   ) {
     const config = await prepareWriteContract({
       abi: ERC721.abi,
-      address: ERC721.contractAddress as addressType,
+      address: process.env.REACT_APP_MARKETPLACE_ERC721_FACTORY as addressType,
       functionName: "deploy",
-      args: [salt(ERC721.contractAddress), name, symbol, tokenUriPrefix],
+      args: [salt(process.env.REACT_APP_MARKETPLACE_ERC721_FACTORY as addressType), name, symbol, tokenUriPrefix],
     });
     return writeContract(config);
   }
@@ -75,9 +74,9 @@ export function useCollectionDeployer() {
   ) {
     const config = await prepareWriteContract({
       abi: ERC1155.abi,
-      address: ERC1155.contractAddress as addressType,
+      address: process.env.REACT_APP_MARKETPLACE_ERC1115_FACTORY as addressType,
       functionName: "deploy",
-      args: [salt(ERC1155.contractAddress), name, symbol, tokenUriPrefix],
+      args: [salt(process.env.REACT_APP_MARKETPLACE_ERC1115_FACTORY as addressType), name, symbol, tokenUriPrefix],
     });
     return writeContract(config);
   }
@@ -128,7 +127,7 @@ export function useCollectionDeployer() {
     );
     let amount = _amount;
     await deposit(amount);
-    await approveERC20(Proxy.contractAddress, amount);
+    await approveERC20(process.env.REACT_APP_MARKETPLACE_PROXY_CONTRACT, amount);
   }
   async function getSignatureForBid(
     contract_address: string,
@@ -177,7 +176,7 @@ export function useCollectionDeployer() {
         abi: USER721.abi,
         address: contractAddress,
         functionName: "setApprovalForAll",
-        args: [Proxy.contractAddress, true],
+        args: [process.env.REACT_APP_MARKETPLACE_PROXY_CONTRACT, true],
       });
       const receipt = await writeContract(config);
       await waitForTransaction({hash:receipt.hash})
@@ -251,10 +250,10 @@ export function useCollectionDeployer() {
       qty,
     ];
     await deposit(amount);
-    await approveERC20(Proxy.contractAddress, amount);
+    await approveERC20(process.env.REACT_APP_MARKETPLACE_PROXY_CONTRACT, amount);
     const config = await prepareWriteContract({
       abi: Trade.abi,
-      address: Trade.contractAddress as addressType,
+      address: process.env.REACT_APP_MARKETPLACE_TRADE_CONTRACT as addressType,
       functionName: "buyAsset",
       args: [
         orderStruct,
@@ -301,7 +300,7 @@ export function useCollectionDeployer() {
     ];
     const config = await prepareWriteContract({
       abi: Trade.abi,
-      address: Trade.contractAddress as addressType,
+      address: process.env.REACT_APP_MARKETPLACE_TRADE_CONTRACT as addressType,
       functionName: "executeBid",
       args: [orderStruct, [sign.sign.v, sign.sign.r, sign.sign.s, sign.nonce]],
     });
