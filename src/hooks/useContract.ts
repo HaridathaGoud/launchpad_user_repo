@@ -551,6 +551,21 @@ export default function useContractMethods() {
     });
     return response;
   }
+  async function getTotalSoldTokens(contractAddress: any,type:string) {
+    try{
+      const contractDetails={'ERC-20':[project.abi,'totalSoldToken'],'ERC-721':[mint.abi,'mintedCount']}
+      const response = await readContract({
+        address: contractAddress,
+        abi: contractDetails[type][0],
+        functionName: contractDetails[type][1],
+      });
+      
+      return {data:parseFloat(ethers.utils.formatEther(response.toString())),error:''};
+    }catch(error){
+      return {data:null,error}
+    }
+   
+  }
   return {
     approve,
     stake,
@@ -579,5 +594,6 @@ export default function useContractMethods() {
     getMintedCount,
     parseError,
     getOwner,
+    getTotalSoldTokens
   };
 }

@@ -25,7 +25,7 @@ const BiddingDetails = ({
   const executeBid = async (item: any) => {
     setIsLoading("acceptingBid");
     try {
-      const hash=await acceptBid(
+      const hash = await acceptBid(
         collectionAddress,
         nftDetails.collectionType,
         item.biddingAmount,
@@ -60,9 +60,9 @@ const BiddingDetails = ({
         setIsLoading("");
         rootDispatch(setError({ messsage: response }));
       }
-    } catch (error) {
+    } catch (errorMessage) {
       setIsLoading("");
-      rootDispatch(setError({ messsage: error }));
+      rootDispatch(setError({ message: errorMessage, from: "contract" }));
     }
   };
   return (
