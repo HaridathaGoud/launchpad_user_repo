@@ -317,7 +317,7 @@ const TopsellerDetailview = (props) => {
 const params = useParams();
   useEffect(() => {
     store.dispatch(customerDetails({address}));
-    store.dispatch(fectTopSellerBannerDetails({followerId:params.id,customerId: address || guid} ));
+    store.dispatch(fectTopSellerBannerDetails({followerId:params.id,customerId: user.id || guid} ));
 
     // store.dispatch(getCreatedCount(address || walletAddress, props.auth.user?.id));
     // store.dispatch(getFavoritedCount(address || walletAddress));
@@ -330,18 +330,6 @@ const params = useParams();
     const selectTabs = getSelectTabs(0);
     dispatch({ type: 'setSelectedTab', payload: selectTabs });
   }, [address]);
-
-
-  // const tabs = useMemo(() => {
-  //   return [
-
-  //     { label: 'Featured', content: '' },
-  //     { label: 'Collected', content: '' },
-  //     { label: 'Created', content: '' },
-  //     { label: 'Favorited', content: '' },
-  //     { label: 'Activity', content: '' },
-  //   ];
-  // }, [props?.featchNFTsCollection,state.activeTab]);
 
   const tabs = useMemo(() => {
     return [
@@ -369,9 +357,12 @@ const params = useParams();
     const selectTabs = getSelectTabs(selectedTab);
     dispatch({ type: 'setSelectedTab', payload: selectTabs });
   };
-
-  console.log('params ',params.id);
-
+  function formatNumber(num:number) {
+    if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'k';
+    }
+    return num;
+}
 
   return (
     <>
@@ -388,22 +379,58 @@ const params = useParams();
                 <p className='text-white'>23 M Subscribers</p>
               </div>
               <div>
-                <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73</p>
+                <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
               </div>
               <div className="flex gap-4 mt-4 mb-5">
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Followers</span>98456k</p>
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Following</span>90</p>
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Items</span>100k</p>
+                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Followers</span>{formatNumber(topSellerBanerDetails?.data?.followers) || 0}</p> 
+                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Following</span>{formatNumber(topSellerBanerDetails?.data?.following) || 0}</p>
+                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Items</span>{formatNumber(topSellerBanerDetails?.data?.items) || 0}</p>
               </div>
               {/* <div className="flex md:flex-row items-center gap-2.5 flex-col">
                 <Button type='primary' ><span className='video-icon icon'></span>Subscribe with 2Matic / $1.32</Button>
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button>
                 </div> */}
             <div className='flex gap-6 absolute right-10 bottom-6'>
+            {customerInfo?.data?.facebook &&
+              <a
+              href={customerInfo?.data?.facebook}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
               <span className='icon fb cursor-pointer'></span>
+              </a>
+               }
+            {customerInfo?.data?.linkedIn &&
+              <a
+              href={customerInfo?.data?.linkedIn}
+              target="_blank"
+              rel="noreferrer"
+              >
+              {" "}
               <span className='icon linkedin cursor-pointer'></span>
+              </a>
+            }
+            {customerInfo?.data?.twitter &&
+              <a
+              href={customerInfo?.data?.twitter}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
               <span className='icon twit cursor-pointer'></span>
+              </a>
+            }
+            {customerInfo?.data?.websiteUrl &&
+              <a
+              href={customerInfo?.data?.websiteUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
               <span className='icon network cursor-pointer'></span>
+              </a>
+            }
             </div>
             </div>
 

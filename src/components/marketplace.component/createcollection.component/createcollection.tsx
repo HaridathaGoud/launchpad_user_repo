@@ -379,7 +379,7 @@ const CreateCollection = (props: any) => {
                 <div>
                   <div >
                     <div className="mb-6">
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Name<span className='text-[#ff0000]'>*</span></label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">Name<span className='text-[#ff0000]'>*</span></label>
                       <input
                         type="text"
                         placeholder="Name"
@@ -389,11 +389,11 @@ const CreateCollection = (props: any) => {
                         maxLength={250}
                         onChange={(e) => handleChange(e, 'collectionName')}
                       />
-                      {localState.errors.collectionName && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.collectionName}</span>}
+                      {localState.errors.collectionName && <span className="text-sm font-normal text-red-600 mt-4 ml-3">{localState.errors.collectionName}</span>}
                     </div>
                     <div className="mb-6">
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Description<span className='text-[#ff0000]'>*</span></label>
-                      <p className="text-secondary opacity-60 mb-2 text-sm">Markdown syntax is supported. 0 of 1000 characters used</p>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">Description<span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 mb-2 text-sm ml-3">Markdown syntax is supported. 0 of 1000 characters used</p>
                       <textarea
                         as="textarea"
                         placeholder="Description"
@@ -404,11 +404,11 @@ const CreateCollection = (props: any) => {
                         maxLength={1000}
                         onChange={(e) => handleChange(e, 'description')}
                       />
-                      {localState.errors.description && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.description}</span>}
+                      {localState.errors.description && <span className="text-sm font-normal text-red-600 mt-4 ml-3">{localState.errors.description}</span>}
                     </div>
                     <div className="mb-6">
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">URLs</label>
-                      <p className="text-secondary opacity-60 mb-2 text-sm">
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">URLs</label>
+                      <p className="text-secondary opacity-60 mb-2 text-sm ml-3">
                         Customize your URL on OpenSea. Must only contain lowercase letters, numbers, and hyphens.
                       </p>
                       <input
@@ -418,11 +418,11 @@ const CreateCollection = (props: any) => {
                         className="input input-bordered text-secondary bg-transparent w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         onChange={(e) => handleChange(e, 'urls')}
                       />
-                      {localState.errors.urls && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.urls}</span>}
+                      {localState.errors.urls && <span className="text-sm font-normal text-red-600 mt-4 ml-3">{localState.errors.urls}</span>}
                     </div>
                     <div className="mb-6" >
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Category and tags <span className='text-[#ff0000]'>*</span></label>
-                      <p className="text-secondary opacity-60 mb-2 text-sm">Make your items more discoverable on Minnapad by adding category.</p>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">Category and tags <span className='text-[#ff0000]'>*</span></label>
+                      <p className="text-secondary opacity-60 mb-2 text-sm ml-3">Make your items more discoverable on Minnapad by adding category.</p>
                       <select
                         aria-label="Default select example"
                         className="input input-bordered text-secondary text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
@@ -435,10 +435,10 @@ const CreateCollection = (props: any) => {
                           <option value={item.name}>{item.name}</option>
                         ))}
                       </select>
-                      {localState.errors.category && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.category}</span>}
+                      {localState.errors.category && <span className="text-sm font-normal text-red-600 mt-4 ml-3">{localState.errors.category}</span>}
                     </div>
                     <div className="mb-6 mt-6 p-relative">
-                      <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
+                      <p className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
                         Network <span className="text-[#ff0000]">*</span>
                       </p>
                       <CustomSelect
@@ -452,10 +452,10 @@ const CreateCollection = (props: any) => {
                         placeholder={"Select Network"}
                         disabled={false}
                       />
-                       {localState.errors.blockChain && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.blockChain}</span>}
+                       {localState.errors.blockChain && <span className="text-sm font-normal text-red-600 mt-4 ml-3">{localState.errors.blockChain}</span>}
                     </div>
-                    <div className="mb-6" >
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Payment tokens</label>
+                    <div className="mb-2" >
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">Payment tokens</label>
                     </div>
                     <div className="mb-6">
                       <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
@@ -469,7 +469,7 @@ const CreateCollection = (props: any) => {
                       </div>
                     </div>
                     <div className="mb-6 relative" >
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">Links</label>
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">Links</label>
                       <div className="mb-6 relative">
                         <div className='border-r border-[#6D6871] pr-4 absolute left-2 top-[6px]'>
                           <span className="icon globe-icon "></span>

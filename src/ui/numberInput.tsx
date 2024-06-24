@@ -62,7 +62,7 @@ const NumberInput = ({
       {label && <label
         className={
           labelClass ||
-          "text-secondary text-sm font-normal p-0 mb-2 label block"
+          "text-secondary text-sm font-normal p-0 mb-2 label block ml-3"
         }
       >
         {label} {isRequired && <span className="text-[#ff0000]">*</span>}
@@ -80,7 +80,7 @@ const NumberInput = ({
         disabled={disabled}
       />
       {error && (
-        <p className={errorClass || "text-sm font-normal text-red-600"}>
+        <p className={errorClass || "text-sm font-normal text-red-600 ml-3"}>
           {error}
         </p>
       )}

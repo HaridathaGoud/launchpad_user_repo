@@ -46,13 +46,13 @@ const Select = ({
         <label
           className={
             labelClass ||
-            "text-secondary text-sm font-normal p-0 mb-2 label block"
+            "text-secondary text-sm font-normal p-0 mb-2 label block ml-3"
           }
         >
           {label} {isRequired && <span className="text-[#ff0000]">*</span>}
         </label>
       )}
-      {inputInfo && <p className={inputInfoClass ||"text-secondary opacity-60 "}>{inputInfo}</p>}
+      {inputInfo && <p className={inputInfoClass ||"text-secondary opacity-60 ml-3 mb-[10px]"}>{inputInfo}</p>}
       <select
         placeholder={placeholder || "Select option"}
         className={
@@ -85,7 +85,7 @@ const Select = ({
         ))}
       </select>
       {error && (
-        <p className={errorClass || "text-sm font-normal text-red-600"}>
+        <p className={errorClass || "text-sm font-normal text-red-600 ml-3"}>
           {error}
         </p>
       )}

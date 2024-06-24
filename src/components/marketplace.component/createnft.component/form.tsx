@@ -391,7 +391,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
             /> */}
 
             <div className="mb-6 mt-6 p-relative">
-              <p className="text-secondary text-sm font-normal p-0 mb-2 label block">
+              <p className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
                 Network <span className="text-[#ff0000]">*</span>
               </p>
               <CustomSelect
@@ -568,7 +568,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   value={values.unlockDescription}
                   maxLength={1000}
                   onChange={handleChange}
-                  inputBoxClass="mb-6"
+                  inputBoxClass="mb-6 mt-3"
                   fieldName="unlockDescription"
                   error={formErrors["unlockDescription"]}
                   isRequired={true}
@@ -608,7 +608,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 {modalProperties?.map((property: any, index: number) => (
                   <div className="my-6 flex gap-4 items-center " key={index}>
                     <div>
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
                         Trait type
                       </label>
                       <input
@@ -627,14 +627,14 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         required
                       />
                       {propertyErrors?.[index]?.["trait_type"] && (
-                        <p className="text-sm font-normal text-red-600 ">
+                        <p className="text-sm font-normal text-red-600 ml-3">
                           {propertyErrors?.[index]?.["trait_type"]}
                         </p>
                       )}
                     </div>
                     {"  "}
                     <div className="">
-                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block">
+                      <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
                         Value*
                       </label>
 
@@ -654,12 +654,12 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         required
                       />
                       {propertyErrors?.[index]?.["value"] && (
-                        <p className="text-sm font-normal text-red-600 ">
+                        <p className="text-sm font-normal text-red-600 ml-3">
                           {propertyErrors?.[index]?.["value"]}
                         </p>
                       )}
                     </div>
-                    <div className="mt-6">
+                    <div className={`${propertyErrors?.[index] ? 'mt-2' : 'mt-6'}`}>
                       <Button
                         type="plain"
                         handleClick={() => handleDeleteProperty(index)}
