@@ -139,7 +139,7 @@ const PutOnAuction = ({
               <span className="icon close cursor-pointer"></span>
             </Button>
           </div>
-          <div className="p-4 pb-2">
+          <div className="py-4 pb-2">
             {/* <p className="text-dark mt-5">
                                   NFT Marketplace is the platform where users
                                   can purchase NFT assets directly from creator,
@@ -159,6 +159,7 @@ const PutOnAuction = ({
                                     </p>
                                   </div> */}
               <NumberInput
+              labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
                 label="Auction Price"
                 fieldName="value"
                 error={formErrors["value"]}
@@ -169,10 +170,11 @@ const PutOnAuction = ({
                 disabled={isLoading !== ""}
                 placeholder="Ex: 0.0001 WMATIC"
                 inputClass="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                errorClass="text-sm font-normal text-red-600 ml-2.5"
               />
             </div>
           </div>
-          <div className="mt-40 lg:max-w-[300px] lg:mx-auto mb-5">
+          <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
             <Button
               btnClassName="w-full mb-4 !min-h-[39px]"
               type="replyCancel"

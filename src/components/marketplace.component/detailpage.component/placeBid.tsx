@@ -76,9 +76,7 @@ const PlaceBid = ({
         response.statusText.toLowerCase() === "ok"
       ) {
         rootDispatch(
-          setToaster({ message: "Bid has been placed successfully",callback: () => {
-            navigate(`/profile/${address}`);
-          } })
+          setToaster({ message: "Bid has been placed successfully"})
         );
         clearState();
         refresh()
