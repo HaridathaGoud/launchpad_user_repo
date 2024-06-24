@@ -16,9 +16,7 @@ const Projectdetails = () => {
   const user = useSelector((store: any) => store.auth?.user);
   const [loader, setLoader] = useState(false);
   const [data, setData] = useState<any>(null);
-  const [isAllowed,setIsAllowed]=useState(true);
-  const [text,setText]=useState('');
-  const [timers,setTimers]=useState({initiated:0,timeLeft:0})
+
   useEffect(() => {
     if (projectId) {
       getDetails("all");
@@ -74,31 +72,7 @@ const Projectdetails = () => {
     let publicStDate = data?.publicStartDate;
     let publicEndDate = data?.publicEndDate;
     const now = new Date();
-    const privateEndTimeInSec=Math.floor(new Date(privateEndDate).getTime()/1000)
-    const publicEndTimeInSec=Math.floor(new Date(publicEndDate).getTime()/1000)
-    const privateStartTimeInSec=Math.floor(new Date(privateStDate).getTime()/1000)
-    const publicStartTimeInSec=Math.floor(new Date(publicStDate).getTime()/1000)
-    const timeInSec=Math.floor(now.getTime() / 1000);
-    if(timeInSec<privateStartTimeInSec){
-      setIsAllowed(false)
-      setTimers({initiated:timeInSec,timeLeft:privateStartTimeInSec})
-      setText('Private starts in')
-    }else if(timeInSec>=privateStartTimeInSec && timeInSec<privateEndTimeInSec){
-      setText('Private ends in')
-      setIsAllowed(true)
-      setTimers({initiated:timeInSec,timeLeft:privateEndTimeInSec})
-    }else if(timeInSec>=privateEndTimeInSec && timeInSec<publicStartTimeInSec){
-      setText('Public starts in')
-      setIsAllowed(false)
-      setTimers({initiated:timeInSec,timeLeft:publicStartTimeInSec})
-    }else if(timeInSec>=publicStartTimeInSec && timeInSec<publicEndTimeInSec){
-      setText('Public ends in')
-      setIsAllowed(true)
-      setTimers({initiated:timeInSec,timeLeft:publicEndTimeInSec})
-    }else{
-      setTimers({initiated:timeInSec,timeLeft:publicEndTimeInSec});
-      setIsAllowed(false)
-    }
+    
     const currentDate = now.toISOString();
     if (
       (currentDate >= privateStDate && currentDate <= publicEndDate) ||
@@ -126,9 +100,7 @@ const Projectdetails = () => {
                 swapProgressBarCalculation={swapProgressBarCalculation}
                 allocationsRef={allocationsRef}
                 getDetails={getDetails}
-                timers={timers}
-                isAllowed={isAllowed}
-                text={text}
+              
               />
               <ProjectDetailsCard
                 loader={loader}
