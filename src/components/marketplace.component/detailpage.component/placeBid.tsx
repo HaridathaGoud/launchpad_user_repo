@@ -123,7 +123,7 @@ const PlaceBid = ({
                     Current Price
                   </p>
                   <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
-                    <span className=""> {data?.formatted || "--"}</span>{" "}
+                    <span className=""> { Number(data?.formatted || 0)?.toFixed(4) || "--"}</span>{" "}
                     <span className="">{nftDetails?.currency || "--"}</span>
                   </p>
                 </div>
@@ -173,7 +173,7 @@ const PlaceBid = ({
                       Your balance
                     </p>
                     <p className="truncate text-secondary font-semibold">
-                      <span className=""> {data?.formatted?.toFixed(4)}</span>{" "}
+                      <span className=""> { Number(data?.formatted || 0)?.toFixed(4)}</span>{" "}
                       <span className="">{nftDetails?.currency}</span>
                     </p>
                   </div>
@@ -198,7 +198,7 @@ const PlaceBid = ({
                       Total bid amount
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
-                      {Number(percentageValue) + Number(data?.formatted?.toFixed(4))} {nftDetails?.currency}
+                      {Number(percentageValue) + Number(data?.formatted || 0)?.toFixed(4)} {nftDetails?.currency}
                     </p>
                   </div>
                 </div>
