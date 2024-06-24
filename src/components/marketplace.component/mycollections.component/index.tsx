@@ -77,7 +77,7 @@ function MyCollections(props: any) {
             !localState?.loader &&
             data?.map((item: any) => (
               <div className="">
-              <div className="card bg-primary-content" onClick={() => handleCardView(item)}>
+              <div className="card bg-primary-content cursor-pointer" onClick={() => handleCardView(item)}>
                 <div className="">
                   <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                 </div>

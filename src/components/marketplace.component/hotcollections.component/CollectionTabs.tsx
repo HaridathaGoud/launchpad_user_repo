@@ -1,20 +1,18 @@
 import React, { useMemo, useState } from 'react'
 import Tabs from '../../../ui/Tabs';
 import Activity from '../topsellerdetailview/activity';
-import CollectionItems from './CollectionItems';
-
+import Nfts from '../../nfts.component'
 const CollectionTabs = ({
   handleTabChange }) => {
   const [activeTab, setActiveTab] = useState(0);
-
   const tabs = useMemo(() => {
     return [
       {
-        label: "Items", content: <CollectionItems activeTab={activeTab}  />
+        label: "Items", content: <Nfts type="hot collections"/>
       },
       { label: "Activity", content: <Activity /> },
     ];
-  }, [activeTab, CollectionItems])
+  }, [activeTab])
   return (
     <Tabs
       tabs={tabs}

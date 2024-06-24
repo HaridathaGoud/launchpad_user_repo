@@ -7,11 +7,10 @@ import {hotCollectionReducer, hotcollectionState} from './reducer';
 import HotcollectionviewShimmer from './hotcollectionviewshimmer';
 import { clearCollectionsActivityData,
    clearHotCollectionsViewDetails,
-   clearNfts,
    fetchHotCollectionsActivityDetails,
-   fetchHotCollectionsViewDetails,
-   fetchNftsDetails } from '../../../reducers/collectionReducer';
+   fetchHotCollectionsViewDetails} from '../../../reducers/collectionReducer';
 import { setError } from '../../../reducers/layoutReducer';
+import { guid } from '../../../utils/constants';
 const pageSize = 6;
 
 const HotcollectionView = (props: any) => {
@@ -21,12 +20,11 @@ const HotcollectionView = (props: any) => {
   const {hotCollectionViewDetails,user,activityData,NftDetails} = useSelector((store: any) => {
     return {
       hotCollectionViewDetails:store.collectionReducer.hotCollectionViewDetails,
-      user:store.auth.user,
+      user:store.auth.user || guid,
       activityData:store?.collectionReducer.hotCollectionsActivityDetails,
       NftDetails:store.collectionReducer.NftDetails,
     }
   });
-  const [searchValue, setSearchValue]=useState({status:"All",currency:"Matic",priceLevel:null,minMaxCategory:'min to max',selectedSearch:null})
   const [isActive, setIsActive] = useState(0);
 
   useEffect(()=>{
@@ -38,18 +36,16 @@ const HotcollectionView = (props: any) => {
     };
   },[])
   useEffect(() => {
-    getNftsDetails(state.selectedStatus,state.selectedCurrency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory);
+    getNftsDetails();
     if (NftDetails.error) rootDispatch(setError({message:NftDetails.error}))
-
     return () => {
-      props.clearNfts();
       props.clearCollectionsActivityData();
     };
   }, [isActive]);
 
   const handleTabChange = (selectedTab: any) => {
      setIsActive(selectedTab);
-      getNftsDetails(state.selectedStatus, state.selectedCurrency, searchValue.priceLevel, state.selection?.minMaxCategory||searchValue.minMaxCategory);
+       getNftsDetails();
   };
 
   const getHotCollectionsData = async () => {
@@ -59,35 +55,17 @@ const HotcollectionView = (props: any) => {
     });
   };
 
-  const getNftsDetails=async(status:any,currency:any,selectedLevel:any,minMaxCategory:any,on: string = "")=>{
-    setSearchValue(prevState => ({
-      ...prevState,
-      status: status,
-      currency:currency,
-      priceLevel:selectedLevel,
-  }));
-
+  const getNftsDetails=async(on: string = "")=>{
     if(isActive === 1){
       props.fetchHotCollectionsActivityDetails({
         data: on === "seeMore" ? activityData.data : null,
-        id:user.id,
+        id:user.id || guid,
         collectionId:params.collectionid,
         page: on === "seeMore" ? activityData.nextPage : 1,
         take: pageSize,
       });
       return;
     }
-      props.fetchNftsDetails({
-        data: on === "seeMore" ? NftDetails.data : null,
-        id:user.id,
-        collectionId:params.collectionid,
-        page: on === "seeMore" ? NftDetails.nextPage : 1,
-        take: pageSize,
-        search:searchValue.selectedSearch,
-        currency:currency,
-        status:status,
-        minMaxCategory:selectedLevel || minMaxCategory||null
-      });
   }
 
   const showSeeMore = useMemo(() => {
@@ -166,17 +144,17 @@ const HotcollectionView = (props: any) => {
         <hr className="bg-[#f8f6f6] my-6" />
        <CollectionTabs  handleTabChange={handleTabChange}   />
 
-        {/* {showSeeMore && (
+        {showSeeMore && isActive === 1 && (
         <div className="flex justify-center items-center">
           <Button type="plain"
-          handleClick={() => getNftsDetails(searchValue.status,searchValue.currency,searchValue.priceLevel,state.selection?.minMaxCategory||searchValue.minMaxCategory,'seeMore')}>
+          handleClick={() => getNftsDetails('seeMore')}>
           <span className="cursor-pointer text-base text-primary font-semibold">
             See More
           </span>
           <span className="mx-auto block icon see-more cursor-pointer mt-[-4px]"></span>
         </Button>
         </div>
-      )} */}
+      )}
         </div>
       }
         </> );
@@ -197,12 +175,6 @@ const connectDispatchToProps = (dispatch: any) => {
     },
     clearCollectionsActivityData:()=>{
       dispatch(clearCollectionsActivityData());
-    },
-    fetchNftsDetails:(callback: any)=>{
-      dispatch(fetchNftsDetails(callback))
-    },
-    clearNfts:()=>{
-      dispatch(clearNfts())
     },
     dispatch,
   };
