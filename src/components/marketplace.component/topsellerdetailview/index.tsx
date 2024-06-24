@@ -316,19 +316,19 @@ const TopsellerDetailview = (props) => {
   const { address } = useAccount();
 const params = useParams();
   useEffect(() => {
-    store.dispatch(customerDetails({address}));
-    store.dispatch(fectTopSellerBannerDetails({followerId:params.id,customerId: user.id || guid} ));
-    store.dispatch(getCreatedCount(address,user?.id));
-    store.dispatch(getFavoritedCount(address ));
-    store.dispatch(getOwnedCountData(address ));
+    store.dispatch(customerDetails({address:params.walletAddress}));//top seller wallet address
+    store.dispatch(fectTopSellerBannerDetails({followerId:params?.id,customerId: user.id || guid} ));
+    store.dispatch(getCreatedCount(params?.walletAddress,user?.id)); // top seller wallet address
+    store.dispatch(getFavoritedCount(params?.walletAddress ));
+    store.dispatch(getOwnedCountData(params?.walletAddress ));
     rootDispatch(tabCountUpdated(false));
-  }, [address,props?.featchNFTsCollection?.isTabCountUpdated]);
+  }, [address,props?.featchNFTsCollection?.isTabCountUpdated,params?.walletAddress]);
 
   useEffect(() => {
     dispatch({ type: 'setActiveTab', payload: 0 });
     const selectTabs = getSelectTabs(0);
     dispatch({ type: 'setSelectedTab', payload: selectTabs });
-  }, [address]);
+  }, [params?.walletAddress]);
 
   const tabs = useMemo(() => {
     return [
@@ -367,7 +367,7 @@ const params = useParams();
     <>
     <div className='container mx-auto pt-5 px-3 lg:px-0'>
       {customerInfo.loading && <HotcollectionviewShimmer />}
-      {!customerInfo.loading &&<> 
+      {!customerInfo.loading &&<>
      <div className='min-h-[320px] rounded-lg mt-4 relative'>
           <img src={defaultbg} alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
           <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
@@ -384,7 +384,7 @@ const params = useParams();
                 <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
               </div>
               <div className="flex gap-4 mt-4 mb-5">
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Followers</span>{formatNumber(topSellerBanerDetails?.data?.followers) || 0}</p> 
+                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Followers</span>{formatNumber(topSellerBanerDetails?.data?.followers) || 0}</p>
                 <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Following</span>{formatNumber(topSellerBanerDetails?.data?.following) || 0}</p>
                 <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Items</span>{formatNumber(topSellerBanerDetails?.data?.items) || 0}</p>
               </div>
@@ -447,7 +447,7 @@ const params = useParams();
         iSTabChange={handleTabChange}
         setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
       />
-      <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params.id}/>
+      <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params?.walletAddress}/>
       </>}
       </div>
     </>
