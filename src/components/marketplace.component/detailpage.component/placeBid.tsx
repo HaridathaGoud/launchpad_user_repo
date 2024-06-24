@@ -198,7 +198,7 @@ const PlaceBid = ({
                       Total bid amount
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
-                      {Number(percentageValue) + Number(data?.formatted || 0)?.toFixed(4)} {nftDetails?.currency}
+                      {Number(percentageValue) + Number(Number(data?.formatted || 0)?.toFixed(4))} {nftDetails?.currency}
                     </p>
                   </div>
                 </div>
