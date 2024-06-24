@@ -78,6 +78,10 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];  
     }else if(path.includes("collections")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections']; 
+    }else if(path.includes("nft/create")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateNft']; 
+    }else if(path.includes("collection/create")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateColection']; 
     }
     else {
       breadcrumbToUpdate = getBreadcrumbList["default"];

@@ -40,6 +40,16 @@ export const getBreadcrumbList = {
     { name: "Marketplace", path: "/marketplace/home" },
     { name: "Collections", path: "" },
   ],
+  marketplaceCreateNft:[ 
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Create New NFT", path: "" },
+  ],
+  marketplaceCreateColection:[ 
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Create New Collection", path: "" },
+  ],
   marketplaceExplore:[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
