@@ -240,7 +240,7 @@ const Nfts = forwardRef((props: any, ref) => {
             <div className="container mx-auto pt-5 px-3 lg:px-0">
                 <div className="mt-7 mb-[42px]">
                     <div className="md:flex justify-between gap-4">
-                        <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={handleSearch} inputRef={searchInputRef} placeholder="Search Movie, NFT Name,  Category...... " />
+                        <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={handleSearch} inputRef={searchInputRef} placeholder="Search NFT Name,  Category...... " />
                         <div className="flex items-center max-sm:mt-2">
                             <div className="dropdown mr-2.5">
                                 <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: {localState.values?.price} <span className="icon drop-arrow"></span></div>
