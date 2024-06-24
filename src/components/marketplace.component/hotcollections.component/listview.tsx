@@ -21,13 +21,13 @@ const ListView = (props:any) => {
                 <th className="text-left text-base text-secondary font-bold">
                 Item
                 </th>
-                <th className="text-left text-base text-secondary font-bold">
+                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
                 Current Price
                 </th>
-                <th className="text-left text-base text-secondary font-bold">
+                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
                 Best Offer
                 </th>
-                <th className="text-left text-base text-secondary font-bold">
+                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
                 Last Sale
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
@@ -43,8 +43,8 @@ const ListView = (props:any) => {
               {props?.data?.data?.length > 0 && !props?.data?.loading &&
                 props?.data?.data?.map((item: any, index: any) => (
                   <tr>
-                    <td>
-                      <div className="flex gap-4 items-center">
+                    <td className="w-40">
+                      <div className="flex flex-wrap gap-4 items-center">
                         <img src=
                         {
                           item?.image && !item?.image?.includes("null")
@@ -54,8 +54,8 @@ const ListView = (props:any) => {
                               )
                             : listimg
                         }
-                         className="w-[50px] h-[50px] object-cover rounded-2xl" alt="" />
-                         <p>{item?.name}</p>
+                         className="w-[50px] h-[50px] object-cover rounded-2xl shrink-0" alt="" />
+                         <p className="font-normal text-sm text-secondary" title={item?.name}>{item?.name}</p>
                          </div>
                     </td>
                     <td>
@@ -88,7 +88,7 @@ const ListView = (props:any) => {
                     {item.isPutOnSale &&
                       <Button
                         type="secondary"
-                        btnClassName="!py-0 px-6"
+                        btnClassName="!py-0 px-6 whitespace-nowrap"
                         handleClick={()=>navigateToAsset(item)}
                       >
                         Buy Now
