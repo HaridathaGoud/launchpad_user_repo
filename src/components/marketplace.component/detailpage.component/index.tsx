@@ -75,7 +75,7 @@ const DetailPage = (props: any) => {
     if (tokenId && collectionAddress && nftId) {
       initialize();
     }
-  }, [tokenId, collectionAddress, nftId, isConnected]);
+  }, [tokenId, collectionAddress, nftId,props?.auth?.user?.id]);
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
