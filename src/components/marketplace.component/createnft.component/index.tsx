@@ -43,7 +43,6 @@ function CreateNft() {
     };
   }, []);
   const saveDetails = async (path, responseAfterMint: any) => {
-    debugger
     const { ok, data } = responseAfterMint;
     if (ok) {
       const tokenId = parseInt(data.logs[0].topics[3]);
