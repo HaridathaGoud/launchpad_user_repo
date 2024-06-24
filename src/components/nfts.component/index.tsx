@@ -269,8 +269,8 @@ const Nfts = forwardRef((props: any, ref) => {
                             handleApply={handleMinMax}
                         />
                     </div>}
-                    <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 ${localState?.activeContent === 'content1' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]' : ''} `}>
-                        {localState?.activeContent === 'content1' && <>
+                    <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9`}>
+                        {localState?.activeContent === 'content1' && <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]">
                             {data &&
                                 !localState?.loader &&
                                 data?.map((item: any) => (
@@ -426,13 +426,13 @@ const Nfts = forwardRef((props: any, ref) => {
                                     <NoDataFound text={''} />
                                 </div>
                             )}
-                        </>}
+                        </div>}
 
                         {localState.activeContent === 'content2' && (
                             <ListView data={nftDetails} />)}
 
                         {data?.length === (pageNo - 1) * pageSize && (
-                            <div className="category-more md:col-span-8 lg:col-span-8 xl:col-span-3">
+                            <div className="">
                                 <div className="text-center mt-5">
                                     <span
                                         onClick={loadmore}

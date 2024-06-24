@@ -44,7 +44,7 @@ const ListView = (props:any) => {
                 props?.data?.data?.map((item: any, index: any) => (
                   <tr>
                     <td className="w-40">
-                      <div className="flex flex-wrap gap-4 items-center">
+                      <div className="flex gap-4 items-center">
                         <img src=
                         {
                           item?.image && !item?.image?.includes("null")
@@ -55,7 +55,7 @@ const ListView = (props:any) => {
                             : listimg
                         }
                          className="w-[50px] h-[50px] object-cover rounded-2xl shrink-0" alt="" />
-                         <p className="font-normal text-sm text-secondary" title={item?.name}>{item?.name}</p>
+                         <p className="font-normal text-sm text-secondary truncate" title={item?.name}>{item?.name}</p>
                          </div>
                     </td>
                     <td>
