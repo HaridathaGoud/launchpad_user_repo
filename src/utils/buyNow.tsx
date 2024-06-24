@@ -7,6 +7,8 @@ import { getMarketplace, postMarketplace } from "./api";
 import Button from "../ui/Button";
 import Spinner from "../components/loaders/spinner";
 import { setError, setToaster } from "../reducers/layoutReducer";
+import defaultlogo from "../assets/images/default-bg.png";
+
 const BuyComponent = (props: any) => {
   const rootDispatch = useDispatch();
   const router = useNavigate();
@@ -109,7 +111,7 @@ const BuyComponent = (props: any) => {
             <div className="flex gap-5 items-center mt-10">
               <img
                 className="w-[112px] h-[112px] object-cover rounded-[15px]"
-                src={props.getNFTImageUrl(props.nftDetails?.image)}
+                src={props.nftDetails?.image || defaultlogo}
                 alt={props?.nftDetails?.name}
               />
               <div className="">

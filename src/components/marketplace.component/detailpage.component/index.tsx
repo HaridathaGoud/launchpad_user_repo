@@ -187,8 +187,7 @@ const DetailPage = (props: any) => {
     }
   };
   const getNFTImageUrl = (file: any) => {
-    const filePath = file?.replace("ipfs://", "");
-    return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
+    return file
   };
 
   const getbidData = async () => {
@@ -204,7 +203,7 @@ const DetailPage = (props: any) => {
     if (type === "creator") {
       router(`/profile/${item?.creatorWalletAddress || address}`);
       return;
-    } 
+    }
     if (type === "currentOwner") {
       router(`/profile/${item?.ownerAddress || address}`);
     }

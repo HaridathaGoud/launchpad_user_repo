@@ -231,8 +231,7 @@ const Nfts = forwardRef((props: any, ref) => {
         }
     }
     const getNFTImageUrl = (file) => {
-        const filePath = file?.replace('ipfs://', '');
-        return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
+       return file
     };
 
     return (
@@ -288,9 +287,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 type="plain" btnClassName="w-full"
                                             >
                                                 <img
-                                                    src={item?.image && !item?.image?.includes('null')
-                                                        ? `${getNFTImageUrl(item?.image)}`
-                                                        : defaultlogo}
+                                                    src={item?.image || defaultlogo}
                                                     alt=""
                                                     className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${item?.isUnlockPurchased &&
                                                         address !== item?.walletAddress
@@ -379,7 +376,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                             </Button>
                                             <hr />
                                             <div className={`px-2.5 py-4 flex  ${item?.walletAddress !== address ? 'justify-center' :'justify-between'}`} >
-                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && 
+                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) &&
                                                 <div className="px-2.5 py-4 flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
                                                         <span className="icon card-shop"></span>

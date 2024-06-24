@@ -36,11 +36,7 @@ const MoreFromCollection = ({
                       }
                     >
                       <img
-                        src={
-                          item?.image
-                            ? `${getNFTImageUrl(item?.image)}`
-                            : defaultlogo
-                        }
+                        src={ item?.image || defaultlogo}
                         className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg ${
                           item?.isUnlockPurchased &&
                           address?.toLowerCase() !==
