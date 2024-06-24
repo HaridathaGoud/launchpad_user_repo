@@ -274,7 +274,7 @@
 import React, { useMemo, useReducer, useRef, useEffect } from 'react';
 import 'react-multi-carousel/lib/styles.css';
 import { useParams } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import Tabs from '../../../ui/Tabs';
 import { getFavoritedCount, getCreatedCount, getOwnedCountData, tabCountUpdated } from '../../../reducers/marketplaceProfileReducer';
 import { store } from '../../../store';
@@ -306,17 +306,24 @@ const TopsellerDetailview = (props) => {
   const nftRef = useRef(null);
   const rootDispatch = useDispatch();
   const [state, dispatch] = useReducer(reducers, initialState);
+  const {customerInfo,user,topSellerBanerDetails} = useSelector((store: any) => {
+    return {
+      customerInfo:store.topSellerReducer.customerInfo,
+      user:store.auth.user || guid,
+      topSellerBanerDetails:store?.topSellerReducer.topSellerBanerDetails,
+    }
+  });
   const { address } = useAccount();
 const params = useParams();
   useEffect(() => {
-    store.dispatch(customerDetails(address ));
+    store.dispatch(customerDetails({address}));
     store.dispatch(fectTopSellerBannerDetails({followerId:params.id,customerId: address || guid} ));
 
     // store.dispatch(getCreatedCount(address || walletAddress, props.auth.user?.id));
     // store.dispatch(getFavoritedCount(address || walletAddress));
     // store.dispatch(getOwnedCountData(address || walletAddress));
     rootDispatch(tabCountUpdated(false));
-  }, [address, props.auth.user?.id,props?.featchNFTsCollection?.isTabCountUpdated]);
+  }, [address,props?.featchNFTsCollection?.isTabCountUpdated]);
 
   useEffect(() => {
     dispatch({ type: 'setActiveTab', payload: 0 });
