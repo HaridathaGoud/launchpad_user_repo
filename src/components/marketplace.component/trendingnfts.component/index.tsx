@@ -1,17 +1,21 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMarketplace, postMarketplace } from "../../../utils/api";
-import defaultbg from "../../../assets/images/default-bg.png";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import "react-multi-carousel/lib/styles.css";
 import BuyComponent from "../../../utils/buyNow";
 import { useAccount } from "wagmi";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Button from "../../../ui/Button";
-import { setError } from "../../../reducers/layoutReducer";
+import { setError,setToaster } from "../../../reducers/layoutReducer";
 import NoDataFound from "../../../ui/noData";
 import { trendingNFTSReducer, trendingNftState } from "./reducer";
+import { modalActions } from "../../../ui/Modal";
+import { saveFavorite } from '../../nfts.component/services'
+import Spinner from "../../loaders/spinner";
+
 function TrendingNfts(props) {
+  const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
   const rootDispatch = useDispatch();
   const router = useNavigate();
   const { address, isConnected } = useAccount();
@@ -46,7 +50,7 @@ function TrendingNfts(props) {
   };
 
   const handleBuyModal = (item: any) => {
-    router(`User/NFTDetails/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`);
+    router(`/marketplace/nft/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`);
   };
   const loadNftDetails = async (item) => {
     await getMarketplace(
@@ -93,6 +97,50 @@ function TrendingNfts(props) {
     const filePath = file?.replace('ipfs://', '');
     return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
   };
+  const addToFavorites = (item: any) => {
+    if (isConnected) {
+        saveFavoriteNft(item);
+    } else {
+        modalActions("connect-wallet-model-exploreNfts", "open");
+    }
+};
+const saveFavoriteNft = async (item: any) => {
+    errorMessage && rootDispatch(setError({ message: '' }))
+    localDispatch({
+        type: "setFavoriteLoader",
+        payload: { id: item.id, loading: true },
+    });
+    try {
+        let obj = {
+            nftId: item.id,
+            customerId: props.auth.user?.id,
+            isFavourite: !item.isFavourite,
+        };
+        const { status, error } = await saveFavorite(obj);
+        if (status) {
+            rootDispatch(
+                setToaster({
+                    message: `Nft ${item.isFavourite ? "removed from" : "added to"
+                        } Favorites!`,
+                })
+            );
+              visibleItems?.map((_item) => {
+                    if (_item?.id === item?.id) {
+                        _item.isFavourite = !item?.isFavourite
+                    }
+                })
+        }
+        if (error) rootDispatch(setError({ message: error }));
+    } catch (error) {
+        rootDispatch(setError({ message: "Something went wrong, please try again!" }))
+    } finally {
+        localDispatch({
+            type: "setFavoriteLoader",
+            payload: { id: "", loading: false },
+        });
+    }
+};
+
   const visibleItems = localState.todaytrending ? [...localState.todaytrending?.slice(localState.currentIndex), ...localState.todaytrending?.slice(0, localState.currentIndex)].slice(0, 3) : [];
   return (
     <>
@@ -130,7 +178,7 @@ function TrendingNfts(props) {
                                 : "trend-image"
                                 }`}
                               onClick={
-                                   () => handleDeatailPage(item)
+                                () => handleDeatailPage(item)
                               }
                             />
                             <img
@@ -138,20 +186,60 @@ function TrendingNfts(props) {
                               alt=""
                               className="w-[68px] h-[68px] object-cover rounded-[16px] absolute bottom-[-36px] left-3.5"
                             />
-                            {item.isPutOnSale &&
-                              item.creatorWalletAddress != address && (
-                                <div className="text-right absolute right-5 bottom-2">
-                                  <Button
-                                    btnClassName="trend-btn opacity-100"
-                                    type="primary"
-                                    handleClick={() => handleBuyModal(item)}
+                            <div className={`px-2.5 py-4 flex  ${item?.creatorWalletAddress !== address ? 'justify-center' : 'justify-between'}`} >
+                              {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.creatorWalletAddress === address) &&
+                                <div className="px-2.5 py-4 flex justify-center">
+                                  <div className="flex shop-card cursor-pointer">
+                                    <span className="icon square-arrow"></span>
+                                    <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}
+                                    >
+                                      Put On Sale
+                                    </Button>
+                                  </div>
+                                </div>}
+                              {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.creatorWalletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
+                                <div className="flex shop-card cursor-pointer">
+                                  <span className="icon square-arrow"></span>
+                                  <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}
                                   >
-                                    Buy Now
+                                    Put On Auction
                                   </Button>
                                 </div>
-                              )}
+                              </div>}
+                              {/* <div className="w-px border"></div> */}
+                              {(item?.isPutOnSale && (item?.creatorWalletAddress !== address)) && <div className="flex shop-card cursor-pointer">
+                                <span className="icon square-arrow"></span>
+                                <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}>
+                                  Buy Now
+                                </Button>
+                              </div>}
+                              {(item?.isPutOnAuction && (item?.creatorWalletAddress !== address)) && <div className="flex shop-card cursor-pointer">
+                                <span className="icon square-arrow"></span>
+                                <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}>
+                                  Place a Bid
+                                </Button>
+                              </div>}
+                            </div>
                             <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
-                              <span className="icon like-white "></span>
+                              {/* <span className="icon like-white "></span> */}
+                              <Button
+                                type="plain"
+                                handleClick={() => addToFavorites(item)}
+                                btnClassName=""
+                              >
+                                {localState?.favoriteLoader?.id !== item.id && (
+                                  <span
+                                    className={`icon like-white ${item?.isFavourite ? "active" : ""
+                                      }`}
+                                  ></span>
+                                )}
+                                {localState?.favoriteLoader?.id === item.id &&
+                                  localState?.favoriteLoader?.loading && (
+                                    <span>
+                                      <Spinner />
+                                    </span>
+                                  )}
+                              </Button>
                             </div>
                           </div>
 

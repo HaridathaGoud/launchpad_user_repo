@@ -6,6 +6,7 @@ export interface TrendingNftsStateModel {
     trendingData: Object | any;
     nftDetails:any;
     currentIndex: number;
+    favoriteLoader:boolean;
 }
 export const trendingNftState = {
     previosImageChagne: 0,
@@ -14,7 +15,8 @@ export const trendingNftState = {
     showBuyModal: false,
     trendingData: {},
     nftDetails:{},
-    currentIndex: 0
+    currentIndex: 0,
+    favoriteLoader : false
 };
 
 export const trendingNFTSReducer = (state = trendingNftState, action) => {
@@ -39,6 +41,9 @@ export const trendingNFTSReducer = (state = trendingNftState, action) => {
             break;
         case "setCurrentIndex":
             state = { ...state, currentIndex: action.payload };
+            break;
+        case "setFavoriteLoader":
+            state = { ...state, favoriteLoader: action.payload };
             break;
         default:
             state = { ...state };
