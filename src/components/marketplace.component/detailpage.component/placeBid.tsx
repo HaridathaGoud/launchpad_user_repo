@@ -179,6 +179,8 @@ const PlaceBid = ({
                     allowDecimals={4}
                     placeholder="Bidding amount"
                     disabled={loading !== ""}
+                    labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
+                    errorClass="text-sm font-normal text-red-600 ml-2.5"
                   />
                 </div>
                 <div className="px-4">
@@ -225,13 +227,13 @@ const PlaceBid = ({
                   {getModalSteps().map((step: any, index: number) => {
                     return (
                       <li
-                        className={`step ${
+                        className={`step  ${
                           index <= currentStep ? "step-primary" : ""
                         }`}
                         key={step.title}
                       >
-                        <p className="font-medium">{step.title}</p>
-                        <p>{step.message}</p>
+                        <p className="font-medium hover:bg-transparent">{step.title}</p>
+                        <p className="text-center hover:bg-transparent">{step.message}</p>
                       </li>
                     );
                   })}
@@ -253,7 +255,7 @@ const PlaceBid = ({
                 </div>
               </div>
             )}
-            <div className="mt-16 lg:max-w-[250px] lg:mx-auto mb-5">
+            <div className="mt-16 lg:w-[350px] lg:mx-auto mb-5">
               <Button
                 btnClassName="w-full mb-4 !min-h-[39px]"
                 type="replyCancel"

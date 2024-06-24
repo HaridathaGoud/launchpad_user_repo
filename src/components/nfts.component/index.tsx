@@ -268,8 +268,8 @@ const Nfts = forwardRef((props: any, ref) => {
                             handleApply={handleMinMax}
                         />
                     </div>}
-                    <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9`}>
-                        {localState?.activeContent === 'content1' && <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-[16px]">
+                    <div className={`col-span-12 md:col-span-8 lg:col-span-8 xl:col-span-9 ${props?.type === 'profile' ? '!md:col-span-12 xl:col-span-12 lg:col-span-12':''}`}>
+                        {localState?.activeContent === 'content1' && <div className={`grid md:grid-cols-2 xl:grid-cols-3 gap-[16px] ${props?.type === 'profile' ? 'xl:grid-cols-4 lg:grid-cols-4':''}`}>
                             {data &&
                                 !localState?.loader &&
                                 data?.map((item: any) => (

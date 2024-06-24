@@ -137,7 +137,7 @@ const Banner = () => {
                                     </Modal.Body>
                                 </Modal>
                             </div>
-                           <div className='flex justify-end'>
+                           <div className='md:flex justify-end max-sm:w-full max-sm:flex-1'>
                            <div className='lg:w-[400px]'>
                                 <Carousel data={localState.topNftDetails}>
                                     {localState.topNftDetails?.map((item) => (
