@@ -30,7 +30,9 @@ const BuyComponent = (props: any) => {
     let totalValue = buyValue + percentage;
     setTotalBuyValue(totalValue);
   };
-
+  const clearState = () => {
+    props.setIsOpen(false);
+  };
   const buyNow = async (e: any) => {
     setBtnLoader(true);
     e.preventDefault();
@@ -58,7 +60,7 @@ const BuyComponent = (props: any) => {
       let response = await getMarketplace(`User/nfttype/${nftId}`);
       if (response.data.isPutOnSale) {
         let response = await postMarketplace(`/User/SaveBuy`, obj);
-        if (response) {
+        if (response.statusText?.toLowerCase()==='ok') {
           props?.setIsOpen(false);
           rootDispatch(
             setToaster({
@@ -68,6 +70,8 @@ const BuyComponent = (props: any) => {
               },
             })
           );
+          clearState();
+          props?.refresh()
         } else {
           rootDispatch(setError({ message: response }));
         }

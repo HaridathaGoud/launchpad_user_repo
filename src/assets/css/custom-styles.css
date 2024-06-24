@@ -306,6 +306,8 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .puton-sale select {  -moz-appearance: none;  -webkit-appearance: none;  appearance: none;  background-image: none;background-position: right 8px center !important;} 
 .more-collection{width: 260px;}
 .min-max-group label{margin-left: 14px;}
+.icon.square-arrow{background-position: -334px -9px !important;}
+.shop-card:hover .icon.square-arrow{background-position: -550px -9px !important;} 
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}

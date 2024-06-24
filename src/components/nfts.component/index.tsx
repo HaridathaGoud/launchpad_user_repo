@@ -343,7 +343,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                             >
                                                 <div className="px-2 py-2.5">
                                                     <p className="text-xs text-secondary truncate text-left">
-                                                        {item.creator}
+                                                        {item.creator || '--'}
                                                     </p>
                                                     <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
                                                         {" "}
@@ -379,7 +379,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) &&
                                                 <div className="px-2.5 py-4 flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
-                                                        <span className="icon card-shop"></span>
+                                                        <span className="icon square-arrow"></span>
                                                         <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
                                                         >
                                                             Put On Sale
@@ -388,7 +388,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 </div>}
                                                 {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
-                                                        <span className="icon card-shop"></span>
+                                                        <span className="icon square-arrow"></span>
                                                         <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
                                                         >
                                                             Put On Auction
@@ -397,13 +397,13 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 </div>}
                                                 {/* <div className="w-px border"></div> */}
                                                 {(item?.isPutOnSale && (item?.walletAddress !== address)) && <div className="flex shop-card cursor-pointer">
-                                                    <span className="icon card-shop"></span>
+                                                    <span className="icon square-arrow"></span>
                                                     <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
                                                         Buy Now
                                                     </Button>
                                                 </div>}
                                                 {(item?.isPutOnAuction && (item?.walletAddress !== address)) && <div className="flex shop-card cursor-pointer">
-                                                    <span className="icon card-shop"></span>
+                                                    <span className="icon square-arrow"></span>
                                                     <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
                                                         Place a Bid
                                                     </Button>

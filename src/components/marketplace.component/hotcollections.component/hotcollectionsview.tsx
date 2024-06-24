@@ -93,7 +93,7 @@ const HotcollectionView = (props: any) => {
               <div className="flex text-[18px] font-medium gap-2.5">
                 <p className='text-white mt-2'>By : {hotCollectionViewDetails?.data?.creatorName ||'--'}   </p>
               </div>
-              <p className='text-white mt-3 text-base pr-4'>
+              <p className='text-white mt-3 text-base pr-4 overflow-hidden text-ellipsis line-clamp-4'>
                 {hotCollectionViewDetails?.data?.description ||'--'}
                 </p>
           </div>

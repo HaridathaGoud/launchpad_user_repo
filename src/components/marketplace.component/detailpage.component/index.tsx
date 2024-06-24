@@ -429,7 +429,7 @@ const DetailPage = (props: any) => {
                       </div>
                       <div>
                         <span className="icon art"></span>
-                        <span className="text-secondary font-semibold opacity-60">
+                        <span className="text-secondary font-semibold opacity-60 align-middle">
                           {nftDetails?.categoryName || "-"}
                         </span>
                       </div>
@@ -544,6 +544,7 @@ const DetailPage = (props: any) => {
                 percentageValue={percentageValue}
                 totalBuyValue={totalBuyValue}
                 tokenId={tokenId}
+                refresh={loadNftDetails}
               />
             )}
 
@@ -578,6 +579,7 @@ const DetailPage = (props: any) => {
               <BuyComponent
                 isOpen={drawerToOpen === "buyNow"}
                 setIsOpen={handleDrawerToOpen}
+                refresh={loadNftDetails}
                 handleClose={handleDrawerToOpen}
                 nftDetails={nftDetails}
                 collectionAddress={collectionAddress}
