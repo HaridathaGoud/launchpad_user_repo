@@ -67,7 +67,7 @@
 //   }
 
 //   console.log('state.profileInfo ',state.customerInfo);
-  
+
 //   return (
 //     <>
 //       <div className="mx-auto max-sm:px-3 md:mt-5 container">
@@ -81,7 +81,7 @@
 //               </div>
 //               <div className="flex text-[18px] font-medium gap-2.5 mt-1">
 //                 <p className='text-white'>Marvel Films</p>
-//                 <p className='text-white'>23 M Subscribers</p>                
+//                 <p className='text-white'>23 M Subscribers</p>
 //               </div>
 //               <div>
 //                 <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73</p>
@@ -101,8 +101,8 @@
 //               <span className='icon network cursor-pointer'></span>
 //             </div>
 //             </div>
-            
-//           </div> 
+
+//           </div>
 //         </div>
 //         <div role="tablist" className="tabs tabstyle mt-[34px] customTabs  max-sm:overflow-x-auto scrollbar-hidden">
 //           <input type="radio" name="my_tabs_1" role="tab" className={`tab !ml-0 ${activeTab === 'nft' ? 'tab-checked' : ''}`} aria-label="Featured" onChange={(e) => handleTabChange(e, 'nft')} checked={activeTab === 'nft'} />
@@ -356,8 +356,8 @@ const params = useParams();
   };
 
   console.log('params ',params.id);
-  
-  
+
+
   return (
     <>
      <div className='min-h-[320px] rounded-lg mt-4 relative'>
@@ -370,7 +370,7 @@ const params = useParams();
               </div>
               <div className="flex text-[18px] font-medium gap-2.5 mt-1">
                 <p className='text-white'>Marvel Films</p>
-                <p className='text-white'>23 M Subscribers</p>                
+                <p className='text-white'>23 M Subscribers</p>
               </div>
               <div>
                 <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73</p>
@@ -391,8 +391,8 @@ const params = useParams();
               <span className='icon network cursor-pointer'></span>
             </div>
             </div>
-            
-          </div> 
+
+          </div>
         </div>
       <Tabs
         tabs={tabs}
@@ -403,7 +403,7 @@ const params = useParams();
         iSTabChange={handleTabChange}
         setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
       />
-      <Nfts type="topSeller" ref={nftRef} selectedTab={state.tabName} />
+      <Nfts type="topSeller" ref={nftRef} tab={state.tabName} />
     </>
   );
 };

@@ -23,12 +23,12 @@ const getModalSteps = (isPutOnSale: boolean) => {
   ];
   return isPutOnSale
     ? [
-        ...steps,
-        {
-          title: "Signature",
-          message: "Please sign to place NFT on Sale in Marketplace",
-        },
-      ]
+      ...steps,
+      {
+        title: "Signature",
+        message: "Please sign to place NFT on Sale in Marketplace",
+      },
+    ]
     : steps;
 };
 const Form = ({ state, updateState, inputRef, mint }) => {
@@ -40,16 +40,16 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     propertiesToUpdate: modalProperties,
   } = state;
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { userCollections, networks } = useSelector((store: any) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
   });
-  useEffect(()=>{
-    if(networks.data){
-      updateState('setValues',{...values,network:networks.data?.[0]})
+  useEffect(() => {
+    if (networks.data) {
+      updateState('setValues', { ...values, network: networks.data?.[0] })
     }
-  },[networks.data])
+  }, [networks.data])
   const currencies = useMemo(() => {
     return values.network?.currencies || [];
   }, [values.network]);
@@ -141,10 +141,9 @@ const Form = ({ state, updateState, inputRef, mint }) => {
         const response = await apiUploadPost(`Upload/UploadFileNew`, body);
         if (response.statusText.toLowerCase() === "ok") {
           dispatch(setError({ message: "" }));
-          const result = await ipfsClient.add(file);
           updateState("setImage", {
             imageUrl: response.data[0],
-            filePath: result.path,
+            // filePath: result.path,
           });
         } else {
           dispatch(setError({ message: response }));
@@ -174,19 +173,22 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     e.preventDefault();
     updateState("setIsLoading", "saving");
     try {
-      const { isValid, errors } = validateForm({...values,imageUrl:image.imageUrl});
+      const { isValid, errors } = validateForm({ ...values, imageUrl: image.imageUrl });
       if (isValid) {
         Object.keys(formErrors).length > 0 && clearErrors();
         let obj = {
           description: values.description,
           external_url: values.externalLink,
-          image: `ipfs://${values.filePath}`,
+          image: `${image.imageUrl}`,
           name: values.name,
           attributes: JSON.stringify(values.properties),
         };
         let nftMetadata = JSON.stringify(obj);
-        const result = await ipfsClient.add(nftMetadata);
-        result.path && (await mint(result));
+        const blob = new Blob([nftMetadata], { type: "application/json" });
+        const formData = new FormData();
+        formData.append('file', blob, new Date().getTime() + '.json');
+        const result = await apiUploadPost("Upload/UploadFileNew", formData);
+        result?.data[0] && (await mint(result?.data[0]));
         updateState("setIsLoading", "redirecting");
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -291,7 +293,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               inputBoxClass="mb-6"
               fieldName="name"
               error={formErrors["name"]}
-              disabled={state.isLoading==='saving'}
+              disabled={state.isLoading === 'saving'}
             />
             <TextInput
               label="External link"
@@ -300,7 +302,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               isRequired={false}
               inputBoxClass="mb-6"
               fieldName="externalLink"
-              disabled={state.isLoading==='saving'}
+              disabled={state.isLoading === 'saving'}
               error={formErrors["externalLink"]}
               maxLength={500}
               inputInfo="DOTT will include a link to this URL on this item's detail page,
@@ -312,7 +314,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.description}
               onChange={handleChange}
               inputBoxClass="mb-6"
-              disabled={state.isLoading==='saving'}
+              disabled={state.isLoading === 'saving'}
               fieldName="description"
               error={formErrors["description"]}
               isRequired={true}
@@ -323,7 +325,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               value={values.collection?.["name"] || ""}
               options={userCollections.data || []}
               onChange={handleChange}
-              disabled={state.isLoading==='saving' || userCollections.loading}
+              disabled={state.isLoading === 'saving' || userCollections.loading}
               fieldName="collection"
               error={formErrors["collection"]}
               label="Collection"
@@ -348,7 +350,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     type="plain"
                     btnClassName="icon add-btn cursor-pointer"
                     handleClick={() => modalActions("nftPropsModal", "open")}
-                    disabled={state.isLoading==='saving'}
+                    disabled={state.isLoading === 'saving'}
                   ></Button>
                 </div>
                 <div className="mb-2 mt-7 grid grid-cols-3 gap-4 px-6">
@@ -400,9 +402,9 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 hasImage={true}
                 options={networks.data || []}
                 onSelect={(value: any) => handleChange("network", value)}
-                placeholder={networks.loading ? "Please wait...":"Select Network..."}
+                placeholder={networks.loading ? "Please wait..." : "Select Network..."}
                 loading={networks.loading}
-                disabled={state.isLoading==='saving' || networks.loading}
+                disabled={state.isLoading === 'saving' || networks.loading}
               />
               {formErrors?.["network"] && (
                 <p className="text-sm font-normal text-red-600 ">
@@ -419,7 +421,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               error={formErrors["royalities"]}
               isInteger={true}
               placeholder="Suggested: 10%, 20%, 30%"
-              disabled={state.isLoading==='saving'}
+              disabled={state.isLoading === 'saving'}
             />
             <div className="mb-6 ">
               <div className="flex items-center">
@@ -432,7 +434,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutonSale", e.target.checked)
                       }
-                      disabled={state.isLoading==='saving'}
+                      disabled={state.isLoading === 'saving'}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -475,7 +477,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         fieldName="crypto"
                         error={formErrors["crypto"]}
                         label=""
-                        disabled={state.isLoading==='saving'}
+                        disabled={state.isLoading === 'saving'}
                         defaultOption="Currency"
                         errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
@@ -494,7 +496,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       onChange={(e) =>
                         handleChange("isPutOnAuction", e.target.checked)
                       }
-                      disabled={state.isLoading==='saving'}
+                      disabled={state.isLoading === 'saving'}
                       className="checkbox checkbox-error opacity-0"
                     />
 
@@ -513,18 +515,18 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     You'll receive bids on this item
                   </p>
                   <div className="flex relative puton-sale">
-                     <NumberInput
-                        label=""
-                        isRequired={true}
-                        fieldName="auctionPrice"
-                        error={formErrors["auctionPrice"]}
-                        value={""}
-                        allowDecimals={4}
-                        onChange={handleChange}
-                        inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
-                        placeholder="Enter the price per one bid"
-                        inputClass="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                      />
+                    <NumberInput
+                      label=""
+                      isRequired={true}
+                      fieldName="auctionPrice"
+                      error={formErrors["auctionPrice"]}
+                      value={""}
+                      allowDecimals={4}
+                      onChange={handleChange}
+                      inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                      placeholder="Enter the price per one bid"
+                      inputClass="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                    />
                     <Select
                       inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
                       inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
@@ -536,7 +538,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       fieldName="crypto"
                       error={formErrors["crypto"]}
                       label=""
-                      disabled={state.isLoading==='saving'}
+                      disabled={state.isLoading === 'saving'}
                       defaultOption="Currency"
                     />
                   </div>
@@ -551,7 +553,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   onChange={(e: any) =>
                     handleChange("isUnlockPurchased", e.target.checked)
                   }
-                  disabled={state.isLoading==='saving'}
+                  disabled={state.isLoading === 'saving'}
                 />
                 <p className="text-xl font-normal text-secondary ml-3">
                   Unlock once purchased
@@ -570,7 +572,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   fieldName="unlockDescription"
                   error={formErrors["unlockDescription"]}
                   isRequired={true}
-                  disabled={state.isLoading==='saving'}
+                  disabled={state.isLoading === 'saving'}
                 />
               )}
             </div>
@@ -579,7 +581,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 btnClassName="min-w-[128px] h-[48px]"
                 type="cancel"
                 disabled={state.isLoading === "saving"}
-                handleClick={()=>navigate(-1)}
+                handleClick={() => navigate(-1)}
               >
                 Cancel
               </Button>
@@ -699,9 +701,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     (step: any, index: number) => {
                       return (
                         <li
-                          className={`step ${
-                            index <= state.modalStep ? "step-primary" : ""
-                          }`}
+                          className={`step ${index <= state.modalStep ? "step-primary" : ""
+                            }`}
                           key={step.title}
                         >
                           <p className="font-medium">{step.title}</p>

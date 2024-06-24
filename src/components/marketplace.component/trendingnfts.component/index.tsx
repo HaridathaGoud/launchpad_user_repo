@@ -130,9 +130,7 @@ function TrendingNfts(props) {
 
                           <div className="relative">
                             <img
-                              src={item?.logo && !item?.logo?.includes('null')
-                              ? `${getNFTImageUrl(item?.logo)}`
-                              : defaultlogo}
+                              src={item?.logo || defaultlogo}
                               alt=""
                               className={`w-full object-cover h-[400px] rounded-[16px] cursor-pointer ${item?.isUnlockPurchased &&
                                   address?.toLowerCase() !==
@@ -147,9 +145,7 @@ function TrendingNfts(props) {
                               }
                             />
                             <img
-                             src={item?.creatorProfilePicUrl && !item?.creatorProfilePicUrl?.includes('null')
-                             ? `${getNFTImageUrl(item?.creatorProfilePicUrl)}`
-                             : defaultlogo}
+                             src={item?.creatorProfilePicUrl || defaultlogo}
                               alt=""
                               className="w-[68px] h-[68px] object-cover rounded-[16px] absolute bottom-[-36px] left-3.5"
                             />
