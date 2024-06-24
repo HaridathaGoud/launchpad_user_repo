@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAccount } from "wagmi";
 import defaultlogo from "../../../assets/images/default-bg.png";
 import NoDataFound from "../../../ui/noData";
@@ -10,7 +10,19 @@ const MoreFromCollection = ({
   moreCollectionClick,
   notConnectCollectionClick,
 }) => {
+  const [currentIndex,setCurrentIndex]=useState(0)
+  const handleSlideActions = (action) => {
+    if (action === 'previous') {
+      const newIndex = (currentIndex+ 1) % moreCollection?.length;
+      setCurrentIndex(newIndex)
+    }
+    else {
+      const newIndex = (currentIndex - 1 + moreCollection?.length) % moreCollection?.length;
+      setCurrentIndex(newIndex)
+    }
+  };
   const { isConnected,address } = useAccount();
+  const data = moreCollection?.length>0 ? [...moreCollection.slice(currentIndex), ...moreCollection.slice(0, currentIndex)].slice(0,5) : [];
   return (
     <section className="mt-5">
       <h2 className="text-[24px] font-semibold text-secondary mb-5 mt-6">
@@ -20,7 +32,7 @@ const MoreFromCollection = ({
         {moreCollection?.length !== 0 && (
           <div className="relative container">
             <div className="carousel gap-4 flex py-2 px-2 md:px-14">
-              {moreCollection?.map((item) => (
+              {data?.map((item) => (
                 <div
                   className="carousel-item more-collection shadow-md cursor-pointer bg-primary-content rounded-lg relative min-h-[420px] transform transition-transform duration-500 hover:scale-[1.03]"
                   key={item.name + item.walletAddress + item.image}
@@ -110,10 +122,14 @@ const MoreFromCollection = ({
                 </div>
               ))}
             </div>
-            <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
-              <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
+            {data?.length>=5 && <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
+            <Button type="plain" handleClick={() => handleSlideActions("previous")}>
+            <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
+            </Button>
+            <Button type="plain" handleClick={() => handleSlideActions("next")}>
               <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
-            </div>
+              </Button>
+            </div>}
           </div>
         )}
         {moreCollection?.length === 0 && <NoDataFound text={""} />}
