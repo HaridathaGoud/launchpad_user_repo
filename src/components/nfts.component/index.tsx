@@ -38,7 +38,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.data = data;
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
-        obj.walletAddress = params?.walletAddress;
+        obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
@@ -56,7 +56,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.data = data;
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
-        obj.walletAddress = params?.walletAddress;
+        obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
@@ -66,7 +66,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.data = data;
         obj.pageNo = pageNo;
         obj.collectionid = params?.collectionid;
-        obj.walletAddress = params?.walletAddress;
+        obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.customerId = user?.id || guid;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
@@ -99,7 +99,7 @@ const Nfts = forwardRef((props: any, ref) => {
                             } Favorites!`,
                     })
                 );
-                if (props?.type !== "profile") {
+                if( !(props?.type === "profile" || props?.type ==='topSellers') ){
                     data?.map((_item) => {
                         if (_item.id === item?.id) {
                             _item.isFavourite = !item?.isFavourite
@@ -122,7 +122,7 @@ const Nfts = forwardRef((props: any, ref) => {
                     let obj = { ...localState.values }
                     obj.collectionid = params?.collectionid;
                     obj.customerId = user?.id || guid;
-                    obj.walletAddress = params?.walletAddress;
+                    obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
                     obj.activeTab = props?.selectedTab || "GetNfts";
                     obj.categoryName = props?.categeoryName || "All"
                     store.dispatch(fetchNfts(obj, props?.type));
@@ -187,7 +187,7 @@ const Nfts = forwardRef((props: any, ref) => {
         // obj.data = data;
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
-        obj.walletAddress = params?.walletAddress;
+        obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
@@ -198,7 +198,7 @@ const Nfts = forwardRef((props: any, ref) => {
         // obj.data = data;
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
-        obj.walletAddress = params?.walletAddress;
+        obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
@@ -259,7 +259,7 @@ const Nfts = forwardRef((props: any, ref) => {
                     </div>
                 </div>
                 <div className='grid md:grid-cols-12 lg:gap-[45px]'>
-                    {props?.type !== 'profile' && <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
+                    {!(props?.type === 'profile' || props?.type ==='topSellers') && <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
                         <StatusDetailview
                             handleChange={handleChange}
                             selectedObj={localState.values}

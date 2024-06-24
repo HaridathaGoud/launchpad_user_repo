@@ -325,14 +325,22 @@ const params = useParams();
   }, [address]);
 
 
+  // const tabs = useMemo(() => {
+  //   return [
+
+  //     { label: 'Featured', content: '' },
+  //     { label: 'Collected', content: '' },
+  //     { label: 'Created', content: '' },
+  //     { label: 'Favorited', content: '' },
+  //     { label: 'Activity', content: '' },
+  //   ];
+  // }, [props?.featchNFTsCollection,state.activeTab]);
+
   const tabs = useMemo(() => {
     return [
-
-      { label: 'Featured', content: '' },
-      { label: 'Collected', content: '' },
-      { label: 'Created', content: '' },
-      { label: 'Favorited', content: '' },
-      { label: 'Activity', content: '' },
+      { label: `Created (${props?.featchNFTsCollection?.createdNFTSCount?.data || 0})`, content: '' },
+      { label: `Favorited (${props?.featchNFTsCollection?.saveFavaratedCount?.data || 0})`, content: '' },
+      { label: `Owned (${props?.featchNFTsCollection?.ownedNFTsCount?.data || 0})`, content: '' },
     ];
   }, [props?.featchNFTsCollection,state.activeTab]);
 
@@ -403,7 +411,7 @@ const params = useParams();
         iSTabChange={handleTabChange}
         setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
       />
-      <Nfts type="topSeller" ref={nftRef} tab={state.tabName} />
+      <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params.id}/>
     </>
   );
 };
