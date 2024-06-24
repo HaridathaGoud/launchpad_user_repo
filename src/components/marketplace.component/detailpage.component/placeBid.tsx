@@ -167,46 +167,22 @@ const PlaceBid = ({
                     disabled={loading !== ""}
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                    Crypto Type
-                  </label>
-                  <div className="relative ">
-                    <select
-                      aria-label="Default select example"
-                      className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 !bg-white"
-                    >
-                      <option>MATIC</option>
-                      <option value="1">WMATIC</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="mb-5">
-                  <label className="text-dark text-sm font-normal p-0 mb-2 label ml-4">
-                    Buy Price
-                  </label>
-                  <input
-                    placeholder="0.01 WETH"
-                    aria-label="Username"
-                    className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                  />
-                </div>
                 <div className="px-4">
                   <div className="mb-4 flex items-center justify-between">
                     <p className="text-sm shrink-0 text-secondary ">
                       Your balance
                     </p>
                     <p className="truncate text-secondary font-semibold">
-                      <span className=""> {data?.formatted}</span>{" "}
+                      <span className=""> {data?.formatted?.toFixed(4)}</span>{" "}
                       <span className="">{nftDetails?.currency}</span>
                     </p>
                   </div>
                   <div className="mb-4 flex items-center justify-between">
                     <p className="text-sm shrink-0 text-secondary ">
-                      Your bidding balance
+                      Your bidding amount
                     </p>
                     <p className="truncate text-secondary font-semibold">
-                      0.0025 Matic
+                      {values.bidAmount || 0} {nftDetails?.currency}
                     </p>
                   </div>
                   <div className="mb-4 flex items-center justify-between">
@@ -214,7 +190,7 @@ const PlaceBid = ({
                       Service fee
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
-                      0.0025 WMatic
+                    {percentageValue} <span>{nftDetails?.currency}</span>
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
@@ -222,7 +198,7 @@ const PlaceBid = ({
                       Total bid amount
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
-                      {0.0025 + data?.formatted} {nftDetails?.currency}
+                      {Number(percentageValue) + Number(data?.formatted?.toFixed(4))} {nftDetails?.currency}
                     </p>
                   </div>
                 </div>

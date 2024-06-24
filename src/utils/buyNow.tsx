@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {  useAccount } from "wagmi";
+import { useAccount } from "wagmi";
 import { useCollectionDeployer } from "./useCollectionDeployer";
-import {getMarketplace, postMarketplace } from "./api";
+import { getMarketplace, postMarketplace } from "./api";
 import Button from "../ui/Button";
 import Spinner from "../components/loaders/spinner";
 import { setError, setToaster } from "../reducers/layoutReducer";
@@ -41,40 +41,40 @@ const BuyComponent = (props: any) => {
       TransactionHash: "",
       TokenId: null,
     };
-      try {
-        const buyObj = await buyAsset(
-          props.nftDetails.signature,
-          props.nftDetails.collectionType,
-          props.collectionAddress,
-          props.nftDetails.tokenId,
-          props.nftDetails.price,
-          props.nftDetails.ownerAddress,
-          props.nftDetails.supply
-        );
-        obj.TransactionHash = buyObj.hash;
-        obj.TokenId = props.nftDetails.tokenId;
-        let response = await getMarketplace(`User/nfttype/${nftId}`);
-        if (response.data.isPutOnSale) {
-          let response = await postMarketplace(`/User/SaveBuy`, obj);
-          if (response) {
-            props?.setIsOpen(false)
-            rootDispatch(
-              setToaster({
-                message: "NFT purchase successful!",
-                callback: () => {
-                  router(`/profile/${address}`);
-                },
-              })
-            );
-          } else {
-            rootDispatch(setError({ message: response }));
-          }
+    try {
+      const buyObj = await buyAsset(
+        props.nftDetails.signature,
+        props.nftDetails.collectionType,
+        props.collectionAddress,
+        props.nftDetails.tokenId,
+        props.nftDetails.price,
+        props.nftDetails.ownerAddress,
+        props.nftDetails.supply
+      );
+      obj.TransactionHash = buyObj.hash;
+      obj.TokenId = props.nftDetails.tokenId;
+      let response = await getMarketplace(`User/nfttype/${nftId}`);
+      if (response.data.isPutOnSale) {
+        let response = await postMarketplace(`/User/SaveBuy`, obj);
+        if (response) {
+          props?.setIsOpen(false);
+          rootDispatch(
+            setToaster({
+              message: "NFT purchase successful!",
+              callback: () => {
+                router(`/profile/${address}`);
+              },
+            })
+          );
+        } else {
+          rootDispatch(setError({ message: response }));
         }
-      } catch (error) {
-        rootDispatch(setError({ message: error, from: "contract" }));
-      } finally {
-        setBtnLoader(false);
       }
+    } catch (error) {
+      rootDispatch(setError({ message: error, from: "contract" }));
+    } finally {
+      setBtnLoader(false);
+    }
   };
 
   return (
@@ -84,7 +84,7 @@ const BuyComponent = (props: any) => {
         type="checkbox"
         className="drawer-toggle"
         checked={props.isOpen}
-        onChange={()=>props?.setIsOpen(false)}
+        onChange={() => props?.setIsOpen(false)}
         disabled={btnLoader}
       />
       <div className="drawer-side z-[999]">
@@ -97,7 +97,13 @@ const BuyComponent = (props: any) => {
           <form onSubmit={(e) => buyNow(e)}>
             <div className="flex justify-between items-center">
               <h2 className="text-lg text-dark font-semibold mb-4">Checkout</h2>
-              <Button type="plain" disabled={btnLoader} handleClick={()=>props?.setIsOpen(false)}><span className="icon close cursor-pointer"></span></Button>
+              <Button
+                type="plain"
+                disabled={btnLoader}
+                handleClick={() => props?.setIsOpen(false)}
+              >
+                <span className="icon close cursor-pointer"></span>
+              </Button>
             </div>
 
             <div className="flex gap-5 items-center mt-10">
@@ -124,8 +130,8 @@ const BuyComponent = (props: any) => {
             {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                     {!saleLoader && ( */}
 
-            {/* <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5"> */}
-            {/* <div className="flex justify-between items-center my-4">
+            <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5">
+              <div className="flex justify-between items-center my-4">
                 <p className="text-sm shrink-0 text-secondary opacity-50">
                   Buy Price
                 </p>
@@ -144,8 +150,8 @@ const BuyComponent = (props: any) => {
                   {props.nftDetails?.currency?.toUpperCase() ||
                     process.env.REACT_APP_CURRENCY_SYMBOL}
                 </p>
-              </div> */}
-            {/* <div className="flex justify-between items-center">
+              </div>
+              <div className="flex justify-between items-center">
                 <p className="text-sm shrink-0 text-secondary opacity-50">
                   Total Buy Price
                 </p>
@@ -154,11 +160,11 @@ const BuyComponent = (props: any) => {
                   {props.nftDetails?.currency?.toUpperCase() ||
                     process.env.REACT_APP_CURRENCY_SYMBOL}
                 </p>
-              </div> */}
-            {/* </div> */}
+              </div>
+            </div>
             {/* <hr /> */}
             <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5 flex flex-col gap-2">
-            <Button
+              <Button
                 btnClassName="w-full !min-h-[39px] lg:px-3"
                 type="secondary"
                 disabled={btnLoader}
