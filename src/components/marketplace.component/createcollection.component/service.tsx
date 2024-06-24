@@ -2,6 +2,7 @@ export const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1
 export const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
 export const htmlTagsRegex = /<\/?[a-z][\s\S]*>/i;
 export const numericRegex = /^[0-9]+$/;
+export const specialCharactersOnlyRegex = /^[!@#$%^&*(),.?":{}|<>]+$/;
 
 export const validationRules = {
     logo: { required: true, errorMsg: "Please provide logo image." },
@@ -12,14 +13,14 @@ export const validationRules = {
       required: true,
       errorMsg: "Please provide Name",
       contentErrorMsg: "Please enter valid content.",
-      validateContent: (value) => ( htmlTagsRegex.test(value) || emojiRegex.test(value) || numericRegex.test(value)),
+      validateContent: (value) => ( htmlTagsRegex.test(value) || emojiRegex.test(value) || numericRegex.test(value) || specialCharactersOnlyRegex.test(value)),
     },
     blockChain: { required: true, errorMsg: "Please select Network" },
     description: {
         required: true,
         errorMsg: "Please provide Description",
         contentErrorMsg: "Please enter valid content.",
-        validateContent: (value) => (htmlTagsRegex.test(value) || emojiRegex.test(value)),
+        validateContent: (value) => (htmlTagsRegex.test(value) || emojiRegex.test(value) || specialCharactersOnlyRegex.test(value)),
     },
     category: { required: true, errorMsg: "Please select Category" }
 };
