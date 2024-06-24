@@ -43,6 +43,7 @@ function CreateNft() {
     };
   }, []);
   const saveDetails = async (path, responseAfterMint: any) => {
+    debugger
     const { ok, data } = responseAfterMint;
     if (ok) {
       const tokenId = parseInt(data.logs[0].topics[3]);
@@ -72,7 +73,7 @@ function CreateNft() {
       let obj = {
         ...updatedValues,
         customerId: user.id,
-        imageUrl: `ipfs://${localState.image.filePath}`,
+        imageUrl: `${localState.image.imageUrl}`,
         tokenId: tokenId,
         collectionId: collection.id,
         properties: JSON.stringify(properties),
@@ -80,7 +81,7 @@ function CreateNft() {
         saleToken: "WMATIC",
         saleType: sale || auction,
         collectionType: "ERC-721",
-        metadataUri: `ipfs/${path}`,
+        metadataUri: `${path}`,
         contractAttachment: null,
         contractCoverProfile: null,
         contractName: null,
