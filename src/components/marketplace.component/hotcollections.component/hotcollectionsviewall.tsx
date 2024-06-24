@@ -79,7 +79,7 @@ export default function HotCollectionsViewAll() {
                 {!localState.loader && localState.hotCollectionData?.length > 0 &&
                 localState.hotCollectionData.map((item: any) => (
                   <div className="">
-                    <div className="card bg-primary-content" onClick={() => handleHotCollectionItem(item)}>
+                    <div className="card bg-primary-content cursor-pointer" onClick={() => handleHotCollectionItem(item)}>
                       <div className="">
                         <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                       </div>

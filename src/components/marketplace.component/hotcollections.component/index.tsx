@@ -63,7 +63,7 @@ export default function HotCollections() {
                 {visibleItems.map((item: any) => (
                   <div className="carousel-item px-1 max-sm:w-full">
 
-                    <div className="card bg-primary-content lg:w-[300px] " onClick={() => handleHotCollectionItem(item)}>
+                    <div className="card bg-primary-content lg:w-[300px] cursor-pointer" onClick={() => handleHotCollectionItem(item)}>
                       <div className="">
                         <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                       </div>
