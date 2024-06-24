@@ -50,7 +50,7 @@ function TrendingNfts(props) {
   };
 
   const handleBuyModal = (item: any) => {
-    router(`User/NFTDetails/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`);
+    router(`/marketplace/nft/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`);
   };
   const loadNftDetails = async (item) => {
     await getMarketplace(
