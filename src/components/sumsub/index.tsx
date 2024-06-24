@@ -120,7 +120,7 @@ const SumSub = () => {
   return (
     <>
       {state.loading && (
-        <div className="text-center">
+        <div className="text-center h-screen flex items-center justify-center">
           <Spinner />
         </div>
       )}
