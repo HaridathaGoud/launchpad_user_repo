@@ -163,7 +163,7 @@ const BuyComponent = (props: any) => {
               </div>
             </div>
             {/* <hr /> */}
-            <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5 flex flex-col gap-2">
+            <div className="mt-20 lg:max-w-[250px] lg:mx-auto mb-5 flex flex-col gap-2">
               <Button
                 btnClassName="w-full !min-h-[39px] lg:px-3"
                 type="replyCancel"
