@@ -86,7 +86,7 @@ function CreateNft() {
         contractName: null,
         contractSymbol: null,
         contractDescription: null,
-        contractAddress: null,
+        contractAddress: collection?.contractAddress,
         isCreateOwn: true,
         signature,
       };
