@@ -102,7 +102,7 @@ const fetchNfts = (information, screenName) => {
         } else if (screenName === 'hot collections') {
             url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "0 to 100"}/${searchBy}`;
         }
-        else if(screenName === 'profile'){
+        else if(screenName === 'profile' || screenName == 'topSellers'){
             url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`
         }
         else if (screenName === 'browse by categeory'){
