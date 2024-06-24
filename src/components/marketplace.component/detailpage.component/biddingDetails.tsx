@@ -25,7 +25,7 @@ const BiddingDetails = ({
   const executeBid = async (item: any) => {
     setIsLoading("acceptingBid");
     try {
-      await acceptBid(
+      const hash=await acceptBid(
         collectionAddress,
         nftDetails.collectionType,
         item.biddingAmount,
@@ -40,7 +40,7 @@ const BiddingDetails = ({
         crypto: "WMATIC",
         buyerAddress: item.bidderAddress,
         bidId: item.bidId,
-        TransactionHash: collectionAddress,
+        TransactionHash: hash,
       };
       const response = await postMarketplace(`User/SaveAcceptBid`, obj);
       if (
