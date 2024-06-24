@@ -305,6 +305,7 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .nft-detailview .drawer-side{overflow-x: hidden;}
 .puton-sale select {  -moz-appearance: none;  -webkit-appearance: none;  appearance: none;  background-image: none;background-position: right 8px center !important;} 
 .more-collection{width: 260px;}
+.min-max-group label{margin-left: 14px;}
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}

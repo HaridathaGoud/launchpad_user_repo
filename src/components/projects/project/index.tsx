@@ -16,6 +16,7 @@ const Projectdetails = () => {
   const user = useSelector((store: any) => store.auth?.user);
   const [loader, setLoader] = useState(false);
   const [data, setData] = useState<any>(null);
+
   useEffect(() => {
     if (projectId) {
       getDetails("all");
@@ -71,6 +72,7 @@ const Projectdetails = () => {
     let publicStDate = data?.publicStartDate;
     let publicEndDate = data?.publicEndDate;
     const now = new Date();
+    
     const currentDate = now.toISOString();
     if (
       (currentDate >= privateStDate && currentDate <= publicEndDate) ||
@@ -98,6 +100,7 @@ const Projectdetails = () => {
                 swapProgressBarCalculation={swapProgressBarCalculation}
                 allocationsRef={allocationsRef}
                 getDetails={getDetails}
+              
               />
               <ProjectDetailsCard
                 loader={loader}

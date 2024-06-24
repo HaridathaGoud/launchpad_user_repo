@@ -76,12 +76,12 @@ console.log(selectedObj)
             </div>
             <hr className='mt-[28px] mb-4' />
             <h1 className='text-lg font-semibold text-secondary mb-5'>Price</h1>
-            <div className="join w-full mt-4">
+            <div className="flex min-max-group items-center gap-3 w-full">
                 <div className='flex items-center'>
                     <NumberInput
                         label="Min"
                         value={minValue}
-                        inputBoxClass="mb-6"
+                        inputBoxClass=""
                         fieldName="min"
                         error={null}
                         isInteger={false}
@@ -90,12 +90,12 @@ console.log(selectedObj)
                         disabled={false}
                     />
                 </div>
-                <span className="join-item bg-info-content text-dark hover:bg-info-content font-medium !border-0 shrink-0 px-1 pt-2">to</span>
+                <p className="pt-6">to</p>
                 <div className='flex items-center'>
                     <NumberInput
                         label="Max"
                         value={maxValue}
-                        inputBoxClass="mb-6"
+                        inputBoxClass=""
                         fieldName="max"
                         error={null}
                         isInteger={false}

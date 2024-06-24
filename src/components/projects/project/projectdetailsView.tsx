@@ -15,6 +15,8 @@ import Allocations from "../allocations";
 import Claims from "../claims";
 import CommonCreateProposal from "../../Dao/proposals/index";
 import JoinProject from "../../shared/joinProject";
+import TimeCalculate from "../../staking/timeCalculate";
+import { text } from "stream/consumers";
 
 const ProjectdetailsView = (props: any) => {
   return (
@@ -32,6 +34,7 @@ const ProjectdetailsView = (props: any) => {
             className="sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-success-content"
           >
             <ProjectDetailTabs pjctInfo={props.data?.projectDetails} />
+           
             <JoinProject
               projectDetails={props.data?.projectDetails}
               buttonClass={"min-w-[150px] tab !py-2 !px-3.5"}
@@ -54,7 +57,7 @@ const ProjectdetailsView = (props: any) => {
             {props.loader && <ProjectFeedShimmer />}
           </div>
           <h4 className={`text-base font-semibold text-secondary mb-2 mt-8`}>
-          Investors
+            Investors
           </h4>
           <FoundingMember
             projectId={props.projectId}
