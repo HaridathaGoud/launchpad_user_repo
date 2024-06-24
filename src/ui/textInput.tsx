@@ -47,7 +47,7 @@ const TextInput = ({
       >
         {label} {isRequired && <span className="text-[#ff0000]">*</span>}
       </label>}
-      {inputInfo && <p className={inputInfoClass ||"text-secondary opacity-60 ml-3"}>{inputInfo}</p>}
+      {inputInfo && <p className={inputInfoClass ||"text-secondary opacity-60 ml-3 mb-[10px]"}>{inputInfo}</p>}
       <input
         name={fieldName}
         type={inputType}
