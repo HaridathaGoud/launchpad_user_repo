@@ -1,4 +1,4 @@
-import apiCalls from "../utils/api";
+import apiCalls, { getKyc } from "../utils/api";
 const SET_CUSTOMER_DATA = "setcustomerDetailsData";
 const SET_TOP_SELLER_BANNER_DATA = "setTopSellerBannerData";
 
@@ -27,15 +27,15 @@ const setcustomerDetailsData = (payload:any) => {
   const customerDetails = (information:any) => {
     const {  data,address } = information;
     return async (dispatch:any) => {
-      dispatch(setcustomerDetailsData({ key: 'customerDetails', loading: true, data: data }));
+      dispatch(setcustomerDetailsData({ key: 'customerInfo', loading: true, data: data }));
       try {
-        const res = await apiCalls.getMarketplace(`User/CustomerDetails/${address}`);
+        const res = await getKyc(`User/CustomerDetails/${address}`);
         if (res.status === 200) {
-          dispatch(setcustomerDetailsData({ key: 'customerDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null, }));
+          dispatch(setcustomerDetailsData({ key: 'customerInfo', loading: false, data: data ? [...data, ...res.data] : res.data, error: null, }));
         } else {
           dispatch(
             setcustomerDetailsData({
-              key: 'customerDetails',
+              key: 'customerInfo',
               loading: false,
               data: data,
               error: res,
@@ -45,7 +45,7 @@ const setcustomerDetailsData = (payload:any) => {
       } catch (error) {
         dispatch(
             setcustomerDetailsData({
-            key: 'customerDetails',
+            key: 'customerInfo',
             loading: false,
             data: data,
             error: error,
@@ -86,18 +86,18 @@ const setcustomerDetailsData = (payload:any) => {
   }
 
   export interface topSellerStateModel {
-    customerDetails:any,
+    customerInfo:any,
     topSellerBanerDetails:any,
 }
 export const topSellerState = {
-    customerDetails: { loading: false, data: null, nextPage: 1 },
+  customerInfo: { loading: false, data: null, nextPage: 1 },
     topSellerBanerDetails: { loading: false, data: null, nextPage: 1 },
 };
 const topSellerReducer = (state = topSellerState, action) => {
     switch (action.type) {
         case SET_CUSTOMER_DATA: 
             return {
-                ...state, customerDetails: {
+                ...state, customerInfo: {
                     data: action.payload.data,
                     error: action.payload.error,
                     loading: action.payload.loading,

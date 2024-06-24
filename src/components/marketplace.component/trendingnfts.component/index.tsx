@@ -27,7 +27,7 @@ function TrendingNfts(props) {
       localDispatch({ type: 'setLoader', payload: true });
       const response = await getMarketplace("User/todaytrending");
       if (response.status === 200) {
-        localDispatch({type:'setTodayTrending',payload:response.data});
+        localDispatch({ type: 'setTodayTrending', payload: response.data });
       }
       else {
         rootDispatch(setError({ message: response }));
@@ -41,25 +41,19 @@ function TrendingNfts(props) {
   };
 
   const handleProfileRedirect = (item: any) => {
-    router(`/marketplace/accounts/${item.creatorWalletAddress || address}`);
+    router(`/profile/${item.creatorWalletAddress || address}`);
+    // router(`User/NFTDetails/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`);
   };
 
   const handleBuyModal = (item: any) => {
-    if (isConnected) {
-      rootDispatch(setError({ message: "" }))
-      localDispatch({ type: 'setTrendingData', payload: item })
-      localDispatch({ type: 'showBuyModal', payload: true });
-      loadNftDetails(item);
-    } else {
-      rootDispatch(setError({ message: "Please connect your wallet!", type: 'warning' }))
-    }
+    router(`User/NFTDetails/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`);
   };
   const loadNftDetails = async (item) => {
     await getMarketplace(
       `User/NFTDetails/${item?.tokenId}/${item?.collectionContractAddress}/${props.auth.user.id}`
     )
       .then((response: any) => {
-        localDispatch({type:'setNftDetails',payload:response.data});
+        localDispatch({ type: 'setNftDetails', payload: response.data });
       })
       .catch((error: any) => {
         rootDispatch(setError({ message: error }))
@@ -83,10 +77,7 @@ function TrendingNfts(props) {
   };
 
   const connectHandlePage = (item) => {
-    router(
-      `/marketplace/nft/${item.tokenId}/${item?.collectionContractAddress || item?.creatorWalletAddress
-      }/${item.id}`
-    );
+    rootDispatch(setError({ message: "Please connect your wallet!", type: 'warning' }))
   };
   const handleSlideActions = (action) => {
     if (action === 'previous') {
@@ -101,7 +92,7 @@ function TrendingNfts(props) {
   const getNFTImageUrl = (file) => {
     const filePath = file?.replace('ipfs://', '');
     return process.env.REACT_APP_IPFS_PREFIX + `${filePath}`;
-};
+  };
   const visibleItems = localState.todaytrending ? [...localState.todaytrending?.slice(localState.currentIndex), ...localState.todaytrending?.slice(0, localState.currentIndex)].slice(0, 3) : [];
   return (
     <>
@@ -121,9 +112,9 @@ function TrendingNfts(props) {
                     >
                       <div
                         className={`card bg-primary-content border border-slate-200 w-full ${visibleItems?.length === 3 &&
-                            idx === localState.previosImageChagne + 1
-                            ? "trending-card centerd-card lg:scale-[1.2]"
-                            : "trending-card"
+                          idx === localState.previosImageChagne + 1
+                          ? "trending-card centerd-card lg:scale-[1.2]"
+                          : "trending-card"
                           }`}
                       >
                         <div className="p-2">
@@ -133,19 +124,17 @@ function TrendingNfts(props) {
                               src={item?.logo || defaultlogo}
                               alt=""
                               className={`w-full object-cover h-[400px] rounded-[16px] cursor-pointer ${item?.isUnlockPurchased &&
-                                  address?.toLowerCase() !==
-                                  item?.creatorWalletAddress.toLowerCase()
-                                  ? "trend-image blur-image"
-                                  : "trend-image"
+                                address?.toLowerCase() !==
+                                item?.creatorWalletAddress.toLowerCase()
+                                ? "trend-image blur-image"
+                                : "trend-image"
                                 }`}
                               onClick={
-                                isConnected
-                                  ? () => handleDeatailPage(item)
-                                  : () => connectHandlePage(item)
+                                   () => handleDeatailPage(item)
                               }
                             />
                             <img
-                             src={item?.creatorProfilePicUrl || defaultlogo}
+                              src={item?.creatorProfilePicUrl || defaultlogo}
                               alt=""
                               className="w-[68px] h-[68px] object-cover rounded-[16px] absolute bottom-[-36px] left-3.5"
                             />
@@ -186,7 +175,7 @@ function TrendingNfts(props) {
                                 Price
                               </label>
                               <p className="text-base font-semibold text-secondary justify-end flex flex-1 text-right truncate" title={item?.value ? item?.value : "--"}>
-                               <span className="truncate"> {item?.value ? item?.value : "--"}{" "}</span>
+                                <span className="truncate"> {item?.value ? item?.value : "--"}{" "}</span>
                                 <span>{item?.value
                                   ? process.env.REACT_APP_CURRENCY_SYMBOL
                                   : ""}{" "}</span>
@@ -197,7 +186,7 @@ function TrendingNfts(props) {
                                 Highest bid
                               </label>
                               <p className="text-base font-semibold text-secondary justify-end flex flex-1 text-right truncate " title={item?.highestBid ? item?.highestBid : "--"}>
-                               <span className="truncate"> {item?.highestBid ? item?.highestBid : "--"}{" "}</span>
+                                <span className="truncate"> {item?.highestBid ? item?.highestBid : "--"}{" "}</span>
                                 <span>{item?.highestBid
                                   ? process.env.REACT_APP_CURRENCY_SYMBOL
                                   : ""}</span>
@@ -221,7 +210,7 @@ function TrendingNfts(props) {
           {localState.showBuyModal && (
             <BuyComponent
               showModal={localState.showBuyModal}
-              handleClose={() => localDispatch({type:'showBuyModal',payload:false})}
+              handleClose={() => localDispatch({ type: 'showBuyModal', payload: false })}
               nftDetails={localState.nftDetails}
               collectionAddress={
                 localState.nftDetails?.creatorWalletAddress ||

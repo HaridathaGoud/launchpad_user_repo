@@ -149,7 +149,7 @@ const PutOnSale = (props: any) => {
           </div>
           <div>
             <div>
-              <form className="mt-28">
+              <form className="py-4" >
                 <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
                   {/* <div className="flex justify-between mb-4 ">
                 <div>
@@ -174,7 +174,8 @@ const PutOnSale = (props: any) => {
                   <div className="my-4">
                     <div className="flex relative">
                       <NumberInput
-                        label=""
+                       labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
+                        label="Sale price"
                         fieldName="value"
                         error={formErrors["value"]}
                         value={""}
@@ -182,9 +183,11 @@ const PutOnSale = (props: any) => {
                         onChange={handleChange}
                         inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
                         placeholder="Enter the sale price"
-                        inputClass="w-full input input-bordered outline-none focus:outline-none pl-4 h-10 rounded-[28px]"
+                        inputClass="w-full input input-bordered outline-none focus:outline-none pl-4 pr-32 h-10 rounded-[28px]"
+                        errorClass="text-sm font-normal text-red-600 ml-2.5"
+
                       />
-                      <div id="basic-addon3" className="absolute right-5 top-3">
+                      <div id="basic-addon3" className="absolute right-5 top-[38px] border-l pl-4">
                         {props.nftDetails?.currency
                           ? props.nftDetails?.currency
                           : process.env.REACT_APP_CURRENCY_SYMBOL}
