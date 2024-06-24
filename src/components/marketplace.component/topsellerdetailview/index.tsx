@@ -363,6 +363,7 @@ const params = useParams();
 
   return (
     <>
+    <div className='container mx-auto pt-5 px-3 lg:px-0'>
       {customerInfo.loading && <HotcollectionviewShimmer />}
       {!customerInfo.loading &&<> 
      <div className='min-h-[320px] rounded-lg mt-4 relative'>
@@ -446,6 +447,7 @@ const params = useParams();
       />
       <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params.id}/>
       </>}
+      </div>
     </>
   );
 };
