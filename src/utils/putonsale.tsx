@@ -121,40 +121,37 @@ const PutOnSale = (props: any) => {
     }
   };
   return (
-    <>
-      <form className="drawer drawer-end">
-        <input
-          id="putOnSaleNFTView"
-          type="checkbox"
-          className="drawer-toggle"
-          checked={props.show}
-          onChange={() => props.setShow(false)}
-          disabled={isLoading !== ""}
-        />
-        <div className="drawer-side z-[999]">
-          <label
-            htmlFor="putOnSaleNFTView"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
-            <div className="flex items-center justify-between">
-              <p className="text-xl text-secondary font-semibold">
-                Put on sale
-              </p>
-              <Button
-                type="plain"
-                disabled={isLoading !== ""}
-                handleClick={() => props.setShow(false)}
-              >
-                <span className="icon close cursor-pointer"></span>
-              </Button>
-            </div>
+    <form className="drawer drawer-end">
+      <input
+        id="putOnSaleNFTView"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={props.show}
+        onChange={() => props.setShow(false)}
+        disabled={isLoading !== ""}
+      />
+      <div className="drawer-side z-[999]">
+        <label
+          htmlFor="putOnSaleNFTView"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-xl text-secondary font-semibold">Put on sale</p>
+            <Button
+              type="plain"
+              disabled={isLoading !== ""}
+              handleClick={() => props.setShow(false)}
+            >
+              <span className="icon close cursor-pointer"></span>
+            </Button>
+          </div>
+          <div>
             <div>
-              <div>
-                <form className="mt-28">
-                  <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
-                    {/* <div className="flex justify-between mb-4 ">
+              <form className="mt-28">
+                <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
+                  {/* <div className="flex justify-between mb-4 ">
                 <div>
                   <label className="">Put on sale</label>
                   <p>you'll receive bids on this item</p>
@@ -174,61 +171,55 @@ const PutOnSale = (props: any) => {
                 <Form.Check type="switch" id="custom-switch"  />
               </div> */}
 
-                    <div className="my-4">
-                      <div className="flex relative">
-                        <NumberInput
-                          label=""
-                          fieldName="value"
-                          error={formErrors["value"]}
-                          value={""}
-                          allowDecimals={4}
-                          onChange={handleChange}
-                          inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
-                          placeholder="Enter the sale price"
-                          inputClass="w-full input input-bordered outline-none focus:outline-none pl-4 h-10 rounded-[28px]"
-                        />
-                        <div
-                          id="basic-addon3"
-                          className="absolute right-5 top-3"
-                        >
-                          {props.nftDetails?.currency
-                            ? props.nftDetails?.currency
-                            : process.env.REACT_APP_CURRENCY_SYMBOL}
-                        </div>
+                  <div className="my-4">
+                    <div className="flex relative">
+                      <NumberInput
+                        label=""
+                        fieldName="value"
+                        error={formErrors["value"]}
+                        value={""}
+                        allowDecimals={4}
+                        onChange={handleChange}
+                        inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                        placeholder="Enter the sale price"
+                        inputClass="w-full input input-bordered outline-none focus:outline-none pl-4 h-10 rounded-[28px]"
+                      />
+                      <div id="basic-addon3" className="absolute right-5 top-3">
+                        {props.nftDetails?.currency
+                          ? props.nftDetails?.currency
+                          : process.env.REACT_APP_CURRENCY_SYMBOL}
                       </div>
                     </div>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
-
-            <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
-              <Button
-                btnClassName="w-full mb-4 !min-h-[39px]"
-                type="replyCancel"
-                handleClick={() => props.setShow(false)}
-                disabled={isLoading !== ""}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
-                type="primary"
-                handleClick={() => placeONSaleorAuction("Sale")}
-                disabled={isLoading !== ""}
-              >
-                <span>
-                  {isLoading !== "" && <Spinner size="loading-sm" />}{" "}
-                </span>{" "}
-                Put on sale
-              </Button>
-            </div>
-            <div className="p-absolute toaster-center"></div>
           </div>
+
+          <div className="mt-20 lg:w-[350px] lg:mx-auto mb-5">
+            <Button
+              btnClassName="w-full mb-4 !min-h-[39px]"
+              type="replyCancel"
+              handleClick={() => props.setShow(false)}
+              disabled={isLoading !== ""}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              btnClassName="w-full !h-[32px] !min-h-[39px] lg:px-3"
+              type="primary"
+              handleClick={() => placeONSaleorAuction("Sale")}
+              disabled={isLoading !== ""}
+            >
+              <span>{isLoading !== "" && <Spinner size="loading-sm" />} </span>{" "}
+              Put on sale
+            </Button>
+          </div>
+          <div className="p-absolute toaster-center"></div>
         </div>
-      </form>
-    </>
+      </div>
+    </form>
   );
 };
 {

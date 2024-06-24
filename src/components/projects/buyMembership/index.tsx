@@ -19,7 +19,7 @@ import { setError, setToaster } from "../../../reducers/layoutReducer";
 import BuyMembershipShimmers from "../../loaders/projects/buyMembershipShimmer";
 
 const BuyMembership = (props: any) => {
-  const { daoId, contractAddress, privateStatus, publicStatus } =
+  const { daoId, contractAddress, privateStatus, publicStatus,totalSoldTokens,totalSupply } =
     props.projectDetails;
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(
@@ -170,6 +170,7 @@ const BuyMembership = (props: any) => {
                   !isConnected ||
                   !user?.id ||
                   localState.isMinting ||
+                  totalSoldTokens>=totalSupply ||
                   (privateStatus?.toLowerCase() === "closed" && publicStatus?.toLowerCase()==='upcoming') ||
                   publicStatus?.toLowerCase() === "closed"
                 }

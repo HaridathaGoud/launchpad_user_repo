@@ -20,7 +20,9 @@ export function useVotingContract() {
         gasLimit: 2700000,
         gasPrice: 900000,
       });
-      return writeContract(request);
+      const response=await writeContract(request);
+      await waitForTransaction({hash:response.hash});
+      return response
     }
     async function proposalCastVote(contractAddress,args1, args2) {
       const  request  = await prepareWriteContract({
@@ -31,7 +33,9 @@ export function useVotingContract() {
         gasLimit: 2700000,
         gasPrice: 900000,
       });
-      return writeContract(request);
+      const response=await writeContract(request);
+      await waitForTransaction({hash:response.hash})
+      return response
     }
     return { addQuestion,castVote, parseError };
   }

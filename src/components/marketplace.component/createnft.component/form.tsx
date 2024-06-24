@@ -15,6 +15,7 @@ import ipfsClient from "../../../utils/ipfsClient";
 import CustomSelect from "./customSelect";
 import NumberInput from "../../../ui/numberInput";
 import Spinner from "../../loaders/spinner";
+import { useNavigate } from "react-router-dom";
 const getModalSteps = (isPutOnSale: boolean) => {
   const steps = [
     { title: "Approval", message: "Please provide approval for NFT transfer" },
@@ -39,6 +40,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
     propertiesToUpdate: modalProperties,
   } = state;
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   const { userCollections, networks } = useSelector((store: any) => {
     const detailsForForm = store.createNft;
     return detailsForForm;
@@ -450,17 +452,17 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   </p>
                   <div className="mb-3 ">
                     <div className="flex relative puton-sale">
-                      <input
-                        aria-label="Username"
-                        type="text"
-                        className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                        placeholder="Enter the price"
-                        onChange={(e) =>
-                          handleChange("salePrice", e.target.value)
-                        }
-                        disabled={state.isLoading==='saving'}
-                        maxLength={13}
-                        required
+                      <NumberInput
+                        label=""
+                        isRequired={true}
+                        fieldName="salePrice"
+                        error={formErrors["salePrice"]}
+                        value={""}
+                        allowDecimals={4}
+                        onChange={handleChange}
+                        inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                        placeholder="Enter the sale price"
+                        inputClass="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                       />
                       <Select
                         inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
@@ -478,11 +480,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
                     </div>
-                    {formErrors["salePrice"] && (
-                      <p className="text-sm font-normal text-red-600 ">
-                        {formErrors["salePrice"]}
-                      </p>
-                    )}
                   </div>
                 </>
               )}
@@ -516,18 +513,18 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     You'll receive bids on this item
                   </p>
                   <div className="flex relative puton-sale">
-                    <input
-                      aria-label="Username"
-                      type="text"
-                      className="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
-                      placeholder="Enter the price per one bid"
-                      onChange={(e) =>
-                        handleChange("auctionPrice", e.target.value)
-                      }
-                      disabled={state.isLoading==='saving'}
-                      maxLength={13}
-                      required
-                    />
+                     <NumberInput
+                        label=""
+                        isRequired={true}
+                        fieldName="auctionPrice"
+                        error={formErrors["auctionPrice"]}
+                        value={""}
+                        allowDecimals={4}
+                        onChange={handleChange}
+                        inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                        placeholder="Enter the price per one bid"
+                        inputClass="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                      />
                     <Select
                       inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
                       inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
@@ -543,11 +540,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       defaultOption="Currency"
                     />
                   </div>
-                  {formErrors["auctionPrice"] && (
-                    <p className="cust-validmsg">
-                      {formErrors["auctionPrice"]}
-                    </p>
-                  )}
                 </>
               )}
             </div>
@@ -587,6 +579,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                 btnClassName="min-w-[128px] h-[48px]"
                 type="cancel"
                 disabled={state.isLoading === "saving"}
+                handleClick={()=>navigate(-1)}
               >
                 Cancel
               </Button>

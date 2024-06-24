@@ -85,20 +85,24 @@ export const validateForm = (form:any) => {
     },
     "Royality fee exceeds 100%"
   );
-  validateField(
-    salePrice,
-    "salePrice",
-    false,
-    (value: string) => value ? (!isNumber(value) ||commonReg(value) || emojiRejex(value)):false,
-    "Invalid sale price"
-  );
-  validateField(
-    auctionPrice,
-    "auctionPrice",
-    false,
-    (value: string) => value ? (!isNumber(value) ||commonReg(value) || emojiRejex(value)):false,
-    "Invalid auction price"
-  );
+  if(isPutonSale){
+    validateField(
+      salePrice,
+      "salePrice",
+      true,
+      (value: string) => (!isNumber(value) ||commonReg(value) || emojiRejex(value) || Number(value)<0.0001),
+      Number(salePrice)<0.0001 ? "Amount must be greater than 0" : "Invalid sale price"
+    );
+  }
+  if(isPutOnAuction){
+    validateField(
+      auctionPrice,
+      "auctionPrice",
+      true,
+      (value: string) =>(!isNumber(value) ||commonReg(value) || emojiRejex(value) || Number(value)<0.0001) ,
+       Number(auctionPrice)<0.0001 ? "Amount must be greater than 0" : "Invalid sale price"
+    );
+  }
   validateField(
     unlockDescription,
     "unlockDescription",

@@ -5,7 +5,6 @@ import project from "../contracts/project.json";
 import reward from "../contracts/rewards.json";
 import mint from "../contracts/mint.json";
 import { ethers } from "ethers";
-import Contract from "../contracts/mint.json";
 import WETHContract from "../contracts/weth.json";
 import {
   prepareWriteContract,
@@ -14,14 +13,11 @@ import {
   writeContract,
   switchNetwork,
 } from "wagmi/actions";
-import { postSigner } from "../utils/api";
-import { useSelector } from "react-redux";
 import { auth } from "../appConfig";
 import { supportedChainIds } from "../utils/supportedChains";
 export default function useContractMethods() {
   const PRIVATE_KEY = process.env.REACT_APP_OWNER_PRIVATE_KEY;
   const { chain } = useNetwork();
-  const user = useSelector((state: any) => state?.auth?.user);
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage({
     message: "Please verify your identity with metamask",
@@ -490,7 +486,7 @@ export default function useContractMethods() {
   ) {
     const request = await prepareWriteContract({
       address: contractAddress,
-      abi: Contract.abi,
+      abi: mint.abi,
       functionName: "safeMintMultiple",
       args: [args1, args2, args3],
       value: args4.value,
@@ -500,7 +496,7 @@ export default function useContractMethods() {
   async function mintTokenWithWagmi(args1, args2, args3, args4) {
     const { request } = await prepareWriteContract({
       address: process.env.REACT_APP_MINTING_CONTRACTOR as `0x${string}`,
-      abi: Contract.abi,
+      abi: mint.abi,
       functionName: "safeMintMultipleWithToken",
       args: [args1, args2, args3],
       gasPrice: args4.gasPrice,
