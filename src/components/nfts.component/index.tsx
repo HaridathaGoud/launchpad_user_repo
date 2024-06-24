@@ -377,7 +377,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                             <hr />
                                             <div className={`px-2.5 py-4 flex  ${item?.walletAddress !== address ? 'justify-center' :'justify-between'}`} >
                                                 {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) &&
-                                                <div className="px-2.5 py-4 flex justify-center">
+                                                <div className=" flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
                                                         <span className="icon square-arrow"></span>
                                                         <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
@@ -386,7 +386,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                                         </Button>
                                                     </div>
                                                 </div>}
-                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
+                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className=" flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
                                                         <span className="icon square-arrow"></span>
                                                         <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
