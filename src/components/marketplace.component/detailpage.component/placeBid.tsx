@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import Spinner from "../../loaders/spinner";
+import { useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
 const getModalSteps = () => {
   return [
     {
@@ -28,14 +30,24 @@ const PlaceBid = ({
   tokenId,
   show,
   setShow,
+  refresh
 }) => {
   const user = useSelector((store: any) => store.auth.user);
   const rootDispatch = useDispatch();
+  const {address}=useAccount()
+  const navigate=useNavigate()
   const { getBidConfirmation, getSignatureForBid } = useCollectionDeployer();
   const [values, setValues] = useState({ bidAmount: "" });
   const [errors, setErrors] = useState({});
   const [currentStep, setCurrentStep] = useState(-1);
   const [loading, setIsLoading] = useState("");
+  const clearState = () => {
+    setShow(false);
+    setErrors({});
+    setValues({
+      bidAmount: "",
+    });
+  };
   const placeBid = async (e: any) => {
     e.preventDefault();
     setIsLoading("placingBid");
@@ -64,8 +76,12 @@ const PlaceBid = ({
         response.statusText.toLowerCase() === "ok"
       ) {
         rootDispatch(
-          setToaster({ message: "Bid has been placed successfully" })
+          setToaster({ message: "Bid has been placed successfully",callback: () => {
+            navigate(`/profile/${address}`);
+          } })
         );
+        clearState();
+        refresh()
       } else {
         rootDispatch(setError({ message: response }));
       }
@@ -123,7 +139,7 @@ const PlaceBid = ({
                     Current Price
                   </p>
                   <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
-                    <span className=""> { Number(data?.formatted || 0)?.toFixed(4) || "--"}</span>{" "}
+                    <span className=""> { Number(nftDetails?.price || 0)?.toFixed(4) || "--"}</span>{" "}
                     <span className="">{nftDetails?.currency || "--"}</span>
                   </p>
                 </div>
