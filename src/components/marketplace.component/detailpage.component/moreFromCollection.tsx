@@ -10,7 +10,7 @@ const MoreFromCollection = ({
   moreCollectionClick,
   notConnectCollectionClick,
 }) => {
-  const { isConnected } = useAccount();
+  const { isConnected,address } = useAccount();
   return (
     <section className="mt-5">
       <h2 className="text-[24px] font-semibold text-secondary mb-5 mt-6">
