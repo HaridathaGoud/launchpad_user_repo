@@ -252,7 +252,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/categoryview/:collectionid",
+          path: "/marketplace/categoryview/:collectionid/:categeoryName",
           element: <CategoryView />,
           errorElement: <ErrorPage />,
         },

@@ -119,7 +119,7 @@ const PlaceBid = ({
                     {nftDetails.name}
                   </p>
 
-                  <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                  <p className="truncate text-secondary mt-2 opacity-60 font-semibold text-xl leading-6 mb-0">
                     Current Price
                   </p>
                   <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
@@ -129,7 +129,7 @@ const PlaceBid = ({
                 </div>
               </div>
               <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
-                <div className="mb-4 flex items-center justify-between px-4">
+                {/* <div className="mb-4 flex items-center justify-between px-4">
                   <p className="text-sm shrink-0 text-secondary ">Price</p>
                   <p className="truncate text-secondary font-semibold">
                     {nftDetails?.price || "--"}{" "}
@@ -150,7 +150,7 @@ const PlaceBid = ({
                   <p className="truncate text-secondary font-semibold">
                     {totalBuyValue} <span>{nftDetails?.currency}</span>
                   </p>
-                </div>
+                </div> */}
                 <div className="mb-4">
                   <NumberInput
                     label="Your Bid"

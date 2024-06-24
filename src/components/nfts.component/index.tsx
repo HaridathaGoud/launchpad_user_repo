@@ -39,7 +39,8 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts";
+        obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
         // scrollableRef?.current?.scrollIntoView(0, 0);
         if (error) {
@@ -56,7 +57,8 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts";
+        obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
     }, [props?.selectedTab])
     const loadmore = () => {
@@ -66,7 +68,8 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.walletAddress = params?.walletAddress;
         obj.customerId = user?.id || guid;
-        obj.activeTab = props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts";
+        obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
     };
     const addToFavorites = (item: any) => {
@@ -120,7 +123,8 @@ const Nfts = forwardRef((props: any, ref) => {
                     obj.collectionid = params?.collectionid;
                     obj.customerId = user?.id || guid;
                     obj.walletAddress = params?.walletAddress;
-                    obj.activeTab = props?.selectedTab || "GetNfts"
+                    obj.activeTab = props?.selectedTab || "GetNfts";
+                    obj.categoryName = props?.categeoryName || "All"
                     store.dispatch(fetchNfts(obj, props?.type));
                     rootDispatch(tabCountUpdated(true));
                 }
@@ -184,7 +188,8 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts";
+        obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content1' });
     };
@@ -194,7 +199,8 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.collectionid = params?.collectionid;
         obj.customerId = user?.id || guid;
         obj.walletAddress = params?.walletAddress;
-        obj.activeTab = props?.selectedTab || "GetNfts"
+        obj.activeTab = props?.selectedTab || "GetNfts";
+        obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
         localDispatch({ type: 'setActiveContent', payload: 'content2' });
     };
@@ -425,7 +431,7 @@ const Nfts = forwardRef((props: any, ref) => {
                             <ListView data={nftDetails} />)}
 
                         {data?.length === (pageNo - 1) * pageSize && (
-                            <div className="category-more">
+                            <div className="category-more md:col-span-8 lg:col-span-8 xl:col-span-9">
                                 <div className="text-center mt-5">
                                     <span
                                         onClick={loadmore}
