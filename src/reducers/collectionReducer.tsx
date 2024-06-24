@@ -105,7 +105,8 @@ const setHotCollectionsViewData = (payload:any) => {
     return async (dispatch:any) => {
       dispatch(SetNfts({ key: 'NftDetails', loading: true, data: data }));
       try {
-        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all%20items/${currency}/${status}/${search}`);
+        // url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || "0 to 100"}/${searchBy}`;
+        const res = await apiCalls.getMarketplace(`User/GetNftsByCollectionId/${collectionId}/${take}/${skip}/${minMaxCategory}/all%20items/${currency}/${status}/${"0 to 100"}/${search}`);
         if (res.status === 200) {
           dispatch(SetNfts({ key: 'NftDetails', loading: false, data: data ? [...data, ...res.data] : res.data, error: null,nextPage: page + 1 }));
         } else {
@@ -144,13 +145,13 @@ export const hotcollectionState = {
 
  const collectionReducer = (state = hotcollectionState, action) => {
     switch (action.type) {
-        case SET_HOT_COLLECTIONS_VIEW_DATA: 
+        case SET_HOT_COLLECTIONS_VIEW_DATA:
             return {
                 ...state, hotCollectionViewDetails: {
                     data: action.payload.data,
                     error: action.payload.error,
                     loading: action.payload.loading,
-                    nextPage: action.payload.nextPage 
+                    nextPage: action.payload.nextPage
                 },
             };
             case SET_HOT_COLLECTIONS_ACTIVITY_DATA:
@@ -159,7 +160,7 @@ export const hotcollectionState = {
                     data: action.payload.data,
                     error: action.payload.error,
                     loading: action.payload.loading,
-                    nextPage: action.payload.nextPage 
+                    nextPage: action.payload.nextPage
                 },
             };
             case SET_NFTS:
@@ -168,9 +169,9 @@ export const hotcollectionState = {
                     data: action.payload.data,
                     error: action.payload.error,
                     loading: action.payload.loading,
-                    nextPage: action.payload.nextPage 
+                    nextPage: action.payload.nextPage
                 },
-            }; 
+            };
         default:
             state = { ...state };
     }
