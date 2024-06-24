@@ -280,9 +280,8 @@ import { getFavoritedCount, getCreatedCount, getOwnedCountData, tabCountUpdated 
 import { store } from '../../../store';
 import { useAccount } from "wagmi";
 import Nfts from '../../nfts.component';
-import Button from '../../../ui/Button';
-import Activity from './activity';
 import { guid } from "../../../utils/constants";
+import defaultbg from "../../../assets/images/default-bg.png";
 import { customerDetails, fectTopSellerBannerDetails } from '../../../reducers/topsellerReducer';
 import HotcollectionviewShimmer from '../hotcollections.component/hotcollectionviewshimmer';
 
@@ -370,7 +369,7 @@ const params = useParams();
       {customerInfo.loading && <HotcollectionviewShimmer />}
       {!customerInfo.loading &&<> 
      <div className='min-h-[320px] rounded-lg mt-4 relative'>
-          <img src="https://i.pinimg.com/564x/a5/b2/d4/a5b2d49ed685749026b9e92cafa50e35.jpg" alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
+          <img src={defaultbg} alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
           <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
             <img src={customerInfo?.data?.profilePicUrl} className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto" alt="" />
             <div>
