@@ -117,7 +117,7 @@ const BuyComponent = (props: any) => {
                   {props?.nftDetails?.name}
                 </p>
 
-                <p className="truncate text-secondary opacity-60 font-semibold text-xl leading-6 mb-0">
+                <p className="truncate text-secondary mt-2 opacity-60 font-semibold text-xl leading-6 mb-0">
                   Current Price
                 </p>
                 <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
@@ -130,32 +130,32 @@ const BuyComponent = (props: any) => {
             {/* <div className="text-center">{saleLoader && <Spinner></Spinner>}</div>
                     {!saleLoader && ( */}
 
-            <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5">
+            <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
               <div className="flex justify-between items-center my-4">
-                <p className="text-sm shrink-0 text-secondary opacity-50">
+                <p className="text-sm shrink-0 text-secondary">
                   Buy Price
                 </p>
-                <p className="truncate text-secondary text-end">
+                <p className="truncate text-secondary text-end font-semibold">
                   {props.nftDetails?.price || props.nftDetails?.value}{" "}
                   {props.nftDetails?.currency?.toUpperCase() ||
                     process.env.REACT_APP_CURRENCY_SYMBOL}
                 </p>
               </div>
               <div className="flex justify-between items-center mb-4">
-                <p className="text-sm shrink-0 text-secondary opacity-50">
+                <p className="text-sm shrink-0 text-secondary">
                   Buyer Fee
                 </p>
-                <p className="truncate text-secondary text-end">
+                <p className="truncate text-secondary text-end font-semibold">
                   {percentageValue}{" "}
                   {props.nftDetails?.currency?.toUpperCase() ||
                     process.env.REACT_APP_CURRENCY_SYMBOL}
                 </p>
               </div>
               <div className="flex justify-between items-center">
-                <p className="text-sm shrink-0 text-secondary opacity-50">
+                <p className="text-sm shrink-0 text-secondary">
                   Total Buy Price
                 </p>
-                <p className="truncate text-secondary text-end">
+                <p className="truncate text-secondary text-end font-semibold">
                   {totalBuyValue}{" "}
                   {props.nftDetails?.currency?.toUpperCase() ||
                     process.env.REACT_APP_CURRENCY_SYMBOL}
@@ -166,7 +166,7 @@ const BuyComponent = (props: any) => {
             <div className="mt-60 lg:max-w-[300px] lg:mx-auto mb-5 flex flex-col gap-2">
               <Button
                 btnClassName="w-full !min-h-[39px] lg:px-3"
-                type="secondary"
+                type="replyCancel"
                 disabled={btnLoader}
                 handleClick={() => props?.setIsOpen(false)}
               >

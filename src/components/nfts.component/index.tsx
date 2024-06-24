@@ -431,7 +431,7 @@ const Nfts = forwardRef((props: any, ref) => {
                             <ListView data={nftDetails} />)}
 
                         {data?.length === (pageNo - 1) * pageSize && (
-                            <div className="category-more">
+                            <div className="category-more md:col-span-8 lg:col-span-8 xl:col-span-9">
                                 <div className="text-center mt-5">
                                     <span
                                         onClick={loadmore}
