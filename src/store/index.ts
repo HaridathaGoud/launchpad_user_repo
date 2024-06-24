@@ -14,6 +14,7 @@ import strapiReducer from "../components/strapi/docs/strapiReducer";
 import dashboardReducer from "../reducers/dashboardreducer";
 import marketPlaceProfileReducer from "../reducers/marketplaceProfileReducer";
 import collectionReducer from "../reducers/collectionReducer";
+import topSellerReducer from "../reducers/topsellerReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -32,7 +33,8 @@ const rootReducerState = combineReducers({
   dashboardReducer:dashboardReducer,
   collectionReducer:collectionReducer,
   marketPlaceProfileReducer:marketPlaceProfileReducer.ntfsCollectionsReducer,
-  createNft:marketPlaceReducer.createNftReducer
+  createNft:marketPlaceReducer.createNftReducer,
+  topSellerReducer:topSellerReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducerState);
 const middleware = [thunk];

@@ -68,7 +68,7 @@ const TopSellerCarousal = () => {
               {!loader && (
                 <div className="carousel container mx-auto gap-3 p-2" >
                   {visibleItems?.map((item: any, idx: any) => (
-                    <NaviLink path={`/collection/${item.id}`}>
+                    <NaviLink path={`/marketplace/collection/${item.id}`}>
                       <div
                         key={idx}
                         className="carousel-item inline-block max-sm:w-full md:w-[380px] pl-1"
