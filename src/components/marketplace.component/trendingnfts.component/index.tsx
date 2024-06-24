@@ -185,41 +185,7 @@ const saveFavoriteNft = async (item: any) => {
                               src={item?.creatorProfilePicUrl || defaultlogo}
                               alt=""
                               className="w-[68px] h-[68px] object-cover rounded-[16px] absolute bottom-[-36px] left-3.5"
-                            />
-                            <div className={`px-2.5 py-4 flex  ${item?.creatorWalletAddress !== address ? 'justify-center' : 'justify-between'}`} >
-                              {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.creatorWalletAddress === address) &&
-                                <div className="px-2.5 py-4 flex justify-center">
-                                  <div className="flex shop-card cursor-pointer">
-                                    <span className="icon square-arrow"></span>
-                                    <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}
-                                    >
-                                      Put On Sale
-                                    </Button>
-                                  </div>
-                                </div>}
-                              {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.creatorWalletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
-                                <div className="flex shop-card cursor-pointer">
-                                  <span className="icon square-arrow"></span>
-                                  <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}
-                                  >
-                                    Put On Auction
-                                  </Button>
-                                </div>
-                              </div>}
-                              {/* <div className="w-px border"></div> */}
-                              {(item?.isPutOnSale && (item?.creatorWalletAddress !== address)) && <div className="flex shop-card cursor-pointer">
-                                <span className="icon square-arrow"></span>
-                                <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}>
-                                  Buy Now
-                                </Button>
-                              </div>}
-                              {(item?.isPutOnAuction && (item?.creatorWalletAddress !== address)) && <div className="flex shop-card cursor-pointer">
-                                <span className="icon square-arrow"></span>
-                                <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}>
-                                  Place a Bid
-                                </Button>
-                              </div>}
-                            </div>
+                            />                          
                             <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
                               {/* <span className="icon like-white "></span> */}
                               <Button
@@ -281,6 +247,41 @@ const saveFavoriteNft = async (item: any) => {
                               </p>
                             </div>
                           </div>
+                          <hr />
+                          <div className={`px-2.5 py-4 flex  ${item?.creatorWalletAddress !== address ? 'justify-center' : 'justify-between'}`} >
+                              {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.creatorWalletAddress === address) &&
+                                <div className="px-2.5 py-4 flex justify-center">
+                                  <div className="flex shop-card cursor-pointer">
+                                    <span className="icon square-arrow"></span>
+                                    <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}
+                                    >
+                                      Put On Sale
+                                    </Button>
+                                  </div>
+                                </div>}
+                              {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.creatorWalletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
+                                <div className="flex shop-card cursor-pointer">
+                                  <span className="icon square-arrow"></span>
+                                  <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}
+                                  >
+                                    Put On Auction
+                                  </Button>
+                                </div>
+                              </div>}
+                              {/* <div className="w-px border"></div> */}
+                              {(item?.isPutOnSale && (item?.creatorWalletAddress !== address)) && <div className="flex shop-card cursor-pointer">
+                                <span className="icon square-arrow"></span>
+                                <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}>
+                                  Buy Now
+                                </Button>
+                              </div>}
+                              {(item?.isPutOnAuction && (item?.creatorWalletAddress !== address)) && <div className="flex shop-card cursor-pointer">
+                                <span className="icon square-arrow"></span>
+                                <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={() => handleBuyModal(item)}>
+                                  Place a Bid
+                                </Button>
+                              </div>}
+                            </div>
                         </div>
                       </div>
                     </div>

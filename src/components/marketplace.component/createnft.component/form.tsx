@@ -609,7 +609,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   <div className="my-6 flex gap-4 items-center " key={index}>
                     <div>
                       <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
-                        Trait type
+                        Trait type <span className="text-[red]">*</span>
                       </label>
                       <input
                         type="text"
@@ -635,7 +635,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     {"  "}
                     <div className="">
                       <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
-                        Value*
+                        Value <span className="text-[red]">*</span>
                       </label>
 
                       <input

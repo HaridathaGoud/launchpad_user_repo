@@ -307,7 +307,7 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .more-collection{width: 260px;}
 .min-max-group label{margin-left: 14px;}
 .icon.square-arrow{background-position: -334px -9px !important;}
-.shop-card:hover .icon.square-arrow{background-position: -550px -9px !important;} 
+.shop-card:hover .icon.square-arrow{background-position: -550px -10px !important;} 
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}
