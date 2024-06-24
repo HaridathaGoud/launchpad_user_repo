@@ -280,10 +280,10 @@ import { getFavoritedCount, getCreatedCount, getOwnedCountData, tabCountUpdated 
 import { store } from '../../../store';
 import { useAccount } from "wagmi";
 import Nfts from '../../nfts.component';
-import Button from '../../../ui/Button';
-import Activity from './activity';
 import { guid } from "../../../utils/constants";
+import defaultbg from "../../../assets/images/default-bg.png";
 import { customerDetails, fectTopSellerBannerDetails } from '../../../reducers/topsellerReducer';
+import HotcollectionviewShimmer from '../hotcollections.component/hotcollectionviewshimmer';
 
 const reducers = (state, action) => {
   switch (action.type) {
@@ -318,10 +318,9 @@ const params = useParams();
   useEffect(() => {
     store.dispatch(customerDetails({address}));
     store.dispatch(fectTopSellerBannerDetails({followerId:params.id,customerId: user.id || guid} ));
-
-    // store.dispatch(getCreatedCount(address || walletAddress, props.auth.user?.id));
-    // store.dispatch(getFavoritedCount(address || walletAddress));
-    // store.dispatch(getOwnedCountData(address || walletAddress));
+    store.dispatch(getCreatedCount(address,user?.id));
+    store.dispatch(getFavoritedCount(address ));
+    store.dispatch(getOwnedCountData(address ));
     rootDispatch(tabCountUpdated(false));
   }, [address,props?.featchNFTsCollection?.isTabCountUpdated]);
 
@@ -366,17 +365,20 @@ const params = useParams();
 
   return (
     <>
+    <div className='container mx-auto pt-5 px-3 lg:px-0'>
+      {customerInfo.loading && <HotcollectionviewShimmer />}
+      {!customerInfo.loading &&<> 
      <div className='min-h-[320px] rounded-lg mt-4 relative'>
-          <img src="https://i.pinimg.com/564x/a5/b2/d4/a5b2d49ed685749026b9e92cafa50e35.jpg" alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
+          <img src={defaultbg} alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
           <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
-            <img src={'https://i.pinimg.com/236x/82/6c/fd/826cfd84d6d83cff554b0e5b7834aa39.jpg  '} className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto" alt="" />
+            <img src={customerInfo?.data?.profilePicUrl} className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto" alt="" />
             <div>
               <div className='flex max-sm:mt-4 items-center'>
-                <p className='text-white font-semibold text-[32px] leading-8 mr-2'>Marvel Studios</p> <span className='icon circle-check shrink-0'></span>
+                <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{customerInfo?.data?.firstName}</p> <span className='icon circle-check shrink-0'></span>
               </div>
               <div className="flex text-[18px] font-medium gap-2.5 mt-1">
-                <p className='text-white'>Marvel Films</p>
-                <p className='text-white'>23 M Subscribers</p>
+                {/* <p className='text-white'>Marvel Films</p> */}
+                {/* <p className='text-white'>23 M Subscribers</p> */}
               </div>
               <div>
                 <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
@@ -439,13 +441,15 @@ const params = useParams();
       <Tabs
         tabs={tabs}
         activeTab={state.activeTab}
-        tabsClass={"profile-subtabs mt-[26px]"}
+        tabsClass={"tabstyle mt-[26px]"}
         labelClass={""}
         tabContentClass={"hidden"}
         iSTabChange={handleTabChange}
         setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
       />
       <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params.id}/>
+      </>}
+      </div>
     </>
   );
 };

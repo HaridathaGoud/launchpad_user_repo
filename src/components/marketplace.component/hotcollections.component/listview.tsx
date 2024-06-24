@@ -5,8 +5,10 @@ import NoData from "../../../ui/noData";
 import PortfolioShimmer from "../../loaders/portfolioshimmer";
 import { useNavigate } from "react-router-dom";
 import Moment from "react-moment";
+import { useAccount } from "wagmi";
 
 const ListView = (props:any) => {
+  const { address } = useAccount();
   const navigate = useNavigate();
   const navigateToAsset = (item:any) => {
     navigate(`/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`) };
@@ -85,7 +87,7 @@ const ListView = (props:any) => {
                     </td>
                     <td className="!p-2 text-right md:w-[217px]">
                       {" "}
-                    {item.isPutOnSale &&
+                    {item.isPutOnSale && item?.walletAddress !== address &&
                       <Button
                         type="secondary"
                         btnClassName="!py-0 px-6 whitespace-nowrap"
