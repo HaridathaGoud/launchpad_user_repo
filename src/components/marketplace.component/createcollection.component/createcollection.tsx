@@ -268,8 +268,7 @@ const CreateCollection = (props: any) => {
                       />
                     )}
                     <div>
-                      <span>{localState.isLoading === 'logo' && <Spinner size="sm" />} </span>
-
+                      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'logo' && <Spinner size="sm" />} </div>
                       {!localState.values.logo && (
                         <div >
                           <Button type='plain' btnClassName="icon image-upload c-pointer" handleClick={() => profileRef.current?.click("p")}></Button>
@@ -310,7 +309,7 @@ const CreateCollection = (props: any) => {
                     {!localState.values.bannerImage && (
                       <div className="text-center absolute top-1/2 z-50 left-1/2 transform -translate-x-1/2 -translate-y-1/2" >
                         <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => bannarRef.current?.click()}></Button>
-                        <span>{localState.isLoading === 'bannerImage' && <Spinner size="sm" />} </span>
+                        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'bannerImage' && <Spinner size="sm" />} </div>
                         <input
                           className="hidden"
                           type="file"
@@ -352,7 +351,7 @@ const CreateCollection = (props: any) => {
                       {!localState.values.featuredImage && (
                         <div className="" >
                           <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => featureRef.current?.click()}></Button>
-                          <span>{localState.isLoading === 'featuredImage' && <Spinner size="sm" />} </span>
+                          <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'featuredImage' && <Spinner size="sm" />} </div>
                           <input
                             className="hidden"
                             type="file"
