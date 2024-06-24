@@ -430,7 +430,7 @@ const DetailPage = (props: any) => {
                       </div>
                       <div>
                         <span className="icon art"></span>
-                        <span className="text-secondary font-semibold opacity-60">
+                        <span className="text-secondary font-semibold opacity-60 align-middle">
                           {nftDetails?.categoryName || "-"}
                         </span>
                       </div>
