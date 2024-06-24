@@ -284,6 +284,7 @@ import Button from '../../../ui/Button';
 import Activity from './activity';
 import { guid } from "../../../utils/constants";
 import { customerDetails, fectTopSellerBannerDetails } from '../../../reducers/topsellerReducer';
+import HotcollectionviewShimmer from '../hotcollections.component/hotcollectionviewshimmer';
 
 const reducers = (state, action) => {
   switch (action.type) {
@@ -318,10 +319,6 @@ const params = useParams();
   useEffect(() => {
     store.dispatch(customerDetails({address}));
     store.dispatch(fectTopSellerBannerDetails({followerId:params.id,customerId: user.id || guid} ));
-
-    // store.dispatch(getCreatedCount(address || walletAddress, props.auth.user?.id));
-    // store.dispatch(getFavoritedCount(address || walletAddress));
-    // store.dispatch(getOwnedCountData(address || walletAddress));
     rootDispatch(tabCountUpdated(false));
   }, [address,props?.featchNFTsCollection?.isTabCountUpdated]);
 
@@ -366,8 +363,9 @@ const params = useParams();
 
   return (
     <>
-    <div className='container mx-auto pt-5 px-3 lg:px-0'>
-    <div className='min-h-[320px] rounded-lg mt-4 relative'>
+      {customerInfo.loading && <HotcollectionviewShimmer />}
+      {!customerInfo.loading &&<> 
+     <div className='min-h-[320px] rounded-lg mt-4 relative'>
           <img src="https://i.pinimg.com/564x/a5/b2/d4/a5b2d49ed685749026b9e92cafa50e35.jpg" alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
           <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
             <img src={'https://i.pinimg.com/236x/82/6c/fd/826cfd84d6d83cff554b0e5b7834aa39.jpg  '} className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto" alt="" />
@@ -447,7 +445,7 @@ const params = useParams();
         setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
       />
       <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params.id}/>
-    </div>
+      </>}
     </>
   );
 };

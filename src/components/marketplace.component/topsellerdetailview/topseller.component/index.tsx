@@ -4,11 +4,13 @@ import defaultlogo from "../../../../assets/images/default-logo.png";
 import Placeholder from "react-bootstrap/Placeholder";
 import { store } from "../../../../store";
 import { fetchTopSellers } from "../../../../reducers/marketPlaceReducer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../../ui/Button";
 import NaviLink from "../../../../ui/NaviLink";
+import { setError } from "../../../../reducers/layoutReducer";
 const pageSize = 10;
 const TopSellerCarousal = () => {
+  const rootDispatch = useDispatch();
   const { data, error, loader, currPage } = useSelector(
     (store: any) => store.marketPlaceDashboard.topSellers
   );
@@ -34,7 +36,7 @@ const TopSellerCarousal = () => {
     <>
       {data && data?.length > 0 && (
         <>
-          <div className="container mx-auto mb-[36px]">  
+          <div className="container mx-auto mb-[36px]">
           <div className="text-right">
               {(
                 <Button handleClick={() => handleSlideActions("previous")} btnClassName="!p-0 !shadow-none !bg-transparent">
@@ -48,7 +50,7 @@ const TopSellerCarousal = () => {
                   <span className="icon carousal-right-arrow cursor-pointer"></span>
                 </Button>
               )}
-            </div>         
+            </div>
             <div className="">
               <div className="text-center">
                 {loader && (
@@ -107,7 +109,7 @@ const TopSellerCarousal = () => {
                 </div>
               )}
             </div>
-           
+
           </div>
         </>
       )}
