@@ -273,7 +273,7 @@ const CreateCollection = (props: any) => {
                       {!localState.values.logo && (
                         <div >
                           <Button type='plain' btnClassName="icon image-upload c-pointer" handleClick={() => profileRef.current?.click("p")}></Button>
-                          <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => profileRef.current?.click("p")}>  Your Logo </Button></p>
+                          <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => profileRef.current?.click("p")}>  Your Logo<span className='text-[#ff0000]'>*</span></Button></p>
                           <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 250 * 250 Resolution</p>
                           {localState.errors.logo && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.logo}</span>}
                           <input
@@ -318,7 +318,7 @@ const CreateCollection = (props: any) => {
                           ref={bannarRef}
                           onChange={(e) => handlePicChange(e, 'bannerImage')}
                         />
-                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner </Button></p>
+                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner<span className='text-[#ff0000]'>*</span> </Button></p>
                         <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 1100 * 350 Resolution</p>
                         {localState.errors.bannerImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.bannerImage}</span>}
                       </div>
@@ -360,7 +360,7 @@ const CreateCollection = (props: any) => {
                             ref={featureRef}
                             onChange={(e) => handlePicChange(e, 'featuredImage')}
                           />
-                          <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => featureRef.current?.click()}> Featured image </Button></p>
+                          <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => featureRef.current?.click()}> Featured image<span className='text-[#ff0000]'>*</span></Button></p>
                           <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 550 * 450 Resolution</p>
                           {localState.errors.featuredImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.featuredImage}</span>}
                         </div>
