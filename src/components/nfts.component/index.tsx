@@ -378,11 +378,12 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 </div>
                                             </Button>
                                             <hr />
-                                            <div className="px-2.5 py-4 flex justify-between">
-                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
+                                            <div className={`px-2.5 py-4 flex  ${item?.walletAddress !== address ? 'justify-center' :'justify-between'}`} >
+                                                {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && 
+                                                <div className="px-2.5 py-4 flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
                                                         <span className="icon card-shop"></span>
-                                                        <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
+                                                        <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
                                                         >
                                                             Put On Sale
                                                         </Button>
@@ -391,22 +392,22 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 {(!item?.isPutOnSale && !item?.isPutOnAuction) && (item?.walletAddress === address) && <div className="px-2.5 py-4 flex justify-center">
                                                     <div className="flex shop-card cursor-pointer">
                                                         <span className="icon card-shop"></span>
-                                                        <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
+                                                        <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary" handleClick={()=>navigateToAsset(item)}
                                                         >
                                                             Put On Auction
                                                         </Button>
                                                     </div>
                                                 </div>}
-                                                <div className="w-px border"></div>
+                                                {/* <div className="w-px border"></div> */}
                                                 {(item?.isPutOnSale && (item?.walletAddress !== address)) && <div className="flex shop-card cursor-pointer">
                                                     <span className="icon card-shop"></span>
-                                                    <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
+                                                    <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
                                                         Buy Now
                                                     </Button>
                                                 </div>}
                                                 {(item?.isPutOnAuction && (item?.walletAddress !== address)) && <div className="flex shop-card cursor-pointer">
                                                     <span className="icon card-shop"></span>
-                                                    <Button btnClassName="font-semibold text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
+                                                    <Button btnClassName="font-semibold !p-0 min-h-min h-auto !shadow-none !bg-transparent text-secondary ml-1 whitespace-nowrap hover:text-primary"  handleClick={()=>navigateToAsset(item)}>
                                                         Place a Bid
                                                     </Button>
                                                 </div>}
@@ -431,7 +432,7 @@ const Nfts = forwardRef((props: any, ref) => {
                             <ListView data={nftDetails} />)}
 
                         {data?.length === (pageNo - 1) * pageSize && (
-                            <div className="category-more md:col-span-8 lg:col-span-8 xl:col-span-9">
+                            <div className="category-more md:col-span-8 lg:col-span-8 xl:col-span-3">
                                 <div className="text-center mt-5">
                                     <span
                                         onClick={loadmore}
