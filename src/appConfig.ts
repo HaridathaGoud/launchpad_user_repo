@@ -6,6 +6,8 @@ import { AuthProvider } from "@arcana/auth";
 import { ArcanaConnector } from "@arcana/auth-wagmi";
 import { amoyNetwork } from "./utils/amoyConfig";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
 const walletConnectProjectId: any = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
 const arcanaClientId: string = process.env.REACT_APP_ARCANA_CLIENT_ID || "";
 let auth: AuthProvider | null=null;
@@ -48,6 +50,8 @@ const { chains, publicClient } = configureChains(
         http: process.env.REACT_APP_JSONRPC_URL || "",
       }),
     }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_KEY as string }),
+    publicProvider(),
   ]
 );
 export const wagmiConfig = createConfig({
@@ -75,6 +79,7 @@ export const wagmiConfig = createConfig({
     }),
   ],
   publicClient,
+  // storage: createStorage({ storage: sessionStorage }), 
 });
 declare module "wagmi" {
   interface Register {

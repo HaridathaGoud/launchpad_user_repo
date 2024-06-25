@@ -247,7 +247,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
             )}
             {!image.imageUrl && state.isLoading !== "uploadingImageUrl" && (
               <div className="">
-                <div className="text-center">
+                <div className="text-center relative">
                   <span className="icon image-upload cursor-pointer"></span>
                   <p className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60">
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
@@ -256,7 +256,14 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     <span className="font-semibold">Note: </span>For Better
                     Appearance Upload 500 * 500 Resolution
                   </p>
-                  <div className="w-[140px] mx-auto relative h-12">
+                  <input
+                      required
+                      className="opacity-0 z-10 h-full cursor-pointer absolute top-0 w-full left-0"
+                      type="file"
+                      ref={inputRef}
+                      onChange={handleUpload}
+                    />
+                  {/* <div className="w-[140px] mx-auto relative h-12">
                     <input
                       required
                       className="opacity-0 z-10 relative w-full"
@@ -270,7 +277,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                     >
                       Choose File
                     </Button>
-                  </div>
+                  </div> */}
                   {formErrors["imageUrl"] && (
                     <p className="text-sm font-normal text-red-600 mt-4">
                       {formErrors["imageUrl"]}
