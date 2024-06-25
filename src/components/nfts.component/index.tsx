@@ -48,6 +48,7 @@ const Nfts = forwardRef((props: any, ref) => {
         }
         return () => {
             store.dispatch(clearNfts());
+            rootDispatch(setError({ message: '' }));
         };
     }, [localState.values, props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
 
