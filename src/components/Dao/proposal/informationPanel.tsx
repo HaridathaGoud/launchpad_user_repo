@@ -35,13 +35,13 @@ const InformationPanel = () => {
               <p className="truncate text-secondary">
                 {" "}
                 {
-                  <p className="text-secondary">
+                  <span className="text-secondary">
                     {" "}
                     {getProposalStatus(
                       proposalDetails?.data?.startDate,
                       proposalDetails?.data?.endDate
                     )}
-                  </p>
+                  </span>
                 }
               </p>
             </div>

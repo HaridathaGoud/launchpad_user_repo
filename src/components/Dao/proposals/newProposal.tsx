@@ -12,12 +12,8 @@ export default function CreateFirstPraposal(props: any) {
   const [isChecked, setIsChecked] = useState(false);
   const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
-  const { daoDetails, user } = useSelector((state: any) => {
-    return {
-      daoDetails: state.proposal.daoDetails.data,
-      user: state?.auth?.user,
-    };
-  });
+  const daoDetails= useSelector((store: any) =>store.proposal.daoDetails.data);
+  const user=useSelector((store:any)=>store.auth.user)
   const [userDetailsFromContract, setUserDetailsFromContract] =
     useState<any>(null);
   useEffect(() => {
