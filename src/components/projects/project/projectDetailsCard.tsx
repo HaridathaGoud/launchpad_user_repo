@@ -1,5 +1,4 @@
 import React from "react";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import defaultlogo from "../../../assets/images/default-logo.png";
 import NaviLink from "../../../ui/NaviLink";
 import ConvertLocalFormat from "../../../utils/dateFormat";
@@ -303,11 +302,8 @@ const ProjectDetailsCard = (props: any) => {
                     <p className="text-base text-secondary opacity-60">
                       Swap Progress
                     </p>
-                    <ProgressBar
-                      variant="info"
-                      now={props.swapedPercentage?.toString()?.slice(0, 3)}
-                      className="rounded-[15px] bg-[#D9D9D9]"
-                    />
+                    <progress className="progress progress-success w-full" value={props.swapedPercentage} max="100"></progress>
+        
                     <div className="flex justify-between items-start mt-1">
                       <p className="text-xs text-secondary">
                         {props.swapedPercentage?.toString()?.slice(0, 4)} %
