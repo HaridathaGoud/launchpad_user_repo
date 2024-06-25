@@ -17,6 +17,7 @@ import Spinner from "../../loaders/spinner";
 function TrendingNfts(props) {
   const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
   const rootDispatch = useDispatch();
+  const user = useSelector((state: any) => state.auth.user);
   const router = useNavigate();
   const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(trendingNFTSReducer, trendingNftState);
@@ -28,8 +29,9 @@ function TrendingNfts(props) {
 
   const getTodayTrending = async () => {
     try {
+      let customerId = user?.id;
       localDispatch({ type: 'setLoader', payload: true });
-      const response = await getMarketplace("User/todaytrending");
+      const response = await getMarketplace(`User/todaytrending/${customerId}`);
       if (response.status === 200) {
         localDispatch({ type: 'setTodayTrending', payload: response.data });
       }
@@ -185,7 +187,7 @@ const saveFavoriteNft = async (item: any) => {
                               src={item?.creatorProfilePicUrl || defaultlogo}
                               alt=""
                               className="w-[68px] h-[68px] object-cover rounded-[16px] absolute bottom-[-36px] left-3.5"
-                            />                          
+                            />
                             <div className="bg-black top-3 absolute cursor-pointer right-3 rounded-full">
                               {/* <span className="icon like-white "></span> */}
                               <Button
