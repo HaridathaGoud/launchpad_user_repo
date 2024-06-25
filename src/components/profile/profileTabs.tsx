@@ -7,7 +7,7 @@ const ProfileTabs = ({ kycStatus, id }) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = useMemo(() => {
     return [
-      { label: "KYC Details", content: <KycDetails kycStatus={kycStatus} id={id} /> },
+      { label: "KYC", content: <KycDetails kycStatus={kycStatus} id={id} /> },
       // { label: "referals", content: <Referrals /> },
       { label: "NTF's", content: <NFTSCollection /> },
     ];

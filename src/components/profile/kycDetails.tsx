@@ -86,10 +86,10 @@ const KycDetails = ({ kycStatus, id }) => {
   return (
     <>
       <div className="pl-3 mt-[26px]">
-        <h2 className="font-semibold text-lg text-secondary mb-4">Personal</h2>
+        <h2 className="font-semibold text-lg text-secondary mb-4">Personal details</h2>
         {
           <>
-          {identityDetailsLoader && <><KycShimmer/></>}
+          {identityDetailsLoader && <KycShimmer/>}
             {userDetails && (
               <>
                 <div className="grid md:grid-cols-4 mb-4">
