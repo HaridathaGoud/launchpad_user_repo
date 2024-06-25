@@ -317,7 +317,7 @@ const TopsellerDetailview = (props) => {
 const params = useParams();
   useEffect(() => {
     store.dispatch(customerDetails({address:params.walletAddress}));//top seller wallet address
-    store.dispatch(fectTopSellerBannerDetails({followerId:params?.id,customerId: user.id || guid} ));
+    store.dispatch(fectTopSellerBannerDetails({followerId:params?.id,customerId: user.id} ));
     store.dispatch(getCreatedCount(params?.walletAddress,user?.id)); // top seller wallet address
     store.dispatch(getFavoritedCount(params?.walletAddress ));
     store.dispatch(getOwnedCountData(params?.walletAddress ));

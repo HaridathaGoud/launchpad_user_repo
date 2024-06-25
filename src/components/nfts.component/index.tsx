@@ -37,7 +37,7 @@ const Nfts = forwardRef((props: any, ref) => {
         let obj = { ...localState.values };
         obj.data = data;
         obj.collectionid = params?.collectionid;
-        obj.customerId = user?.id || guid;
+        obj.customerId = user?.id ;
         obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
@@ -48,6 +48,7 @@ const Nfts = forwardRef((props: any, ref) => {
         }
         return () => {
             store.dispatch(clearNfts());
+            rootDispatch(setError({ message: '' }));
         };
     }, [localState.values, props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -55,7 +56,7 @@ const Nfts = forwardRef((props: any, ref) => {
         let obj = { ...localState.values };
         obj.data = data;
         obj.collectionid = params?.collectionid;
-        obj.customerId = user?.id || guid;
+        obj.customerId = user?.id ;
         obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
@@ -67,7 +68,7 @@ const Nfts = forwardRef((props: any, ref) => {
         obj.pageNo = pageNo;
         obj.collectionid = params?.collectionid;
         obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
-        obj.customerId = user?.id || guid;
+        obj.customerId = user?.id ;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
         store.dispatch(fetchNfts(obj, props?.type));
@@ -121,7 +122,7 @@ const Nfts = forwardRef((props: any, ref) => {
                     // }
                     let obj = { ...localState.values }
                     obj.collectionid = params?.collectionid;
-                    obj.customerId = user?.id || guid;
+                    obj.customerId = user?.id ;
                     obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
                     obj.activeTab = props?.selectedTab || "GetNfts";
                     obj.categoryName = props?.categeoryName || "All"
@@ -186,7 +187,7 @@ const Nfts = forwardRef((props: any, ref) => {
         let obj = { ...localState.values };
         // obj.data = data;
         obj.collectionid = params?.collectionid;
-        obj.customerId = user?.id || guid;
+        obj.customerId = user?.id;
         obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
@@ -197,7 +198,7 @@ const Nfts = forwardRef((props: any, ref) => {
         let obj = { ...localState.values };
         // obj.data = data;
         obj.collectionid = params?.collectionid;
-        obj.customerId = user?.id || guid;
+        obj.customerId = user?.id;
         obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.activeTab = props?.selectedTab || "GetNfts";
         obj.categoryName = props?.categeoryName || "All"
@@ -226,7 +227,7 @@ const Nfts = forwardRef((props: any, ref) => {
         else {
             rootDispatch(setError({ message: "" }));
             let obj = { ...localState.values }
-            obj.amount = (min && max) ? `${min} to ${max}` : min ? `${min} to 0` : max ? `0 to ${max}` : null
+            obj.amount = (min && max) ? `${min} to ${max}` : min ? `${min} to null` : max ? `null to ${max}` : null
             localDispatch({ type: 'setValues', payload: obj })
         }
     }

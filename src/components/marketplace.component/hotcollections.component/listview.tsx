@@ -20,7 +20,7 @@ const ListView = (props:any) => {
           <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] px-1">
             <thead>
               <tr className="!bg-primary-content">
-                <th className="text-left text-base text-secondary font-bold">
+                <th className="text-left text-base text-secondary font-bold w-52">
                 Item
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
@@ -45,8 +45,8 @@ const ListView = (props:any) => {
               {props?.data?.data?.length > 0 && !props?.data?.loading &&
                 props?.data?.data?.map((item: any, index: any) => (
                   <tr>
-                    <td className="w-40">
-                      <div className="flex gap-4 items-center">
+                    <td className="w-52">
+                      <div className="flex gap-4 items-center truncate">
                         <img src=
                         {
                           item?.image && !item?.image?.includes("null")
@@ -57,7 +57,7 @@ const ListView = (props:any) => {
                             : listimg
                         }
                          className="w-[50px] h-[50px] object-cover rounded-2xl shrink-0" alt="" />
-                         <p className="font-normal text-sm text-secondary truncate" title={item?.name}>{item?.name}</p>
+                         <p className="font-normal text-sm text-secondary w-36 truncate " title={item?.name}>{item?.name}</p>
                          </div>
                     </td>
                     <td>
