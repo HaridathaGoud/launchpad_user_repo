@@ -1,22 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { get } from "../../../utils/api";
+import { convertUTCToLocalTime, get } from "../../../utils/api";
 import { setError } from "../../../reducers/layoutReducer";
 import ProjectdetailsView from "./projectdetailsView";
 import { guid } from "../../../utils/constants";
 import ProjectDetailsCard from "./projectDetailsCard";
 import ApplyNow from "../../applynow";
 import SwipeUp from "../../../ui/swipeUp";
+import useContractMethods from "../../../hooks/useContract";
 
 const Projectdetails = () => {
   const allocationsRef = useRef(null);
   const rootDispatch = useDispatch();
   const { projectId, projectName } = useParams();
+  const {getTotalSoldTokens}=useContractMethods()
   const user = useSelector((store: any) => store.auth?.user);
   const [loader, setLoader] = useState(false);
   const [data, setData] = useState<any>(null);
-
+  const [status,setStatus]=useState({private:'',public:''})
   useEffect(() => {
     if (projectId) {
       getDetails("all");
@@ -66,23 +68,31 @@ const Projectdetails = () => {
     return 0;
   };
 
-  const proStatus = (data: any) => {
-    let privateStDate = data?.privateStartDate;
-    let privateEndDate = data?.privateEndDate;
-    let publicStDate = data?.publicStartDate;
-    let publicEndDate = data?.publicEndDate;
-    const now = new Date();
-    
-    const currentDate = now.toISOString();
-    if (
-      (currentDate >= privateStDate && currentDate <= publicEndDate) ||
-      (currentDate >= publicStDate && currentDate <= privateEndDate)
-    ) {
-      return "ongoing";
-    } else if (currentDate < privateStDate || currentDate < publicStDate) {
-      return "upcoming";
-    } else {
-      return "closed";
+  const proStatus = (details: any=data?.projectDetails) => {
+    let privateStDate = details?.privateStartDate;
+    let privateEndDate = details?.privateEndDate;
+    let publicStDate = details?.publicStartDate;
+    let publicEndDate = details?.publicEndDate;
+    const privateEndTimeInSec=Math.floor(convertUTCToLocalTime(privateEndDate).getTime()/1000)
+    const publicEndTimeInSec=Math.floor(convertUTCToLocalTime(publicEndDate).getTime()/1000)
+    const privateStartTimeInSec=Math.floor(convertUTCToLocalTime(privateStDate).getTime()/1000)
+    const publicStartTimeInSec=Math.floor(convertUTCToLocalTime(publicStDate).getTime()/1000)
+    const timeInSec=Math.floor(new Date().getTime() / 1000);
+    if(timeInSec<privateStartTimeInSec){
+      setStatus({private:'Upcoming',public:'Upcoming'})
+      return false
+    }else if(timeInSec>=privateStartTimeInSec && timeInSec<privateEndTimeInSec){
+      setStatus({private:'Ongoing',public:'Upcoming'})
+      return true
+    }else if(timeInSec>=privateEndTimeInSec && timeInSec<publicStartTimeInSec){
+      setStatus({private:'Ended',public:'Upcoming'})
+      return false
+    }else if(timeInSec>=publicStartTimeInSec && timeInSec<publicEndTimeInSec){
+      setStatus({private:'Ended',public:'Ongoing'})
+      return true
+    }else{
+      setStatus({private:'Ended',public:'Ended'})
+      return false
     }
   };
   return (
@@ -100,13 +110,14 @@ const Projectdetails = () => {
                 swapProgressBarCalculation={swapProgressBarCalculation}
                 allocationsRef={allocationsRef}
                 getDetails={getDetails}
-              
+                status={status}
               />
               <ProjectDetailsCard
                 loader={loader}
                 pjctInfo={data?.projectDetails}
                 currentPjct={data?.projectStatus}
                 swapedPercentage={data?.swapPercentage}
+                status={status}
               />
             </div>
           </div>

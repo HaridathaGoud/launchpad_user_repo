@@ -74,7 +74,7 @@ export const wagmiConfig = createConfig({
             `${process.env.REACT_APP_TOKEN_SYMBOL} Launchpad is a Create-to-Earn DAOs' launchpad and NFT marketplace that provides access to legendary creators for the wider entertainment community.`,
           icons: ['https://yellowblock.net/wp-content/uploads/2023/09/YB-Logo.svg'],
           url: 'https://dott.network/dashboard',
-        },
+        } 
       },
     }),
   ],

@@ -26,9 +26,8 @@ import ConvertLocalFormat from "../../../utils/dateFormat";
 const ProposalCards = (props: any) => {
   const proposalsRef = useRef(null);
   const rootDispatch = useDispatch();
-  const { proposals, user } = useSelector((state: any) => {
-    return { proposals: state.proposal?.proposals, user: state.auth?.user };
-  });
+  const user=useSelector((state: any) =>state.auth.user);
+  const proposals = useSelector((state: any) => state.proposal?.proposals);
   const statusLookup = useSelector(
     (state: any) => state.proposal.proposalStatusLookup
   );

@@ -10,6 +10,19 @@ const containsEmoji = (value: any) => /[\u{1F300}-\u{1F6FF}]/u.test(value);
 const containsNonAlphabetic = (value: any) => !/^[\p{L} ,.;]+$/u.test(value);
 const urlPattern = (value: any) => /^(ftp|http|https):\/\/[^ "]+$/.test(value);
 const isNumber = (value: any) => /^[0-9].*$/.test(value);
+function hasDuplicates(arr, key) {
+  const seen = new Set();
+
+  for (const item of arr) {
+    const value = item[key];
+    if (seen.has(value)) {
+      return true;
+    }
+    seen.add(value);
+  }
+
+  return false;
+}
 export const validateForm = (form:any) => {
   const {
     imageUrl,
@@ -72,16 +85,16 @@ export const validateForm = (form:any) => {
   validateField(
     royalities,
     "royalities",
-    true,
-    (value: string) => !isNumber(value) ||commonReg(value) || emojiRejex(value) || !checkpercent(value),
+    false,
+    (value: string) => value ? (!isNumber(value) ||commonReg(value) || emojiRejex(value) || !checkpercent(value)) : false,
     "Invalid royality fee"
   );
   validateField(
     royalities,
     "royalities",
-    true,
+    false,
     (value: string) => {
-      return Number(value)>100
+      return value? Number(value)>100 : false
     },
     "Royality fee exceeds 100%"
   );
@@ -143,18 +156,26 @@ export const validateProperties = (properties: any) => {
       property.trait_type || "",
       "trait_type",
       true,
-      (value: string) => (commonReg(value) || emojiRejex(value)),
+      (value: string) => containsHTMLTags(value) || containsEmoji(value) || containsNonAlphabetic(value),
       "Invalid trait type"
     );
     const value = validateField(
       property.value || "",
       "value",
       true,
-      (value: string) =>  (commonReg(value) || emojiRejex(value)),
+      (value: string) =>  containsHTMLTags(value) || containsEmoji(value) || containsNonAlphabetic(value),
       "Invalid value"
     );
     if (trait_type || value) isValid = false;
     return { trait_type, value };
   });
+  if(isValid){
+    let hasDuplicateTypes=hasDuplicates(properties,'trait_type');
+    // let hasDuplicateValues=hasDuplicates(properties,'value')
+    if(hasDuplicateTypes){
+      isValid=false;
+      return {isValid,error:"Duplicate types are not allowed!",errors:null}
+    }
+  }
   return { isValid, errors, error: "" };
 };

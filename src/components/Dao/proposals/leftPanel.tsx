@@ -12,13 +12,8 @@ const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
   const { isConnected, address } = useAccount();
   const rootDispatch = useDispatch();
-  const { daoDetails, user } = useSelector((state: any) => {
-    return {
-      daoDetails: state.proposal.daoDetails.data,
-      user: state?.auth?.user,
-
-    };
-  });
+  const daoDetails= useSelector((state: any) =>state.proposal.daoDetails.data);
+  const  user = useSelector((state: any) => state?.auth?.user);
   const proposals = useSelector((state: any) => state.proposal?.proposals);
 
   const [userDetailsFromContract, setUserDetailsFromContract] =

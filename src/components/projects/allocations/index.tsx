@@ -22,7 +22,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
       },[])
     const getAllocationDetails = async () => {
         const userId =
-          user?.user?.id && user?.user?.id != ""
+          user?.user?.id && user?.user?.id !== ""
             ? user?.user?.id
             : "00000000-0000-0000-0000-000000000000";
         try {
@@ -70,6 +70,10 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
         }
       };
       const handleDrawerActions = (payload: any, item: any) => {
+        if(!props.proStatus()){
+          rootDispatch(setError({message:"No active rounds at the moment."}));
+          return
+        }
         if (payload) {
           dispatch({
             type: "setAllocationVolume",
@@ -234,7 +238,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
       />
     )}
 
-        {state.shouldOpenDrawer && (
+        {state.shouldOpenDrawer &&  (
         <BuyTokenDrawer
         shouldOpenDrawer={state.shouldOpenDrawer}
         handleDrawerActions={handleDrawerActions}

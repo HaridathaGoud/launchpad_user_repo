@@ -32,12 +32,10 @@ const AppLayout = () => {
   const isOnline = useOnlineStatus();
   const rootDispatch = useDispatch();
   const { disconnectAsync } = useDisconnect();
-  const { error, toaster, user, hasBasicToken } = useSelector((store: any) => ({
-    error: store.layoutReducer.error,
-    toaster: store.layoutReducer.toaster,
-    user: store.auth.user,
-    hasBasicToken: store.auth.token,
-  }));
+  const error = useSelector((store:any) => store.layoutReducer.error);
+  const toaster = useSelector((store:any) => store.layoutReducer.toaster);
+  const user = useSelector((store:any) => store.auth.user);
+  const hasBasicToken = useSelector((store:any) => store.auth.token);
   const [changingAddress, setChangingAddress] = useState(false);
   useEffect(() => {
     store.dispatch(getTokenDetails(null, null));

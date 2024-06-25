@@ -19,12 +19,8 @@ import Sidebar from "./sidebar";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user, isLoggedIn } = useSelector((state: any) => {
-    return {
-      user: state.auth.user,
-      isLoggedIn: state.auth.arcanaUser?.isLoggedIn,
-    };
-  });
+  const user= useSelector((state: any) => state.auth.user);
+  const isLoggedIn=useSelector((state:any)=>state.auth.arcanaUser?.isLoggedIn)
   const { isConnected, address, isConnecting, isReconnecting } = useAccount();
   const [isChecked, setIsChecked] = useState(false);
 

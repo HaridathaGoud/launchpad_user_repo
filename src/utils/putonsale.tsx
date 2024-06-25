@@ -149,7 +149,7 @@ const PutOnSale = (props: any) => {
           </div>
           <div>
             <div>
-              <form className="py-4" >
+              <div className="py-4" >
                 <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
                   {/* <div className="flex justify-between mb-4 ">
                 <div>
@@ -195,7 +195,7 @@ const PutOnSale = (props: any) => {
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
 

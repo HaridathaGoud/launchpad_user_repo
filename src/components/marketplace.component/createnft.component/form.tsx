@@ -11,7 +11,6 @@ import { Property } from "./models";
 import NoData from "../../../ui/noData";
 import { apiUploadPost } from "../../../utils/api";
 import CreatenftShimmer from "./createnftshimmer";
-import ipfsClient from "../../../utils/ipfsClient";
 import CustomSelect from "./customSelect";
 import NumberInput from "../../../ui/numberInput";
 import Spinner from "../../loaders/spinner";
@@ -41,10 +40,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
   } = state;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userCollections, networks } = useSelector((store: any) => {
-    const detailsForForm = store.createNft;
-    return detailsForForm;
-  });
+  const userCollections=useSelector((store: any) =>store.createNft.userCollections);
+  const networks = useSelector((store: any) => store.createNft.networks);
   useEffect(() => {
     if (networks.data) {
       updateState('setValues', { ...values, network: networks.data?.[0] })
@@ -422,6 +419,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
             <NumberInput
               label="Royalties"
               value={values.royalities}
+              isRequired={false}
               onChange={handleChange}
               inputBoxClass="mb-6"
               fieldName="royalities"
@@ -578,7 +576,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   inputBoxClass="mb-6 mt-3"
                   fieldName="unlockDescription"
                   error={formErrors["unlockDescription"]}
-                  isRequired={true}
+                  isRequired={false}
                   disabled={state.isLoading === 'saving'}
                 />
               )}

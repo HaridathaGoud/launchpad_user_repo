@@ -60,6 +60,7 @@ const TextInput = ({
         onChange={(e) => onChange(fieldName, e.target.value)}
         onKeyUp={onKeyUp ? (e:any)=>onKeyUp(fieldName,e) : ()=>{}}
         maxLength={maxLength}
+        onBlur={(e) => onChange(fieldName, e.target.value?.trim() || '')}
         disabled={disabled}
       />
       {error && (

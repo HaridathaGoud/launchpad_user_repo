@@ -161,7 +161,7 @@ export const convertUTCToLocalTime = (dateString: any) => {
     date.getSeconds()
   );
   const localTime = new Date(milliseconds);
-  return localTime.toISOString();
+  return localTime;
 };
 export async function saveUser(url: string, obj: Object) {
   return axios.post(API_END_POINT_KYC + `${API_VERSION}${url}`, obj, {

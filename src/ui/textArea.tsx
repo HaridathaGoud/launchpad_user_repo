@@ -64,6 +64,7 @@ const TextArea = ({
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}
         maxLength={maxLength}
         disabled={disabled}
+        onBlur={(e) => onChange(fieldName, e.target.value?.trim() || '')}
       />
       {error && (
         <p className={errorClass || "text-sm font-normal text-red-600 ml-3"}>

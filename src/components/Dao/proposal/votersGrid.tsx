@@ -10,12 +10,8 @@ import ProposalViewShimmer from "../../loaders/ProposalViewShimmer";
 const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
-  const {voters,user} = useSelector((state: any) => {
-    return {
-      voters:state?.vtg?.voters,
-      user:state.auth.user,
-    }
-  });
+  const voters = useSelector((state: any) =>state?.vtg?.voters);
+  const user = useSelector((state: any) => state.auth.user);
   const [copied, setCopied] = useState("");
   useEffect(() => {
     props.getVotersList({

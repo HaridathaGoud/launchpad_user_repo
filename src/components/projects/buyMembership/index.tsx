@@ -19,7 +19,7 @@ import { setError, setToaster } from "../../../reducers/layoutReducer";
 import BuyMembershipShimmers from "../../loaders/projects/buyMembershipShimmer";
 
 const BuyMembership = (props: any) => {
-  const { daoId, contractAddress, privateStatus, publicStatus,totalSoldTokens,totalSupply } =
+  const { daoId, contractAddress,totalSoldTokens,totalSupply } =
     props.projectDetails;
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(
@@ -130,6 +130,10 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleMinting = async () => {
+    if(!props?.proStatus()){
+      rootDispatch(setError({message:'No active rounds at the moment.'}))
+      return;
+    }
     await getMetaData(
       { count: localState.inputCount, daoId: daoId },
       {
@@ -170,9 +174,7 @@ const BuyMembership = (props: any) => {
                   !isConnected ||
                   !user?.id ||
                   localState.isMinting ||
-                  totalSoldTokens>=totalSupply ||
-                  (privateStatus?.toLowerCase() === "closed" && publicStatus?.toLowerCase()==='upcoming') ||
-                  publicStatus?.toLowerCase() === "closed"
+                  totalSoldTokens>=totalSupply
                 }
               >
                 {localState.isMinting && (

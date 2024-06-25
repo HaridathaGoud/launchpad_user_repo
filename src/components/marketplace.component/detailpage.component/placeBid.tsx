@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCollectionDeployer } from "../../../utils/useCollectionDeployer";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import Spinner from "../../loaders/spinner";
-import { useNavigate } from "react-router-dom";
-import { useAccount } from "wagmi";
 const getModalSteps = () => {
   return [
     {
@@ -20,6 +18,35 @@ const getModalSteps = () => {
     },
   ];
 };
+export const validateForm = (form: any) => {
+  const { bidAmount } = form;
+  const errors: any = {};
+  const validateField = (
+    field: string,
+    fieldName: string,
+    required = true,
+    validationFunc?: (value: string) => boolean,
+    errorMessage?: string
+  ) => {
+    if (required && (!field || field === "")) {
+      errors[fieldName] = "Is required";
+    } else if (validationFunc?.(field)) {
+      errors[fieldName] = errorMessage || `Invalid ${fieldName.toLowerCase()}`;
+    }
+  };
+  validateField(
+    bidAmount || "",
+    "bidAmount",
+    true,
+    (value) => Number(value) < 0.0001,
+    "Amount must be greater than 0"
+  );
+  let isValid = true;
+  if (Object.keys(errors).length > 0) {
+    isValid = false;
+  }
+  return { isValid, errors };
+};
 const PlaceBid = ({
   nftDetails,
   data,
@@ -30,12 +57,10 @@ const PlaceBid = ({
   tokenId,
   show,
   setShow,
-  refresh
+  refresh,
 }) => {
   const user = useSelector((store: any) => store.auth.user);
   const rootDispatch = useDispatch();
-  const {address}=useAccount()
-  const navigate=useNavigate()
   const { getBidConfirmation, getSignatureForBid } = useCollectionDeployer();
   const [values, setValues] = useState({ bidAmount: "" });
   const [errors, setErrors] = useState({});
@@ -52,36 +77,42 @@ const PlaceBid = ({
     e.preventDefault();
     setIsLoading("placingBid");
     try {
-      const obj = {
-        nftId: nftId,
-        customerId: user.id,
-        value: parseFloat(values.bidAmount),
-        crypto: "WMATIC",
-        signature: "",
-      };
-      setCurrentStep(0);
-      await getBidConfirmation(obj.value);
-      setCurrentStep(1);
-      const signature = await getSignatureForBid(
-        collectionAddress,
-        tokenId,
-        obj.value,
-        nftDetails.supply
-      );
-      obj.signature = signature;
-      setCurrentStep(2);
-      let response = await postMarketplace(`User/SaveNftBid`, obj);
-      if (
-        response.status === 200 ||
-        response.statusText.toLowerCase() === "ok"
-      ) {
-        rootDispatch(
-          setToaster({ message: "Bid has been placed successfully"})
+      const { isValid, errors: validationErrors } = validateForm(values);
+      if (isValid) {
+        Object.keys(errors).length > 0 && setErrors({});
+        const obj = {
+          nftId: nftId,
+          customerId: user.id,
+          value: parseFloat(values.bidAmount),
+          crypto: "WMATIC",
+          signature: "",
+        };
+        setCurrentStep(0);
+        await getBidConfirmation(obj.value);
+        setCurrentStep(1);
+        const signature = await getSignatureForBid(
+          collectionAddress,
+          tokenId,
+          obj.value,
+          nftDetails.supply
         );
-        clearState();
-        refresh()
+        obj.signature = signature;
+        setCurrentStep(2);
+        let response = await postMarketplace(`User/SaveNftBid`, obj);
+        if (
+          response.status === 200 ||
+          response.statusText.toLowerCase() === "ok"
+        ) {
+          rootDispatch(
+            setToaster({ message: "Bid has been placed successfully" })
+          );
+          clearState();
+          refresh();
+        } else {
+          rootDispatch(setError({ message: response }));
+        }
       } else {
-        rootDispatch(setError({ message: response }));
+        setErrors(validationErrors);
       }
     } catch (error) {
       const from = currentStep < 2 ? "contract" : "";
@@ -137,7 +168,10 @@ const PlaceBid = ({
                     Current Price
                   </p>
                   <p className="truncate text-secondary text-[22px] font-semibold leading-[26px] mb-0">
-                    <span className=""> { Number(nftDetails?.price || 0)?.toFixed(4) || "--"}</span>{" "}
+                    <span className="">
+                      {" "}
+                      {Number(nftDetails?.price || 0)?.toFixed(4) || "--"}
+                    </span>{" "}
                     <span className="">{nftDetails?.currency || "--"}</span>
                   </p>
                 </div>
@@ -189,7 +223,10 @@ const PlaceBid = ({
                       Your balance
                     </p>
                     <p className="truncate text-secondary font-semibold">
-                      <span className=""> { Number(data?.formatted || 0)?.toFixed(4)}</span>{" "}
+                      <span className="">
+                        {" "}
+                        {Number(data?.formatted || 0)?.toFixed(4)}
+                      </span>{" "}
                       <span className="">{nftDetails?.currency}</span>
                     </p>
                   </div>
@@ -206,7 +243,7 @@ const PlaceBid = ({
                       Service fee
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
-                    {percentageValue} <span>{nftDetails?.currency}</span>
+                      {percentageValue} <span>{nftDetails?.currency}</span>
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
@@ -214,7 +251,10 @@ const PlaceBid = ({
                       Total bid amount
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
-                      {Number(percentageValue) + Number(Number(data?.formatted || 0)?.toFixed(4))} {nftDetails?.currency}
+                      {(Number(percentageValue) +
+                        Number(Number(data?.formatted || 0)?.toFixed(4)) +
+                        Number(values.bidAmount)).toFixed(4)}{" "}
+                      {nftDetails?.currency}
                     </p>
                   </div>
                 </div>
@@ -232,8 +272,12 @@ const PlaceBid = ({
                         }`}
                         key={step.title}
                       >
-                        <p className="font-medium hover:bg-transparent">{step.title}</p>
-                        <p className="text-center hover:bg-transparent">{step.message}</p>
+                        <p className="font-medium hover:bg-transparent">
+                          {step.title}
+                        </p>
+                        <p className="text-center hover:bg-transparent">
+                          {step.message}
+                        </p>
                       </li>
                     );
                   })}
