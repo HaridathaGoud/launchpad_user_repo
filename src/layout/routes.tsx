@@ -35,8 +35,6 @@ import HotCollectionsViewAll from "../components/marketplace.component/hotcollec
 const Portfolio = React.lazy(() => import("../components/portfolio"));
 const Project = React.lazy(() => import("../components/projects"));
 const Dashboard = React.lazy(() => import("../components/dashboard"));
-// const AboutUs = React.lazy(() => import("../components/aboutus.component"));
-const Faq = React.lazy(() => import("../components/faq.component"));
 const KycStatus = React.lazy(() => import("../components/sumsub/kycStatus"));
 const Profile = React.lazy(() => import("../components/profile"));
 const Projectdetails = React.lazy(
@@ -101,7 +99,6 @@ const Routes = () => {
           ),
           errorElement: <ErrorPage />,
         },
-        { path: "/faq", element: <Faq />, errorElement: <ErrorPage /> },
         {
           path: "/profile/:walletAddress?",
           element: (

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
 import defaultlogo from "../../../../assets/images/default-logo.png";
-import Placeholder from "react-bootstrap/Placeholder";
 import { store } from "../../../../store";
 import { fetchTopSellers } from "../../../../reducers/marketPlaceReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,7 +54,7 @@ const TopSellerCarousal = () => {
               <div className="text-center">
                 {loader && (
                   <div className="sell-card  shimmer-topseller shimmer">
-                    <Placeholder animation="glow">
+                    {/* <Placeholder animation="glow">
                       <Placeholder xs={2} className="topseller-img" />
                     </Placeholder>
 
@@ -63,7 +62,7 @@ const TopSellerCarousal = () => {
                       <Placeholder xs={12} />
                       <Placeholder xs={12} />
                       <Placeholder xs={12} />
-                    </Placeholder>
+                    </Placeholder> */}
                   </div>
                 )}
               </div>

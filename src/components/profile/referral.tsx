@@ -3,11 +3,11 @@ import { useSelector, connect } from "react-redux";
 import Moment from "react-moment";
 import moment from "moment";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Spinner } from "react-bootstrap";
 import { useAccount } from "wagmi";
 import { store } from "../../store";
 import { getEarnedBonous, getKyc } from "../../utils/api";
 import NoDataFound from "../../ui/noData";
+import Spinner from "../loaders/spinner";
 
 function Referrals(props: any) {
   const [copied, setCpoied] = useState(false);
@@ -247,7 +247,7 @@ function Referrals(props: any) {
             {loadData && (
               <div className="mb-4">
                 <span className="mb-0 d-flex justify-content-center">
-                  {loader && <Spinner size="sm" className="spinner-color" />}
+                  {loader && <Spinner size="loading-sm" />}
                 </span>
                 {!hide && (
                   <>

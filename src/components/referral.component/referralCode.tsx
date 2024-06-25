@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import referral from '../../assets/images/referral.svg';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { isexistingreferralcode } from '../../utils/api';
 import { KycPost } from "../../utils/api"
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import error from '../../assets/images/error.svg';
-import { Spinner } from 'react-bootstrap';
 import Button from '../../ui/Button';
+import Spinner from '../loaders/spinner';
 
 const Referralcode = () => {
   const [form, setForm] = useState({});
@@ -178,11 +177,11 @@ const Referralcode = () => {
                 </Button>
 
                 {!touched?.isReferral && <Button type="secondary" handleClick={() => getIsExistingReferralCOde()} btnClassName="">
-                  <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Verify
+                  <span>{btnLoader && <Spinner size="loading-sm"/>} </span> Verify
                 </Button>}
 
                 {touched?.isReferral && <Button type="secondary" handleClick={(e) => referralDetails(e)} btnClassName="">
-                  <span>{btnLoader && <Spinner size="sm" className='text-base-100' />} </span> Save
+                  <span>{btnLoader && <Spinner size="loading-sm"/>} </span> Save
                 </Button>}
               </div>
             </form>

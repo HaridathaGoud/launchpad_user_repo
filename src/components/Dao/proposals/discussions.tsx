@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "react-bootstrap/Image";
 import styles from "./dao.module.css";
 import discussionProfile from "../../../../assets/images/discussion-profile.png";
 import TextInput from "../../inputs/textinput";
@@ -13,7 +12,7 @@ const Discussions = () => {
     <div className="">
       <div className="flex gap-4 mb-9 mt-[40px]">
         <div className="w-12 h-12 shrink-0">
-          <Image src={discussionProfile} />
+          <img src={discussionProfile} />
         </div>
         <div>
           <span className="text-base font-semibold text-secondary">

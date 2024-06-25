@@ -1,21 +1,16 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useReducer } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {  getTopNft } from '../../../utils/api';
-import Modal from 'react-bootstrap/Modal';
 import { useAccount } from 'wagmi';
-import WalletConnect from '../../shared/connect.wallet';
 import Button from '../../../ui/Button';
 import Carousel from '../../../ui/Carousel';
 import DashboardShimmer from '../loaders/carouselShimmer';
 import { bannerReducer, bannerState } from './reducer';
 import { setError } from "../../../reducers/layoutReducer";
 import { useDispatch } from 'react-redux';
-import ConnectToWallet from '../../ConnectToWallet';
 const Banner = () => {
     const rootDispatch = useDispatch();
     const [localState, localDispatch] = useReducer(bannerReducer, bannerState);
-    const [show, setShow] = useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
     const { isConnected } = useAccount();
     const router = useNavigate();
     useEffect(() => {
@@ -63,7 +58,6 @@ const Banner = () => {
     const handleExplore = () => {
         router(`/marketplace/explore`);
     };
-    const handleClose = () => setShow(false);
     const getNFTImageUrl = (file: any) => {
         return file
     };
@@ -105,7 +99,6 @@ const Banner = () => {
                                     </div> */}
                                 </div>
                                 <div className="banner-btns">
-                                    <WalletConnect showWalletModal={modalShow} onWalletConect={(addr) => { }} onWalletClose={() => setModalShow(false)} />
                                     <Button type='primary' btnClassName='!px-12' handleClick={handleExplore}>
                                         Explore
                                     </Button>{' '}
@@ -113,7 +106,7 @@ const Banner = () => {
                                         Create
                                     </Button>
                                 </div>
-                                <Modal size="lg" centered show={show} onHide={handleClose} className="wallet-popup create-item-modal">
+                                {/* <Modal size="lg" centered show={show} onHide={handleClose} className="wallet-popup create-item-modal">
                                     <Modal.Header className="p-0">
                                         <span></span>
                                         <span className="icon close c-pointer" onClick={handleClose}></span>
@@ -135,7 +128,7 @@ const Banner = () => {
                                             </Link>
                                         </div>
                                     </Modal.Body>
-                                </Modal>
+                                </Modal> */}
                             </div>
                            <div className='md:flex justify-end max-sm:w-full max-sm:flex-1'>
                            <div className='lg:w-[400px]'>
