@@ -27,12 +27,6 @@ const ListView = (props:any) => {
                 Current Price
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                Best Offer
-                </th>
-                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                Last Sale
-                </th>
-                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
                 Owner
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
@@ -62,16 +56,6 @@ const ListView = (props:any) => {
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">{item?.price ? (item?.price+' Matic') :'--'  } </p>
-                    </td>
-                    <td>
-                      <p className="font-normal text-sm text-secondary">
-                        {item?.bestoffer || '--'}
-                      </p>
-                    </td>
-                    <td>
-                      <p className="font-normal text-sm text-secondary">
-                        {item?.lastsale ? (item?.lastsale+' Matic') : '--'}
-                      </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
