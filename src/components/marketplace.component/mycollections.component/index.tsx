@@ -81,29 +81,9 @@ function MyCollections(props: any) {
                 </div>
                 <div className="p-5">
                   <h4 className="font-semibold text-2xl capitalize text-secondary truncate" title={item.collectionName}>{item.collectionName}</h4>
-                  <div className="">
-
-                    <div className="flex justify-between items-center mt-[18px]">
-                      <label className="text-secondary text-base flex-1">Floor</label>
-                      {item.flourValue && (
-                        <>
-                          <p className="text-secondary text-lg font-semibold flex-1 text-right truncate" title={item.flourValue}>
-                            {item.flourValue} {process.env.REACT_APP_TOKENNAME}
-                          </p>
-                        </>
-                      )}
-                      {!item.flourValue && (
-                        <>
-                          <p className=" text-secondary text-lg font-semibold flex-1 text-right truncate">{item.flourValue || '-'}</p>
-                        </>
-                      )}
-                    </div>
-                    <div className="flex justify-between items-center mt-4">
-                      <label className="text-secondary text-base flex-1">Total Volume</label>
-                      <p className="text-secondary text-lg font-semibold flex-1 text-right truncate" title={item.totalVolume}>
-                        {item.totalVolume} {process.env.REACT_APP_TOKENNAME}
-                      </p>
-                    </div>
+                  <div className="flex justify-between">
+                  <label className="text-secondary text-base flex-1">Category - </label>
+                  <h4 className="font-semibold text-2xl capitalize text-secondary truncate" title={item.category}>{item.category}</h4>
                   </div>
                 </div>
               </div>
