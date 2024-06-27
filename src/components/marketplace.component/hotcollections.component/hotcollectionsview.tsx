@@ -82,7 +82,7 @@ const HotcollectionView = (props: any) => {
       {hotCollectionViewDetails.loading && <HotcollectionviewShimmer/> }
       {!hotCollectionViewDetails.loading &&
       <div className="max-sm:px-3 md:mt-5 px-0 container mx-auto">
-              <BreadCrumb/>
+              {/* <BreadCrumb/> */}
       <div className='min-h-[350px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-60 rounded-lg z-10'></div>
