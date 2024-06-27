@@ -11,6 +11,7 @@ import { clearCollectionsActivityData,
    fetchHotCollectionsViewDetails} from '../../../reducers/collectionReducer';
 import { setError } from '../../../reducers/layoutReducer';
 import { guid } from '../../../utils/constants';
+import BreadCrumb from '../../../ui/breadcrumb';
 const pageSize = 6;
 
 const HotcollectionView = (props: any) => {
@@ -81,6 +82,7 @@ const HotcollectionView = (props: any) => {
       {hotCollectionViewDetails.loading && <HotcollectionviewShimmer/> }
       {!hotCollectionViewDetails.loading &&
       <div className="max-sm:px-3 md:mt-5 px-0 container mx-auto">
+              <BreadCrumb/>
       <div className='min-h-[350px] bg-center relative rounded-lg px-4 md:px-[50px] flex items-center mt-4 max-sm:py-4'>
         <img src={hotCollectionViewDetails?.data?.bannerImage} className='w-full rounded-lg h-full absolute top-0 left-0 object-cover' alt="" />
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-60 rounded-lg z-10'></div>
@@ -91,7 +93,7 @@ const HotcollectionView = (props: any) => {
                 <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{hotCollectionViewDetails?.data?.collectionName ||'--'}</p>
               </div>
               <div className="flex text-[18px] font-medium gap-2.5">
-                <p className='text-white mt-2'>By : {hotCollectionViewDetails?.data?.creatorName ||'--'}   </p>
+                <p className='text-white mt-2'>By : {hotCollectionViewDetails?.data?.creatorName ||hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
               </div>
               <p className='text-white mt-3 text-base pr-4 overflow-hidden text-ellipsis line-clamp-4'>
                 {hotCollectionViewDetails?.data?.description ||'--'}

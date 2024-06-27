@@ -43,7 +43,7 @@ function MyCollections(props: any) {
     navigate('/marketplace/collection/create');
   };
   const handleCardView = (item) =>{
-    navigate(`/marketplace/collection/${item.id}/view`
+    navigate(`/marketplace/collection/${item.id}/view/${item?.collectionName}`
     );
   }
   return (

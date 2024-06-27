@@ -40,12 +40,12 @@ export const getBreadcrumbList = {
     { name: "Marketplace", path: "/marketplace/home" },
     { name: "Collections", path: "" },
   ],
-  marketplaceCreateNft:[ 
+  marketplaceCreateNft:[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
     { name: "Create New NFT", path: "" },
   ],
-  marketplaceCreateColection:[ 
+  marketplaceCreateColection:[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
     { name: "Create New Collection", path: "" },
@@ -104,5 +104,14 @@ export const getBreadcrumbList = {
     { name: "Proposals", path: props.proposalsPath },
     { name: props.proposalTitle.charAt(0).toUpperCase()+props.proposalTitle.slice(1), path: "" },
   ],
+  colloctionView: (props:any) =>
+ {
+  return [
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Collection", path: "/marketplace/collections" },
+    { name: props?.collectionName, path: "" },
+  ];
+ }
 
 };

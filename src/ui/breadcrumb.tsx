@@ -73,15 +73,24 @@ const BreadCrumb = () => {
     }else if(path.includes("hotcollectionsviewall")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceHotCollectionViewAll'];
     }else if(path.includes("browsebyviewall")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll']; 
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll'];
     }else if(path.includes("explore")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];  
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];
     }else if(path.includes("collections")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections']; 
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections'];
     }else if(path.includes("nft/create")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateNft']; 
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateNft'];
     }else if(path.includes("collection/create")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateColection']; 
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateColection'];
+    }
+    else if(path.includes("marketplace/collection")){
+       if (params.collectionid ) {
+        breadcrumbToUpdate = getBreadcrumbList["colloctionView"]({
+          collectionName: params.collectionName,
+          collectionPath: `marketplace/collections`,
+          proposalTitle: params.collectionName,
+        });
+      }
     }
     else {
       breadcrumbToUpdate = getBreadcrumbList["default"];
