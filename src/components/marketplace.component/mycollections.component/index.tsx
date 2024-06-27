@@ -1,32 +1,29 @@
 import React, { useEffect, useRef, useReducer } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import defaultlogo from "../../../assets/images/default-logo.png";
 import { useAccount } from "wagmi";
 import { useLocation, useNavigate } from "react-router-dom";
-import { clearNfts, fetchCollections} from "../../../reducers/marketPlaceReducer";
+import { clearCollections, fetchCollections} from "../../../reducers/marketPlaceReducer";
 import { store } from "../../../store";
-import { saveFavorite } from "./services";
 import Button from "../../../ui/Button";
 import { nftsReducer, nftsState } from "./reducers";
 import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
 import WalletConnect from "../../../layout/Login";
 import { Modal, modalActions } from "../../../ui/Modal";
-import { setError, setToaster } from "../../../reducers/layoutReducer";
+import { setError } from "../../../reducers/layoutReducer";
 import BreadCrumb from "../../../ui/breadcrumb";
 import NoDataFound from "../../../ui/noData";
 const pageSize = 10;
 const search = null;
 function MyCollections(props: any) {
-  const { address, isConnected } = useAccount();
   const [localState, localDispatch] = useReducer(nftsReducer, nftsState);
   const navigate = useNavigate();
   const location = useLocation();
   const user = store.getState().auth;
   const scrollableRef = useRef<any>(null);
   const { loader, error, data, pageNo } = useSelector(
-    (store: any) => store.exploreNfts
+    (store: any) => store.collections
   );
-  const errorMessage=useSelector(((store:any)=>store.layoutReducer.error.message))
+
   const rootDispatch = useDispatch();
   useEffect(() => {
     store.dispatch(fetchCollections(data, 1, search,location?.pathname,user?.user?.id ));
@@ -34,7 +31,7 @@ function MyCollections(props: any) {
     if (error) rootDispatch(setError({message:error}))
 
     return () => {
-      store.dispatch(clearNfts());
+      store.dispatch(clearCollections());
     };
   }, [props.auth.user?.id,location?.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
   const loadmore = () => {

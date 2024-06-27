@@ -13,6 +13,12 @@ const FETCH_USER_COLLECTIONS = "fetchUserCollections"
 const FETCH_NETWORKS = "fetchNetworks"
 const SAVE_NFT = "saveNft"
 
+//collections
+
+const FETCH_ALL_COLLECTIONS = "fetchAllCollections"
+const SET_COLLECTION_LOADER = "setCollectionLoaderAction";
+const SET_COLLECTION_ERROR = "setCollectionErrorAction"
+const SET_COLLECTION_PAGE_NO = 'setCollectionPageNoAction'
 //Explore NFTs actions
 const fetchNftsAction = (payload) => {
     return {
@@ -84,11 +90,37 @@ const clearNfts = () => {
         dispatch(fetchNftsAction(null))
     }
 }
+
+//collection methods:
+const fetchAllCollections = (payload) => {
+    return {
+        type: FETCH_ALL_COLLECTIONS,
+        payload
+    }
+}
 const clearCollections = () => {
     return (dispatch) => {
-        dispatch(setLoaderAction(false))
-        dispatch(setPageNoAction(1))
-        dispatch(featchTopCollections(null))
+        dispatch(setCollectionLoaderAction(false))
+        dispatch(setCollectionPageNoAction(1))
+        dispatch(fetchAllCollections(null))
+    }
+}
+const setCollectionLoaderAction = (payload) => {
+    return {
+        type: SET_COLLECTION_LOADER,
+        payload
+    }
+};
+const setCollectionErrorAction = (payload) => {
+    return {
+        type: SET_COLLECTION_ERROR,
+        payload: apiCalls.isErrorDispaly(payload)
+    }
+};
+const setCollectionPageNoAction = (payload) => {
+    return {
+        type: SET_COLLECTION_PAGE_NO,
+        payload
     }
 }
 const fetchNfts = (information, screenName) => {
@@ -146,25 +178,24 @@ const fetchTopSellers = (pageNo = 1, take = 4) => {
         }
     }
 }
-
+//collections
 const fetchCollections = (data, pageNo, search, screenName, customerId) => {
     pageNo = pageNo || 1
     search = search || null
     let take = 10
     const skip = pageNo * take - take;
     return async (dispatch) => {
-        dispatch(setLoaderAction(true));
-        // const response = await apiCalls.getMarketplace(`User/ExploreNfts/${take}/${skip}/${category}/${search}/${id}`);
+        dispatch(setCollectionLoaderAction(true));
         const response = screenName === '/marketplace/mycollections' ? await apiCalls.getMarketplace(`User/GetCustomerCollections/${customerId}`) : await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
         if (response.status === 200) {
             const mergedData = skip > 0 ? [...data, ...response.data] : response.data
-            dispatch(featchTopCollections(mergedData));
-            dispatch(setPageNoAction(pageNo + 1))
+            dispatch(fetchAllCollections(mergedData));
+            dispatch(setCollectionPageNoAction(pageNo + 1))
 
         } else {
-            dispatch(setErrorAction(response));
+            dispatch(setCollectionErrorAction(response));
         }
-        dispatch(setLoaderAction(false));
+        dispatch(setCollectionLoaderAction(false));
     }
 }
 
@@ -235,6 +266,7 @@ let exploreNtfs = {
     error: '',
     pageNo: 1,
 }
+
 const exploreNtfsReducer = (state = exploreNtfs, action) => {
     switch (action.type) {
         case FETCH_NFTS:
@@ -303,7 +335,31 @@ const createNftReducer = (state, action) => {
             return state;
     }
 }
+let collectionData = {
+    data: null,
+    loader: false,
+    error: '',
+    pageNo: 1,
+}
+const marketPlaceCollectionReducer = (state = collectionData, action) => {
+    switch (action.type) {
+        case FETCH_ALL_COLLECTIONS:
+            state = { ...state, data: action.payload };
+            return state;
+        case SET_COLLECTION_LOADER:
+            state = { ...state, loader: action.payload }
+            return state;
+        case SET_COLLECTION_ERROR:
+            state = { ...state, error: action.payload }
+            return state;
+        case SET_COLLECTION_PAGE_NO:
+            state = { ...state, pageNo: action.payload };
+            return state;
+        default:
+            return state;
+    }
+}
 
-const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer }
+const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer,marketPlaceCollectionReducer }
 export default marketPlaceReducer
 export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks, clearUserCollections, clearNetworks,fetchNftsAction };
