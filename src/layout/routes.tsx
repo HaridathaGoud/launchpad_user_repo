@@ -215,7 +215,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/collection/create",
-          element: <Createcollection />,
+          element: (<ProtectedRoute><Createcollection /></ProtectedRoute>),
           errorElement: <ErrorPage />,
         },
         {
