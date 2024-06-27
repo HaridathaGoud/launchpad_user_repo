@@ -200,7 +200,7 @@ const fetchCollections = (data, pageNo, search, screenName, customerId) => {
             if (response.status === 200) {
                 const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
 
-                dispatch(collectionActions[screenName]?.({ loading: false, data: mergedData, error: '' }))
+                dispatch(collectionActions[screenName]?.({ loading: false, data: mergedData, error: '',nextPage:pageNo +1 }))
 
             } else {
 

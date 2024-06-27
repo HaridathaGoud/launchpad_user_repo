@@ -22,7 +22,7 @@ function MyCollections(props: any) {
   const collections = useSelector(
     (store: any) => store.collections
   );
-  const { loading:loader, error, data, pageNo }=collections[props?.screen]
+  const { loading:loader, error, data, nextPage }=collections[props?.screen]
 
   const rootDispatch = useDispatch();
   useEffect(() => {
@@ -33,10 +33,10 @@ function MyCollections(props: any) {
     };
   }, [props.auth.user?.id,location?.pathname,props?.screen]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() =>{
-    if (error) rootDispatch(setError({message:error,onCloseCallback:() =>clearCollections(props?.screen,{loading:loader,data,pageNo,error:''})}))
-  },[error,props?.screen,loader,data,pageNo])
+    if (error) rootDispatch(setError({message:error,onCloseCallback:() =>clearCollections(props?.screen,{loading:loader,data,nextPage,error:''})}))
+  },[error,props?.screen,loader,data,nextPage])
   const loadmore = () => {
-    store.dispatch(fetchCollections(data, pageNo, search,location?.pathname,user?.user?.id ));
+    store.dispatch(fetchCollections(data, nextPage, search,props?.screen,user?.user?.id ));
   };
 
   const handleButtonClick = () => {
@@ -121,7 +121,7 @@ function MyCollections(props: any) {
             </div>
           )}
         </div>
-        {data?.length === (pageNo - 1) * pageSize && (
+        {data?.length === (nextPage - 1) * pageSize && (
           <div className="category-more">
             <div className="text-center mt-5">
               <span
