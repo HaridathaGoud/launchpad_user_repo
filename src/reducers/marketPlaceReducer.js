@@ -192,7 +192,7 @@ const fetchCollections = (data, pageNo, search, screenName, customerId) => {
     search = search || null
     let take = 10
     const skip = pageNo * take - take;
-    const api = { 'myCollections': `User/GetCustomerCollectionss/${customerId}`, 'allCollections': `User/GetAllCollections/${take}/${skip}/${search}` };
+    const api = { 'myCollections': `User/GetCustomerCollections/${customerId}`, 'allCollections': `User/GetAllCollections/${take}/${skip}/${search}` };
     return async (dispatch) => {
         try {
             dispatch(collectionActions[screenName]?.({ loading: true, data: data, error: '' }))
