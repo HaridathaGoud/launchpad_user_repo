@@ -19,6 +19,7 @@ const FETCH_ALL_COLLECTIONS = "fetchAllCollections"
 const SET_COLLECTION_LOADER = "setCollectionLoaderAction";
 const SET_COLLECTION_ERROR = "setCollectionErrorAction"
 const SET_COLLECTION_PAGE_NO = 'setCollectionPageNoAction'
+const FETCH_MY_COLLECTIONS = 'fetchMyCollections';
 //Explore NFTs actions
 const fetchNftsAction = (payload) => {
     return {
@@ -98,11 +99,17 @@ const fetchAllCollections = (payload) => {
         payload
     }
 }
-const clearCollections = () => {
+const fetchMyCollections = (payload) => {
+    return {
+        type: FETCH_MY_COLLECTIONS,
+        payload
+    }
+}
+
+const collectionActions = { 'myCollections': fetchMyCollections, 'allCollections': fetchAllCollections };
+const clearCollections = (key,payload=null) => {
     return (dispatch) => {
-        dispatch(setCollectionLoaderAction(false))
-        dispatch(setCollectionPageNoAction(1))
-        dispatch(fetchAllCollections(null))
+        dispatch(collectionActions[key](payload || {loading:false,data:null,error:'',nextPage:1}))
     }
 }
 const setCollectionLoaderAction = (payload) => {
@@ -114,7 +121,7 @@ const setCollectionLoaderAction = (payload) => {
 const setCollectionErrorAction = (payload) => {
     return {
         type: SET_COLLECTION_ERROR,
-        payload: apiCalls.isErrorDispaly(payload)
+        payload: payload
     }
 };
 const setCollectionPageNoAction = (payload) => {
@@ -123,8 +130,9 @@ const setCollectionPageNoAction = (payload) => {
         payload
     }
 }
+
 const fetchNfts = (information, screenName) => {
-    const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data,walletAddress,activeTab,amount } = information;
+    const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data, walletAddress, activeTab, amount } = information;
     const skip = pageNo * take - take;
     return async (dispatch) => {
         dispatch(setLoaderAction(true));
@@ -134,10 +142,10 @@ const fetchNfts = (information, screenName) => {
         } else if (screenName === 'hot collections') {
             url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`;
         }
-        else if(screenName === 'profile' || screenName == 'topSellers'){
+        else if (screenName === 'profile' || screenName == 'topSellers') {
             url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`
         }
-        else if (screenName === 'browse by categeory'){
+        else if (screenName === 'browse by categeory') {
             url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`;
         }
         try {
@@ -184,18 +192,24 @@ const fetchCollections = (data, pageNo, search, screenName, customerId) => {
     search = search || null
     let take = 10
     const skip = pageNo * take - take;
+    const api = { 'myCollections': `User/GetCustomerCollectionss/${customerId}`, 'allCollections': `User/GetAllCollections/${take}/${skip}/${search}` };
     return async (dispatch) => {
-        dispatch(setCollectionLoaderAction(true));
-        const response = screenName === '/marketplace/mycollections' ? await apiCalls.getMarketplace(`User/GetCustomerCollections/${customerId}`) : await apiCalls.getMarketplace(`User/GetAllCollections/${take}/${skip}/${search}`);
-        if (response.status === 200) {
-            const mergedData = skip > 0 ? [...data, ...response.data] : response.data
-            dispatch(fetchAllCollections(mergedData));
-            dispatch(setCollectionPageNoAction(pageNo + 1))
+        try {
+            dispatch(collectionActions[screenName]?.({ loading: true, data: data, error: '' }))
+            const response = await apiCalls.getMarketplace(api[screenName]);
+            if (response.status === 200) {
+                const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
 
-        } else {
-            dispatch(setCollectionErrorAction(response));
+                dispatch(collectionActions[screenName]?.({ loading: false, data: mergedData, error: '' }))
+
+            } else {
+
+                dispatch(collectionActions[screenName]?.({ loading: false, data: data, error: response }))
+            }
         }
-        dispatch(setCollectionLoaderAction(false));
+        catch (err) {
+            dispatch(collectionActions[screenName]?.({ loading: false, data: data, error: err }))
+        }
     }
 }
 
@@ -335,31 +349,47 @@ const createNftReducer = (state, action) => {
             return state;
     }
 }
-let collectionData = {
-    data: null,
-    loader: false,
-    error: '',
-    pageNo: 1,
+const collectionData = {
+    allCollections: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    myCollections: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    }
 }
 const marketPlaceCollectionReducer = (state = collectionData, action) => {
     switch (action.type) {
         case FETCH_ALL_COLLECTIONS:
-            state = { ...state, data: action.payload };
+            state = {
+                ...state, allCollections: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['allCollections'].nextPage
+                },
+            };
             return state;
-        case SET_COLLECTION_LOADER:
-            state = { ...state, loader: action.payload }
-            return state;
-        case SET_COLLECTION_ERROR:
-            state = { ...state, error: action.payload }
-            return state;
-        case SET_COLLECTION_PAGE_NO:
-            state = { ...state, pageNo: action.payload };
+        case FETCH_MY_COLLECTIONS:
+            state = {
+                ...state, myCollections: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['myCollections'].nextPage
+                },
+            };
             return state;
         default:
             return state;
     }
 }
 
-const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer,marketPlaceCollectionReducer }
+const marketPlaceReducer = { exploreNtfsReducer, marketPlaceDashboardReducer, createNftReducer, marketPlaceCollectionReducer }
 export default marketPlaceReducer
-export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks, clearUserCollections, clearNetworks,fetchNftsAction };
+export { fetchNfts, clearNfts, fetchTopSellers, fetchCollections, clearCollections, getUserCollections, createNft, getNetworks, clearUserCollections, clearNetworks, fetchNftsAction, setCollectionErrorAction };

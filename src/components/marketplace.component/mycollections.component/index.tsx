@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useReducer } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { useAccount } from "wagmi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { clearCollections, fetchCollections} from "../../../reducers/marketPlaceReducer";
 import { store } from "../../../store";
@@ -20,20 +19,22 @@ function MyCollections(props: any) {
   const location = useLocation();
   const user = store.getState().auth;
   const scrollableRef = useRef<any>(null);
-  const { loader, error, data, pageNo } = useSelector(
+  const collections = useSelector(
     (store: any) => store.collections
   );
+  const { loading:loader, error, data, pageNo }=collections[props?.screen]
 
   const rootDispatch = useDispatch();
   useEffect(() => {
-    store.dispatch(fetchCollections(data, 1, search,location?.pathname,user?.user?.id ));
+    store.dispatch(fetchCollections(data, 1, search,props?.screen,user?.user?.id ));
     scrollableRef?.current?.scrollIntoView(0, 0);
-    if (error) rootDispatch(setError({message:error}))
-
     return () => {
-      store.dispatch(clearCollections());
+      store.dispatch(clearCollections(props?.screen));
     };
-  }, [props.auth.user?.id,location?.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.auth.user?.id,location?.pathname,props?.screen]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() =>{
+    if (error) rootDispatch(setError({message:error,onCloseCallback:() =>clearCollections(props?.screen,{loading:loader,data,pageNo,error:''})}))
+  },[error,props?.screen,loader,data,pageNo])
   const loadmore = () => {
     store.dispatch(fetchCollections(data, pageNo, search,location?.pathname,user?.user?.id ));
   };
