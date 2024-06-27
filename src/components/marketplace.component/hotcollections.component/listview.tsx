@@ -64,9 +64,11 @@ const ListView = (props:any) => {
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
+                     {item.date ?
                       <Moment format="DD-MM-YYYY " className="blue-text">
-                          {item.date || "--"}
+                          {item.date }
                         </Moment>
+                        : "--"}
                       </p>
                     </td>
                     <td className="!p-2 text-right md:w-[217px]">
