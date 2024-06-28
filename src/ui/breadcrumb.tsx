@@ -122,7 +122,7 @@ const BreadCrumb = () => {
                   {item.name}
                 </NaviLink>
               )}
-              {!item.path && <p className={` ${index===breadcrumb.length-1 ? 'text-primary !font-medium':'!text-secondary'} ${item.name.length>50 ? 'truncate w-1/2':''}`}>{item.name}</p>}
+              {!item.path && <p className={` ${index===breadcrumb.length-1 ? 'text-primary text-base !font-medium':'!text-secondary'} ${item.name.length>50 ? 'truncate w-1/2':''}`}>{item.name}</p>}
             </li>
           );
         })}

@@ -137,7 +137,7 @@ const Details = ({
           <div>
             <h1 className="font-semibold text-secondary">Creator Earnings</h1>
             <h4 className="text-neutral font-semibold break-all">
-              {nftcontractDetails?.creatorEarning || "0%"}
+              {nftcontractDetails?.creatorEarnings || "0%"}
             </h4>
           </div>
           {nftcontractDetails?.externalLink && (
