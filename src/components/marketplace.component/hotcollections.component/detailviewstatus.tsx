@@ -38,7 +38,7 @@ const StatusDetailview = ({
         if (fieldName === 'min') setMinValue(value);
         if (fieldName === 'max') setMaxValue(value);
     };
-console.log(selectedObj)
+
     return (
         <div>
             <h1 className='text-lg font-semibold text-secondary mb-5'>Status</h1>

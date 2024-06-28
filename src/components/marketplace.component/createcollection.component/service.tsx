@@ -5,22 +5,22 @@ export const numericRegex = /^[0-9]+$/;
 export const specialCharactersOnlyRegex = /^[!@#$%^&*(),.?":{}|<>]+$/;
 
 export const validationRules = {
-    logo: { required: true, errorMsg: "Please provide logo image." },
-    bannerImage: { required: true, errorMsg: "Please provide banner image." },
-    featuredImage: { required: true, errorMsg: "Please provide feature image." },
+    logo: { required: true, errorMsg: "Is required" },
+    bannerImage: { required: true, errorMsg: "Is required" },
+    featuredImage: { required: true, errorMsg: "Is required" },
 
     collectionName: {
       required: true,
-      errorMsg: "Please provide Name",
+      errorMsg: "Is required",
       contentErrorMsg: "Please enter valid content.",
       validateContent: (value) => ( htmlTagsRegex.test(value) || emojiRegex.test(value) || numericRegex.test(value) || specialCharactersOnlyRegex.test(value)),
     },
-    blockChain: { required: true, errorMsg: "Please select Network" },
+    blockChain: { required: true, errorMsg: "Is required" },
     description: {
         required: true,
-        errorMsg: "Please provide Description",
+        errorMsg: "Is required",
         contentErrorMsg: "Please enter valid content.",
         validateContent: (value) => (htmlTagsRegex.test(value) || emojiRegex.test(value) || specialCharactersOnlyRegex.test(value)),
     },
-    category: { required: true, errorMsg: "Please select Category" }
+    category: { required: true, errorMsg: "Is required" }
 };

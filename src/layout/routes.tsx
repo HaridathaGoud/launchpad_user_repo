@@ -215,11 +215,11 @@ const Routes = () => {
         },
         {
           path: "/marketplace/collection/create",
-          element: <Createcollection />,
+          element: (<ProtectedRoute><Createcollection /></ProtectedRoute>),
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/collection/:collectionid/view",
+          path: "/marketplace/collection/:collectionid/view/:collectionName?",
           element: <HotcollectionView />,
           errorElement: <ErrorPage />,
         },
@@ -230,7 +230,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/collections",
-          element: <MycollectionsComponent />,
+          element: <MycollectionsComponent screen={'allCollections'} />,
           errorElement: <ErrorPage />,
         },
         {
@@ -240,7 +240,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/mycollections",
-          element: <MycollectionsComponent />,
+          element: <MycollectionsComponent screen={'myCollections'}/>,
           errorElement: <ErrorPage />,
         },
         {

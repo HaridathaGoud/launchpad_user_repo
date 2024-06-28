@@ -284,13 +284,15 @@ import { guid } from "../../../utils/constants";
 import defaultbg from "../../../assets/images/default-bg.png";
 import { customerDetails, fectTopSellerBannerDetails } from '../../../reducers/topsellerReducer';
 import HotcollectionviewShimmer from '../hotcollections.component/hotcollectionviewshimmer';
-
+import { CopyToClipboard } from "react-copy-to-clipboard";
 const reducers = (state, action) => {
   switch (action.type) {
     case 'setActiveTab':
       return { ...state, activeTab: action.payload };
     case "setSelectedTab":
       return { ...state, tabName: action.payload };
+      case  "setCopied" :
+        return { ...state, copied: action.payload };
     default:
       return state;
   }
@@ -299,7 +301,8 @@ const reducers = (state, action) => {
 const initialState = {
   type: null,
   activeTab: 0,
-  tabName: 'GetNfts'
+  tabName: 'GetNfts',
+  copied:''
 };
 
 const TopsellerDetailview = (props) => {
@@ -362,6 +365,12 @@ const params = useParams();
     }
     return num;
 }
+const handleCopy = (value) => {
+  dispatch({type:'setCopied',payload:value});
+  setTimeout(() => {
+    dispatch({type:'setCopied',payload:''});
+  }, 1000);
+};
 
   return (
     <>
@@ -377,12 +386,25 @@ const params = useParams();
                 <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{customerInfo?.data?.firstName}</p> <span className='icon circle-check shrink-0'></span>
               </div>
               <div className="flex text-[18px] font-medium gap-2.5 mt-1">
-                {/* <p className='text-white'>Marvel Films</p> */}
-                {/* <p className='text-white'>23 M Subscribers</p> */}
-              </div>
-              <div>
-                <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
-              </div>
+                  {/* <p className='text-white'>Marvel Films</p> */}
+                  {/* <p className='text-white'>23 M Subscribers</p> */}
+                </div>
+                <div>
+                  <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
+                  <CopyToClipboard
+                    text={customerInfo?.data?.walletAddress}
+                    options={{ format: "text/plain" }}
+                    onCopy={() => handleCopy("current")}
+                  >
+                    <span
+                      className={
+                        state.copied === "current"
+                          ? "icon md check-icon pl-4"
+                          : "icon md copy-icon cursor-pointer ms-0 pl-4"
+                      }
+                    />
+                  </CopyToClipboard>
+                </div>
               <div className="flex gap-4 mt-4 mb-5">
                 <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Followers</span>{formatNumber(topSellerBanerDetails?.data?.followers) || 0}</p>
                 <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Following</span>{formatNumber(topSellerBanerDetails?.data?.following) || 0}</p>

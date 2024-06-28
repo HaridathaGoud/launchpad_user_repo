@@ -475,7 +475,7 @@ const CreateCollection = (props: any) => {
                         </div>
                         <input
                           id="web-url"
-                          placeholder="Your site.io"
+                          placeholder="Website Link"
                           aria-describedby="basic-addon3"
                           className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'websiteUrl')}
@@ -489,7 +489,7 @@ const CreateCollection = (props: any) => {
                         </div>
                         <input
                           id="icon-fb"
-                          placeholder="https://"
+                          placeholder="Facebook Link"
                           aria-describedby="basic-addon3"
                           className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'facebook')}
@@ -503,7 +503,7 @@ const CreateCollection = (props: any) => {
                         </div>
                         <input
                           id="icon-twitter"
-                          placeholder="https://"
+                          placeholder="Twitter Link"
                           aria-describedby="basic-addon3"
                           className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'twitter')}
@@ -517,7 +517,7 @@ const CreateCollection = (props: any) => {
                         </div>
                         <input
                           id="icon-linkedIn"
-                          placeholder="https://"
+                          placeholder="Linkedin Link"
                           aria-describedby="basic-addon3"
                           className="input pl-16 input-bordered bg-transparent text-secondary w-full rounded-[28px] border-[#A5A5A5] focus:outline-none h-10"
                           onChange={(e) => handleChange(e, 'linkedIn')}

@@ -27,12 +27,6 @@ const ListView = (props:any) => {
                 Current Price
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                Best Offer
-                </th>
-                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                Last Sale
-                </th>
-                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
                 Owner
                 </th>
                 <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
@@ -43,8 +37,8 @@ const ListView = (props:any) => {
             </thead>
             <tbody>
               {props?.data?.data?.length > 0 && !props?.data?.loading &&
-                props?.data?.data?.map((item: any, index: any) => (
-                  <tr>
+                props?.data?.data?.map((item: any) => (
+                  <tr key={item?.id}>
                     <td className="w-52">
                       <div className="flex gap-4 items-center truncate">
                         <img src=
@@ -65,24 +59,16 @@ const ListView = (props:any) => {
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
-                        {item?.bestoffer || '--'}
-                      </p>
-                    </td>
-                    <td>
-                      <p className="font-normal text-sm text-secondary">
-                        {item?.lastsale ? (item?.lastsale+' Matic') : '--'}
-                      </p>
-                    </td>
-                    <td>
-                      <p className="font-normal text-sm text-secondary">
                         {item?.creator || '--'}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
+                     {(item.date ||item?.createdDate) ?
                       <Moment format="DD-MM-YYYY " className="blue-text">
-                          {item.date || "--"}
+                          {item.date ||item?.createdDate}
                         </Moment>
+                        : "--"}
                       </p>
                     </td>
                     <td className="!p-2 text-right md:w-[217px]">
