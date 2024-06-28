@@ -81,10 +81,10 @@ function MyCollections(props: any) {
                   <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                 </div>
                 <div className="p-5">
-                  <h4 className="font-semibold text-2xl capitalize text-secondary truncate" title={item.collectionName}>{item.collectionName}</h4>
-                  <div className="flex justify-between">
-                  <label className="text-secondary text-base flex-1">Category - </label>
-                  <h4 className="font-semibold text-2xl capitalize text-secondary truncate" title={item.category}>{item.category}</h4>
+                  <h4 className="font-semibold text-xl capitalize text-secondary truncate" title={item.collectionName}>{item.collectionName}</h4>
+                  <div className="flex justify-between items-center mt-[18px]">
+                  <label className="text-secondary text-base flex-1">Category</label>
+                  <p className="font-semibold text-base capitalize text-secondary truncate" title={item.category}>{item.category}</p>
                   </div>
                 </div>
               </div>

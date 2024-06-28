@@ -84,27 +84,27 @@ export default function HotCollectionsViewAll() {
                         <img src={item.logo} alt="" className="h-[300px] object-cover rounded-[16px] w-full" />
                       </div>
                       <div className="p-5">
-                        <h4 className="font-semibold text-2xl capitalize text-secondary truncate" title={item.collectionName}>{item.collectionName}</h4>
+                        <h4 className="font-semibold text-xl capitalize text-secondary truncate" title={item.collectionName}>{item.collectionName}</h4>
                         <div className="">
 
                           <div className="flex justify-between items-center mt-[18px]">
                             <label className="text-secondary text-base">Floor</label>
                             {item.flourValue && (
                               <>
-                                <p className="text-secondary text-lg font-semibold flex-1 text-right break-all">
+                                <p className="text-secondary text-base font-semibold flex-1 text-right break-all">
                                   {item.flourValue} {process.env.REACT_APP_TOKENNAME}
                                 </p>
                               </>
                             )}
                             {!item.flourValue && (
                               <>
-                                <p className=" text-secondary text-lg font-semibold flex-1 text-right break-all">{item.flourValue || '-'}</p>
+                                <p className=" text-secondary text-base font-semibold flex-1 text-right break-all">{item.flourValue || '-'}</p>
                               </>
                             )}
                           </div>
                           <div className="flex justify-between items-center mt-4">
                             <label className="text-secondary text-base flex-1">Total Valume</label>
-                            <p className="text-secondary text-lg font-semibold flex justify-end flex-1 text-right break-all truncate" title={item.totalVolume}>
+                            <p className="text-secondary text-base font-semibold flex justify-end flex-1 text-right break-all truncate" title={item.totalVolume}>
                              <span className='truncate'> {item.totalVolume}</span> <span>{process.env.REACT_APP_TOKENNAME}</span>
                             </p>
                           </div>
