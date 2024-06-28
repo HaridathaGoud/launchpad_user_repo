@@ -35,7 +35,7 @@ export default function HotCollections() {
   };
 
   const handleHotCollectionItem = (item: any) => {
-    router(`/marketplace/collection/${item.id}/view/${item?.collectionName}`);
+    router(`/marketplace/hotcollection/${item.id}/view/${item?.collectionName}`);
   };
   const handleSlideActions = (action) => {
     if (action === 'previous') {
