@@ -12,6 +12,8 @@ import { clearCollectionsActivityData,
 import { setError } from '../../../reducers/layoutReducer';
 import { guid } from '../../../utils/constants';
 import BreadCrumb from '../../../ui/breadcrumb';
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 const pageSize = 6;
 
 const HotcollectionView = (props: any) => {
@@ -75,7 +77,7 @@ const HotcollectionView = (props: any) => {
       : NftDetails;
     return !loading && data && data?.length === pageSize * (nextPage-1);
   }, [isActive, activityData, NftDetails]);
-
+  
 
   return (
       <>
@@ -92,8 +94,22 @@ const HotcollectionView = (props: any) => {
               <div className='flex max-sm:mt-4 items-center'>
                 <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{hotCollectionViewDetails?.data?.collectionName ||'--'}</p>
               </div>
-              <div className="flex text-[18px] font-medium gap-2.5">
-                <p className='text-white mt-2'>By : {hotCollectionViewDetails?.data?.creatorName ||hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
+              <div className="flex text-[18px] mt-2 font-medium gap-2">
+                <p className='text-white '>By : {hotCollectionViewDetails?.data?.creatorName ||hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
+                <CopyToClipboard
+                    // text={hotCollectionViewDetails?.data?.walletAddress}
+                    // options={{ format: "text/plain" }}
+                   
+                  >
+                    <span
+                      className={
+                        // state.copied === "current"
+                          // ? "icon md check-icon pl-4"
+                          // : 
+                          "icon md copy-icon invert cursor-pointer ms-0 pl-4"
+                      }
+                    />
+                  </CopyToClipboard>
               </div>
               <p className='text-white mt-3 text-base pr-4 overflow-hidden text-ellipsis line-clamp-4'>
                 {hotCollectionViewDetails?.data?.description ||'--'}

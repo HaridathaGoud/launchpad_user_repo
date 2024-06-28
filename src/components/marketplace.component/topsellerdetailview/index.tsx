@@ -389,8 +389,8 @@ const handleCopy = (value) => {
                   {/* <p className='text-white'>Marvel Films</p> */}
                   {/* <p className='text-white'>23 M Subscribers</p> */}
                 </div>
-                <div>
-                  <p className='text-white mt-3 text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
+                <div className='flex items-center  mt-3 gap-2'>
+                  <p className='text-white text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
                   <CopyToClipboard
                     text={customerInfo?.data?.walletAddress}
                     options={{ format: "text/plain" }}
@@ -400,7 +400,7 @@ const handleCopy = (value) => {
                       className={
                         state.copied === "current"
                           ? "icon md check-icon pl-4"
-                          : "icon md copy-icon cursor-pointer ms-0 pl-4"
+                          : "icon md copy-icon invert cursor-pointer ms-0 pl-4"
                       }
                     />
                   </CopyToClipboard>

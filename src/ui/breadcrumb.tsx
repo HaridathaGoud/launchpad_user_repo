@@ -76,8 +76,12 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll'];
     }else if(path.includes("explore")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];
-    }else if(path.includes("collections")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections'];
+    }else if(path.includes("marketplace/collections")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections'];}
+      else if(path.includes("mycollections")){
+        breadcrumbToUpdate = getBreadcrumbList['marketplaceMyCollections'];}
+        else if(path.includes("hotcollection")){
+          breadcrumbToUpdate = getBreadcrumbList['marketplaceHotCollections'];
     }else if(path.includes("nft/create")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateNft'];
     }else if(path.includes("collection/create")){
@@ -92,6 +96,15 @@ const BreadCrumb = () => {
         });
       }
     }
+    else if(path.includes("marketplace/mycollection")){
+      if (params.collectionid ) {
+       breadcrumbToUpdate = getBreadcrumbList["mycolloctionView"]({
+         collectionName: params.collectionName,
+         collectionPath: `marketplace/mycollections`,
+         proposalTitle: params.collectionName,
+       });
+     }
+   }
     else {
       breadcrumbToUpdate = getBreadcrumbList["default"];
     }
@@ -109,7 +122,7 @@ const BreadCrumb = () => {
                   {item.name}
                 </NaviLink>
               )}
-              {!item.path && <p className={` ${index===breadcrumb.length-1 ? 'text-primary !font-medium':'!text-secondary'} ${item.name.length>50 ? 'truncate w-1/2':''}`}>{item.name}</p>}
+              {!item.path && <p className={` ${index===breadcrumb.length-1 ? 'text-primary text-base !font-medium':'!text-secondary'} ${item.name.length>50 ? 'truncate w-1/2':''}`}>{item.name}</p>}
             </li>
           );
         })}

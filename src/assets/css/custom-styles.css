@@ -308,6 +308,8 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .min-max-group label{margin-left: 14px;}
 .icon.square-arrow{background-position: -334px -9px !important;}
 .shop-card:hover .icon.square-arrow{background-position: -550px -10px !important;} 
+.drawer-side::-webkit-scrollbar-thumb{background-color: #c1c1c1;width: 8px;}
+.drawer-side::-webkit-scrollbar{width: 8px;}
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}

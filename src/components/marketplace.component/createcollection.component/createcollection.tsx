@@ -250,7 +250,6 @@ const CreateCollection = (props: any) => {
   };
 
   return (
-    <>
       <div>
         <div className='container mx-auto mt-4 px-3 lg:px-0'>
           <BreadCrumb />
@@ -541,7 +540,6 @@ const CreateCollection = (props: any) => {
           </form>
         </div>
       </div>
-    </>
   );
 }
 const connectStateToProps = ({ auth }) => {
