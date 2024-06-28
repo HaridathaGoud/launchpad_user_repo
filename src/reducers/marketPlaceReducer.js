@@ -1,5 +1,11 @@
 import apiCalls from "../utils/api";
 const FETCH_NFTS = "fetchNftsAction";
+const FETCH_MYCOLLECTION_NFTS = "fetchMyCollectionNftsAction";
+const FETCH_COLLECTION_NFTS = "fetchCollectionNftsAction";
+const FETCH_HOTCOLLECTION_NFTS = "fetchHotCollectionNftsAction";
+const FETCH_BROWSECATEGORY_NFTS = "fetchBrowseCategoryNftsAction";
+const FETCH_PROFILE_NFTS = "fetchProfileNftsAction";
+const FETCH_TOPSELLER_NFTS = "fetchTopSellerNftsAction";
 const SET_LOADER = "setLoaderAction";
 const SET_ERROR = "setErrorAction"
 const SET_PAGE_NO = 'setPageNoAction'
@@ -24,6 +30,42 @@ const FETCH_MY_COLLECTIONS = 'fetchMyCollections';
 const fetchNftsAction = (payload) => {
     return {
         type: FETCH_NFTS,
+        payload
+    }
+};
+const fetchMyCollectionNftsAction = (payload) => {
+    return {
+        type: FETCH_MYCOLLECTION_NFTS,
+        payload
+    }
+};
+const fetchCollectionNftsAction = (payload) => {
+    return {
+        type: FETCH_COLLECTION_NFTS,
+        payload
+    }
+};
+const fetchHotCollectionNftsAction = (payload) => {
+    return {
+        type: FETCH_HOTCOLLECTION_NFTS,
+        payload
+    }
+};
+const fetchBrowseCategoryNftsAction = (payload) => {
+    return {
+        type: FETCH_BROWSECATEGORY_NFTS,
+        payload
+    }
+};
+const fetchProfileNftsAction = (payload) => {
+    return {
+        type: FETCH_PROFILE_NFTS,
+        payload
+    }
+};
+const fetchTopSellerNftsAction = (payload) => {
+    return {
+        type: FETCH_TOPSELLER_NFTS,
         payload
     }
 };
@@ -84,11 +126,16 @@ const featchTopCollections = (payload) => {
     }
 }
 //Explore Nfts methods:
-const clearNfts = () => {
+// const clearNfts = () => {
+//     return (dispatch) => {
+//         dispatch(setLoaderAction(false))
+//         dispatch(setPageNoAction(1))
+//         dispatch(fetchNftsAction(null))
+//     }
+// }
+const clearNfts = (key, payload = null) => {
     return (dispatch) => {
-        dispatch(setLoaderAction(false))
-        dispatch(setPageNoAction(1))
-        dispatch(fetchNftsAction(null))
+        dispatch(nftActions[key](payload || { loading: false, data: null, error: '', nextPage: 1 }))
     }
 }
 
@@ -107,9 +154,9 @@ const fetchMyCollections = (payload) => {
 }
 
 const collectionActions = { 'myCollections': fetchMyCollections, 'allCollections': fetchAllCollections };
-const clearCollections = (key,payload=null) => {
+const clearCollections = (key, payload = null) => {
     return (dispatch) => {
-        dispatch(collectionActions[key](payload || {loading:false,data:null,error:'',nextPage:1}))
+        dispatch(collectionActions[key](payload || { loading: false, data: null, error: '', nextPage: 1 }))
     }
 }
 const setCollectionLoaderAction = (payload) => {
@@ -131,37 +178,40 @@ const setCollectionPageNoAction = (payload) => {
     }
 }
 
+const nftActions = {
+    'explorenfs': fetchNftsAction,
+    'hotcollections': fetchHotCollectionNftsAction,
+    'mycollections': fetchMyCollectionNftsAction,
+    'collections': fetchCollectionNftsAction,
+    'profile': fetchProfileNftsAction,
+    'topSellers': fetchTopSellerNftsAction,
+    'browsebycategeory': fetchBrowseCategoryNftsAction
+}
 const fetchNfts = (information, screenName) => {
+    console.log(screenName);
     const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data, walletAddress, activeTab, amount } = information;
     const skip = pageNo * take - take;
+    const api = {
+        'explorenfs': `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`,
+        'hotcollections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
+        'mycollections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
+        'collections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
+        'profile': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
+        'topSellers': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
+        'browsebycategeory': `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`
+    }
     return async (dispatch) => {
-        dispatch(setLoaderAction(true));
-        let url;
-        if (screenName === 'explorenfs') {
-            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`;
-        } else if (screenName === 'hot collections') {
-            url = `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`;
-        }
-        else if (screenName === 'profile' || screenName == 'topSellers') {
-            url = `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`
-        }
-        else if (screenName === 'browse by categeory') {
-            url = `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`;
-        }
         try {
-            const response = await apiCalls.getMarketplace(url);
+            dispatch(nftActions[screenName]?.({ loading: true, data: data, error: '' }))
+            const response = await apiCalls.getMarketplace(api[screenName]);
             if (response.status === 200) {
                 const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
-                dispatch(fetchNftsAction(mergedData));
-                dispatch(setPageNoAction(pageNo + 1));
-                dispatch(setLoaderAction(false));
+                dispatch(nftActions[screenName]?.({ loading: false, data: mergedData, error: '', nextPage: pageNo + 1 }))
             } else {
-                dispatch(setErrorAction(response));
+                dispatch(nftActions[screenName]?.({ loading: false, data: data, error: response }))
             }
-        } catch (error) {
-            dispatch(setErrorAction({ message: error.message }));
-        } finally {
-            dispatch(setLoaderAction(false));
+        } catch (err) {
+            dispatch(nftActions[screenName]?.({ loading: false, data: data, error: err }))
         }
     };
 };
@@ -200,7 +250,7 @@ const fetchCollections = (data, pageNo, search, screenName, customerId) => {
             if (response.status === 200) {
                 const mergedData = skip > 0 ? [...data, ...response.data] : response.data;
 
-                dispatch(collectionActions[screenName]?.({ loading: false, data: mergedData, error: '',nextPage:pageNo +1 }))
+                dispatch(collectionActions[screenName]?.({ loading: false, data: mergedData, error: '', nextPage: pageNo + 1 }))
 
             } else {
 
@@ -274,29 +324,128 @@ const createNft = async (params) => {
 
 //Reducers:
 
-let exploreNtfs = {
-    data: null,
-    loader: false,
-    error: '',
-    pageNo: 1,
-}
+// let exploreNtfs = {
+//     data: null,
+//     loader: false,
+//     error: '',
+//     pageNo: 1,
+// }
 
-const exploreNtfsReducer = (state = exploreNtfs, action) => {
+const exploreNfts = {
+    topSellers: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    hotcollections: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    mycollections: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    collections: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    explorenfs: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    profile: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    },
+    browsebycategeory: {
+        data: null,
+        loading: false,
+        error: '',
+        pageNo: 1,
+    }
+}
+const exploreNtfsReducer = (state = exploreNfts, action) => {
     switch (action.type) {
         case FETCH_NFTS:
-            state = { ...state, data: action.payload };
+            state = {
+                ...state, explorenfs: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['explorenfs'].nextPage
+                },
+            };
             return state;
-        case FETCH_TOP_COLLECTIONS:
-            state = { ...state, data: action.payload };
+        case FETCH_MYCOLLECTION_NFTS:
+            state = {
+                ...state, mycollections: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['mycollections'].nextPage
+                },
+            };
             return state;
-        case SET_LOADER:
-            state = { ...state, loader: action.payload }
+        case FETCH_COLLECTION_NFTS:
+            state = {
+                ...state, collections: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['collections'].nextPage
+                },
+            };
             return state;
-        case SET_ERROR:
-            state = { ...state, error: action.payload }
+        case FETCH_HOTCOLLECTION_NFTS:
+            state = {
+                ...state, hotcollections: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['hotcollections'].nextPage
+                },
+            };
             return state;
-        case SET_PAGE_NO:
-            state = { ...state, pageNo: action.payload };
+        case FETCH_BROWSECATEGORY_NFTS:
+            state = {
+                ...state, browsebycategeory: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['browsebycategeory'].nextPage
+                },
+            };
+            return state;
+        case FETCH_PROFILE_NFTS:
+            state = {
+                ...state, profile: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['profile'].nextPage
+                },
+            };
+            return state;
+        case FETCH_TOPSELLER_NFTS:
+            state = {
+                ...state, topSellers: {
+                    data: action.payload.data,
+                    error: action.payload.error,
+                    loading: action.payload.loading,
+                    nextPage: action.payload.nextPage || state?.['topSellers'].nextPage
+                },
+            };
             return state;
         default:
             return state;

@@ -144,7 +144,7 @@ const HotcollectionView = (props: any) => {
             </div>
         </div>
         <hr className="bg-[#f8f6f6] my-6" />
-       <CollectionTabs  handleTabChange={handleTabChange}   />
+       <CollectionTabs  handleTabChange={handleTabChange} screen={props?.screen}/>
 
         {showSeeMore && isActive === 1 && (
         <div className="flex justify-center items-center">

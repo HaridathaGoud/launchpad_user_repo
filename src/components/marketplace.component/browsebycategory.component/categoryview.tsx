@@ -9,7 +9,7 @@ export default function CategoryView() {
       <div className="max-sm:px-3 md:mt-5 px-4 container mx-auto">
        <BreadCrumb/>
        <h1 className='text-2xl text-secondary font-semibold'>Browse by category</h1>
-        <Nfts type="browse by categeory" categeoryName={params?.categeoryName}/>
+        <Nfts type="browsebycategeory" categeoryName={params?.categeoryName}/>
         </div>
 
   );

@@ -220,22 +220,22 @@ const Routes = () => {
         },
         {
           path: "/marketplace/mycollection/:collectionid/view/:collectionName?",
-          element: <HotcollectionView />,
+          element: <HotcollectionView screen={"mycollections"}/>,
           errorElement: <ErrorPage />,
         },
         {
           path: "/marketplace/hotcollection/:collectionid/view/:collectionName?",
-          element: <HotcollectionView />,
+          element: <HotcollectionView screen ={"hotcollections"}/>,
           errorElement: <ErrorPage />,
         },
         {
           path: "/marketplace/collection/:collectionid/view/:collectionName?",
-          element: <HotcollectionView />,
+          element: <HotcollectionView screen={"collections"}/>,
           errorElement: <ErrorPage />,
         },
         {
           path: "/marketplace/topseller/:id/:walletAddress",
-          element: <TopsellerDetailview />,
+          element: <TopsellerDetailview screen={"topSellers"}/>,
           errorElement: <ErrorPage />,
         },
         {

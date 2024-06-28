@@ -469,7 +469,7 @@ const handleCopy = (value) => {
         iSTabChange={handleTabChange}
         setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
       />
-      <Nfts type="topSellers" ref={nftRef} selectedTab={state.tabName}  walletAddress = {params?.walletAddress}/>
+      <Nfts type={props?.screen} ref={nftRef} selectedTab={state.tabName}  walletAddress = {params?.walletAddress}/>
       </>}
       </div>
     </>

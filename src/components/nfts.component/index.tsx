@@ -26,10 +26,10 @@ const Nfts = forwardRef((props: any, ref) => {
     const navigate = useNavigate();
     const scrollableRef = useRef<any>(null);
     const searchInputRef = useRef<any>(null)
-    const { loader, error, data, pageNo } = useSelector(
-        (store: any) => store.exploreNfts
-    );
+
     const nftDetails = useSelector((storage: any) => storage.exploreNfts)
+    const { loading:loader, error, data, nextPage } = nftDetails[props?.type]
+
     const errorMessage = useSelector(((store: any) => store.layoutReducer.error.message))
     const user = useSelector((state: any) => state.auth.user);
     const rootDispatch = useDispatch();
@@ -47,11 +47,14 @@ const Nfts = forwardRef((props: any, ref) => {
             rootDispatch(setError({ message: error }));
         }
         return () => {
-            store.dispatch(clearNfts());
+            store.dispatch(clearNfts(props?.type));
             rootDispatch(setError({ message: '' }));
         };
     }, [localState.values, props?.type]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() =>{
+        if (error) rootDispatch(setError({message:error,onCloseCallback:() =>clearNfts(props?.type,{loading:loader,data,nextPage,error:''})}))
+      },[error,props?.type,loader,data,nextPage])
     useEffect(() => {
         let obj = { ...localState.values };
         obj.data = data;
@@ -65,7 +68,7 @@ const Nfts = forwardRef((props: any, ref) => {
     const loadmore = () => {
         let obj = { ...localState.values };
         obj.data = data;
-        obj.pageNo = pageNo;
+        obj.pageNo = nextPage;
         obj.collectionid = params?.collectionid;
         obj.walletAddress = props?.type === "topSellers" ? props?.walletAddress : params?.walletAddress;
         obj.customerId = user?.id ;
@@ -429,7 +432,7 @@ const Nfts = forwardRef((props: any, ref) => {
                         {localState.activeContent === 'content2' && (
                             <ListView data={nftDetails} />)}
 
-                        {data?.length === (pageNo - 1) * pageSize && (
+                        {data?.length === (nextPage - 1) * pageSize && (
                             <div className="">
                                 <div className="text-center mt-5">
                                     <span
