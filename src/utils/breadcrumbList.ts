@@ -30,11 +30,12 @@ export const getBreadcrumbList = {
     { name: "Marketplace", path: "/marketplace/home" },
     { name: "Hot Collections", path: "" },
   ],
-  marketplaceBrowseByCategoryAll:[
+  marketplaceTopSellerViewAll :[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Browse by Category", path: "" },
+    { name: "Top Sellers", path: "" },
   ],
+
   marketplaceCollections:[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
@@ -43,12 +44,7 @@ export const getBreadcrumbList = {
   marketplaceMyCollections:[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Mycollections", path: "" },
-  ],
-  marketplaceHotCollections:[
-    { name: "Home", path: "/" },
-    { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Hotcollections", path: "" },
+    { name: "My Collections", path: "" },
   ],
   marketplaceCreateNft:[
     { name: "Home", path: "/" },
@@ -119,7 +115,7 @@ export const getBreadcrumbList = {
   return [
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Collection", path: "/marketplace/collections" },
+    { name: "Collections", path: "/marketplace/collections" },
     { name: props?.collectionName, path: "" },
   ];
  },
@@ -127,8 +123,32 @@ export const getBreadcrumbList = {
   return [
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Mycollection", path: "/marketplace/mycollections" },
+    { name: "My Collections", path: "/marketplace/mycollections" },
     { name: props?.collectionName, path: "" },
   ];
  },
+ marketplaceHotCollectionsView : (props:any) =>{
+  return [
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Hot Collections", path: "/marketplace/home" },
+    { name: props?.collectionName, path: "" },
+  ];
+ },
+ marketplaceTopSellerView : (props:any) =>{
+  return [
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Top Sellers", path: "/marketplace/home" },
+    { name: props?.walletAddress, path: "" },
+  ];
+ },
+//  marketplaceBrowseByCategoryAll: (props:any) =>{
+//   return [
+//     { name: "Home", path: "/" },
+//     { name: "Marketplace", path: "/marketplace/home" },
+//     { name: "Browse by Category", path: "/marketplace/home" },
+//     { name: props?.name, path: "" },
+//   ];
+//  }
 };

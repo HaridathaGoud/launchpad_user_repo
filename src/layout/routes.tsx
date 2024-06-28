@@ -234,7 +234,7 @@ const Routes = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "/marketplace/topseller/:id/:walletAddress",
+          path: "/marketplace/topseller/:id/:walletAddress?/:name?",
           element: <TopsellerDetailview screen={"topSellers"}/>,
           errorElement: <ErrorPage />,
         },

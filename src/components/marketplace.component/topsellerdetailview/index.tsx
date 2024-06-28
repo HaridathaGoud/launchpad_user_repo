@@ -285,6 +285,7 @@ import defaultbg from "../../../assets/images/default-bg.png";
 import { customerDetails, fectTopSellerBannerDetails } from '../../../reducers/topsellerReducer';
 import HotcollectionviewShimmer from '../hotcollections.component/hotcollectionviewshimmer';
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import BreadCrumb from '../../../ui/breadcrumb';
 const reducers = (state, action) => {
   switch (action.type) {
     case 'setActiveTab':
@@ -375,6 +376,7 @@ const handleCopy = (value) => {
   return (
     <>
     <div className='container mx-auto pt-5 px-3 lg:px-0'>
+      <BreadCrumb/>
       {customerInfo.loading && <HotcollectionviewShimmer />}
       {!customerInfo.loading &&<>
      <div className='min-h-[320px] rounded-lg mt-4 relative'>

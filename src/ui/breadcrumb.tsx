@@ -74,15 +74,16 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList['marketplaceHotCollectionViewAll'];
     }else if(path.includes("browsebyviewall")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll'];
+    }
+    else if(path.includes("topseller")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceTopSellerViewAll'];
     }else if(path.includes("explore")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];
     }else if(path.includes("marketplace/collections")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceCollections'];}
       else if(path.includes("mycollections")){
         breadcrumbToUpdate = getBreadcrumbList['marketplaceMyCollections'];}
-        else if(path.includes("hotcollection")){
-          breadcrumbToUpdate = getBreadcrumbList['marketplaceHotCollections'];
-    }else if(path.includes("nft/create")){
+   else if(path.includes("nft/create")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateNft'];
     }else if(path.includes("collection/create")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceCreateColection'];
@@ -105,6 +106,32 @@ const BreadCrumb = () => {
        });
      }
    }
+   else if(path.includes("marketplace/hotcollection")){
+    if (params.collectionid ) {
+     breadcrumbToUpdate = getBreadcrumbList["marketplaceHotCollectionsView"]({
+       collectionName: params.collectionName,
+       collectionPath: `marketplace/home`,
+       proposalTitle: params.collectionName,
+     });
+    }
+   }
+   else if(path.includes("marketplace/topseller")){
+    debugger
+    if (params.id ) {
+     breadcrumbToUpdate = getBreadcrumbList["marketplaceTopSellerView"]({
+       collectionName: params?.walletAddress,
+       collectionPath: `marketplace/home`,
+       proposalTitle: params?.walletAddress,
+     });
+    }
+    // else if(path.includes("marketplace/categoryview")){
+    //   breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll']({
+    //     collectionName: params?.categeoryName,
+    //     collectionPath: `marketplace/home`,
+    //     proposalTitle: params?.categeoryName,
+    //   });
+    // }
+ }
     else {
       breadcrumbToUpdate = getBreadcrumbList["default"];
     }
