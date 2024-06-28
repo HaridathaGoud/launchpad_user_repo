@@ -611,7 +611,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   Add Properties{" "}
                 </h2>
                 {modalProperties?.map((property: any, index: number) => (
-                  <div className="my-6 flex gap-4 items-center " key={index}>
+                  <div className="my-6 flex gap-4" key={index}>
                     <div>
                       <label className="text-secondary text-sm font-normal p-0 mb-2 label block ml-3">
                         Trait type <span className="text-[red]">*</span>
@@ -664,12 +664,12 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         </p>
                       )}
                     </div>
-                    <div className={`${propertyErrors?.[index] ? 'mt-2' : 'mt-6'}`}>
+                    <div className={`flex items-center `}>
                       <Button
                         type="plain"
                         handleClick={() => handleDeleteProperty(index)}
                       >
-                        <span className="icon delete-icon ml-2 cursor-pointer"></span>
+                        <span className={`icon delete-icon ml-2 cursor-pointer ${propertyErrors?.[index] ? 'mt-2' : 'mt-6'}`}></span>
                       </Button>
                     </div>
                   </div>
