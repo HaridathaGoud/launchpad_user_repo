@@ -192,13 +192,13 @@ const fetchNfts = (information, screenName) => {
     const { pageNo, take, categoryName, searchBy, price, quantity, currency, status, customerId, collectionid, data, walletAddress, activeTab, amount } = information;
     const skip = pageNo * take - take;
     const api = {
-        'explorenfs': `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`,
+        'explorenfs': `User/ExploreNfts/${take}/${skip}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`,
         'hotcollections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
         'mycollections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
         'collections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
         'profile': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
         'topSellers': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
-        'browsebycategeory': `User/ExploreNfts/${take}/${skip}/${categoryName}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`
+        'browsebycategeory': `User/ExploreNfts/${take}/${skip}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`
     }
     return async (dispatch) => {
         try {

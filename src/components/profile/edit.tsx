@@ -295,7 +295,7 @@ const ProfileEdit = ({
               <>
                 {state.formErrors.countryCode && (
                   <span className="text-sm font-normal text-red-600 ml-4">
-                    Country Code {state.formErrors.countryCode.toLowerCase()}
+                    {state.formErrors.countryCode}
                   </span>
                 )}
                 {state.formErrors.phoneNo && (

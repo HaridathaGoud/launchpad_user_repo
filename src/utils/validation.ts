@@ -48,3 +48,11 @@ export const acceptOnlyAlphabets = (value:any)=>{
   }
   return true;
 }
+export const acceptAlphaNumbericSpecialCharacters = (value:any) =>{
+  validateContentRule(value)
+  const reg = /(^[A-Za-z]+$)|(^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]+$)/
+  if (!reg.test(value) || emojiRejex.test(value)) {
+    return true;
+  }
+  return false;
+}

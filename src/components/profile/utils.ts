@@ -1,4 +1,4 @@
-import { validateContentRule, emailValidation,validateUrl,acceptOnlyAlphabets } from "../../utils/validation";
+import { validateContentRule, emailValidation,validateUrl,acceptOnlyAlphabets,acceptAlphaNumbericSpecialCharacters } from "../../utils/validation";
 import { ProfileModel } from "./models";
 export const validateForm = (form: ProfileModel) => {
   const {
@@ -33,14 +33,14 @@ export const validateForm = (form: ProfileModel) => {
     firstName?.trim() || "",
     "firstName",
     true,
-    (value: string) => acceptOnlyAlphabets(value),
+    (value: string) => acceptAlphaNumbericSpecialCharacters(value),
     "Invalid first name"
   );
   validateField(
     lastName?.trim() || "",
     "lastName",
     true,
-    (value: string) => acceptOnlyAlphabets(value),
+    (value: string) => acceptAlphaNumbericSpecialCharacters(value),
     "Invalid last name"
   );
   validateField(
