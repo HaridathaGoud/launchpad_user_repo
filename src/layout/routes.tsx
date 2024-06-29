@@ -240,7 +240,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/collections",
-          element: <MycollectionsComponent screen={'allCollections'} />,
+          element: (<ProtectedRoute><MycollectionsComponent screen={'allCollections'} /></ProtectedRoute>),
           errorElement: <ErrorPage />,
         },
         {
@@ -250,7 +250,7 @@ const Routes = () => {
         },
         {
           path: "/marketplace/mycollections",
-          element: <MycollectionsComponent screen={'myCollections'}/>,
+          element: (<ProtectedRoute><MycollectionsComponent screen={'myCollections'}/></ProtectedRoute>),
           errorElement: <ErrorPage />,
         },
         {
