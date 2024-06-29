@@ -305,10 +305,11 @@ const CreateCollection = (props: any) => {
                         className="object-cover absolute top-0 left-0 h-full w-full rounded-[28px]"
                       />
                     )}
+                      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'bannerImage' && <Spinner size="sm" />} </div>
                     {!localState.values.bannerImage && (
                       <div className="text-center absolute top-1/2 z-50 left-1/2 transform -translate-x-1/2 -translate-y-1/2" >
-                        <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => bannarRef.current?.click()}></Button>
-                        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'bannerImage' && <Spinner size="sm" />} </div>
+                        <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => bannarRef.current?.click("b")}></Button>
+
                         <input
                           className="hidden"
                           type="file"
@@ -316,7 +317,7 @@ const CreateCollection = (props: any) => {
                           ref={bannarRef}
                           onChange={(e) => handlePicChange(e, 'bannerImage')}
                         />
-                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click()}>  Upload Banner<span className='text-[#ff0000]'>*</span> </Button></p>
+                        <p><Button type='plain' btnClassName="text-base !text-secondary font-normal cursor-pointer mt-5" handleClick={() => bannarRef.current?.click("b")}>  Upload Banner<span className='text-[#ff0000]'>*</span> </Button></p>
                         <p className="text-sm opacity-60 mb-4"><span className="font-semibold">Note: </span>For Better Appearance Upload 1100 * 350 Resolution</p>
                         {localState.errors.bannerImage && <span className="text-sm font-normal text-red-600 mt-4">{localState.errors.bannerImage}</span>}
                       </div>
@@ -346,11 +347,10 @@ const CreateCollection = (props: any) => {
                       />
                     )}
                     <div>
-
+                    <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'featuredImage' && <Spinner size="sm" />} </div>
                       {!localState.values.featuredImage && (
                         <div className="" >
                           <Button type='plain' btnClassName="icon image-upload cursor-pointer" handleClick={() => featureRef.current?.click()}></Button>
-                          <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center '>{localState.isLoading === 'featuredImage' && <Spinner size="sm" />} </div>
                           <input
                             className="hidden"
                             type="file"

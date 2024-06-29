@@ -346,7 +346,7 @@ const Nfts = forwardRef((props: any, ref) => {
                                                 btnClassName="w-[100%]"
                                             >
                                                 <div className="px-2 py-2.5">
-                                                    <p className="text-xs text-secondary truncate text-left">
+                                                    <p className="text-xs text-secondary truncate text-left font-medium">
                                                         {item.creator ||item.walletAddress || "--"}
                                                     </p>
                                                     <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
