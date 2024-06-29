@@ -198,7 +198,7 @@ const fetchNfts = (information, screenName) => {
         'collections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
         'profile': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
         'topSellers': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
-        'browsebycategeory': `User/ExploreNfts/${take}/${skip}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`
+        'browsebycategeory': `User/ExploreNfts/${take}/${skip}/${searchBy || categoryName}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`
     }
     return async (dispatch) => {
         try {
