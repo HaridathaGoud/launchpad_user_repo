@@ -2,7 +2,10 @@
 ::-webkit-scrollbar{width:12px;height:10px;background-color:#eee}::-webkit-scrollbar-thumb{background-color:#000;border-radius:20px}
 .scrollbar-hidden::-webkit-scrollbar { display: none;}
 .scrollbar-hidden { -ms-overflow-style: none;   scrollbar-width: none; }
-html[data-theme="dark"]{background-color: #050129;}
+html[data-theme="dark"]{
+  /* background-color: #050129; */
+  background-color: #1c1c1c;
+}
 html[data-theme="dark"] .project-card{border-color: #55536f;}
 .banner-subtitle,.custom-button,.joined-btn,a,body,div,h1,h2,h3,h4,h5,h6,input,p{font-family: 'Roboto', sans-serif;color:#000}
 .icon {display: inline-block;background: var(--darktheme-icons) no-repeat !important;vertical-align: middle;height: 24px;width: 24px;}
@@ -200,7 +203,7 @@ html[data-theme="dark"] .drawer-bid{color: #000 !important;}
 .WalletConnect.icon {  background-position: -524px -333px !important;  width: 40px;  height: 40px;}
 .icon.close-red {  background-position: -494px -10px !important;  width: 20px;  height: 20px;}
 .icon.camera{background-position: -410px -41px !important;  width: 26px;  height: 26px;}
-select,.nft-dropdown{background:url(../images/arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
+select,.nft-dropdown,.daodrop-arrow summary{background:url(../images/arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
 .matic-input{background:url(../images/white-arrow.svg) no-repeat !important  ;background-position: right 20px center !important;}
 /* toaster msg start */
 .top-right-toast{z-index: 9999;border-radius: 0.5rem;width: 100%;--tw-text-opacity: 1;color: #000000;max-width: 25rem;--tw-bg-opacity: 1;box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1); animation: slideDownAndFadeIn 0.5s ease-out;}
@@ -310,10 +313,26 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .shop-card:hover .icon.square-arrow{background-position: -550px -10px !important;} 
 .drawer-side::-webkit-scrollbar-thumb{background-color: #c1c1c1;width: 8px;}
 .drawer-side::-webkit-scrollbar{width: 8px;}
+.dao-card{padding: 60px 30px;  border: 1.5px solid #E0E0E0;}
+.dao-dropdown summary::marker{display: none;content: none;}
+.icon.category{background-position:   -579px -8px !important;}
+html[data-theme="dark"] .dao-card{border-color: #343434;}
+html[data-theme="dark"] .dao-card:hover{border-color: #8B949E;}
+html[data-theme="dark"] .dao-card .text-neutral,html[data-theme="dark"] .dao-count{color: #8B949E;}
+html[data-theme="dark"] .dao-dropdown,html[data-theme="dark"] .search-section input{border:1px solid #343434;border-radius: 25px;background: transparent;}
+html[data-theme="dark"] .dao-dropdown summary,html[data-theme="dark"] .search-section .icon.search,html[data-theme="dark"] .input[type=radio]+span,html[data-theme="dark"] #walletConnectModal .modal-box,html[data-theme="dark"] #walletConnectModal button,html[data-theme="dark"] #walletConnectModal .text-secondary,html[data-theme="dark"] #walletConnectModal .btn-circle,html[data-theme="dark"] .drawer-side .menu,html[data-theme="dark"] .drawer-side .menu .bg-primary,html[data-theme="dark"] .drawer-side .menu button.bg-secondary,html[data-theme="dark"] .drawer-side .menu .text-secondary,html[data-theme="dark"] .drawer-side .menu .star.label::after,html[data-theme="dark"] .drawer-side .menu .text-red-600,html[data-theme="dark"] .drawer-side .icon.upload-plus,html[data-theme="dark"] .drawer-side .icon.close,html[data-theme="dark"] input[type=radio]+span,html[data-theme="dark"] .breadcrumbs > ul > li:not(:last-child)::after {filter: invert(1);}
+.icon.filter{background-position: -611px -8px !important;}
+.proposal-filters .icon.search{right: unset; left: 14px;}
+.proposal-filters .input{padding-left: 48px;padding-right: 70px;}
+html[data-theme="dark"] .bgDaocard{  border: 1.5px solid #4A494D;  background: rgba(255, 255, 255, 0.01);}
+html[data-theme="dark"] .dao-dropdown .menu{  border: 1.5px solid #4A494D; color: #fff;  background: #1C1B20;  box-shadow: 0px 0px 4px 0px rgba(88, 87, 87, 0.25);}
+html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-left:  1px solid #343434;border-radius: 0;}
+
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}
   .drawer-side .menu{min-width: 500px;}
+  .proposal-filters{width: 360px !important;}
 }
 @media (min-width: 1024px){
 .container {  max-width: 960px !important;}

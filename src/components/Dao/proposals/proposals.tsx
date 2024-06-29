@@ -22,11 +22,12 @@ import Spinner from "../../loaders/spinner";
 import NoDataFound from "../../../ui/noData";
 import ProposalsShimmer from "../../loaders/daos/proposalsShimmer";
 import ConvertLocalFormat from "../../../utils/dateFormat";
+import SearchInputComponent from "../../marketplace.component/hotcollections.component/SearchComponent";
 
 const ProposalCards = (props: any) => {
   const proposalsRef = useRef(null);
   const rootDispatch = useDispatch();
-  const user=useSelector((state: any) =>state.auth.user);
+  const user = useSelector((state: any) => state.auth.user);
   const proposals = useSelector((state: any) => state.proposal?.proposals);
   const statusLookup = useSelector(
     (state: any) => state.proposal.proposalStatusLookup
@@ -133,8 +134,38 @@ const ProposalCards = (props: any) => {
         {(proposals.loading || statusLookup.loading) && <ProposalsShimmer />}
         {!proposals.loading && !statusLookup.loading && proposals?.data && (
           <>
-            <div className="grid md:grid-cols-5 gap-2">
-              <select
+            <div className="flex gap-2">
+              <div className="relative">
+                <SearchInputComponent placeholdertext="Search" searchWidth='proposal-filters' />
+                <details className="dropdown dao-dropdown absolute right-2.5 top-0 border-l pl-4 h-[42px]">
+                  <summary className=" rounded-full cursor-pointer bg-transparent w-fit"><span className="icon filter mt-2 mr-2.5"></span></summary>
+                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] left-[-240px] md:left-[-295px] w-[300px] md:w-[360px] top-12 p-4 shadow">
+                    <h1 className="text-center text-secondary text-lg mb-2 font-semibold">Filters</h1>
+                    <p className="text-base text-secondary font-medium mb-2">Proposal Status</p>
+                    <li className="">
+                      <div className='flex items-center hover:bg-transparent gap-0 p-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>All</p>
+                      </div>
+                    </li>
+                    <li className="">
+                      <div className='flex items-center hover:bg-transparent gap-0 px-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>Active</p>
+                      </div>
+                    </li>
+                    <li className="">
+                      <div className='flex items-center hover:bg-transparent gap-0 px-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>Pending</p>
+                      </div>
+                    </li>
+                    <li className="">
+                      <div className='flex items-center hover:bg-transparent gap-0 px-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>Closed</p>
+                      </div>
+                    </li>
+                  </ul>
+                </details>
+              </div>
+              {/* <select
                 className="border rounded-[30px] formselect-arrow max-sm:w-full px-2.5 h-[46px] cursor-pointer"
                 aria-label="Default select example"
                 value={state.status}
@@ -145,8 +176,8 @@ const ProposalCards = (props: any) => {
                     {item?.name}
                   </option>
                 ))}
-              </select>
-              <div className="md:col-span-2">
+              </select> */}
+              {/* <div className="md:col-span-2">
                 <div className="flex md:hidden mt-2 md:mt-0">
                   <label
                     htmlFor=""
@@ -196,16 +227,16 @@ const ProposalCards = (props: any) => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className={`mt-4`}>
               {
-                <div>
+                <div className="lg:grid lg:grid-cols-2 gap-4">
                   {proposals?.data?.length > 0 &&
                     proposals?.data?.map((item: any) => (
                       <Link
-                        className="block bg-base-300 rounded-lg bgDaocard p-4 mb-4"
+                        className="block rounded-lg bgDaocard p-4 mt-4 lg:mt-0"
                         key={item.creatorAddress || item.id}
                         to={
                           params?.daoId
@@ -228,9 +259,8 @@ const ProposalCards = (props: any) => {
                           </div>
                           <div>
                             <span
-                              className={`font-semibold px-3 py-1 rounded ${
-                                getProposalStatusBg[item?.status]
-                              }`}
+                              className={`font-semibold px-3 py-1 rounded ${getProposalStatusBg[item?.status]
+                                }`}
                             >
                               {item?.status}
                             </span>
@@ -239,16 +269,15 @@ const ProposalCards = (props: any) => {
 
                         <div className="truncate">
                           <h4
-                            className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start  ${
-                              item?.title.length > 100 ? "truncate w-1/2" : ""
-                            }`}
+                            className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start  ${item?.title.length > 100 ? "truncate w-1/2" : ""
+                              }`}
                           >
                             {item?.title}
                           </h4>
                         </div>
 
                         <div className="flex gap-5 flex-col lg:flex-row">
-                          <div
+                          {/* <div
                             className={` shrink-0 ${
                               props.from === "project"
                                 ? "md:w-[150px]"
@@ -264,7 +293,7 @@ const ProposalCards = (props: any) => {
                               }`}
                               alt={item?.title || "proposal"}
                             />
-                          </div>
+                          </div> */}
                           <div className="flex-1">
                             <p className="text-base-200">
                               {(item?.description &&
@@ -273,7 +302,15 @@ const ProposalCards = (props: any) => {
                                   : item.description)) ||
                                 "--"}
                             </p>
-                            <div className="flex align-items-center gap-4">
+                            <div className="relative mt-5">
+                              <div className="overflow-hidden mb-4 text-xs flex rounded bg-[#39383B] h-[6px]">
+                                <div className="w-[70%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-success"></div>
+                                <div className="w-[20%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#BE5863]"></div>
+                              </div>
+                            </div>
+
+
+                            {/* <div className="flex align-items-center gap-4">
                               <p className="text-secondary mt-3 me-3">
                                 Start Date:{" "}
                                 {item?.startDate && (
@@ -316,7 +353,7 @@ const ProposalCards = (props: any) => {
                                   item?.endDate
                                 )}
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </Link>
@@ -342,10 +379,12 @@ const ProposalCards = (props: any) => {
                     state.status === "All" &&
                     !state.startDate &&
                     !state.endDate && (
-                      <CreateFirstPraposal
-                        pjctInfo={props?.pjctInfo}
-                        daoId={params.id}
-                      />
+                      <div className="col-span-2">
+                        <CreateFirstPraposal
+                          pjctInfo={props?.pjctInfo}
+                          daoId={params.id}
+                        />
+                      </div>
                     )}
                   <div className="flex justify-center">
                     {proposals.loading && (
@@ -357,7 +396,7 @@ const ProposalCards = (props: any) => {
                       props.from !== "project" &&
                       proposals.data?.length > 0 &&
                       proposals.data?.length ===
-                        take * (proposals?.nextPage - 1) && (
+                      take * (proposals?.nextPage - 1) && (
                         <Button
                           handleClick={() =>
                             handleProposalsFetch(
