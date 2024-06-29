@@ -29,7 +29,7 @@ const HotcollectionView = (props: any) => {
     }
   });
   const [isActive, setIsActive] = useState(0);
-
+  const [copied, setCopied] = useState("");
   useEffect(()=>{
     getHotCollectionsData();
     if (hotCollectionViewDetails.error) rootDispatch(setError({message:hotCollectionViewDetails.error}))
@@ -77,8 +77,13 @@ const HotcollectionView = (props: any) => {
       : NftDetails;
     return !loading && data && data?.length === pageSize * (nextPage-1);
   }, [isActive, activityData, NftDetails]);
-  
 
+  const handleCopy = (value) => {
+    setCopied(value);
+    setTimeout(() => {
+      setCopied("");
+    }, 1000);
+  };
   return (
       <>
       {hotCollectionViewDetails.loading && <HotcollectionviewShimmer/> }
@@ -97,17 +102,17 @@ const HotcollectionView = (props: any) => {
               <div className="flex text-[18px] mt-2 font-medium gap-2">
                 <p className='text-white '>By : {hotCollectionViewDetails?.data?.creatorName ||hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
                 <CopyToClipboard
-                    // text={hotCollectionViewDetails?.data?.walletAddress}
-                    // options={{ format: "text/plain" }}
-                   
+                    text={hotCollectionViewDetails?.data?.walletAddress}
+                    options={{ format: "text/plain" }}
+                    onCopy={() => handleCopy("current")}
                   >
                     <span
                       className={
-                        // state.copied === "current"
-                          // ? "icon md check-icon pl-4"
-                          // : 
-                          "icon md copy-icon invert cursor-pointer ms-0 pl-4"
-                      }
+                        copied === "current"
+                        ?
+                        "icon copy-check cursor-pointer ms-2 shrink-0" :
+                        "icon md copy-icon invert cursor-pointer ms-0 pl-4"
+                    }
                     />
                   </CopyToClipboard>
               </div>
