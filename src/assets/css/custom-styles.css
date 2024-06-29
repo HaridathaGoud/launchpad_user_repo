@@ -327,7 +327,7 @@ html[data-theme="dark"] .dao-dropdown summary,html[data-theme="dark"] .search-se
 html[data-theme="dark"] .bgDaocard{  border: 1.5px solid #4A494D;  background: rgba(255, 255, 255, 0.01);}
 html[data-theme="dark"] .dao-dropdown .menu{  border: 1.5px solid #4A494D; color: #fff;  background: #1C1B20;  box-shadow: 0px 0px 4px 0px rgba(88, 87, 87, 0.25);}
 html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-left:  1px solid #343434;border-radius: 0;}
-
+.dao-para{-webkit-line-clamp: 4;  box-sizing: border-box;  text-overflow: ellipsis;  overflow: hidden;  -webkit-box-orient: vertical;  display: -webkit-box;}
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}

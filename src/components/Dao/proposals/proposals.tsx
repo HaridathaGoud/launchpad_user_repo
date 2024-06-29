@@ -269,7 +269,7 @@ const ProposalCards = (props: any) => {
 
                         <div className="truncate">
                           <h4
-                            className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start  ${item?.title.length > 100 ? "truncate w-1/2" : ""
+                            className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start truncate  ${item?.title.length > 100 ? "truncate w-1/2" : ""
                               }`}
                           >
                             {item?.title}
@@ -295,7 +295,7 @@ const ProposalCards = (props: any) => {
                             />
                           </div> */}
                           <div className="flex-1">
-                            <p className="text-base-200">
+                            <p className="text-base-200 dao-para">
                               {(item?.description &&
                                 (item?.description.length > 75
                                   ? item.description.slice(0, 75) + " ..."
@@ -308,8 +308,6 @@ const ProposalCards = (props: any) => {
                                 <div className="w-[20%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#BE5863]"></div>
                               </div>
                             </div>
-
-
                             {/* <div className="flex align-items-center gap-4">
                               <p className="text-secondary mt-3 me-3">
                                 Start Date:{" "}
