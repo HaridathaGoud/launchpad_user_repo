@@ -95,13 +95,13 @@ const DaoLeftPanel = (props) => {
   return (
     <>
       <div
-        className={`${
+        className={`block rounded-lg bgDaocard p-4 mb-4 ${
           props.from === "project" ? "md:flex justify-between mb-4" : ""
         }`}
       >
-        <div>
+        <div className="">
           {props.showHeader && (
-            <div className="flex items-center gap-3">
+            <div className="">
               <div className="w-12 h-12 ">
                 <img
                   src={user?.profilePicUrl || defaultAvatar}
@@ -110,7 +110,7 @@ const DaoLeftPanel = (props) => {
                 />
               </div>
               <div>
-                <h1 className="text-lg font-semibold mb-1 text-secondary capitalize">
+                <h1 className="text-lg mt-3 font-semibold mb-0 text-secondary capitalize">
                   {user.firstName && user.lastName ? (
                     (user.firstName + " " + user.lastName).toLowerCase()
                   ) : address ? (
@@ -136,7 +136,7 @@ const DaoLeftPanel = (props) => {
                     "Connect your wallet!"
                   )}
                 </h1>
-                {/* {address && <p className="text-secondary">63k Members</p>} */}
+                {address && <p className="text-secondary opacity-60">252k members</p>}
               </div>
             </div>
           )}
