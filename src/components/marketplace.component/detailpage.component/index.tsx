@@ -460,7 +460,7 @@ const DetailPage = (props: any) => {
                   <h2 className="text-base font-semibold text-secondary mt-9 mb-3.5">
                     Properties
                   </h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {nftDetails?.properties && <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {nftDetails?.properties?.map((property: any) => {
                       return (
                         <div
@@ -479,9 +479,13 @@ const DetailPage = (props: any) => {
                         </div>
                       );
                     })}
-                  </div>
+                  </div>}
                   {(!nftDetails?.properties?.length ||
-                    !nftDetails?.properties) && <NoData text={""} />}
+                    !nftDetails?.properties) && (
+                    <div className="pt-10">
+                      <NoData text="" />
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
@@ -501,12 +505,14 @@ const DetailPage = (props: any) => {
               />
             )}
 
-           {nftDetails&& <BiddingDetails
-              nftDetails={nftDetails}
-              nftId={nftId}
-              collectionAddress={collectionAddress}
-              tokenId={tokenId}
-            />}
+            {nftDetails && (
+              <BiddingDetails
+                nftDetails={nftDetails}
+                nftId={nftId}
+                collectionAddress={collectionAddress}
+                tokenId={tokenId}
+              />
+            )}
             {nftDetails && (
               <MoreFromCollection nftDetails={nftDetails} tokenId={tokenId} />
             )}

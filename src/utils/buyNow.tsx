@@ -100,7 +100,7 @@ const BuyComponent = (props: any) => {
           className="drawer-overlay"
         ></label>
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
-          <form onSubmit={(e) => buyNow(e)}>
+          <div>
             <div className="flex justify-between items-center">
               <h2 className="text-lg text-dark font-semibold mb-4">Buy Now</h2>
               {!btnLoader && (
@@ -188,7 +188,7 @@ const BuyComponent = (props: any) => {
                   process.env.REACT_APP_CURRENCY_SYMBOL}
               </Button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </form>
