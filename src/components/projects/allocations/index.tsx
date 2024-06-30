@@ -80,7 +80,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
           });
           dispatch({
             type: "setBuyAmount",
-            payload: Number(item?.allocationVolume)-Number(item?.purchaseVolume || 0),
+            payload: parseInt(item?.allocationVolume)-Number(item?.purchaseVolume || 0),
           });
           dispatch({
             type: "setIsPublic",
@@ -138,12 +138,12 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
               payload: "Insufficient Allocation volume.",
             });
           } 
-          else if (decimalRegex.test(state.buyAmount)) {
-            dispatch({
-              type: "setAmountError",
-              payload: "Decimal values are not allowed.",
-            });
-          } 
+          // else if (decimalRegex.test(state.buyAmount)) {
+          //   dispatch({
+          //     type: "setAmountError",
+          //     payload: "Decimal values are not allowed.",
+          //   });
+          // } 
           else {
             isUpdate = true;
           }
@@ -169,12 +169,12 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
               payload: "Insufficient Allocation volume.",
             });
           } 
-          else if (decimalRegex.test(state.buyAmount)) {
-            dispatch({
-              type: "setAmountError",
-              payload: "Decimal values are not allowed.",
-            });
-          } 
+          // else if (decimalRegex.test(state.buyAmount)) {
+          //   dispatch({
+          //     type: "setAmountError",
+          //     payload: "Decimal values are not allowed.",
+          //   });
+          // } 
           else {
             isUpdate = true;
           }
