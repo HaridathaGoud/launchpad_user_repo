@@ -173,7 +173,7 @@ const MoreFromCollection = ({ nftDetails, tokenId }) => {
                     >
                       <div className="px-2 py-2.5">
                         {item.creator && (
-                          <p className="text-xs text-secondary truncate text-left font-medium">
+                          <p className="text-xs text-secondary truncate text-left font-medium break-all">
                             {item.creator || "--"}
                           </p>
                         )}
