@@ -37,7 +37,6 @@ const DetailPage = (props: any) => {
   const { address, isConnected } = useAccount();
   const { data } = useBalance({ address: address });
   const router = useNavigate();
-  const [bidData, setBidData] = useState([]);
   const { tokenId, collectionAddress, nftId } = useParams();
   const { isCopied, handleCopy } = useCopyToClipboard();
   const [percentageValue, setPercentageValue] = useState();
@@ -70,7 +69,6 @@ const DetailPage = (props: any) => {
     loadNFTViewsCount();
     getNFTContractdetails();
     // getNFTProperties();
-    getbidData();
     // setMetaConnectionError(null);
   }
   useEffect(() => {
@@ -160,16 +158,6 @@ const DetailPage = (props: any) => {
   const getNFTImageUrl = (file: any) => {
     return file;
   };
-
-  const getbidData = async () => {
-    let response = await getMarketplace(`User/biddata/${nftId}/${10}/${0}`);
-    if (response) {
-      setBidData(response.data);
-    } else {
-      rootDispatch(setError(response));
-    }
-  };
-
   const goToAccount = (item: any, type: any) => {
     if (type === "creator") {
       router(
@@ -513,13 +501,12 @@ const DetailPage = (props: any) => {
               />
             )}
 
-            <BiddingDetails
+           {nftDetails&& <BiddingDetails
               nftDetails={nftDetails}
-              bidData={bidData}
               nftId={nftId}
               collectionAddress={collectionAddress}
               tokenId={tokenId}
-            />
+            />}
             {nftDetails && (
               <MoreFromCollection nftDetails={nftDetails} tokenId={tokenId} />
             )}

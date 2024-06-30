@@ -150,7 +150,7 @@ const PlaceBid = ({
               <span className="icon close cursor-pointer"></span>
             </Button>}
           </div>
-          <form>
+          <div>
             <div className="">
               <div className="flex gap-5 items-center mt-10 mb-12">
                 <img
@@ -316,7 +316,7 @@ const PlaceBid = ({
                 Place a bid
               </Button>
             </div>}
-          </form>
+          </div>
         </div>
       </div>
     </form>

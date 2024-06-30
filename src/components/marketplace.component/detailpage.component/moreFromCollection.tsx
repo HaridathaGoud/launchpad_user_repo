@@ -10,10 +10,7 @@ import { modalActions } from "../../../ui/Modal";
 import Spinner from "../../loaders/spinner";
 import FoundingMemberSimmer from "../../loaders/projects/foundingmembersshimmer";
 import { useNavigate } from "react-router-dom";
-const MoreFromCollection = ({
-  nftDetails,
-  tokenId,
-}) => {
+const MoreFromCollection = ({ nftDetails, tokenId }) => {
   const rootDispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store: any) => store.auth.user);
@@ -21,8 +18,8 @@ const MoreFromCollection = ({
   const [data, setData] = useState<any>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
-    nftDetails && getData(nftDetails);
-  }, [nftDetails]);
+    getData(nftDetails);
+  }, []);
   const handleSlideActions = (action) => {
     if (action === "previous") {
       const newIndex = (currentIndex + 1) % data?.length;
@@ -303,4 +300,4 @@ const MoreFromCollection = ({
   );
 };
 
-export default MoreFromCollection;
+export default React.memo(MoreFromCollection);
