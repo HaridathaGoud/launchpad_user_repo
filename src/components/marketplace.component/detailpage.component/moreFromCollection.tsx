@@ -172,9 +172,21 @@ const MoreFromCollection = ({ nftDetails, tokenId }) => {
                       btnClassName="w-[100%]"
                     >
                       <div className="px-2 py-2.5">
-                        <p className="text-xs text-secondary truncate text-left font-medium">
-                          {item.creator || item.walletAddress || "--"}
-                        </p>
+                        {item.creator && (
+                          <p className="text-xs text-secondary truncate text-left font-medium">
+                            {item.creator || "--"}
+                          </p>
+                        )}
+                        {!item.creator && (
+                          <h4 className="text-neutral font-semibold break-all text-start">
+                            {item?.walletAddress?.slice(0, 4) +
+                              "...." +
+                              item?.walletAddress?.substring(
+                                item?.walletAddress.length - 4,
+                                item?.walletAddress.length
+                              )}{" "}
+                          </h4>
+                        )}
                         <h1 className="mb-2.5 text-left text-base font-semibold truncate text-secondary">
                           {" "}
                           {item.name}{" "}
