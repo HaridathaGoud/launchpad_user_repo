@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import DaoCardShimmer from "../shimmers/daodashboard";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { setError } from "../../../reducers/layoutReducer";
@@ -6,24 +6,27 @@ import { clearDaos, getDaos } from "../../../reducers/proposlaReducer";
 import Button from "../../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import NoData from "../../../ui/noData";
-import SearchInputComponent from "../../marketplace.component/hotcollections.component/SearchComponent";
-import DropdownMenus from "../../../ui/DropdownMenus";
+// import SearchInputComponent from "../../marketplace.component/hotcollections.component/SearchComponent";
+// import DropdownMenus from "../../../ui/DropdownMenus";
+import SearchBar from "../../../ui/searchBar";
 const take = 8;
 const Daos = (props: any) => {
   const rootDispatch = useDispatch();
   const navigate = useNavigate();
+  const searchBarRef=useRef(null)
+  const [searchInput,setSearchInput]=useState('')
   const daos = useSelector((store: any) => store.proposal.daos);
   useEffect(() => {
-    getDaosList();
+    getDaosList(false);
     return () => {
       props.clearDaos();
     };
-  }, []);
-  const getDaosList = async () => {
+  }, [searchInput]);
+  const getDaosList = async (seeMore:boolean) => {
     await props.getDaos({
-      page: daos?.nextPage || 1,
+      page: seeMore ? daos?.nextPage : 1,
       take: take,
-      data: daos?.data || null,
+      data: seeMore ? daos?.data : null,
     });
   };
   const navigateToProposals = (item: any) => {
@@ -40,24 +43,16 @@ const Daos = (props: any) => {
   const showNoData = useMemo(() => {
     return !daos.loading && (!daos.data || daos.data?.length === 0);
   }, [daos]);
-  const dropdownList = [    
-    {
-      name: "Cancel sale",
-      // action: () => handleDrawerToOpen("cancelSaleOrAuction"),
-      isActive: false,
-    }
-  ]
-   
-   
- 
+  
   return (
     <div>
       <div className="container mx-auto px-3 lg:px-0 mt-4">
         <h5 className="font-semibold text-2xl text-secondary mb-4">Dashboard</h5>
          <div className="md:flex justify-between items-center">
          <div className="md:flex gap-6">
-          <SearchInputComponent placeholdertext='Search' />
-          <details className="dropdown daodrop-arrow dao-dropdown max-sm:mt-2">
+          <SearchBar inputRef={searchBarRef} onSearch={setSearchInput} placeholder="Search by dao name"/>
+          {/* <SearchInputComponent placeholdertext='Search' /> */}
+          {/* <details className="dropdown daodrop-arrow dao-dropdown max-sm:mt-2">
             <summary className="px-4 pr-16 py-2 rounded-full cursor-pointer bg-transparent border"><span className="icon category mr-2"></span>Category</summary>
             <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 px-0 py-3 shadow">
               <li><a className="rounded-none">All</a></li>
@@ -66,7 +61,7 @@ const Daos = (props: any) => {
               <li><a className="justify-between rounded-none">Investment <span className="bg-[#57606A] rounded-full w-fit px-2 py-1 text-white font-medium text-xs">5,284</span></a></li>
               <li><a className="justify-between rounded-none">Creator <span className="bg-[#57606A] rounded-full w-fit px-2 py-1 text-white font-medium text-xs">2,575</span></a></li>
             </ul>
-          </details>         
+          </details>          */}
           </div> 
           <p className="text-lg font-normal text-[#444] max-sm:mt-2 dao-count">34K dao(s)</p> 
          </div>
@@ -114,7 +109,7 @@ const Daos = (props: any) => {
             <span className="loading loading-spinner loading-sm"></span>
           )}
           {showSeeMore && (
-            <Button type="plain" handleClick={getDaosList}>
+            <Button type="plain" handleClick={()=>getDaosList(true)}>
               <span className="cursor-pointer text-base text-primary font-semibold">
                 See More
               </span>
