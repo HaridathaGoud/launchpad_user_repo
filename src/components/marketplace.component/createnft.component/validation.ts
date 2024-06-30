@@ -59,7 +59,7 @@ export const validateForm = (form:any) => {
     name || "",
     "name",
     true,
-    (value: string) => containsHTMLTags(value) || containsEmoji(value) || containsNonAlphabetic(value),
+    (value: string) => containsHTMLTags(value) || containsEmoji(value),
     "Invalid Name"
   );
   validateField(collection || "", "collection", true);

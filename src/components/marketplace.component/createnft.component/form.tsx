@@ -483,7 +483,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         error={formErrors["crypto"]}
                         label=""
                         disabled={state.isLoading === 'saving'}
-                        defaultOption="Currency"
                         errorClass="text-sm font-normal text-red-600 absolute bottom-[-28px]"
                       />
                     </div>
@@ -544,7 +543,6 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       error={formErrors["crypto"]}
                       label=""
                       disabled={state.isLoading === 'saving'}
-                      defaultOption="Currency"
                     />
                   </div>
                 </>

@@ -12,16 +12,17 @@ interface NumberInputProps {
   inputClass?: string;
   errorClass?: string;
   inputType?: string;
-  maxDecimals?:number;
-  isInteger?:boolean;
-  disabled?:boolean;
-  allowDecimals?:number;
+  maxDecimals?: number;
+  isInteger?: boolean;
+  disabled?: boolean;
+  allowDecimals?: number;
+  maxLength?: number;
 }
-function getDecimalRegex(decimalPlaces:number) {
+function getDecimalRegex(decimalPlaces: number) {
   return new RegExp(`^\\d{1,}(\\.\\d{0,${decimalPlaces}})?$`);
 }
 
-const integerRegex=/^\d+$/
+const integerRegex = /^\d+$/;
 const NumberInput = ({
   label,
   fieldName,
@@ -37,36 +38,41 @@ const NumberInput = ({
   isInteger,
   disabled,
   inputType = "text",
-  allowDecimals=2,
+  maxLength = 10,
+  allowDecimals = 2,
 }: NumberInputProps) => {
   const [cleanedValue, setCleanedValue] = useState("");
   const handleChange = (e: any) => {
     const cleanedValue = e.target.value.replace(/,/g, "");
-    let formattedValue=cleanedValue;
-    if(isInteger){
-      const [wholePart, decimalPart] = cleanedValue.split(".");
-      const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      formattedValue =
-        decimalPart !== undefined
-          ? `${formattedWholePart}.${decimalPart}`
-          : formattedWholePart;
-    }
-    const regex=isInteger ? integerRegex:getDecimalRegex(allowDecimals)
-    if (!cleanedValue || cleanedValue.match(regex)) {
+    let formattedValue = cleanedValue;
+    const [wholePart, decimalPart] = cleanedValue.split(".");
+    const formattedWholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    formattedValue =
+      decimalPart !== undefined
+        ? `${formattedWholePart}.${decimalPart}`
+        : formattedWholePart;
+    const regex = isInteger ? integerRegex : getDecimalRegex(allowDecimals);
+    if (
+      (!cleanedValue || cleanedValue.match(regex)) &&
+      wholePart.match(integerRegex) &&
+      wholePart.length <= maxLength
+    ) {
       setCleanedValue(formattedValue);
       onChange?.(fieldName, cleanedValue);
     }
   };
   return (
     <div className={inputBoxClass}>
-      {label && <label
-        className={
-          labelClass ||
-          "text-secondary text-sm font-normal p-0 mb-2 label block ml-3"
-        }
-      >
-        {label} {isRequired && <span className="text-[#ff0000]">*</span>}
-      </label>}
+      {label && (
+        <label
+          className={
+            labelClass ||
+            "text-secondary text-sm font-normal p-0 mb-2 label block ml-3"
+          }
+        >
+          {label} {isRequired && <span className="text-[#ff0000]">*</span>}
+        </label>
+      )}
       <input
         name={fieldName}
         type={inputType}
