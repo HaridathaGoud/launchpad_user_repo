@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { setError, setToaster } from '../../../reducers/layoutReducer';
 import { get } from '../../../utils/api';
 import AllocationsView from  './allocations';
-import { ethers } from "ethers";
 import useContract from '../../../hooks/useContract';
 import { BuyTokenDrawer } from './BuyTokenDrawer';
 import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
@@ -81,7 +80,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
           });
           dispatch({
             type: "setBuyAmount",
-            payload: item?.allocationVolume,
+            payload: Number(item?.allocationVolume)-Number(item?.purchaseVolume || 0),
           });
           dispatch({
             type: "setIsPublic",
@@ -138,12 +137,14 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
               type: "setAmountError",
               payload: "Insufficient Allocation volume.",
             });
-          } else if (decimalRegex.test(state.buyAmount)) {
+          } 
+          else if (decimalRegex.test(state.buyAmount)) {
             dispatch({
               type: "setAmountError",
               payload: "Decimal values are not allowed.",
             });
-          } else {
+          } 
+          else {
             isUpdate = true;
           }
         } else {
@@ -167,12 +168,14 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
               type: "setAmountError",
               payload: "Insufficient Allocation volume.",
             });
-          } else if (decimalRegex.test(state.buyAmount)) {
+          } 
+          else if (decimalRegex.test(state.buyAmount)) {
             dispatch({
               type: "setAmountError",
               payload: "Decimal values are not allowed.",
             });
-          } else {
+          } 
+          else {
             isUpdate = true;
           }
         }
@@ -182,11 +185,6 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
           dispatch({ type: "setDrawerStep", payload: 1 });
         }
       };
-      function _provider() {
-        const _connector: any = window?.ethereum;
-        const provider = new ethers.providers.Web3Provider(_connector);
-        return provider;
-      }
       const handleOk = async () => {
         const etherValue = Number(state.volumeData) * Number(state.buyAmount);
         dispatch({ type: "setIsBuying", payload: true });
@@ -197,26 +195,16 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
           props.pjctInfo?.contractAddress
         )
           .then((res: any) => {
-            // res?.wait()
-            _provider()
-              .waitForTransaction(res?.hash)
-              .then((receipt: any) => {
                 dispatch({ type: "setIsBuying", payload: false });
                 dispatch({ type: "setShouldOpenDrawer", payload: false });
                 dispatch({ type: "setDrawerStep", payload: 1 });
                 rootDispatch(setToaster({ message: "Tokens purchase successful!" }));
                 getAllocationDetails();
-                props.getDetails();
-              })
-              .catch((error: any) => {
-                rootDispatch(setError({ message: error?.reason || error }));
-                dispatch({ type: "setIsBuying", payload: false });
-              });
-          })
+        })
           .catch((error: any) => {
             rootDispatch(
               setError({
-                message: error?.shortMessage || error?.reason || error,
+                message: error,
                 from: "contract",
               })
             );

@@ -60,7 +60,7 @@ const BuyComponent = (props: any) => {
       let response = await getMarketplace(`User/nfttype/${nftId}`);
       if (response.data.isPutOnSale) {
         let response = await postMarketplace(`/User/SaveBuy`, obj);
-        if (response.statusText?.toLowerCase()==='ok') {
+        if (response.statusText?.toLowerCase() === "ok") {
           props?.setIsOpen(false);
           rootDispatch(
             setToaster({
@@ -71,7 +71,7 @@ const BuyComponent = (props: any) => {
             })
           );
           clearState();
-          props?.refresh()
+          props?.refresh();
         } else {
           rootDispatch(setError({ message: response }));
         }
@@ -103,13 +103,14 @@ const BuyComponent = (props: any) => {
           <form onSubmit={(e) => buyNow(e)}>
             <div className="flex justify-between items-center">
               <h2 className="text-lg text-dark font-semibold mb-4">Buy Now</h2>
-              <Button
-                type="plain"
-                disabled={btnLoader}
-                handleClick={() => props?.setIsOpen(false)}
-              >
-                <span className="icon close cursor-pointer"></span>
-              </Button>
+              {!btnLoader && (
+                <Button
+                  type="plain"
+                  handleClick={() => props?.setIsOpen(false)}
+                >
+                  <span className="icon close cursor-pointer"></span>
+                </Button>
+              )}
             </div>
 
             <div className="flex gap-5 items-center mt-10">
@@ -138,9 +139,7 @@ const BuyComponent = (props: any) => {
 
             <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
               <div className="flex justify-between items-center my-4">
-                <p className="text-sm shrink-0 text-secondary">
-                  Buy Price
-                </p>
+                <p className="text-sm shrink-0 text-secondary">Buy Price</p>
                 <p className="truncate text-secondary text-end font-semibold">
                   {props.nftDetails?.price || props.nftDetails?.value}{" "}
                   {props.nftDetails?.currency?.toUpperCase() ||
@@ -148,9 +147,7 @@ const BuyComponent = (props: any) => {
                 </p>
               </div>
               <div className="flex justify-between items-center mb-4">
-                <p className="text-sm shrink-0 text-secondary">
-                  Buyer Fee
-                </p>
+                <p className="text-sm shrink-0 text-secondary">Buyer Fee</p>
                 <p className="truncate text-secondary text-end font-semibold">
                   {percentageValue}{" "}
                   {props.nftDetails?.currency?.toUpperCase() ||

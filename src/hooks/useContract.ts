@@ -391,7 +391,9 @@ export default function useContractMethods() {
       [amount, isPublic],
       value
     );
-    return writeContract(request);
+    const response= await writeContract(request);
+    await waitForTransaction({hash:response.hash});
+    return response
   }
   async function claimTokens(contractAddress: any) {
     const request = await requestForContract(

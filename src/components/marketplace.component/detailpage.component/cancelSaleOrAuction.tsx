@@ -59,13 +59,13 @@ const CancelSaleOrAuction = ({
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex items-center justify-between">
             <p className="text-xl text-secondary font-semibold">Confirmation</p>
-            <Button
+            {isLoading === "" && <Button
               type="plain"
               handleClick={() => setShow(false)}
               disabled={isLoading !== ""}
             >
               <span className="icon close cursor-pointer"></span>
-            </Button>
+            </Button>}
           </div>
 
           <div>

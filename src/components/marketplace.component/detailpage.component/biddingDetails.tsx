@@ -23,7 +23,7 @@ const BiddingDetails = ({
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState("");
   const executeBid = async (item: any) => {
-    setIsLoading("acceptingBid");
+    setIsLoading(item?.id);
     try {
       const hash = await acceptBid(
         collectionAddress,
@@ -85,10 +85,10 @@ const BiddingDetails = ({
                 Buyer Address
               </th>
               <th className="text-left text-base text-secondary font-bold">
-                Bidding Amount
+                Buyer Name
               </th>
               <th className="text-left text-base text-secondary font-bold">
-                Creator Name
+                Bidding Amount
               </th>
               <th className="text-left text-base text-secondary font-bold"></th>
             </tr>
@@ -124,9 +124,9 @@ const BiddingDetails = ({
                       handleClick={() => executeBid(item)}
                       disabled={isLoading !== ""}
                     >
-                      Accept Bid
+                      <span>Accept Bid</span>
                       <span>
-                        {isLoading !== "" && <Spinner size="loading-sm" />}{" "}
+                        {isLoading ===item?.id && <Spinner size="loading-sm" />}{" "}
                       </span>
                     </Button>
                   )}

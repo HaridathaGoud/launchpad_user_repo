@@ -21,17 +21,19 @@ import PutOnAuction from "./putOnAuction";
 import CancelSaleOrAuction from "./cancelSaleOrAuction";
 import { setError } from "../../../reducers/layoutReducer";
 import NoData from "../../../ui/noData";
-
+import Spinner from "../../loaders/spinner";
+const getDate = (date: any) => {
+  const dateIn = moment(date, "YYYY/MM/DD");
+  return dateIn.format("DD-MM-YYYY");
+};
 const DetailPage = (props: any) => {
   const rootDispatch = useDispatch();
   const [drawerToOpen, setDrawerToOpen] = useState("");
-  const [nftDetails, setNftDetails] = useState<any>();
-  const [loader, setLoader] = useState(true);
-  const [favCount, setfavCount] = useState();
+  const [nftDetails, setNftDetails] = useState<any>(null);
+  const [loader, setLoader] = useState("");
+  const [favCount, setFavCount] = useState(0);
   const [viewsCount, setviewsCount] = useState();
-  const [nftcontractDetails, setNFTContractdetails] = useState<any>();
-  const [moreCollection, setmoreCollection] = useState<any[]>([]);
-  const [fav, setFav] = useState(false);
+  const [nftcontractDetails, setNFTContractDetails] = useState<any>();
   const { address, isConnected } = useAccount();
   const { data } = useBalance({ address: address });
   const router = useNavigate();
@@ -75,24 +77,22 @@ const DetailPage = (props: any) => {
     if (tokenId && collectionAddress && nftId) {
       initialize();
     }
-  }, [tokenId, collectionAddress, nftId,props?.auth?.user?.id]);
+  }, [tokenId, collectionAddress, nftId, props?.auth?.user?.id]);
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
   const loadNftDetails = async () => {
-    setLoader(true);
+    setLoader("details");
     await getMarketplace(`User/NFTDetails/${nftId}/${props.auth.user.id || ""}`)
       .then((response: any) => {
         const { properties, ...data } = response.data;
         const propertiesToUpdate = properties ? JSON.parse(properties) : [];
         setNftDetails({ ...data, properties: propertiesToUpdate });
         percentage(response.data);
-        setFav(response.data.isFavorite);
-        setLoader(false);
-        getMoreNftsCollection(response.data);
+        setLoader("");
       })
       .catch((error: any) => {
-        setLoader(false);
+        setLoader("");
         rootDispatch(setError(error));
       });
   };
@@ -103,23 +103,11 @@ const DetailPage = (props: any) => {
     let totalValue = buyValue + percentage;
     setTotalBuyValue(totalValue);
   };
-  const getMoreNftsCollection = async (data: any) => {
-    let morenftRes = await getMarketplace(
-      `User/GetMoreNftsByCollection/${data.collectionId}/${data.creatorId}/${tokenId}/${props?.auth?.user?.id}`
-    );
-    if (morenftRes) {
-      setmoreCollection(morenftRes.data);
-      scrollableRef.current?.scrollIntoView(0, 0);
-    } else {
-      rootDispatch(setError({message:morenftRes}));
-      scrollableRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const loadFavoritesCount = async () => {
     let response = await getMarketplace(`User/NftFavoritesCount/${nftId}`);
     if (response) {
-      setfavCount(response.data);
+      setFavCount(response.data);
     } else {
       rootDispatch(setError(response));
     }
@@ -137,57 +125,40 @@ const DetailPage = (props: any) => {
       `User/GetNFTContractDetails/${tokenId}/${collectionAddress}`
     );
     if (response) {
-      setNFTContractdetails(response.data);
+      setNFTContractDetails(response.data);
     } else {
       rootDispatch(setError(response));
     }
   };
-  const getDate = (date: any) => {
-    var dateIn = moment(date, "YYYY/MM/DD");
-    return dateIn.format("DD/MM/YYYY");
-  };
-  const gotoFavorite = (val: any) => {
-    if (isConnected) {
-      savefavroite(val);
-    } else {
+  const savefavroite = async (value: any) => {
+    setLoader("favorite");
+    if (!props?.auth.user?.id) {
+      modalActions("walletConnectModal", "open");
+      return;
     }
-  };
-  const gotoFev = (item: any) => {
-    if (isConnected) {
-      moreCollectionSavefavroite(item);
-    } else {
-    }
-  };
-  const savefavroite = async (val: any) => {
-    let obj = {
-      nftId: nftId,
-      customerId: props.auth.user?.id,
-      isFavourite: val ? false : true,
-    };
-    let response = await postMarketplace(`User/SaveFavorite`, obj);
-    if (response) {
-      loadNftDetails();
-      loadFavoritesCount();
-    } else {
-      rootDispatch(setError(response));
-    }
-  };
-  const moreCollectionSavefavroite = async (item: any) => {
-    let obj = {
-      nftId: item.id,
-      customerId: props.auth.user?.id,
-      isFavourite: item.isFavourite ? false : true,
-    };
-    let response = await postMarketplace(`User/SaveFavorite`, obj);
-    if (response) {
-      loadNftDetails();
-      loadFavoritesCount();
-    } else {
-      rootDispatch(setError(response));
+    try {
+      const obj = {
+        nftId: nftId,
+        customerId: props.auth.user?.id,
+        isFavourite: value,
+      };
+      const response = await postMarketplace(`User/SaveFavorite`, obj);
+      if (response.statusText.toLowerCase() === "ok") {
+        const detailsToUpdate = { ...nftDetails, isFavorite: value };
+        const countToUpdate = value ? favCount + 1 : favCount - 1;
+        setFavCount(countToUpdate);
+        setNftDetails(detailsToUpdate);
+      } else {
+        rootDispatch(setError(response));
+      }
+    } catch (favError) {
+      rootDispatch(setError(favError));
+    } finally {
+      setLoader("");
     }
   };
   const getNFTImageUrl = (file: any) => {
-    return file
+    return file;
   };
 
   const getbidData = async () => {
@@ -201,40 +172,20 @@ const DetailPage = (props: any) => {
 
   const goToAccount = (item: any, type: any) => {
     if (type === "creator") {
-      router(`/profile/${item?.creatorWalletAddress || address}`);
+      router(
+        `/marketplace/account/${item?.creatorId}/${
+          item?.creatorWalletAddress || address
+        }/${item?.creatorName}`
+      );
       return;
     }
     if (type === "currentOwner") {
-      router(`/profile/${item?.ownerAddress || address}`);
+      router(
+        `/marketplace/account/${item?.ownerId}/${
+          item?.ownerAddress || address
+        }/${item?.ownerName}`
+      );
     }
-  };
-
-  const moreCollectionClick = async (item) => {
-    let obj = {
-      nftId: item.id,
-      customerId: props.auth.user.id,
-    };
-    await postMarketplace(`User/SaveViewer`, obj)
-      .then((response: any) => {
-        router(
-          `/marketplace/nft/${item.tokenId}/${
-            item?.collectionContractAddress || item?.creatorWalletAddress
-          }/${item.id}`
-        );
-        scrollableRef.current.scrollIntoView(0, 0);
-      })
-      .catch((error: any) => {
-        rootDispatch(setError(error));
-      });
-  };
-
-  const notConnectCollectionClick = (item) => {
-    scrollableRef.current.scrollIntoView(0, 0);
-    router(
-      `/marketplace/nft/${item.tokenId}/${
-        item?.collectionContractAddress || item?.creatorWalletAddress
-      }/${item.id}`
-    );
   };
   const dropdownList = useMemo(() => {
     let list: any[] = [];
@@ -277,8 +228,8 @@ const DetailPage = (props: any) => {
     <>
       <div ref={scrollableRef}></div>
       <div className="container nft-detailview mx-auto px-3 lg-px-0">
-        {loader && <DetailpageShimmer />}
-        {!loader && (
+        {loader === "details" && <DetailpageShimmer />}
+        {loader !== "details" && nftDetails && (
           <>
             <section className="mt-5">
               <div className="grid lg:grid-cols-12 gap-[40px]">
@@ -296,14 +247,23 @@ const DetailPage = (props: any) => {
                           <Button
                             type="plain"
                             handleClick={() =>
-                              gotoFavorite(nftDetails?.isFavorite)
+                              savefavroite(!nftDetails?.isFavorite)
                             }
+                            btnClassName="!text-white"
+                            disabled={loader === "favorite"}
                           >
-                            <span
-                              className={`icon like-white ${
-                                nftDetails?.isFavorite ? "active" : ""
-                              }`}
-                            ></span>
+                            {loader === "favorite" && (
+                              <span className="text-white">
+                                <Spinner size="loading-sm" />
+                              </span>
+                            )}
+                            {loader !== "favorite" && (
+                              <span
+                                className={`icon like-white ${
+                                  nftDetails?.isFavorite ? "active" : ""
+                                }`}
+                              ></span>
+                            )}
                           </Button>
                         </div>
                       </div>
@@ -369,8 +329,9 @@ const DetailPage = (props: any) => {
                                 goToAccount(nftDetails, "creator")
                               }
                               type="plain"
+                              btnClassName="!font-semibold !text-neutral underline !cursor-pointer"
                             >
-                              <span className="text-neutral font-semibold cursor-pointer">
+                              <span className="cursor-pointer">
                                 {nftDetails?.creatorName ||
                                   (nftDetails?.creatorWalletAddress
                                     ? nftDetails?.creatorWalletAddress?.slice(
@@ -384,6 +345,7 @@ const DetailPage = (props: any) => {
                                       )
                                     : "Un named")}
                               </span>
+                              <span className="icon square-arrow"></span>
                             </Button>
                           </div>
                         </div>
@@ -397,8 +359,9 @@ const DetailPage = (props: any) => {
                               handleClick={() =>
                                 goToAccount(nftDetails, "currentOwner")
                               }
+                              btnClassName="!font-semibold !text-neutral underline cursor-pointer"
                             >
-                              <span className="text-neutral font-semibold cursor-pointer">
+                              <span className="cursor-pointer">
                                 {" "}
                                 {nftDetails?.ownerName ||
                                   (nftDetails?.ownerAddress
@@ -409,6 +372,7 @@ const DetailPage = (props: any) => {
                                       )
                                     : "Un named")}
                               </span>
+                              <span className="icon square-arrow"></span>
                             </Button>
                           </div>
                         </div>
@@ -528,7 +492,8 @@ const DetailPage = (props: any) => {
                       );
                     })}
                   </div>
-                  {(!nftDetails?.properties?.length || !nftDetails?.properties) && <NoData text={""} />}
+                  {(!nftDetails?.properties?.length ||
+                    !nftDetails?.properties) && <NoData text={""} />}
                 </div>
               </div>
             </section>
@@ -555,13 +520,9 @@ const DetailPage = (props: any) => {
               collectionAddress={collectionAddress}
               tokenId={tokenId}
             />
-            <MoreFromCollection
-              gotoFev={gotoFev}
-              getNFTImageUrl={getNFTImageUrl}
-              moreCollection={moreCollection}
-              moreCollectionClick={moreCollectionClick}
-              notConnectCollectionClick={notConnectCollectionClick}
-            />
+            {nftDetails && (
+              <MoreFromCollection nftDetails={nftDetails} tokenId={tokenId} />
+            )}
             <PutOnSale
               refresh={loadNftDetails}
               nftDetails={nftDetails}

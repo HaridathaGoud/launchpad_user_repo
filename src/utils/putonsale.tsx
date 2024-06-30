@@ -6,6 +6,8 @@ import Button from "../ui/Button";
 import NumberInput from "../ui/numberInput";
 import { setError, setToaster } from "../reducers/layoutReducer";
 import Spinner from "../components/loaders/spinner";
+import { useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
 export const validateForm = (form: any) => {
   const { value } = form;
   const errors: any = {};
@@ -38,6 +40,8 @@ export const validateForm = (form: any) => {
 
 const PutOnSale = (props: any) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { address } = useAccount();
   const [formValues, setFormValues] = useState({
     value: "",
   });
@@ -85,6 +89,7 @@ const PutOnSale = (props: any) => {
           dispatch(
             setToaster({
               message: "NFT has been successfully put on sale",
+              callback: () => navigate(`/profile/${address}`),
             })
           );
           props.refresh();
@@ -139,17 +144,15 @@ const PutOnSale = (props: any) => {
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex items-center justify-between">
             <p className="text-xl text-secondary font-semibold">Put on sale</p>
-            <Button
-              type="plain"
-              disabled={isLoading !== ""}
-              handleClick={() => props.setShow(false)}
-            >
-              <span className="icon close cursor-pointer"></span>
-            </Button>
+            {isLoading === "" && (
+              <Button type="plain" handleClick={() => props.setShow(false)}>
+                <span className="icon close cursor-pointer"></span>
+              </Button>
+            )}
           </div>
           <div>
             <div>
-              <div className="py-4" >
+              <div className="py-4">
                 <div className="bg-base-300 px-6 py-8 rounded-[20px] my-8">
                   {/* <div className="flex justify-between mb-4 ">
                 <div>
@@ -174,7 +177,7 @@ const PutOnSale = (props: any) => {
                   <div className="my-4">
                     <div className="flex relative">
                       <NumberInput
-                       labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
+                        labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
                         label="Sale price"
                         fieldName="value"
                         error={formErrors["value"]}
@@ -185,9 +188,11 @@ const PutOnSale = (props: any) => {
                         placeholder="Enter the sale price"
                         inputClass="w-full input input-bordered outline-none focus:outline-none pl-4 pr-32 h-10 rounded-[28px]"
                         errorClass="text-sm font-normal text-red-600 ml-2.5"
-
                       />
-                      <div id="basic-addon3" className="absolute right-5 top-[38px] border-l pl-4">
+                      <div
+                        id="basic-addon3"
+                        className="absolute right-5 top-[38px] border-l pl-4"
+                      >
                         {props.nftDetails?.currency
                           ? props.nftDetails?.currency
                           : process.env.REACT_APP_CURRENCY_SYMBOL}

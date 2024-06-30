@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import NumberInput from "../../../ui/numberInput";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import { postMarketplace } from "../../../utils/api";
+import { useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
 export const validateForm = (form: any) => {
   const { value } = form;
   const errors: any = {};
@@ -44,6 +46,8 @@ const PutOnAuction = ({
   refresh,
 }) => {
   const user = useSelector((store: any) => store.auth.user);
+  const navigate = useNavigate();
+  const { address } = useAccount();
   const dispatch = useDispatch();
   const [formValues, setFormValues] = useState({
     value: "",
@@ -79,7 +83,12 @@ const PutOnAuction = ({
       const response = await postMarketplace(`User/SaveSale`, saveObject);
       if (response.status === 200) {
         dispatch(
-          setToaster({ message: "NFT has been successfully put on sale" })
+          setToaster({
+            message: "NFT has been successfully put on sale",
+            callback: () => {
+              navigate(`/profile/${address}`);
+            },
+          })
         );
         refresh();
         clearState();
@@ -131,13 +140,12 @@ const PutOnAuction = ({
             <p className="text-xl text-secondary font-semibold">
               Put on auction
             </p>
-            <Button
+            {isLoading === "" && <Button
               type="plain"
               handleClick={() => setShow(false)}
-              disabled={isLoading !== ""}
             >
               <span className="icon close cursor-pointer"></span>
-            </Button>
+            </Button>}
           </div>
           <div className="py-4 pb-2">
             {/* <p className="text-dark mt-5">
@@ -159,7 +167,7 @@ const PutOnAuction = ({
                                     </p>
                                   </div> */}
               <NumberInput
-              labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
+                labelClass="text-secondary text-sm font-normal p-0 mb-2 label block ml-2.5"
                 label="Auction Price"
                 fieldName="value"
                 error={formErrors["value"]}

@@ -143,13 +143,12 @@ const PlaceBid = ({
             <h2 className="text-lg text-dark font-semibold mb-0">
               Place a Bid
             </h2>
-            <Button
+            {loading !== "placingBid" && <Button
               type="plain"
               handleClick={() => setShow(false)}
-              disabled={loading === "placingBid"}
             >
               <span className="icon close cursor-pointer"></span>
-            </Button>
+            </Button>}
           </div>
           <form>
             <div className="">
@@ -252,7 +251,6 @@ const PlaceBid = ({
                     </p>
                     <p className="text-end truncate text-secondary font-semibold">
                       {(Number(percentageValue) +
-                        Number(Number(data?.formatted || 0)?.toFixed(4)) +
                         Number(values.bidAmount)).toFixed(4)}{" "}
                       {nftDetails?.currency}
                     </p>
@@ -299,7 +297,7 @@ const PlaceBid = ({
                 </div>
               </div>
             )}
-            <div className="mt-16 lg:w-[350px] lg:mx-auto mb-5">
+            {currentStep===-1 && <div className="mt-16 lg:w-[350px] lg:mx-auto mb-5">
               <Button
                 btnClassName="w-full mb-4 !min-h-[39px]"
                 type="replyCancel"
@@ -317,7 +315,7 @@ const PlaceBid = ({
                 <span>{loading !== "" && <Spinner size="sm" />} </span>
                 Place a bid
               </Button>
-            </div>
+            </div>}
           </form>
         </div>
       </div>

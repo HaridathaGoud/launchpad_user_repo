@@ -234,10 +234,6 @@ const Nfts = forwardRef((props: any, ref) => {
             localDispatch({ type: 'setValues', payload: obj })
         }
     }
-    const getNFTImageUrl = (file) => {
-       return file
-    };
-
     return (
         <>
             <div ref={scrollableRef}></div>

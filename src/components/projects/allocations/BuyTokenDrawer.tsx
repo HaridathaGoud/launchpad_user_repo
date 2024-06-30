@@ -52,7 +52,7 @@ export const BuyTokenDrawer = (props:any) => {
                         placeholder="Enter Token Count To Buy"
                         className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         id="amount"
-                        defaultValue={props.allocationVolume || props.buyAmount}
+                        defaultValue={props.buyAmount}
                         maxLength={20}
                         autoComplete="off"
                         style={{ color: "black" }}

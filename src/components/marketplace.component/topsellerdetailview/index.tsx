@@ -270,30 +270,37 @@
 //   return { dispatch };
 // })(TopsellerDetailview);
 
-
-import React, { useMemo, useReducer, useRef, useEffect } from 'react';
-import 'react-multi-carousel/lib/styles.css';
-import { useParams } from 'react-router-dom';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import Tabs from '../../../ui/Tabs';
-import { getFavoritedCount, getCreatedCount, getOwnedCountData, tabCountUpdated } from '../../../reducers/marketplaceProfileReducer';
-import { store } from '../../../store';
+import React, { useMemo, useReducer, useRef, useEffect } from "react";
+import "react-multi-carousel/lib/styles.css";
+import { useParams } from "react-router-dom";
+import { connect, useDispatch, useSelector } from "react-redux";
+import Tabs from "../../../ui/Tabs";
+import {
+  getFavoritedCount,
+  getCreatedCount,
+  getOwnedCountData,
+  tabCountUpdated,
+} from "../../../reducers/marketplaceProfileReducer";
+import { store } from "../../../store";
 import { useAccount } from "wagmi";
-import Nfts from '../../nfts.component';
+import Nfts from "../../nfts.component";
 import { guid } from "../../../utils/constants";
 import defaultbg from "../../../assets/images/default-bg.png";
-import { customerDetails, fectTopSellerBannerDetails } from '../../../reducers/topsellerReducer';
-import HotcollectionviewShimmer from '../hotcollections.component/hotcollectionviewshimmer';
+import {
+  customerDetails,
+  fectTopSellerBannerDetails,
+} from "../../../reducers/topsellerReducer";
+import HotcollectionviewShimmer from "../hotcollections.component/hotcollectionviewshimmer";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import BreadCrumb from '../../../ui/breadcrumb';
+import BreadCrumb from "../../../ui/breadcrumb";
 const reducers = (state, action) => {
   switch (action.type) {
-    case 'setActiveTab':
+    case "setActiveTab":
       return { ...state, activeTab: action.payload };
     case "setSelectedTab":
       return { ...state, tabName: action.payload };
-      case  "setCopied" :
-        return { ...state, copied: action.payload };
+    case "setCopied":
+      return { ...state, copied: action.payload };
     default:
       return state;
   }
@@ -302,45 +309,71 @@ const reducers = (state, action) => {
 const initialState = {
   type: null,
   activeTab: 0,
-  tabName: 'GetNfts',
-  copied:''
+  tabName: "GetNfts",
+  copied: "",
 };
 
 const TopsellerDetailview = (props) => {
   const nftRef = useRef(null);
   const rootDispatch = useDispatch();
   const [state, dispatch] = useReducer(reducers, initialState);
-  const {customerInfo,user,topSellerBanerDetails} = useSelector((store: any) => {
-    return {
-      customerInfo:store.topSellerReducer.customerInfo,
-      user:store.auth.user || guid,
-      topSellerBanerDetails:store?.topSellerReducer.topSellerBanerDetails,
+  const { customerInfo, user, topSellerBanerDetails } = useSelector(
+    (store: any) => {
+      return {
+        customerInfo: store.topSellerReducer.customerInfo,
+        user: store.auth.user || guid,
+        topSellerBanerDetails: store?.topSellerReducer.topSellerBanerDetails,
+      };
     }
-  });
+  );
   const { address } = useAccount();
-const params = useParams();
+  const params = useParams();
   useEffect(() => {
-    store.dispatch(customerDetails({address:params.walletAddress}));//top seller wallet address
-    store.dispatch(fectTopSellerBannerDetails({followerId:params?.id,customerId: user.id} ));
-    store.dispatch(getCreatedCount(params?.walletAddress,user?.id)); // top seller wallet address
-    store.dispatch(getFavoritedCount(params?.walletAddress ));
-    store.dispatch(getOwnedCountData(params?.walletAddress ));
+    store.dispatch(customerDetails({ address: params.walletAddress })); //top seller wallet address
+    store.dispatch(
+      fectTopSellerBannerDetails({
+        followerId: params?.id,
+        customerId: user.id,
+      })
+    );
+    store.dispatch(getCreatedCount(params?.walletAddress, user?.id)); // top seller wallet address
+    store.dispatch(getFavoritedCount(params?.walletAddress));
+    store.dispatch(getOwnedCountData(params?.walletAddress));
     rootDispatch(tabCountUpdated(false));
-  }, [address,props?.featchNFTsCollection?.isTabCountUpdated,params?.walletAddress]);
+  }, [
+    address,
+    props?.featchNFTsCollection?.isTabCountUpdated,
+    params?.walletAddress,
+  ]);
 
   useEffect(() => {
-    dispatch({ type: 'setActiveTab', payload: 0 });
+    dispatch({ type: "setActiveTab", payload: 0 });
     const selectTabs = getSelectTabs(0);
-    dispatch({ type: 'setSelectedTab', payload: selectTabs });
+    dispatch({ type: "setSelectedTab", payload: selectTabs });
   }, [params?.walletAddress]);
 
   const tabs = useMemo(() => {
     return [
-      { label: `Created (${props?.featchNFTsCollection?.createdNFTSCount?.data || 0})`, content: '' },
-      { label: `Favorited (${props?.featchNFTsCollection?.saveFavaratedCount?.data || 0})`, content: '' },
-      { label: `Owned (${props?.featchNFTsCollection?.ownedNFTsCount?.data || 0})`, content: '' },
+      {
+        label: `Created (${
+          props?.featchNFTsCollection?.createdNFTSCount?.data || 0
+        })`,
+        content: "",
+      },
+      {
+        label: `Favorited (${
+          props?.featchNFTsCollection?.saveFavaratedCount?.data || 0
+        })`,
+        content: "",
+      },
+      {
+        label: `Owned (${
+          props?.featchNFTsCollection?.ownedNFTsCount?.data || 0
+        })`,
+        content: "",
+      },
     ];
-  }, [props?.featchNFTsCollection,state.activeTab]);
+  }, [props?.featchNFTsCollection, state.activeTab]);
 
   const getSelectTabs = (activeTab) => {
     switch (activeTab) {
@@ -356,43 +389,57 @@ const params = useParams();
   };
 
   const handleTabChange = (selectedTab) => {
-    dispatch({ type: 'setActiveTab', payload: selectedTab });
+    dispatch({ type: "setActiveTab", payload: selectedTab });
     const selectTabs = getSelectTabs(selectedTab);
-    dispatch({ type: 'setSelectedTab', payload: selectTabs });
+    dispatch({ type: "setSelectedTab", payload: selectTabs });
   };
-  function formatNumber(num:number) {
+  function formatNumber(num: number) {
     if (num >= 1000) {
-        return (num / 1000).toFixed(1) + 'k';
+      return (num / 1000).toFixed(1) + "k";
     }
     return num;
-}
-const handleCopy = (value) => {
-  dispatch({type:'setCopied',payload:value});
-  setTimeout(() => {
-    dispatch({type:'setCopied',payload:''});
-  }, 1000);
-};
+  }
+  const handleCopy = (value) => {
+    dispatch({ type: "setCopied", payload: value });
+    setTimeout(() => {
+      dispatch({ type: "setCopied", payload: "" });
+    }, 1000);
+  };
 
   return (
-    <>
-    <div className='container mx-auto pt-5 px-3 lg:px-0'>
-      <BreadCrumb/>
+    <div className="container mx-auto pt-5 px-3 lg:px-0">
+      <BreadCrumb />
       {customerInfo.loading && <HotcollectionviewShimmer />}
-      {!customerInfo.loading &&<>
-     <div className='min-h-[320px] rounded-lg mt-4 relative'>
-          <img src={defaultbg} alt="" className='w-full h-[480px] md:h-[400px] object-cover rounded-lg' />
-          <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
-            <img src={customerInfo?.data?.profilePicUrl} className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto" alt="" />
-            <div>
-              <div className='flex max-sm:mt-4 items-center'>
-                <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{customerInfo?.data?.firstName}</p> <span className='icon circle-check shrink-0'></span>
-              </div>
-              <div className="flex text-[18px] font-medium gap-2.5 mt-1">
+      {!customerInfo.loading && (
+        <>
+          <div className="min-h-[320px] rounded-lg mt-4 relative">
+            <img
+              src={defaultbg}
+              alt=""
+              className="w-full h-[480px] md:h-[400px] object-cover rounded-lg"
+            />
+            <div className="md:flex gap-12 items-center absolute p-4 md:px-16 w-full h-full top-0 rounded-lg bg-overlay ">
+              <img
+                src={customerInfo?.data?.profilePicUrl}
+                className="w-[80px] h-[80px] md:w-[150px] md:h-[150px] rounded-full object-cover max-sm:mx-auto"
+                alt=""
+              />
+              <div>
+                <div className="flex max-sm:mt-4 items-center">
+                  <p className="text-white font-semibold text-[32px] leading-8 mr-2">
+                    {customerInfo?.data?.firstName}
+                  </p>{" "}
+                  <span className="icon circle-check shrink-0"></span>
+                </div>
+                <div className="flex text-[18px] font-medium gap-2.5 mt-1">
                   {/* <p className='text-white'>Marvel Films</p> */}
                   {/* <p className='text-white'>23 M Subscribers</p> */}
                 </div>
-                <div className='flex items-center  mt-3 gap-2'>
-                  <p className='text-white text-base font-semibold break-all'><span className='font-normal mr-2'>Address :</span>{customerInfo?.data?.walletAddress}</p>
+                <div className="flex items-center  mt-3 gap-2">
+                  <p className="text-white text-base font-semibold break-all">
+                    <span className="font-normal mr-2">Address :</span>
+                    {customerInfo?.data?.walletAddress}
+                  </p>
                   <CopyToClipboard
                     text={customerInfo?.data?.walletAddress}
                     options={{ format: "text/plain" }}
@@ -407,79 +454,102 @@ const handleCopy = (value) => {
                     />
                   </CopyToClipboard>
                 </div>
-              <div className="flex gap-4 mt-4 mb-5">
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Followers</span>{formatNumber(topSellerBanerDetails?.data?.followers) || 0}</p>
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Following</span>{formatNumber(topSellerBanerDetails?.data?.following) || 0}</p>
-                <p className='text-white text-base font-semibold'><span className='font-normal mr-1'>Items</span>{formatNumber(topSellerBanerDetails?.data?.items) || 0}</p>
-              </div>
-              {/* <div className="flex md:flex-row items-center gap-2.5 flex-col">
+                <div className="flex gap-4 mt-4 mb-5">
+                  <p className="text-white text-base font-semibold">
+                    <span className="font-normal mr-1">Followers</span>
+                    {formatNumber(topSellerBanerDetails?.data?.followers) || 0}
+                  </p>
+                  <p className="text-white text-base font-semibold">
+                    <span className="font-normal mr-1">Following</span>
+                    {formatNumber(topSellerBanerDetails?.data?.following) || 0}
+                  </p>
+                  <p className="text-white text-base font-semibold">
+                    <span className="font-normal mr-1">Items</span>
+                    {formatNumber(topSellerBanerDetails?.data?.items) || 0}
+                  </p>
+                </div>
+                {/* <div className="flex md:flex-row items-center gap-2.5 flex-col">
                 <Button type='primary' ><span className='video-icon icon'></span>Subscribe with 2Matic / $1.32</Button>
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button>
                 </div> */}
-            <div className='flex gap-6 absolute right-10 bottom-6'>
-            {customerInfo?.data?.facebook &&
-              <a
-              href={customerInfo?.data?.facebook}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {" "}
-              <span className='icon fb cursor-pointer'></span>
-              </a>
-               }
-            {customerInfo?.data?.linkedIn &&
-              <a
-              href={customerInfo?.data?.linkedIn}
-              target="_blank"
-              rel="noreferrer"
-              >
-              {" "}
-              <span className='icon linkedin cursor-pointer'></span>
-              </a>
-            }
-            {customerInfo?.data?.twitter &&
-              <a
-              href={customerInfo?.data?.twitter}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {" "}
-              <span className='icon twit cursor-pointer'></span>
-              </a>
-            }
-            {customerInfo?.data?.websiteUrl &&
-              <a
-              href={customerInfo?.data?.websiteUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {" "}
-              <span className='icon network cursor-pointer'></span>
-              </a>
-            }
+                <div className="flex gap-6 absolute right-10 bottom-6">
+                  {customerInfo?.data?.facebook && (
+                    <a
+                      href={customerInfo?.data?.facebook}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      <span className="icon fb cursor-pointer"></span>
+                    </a>
+                  )}
+                  {customerInfo?.data?.linkedIn && (
+                    <a
+                      href={customerInfo?.data?.linkedIn}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      <span className="icon linkedin cursor-pointer"></span>
+                    </a>
+                  )}
+                  {customerInfo?.data?.twitter && (
+                    <a
+                      href={customerInfo?.data?.twitter}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      <span className="icon twit cursor-pointer"></span>
+                    </a>
+                  )}
+                  {customerInfo?.data?.websiteUrl && (
+                    <a
+                      href={customerInfo?.data?.websiteUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      <span className="icon network cursor-pointer"></span>
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
-            </div>
-
           </div>
-        </div>
-      <Tabs
-        tabs={tabs}
-        activeTab={state.activeTab}
-        tabsClass={"tabstyle mt-[26px]"}
-        labelClass={""}
-        tabContentClass={"hidden"}
-        iSTabChange={handleTabChange}
-        setActiveTab={(state) => dispatch({ type: 'setActiveTab', payload: state })}
-      />
-      <Nfts type={props?.screen} ref={nftRef} selectedTab={state.tabName}  walletAddress = {params?.walletAddress}/>
-      </>}
-      </div>
-    </>
+          <Tabs
+            tabs={tabs}
+            activeTab={state.activeTab}
+            tabsClass={"tabstyle mt-[26px]"}
+            labelClass={""}
+            tabContentClass={"hidden"}
+            iSTabChange={handleTabChange}
+            setActiveTab={(state) =>
+              dispatch({ type: "setActiveTab", payload: state })
+            }
+          />
+          <Nfts
+            type={props?.screen}
+            ref={nftRef}
+            selectedTab={state.tabName}
+            walletAddress={params?.walletAddress}
+          />
+        </>
+      )}
+    </div>
   );
 };
 
-const connectStateToProps = ({ auth, marketPlaceProfileReducer,topSellerReducer }) => {
-  return { auth: auth, featchNFTsCollection: marketPlaceProfileReducer,topSellerReducer:topSellerReducer };
+const connectStateToProps = ({
+  auth,
+  marketPlaceProfileReducer,
+  topSellerReducer,
+}) => {
+  return {
+    auth: auth,
+    featchNFTsCollection: marketPlaceProfileReducer,
+    topSellerReducer: topSellerReducer,
+  };
 };
 
 export default connect(connectStateToProps)(TopsellerDetailview);

@@ -39,7 +39,7 @@ const DetailpageShimmer = () => {
         </div>
          </div>
          <div className=" w-1/4 h-4 rounded-md bg-slate-200  mt-10 mb-4"></div> 
-          <div className="grid md:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
           <div className=" w-full opacity-1 border rounded-xl gap-10 flex items-center p-4 ">
              <div className="w-full md:h-[110px] rounded-md bg-slate-200  "></div>
          </div>
