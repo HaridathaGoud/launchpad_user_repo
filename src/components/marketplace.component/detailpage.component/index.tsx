@@ -163,7 +163,7 @@ const DetailPage = (props: any) => {
       router(
         `/marketplace/account/${item?.creatorId}/${
           item?.creatorWalletAddress || address
-        }/${item?.creatorName}`
+        }/${item?.creatorName}/${false}`
       );
       return;
     }
@@ -171,7 +171,7 @@ const DetailPage = (props: any) => {
       router(
         `/marketplace/account/${item?.ownerId}/${
           item?.ownerAddress || address
-        }/${item?.ownerName}`
+        }/${item?.ownerName}/${false}`
       );
     }
   };
