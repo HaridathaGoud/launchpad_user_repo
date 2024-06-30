@@ -75,8 +75,8 @@ const BreadCrumb = () => {
     }else if(path.includes("browsebyviewall")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll'];
     }
-    else if(path.includes("topseller")){
-      breadcrumbToUpdate = getBreadcrumbList['marketplaceTopSellerViewAll'];
+    else if(path.includes("marketplace/account")){
+      breadcrumbToUpdate = getBreadcrumbList['marketplaceAccount'](params);
     }else if(path.includes("explore")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceExplore'];
     }else if(path.includes("marketplace/collections")){

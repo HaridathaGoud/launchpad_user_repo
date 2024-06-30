@@ -135,12 +135,12 @@ export const getBreadcrumbList = {
     { name: props?.collectionName, path: "" },
   ];
  },
- marketplaceTopSellerView : (props:any) =>{
+ marketplaceAccount : (props:any) =>{
   return [
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Top Sellers", path: "/marketplace/home" },
-    { name: props?.walletAddress, path: "" },
+    { name: props?.topSeller==='true' ? "Top seller" : "Account", path: "" },
+    { name: props?.name!=='null' ? props?.name : props?.walletAddress, path: "" },
   ];
  },
 //  marketplaceBrowseByCategoryAll: (props:any) =>{
