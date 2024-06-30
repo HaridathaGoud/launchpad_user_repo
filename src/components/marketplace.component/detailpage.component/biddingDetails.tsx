@@ -137,13 +137,12 @@ const BiddingDetails = ({
                     {item.bidderAddress || "--"}
                   </td>
                   <td className="font-normal text-sm text-secondary">
+                    {item.creatorName || "--"}
+                  </td>
+                  <td className="font-normal text-sm text-secondary">
                     {item.biddingAmount + " " || "--"}
                     {item.crypto ? item.crypto : ""}
                   </td>
-                  <td className="font-normal text-sm text-secondary">
-                    {item.creatorName || "--"}
-                  </td>
-
                   <td>
                     {nftDetails?.ownerAddress.toLowerCase() ===
                       address?.toLowerCase() && (
