@@ -27,6 +27,7 @@ const Daos = (props: any) => {
       page: seeMore ? daos?.nextPage : 1,
       take: take,
       data: seeMore ? daos?.data : null,
+      search:searchInput || null
     });
   };
   const navigateToProposals = (item: any) => {

@@ -72,12 +72,12 @@ const clearLookup = () => {
   }
 }
 const getDaos = (information) => {
-  const { take, page, data } = information;
+  const { take, page, data,search } = information;
   const skip = take * (page) - take;
   return async (dispatch) => {
     dispatch(setDaos({ key: 'daos', loading: true, data: data }));
     try {
-      const res = await apiCalls.getDaos(take, skip);
+      const res = await apiCalls.getDaos(take, skip,search);
       if (res.status === 200) {
         dispatch(setDaos({ key: 'daos', loading: false, data: data ? [...data, ...res.data] : res.data, error: null, nextPage: page + 1 }));
       } else {

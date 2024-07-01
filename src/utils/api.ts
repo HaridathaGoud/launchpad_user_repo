@@ -178,11 +178,11 @@ export async function getKyc(url: string) {
   });
 }
 
-const getDaos = async (take: any, skip: any) => {
+const getDaos = async (take: any, skip: any,search:any) => {
   return await axios.get(
     API_END_POINT_DAO_CARDS +
       ApiControllers.user +
-      `daodetails/${take}/${skip}`,
+      `daodetails/${take}/${skip}/${search}`,
     {
       headers: {
         Authorization: `${getToken()}`,
