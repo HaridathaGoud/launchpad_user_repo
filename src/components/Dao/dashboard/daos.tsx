@@ -82,7 +82,7 @@ const Daos = (props: any) => {
               <div className="p-2 rounded-b-lg">
                 <div className="!mb-1 text-center">                  
                   <p className="text-secondary truncate text-xl font-medium mb-1 mt-[28px]"> {item?.name}</p>
-                  <p className="text-neutral font-medium text-base">313K members</p>
+                  <p className="text-neutral font-medium text-base">{item?.members} members</p>
                 </div>
                 {/* <div className="flex gap-1 text-base font-normal text-secondary mb-1">
                       <p className="text-base-200 text-base font-semibold">
