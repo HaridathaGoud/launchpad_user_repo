@@ -314,14 +314,26 @@
     {
       "inputs": [],
       "name": "FCFSEndTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "FCFSStartTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
@@ -347,25 +359,51 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "amount", "type": "uint256" },
-        { "internalType": "bool", "name": "isPublic", "type": "bool" }
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isPublic",
+          "type": "bool"
+        }
       ],
       "name": "buyToken",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "payable",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "claimSlots",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "claimToken",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     },
@@ -378,21 +416,43 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "sender", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        }
       ],
       "name": "getAllocation",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "account", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
       ],
       "name": "getNextVestingTime",
       "outputs": [
-        { "internalType": "uint256", "name": "", "type": "uint256" },
-        { "internalType": "uint256", "name": "", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
@@ -439,12 +499,24 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "sender", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        }
       ],
       "name": "getUserDetails",
       "outputs": [
-        { "internalType": "uint256", "name": "", "type": "uint256" },
-        { "internalType": "uint256", "name": "", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
@@ -476,7 +548,11 @@
           "name": "_listingTime",
           "type": "uint256"
         },
-        { "internalType": "uint256", "name": "_claimSlots", "type": "uint256" },
+        {
+          "internalType": "uint256",
+          "name": "_claimSlots",
+          "type": "uint256"
+        },
         {
           "internalType": "uint256",
           "name": "_vestingTime",
@@ -521,63 +597,117 @@
     {
       "inputs": [],
       "name": "isAllocationEnd",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "isCompleted",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "isFCFSAllocationEnd",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "listingTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "owner",
-      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "participationEndTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "privateTokenPrice",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "proxiableUUID",
-      "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "publicTokenPrice",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
@@ -604,27 +734,49 @@
     {
       "inputs": [],
       "name": "roundOneEndTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "roundOneStartTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "roundOneStatus",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "time", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
       ],
       "name": "setFCFSEndTime",
       "outputs": [],
@@ -633,7 +785,11 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "time", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
       ],
       "name": "setFCFSStartTime",
       "outputs": [],
@@ -642,7 +798,11 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "time", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
       ],
       "name": "setTokenListingTime",
       "outputs": [],
@@ -651,7 +811,11 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "time", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
       ],
       "name": "setVestingTime",
       "outputs": [],
@@ -660,7 +824,11 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "time", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
       ],
       "name": "setroundOneEndTime",
       "outputs": [],
@@ -669,7 +837,11 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "time", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
       ],
       "name": "setroundOneStartTime",
       "outputs": [],
@@ -680,27 +852,55 @@
       "inputs": [],
       "name": "stakingContract",
       "outputs": [
-        { "internalType": "contract IStakeable", "name": "", "type": "address" }
+        {
+          "internalType": "contract IStakeable",
+          "name": "",
+          "type": "address"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "", "type": "uint256" },
-        { "internalType": "uint256", "name": "", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
       "name": "tierDetails",
       "outputs": [
-        { "internalType": "uint256", "name": "tierLevel", "type": "uint256" },
-        { "internalType": "uint256", "name": "poolLevel", "type": "uint256" },
-        { "internalType": "uint256", "name": "poolWeight", "type": "uint256" },
+        {
+          "internalType": "uint256",
+          "name": "tierLevel",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "poolLevel",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "poolWeight",
+          "type": "uint256"
+        },
         {
           "internalType": "uint256",
           "name": "allocatedAmount",
           "type": "uint256"
         },
-        { "internalType": "uint256", "name": "participants", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "participants",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
@@ -708,34 +908,62 @@
     {
       "inputs": [],
       "name": "tokenBalance",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "totalParticipants",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "totalSoldToken",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "totalSupply",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "newOwner", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
       ],
       "name": "transferOwnership",
       "outputs": [],
@@ -762,7 +990,11 @@
           "name": "newImplementation",
           "type": "address"
         },
-        { "internalType": "bytes", "name": "data", "type": "bytes" }
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
       ],
       "name": "upgradeToAndCall",
       "outputs": [],
@@ -772,19 +1004,32 @@
     {
       "inputs": [],
       "name": "vestingTime",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "_sendingAdd", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "_sendingAdd",
+          "type": "address"
+        }
       ],
       "name": "withDrawNativeCurrency",
       "outputs": [],
       "stateMutability": "payable",
       "type": "function"
     },
-    { "stateMutability": "payable", "type": "receive" }
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
   ]
 }
