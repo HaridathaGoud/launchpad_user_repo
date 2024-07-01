@@ -12,7 +12,10 @@ const Proposals = (props:any) => {
   },[])
   return (
     <div className="container mx-auto px-3 lg:px-0 mt-3">
+      <div className="px-4 mx-auto max-w-[1012px]">
      {props.showBreadcrumb && <BreadCrumb/>}
+     </div>
+     <div className="px-4 mx-auto max-w-[1012px]">
       <div className={` ${props.from==='project' ? 'relative':"container mx-auto md:grid lg:grid-cols-4 gap-7 mt-8"}`}>
         <div className={`${props.from==='project' ? 'absolute top-[-15px] md:top-[35px] right-0': ""} shrink-0`}>
           <DaoLeftPanel pjctInfo={props?.pjctInfo} from={props.from} showHeader={props.showHeader}/>
@@ -21,6 +24,7 @@ const Proposals = (props:any) => {
           <ProposalCards pjctInfo={props?.pjctInfo} from={props.from} />
           {/* <div className="mt-10"><Discussions/></div> */}
         </div>
+      </div>
       </div>
     </div>
   );

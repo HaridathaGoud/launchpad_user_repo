@@ -48,12 +48,14 @@ const Daos = (props: any) => {
   return (
     <div>
       <div className="container mx-auto px-3 lg:px-0 mt-4">
+        <div className="px-4 mx-auto max-w-[1012px]">
         <h5 className="font-semibold text-2xl text-secondary mb-4">Dashboard</h5>
-         <div className="md:flex justify-between items-center">
+        </div>
+         {/* <div className="md:flex justify-between items-center">
          <div className="md:flex gap-6">
           <SearchBar inputRef={searchBarRef} onSearch={setSearchInput} placeholder="Search by dao name"/>
-          {/* <SearchInputComponent placeholdertext='Search' /> */}
-          {/* <details className="dropdown daodrop-arrow dao-dropdown max-sm:mt-2">
+          <SearchInputComponent placeholdertext='Search' />
+          <details className="dropdown daodrop-arrow dao-dropdown max-sm:mt-2">
             <summary className="px-4 pr-16 py-2 rounded-full cursor-pointer bg-transparent border"><span className="icon category mr-2"></span>Category</summary>
             <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 px-0 py-3 shadow">
               <li><a className="rounded-none">All</a></li>
@@ -62,28 +64,41 @@ const Daos = (props: any) => {
               <li><a className="justify-between rounded-none">Investment <span className="bg-[#57606A] rounded-full w-fit px-2 py-1 text-white font-medium text-xs">5,284</span></a></li>
               <li><a className="justify-between rounded-none">Creator <span className="bg-[#57606A] rounded-full w-fit px-2 py-1 text-white font-medium text-xs">2,575</span></a></li>
             </ul>
-          </details>          */}
+          </details>         
           </div> 
           <p className="text-lg font-normal text-[#444] max-sm:mt-2 dao-count">34K dao(s)</p> 
+         </div> */}
+         <div className="px-4 mx-auto max-w-[1012px] mb-[24px] flex flex-wrap items-centerflex-row md:flex-nowrap justify-between">
+          <div className="w-full md:max-w-[420px]">
+          <SearchBar inputRef={searchBarRef} onSearch={setSearchInput} placeholder="Search by dao name"/>
+          </div>
+          <div>
+          <p className="text-lg font-medium text-[#57606a] max-sm:mt-2 dao-count">34K dao(s)</p> 
+          </div>
          </div>
-        <div className="grid md:grid-cols-2 mt-6 lg:grid-cols-4 gap-6">
+         <div className="px-0 md:px-4 mx-auto max-w-[1012px]">
+        <div className="grid gap-[24px] md:grid-cols-3 lg:grid-cols-4">
           {daos?.data?.map((item: any) => (
             <div
-              className="dao-card flex justify-center hover:border-[#343434] items-center shadow mt-md-0 sm-m-0 cursor-pointer rounded-lg transform transition-transform duration-500 hover:scale-[1.03]"
+              className="dao-card hover:border-[#57606a] border-y border-skin-border bg-skin-block-bg text-base md:rounded-xl md:border mb-0 flex items-center justify-center text-center transition-all hover:border-skin-text"
               onClick={() => navigateToProposals(item)}
               key={item.name + item.daoId}
+              style={{height:'266px'}}
             >
-             <div>
+             <div className="p-[24px] leading-5 sm:leading-6">
+              <div className="relative mb-2 inline-block">
+                <div className="mb-1">
              <img
                 src={item?.image}
-                className="rounded-full h-[82px] w-[82px] mx-auto object-cover"
+                className="mx-auto object-cover rounded-full bg-skin-border object-cover bg-[#e0e0e0]"
+                style={{width:'82px', minWidth:'82px',height:'82px'}}
                 alt={item?.name || "Dao"}
               />
-              <div className="p-2 rounded-b-lg">
-                <div className="!mb-1 text-center">                  
-                  <p className="text-secondary truncate text-xl font-medium mb-1 mt-[28px]"> {item?.name}</p>
-                  <p className="text-neutral font-medium text-base">313K members</p>
-                </div>
+              </div>
+              </div>
+              <div className="flex items-center justify-center gap-1 truncate">
+                  <h3 className="mb-0 mt-0 !h-[32px] overflow-hidden pb-0 text-[22px] font-semibold"> {item?.name}</h3>
+                 
                 {/* <div className="flex gap-1 text-base font-normal text-secondary mb-1">
                       <p className="text-base-200 text-base font-semibold">
                         {" "}
@@ -95,6 +110,7 @@ const Daos = (props: any) => {
                       </p>
                     </div> */}
               </div>
+              <p className="mb-[12px] text-skin-text text-[18px] text-[#57606a]">313K members</p>
              </div>
             </div>
           ))}
@@ -105,7 +121,7 @@ const Daos = (props: any) => {
               </div>
             ))}
         </div>
-        <div className="text-center mt-4">
+        <div className="text-center mt-4 mb-4">
           {daos?.loading && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
@@ -119,6 +135,7 @@ const Daos = (props: any) => {
           )}
           {showNoData && <NoData text={""} />}
         </div>
+        </div>        
       </div>
     </div>
   );
