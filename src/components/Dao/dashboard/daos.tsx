@@ -9,6 +9,7 @@ import NoData from "../../../ui/noData";
 // import SearchInputComponent from "../../marketplace.component/hotcollections.component/SearchComponent";
 // import DropdownMenus from "../../../ui/DropdownMenus";
 import SearchBar from "../../../ui/searchBar";
+import formatNumber from "../../../ui/formatNumber";
 const take = 8;
 const Daos = (props: any) => {
   const rootDispatch = useDispatch();
@@ -115,7 +116,7 @@ const Daos = (props: any) => {
                     </h3>
                   </div>
                   <p className="mb-[12px] text-skin-text text-[18px] text-[#57606a]">
-                    {item?.members} members
+                  {formatNumber(item?.members)} members
                   </p>
                 </div>
               </div>

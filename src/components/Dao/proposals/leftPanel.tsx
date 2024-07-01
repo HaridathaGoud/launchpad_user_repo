@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import defaultAvatar from "../../../assets/images/default-avatar.jpg";
+import defaultBG from "../../../assets/images/default-bg.png";
 import { useAccount } from "wagmi";
 import CreateProposal from "./create";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import facebookImg from '../../../assets/images/fb.svg';
 import instaImg from '../../../assets/images/insta.svg';
 import telegramImg from '../../../assets/images/telegram.svg';
 import discordImg from '../../../assets/images/discord.svg';
+import formatNumber from "../../../ui/formatNumber";
 
 const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
@@ -76,7 +77,7 @@ const DaoLeftPanel = (props) => {
       userDetailsFromContract &&
       (userDetailsFromContract?.owner === address ||
         (userDetailsFromContract?.balance &&
-          userDetailsFromContract?.balance >
+          userDetailsFromContract?.balance >=
             Number(daoDetails?.proposalCreationBalance)));
     return (
       isConnected &&
@@ -100,8 +101,8 @@ const DaoLeftPanel = (props) => {
   return (
     <>
       <div
-        className={`block rounded-lg bgDaocard p-4 mb-4 ${
-          props.from === "project" ? "md:flex justify-between mb-4" : ""
+        className={`${
+          props.from === "project" ? "md:flex justify-between mb-4" : "block rounded-lg bgDaocard p-4 mb-4"
         }`}
       >
         <div className="">
@@ -109,44 +110,21 @@ const DaoLeftPanel = (props) => {
             <div className="">
               <div className="w-12 h-12 ">
                 <img
-                  src={user?.profilePicUrl || defaultAvatar}
+                  src={daoDetails?.image || defaultBG}
                   alt="Dao profile"
                   className="w-12 h-12 rounded-full object-cover"
                 />
               </div>
               <div>              
                 <h1 className="mr-1 truncate text-[18px] font-semibold text-[#111111] capitalize">
-                  {user.firstName && user.lastName ? (
-                    (user.firstName + " " + user.lastName).toLowerCase()
-                  ) : address ? (
-                    <>
-                      <span className="tooltip" data-tip={address}>
-                        {address?.slice(0, 4)}...{address?.slice(-4)}
-                      </span>
-                      <CopyToClipboard
-                        text={address}
-                        options={{ format: "text/plain" }}
-                        onCopy={() => handleCopy()}
-                      >
-                        <span
-                          className={
-                            !copied
-                              ? "icon md copy-icon cursor-pointer ms-0 pl-4"
-                              : "icon md check-icon pl-4"
-                          }
-                        />
-                      </CopyToClipboard>
-                    </>
-                  ) : (
-                    "Connect your wallet!"
-                  )}
+                  {daoDetails?.name}
                 </h1>
                 
-                {!address && <p className="text-md text-[#57606a] lg:text-base font-medium">252k members</p>}
+                {<p className="text-md text-[#57606a] lg:text-base font-medium">{formatNumber(daoDetails?.members || 0)} members</p>}
               </div>             
             </div>            
           )}
-          {!isEligibleForProposal && (
+          {isEligibleForProposal && (
             <button
               onClick={handleProposalCreation}
               className="bg-secondary w-full my-4 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-6 text-start"
@@ -154,12 +132,12 @@ const DaoLeftPanel = (props) => {
               New Proposal
             </button>
           )}
-           <div className="flex gap-4 items-center mt-4">
+          {props.from !== "project" && <div className="flex gap-4 items-center mt-4">
                 <img src={facebookImg} alt="social-icons"/>
                 <img src={instaImg} alt="social-icons"/>
                 <img src={telegramImg} alt="social-icons"/>
                 <img src={discordImg} alt="social-icons"/>
-              </div>
+              </div>}
         </div>
         {props.showHeader && isConnected && (
           <div>

@@ -3,12 +3,12 @@ import Button from "./Button";
 interface SearchBarProps {
   onSearch: Function;
   inputRef: any;
-  onInputChange?: Function;
   searchBarClass?: string;
   inputClass?: string;
   searchIconClass?: string;
   searchIconSize?: string;
   placeholder?:string,
+  disabled?:boolean;
 }
 const SearchBar = ({
   onSearch,
@@ -18,6 +18,7 @@ const SearchBar = ({
   searchIconClass='',
   searchIconSize='',
   placeholder='',
+  disabled=false
 }: SearchBarProps) => {
   const [userInput, setUserInput] = useState("");
   const handleSearch = (e: any) => {
@@ -42,6 +43,7 @@ const SearchBar = ({
           inputClass ||
           "w-full rounded-[28px] border-[#e0e0e0] h-[44px] border focus:outline-none pr-5 pl-12"
         }
+        disabled={disabled}
       />
       <Button
         type="plain"

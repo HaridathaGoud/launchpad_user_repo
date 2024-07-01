@@ -67,7 +67,7 @@ export default function CreateFirstPraposal(props: any) {
       userDetailsFromContract &&
       (userDetailsFromContract?.owner === address ||
         (userDetailsFromContract?.balance &&
-          userDetailsFromContract?.balance >
+          userDetailsFromContract?.balance >=
             Number(daoDetails?.proposalCreationBalance)))
     );
   }, [
