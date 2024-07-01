@@ -259,11 +259,11 @@ const ProposalResults = (props: any) => {
               isConnected &&
               address &&
               proposalDetails?.data?.votingContractAddress &&
-              !hideVoteButtons &&
+              !hideVoteButtons && !isVoted &&
               proposalDetails.data.status === "Pending" &&
               (state.userContractDetails?.owner === address ||
                 (state.userContractDetails?.balance &&
-                  Number(state.userContractDetails.balance) >
+                  Number(state.userContractDetails.balance) >=
                     Number(proposalDetails?.data?.votingBalance))) && (
                 // {!state?.isLoading && !hideVoteButtons && (
                 <div className="mb-2">
