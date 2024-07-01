@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfilePicture from "../profile/profilePicture";
 import { useAccount, useBalance } from "wagmi";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,13 +7,23 @@ import { setError } from "../../reducers/layoutReducer";
 import { setUserID } from "../../reducers/rootReducer";
 import Button from "../../ui/Button";
 import Spinner from "../loaders/spinner";
-
+import useCopyToClipboard from "../../hooks/useCopytoClipboard";
+const getName = (firstName: string | null, lastName: String | null) => {
+  if (firstName && lastName) {
+    return `${firstName} ${lastName}`;
+  }
+  if (firstName && !lastName) {
+    return `${firstName}`;
+  }
+  return `--`;
+};
 const UserInfo = () => {
   const { user, arcanaUser } = useSelector((store: any) => store.auth);
   const [usd, setUSD] = useState(0);
   const [fetchingFiat, setFetchingFiat] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { address } = useAccount();
+  const { isCopied, handleCopy } = useCopyToClipboard();
   const {
     data: currency,
     refetch: getCurrency,
@@ -64,16 +74,10 @@ const UserInfo = () => {
       <div className=" grid gap-4">
         <div>
           <p className="text-sm font-normal text-secondary opacity-[0.9]">
-            User Name
+            User name
           </p>
           <p className="font-medium text-sm text-secondary">
-            {user?.userName ? (
-              <span className="bg-[#E3F8FF] text-[#035388] text-[10px] font-semibold px-3 py-1 rounded-full">
-                {user?.userName}
-              </span>
-            ) : (
-              "--"
-            )}
+            {getName(user?.firstName, user?.lastName)}
           </p>
         </div>
         <div className="">
@@ -81,7 +85,21 @@ const UserInfo = () => {
             Wallet Address
           </p>
           <p className="font-medium text-sm text-secondary break-all">
-            {address ? address : "--"}
+            {address
+              ? `${address.slice(0, 6)}....${address.slice(
+                  address.length - 6,
+                  address.length
+                )}`
+              : "--"}
+            <Button type="plain" handleClick={() => handleCopy(address)}>
+              <span
+                className={`${
+                  !isCopied
+                    ? "icon md copy-icon c-pointer ms-0"
+                    : "icon md check-icon"
+                }`}
+              />
+            </Button>
           </p>
         </div>
         <div>
@@ -99,26 +117,31 @@ const UserInfo = () => {
             <p className="text-sm font-normal text-secondary opacity-[0.9]">
               {process.env.REACT_APP_CURRENCY}
             </p>
-            {(refetchingNativeBalance || refetchingTokenBalance || fetchingFiat) && (
-              <Spinner size="loading-sm" />
-            )}
-            {!refetchingNativeBalance && !refetchingTokenBalance && !fetchingFiat && (
-             <div  className="tooltip capitalize"
-             data-tip={"Refetch"}>
-               <Button
-                type="plain"
-                btnClassName={"flex justify-center items-center"}
-                handleClick={() => fetchBalances()}
-                disabled={refetchingNativeBalance}
-              >
-                <span className="icon refresh-icon h-full" />
-              </Button>
-             </div>
-            )}
+            {(refetchingNativeBalance ||
+              refetchingTokenBalance ||
+              fetchingFiat) && <Spinner size="loading-sm" />}
+            {!refetchingNativeBalance &&
+              !refetchingTokenBalance &&
+              !fetchingFiat && (
+                <div className="tooltip capitalize" data-tip={"Refetch"}>
+                  <Button
+                    type="plain"
+                    btnClassName={"flex justify-center items-center"}
+                    handleClick={() => fetchBalances()}
+                    disabled={refetchingNativeBalance}
+                  >
+                    <span className="icon refresh-icon h-full" />
+                  </Button>
+                </div>
+              )}
           </div>
           <div className="mt-2">
             <p className="font-medium	text-sm text-secondary">
-              {currencyBalance > 0 ? `${currencyBalance?.toFixed(8)} ~ ${(currencyBalance*usd)?.toFixed(2)} $` : "0.00 ~ 0.00 $"} 
+              {currencyBalance > 0
+                ? `${currencyBalance?.toFixed(8)} ~ ${(
+                    currencyBalance * usd
+                  )?.toFixed(2)} $`
+                : "0.00 ~ 0.00 $"}
             </p>
           </div>
         </div>
