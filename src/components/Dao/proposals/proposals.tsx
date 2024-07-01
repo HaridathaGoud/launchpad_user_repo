@@ -137,32 +137,38 @@ const ProposalCards = (props: any) => {
             <div className="flex gap-2">
               <div className="relative">
                 <SearchInputComponent placeholdertext="Search" searchWidth='proposal-filters' />
-                <details className="dropdown dao-dropdown absolute right-2.5 top-0 border-l">
+                <details className="dropdown dao-dropdown absolute right-2.5 top-0 border-l transition ease-out duration-100 transform opacity-100 scale-100">
                   <summary className=" rounded-full cursor-pointer bg-transparent w-fit h-[42px]"><span className="icon filter"></span></summary>
-                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] left-[-240px] md:left-[-295px] w-[300px] md:w-[360px] top-12 p-4 shadow">
+                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] left-[-240px] md:left-[-339px] w-[384px] md:w-[384px] top-12 p-6 shadow">
                     <h1 className="text-center text-secondary text-lg mb-2 font-semibold">Filters</h1>
                     <p className="text-base text-secondary font-medium mb-2">Proposal Status</p>
                     <li className="">
-                      <div className='flex items-center hover:bg-transparent gap-0 p-0 h-8'>
-                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>All</p>
+                      <div className='flex items-center hover:bg-transparent gap-2 p-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-[#57606a] text-[16px] font-medium'>All</p>
                       </div>
                     </li>
                     <li className="">
-                      <div className='flex items-center hover:bg-transparent gap-0 px-0 h-8'>
-                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>Active</p>
+                      <div className='flex items-center hover:bg-transparent gap-2 px-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-[#57606a] text-[16px] font-medium'>Active</p>
                       </div>
                     </li>
                     <li className="">
-                      <div className='flex items-center hover:bg-transparent gap-0 px-0 h-8'>
-                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>Pending</p>
+                      <div className='flex items-center hover:bg-transparent gap-2 px-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-[#57606a] text-[16px] font-medium'>Pending</p>
                       </div>
                     </li>
                     <li className="">
-                      <div className='flex items-center hover:bg-transparent gap-0 px-0 h-8'>
-                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-secondary'>Closed</p>
+                      <div className='flex items-center hover:bg-transparent gap-2 px-0 h-8'>
+                        <label htmlFor="" className='font-medium text-secondary relative mt-1'><input type="radio" name="radio-1" className="radio opacity-0 z-[1] relative" /><span></span></label>  <p className='text-[#57606a] text-[16px] font-medium'>Closed</p>
                       </div>
                     </li>
+                    <Button type="primary" btnClassName="mt-5">
+                      <span className="text-center text-base font-medium mb-0 cursor-pointer">
+                        Apply
+                      </span>
+                    </Button>
                   </ul>
+                  
                 </details>
               </div>
               {/* <select
@@ -245,15 +251,15 @@ const ProposalCards = (props: any) => {
                         }
                       >
                         <div className="flex justify-between gap-4 items-center">
-                          <div className="flex items-center truncate">
-                            <div className="w-9 h-9 mr-2 shrink-0">
+                          <div className="flex gap-2 items-center truncate">
+                            <div className="w-9 h-9 shrink-0">
                               <img
                                 src={item?.creatorImage || daocardProfile}
                                 className="rounded-full object-cover w-9 h-9"
                                 alt="dao profile"
                               />
                             </div>
-                            <p className="truncate text-secondary">
+                            <p className="truncate text-[#444444] font-medium text-base">
                               {item.createdBy || item.creatorAddress || "--"}
                             </p>
                           </div>
@@ -269,7 +275,7 @@ const ProposalCards = (props: any) => {
 
                         <div className="truncate">
                           <h4
-                            className={`text-secondary font-bold text-lg mb-2 mt-3 cursor-pointer text-start truncate  ${item?.title.length > 100 ? "truncate w-1/2" : ""
+                            className={`text-secondary font-bold text-[22px] mb-2 mt-3 cursor-pointer text-start truncate  ${item?.title.length > 100 ? "truncate w-1/2" : ""
                               }`}
                           >
                             {item?.title}
@@ -295,15 +301,15 @@ const ProposalCards = (props: any) => {
                             />
                           </div> */}
                           <div className="flex-1">
-                            <p className="text-base-200 dao-para">
+                            <p className="dao-para line-clamp-2 break-words text-md font-semibold text-[#444444]">
                               {(item?.description &&
                                 (item?.description.length > 75
                                   ? item.description.slice(0, 75) + " ..."
                                   : item.description)) ||
                                 "--"}
                             </p>
-                            <div className="relative mt-5">
-                              <div className="overflow-hidden mb-4 text-xs flex rounded bg-[#39383B] h-[6px]">
+                            <div className="relative mt-5 z-[-1]">
+                              <div className="overflow-hidden mb-4 text-xs flex rounded bg-[#cdcdcd] h-[6px]">
                                 <div className="w-[70%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-success"></div>
                                 <div className="w-[20%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#BE5863]"></div>
                               </div>

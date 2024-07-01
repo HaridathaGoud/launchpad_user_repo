@@ -39,7 +39,7 @@ const Proposal = () => {
         <ProposalViewShimmer/>
       )}
       {!proposalDetails.loading && (
-        <div className="py-[18px] px-5 rounded-lg shadow-md daorightpanel-bg">
+        <div className="py-[18px] px-5 rounded-lg daorightpanel-bg">
           <div>
             <div className="flex justify-between items-start">
               <div className="">

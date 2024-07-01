@@ -43,7 +43,7 @@ html[data-theme="dark"] .project-card{border-color: #55536f;}
 .noScrollbar::-webkit-scrollbar{scrollbar-width: none;display: none;}
 .customTabs .tab{line-height: normal;}
 .breadcrumbs > ul > li + *:before, .breadcrumbs > ol > li + *:before{content: none !important;}
-.bgDaocard{box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25); }
+.bgDaocard{border: 1px solid #e0e0e0; }
 .tableBg{background: url(../images/table_bg.svg)no-repeat;background-size: cover;height: 100%;}
 .tokenomicsTable table td{color: #000; line-height: normal; padding-top: 16px; padding-bottom: 16px;}
 .private{background-position: -225px -9px !important;}
@@ -93,7 +93,7 @@ button.bg-primary:hover{opacity: 0.7;}
 .allocationtable td{padding-top: 16px;padding-bottom: 16px;}
 .discussion-replay label{display: none;}
 html[data-theme="dark"] .daorightpanel-bg{background-color: #515151;}
-.daorightpanel-bg{background-color: #F5F5F5;}
+.daorightpanel-bg{background-color: #ffffff;border: 1px solid #e0e0e0;}
 .menu-active{background-color: transparent !important;color: #D60000 !important;}
 .sidebar {height: 100%;  width: 0;  position: fixed;  z-index: 1;  top: 63px;  left: 0;  overflow-x: hidden;transition: 0.3s;}
 .openbtn {  font-size: 20px;  cursor: pointer;  background-color: #111;  color: white;  padding: 10px 15px;  border: none;}
@@ -154,6 +154,7 @@ html[data-theme="dark"] button.bg-secondary{background-color: #D60000;}
 .icon.filter-dots{background-position: -82px -272px !important;}
 .icon.filter-cart{background-position: -53px -272px !important;}
 input[type=radio]+span{ display: inline-block;background: var(--darktheme-icons) no-repeat !important;display: inline-block;width: 24px;height: 24px;background-position: -292px -272px !important;position: absolute;left: 0;}
+.dropdown-content input[type=radio]+span{transform: scale(1.2);}
 input[type=radio]:checked+span{ display: inline-block;background: var(--darktheme-icons) no-repeat !important;vertical-align: middle;height: 24px;width: 24px;background-position: -292px -294px !important;}
 .collapse-arrow > .collapse-title:after{right: 10px !important;}
 .image-container {position: relative;animation: bounce 1s infinite;}
