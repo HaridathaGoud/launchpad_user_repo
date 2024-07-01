@@ -167,7 +167,7 @@ const Claims = (props:any) => {
                               type="primary"
                               btnClassName="!py-0 px-6"
                               disabled={
-                                isBuyButtonDisabled(claims) ||
+                                isBuyButtonDisabled(claims) || claimBtnLoader ||
                                 claims.allocation === 0 || claims?.isBuy
                               }
                               handleClick={() => handleClaim(index)}

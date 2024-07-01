@@ -54,7 +54,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
           return;
       }
     },
-    [pathname, isLoggedIn]
+    [pathname, isLoggedIn,address,user?.id]
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
@@ -66,7 +66,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
       ),
       globalDropdown: getGlobalDropDown(navigate),
     };
-  }, [user?.id, pathname, isLoggedIn]);
+  }, [address,user?.id, pathname, isLoggedIn]);
 
   return (
     <div

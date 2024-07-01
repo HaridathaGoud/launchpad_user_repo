@@ -20,11 +20,11 @@ export const getBreadcrumbList = {
     { name: "Launchpad", path: "/" },
     { name: "Portfolio", path: "" },
   ],
-  marketplaceCategory:[
-    { name: "Home", path: "/" },
-    { name: "Marketplace", path: "/marketplace/home" },
-    { name: "Browse by Category", path: "" },
-  ],
+  // marketplaceCategory:[
+  //   { name: "Home", path: "/" },
+  //   { name: "Marketplace", path: "/marketplace/home" },
+  //   { name: "Browse by Category", path: "" },
+  // ],
   marketplaceHotCollectionViewAll:[
     { name: "Home", path: "/" },
     { name: "Marketplace", path: "/marketplace/home" },
@@ -143,12 +143,12 @@ export const getBreadcrumbList = {
     { name: props?.name!=='null' ? props?.name : props?.walletAddress, path: "" },
   ];
  },
-//  marketplaceBrowseByCategoryAll: (props:any) =>{
-//   return [
-//     { name: "Home", path: "/" },
-//     { name: "Marketplace", path: "/marketplace/home" },
-//     { name: "Browse by Category", path: "/marketplace/home" },
-//     { name: props?.name, path: "" },
-//   ];
-//  }
+ marketplaceBrowseByCateory: (props:any) =>{
+  return [
+    { name: "Home", path: "/" },
+    { name: "Marketplace", path: "/marketplace/home" },
+    { name: "Browse by Category", path: "/marketplace/home" },
+    { name: props?.categeoryName, path: "" },
+  ];
+ }
 };

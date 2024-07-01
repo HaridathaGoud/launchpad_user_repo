@@ -52,7 +52,7 @@ const AllocationsView = (props) => {
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item.allocationVolume.toLocaleString()}{" "}
+                              {parseInt(item.allocationVolume).toLocaleString()}{" "}
                               {item?.paymentSymbol?.toLocaleString() || "--"}
                             </p>
                           </td>
@@ -74,9 +74,9 @@ const AllocationsView = (props) => {
                                   type="primary"
                                   btnClassName="!py-0 px-6 whitespace-nowrap"
                                   disabled={
-                                    item.allocationVolume === 0 ||
-                                    item?.allocationVolume <=
-                                      item?.purchaseVolume ||
+                                    parseInt(item.allocationVolume) === 0 ||
+                                    parseInt(item?.allocationVolume) <=
+                                    parseInt(item?.purchaseVolume) ||
                                     (item?.type?.toLowerCase() === "private" &&
                                       props.pjctInfo?.privateStatus?.toLowerCase() ===
                                         "closed") ||

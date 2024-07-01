@@ -40,14 +40,14 @@ const SearchBar = ({
         ref={inputRef}
         className={
           inputClass ||
-          "w-full rounded-[28px] border-[#A5A5A5] h-[42px] border focus:outline-none pl-5 pr-12"
+          "w-full rounded-[28px] border-[#e0e0e0] h-[44px] border focus:outline-none pr-5 pl-12"
         }
       />
       <Button
         type="plain"
         handleClick={() => onSearch(userInput)}
         btnClassName={
-          searchIconClass || "absolute right-4 top-2 cursor-pointer w-fit h-fit"
+          searchIconClass || "absolute left-4 top-2 cursor-pointer w-fit h-fit"
         }
       >
         <span className={`icon search ${searchIconSize || "md"} md:w-72`} />

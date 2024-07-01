@@ -269,6 +269,7 @@ button.opacity-100{opacity: 1 !important;}
 .icon.linkedin{height: 32px;width: 32px;background-position: -401px -465px !important;}
 .icon.twit{height: 32px;width: 32px;background-position: -455px -465px !important;}
 .icon.network{height: 32px;width: 32px;background-position: -498px -465px !important;}
+.icon.external {height: 34px;width: 34px;background-position:-535px -465px !important;}
 .bg-banner{background: linear-gradient(to left, rgb(0 0 0 / 48%) 50%, rgba(255, 255, 255, 0) 80%);}
 .fileupload{background: rgba(164, 170, 187, 0.2);border: 1px dashed rgba(0, 0, 0, 0.2);}
 .warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
@@ -313,7 +314,7 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .shop-card:hover .icon.square-arrow{background-position: -550px -10px !important;} 
 .drawer-side::-webkit-scrollbar-thumb{background-color: #c1c1c1;width: 8px;}
 .drawer-side::-webkit-scrollbar{width: 8px;}
-.dao-card{padding: 60px 30px;  border: 1.5px solid #E0E0E0;}
+.dao-card{border: 1.5px solid  #e0e0e0;}
 .dao-dropdown summary::marker{display: none;content: none;}
 .icon.category{background-position:   -579px -8px !important;}
 html[data-theme="dark"] .dao-card{border-color: #343434;}
@@ -321,13 +322,16 @@ html[data-theme="dark"] .dao-card:hover{border-color: #8B949E;}
 html[data-theme="dark"] .dao-card .text-neutral,html[data-theme="dark"] .dao-count{color: #8B949E;}
 html[data-theme="dark"] .dao-dropdown,html[data-theme="dark"] .search-section input{border:1px solid #343434;border-radius: 25px;background: transparent;}
 html[data-theme="dark"] .dao-dropdown summary,html[data-theme="dark"] .search-section .icon.search,html[data-theme="dark"] .input[type=radio]+span,html[data-theme="dark"] #walletConnectModal .modal-box,html[data-theme="dark"] #walletConnectModal button,html[data-theme="dark"] #walletConnectModal .text-secondary,html[data-theme="dark"] #walletConnectModal .btn-circle,html[data-theme="dark"] .drawer-side .menu,html[data-theme="dark"] .drawer-side .menu .bg-primary,html[data-theme="dark"] .drawer-side .menu button.bg-secondary,html[data-theme="dark"] .drawer-side .menu .text-secondary,html[data-theme="dark"] .drawer-side .menu .star.label::after,html[data-theme="dark"] .drawer-side .menu .text-red-600,html[data-theme="dark"] .drawer-side .icon.upload-plus,html[data-theme="dark"] .drawer-side .icon.close,html[data-theme="dark"] input[type=radio]+span,html[data-theme="dark"] .breadcrumbs > ul > li:not(:last-child)::after {filter: invert(1);}
-.icon.filter{background-position: -611px -8px !important;}
+.icon.filter{background-position:-605px 2px !important;width: 32px;height: 32px;}
 .proposal-filters .icon.search{right: unset; left: 14px;}
 .proposal-filters .input{padding-left: 48px;padding-right: 70px;}
 html[data-theme="dark"] .bgDaocard{  border: 1.5px solid #4A494D;  background: rgba(255, 255, 255, 0.01);}
 html[data-theme="dark"] .dao-dropdown .menu{  border: 1.5px solid #4A494D; color: #fff;  background: #1C1B20;  box-shadow: 0px 0px 4px 0px rgba(88, 87, 87, 0.25);}
 html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-left:  1px solid #343434;border-radius: 0;}
 .dao-para{-webkit-line-clamp: 4;  box-sizing: border-box;  text-overflow: ellipsis;  overflow: hidden;  -webkit-box-orient: vertical;  display: -webkit-box;}
+.tune-button {font-weight: 600;height: 46px;cursor: pointer;border-radius: 9999px;border: 1px solid #e0e0e0!important;background-color: transparent;padding-left: 22px;padding-right: 22px;color: #444444  !important;}
+.tune-button:hover{border: 1px solid #57606a !important;}
+/* .footer{} */
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
   .banner,.carousal-banner .carousel{  max-height: 500px;}
@@ -344,7 +348,7 @@ html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-le
   .container{
     max-width: 1140px;
   }
-}
+} 
 @media (min-width: 1400px){
   .container {max-width: 1320px!important;}
   }

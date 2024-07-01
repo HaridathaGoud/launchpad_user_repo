@@ -32,15 +32,22 @@ const ProjectdetailsView = (props: any) => {
             className="sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-success-content"
           >
             <ProjectDetailTabs pjctInfo={props.data?.projectDetails} />
-            {props?.status['private']!=='Ended' && props?.status['public']!=='Ended' && <JoinProject
-              projectDetails={props.data?.projectDetails}
-              buttonClass={"min-w-[150px] tab !py-2 !px-3.5"}
-              statusClass={
-                "bg-[#13B166] font-semibold  text-[#fff] min-w-[100px] text-center rounded-lg h-[35px] flex items-center justify-center"
-              }
-              buttonType={"secondary"}
-              projectStatus={props?.status['private']!=='Ended' ? props?.status['private']: props?.status['public']}
-            />}
+            {props?.status["private"] !== "Ended" &&
+              props?.status["public"] !== "Ended" && (
+                <JoinProject
+                  projectDetails={props.data?.projectDetails}
+                  buttonClass={"min-w-[150px] tab !py-2 !px-3.5"}
+                  statusClass={
+                    "bg-[#13B166] font-semibold  text-[#fff] min-w-[100px] text-center rounded-lg h-[35px] flex items-center justify-center"
+                  }
+                  buttonType={"secondary"}
+                  projectStatus={
+                    props?.status["private"] !== "Ended"
+                      ? props?.status["private"]
+                      : props?.status["public"]
+                  }
+                />
+              )}
           </div>
         )}
         <div>
@@ -84,13 +91,13 @@ const ProjectdetailsView = (props: any) => {
                   <Allocations
                     pjctInfo={props.data?.projectDetails}
                     pid={props.projectId}
-                    getDetails={() => props.getDetails("all")}
+                    getDetails={() => props.getDetails("card")}
                     proStatus={props?.proStatus}
                   />
                   <Claims
                     pjctInfo={props.data?.projectDetails}
                     pid={props.projectId}
-                    getDetails={() => props.getDetails("all")}
+                    getDetails={() => props.getDetails("card")}
                   />
                 </div>
               </div>
@@ -100,7 +107,12 @@ const ProjectdetailsView = (props: any) => {
           {!props.loader &&
             props.data?.projectDetails?.tokenType === "ERC-721" && (
               <div>
-                <BuyMembership projectDetails={props.data?.projectDetails}  proStatus={props?.proStatus} isAllowed={props?.isAllowed} />
+                <BuyMembership
+                  projectDetails={props.data?.projectDetails}
+                  proStatus={props?.proStatus}
+                  isAllowed={props?.isAllowed}
+                  getDetails={() => props.getDetails("card")}
+                />
               </div>
             )}
         </div>

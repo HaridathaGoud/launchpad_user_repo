@@ -129,7 +129,7 @@ const HotcollectionView = (props: any) => {
               rel="noreferrer"
             >
               {" "}
-              <span className='icon fb cursor-pointer'></span>
+              <span className='icon external cursor-pointer'></span>
               </a>
                }
             {hotCollectionViewDetails?.data?.facebook &&

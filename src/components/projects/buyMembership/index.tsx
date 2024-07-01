@@ -95,6 +95,7 @@ const BuyMembership = (props: any) => {
   const onSuccessfulMint = () => {
     rootDispatch(setToaster({ message: "Membership purchase successful!" }));
     // modalActions("mintSuccessModal", "open");
+    props.getDetails?.()
     setLoading("setIsMinting", false);
   };
   const onTransaction = async (txDetails: any, files: any) => {
