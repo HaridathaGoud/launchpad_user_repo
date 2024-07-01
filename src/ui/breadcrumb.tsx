@@ -68,9 +68,11 @@ const BreadCrumb = () => {
       breadcrumbToUpdate = getBreadcrumbList["launchpadTiers"];
     }else if (path.includes("portfolio")) {
       breadcrumbToUpdate = getBreadcrumbList["launchpadPortFolio"];
-    }else if (path.includes("categoryview")) {
-      breadcrumbToUpdate = getBreadcrumbList["marketplaceCategory"];
-    }else if(path.includes("hotcollectionsviewall")){
+    }
+    // else if (path.includes("categoryview")) {
+    //   breadcrumbToUpdate = getBreadcrumbList["marketplaceCategory"];
+    // }
+    else if(path.includes("hotcollectionsviewall")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceHotCollectionViewAll'];
     }else if(path.includes("browsebyviewall")){
       breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll'];
@@ -116,7 +118,6 @@ const BreadCrumb = () => {
     }
    }
    else if(path.includes("marketplace/topseller")){
-    debugger
     if (params.id ) {
      breadcrumbToUpdate = getBreadcrumbList["marketplaceTopSellerView"]({
        collectionName: params?.walletAddress,
@@ -124,14 +125,10 @@ const BreadCrumb = () => {
        proposalTitle: params?.walletAddress,
      });
     }
-    // else if(path.includes("marketplace/categoryview")){
-    //   breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCategoryAll']({
-    //     collectionName: params?.categeoryName,
-    //     collectionPath: `marketplace/home`,
-    //     proposalTitle: params?.categeoryName,
-    //   });
-    // }
  }
+ else if(path.includes("marketplace/categoryview")){
+  breadcrumbToUpdate = getBreadcrumbList['marketplaceBrowseByCateory'](params);
+}
     else {
       breadcrumbToUpdate = getBreadcrumbList["default"];
     }
