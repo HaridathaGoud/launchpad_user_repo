@@ -269,6 +269,7 @@ button.opacity-100{opacity: 1 !important;}
 .icon.linkedin{height: 32px;width: 32px;background-position: -401px -465px !important;}
 .icon.twit{height: 32px;width: 32px;background-position: -455px -465px !important;}
 .icon.network{height: 32px;width: 32px;background-position: -498px -465px !important;}
+.icon.external {height: 34px;width: 34px;background-position:-535px -465px !important;}
 .bg-banner{background: linear-gradient(to left, rgb(0 0 0 / 48%) 50%, rgba(255, 255, 255, 0) 80%);}
 .fileupload{background: rgba(164, 170, 187, 0.2);border: 1px dashed rgba(0, 0, 0, 0.2);}
 .warningicon{background-position: -223px -329px !important;width: 42px;height: 42px;}
@@ -313,7 +314,7 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .shop-card:hover .icon.square-arrow{background-position: -550px -10px !important;} 
 .drawer-side::-webkit-scrollbar-thumb{background-color: #c1c1c1;width: 8px;}
 .drawer-side::-webkit-scrollbar{width: 8px;}
-.dao-card{padding: 60px 30px;  border: 1.5px solid #E0E0E0;}
+.dao-card{padding: 30px 60px;  border: 1.5px solid #E0E0E0;}
 .dao-dropdown summary::marker{display: none;content: none;}
 .icon.category{background-position:   -579px -8px !important;}
 html[data-theme="dark"] .dao-card{border-color: #343434;}
@@ -344,7 +345,7 @@ html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-le
   .container{
     max-width: 1140px;
   }
-}
+} 
 @media (min-width: 1400px){
   .container {max-width: 1320px!important;}
   }

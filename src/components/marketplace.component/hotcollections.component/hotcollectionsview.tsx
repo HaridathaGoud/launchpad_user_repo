@@ -122,6 +122,16 @@ const HotcollectionView = (props: any) => {
           </div>
           </div>
           <div className='flex gap-6 absolute z-10 right-10 bottom-6'>
+          {hotCollectionViewDetails?.data?.urls &&
+              <a
+              href={hotCollectionViewDetails?.data?.urls}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {" "}
+              <span className='icon external cursor-pointer'></span>
+              </a>
+               }
             {hotCollectionViewDetails?.data?.facebook &&
               <a
               href={hotCollectionViewDetails?.data?.facebook}

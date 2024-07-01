@@ -99,7 +99,7 @@ const Nfts = forwardRef((props: any, ref) => {
             if (status) {
                 rootDispatch(
                     setToaster({
-                        message: `Nft ${item.isFavourite ? "removed from" : "added to"
+                        message: `NFT ${item.isFavourite ? "removed from" : "added to"
                             } Favorites!`,
                     })
                 );
@@ -220,7 +220,7 @@ const Nfts = forwardRef((props: any, ref) => {
     }
     const handleSearch = (event) => {
         let obj = { ...localState.values }
-        obj.searchBy = event
+        obj.searchBy = event===''? null : event
         localDispatch({ type: 'setValues', payload: obj })
     }
     const handleMinMax = (min, max) => {

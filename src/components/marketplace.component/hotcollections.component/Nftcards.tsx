@@ -28,8 +28,8 @@ const NftCards = (props:any) => {
           errorMessage:store.layoutReducer.error.message
         }
       });
-    
-   
+
+
     const navigateToAsset = (item:any) => {
         navigate(
           `/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`
@@ -42,7 +42,7 @@ const NftCards = (props:any) => {
           modalActions("connect-wallet-model-exploreNfts", "open");
         }
       };
-  
+
       const saveFavoriteNft = async (item: any) => {
         errorMessage && rootDispatch(setError({message:''}))
         dispatch({
@@ -59,7 +59,7 @@ const NftCards = (props:any) => {
           if (status) {
             rootDispatch(
               setToaster({
-                message: `Nft ${
+                message: `NFT ${
                   item.isFavourite ? "removed from" : "added to"
                 } Favorites!`,
               })
@@ -85,7 +85,7 @@ const NftCards = (props:any) => {
           });
         }
       };
-  
+
       const saveView = async (item) => {
         dispatch({
           type: "setCardLoader",
@@ -108,7 +108,7 @@ const NftCards = (props:any) => {
           });
         }
       };
-      
+
     return (
         <>
         {(NftDetails?.loading || state?.cardLoader) &&
@@ -130,7 +130,7 @@ const NftCards = (props:any) => {
                                 }
                                 type="plain" btnClassName="w-full"
                             >
-                            <img 
+                            <img
                             src={
                                 item?.image && !item?.image?.includes("null")
                                   ? item.image.replace(
@@ -139,7 +139,7 @@ const NftCards = (props:any) => {
                                     )
                                   : defaultlogo
                               }
-                             alt="" 
+                             alt=""
                              className={`h-[255px] w-full object-cover rounded-tl-lg rounded-tr-lg  ${
                                 item?.isUnlockPurchased &&
                                 address !== item?.walletAddress
@@ -176,7 +176,7 @@ const NftCards = (props:any) => {
                                 }
                                 type="plain"
                                 btnClassName="w-[100%]"
-                            > 
+                            >
                             <div className='px-2 py-2.5'>
                                 <p className='text-xs text-secondary truncate text-left'>{item?.seriesname}</p>
                                 <h2 className='mb-2.5 text-base font-semibold truncate text-secondary text-left'>{item?.name}</h2>
@@ -199,13 +199,13 @@ const NftCards = (props:any) => {
                         </div>
                     </div>
                 ))}
-                {!NftDetails?.data?.length && 
+                {!NftDetails?.data?.length &&
                <div className='md:col-span-2 xl:col-span-3'>
-                 <div className='text-center'> 
+                 <div className='text-center'>
                 <NoData text={""} />
                 </div>
                 </div>}
-                
+
             </>}
         </>);
 };

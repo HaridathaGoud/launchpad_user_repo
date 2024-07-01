@@ -122,7 +122,7 @@ const saveFavoriteNft = async (item: any) => {
         if (status) {
             rootDispatch(
                 setToaster({
-                    message: `Nft ${item.isFavourite ? "removed from" : "added to"
+                    message: `NFT ${item.isFavourite ? "removed from" : "added to"
                         } Favorites!`,
                 })
             );
