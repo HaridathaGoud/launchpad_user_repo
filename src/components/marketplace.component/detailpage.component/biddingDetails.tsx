@@ -47,7 +47,6 @@ const BiddingDetails = ({
       setIsLoading("");
     }
   };
-  console.log(skip)
   const executeBid = async (item: any) => {
     setIsLoading(item?.bidId);
     try {
