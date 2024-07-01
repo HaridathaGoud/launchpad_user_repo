@@ -109,7 +109,7 @@ const Daos = (props: any) => {
                     </div>
                   </div>
                   <div className="flex items-center justify-center gap-1 truncate">
-                    <h3 className="mb-0 mt-0 !h-[32px] overflow-hidden pb-0 text-[22px] font-semibold">
+                    <h3 className="mb-0 mt-0 !h-[32px] overflow-hidden pb-0 text-[22px] font-semibold truncate w-[200px]">
                       {" "}
                       {item?.name}
                     </h3>

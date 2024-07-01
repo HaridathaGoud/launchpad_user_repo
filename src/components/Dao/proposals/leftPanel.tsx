@@ -110,6 +110,9 @@ const DaoLeftPanel = (props) => {
                 />
               </div>
               <div>
+              <div className="mr-1 truncate text-[18px] font-semibold text-[#111111]">
+                Captain Marvell
+              </div>
                 <h1 className="text-lg mt-3 font-semibold mb-0 text-secondary capitalize">
                   {user.firstName && user.lastName ? (
                     (user.firstName + " " + user.lastName).toLowerCase()
@@ -136,7 +139,7 @@ const DaoLeftPanel = (props) => {
                     "Connect your wallet!"
                   )}
                 </h1>
-                {address && <p className="text-secondary opacity-60">252k members</p>}
+                {!address && <p className="text-md text-[#57606a] lg:text-base">252k members</p>}
               </div>
             </div>
           )}
