@@ -30,7 +30,7 @@ const SearchInputComponent: React.FC<SearchInputComponentProps> = ({
   const placeholder = placeholdertext || defaultPlaceholder;
 
   return (
-    <div className={`relative xl:w-[42rem] md:w-96 h-[42px] search-section ${searchWidth}`}>
+    <div className={`relative xl:w-[42rem] md:w-96 h-[44px] search-section ${searchWidth}`}>
       <input
         type="text"
         placeholder={placeholder}
