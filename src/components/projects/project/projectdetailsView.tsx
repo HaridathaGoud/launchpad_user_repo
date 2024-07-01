@@ -91,13 +91,13 @@ const ProjectdetailsView = (props: any) => {
                   <Allocations
                     pjctInfo={props.data?.projectDetails}
                     pid={props.projectId}
-                    getDetails={() => props.getDetails("all")}
+                    getDetails={() => props.getDetails("card")}
                     proStatus={props?.proStatus}
                   />
                   <Claims
                     pjctInfo={props.data?.projectDetails}
                     pid={props.projectId}
-                    getDetails={() => props.getDetails("all")}
+                    getDetails={() => props.getDetails("card")}
                   />
                 </div>
               </div>
@@ -111,7 +111,7 @@ const ProjectdetailsView = (props: any) => {
                   projectDetails={props.data?.projectDetails}
                   proStatus={props?.proStatus}
                   isAllowed={props?.isAllowed}
-                  getDetails={() => props.getDetails("all")}
+                  getDetails={() => props.getDetails("card")}
                 />
               </div>
             )}

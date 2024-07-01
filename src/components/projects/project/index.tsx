@@ -14,11 +14,11 @@ const Projectdetails = () => {
   const allocationsRef = useRef(null);
   const rootDispatch = useDispatch();
   const { projectId, projectName } = useParams();
-  const {getTotalSoldTokens}=useContractMethods()
+  const { getTotalSoldTokens } = useContractMethods();
   const user = useSelector((store: any) => store.auth?.user);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState("");
   const [data, setData] = useState<any>(null);
-  const [status,setStatus]=useState({private:'',public:''})
+  const [status, setStatus] = useState({ private: "", public: "" });
   useEffect(() => {
     if (projectId) {
       getDetails("all");
@@ -26,39 +26,37 @@ const Projectdetails = () => {
   }, [user?.id]);
   const getDetails = async (fetch: string) => {
     const userId = user?.id && user?.id !== "" ? user?.id : guid;
-    setLoader(true);
+    setLoader(fetch);
     try {
       let details = data ? { ...data } : {};
-      if (fetch === "all") {
-        let projectStatus = "";
-        let swapPercentage = 0;
-        const projectDetails = await get(
-          "User/TokenInformation/" + projectId + "/" + userId
-        );
-        const projectFeed = await get("User/ProjectFeed/" + projectId);
-        if (projectDetails.status === 200) {
-          projectStatus = proStatus(projectDetails.data);
-          swapPercentage = swapProgressBarCalculation(projectDetails);
-          details = {
-            ...details,
-            projectDetails: projectDetails.data,
-            projectStatus: projectStatus,
-            swapPercentage: swapPercentage,
-          };
-        } else {
-          rootDispatch(setError({ message: projectDetails }));
-        }
-        if (projectFeed.status === 200) {
-          details = { ...details, projectFeed: projectFeed.data };
-        } else {
-          rootDispatch(setError({ message: projectFeed }));
-        }
+      let projectStatus = "";
+      let swapPercentage = 0;
+      const projectDetails = await get(
+        "User/TokenInformation/" + projectId + "/" + userId
+      );
+      const projectFeed = await get("User/ProjectFeed/" + projectId);
+      if (projectDetails.status === 200) {
+        projectStatus = proStatus(projectDetails.data);
+        swapPercentage = swapProgressBarCalculation(projectDetails);
+        details = {
+          ...details,
+          projectDetails: projectDetails.data,
+          projectStatus: projectStatus,
+          swapPercentage: swapPercentage,
+        };
+      } else {
+        rootDispatch(setError({ message: projectDetails }));
+      }
+      if (projectFeed.status === 200) {
+        details = { ...details, projectFeed: projectFeed.data };
+      } else {
+        rootDispatch(setError({ message: projectFeed }));
       }
       setData(details);
     } catch (error) {
       rootDispatch(setError({ message: error }));
     } finally {
-      setLoader(false);
+      setLoader("");
     }
   };
   const swapProgressBarCalculation = (res: any) => {
@@ -68,31 +66,48 @@ const Projectdetails = () => {
     return 0;
   };
 
-  const proStatus = (details: any=data?.projectDetails) => {
+  const proStatus = (details: any = data?.projectDetails) => {
     let privateStDate = details?.privateStartDate;
     let privateEndDate = details?.privateEndDate;
     let publicStDate = details?.publicStartDate;
     let publicEndDate = details?.publicEndDate;
-    const privateEndTimeInSec=Math.floor(convertUTCToLocalTime(privateEndDate).getTime()/1000)
-    const publicEndTimeInSec=Math.floor(convertUTCToLocalTime(publicEndDate).getTime()/1000)
-    const privateStartTimeInSec=Math.floor(convertUTCToLocalTime(privateStDate).getTime()/1000)
-    const publicStartTimeInSec=Math.floor(convertUTCToLocalTime(publicStDate).getTime()/1000)
-    const timeInSec=Math.floor(new Date().getTime() / 1000);
-    if(timeInSec<privateStartTimeInSec){
-      setStatus({private:'Upcoming',public:'Upcoming'})
-      return false
-    }else if(timeInSec>=privateStartTimeInSec && timeInSec<privateEndTimeInSec){
-      setStatus({private:'Ongoing',public:'Upcoming'})
-      return true
-    }else if(timeInSec>=privateEndTimeInSec && timeInSec<publicStartTimeInSec){
-      setStatus({private:'Ended',public:'Upcoming'})
-      return false
-    }else if(timeInSec>=publicStartTimeInSec && timeInSec<publicEndTimeInSec){
-      setStatus({private:'Ended',public:'Ongoing'})
-      return true
-    }else{
-      setStatus({private:'Ended',public:'Ended'})
-      return false
+    const privateEndTimeInSec = Math.floor(
+      convertUTCToLocalTime(privateEndDate).getTime() / 1000
+    );
+    const publicEndTimeInSec = Math.floor(
+      convertUTCToLocalTime(publicEndDate).getTime() / 1000
+    );
+    const privateStartTimeInSec = Math.floor(
+      convertUTCToLocalTime(privateStDate).getTime() / 1000
+    );
+    const publicStartTimeInSec = Math.floor(
+      convertUTCToLocalTime(publicStDate).getTime() / 1000
+    );
+    const timeInSec = Math.floor(new Date().getTime() / 1000);
+    if (timeInSec < privateStartTimeInSec) {
+      setStatus({ private: "Upcoming", public: "Upcoming" });
+      return false;
+    } else if (
+      timeInSec >= privateStartTimeInSec &&
+      timeInSec < privateEndTimeInSec
+    ) {
+      setStatus({ private: "Ongoing", public: "Upcoming" });
+      return true;
+    } else if (
+      timeInSec >= privateEndTimeInSec &&
+      timeInSec < publicStartTimeInSec
+    ) {
+      setStatus({ private: "Ended", public: "Upcoming" });
+      return false;
+    } else if (
+      timeInSec >= publicStartTimeInSec &&
+      timeInSec < publicEndTimeInSec
+    ) {
+      setStatus({ private: "Ended", public: "Ongoing" });
+      return true;
+    } else {
+      setStatus({ private: "Ended", public: "Ended" });
+      return false;
     }
   };
   return (
@@ -102,7 +117,7 @@ const Projectdetails = () => {
           <div className="container">
             <div className="md:grid lg:grid-cols-12 mt-2 gap-7">
               <ProjectdetailsView
-                loader={loader}
+                loader={loader === "all"}
                 data={data}
                 projectId={projectId}
                 projectName={projectName}
@@ -113,7 +128,7 @@ const Projectdetails = () => {
                 status={status}
               />
               <ProjectDetailsCard
-                loader={loader}
+                loader={loader === "all" || loader === "card"}
                 pjctInfo={data?.projectDetails}
                 currentPjct={data?.projectStatus}
                 swapedPercentage={data?.swapPercentage}
