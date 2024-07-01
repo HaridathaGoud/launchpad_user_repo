@@ -137,8 +137,8 @@ const ProposalCards = (props: any) => {
             <div className="flex gap-2">
               <div className="relative">
                 <SearchInputComponent placeholdertext="Search" searchWidth='proposal-filters' />
-                <details className="dropdown dao-dropdown absolute right-2.5 top-0 border-l pl-4 h-[42px]">
-                  <summary className=" rounded-full cursor-pointer bg-transparent w-fit"><span className="icon filter mt-2 mr-2.5"></span></summary>
+                <details className="dropdown dao-dropdown absolute right-2.5 top-0 border-l">
+                  <summary className=" rounded-full cursor-pointer bg-transparent w-fit h-[42px]"><span className="icon filter"></span></summary>
                   <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] left-[-240px] md:left-[-295px] w-[300px] md:w-[360px] top-12 p-4 shadow">
                     <h1 className="text-center text-secondary text-lg mb-2 font-semibold">Filters</h1>
                     <p className="text-base text-secondary font-medium mb-2">Proposal Status</p>
