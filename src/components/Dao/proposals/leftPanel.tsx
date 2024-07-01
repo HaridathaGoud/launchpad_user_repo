@@ -8,6 +8,11 @@ import useContract from "../../../hooks/useContract";
 import { getOwnerAddress, getRewardBalance } from "./utils";
 import { setError } from "../../../reducers/layoutReducer";
 import NaviLink from "../../../ui/NaviLink";
+import facebookImg from '../../../assets/images/fb.svg';
+import instaImg from '../../../assets/images/insta.svg';
+import telegramImg from '../../../assets/images/telegram.svg';
+import discordImg from '../../../assets/images/discord.svg';
+
 const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
   const { isConnected, address } = useAccount();
@@ -109,11 +114,8 @@ const DaoLeftPanel = (props) => {
                   className="w-12 h-12 rounded-full object-cover"
                 />
               </div>
-              <div>
-              <div className="mr-1 truncate text-[18px] font-semibold text-[#111111]">
-                Captain Marvell
-              </div>
-                <h1 className="text-lg mt-3 font-semibold mb-0 text-secondary capitalize">
+              <div>              
+                <h1 className="mr-1 truncate text-[18px] font-semibold text-[#111111] capitalize">
                   {user.firstName && user.lastName ? (
                     (user.firstName + " " + user.lastName).toLowerCase()
                   ) : address ? (
@@ -139,18 +141,25 @@ const DaoLeftPanel = (props) => {
                     "Connect your wallet!"
                   )}
                 </h1>
-                {!address && <p className="text-md text-[#57606a] lg:text-base">252k members</p>}
-              </div>
-            </div>
+                
+                {!address && <p className="text-md text-[#57606a] lg:text-base font-medium">252k members</p>}
+              </div>             
+            </div>            
           )}
-          {isEligibleForProposal && (
+          {!isEligibleForProposal && (
             <button
               onClick={handleProposalCreation}
-              className="bg-secondary w-full my-2 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-8"
+              className="bg-secondary w-full my-4 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-6 text-start"
             >
               New Proposal
             </button>
           )}
+           <div className="flex gap-4 items-center mt-4">
+                <img src={facebookImg} alt="social-icons"/>
+                <img src={instaImg} alt="social-icons"/>
+                <img src={telegramImg} alt="social-icons"/>
+                <img src={discordImg} alt="social-icons"/>
+              </div>
         </div>
         {props.showHeader && isConnected && (
           <div>
