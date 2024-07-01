@@ -49,7 +49,7 @@ const BiddingDetails = ({
   };
   console.log(skip)
   const executeBid = async (item: any) => {
-    setIsLoading(item?.id);
+    setIsLoading(item?.bidId);
     try {
       const hash = await acceptBid(
         collectionAddress,
@@ -124,7 +124,7 @@ const BiddingDetails = ({
             {data &&
               data.length > 0 &&
               data?.map((item: any, idx: any) => (
-                <tr className="" key={item?.id}>
+                <tr className="" key={item?.bidId}>
                   <td className="font-normal text-sm text-secondary">
                     {idx + 1}
                   </td>
@@ -153,7 +153,7 @@ const BiddingDetails = ({
                       >
                         <span>Accept Bid</span>
                         <span>
-                          {isLoading === item?.id && (
+                          {isLoading === item?.bidId && (
                             <Spinner size="loading-sm" />
                           )}{" "}
                         </span>
