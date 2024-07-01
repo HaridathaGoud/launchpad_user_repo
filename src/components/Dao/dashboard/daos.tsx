@@ -80,9 +80,9 @@ const Daos = (props: any) => {
             />
           </div>
           <div>
-            <p className="text-lg font-medium text-[#57606a] max-sm:mt-2 dao-count">
+            {/* <p className="text-lg font-medium text-[#57606a] max-sm:mt-2 dao-count">
               34K dao(s)
-            </p>
+            </p> */}
           </div>
         </div>
         <div className="px-0 md:px-4 mx-auto max-w-[1012px]">
