@@ -129,11 +129,11 @@ const DetailPage = (props: any) => {
     }
   };
   const savefavroite = async (value: any) => {
-    setLoader("favorite");
     if (!props?.auth.user?.id) {
       modalActions("walletConnectModal", "open");
       return;
     }
+    setLoader("favorite");
     try {
       const obj = {
         nftId: nftId,
