@@ -358,11 +358,11 @@ export default function useContractMethods() {
     });
     const _amt = ethers.utils.parseUnits(amount, decimalPoints);
     const poolId = Number(details[1]);
+    const tierId=Number(details[0])
     const {
       signature: { v, r, s },
       nonce,
-    } = await getSign(_amt, poolId, 0, false, amount);
-
+    } = await getSign(_amt, poolId, 0, tierId, false);
     try {
       const request = await requestForContract(
         stakingContract,

@@ -1,5 +1,5 @@
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import { getMinting, putForMinting } from "../../../utils/api";
+import { apiUploadPost, getMinting, putForMinting } from "../../../utils/api";
 import { isErrorDispaly } from "../../../utils/errorHandling";
 import { waitForTransaction } from "wagmi/actions";
 const projectId = process.env.REACT_APP_PROJECTID;
@@ -116,32 +116,44 @@ export const uploadToIPFS = async (funArgs: any, callbacks: any) => {
   const fileNames: any[] = [];
   try {
     for (let item of data) {
-      const base64String = item?.image;
-      const binaryString = atob(base64String);
-      let buffer = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        buffer[i] = binaryString.charCodeAt(i);
-      }
-      const result = await ipfs.add(buffer);
-      if (!result) {
-        onError(isErrorDispaly(result));
+      const base64String=item?.image;
+      let mimeType = '';
+      if (base64String.startsWith('iVBORw0KGgo')) {
+        mimeType = 'image/png';
+      } else if (base64String.startsWith('/9j/')) {
+        mimeType = 'image/jpeg';
+      } else if (base64String.startsWith('UklGR')) {
+        mimeType = 'image/webp';
+      } else if (base64String.startsWith('R0lGOD')) {
+        mimeType = 'image/gif';
+      } else {
+        console.error('Unsupported image format');
         return;
       }
-      item.image = `ipfs://${result?.path}`;
-      let nftMetadata = JSON.stringify(item);
-      const jsonBlob = new Blob([nftMetadata], { type: "application/json" });
-      const dataFromIPFS = await ipfs.add(jsonBlob);
-      if (!dataFromIPFS) {
-        onError(isErrorDispaly(dataFromIPFS));
+      const nftMetadata = JSON.stringify(item);
+      const blob = new Blob([nftMetadata], { type: "application/json" });
+      const imageBlob=new Blob([base64String], { type: mimeType });
+      const formData = new FormData();
+      formData.append('file', blob, new Date().getTime() + '.json');
+      const response = await apiUploadPost("Upload/UploadFileNew", formData);
+      const imageData=new FormData();
+      imageData.append('file', imageBlob, new Date().getTime() + '.json');
+      if (response.statusText.toLowerCase()!=='ok') {
+        onError(response);
         return;
       }
-      urisFromIPFSData.push(dataFromIPFS.path);
+      const imageURL = await apiUploadPost("Upload/UploadFileNew", imageData);
+      if (imageURL.statusText.toLowerCase()!=='ok') {
+        onError(imageURL);
+        return;
+      }
+      urisFromIPFSData.push(response.data[0]);
       fileNames.push({
-        fileName: item.serialNo || "Game Changer",
-        ImageCid: result?.path,
+        fileName: item.serialNo,
+        ImageCid: imageURL[0],
         Description: item.description,
-        nftName: item.name  || "Game Changer",
-        cid: dataFromIPFS.path,
+        nftName: item.name ,
+        cid: response.data[0],
         coin: crypto,
         price: Number(nftPrice).toFixed(8),
       });
