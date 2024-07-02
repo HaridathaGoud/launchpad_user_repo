@@ -89,7 +89,7 @@ const Daos = (props: any) => {
           <div className="grid gap-[24px] md:grid-cols-3 lg:grid-cols-4">
             {daos?.data?.map((item: any) => (
               <div
-                className="dao-card hover:border-[#57606a] border-y border-skin-border bg-skin-block-bg text-base md:rounded-xl md:border mb-0 flex items-center justify-center text-center transition-all hover:border-skin-text"
+                className="dao-card hover:border-[#57606a] border-y border-skin-border bg-skin-block-bg text-base md:rounded-xl md:border mb-0 flex items-center justify-center text-center transition-all hover:border-skin-text cursor-pointer"
                 onClick={() => navigateToProposals(item)}
                 key={item.name + item.daoId}
                 style={{ height: "266px" }}
