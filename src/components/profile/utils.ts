@@ -37,11 +37,25 @@ export const validateForm = (form: ProfileModel) => {
     "Invalid first name"
   );
   validateField(
+    firstName?.trim() || "",
+    "firstName",
+    true,
+    (value: string) => value?.length<3,
+    "First name must be 3 characters or above"
+  );
+  validateField(
     lastName?.trim() || "",
     "lastName",
     true,
     (value: string) => acceptAlphaNumbericSpecialCharacters(value),
     "Invalid last name"
+  );
+  validateField(
+    lastName?.trim() || "",
+    "lastName",
+    true,
+    (value: string) => value?.length<3,
+    "Last name must be 3 characters or above"
   );
   validateField(
     phoneNo || "",

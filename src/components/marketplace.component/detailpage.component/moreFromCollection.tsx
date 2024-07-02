@@ -289,7 +289,7 @@ const MoreFromCollection = ({ nftDetails, tokenId }) => {
                 </div>
               ))}
           </div>
-          {
+          {visibleNfts?.length>=5 &&
             <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
               <Button
                 type="plain"

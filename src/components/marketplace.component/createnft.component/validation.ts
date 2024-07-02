@@ -156,14 +156,14 @@ export const validateProperties = (properties: any) => {
       property.trait_type || "",
       "trait_type",
       true,
-      (value: string) => containsHTMLTags(value) || containsEmoji(value) || containsNonAlphabetic(value),
+      (value: string) => containsHTMLTags(value) || containsEmoji(value),
       "Invalid trait type"
     );
     const value = validateField(
       property.value || "",
       "value",
       true,
-      (value: string) =>  containsHTMLTags(value) || containsEmoji(value) || containsNonAlphabetic(value),
+      (value: string) =>  containsHTMLTags(value) || containsEmoji(value),
       "Invalid value"
     );
     if (trait_type || value) isValid = false;

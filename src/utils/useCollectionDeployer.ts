@@ -81,7 +81,7 @@ export function useCollectionDeployer() {
     return writeContract(config);
   }
   async function splitSign(hash: any) {
-    var signature = ethers.utils.splitSignature(hash);
+    const signature = ethers.utils.splitSignature(hash);
     return signature;
   }
   async function getSignatureForSale(
@@ -138,7 +138,7 @@ export function useCollectionDeployer() {
     // let unitPrice = Number(nftPrice);
     let qty = quantity;
     // unitPrice = unitPrice * 10 ** 18;
-    var nftAddress = contract_address;
+    const nftAddress = contract_address;
     // let percentage= 0.01*nftPrice
     let percentage = (nftPrice * 1) / 100;
     const _amount = ethers.utils.parseUnits(
@@ -148,7 +148,7 @@ export function useCollectionDeployer() {
     // const _amount = ((Number(nftPrice) + percentage) * 10 ** 18).toString();
     let amount = _amount;
     let nonce = Math.floor(new Date().getTime() / 1000);
-    var hash = ethers.utils.solidityKeccak256(
+    const hash = ethers.utils.solidityKeccak256(
       ["address", "uint256", "address", "uint256", "uint256", "uint256"],
       [
         nftAddress,
@@ -159,12 +159,12 @@ export function useCollectionDeployer() {
         nonce,
       ]
     );
-    var msgHash: Uint8Array = ethers.utils.arrayify(hash);
+    const msgHash: Uint8Array = ethers.utils.arrayify(hash);
     const walletClient = await getWalletClient();
-    var signHash = await walletClient?.signMessage({
+    const signHash = await walletClient?.signMessage({
       message: { raw: msgHash as addressType | Uint8Array },
     });
-    var sign = await splitSign(signHash);
+    const sign = await splitSign(signHash);
     return JSON.stringify({ sign, nonce });
   }
   async function setApprovalForAll(
@@ -179,7 +179,7 @@ export function useCollectionDeployer() {
         args: [process.env.REACT_APP_MARKETPLACE_PROXY_CONTRACT, true],
       });
       const receipt = await writeContract(config);
-      await waitForTransaction({hash:receipt.hash})
+      // await waitForTransaction({hash:receipt.hash})
       await callback({ ok: true, data: receipt });
     } catch (error) {
       await callback({ ok: false, data: error });
@@ -238,7 +238,7 @@ export function useCollectionDeployer() {
     } else {
       abi = USER1155.abi;
     }
-    var orderStruct = [
+    const orderStruct = [
       assetOwner,
       address,
       process.env.REACT_APP_ERC20WMATIC_TOKEN,
@@ -261,7 +261,7 @@ export function useCollectionDeployer() {
       ],
     });
     const response= await writeContract(config);
-    await waitForTransaction({hash:response.hash});
+    // await waitForTransaction({hash:response.hash});
     return response
   }
   async function acceptBid(
@@ -287,7 +287,7 @@ export function useCollectionDeployer() {
     );
     let amount = _amount;
     let nftAddress = contract_address;
-    var orderStruct = [
+    const orderStruct = [
       address,
       buyerAddress,
       process.env.REACT_APP_ERC20WMATIC_TOKEN,
@@ -305,30 +305,32 @@ export function useCollectionDeployer() {
       args: [orderStruct, [sign.sign.v, sign.sign.r, sign.sign.s, sign.nonce]],
     });
     const { hash } = await writeContract(config);
-     await waitForTransaction({ hash });
+    //  await waitForTransaction({ hash });
     return hash
   }
   async function approveERC20(contractAddress: any, amount: any) {
     const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || "";
     const config = await prepareWriteContract({
       abi: PaymentToken.abi,
-      address: wmaticToken,
+      address: wmaticToken as addressType,
       functionName: "approve",
       args: [contractAddress, amount],
     });
-    const { hash } = await writeContract(config);
-    return await waitForTransaction({ hash });
+    // const { hash } = 
+    return await writeContract(config);
+    // return await waitForTransaction({ hash });
   }
   async function deposit(amount: any) {
     const wmaticToken: string = process.env.REACT_APP_ERC20WMATIC_TOKEN || "";
     const config = await prepareWriteContract({
       abi: PaymentToken.abi,
-      address: wmaticToken,
+      address: wmaticToken as addressType,
       functionName: "deposit",
       value: amount,
     });
-    const { hash } = await writeContract(config);
-    return await waitForTransaction({ hash });
+    // const { hash } = 
+    return await writeContract(config);
+    // return await waitForTransaction({ hash });
   }
   function parseError(message) {
     let _message =
