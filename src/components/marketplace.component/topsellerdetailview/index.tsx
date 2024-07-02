@@ -465,7 +465,7 @@ const TopsellerDetailview = (props) => {
                   </p> */}
                    <p className="text-white text-base font-semibold">
                    <span className="font-normal mr-1">Items</span>
-                     {formatNumber(topSellerBanerDetails?.data?.nftsCount) || 0}
+                     {formatNumber(customerInfo?.data?.nftsCount) || 0}
                   </p>
                 </div>
                 {/* <div className="flex md:flex-row items-center gap-2.5 flex-col">
