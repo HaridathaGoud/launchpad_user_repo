@@ -303,8 +303,8 @@ const ProposalCards = (props: any) => {
                           key={item.creatorAddress || item.id}
                           to={
                             params?.daoId
-                              ? `/daos/${params?.daoName}/${params?.daoId}/${params.projectId}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
-                              : `/projects/${params?.projectName}/${params?.projectId}/${props?.pjctInfo?.tokenType}/proposals/${item?.title}/${item?.proposalId}/${daoDetails?.membershipTokenAddress}`
+                              ? `/daos/${params?.daoName}/${params?.daoId}/${params.projectId}/proposals/${item?.proposalId}/${daoDetails?.membershipTokenAddress}/${item?.title}`
+                              : `/projects/${params?.projectName}/${params?.projectId}/${props?.pjctInfo?.tokenType}/proposals/${item?.proposalId}/${daoDetails?.membershipTokenAddress}/${item?.title}`
                           }
                         >
                           <div className="flex justify-between gap-4 items-center">
