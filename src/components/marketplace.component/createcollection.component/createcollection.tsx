@@ -127,16 +127,16 @@ const CreateCollection = (props: any) => {
       const receipt = await provider.waitForTransaction(collectionRes.hash);
       obj["contractAddress"] = receipt.logs[0].address;
       const response = await postMarketplace(`User/SaveCollection`, obj);
-      if (response) {
+      if (response.statusText.toLowerCase() === 'ok') {
         rootDispatch(setToaster({ message: "Collection has been successfully created" }));
         handleBack();
       }
       else {
-        rootDispatch(setError({ message: response, from: "contract" }));
+        rootDispatch(setError({ message: response}));
       }
     }
     catch (error) {
-      rootDispatch(setError({ message: error?.message || error }));
+      rootDispatch(setError({ message: error }));
     }
     finally {
       localDispatch({ type: 'setIsLoading', payload: '' });
