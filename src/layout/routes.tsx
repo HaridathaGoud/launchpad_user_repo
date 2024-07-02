@@ -310,7 +310,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/daos/:daoName/:daoId/:projectId/proposals/:proposalId/:projectToken/:proposalTitle",
+          path: "/daos/:daoName/:daoId/:projectId/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
             <React.Suspense fallback={<ProposalPageShimmer />}>
               <ProposalView showTabs={false} />
@@ -318,7 +318,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "/projects/:projectName/:projectId/:tokenType/proposals/:proposalId/:projectToken/:proposalTitle",
+          path: "/projects/:projectName/:projectId/:tokenType/proposals/:proposalTitle/:proposalId/:projectToken",
           element: (
             <React.Suspense fallback={<ProposalPageShimmer />}>
               <ProposalView showTabs={true} />
