@@ -67,9 +67,9 @@ const Daos = (props: any) => {
               <li><a className="justify-between rounded-none">Investment <span className="bg-[#57606A] rounded-full w-fit px-2 py-1 text-white font-medium text-xs">5,284</span></a></li>
               <li><a className="justify-between rounded-none">Creator <span className="bg-[#57606A] rounded-full w-fit px-2 py-1 text-white font-medium text-xs">2,575</span></a></li>
             </ul>
-          </details>         
-          </div> 
-          <p className="text-lg font-normal text-[#444] max-sm:mt-2 dao-count">34K dao(s)</p> 
+          </details>
+          </div>
+          <p className="text-lg font-normal text-[#444] max-sm:mt-2 dao-count">34K dao(s)</p>
          </div> */}
         <div className="px-4 mx-auto max-w-[1012px] mb-[24px] flex flex-wrap items-centerflex-row md:flex-nowrap justify-between">
           <div className="w-full md:max-w-[420px]">

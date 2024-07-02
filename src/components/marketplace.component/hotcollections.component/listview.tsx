@@ -8,11 +8,13 @@ import Moment from "react-moment";
 import { useAccount } from "wagmi";
 
 const ListView = (props:any) => {
-  const { address } = useAccount();
+  const { address,isConnected } = useAccount();
   const navigate = useNavigate();
   const navigateToAsset = (item:any) => {
     navigate(`/marketplace/nft/${item.tokenId}/${item.collectionContractAddress}/${item.id}`) };
-
+const saveView = (item:any) =>{
+  props?.sendSaveView(item);
+}
   return (
     <div>
       <div className="mb-6 max-sm:w-full overflow-auto">
@@ -48,9 +50,13 @@ const ListView = (props:any) => {
                                 "ipfs://",
                                 "https://ipfs.io/ipfs/"
                               )
-                            : listimg
-                        }
-                         className="w-[50px] h-[50px] object-cover rounded-2xl shrink-0" alt="" />
+                              : listimg
+                          }
+                          className="w-[50px] h-[50px] object-cover rounded-2xl shrink-0 cursor-pointer" alt="" onClick={
+                            isConnected
+                              ? () => saveView?.(item)
+                              : () => navigateToAsset(item)
+                          } />
                          <p className="font-normal text-sm text-secondary w-36 truncate " title={item?.name}>{item?.name}</p>
                          </div>
                     </td>
