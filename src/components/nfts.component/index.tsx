@@ -426,7 +426,7 @@ const Nfts = forwardRef((props: any, ref) => {
                         </div>}
 
                         {localState.activeContent === 'content2' && (
-                            <ListView data={nftDetails[props?.type]} />)}
+                            <ListView data={nftDetails[props?.type]}  sendSaveView={saveView}/>)}
 
                         {data?.length === (nextPage - 1) * pageSize && (
                             <div className="">
