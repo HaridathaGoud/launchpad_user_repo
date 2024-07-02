@@ -299,7 +299,7 @@ const ProposalCards = (props: any) => {
                     {proposals?.data?.length > 0 &&
                       proposals?.data?.map((item: any) => (
                         <Link
-                          className="block rounded-lg bgDaocard p-4 mt-4 lg:mt-0"
+                          className="block rounded-lg bgDaocard p-4 mt-4 lg:mt-0 cursor-pointer"
                           key={item.creatorAddress || item.id}
                           to={
                             params?.daoId
