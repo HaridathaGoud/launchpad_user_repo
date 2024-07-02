@@ -5,12 +5,16 @@ import { waitForTransaction } from "wagmi/actions";
 const projectId = process.env.REACT_APP_PROJECTID;
 const projectSecret = process.env.REACT_APP_PROJECTSECRET;
 const authorization = "Basic " + btoa(projectId + ":" + projectSecret);
-const ipfs = ipfsHttpClient({
-  url: "https://ipfs.infura.io:5001/api/v0",
-  headers: {
-    authorization,
-  },
-});
+
+function base64ToBlob(base64, mimeType) {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: mimeType });
+}
 
 const validation = (
   data: any,
@@ -116,43 +120,43 @@ export const uploadToIPFS = async (funArgs: any, callbacks: any) => {
   const fileNames: any[] = [];
   try {
     for (let item of data) {
-      const base64String=item?.image;
-      let mimeType = '';
-      if (base64String.startsWith('iVBORw0KGgo')) {
-        mimeType = 'image/png';
-      } else if (base64String.startsWith('/9j/')) {
-        mimeType = 'image/jpeg';
-      } else if (base64String.startsWith('UklGR')) {
-        mimeType = 'image/webp';
-      } else if (base64String.startsWith('R0lGOD')) {
-        mimeType = 'image/gif';
+      const base64String = item?.image;
+      let mimeType = "";
+      if (base64String.startsWith("iVBORw0KGgo")) {
+        mimeType = "image/png";
+      } else if (base64String.startsWith("/9j/")) {
+        mimeType = "image/jpeg";
+      } else if (base64String.startsWith("UklGR")) {
+        mimeType = "image/webp";
+      } else if (base64String.startsWith("R0lGOD")) {
+        mimeType = "image/gif";
       } else {
-        console.error('Unsupported image format');
+        console.error("Unsupported image format");
         return;
       }
       const nftMetadata = JSON.stringify(item);
       const blob = new Blob([nftMetadata], { type: "application/json" });
-      const imageBlob=new Blob([base64String], { type: mimeType });
       const formData = new FormData();
-      formData.append('file', blob, new Date().getTime() + '.json');
+      formData.append("file", blob, new Date().getTime() + ".json");
       const response = await apiUploadPost("Upload/UploadFileNew", formData);
-      const imageData=new FormData();
-      imageData.append('file', imageBlob, new Date().getTime() + '.json');
-      if (response.statusText.toLowerCase()!=='ok') {
+      if (response.statusText.toLowerCase() !== "ok") {
         onError(response);
         return;
       }
+      const imageBlob = base64ToBlob(base64String, mimeType);
+      const imageData = new FormData();
+      imageData.append("file", imageBlob, new Date().getTime() + '.'+mimeType.split('/')[1]);
       const imageURL = await apiUploadPost("Upload/UploadFileNew", imageData);
-      if (imageURL.statusText.toLowerCase()!=='ok') {
+      if (imageURL.statusText.toLowerCase() !== "ok") {
         onError(imageURL);
         return;
       }
       urisFromIPFSData.push(response.data[0]);
       fileNames.push({
         fileName: item.serialNo,
-        ImageCid: imageURL[0],
+        ImageCid: imageURL.data[0],
         Description: item.description,
-        nftName: item.name ,
+        nftName: item.name,
         cid: response.data[0],
         coin: crypto,
         price: Number(nftPrice).toFixed(8),
@@ -184,14 +188,14 @@ export const mintNfts = async (funArgs: any, callbacks: any) => {
   }
 };
 
-const updateHash = async (params:any) => {
-  const {data,files,userId,daoId}=params
+const updateHash = async (params: any) => {
+  const { data, files, userId, daoId } = params;
   try {
     const response = await putForMinting("User/updatetransactionhash", {
       transactionHash: data.hash,
       files: files,
       customerId: userId,
-      daoId:daoId,
+      daoId: daoId,
     });
     if (response.status === 200) {
       return;
