@@ -454,20 +454,20 @@ const TopsellerDetailview = (props) => {
                     />
                   </CopyToClipboard>
                 </div>
-                {/* <div className="flex gap-4 mt-4 mb-5">
-                  <p className="text-white text-base font-semibold">
+                <div className="flex gap-4 mt-4 mb-5">
+                  {/* <p className="text-white text-base font-semibold">
                     <span className="font-normal mr-1">Followers</span>
                     {formatNumber(topSellerBanerDetails?.data?.followers) || 0}
                   </p>
                   <p className="text-white text-base font-semibold">
                     <span className="font-normal mr-1">Following</span>
                     {formatNumber(topSellerBanerDetails?.data?.following) || 0}
+                  </p> */}
+                   <p className="text-white text-base font-semibold">
+                   <span className="font-normal mr-1">Items</span>
+                     {formatNumber(topSellerBanerDetails?.data?.nftsCount) || 0}
                   </p>
-                  <p className="text-white text-base font-semibold">
-                    <span className="font-normal mr-1">Items</span>
-                    {formatNumber(topSellerBanerDetails?.data?.items) || 0}
-                  </p>
-                </div> */}
+                </div>
                 {/* <div className="flex md:flex-row items-center gap-2.5 flex-col">
                 <Button type='primary' ><span className='video-icon icon'></span>Subscribe with 2Matic / $1.32</Button>
                 <button className="bg-accent px-4 py-2 rounded-[20px] text-sm font-medium whitespace-nowrap"> <span className="icon share mr-2"></span>Share</button>

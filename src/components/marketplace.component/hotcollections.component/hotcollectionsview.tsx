@@ -101,7 +101,7 @@ const HotcollectionView = (props: any) => {
               </div>
               <div className="flex text-[18px] mt-2 font-medium gap-2">
                 <p className='text-white '>By : {hotCollectionViewDetails?.data?.creatorName ||hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
-                <CopyToClipboard
+               {(!hotCollectionViewDetails?.data?.creatorName) && <CopyToClipboard
                     text={hotCollectionViewDetails?.data?.walletAddress}
                     options={{ format: "text/plain" }}
                     onCopy={() => handleCopy("current")}
@@ -114,7 +114,7 @@ const HotcollectionView = (props: any) => {
                         "icon md copy-icon invert cursor-pointer ms-0 pl-4"
                     }
                     />
-                  </CopyToClipboard>
+                  </CopyToClipboard>}
               </div>
               <p className='text-white mt-3 text-base pr-4 overflow-hidden text-ellipsis line-clamp-4'>
                 {hotCollectionViewDetails?.data?.description ||'--'}
