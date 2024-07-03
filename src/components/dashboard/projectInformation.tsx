@@ -3,6 +3,7 @@ import { get } from "../../utils/api";
 import ProjectInformationShimmer from "../loaders/dashboard/projectInformation";
 import { useDispatch } from "react-redux";
 import { setError } from "../../reducers/layoutReducer";
+import formatNumber from "../../ui/formatNumber";
 
 const ProjectInformation = () => {
   const rootDispatch=useDispatch()
@@ -31,20 +32,8 @@ const ProjectInformation = () => {
     }
   };
   const formatDetailValue = (name: string, value: number): string => {
-    if (name === "PROJECTS VOLUME") {
-      if (Number.isInteger(value)) {
-        return `${value}+`;
-      } else {
-        const suffix = Math.abs(value) > 999999 ? "M" : "";
-        return `${value}M${suffix}`;
-      }
-    }else {
       const prefix = name === "RAISED CAPITAL" ? "$" : "";
-      const suffix = Number.isInteger(value) ? "+" : "M";
-      const intValue = Math.floor(value);
-      const formattedValue = intValue.toLocaleString('en-IN');
-      return `${prefix}${formattedValue}${suffix}`;
-    }
+      return `${prefix}${formatNumber(value)}`;
   };
   return (
     <div className="mt-[26px]">

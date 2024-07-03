@@ -1,5 +1,5 @@
 const formatNumber=(value:number|string)=>{
-    value=Number(value)
+    value=Number(value);
     if(value<1000){
         return value
     }
