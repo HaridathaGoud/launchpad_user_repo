@@ -10,6 +10,7 @@ import { StakingContextModal, StakingTabsContextModel } from "../models.ts";
 import { StakingTabsContext } from "../context/stakingTabsContext.tsx";
 import { useDispatch } from "react-redux";
 import { setToaster } from "../../../reducers/layoutReducer.ts";
+import PleaseWait from "../../../layout/pleaseWait.tsx";
 const RewardsComponent = () => {
   const rootDispatch = useDispatch();
   const {
@@ -78,9 +79,9 @@ const RewardsComponent = () => {
       <div className="">
         <div className="mt-5">
           <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between">
-            <CheckPointsComponent />
-
-            <div className="lg:flex items-center justify-between max-sm:mt-4">
+            {/* <CheckPointsComponent /> */}
+            <PleaseWait text="Coming soon..." boxClass=""/>
+            {/* <div className="lg:flex items-center justify-between max-sm:mt-4">
               <CheckBox />
               <div className="max-sm:text-center max-sm:mt-2">
                 <Button
@@ -93,7 +94,7 @@ const RewardsComponent = () => {
                   Stake Rewards
                 </Button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
