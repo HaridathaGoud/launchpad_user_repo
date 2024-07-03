@@ -12,17 +12,16 @@ interface NumberInputProps {
   inputClass?: string;
   errorClass?: string;
   inputType?: string;
-  maxDecimals?: number;
   isInteger?: boolean;
   disabled?: boolean;
   allowDecimals?: number;
   maxLength?: number;
 }
 function getDecimalRegex(decimalPlaces: number) {
-  return new RegExp(`^\\d{1,}(\\.\\d{0,${decimalPlaces}})?$`);
+  return new RegExp(`^(\\d{1,}(\\.\\d{0,${decimalPlaces}})?)?$`);
 }
 
-const integerRegex = /^\d+$/;
+const integerRegex = /^(\d+)?$/;
 const NumberInput = ({
   label,
   fieldName,
