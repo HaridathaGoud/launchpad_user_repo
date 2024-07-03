@@ -259,7 +259,7 @@ const Nfts = forwardRef((props: any, ref) => {
                     </div>
                 </div>
                 <div className='grid md:grid-cols-12 lg:gap-[45px]'>
-                    {!(props?.type === 'profile' || props?.type ==='topSellers') && <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
+                    {!(props?.type === 'profile' || props?.type ==='topSellers' || props?.type ==='mycollections') && <div className='col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-3'>
                         <StatusDetailview
                             handleChange={handleChange}
                             selectedObj={localState.values}

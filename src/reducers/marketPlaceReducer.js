@@ -194,7 +194,7 @@ const fetchNfts = (information, screenName) => {
     const api = {
         'explorenfs': `User/ExploreNfts/${take}/${skip}/${searchBy}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${customerId}`,
         'hotcollections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
-        'mycollections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
+        'mycollections': `User/CustomerNftColletions/${collectionid}/${customerId}/${take}/${skip}/${price}/${searchBy}`,
         'collections': `User/GetNftsByCollectionId/${collectionid}/${take}/${skip}/${price}/${quantity || "All%20items"}/${currency}/${status}/${amount || null}/${searchBy}/${customerId}`,
         'profile': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
         'topSellers': `User/${activeTab}/${walletAddress}/${take}/${skip}/${price}/${searchBy}/${customerId}`,
