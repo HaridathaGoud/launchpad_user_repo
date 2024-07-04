@@ -249,7 +249,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                   <p className="mt-5 mb-1 cursor-pointer text-base font-semibold text-secondary opacity-60">
                     PNG, GIF, WEBP, MP4 or MP3. Max 10MB.
                   </p>
-                  <p className="text-sm opacity-60 mb-4">
+                  <p className="text-sm opacity-60 mb-4 text-neutral">
                     <span className="font-semibold">Note: </span>For Better
                     Appearance Upload 500 * 500 Resolution
                   </p>
@@ -340,7 +340,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <span className="icon properties"></span>
+                    <span className="icon properties  invert"></span>
                     <div className="ms-2">
                       <h6 className="text-secondary text-base font-normal">
                         Properties
@@ -467,13 +467,13 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                         value={""}
                         allowDecimals={4}
                         onChange={handleChange}
-                        inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                        inputBoxClass=" w-full rounded-[12px] border-[#A5A5A5]"
                         placeholder="Enter the sale price"
-                        inputClass="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        inputClass="input mt-3 input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                       />
                       <Select
                         inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
-                        inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
+                        inputClass="border-none w-full text-secondary rounded-[12px] focus:outline-none cursor-pointer"
                         value={values.crypto || ""}
                         options={currencies || []}
                         onChange={handleChange}
@@ -527,13 +527,13 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       value={""}
                       allowDecimals={4}
                       onChange={handleChange}
-                      inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                      inputBoxClass=" w-full rounded-[12px] border-[#A5A5A5]"
                       placeholder="Enter the price per one bid"
-                      inputClass="input mt-3 input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                      inputClass="input mt-3 input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                     />
                     <Select
                       inputBoxClass="absolute right-0 px-3 top-5 border-l w-[130px]"
-                      inputClass="border-none w-full text-secondary rounded-[28px] focus:outline-none cursor-pointer"
+                      inputClass="border-none w-full text-secondary rounded-[12px] focus:outline-none cursor-pointer"
                       value={values.crypto || ""}
                       options={currencies || []}
                       onChange={handleChange}
@@ -616,7 +616,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                       </label>
                       <input
                         type="text"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         placeholder="Type"
                         value={property.trait_type}
                         onChange={(event) =>
@@ -643,7 +643,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
 
                       <input
                         type="text"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         placeholder="Value"
                         value={property.value}
                         onChange={(event) =>

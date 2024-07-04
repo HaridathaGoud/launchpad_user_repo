@@ -57,7 +57,7 @@ const Select = ({
         placeholder={placeholder || "Select option"}
         className={
           inputClass ||
-          "input input-bordered w-full text-secondary rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+          "input input-bordered w-full text-secondary rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
         }
         value={value}
         onChange={(event) => {

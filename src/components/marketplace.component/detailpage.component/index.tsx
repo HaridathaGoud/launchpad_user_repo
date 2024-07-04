@@ -444,7 +444,7 @@ const DetailPage = (props: any) => {
                       </div>
                     )}
                     {/* <div
-                      className={`max-sm:mt-4 border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
+                      className={`max-sm:mt-4 border-[2px] rounded-[12px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}
                     >
                       <span
                         className={`detail-minus icon cursor-pointer`}

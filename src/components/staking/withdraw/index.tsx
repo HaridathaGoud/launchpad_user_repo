@@ -136,7 +136,7 @@ const WithdrawComponent = () => {
                   <div className="max-sm:text-center max-sm:mt-2">
                     <button
                       type="button"
-                      className="bg-primary rounded-[28px] h-[42px] px-6 inline-block text-lg font-semibold text-base-100"
+                      className="bg-primary rounded-[12px] h-[42px] px-6 inline-block text-lg font-semibold text-base-100"
                       onClick={handleWithdrawAgain}
                     >
                       Withdraw Again

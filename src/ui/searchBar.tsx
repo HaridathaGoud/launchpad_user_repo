@@ -41,7 +41,7 @@ const SearchBar = ({
         ref={inputRef}
         className={
           inputClass ||
-          "w-full rounded-[28px] border-[#e0e0e0] h-[44px] border focus:outline-none pr-5 pl-12"
+          "w-full rounded-[12px] border-[#e0e0e0] h-[44px] border focus:outline-none pr-5 pl-12 search-dark"
         }
         disabled={disabled}
       />

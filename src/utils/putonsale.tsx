@@ -184,7 +184,7 @@ const PutOnSale = (props: any) => {
                         value={""}
                         allowDecimals={4}
                         onChange={handleChange}
-                        inputBoxClass=" w-full rounded-[28px] border-[#A5A5A5]"
+                        inputBoxClass=" w-full rounded-[12px] border-[#A5A5A5]"
                         placeholder="Enter the sale price"
                         inputClass="w-full input input-bordered outline-none focus:outline-none pl-4 pr-32 h-10 rounded-[28px]"
                         errorClass="text-sm font-normal text-red-600 ml-2.5"

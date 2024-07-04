@@ -29,7 +29,7 @@ const ProjectdetailsView = (props: any) => {
         {!props.loader && (
           <div
             id={"scrollTabs"}
-            className="sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-success-content"
+            className="detail-tabs-dao sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-success-content"
           >
             <ProjectDetailTabs pjctInfo={props.data?.projectDetails} />
             {props?.status["private"] !== "Ended" &&

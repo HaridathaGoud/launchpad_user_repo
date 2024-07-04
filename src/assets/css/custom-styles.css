@@ -20,11 +20,11 @@ html[data-theme="dark"] .project-card{border-color: #55536f;}
 .applynowSection{ background: linear-gradient(180deg, #D9CAF5 0%, #EBEDD1 52.08%, #FFD7D7 100%);}
 .navbar-center li a:active,.dropdown-content li a:active{background-color: transparent !important;color: #D60000 !important;}
 .project-card{box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);}
-.facebook-md{background-position: -76px -37px !important;width: 28px;height: 28px;}
-.instagram-md{background-position: -42px -37px !important;width: 28px;height: 28px;}
-.telegram-md{background-position:-9px -37px !important;width: 28px;height: 28px;}
+.facebook-md{background-position: -69px -37px !important;width: 28px;height: 28px;}
+.instagram-md{background-position: -38px -37px !important;width: 28px;height: 28px;}
+.telegram-md{background-position:-7px -37px !important;width: 28px;height: 28px;}
 .discord-md{background-position:-109px -37px !important;width: 28px;height: 28px;}
-.network-md{background-position:-142px -37px !important;width: 28px;height: 28px;}
+.network-md{background-position:-132px -37px !important;width: 28px;height: 28px;}
 .greenDot{background-position:-41px -71px !important;width: 14px;height: 14px;}
 .coinName{background-position:-25px -71px !important;width: 14px;height: 14px;}
 .coinSymbol{background-position:-9px -71px !important;width: 14px;height: 14px;}
@@ -92,7 +92,7 @@ button.bg-primary:hover{opacity: 0.7;}
 .allocationtable tbody tr{border-radius: 8px;box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);}
 .allocationtable td{padding-top: 16px;padding-bottom: 16px;}
 .discussion-replay label{display: none;}
-html[data-theme="dark"] .daorightpanel-bg{background-color: #515151;}
+html[data-theme="dark"] .daorightpanel-bg{background-color: #1c1c1c;border: 1px solid #343434;}
 .daorightpanel-bg{background-color: #ffffff;border: 1px solid #e0e0e0;}
 .menu-active{background-color: transparent !important;color: #D60000 !important;}
 .sidebar {height: 100%;  width: 0;  position: fixed;  z-index: 1;  top: 63px;  left: 0;  overflow-x: hidden;transition: 0.3s;}
@@ -136,12 +136,14 @@ ul li:hover .icon.web-series{height: 26px;width: 26px;background-position: -157p
 .active-tier .stake-btn:hover{background-color: #fff;color: #000 !important;}
 .black-gradient{background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 25.17%, #000 71.18%);}
 html[data-theme="dark"] button.bg-secondary{background-color: #D60000;}
+html[data-theme="dark"] .input-bordered{border: 1px solid rgb(165 165 165 / var(--tw-border-opacity));background-color: transparent !important;color: #ffffff;}
 .icon.like{height: 20px; width: 20px; background-position: -248px -213px !important;}
-.tabstyle .tab:is(input:checked){border-radius: 28px; background: #D60000;    border-bottom-right-radius: 28px !important; border-bottom-left-radius: 28px !important;border: none !important;
+.tabstyle .tab:is(input:checked){border-radius: 12px; background: #D60000;    border-bottom-right-radius: 12px !important; border-bottom-left-radius: 12px !important;border: none !important;
   font-size: 14px;color: #FFF;font-weight: 600;}
- .tabstyle .tab{border-radius: 28px; background: #D0D0D0;   border-bottom-right-radius: 28px !important; border-bottom-left-radius: 28px !important;border: none !important;
+ .tabstyle.tab-design-style > .tab {border-radius: 12px; background: transparent;border-bottom-right-radius: 12px !important; border-bottom-left-radius: 12px !important;border:1px solid #e0e0e0 !important;
     font-size: 14px;color: #000;font-weight: 600;margin-left: 12px;white-space: nowrap;}
-.tab.tab-checked{border-radius: 28px; background: #D60000;    border-bottom-right-radius: 28px !important; border-bottom-left-radius: 28px !important;border: none !important;
+html[data-theme="dark"] .tabstyle.tab-design-style > .tab{border:1px solid #343434 !important;color: #fff;}
+.tab.tab-checked{border-radius: 12px; background: #D60000;    border-bottom-right-radius: 12px !important; border-bottom-left-radius: 12px !important;border: none !important;
   font-size: 14px;color: #FFF;font-weight: 600;}
 .icon.like:hover{background-position: -248px -242px !important;}
 .input-transparent{background-color: rgba(217, 217, 217, 0.21) !important;}
@@ -162,16 +164,21 @@ input[type=radio]:checked+span{ display: inline-block;background: var(--darkthem
 .cust-error-bg img{width:32px}
 .rating-half.rating-lg input:not(.rating-hidden){width: 1rem !important;}
 .dot-green{background:#13B166}
-.dot-red{background:red}
+.dot-red{background:#ff4646;}
 .dot-white{background:#fff}
-.dot-orange{background:#e97307}
+.dot-orange{background:#765ae8}
 .profile-size:hover .cam-position{cursor:pointer;visibility:visible}
 .cam-position{position:absolute;right:40%;top:40%;visibility:hidden;z-index:999}
 .profile-size:hover .cam-position{cursor:pointer;visibility:visible}
 .icon.close { background-position: -286px -10px !important; width: 20px; height: 20px;}
-.refferal-table thead tr{border-radius: 8px;  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.25);}
+.refferal-table thead tr{border-radius: 8px;  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05);border: 1px solid #e0e0e0;}
 .refferal-table tr td,.refferal-table tr th{padding: 16px 20px;}
 .refferal-table tbody tr{border-radius: 8px;  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);}
+html[data-theme="dark"] .refferal-table tbody tr:hover{background:#353352}
+html[data-theme="dark"] .text-skin-text{color: #ffffff;}
+html[data-theme="dark"] .dark-th-color{color:#ffffff}
+html[data-theme="dark"] .search-dark{background-color: transparent;}
+html[data-theme="dark"] .drawer-toggle:checked ~ .drawer-side > .drawer-overlay {background-color: #353535c7;}
 .refferal-table tbody tr:hover{background:#F0EEEE}
 .icon.copy-icon{background-position: -433px -9px !important;}
 .check-icon{background-position: -462px -11px !important;}
@@ -200,6 +207,9 @@ html[data-theme="dark"] .place-bid{color: #fff ;}
 html[data-theme="dark"] .Overview .text-neutral{color: #9a9a9a;}
 .drawer-side option:checked,.drawer-side option:hover { background-color: #D60000 !important; color: #fff; }
 html[data-theme="dark"] .drawer-bid{color: #000 !important;}
+html[data-theme="dark"] select, html[data-theme="dark"] .nft-dropdown, html[data-theme="dark"] .daodrop-arrow summary{background:url(../images/arrow-white.svg) no-repeat !important  ;background-position: right 20px center !important;}
+html[data-theme="dark"] .input-disabled, html[data-theme="dark"] .input:disabled, html[data-theme="dark"] .input[disabled]{background-color: #343434 !important;}
+/* html[data-theme="dark"] .applynowSection */
 .Metamask.icon {  background-position: -470px -333px !important;  width: 40px;  height: 40px;}
 .WalletConnect.icon {  background-position: -524px -333px !important;  width: 40px;  height: 40px;}
 .icon.close-red {  background-position: -494px -10px !important;  width: 20px;  height: 20px;}
@@ -232,7 +242,7 @@ select,.nft-dropdown,.daodrop-arrow summary{background:url(../images/arrow.svg) 
 .successicon{width: 43px;height: 43px;background-position: -197px -460px !important;}
 .erroricon{width: 43px;height: 43px;background-position: -242px -460px !important;}
 .icon.see-more{ background-position: -107px -70px !important; height: 16px !important; width: 24px}
-input:focus-visible {border-radius: 30px;outline: none;}
+input:focus-visible {border-radius:12px;outline: none;}
 /* toaster msg end */
 .channel-bg{background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-aokokFuIEj01QetjCEYS66WIACbMjeWxWg&usqp=CAU);}
 .icon.circle-check{background-position:-344px -267px !important;}
@@ -242,10 +252,10 @@ input:focus-visible {border-radius: 30px;outline: none;}
 .icon.add{background-position: -477px -161px !important;}
 .icon.delete-icon{background-position: -522px -8px !important;}
 .copy-check{background-position: -460px -9px !important;}
-.icon.carousal-left-arrow{background-position: -287px -470px !important;  width: 30px;  height: 30px;}
-.icon.carousal-left-arrow:hover{background-position: -288px -501px !important;  width: 30px;  height: 30px;}
-.icon.carousal-right-arrow{background-position: -323px -470px !important;  width: 30px;  height: 30px;}
-.icon.carousal-right-arrow:hover{background-position: -323px -501px !important;  width: 30px;  height: 30px;}
+.icon.carousal-left-arrow{background-position: -287px -468.5px !important;  width: 30px;  height: 30px;}
+.icon.carousal-left-arrow:hover{background-position:-288px -499.5px !important;  width: 30px;  height: 30px;}
+.icon.carousal-right-arrow{background-position: -323.5px -468.5px !important;  width: 30px;  height: 30px;}
+.icon.carousal-right-arrow:hover{background-position: -323px -499.5px !important;  width: 30px;  height: 30px;}
 .trending-card{width: 300px;}
 button.opacity-100{opacity: 1 !important;}
 .dots{background-position: -333px -211px !important;}
@@ -283,17 +293,18 @@ input::-webkit-calendar-picker-indicator {cursor: pointer;}
 html[data-theme="dark"] .dark-textwhite,html[data-theme="dark"] .detail-table p{color: #fff !important;}
 html[data-theme="dark"] button.text-base-100{color: #fff !important;}
 html[data-theme="dark"] table tr{background-color: #353352;}
-html[data-theme="light"] table tr:nth-child(odd){background-color: #F0EEEE;}
+html[data-theme="light"] table tr:nth-child(odd){background-color: #ffffff;}
 table tr th:first-child,table tr td:first-child{border-top-left-radius: 8px;border-bottom-left-radius: 8px;}
 table tr th:last-child,table tr td:last-child{border-top-right-radius: 8px;border-bottom-right-radius: 8px;}
 html[data-theme="light"] .investments .tier-card{background: url(../images/cardbg-img.svg) no-repeat; background-size: cover;}
 .bg-about{background:url(../images/bg-aboutbanner.svg) no-repeat;background-size: cover;background-position: bottom;}
 .blockchain-shadow{box-shadow: 0px 4px 124px 0px rgba(0, 0, 0, 0.10);}
 .choose-shadow{box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);}
+html[data-theme="dark"] select option{color: #000;}
 /* marketplace start  */
 .icon.image-upload{background-position: -9px -551px !important;height: 52px;width: 52px;}
 .icon.properties{background-position: -9px -625px !important;height: 22px;width: 22px;}
-.icon.add-btn{background-position: -45px -620px !important;height: 28px;width: 22px;}
+.icon.add-btn{background-position: -44px -620px !important;height: 28px;width: 22px;}
 .toggle:checked,.toggle:checked:hover{border-color: #D60000;color: #fff; background-color: #D60000;}
 .matic-circle.icon{background-position: -93px -615px !important;width: 30px;height: 30px;}
 .icon.refresh-icon{background-position: -333px -238px !important;height: 22px;width: 22px;scale: 0.8;}
@@ -312,17 +323,26 @@ html[data-theme="dark"] .profile-subtabs .tab{color: #fff;}
 .more-collection{width: 260px;}
 .min-max-group label{margin-left: 14px;}
 .icon.square-arrow{background-position: -334px -9px !important;}
-.shop-card:hover .icon.square-arrow{background-position: -550px -10px !important;} 
+.shop-card:hover .icon.square-arrow{background-position: -334px -9px !important;} 
 .drawer-side::-webkit-scrollbar-thumb{background-color: #c1c1c1;width: 8px;}
 .drawer-side::-webkit-scrollbar{width: 8px;}
 .dao-card{border: 1.5px solid  #e0e0e0;}
 .dao-dropdown summary::marker{display: none;content: none;}
 .icon.category{background-position:   -579px -8px !important;}
 html[data-theme="dark"] .dao-card{border-color: #343434;}
+html[data-theme="dark"] .tab.dao-card{border-color: #343434;color: #fff;}
 html[data-theme="dark"] .dao-card:hover{border-color: #8B949E;}
 html[data-theme="dark"] .dao-card .text-neutral,html[data-theme="dark"] .dao-count{color: #8B949E;}
-html[data-theme="dark"] .dao-dropdown,html[data-theme="dark"] .search-section input{border:1px solid #343434;border-radius: 25px;background: transparent;}
-html[data-theme="dark"] .dao-dropdown summary,html[data-theme="dark"] .search-section .icon.search,html[data-theme="dark"] .input[type=radio]+span,html[data-theme="dark"] #walletConnectModal .modal-box,html[data-theme="dark"] #walletConnectModal button,html[data-theme="dark"] #walletConnectModal .text-secondary,html[data-theme="dark"] #walletConnectModal .btn-circle,html[data-theme="dark"] .drawer-side .menu,html[data-theme="dark"] .drawer-side .menu .bg-primary,html[data-theme="dark"] .drawer-side .menu button.bg-secondary,html[data-theme="dark"] .drawer-side .menu .text-secondary,html[data-theme="dark"] .drawer-side .menu .star.label::after,html[data-theme="dark"] .drawer-side .menu .text-red-600,html[data-theme="dark"] .drawer-side .icon.upload-plus,html[data-theme="dark"] .drawer-side .icon.close,html[data-theme="dark"] input[type=radio]+span,html[data-theme="dark"] .breadcrumbs > ul > li:not(:last-child)::after {filter: invert(1);}
+html[data-theme="dark"] .dao-dropdown,html[data-theme="dark"] .search-section input{border:0;border-radius: 25px;background: transparent;}
+html[data-theme="dark"] .dao-dropdown summary,html[data-theme="dark"] .search-section .icon.search,html[data-theme="dark"] .input[type=radio]+span,html[data-theme="dark"] .breadcrumbs > ul > li:not(:last-child)::after {filter: invert(1);}
+html[data-theme="dark"] .opacity-60{opacity: 1;}
+html[data-theme="dark"] .drawer-side .menu, html[data-theme="dark"]  .modal-box, html[data-theme="dark"] .card{background-color: #1C1B20 !important;}
+html[data-theme="dark"] .card-body div h1, html[data-theme="dark"] .card-body div p{color: #fff;}
+html[data-theme="dark"] .drawer-side .menu label{color: #fff;}
+html[data-theme="dark"] .bg-dark-color, html[data-theme="dark"] .detail-tabs-dao.sticky.bg-success-content, html[data-theme="dark"] .customTabs.bg-success-content{background-color: #1c1c1c;color: #fff;}
+html[data-theme="dark"] .w3modal-icons .tooltip.capitalize:nth-child(2)  button img{filter: invert(1);}
+html[data-theme="dark"] .bg-base-content.view-all-style{background-color: #353352;}
+html[data-theme="dark"] .loading.loading-spinner.loading-md {filter: invert(1);}
 .icon.filter{background-position:-605px 2px !important;width: 32px;height: 32px;}
 .proposal-filters .icon.search{right: unset; left: 14px;}
 .proposal-filters .input{padding-left: 48px;padding-right: 70px;}
@@ -332,10 +352,11 @@ html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-le
 .dao-para{-webkit-line-clamp: 4;  box-sizing: border-box;  text-overflow: ellipsis;  overflow: hidden;  -webkit-box-orient: vertical;  display: -webkit-box;}
 .tune-button {font-weight: 600;height: 46px;cursor: pointer;border-radius: 9999px;border: 1px solid #e0e0e0!important;background-color: transparent;padding-left: 22px;padding-right: 22px;color: #444444  !important;}
 .tune-button:hover{border: 1px solid #57606a !important;}
+.steps .step:before, .steps .step:after{background-color: #353352 !important;color: #ffffff !important;}
 /* .footer{} */
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
-  .banner,.carousal-banner .carousel{  max-height: 500px;}
+  .banner,.carousal-banner .carousel{  max-height:380px;}
   .drawer-side .menu{min-width: 500px;}
   .proposal-filters{width: 360px !important;}
 }

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo, useState } from "react";
-import logo from "../../assets/images/yb-logo.svg";
+import logo from "../../assets/images/yb-logo-white.svg";
 import { connect, useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import userImage from "../../assets/images/avatar.jpg";
@@ -172,7 +172,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
             !changingAddress && <ConnectWallet />}
           {(isReconnecting || isConnecting || changingAddress) && (
             <div
-              className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
+              className={`p-2 px-2 truncate rounded-[12px] border-solid border-[1px] border-secondary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
             >
               <p className="!text-base-100 inline-block text-sm leading-5 truncate dark-textwhite">
                 please wait...
@@ -190,7 +190,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                 btnContent={
                   <span className="relative">
                     <div
-                      className={`p-2 px-2 truncate rounded-[33px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
+                      className={`p-2 px-2 truncate rounded-[12px] border-solid border-[1px] border-primary bg-primary hover:bg-primary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7]`}
                     >
                       <p className="!text-base-100 inline-block text-sm leading-5 truncate dark-textwhite">
                         {address?.slice(0, 4) +

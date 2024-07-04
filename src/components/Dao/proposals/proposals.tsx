@@ -179,7 +179,7 @@ const ProposalCards = (props: any) => {
                   {state.isFilterOpen && (
                     <ul
                       ref={filtersRef}
-                      className="menu dropdown-content bg-base-100 rounded-box z-[1] left-[-240px] md:left-[-339px] w-[384px] md:w-[384px] top-12 p-6 shadow"
+                      className="menu dropdown-content bg-base-100 rounded-box z-[1] left-[-240px] md:left-[-247px] w-[384px] md:w-[300px] top-12 p-6 shadow"
                     >
                       <h1 className="text-center text-secondary text-lg mb-2 font-semibold">
                         Filters
@@ -206,7 +206,7 @@ const ProposalCards = (props: any) => {
                                 disabled={proposals.loading}
                               />
                               <span></span>
-                              <span className="text-[#57606a] text-[16px] font-medium cursor-pointer">
+                              <span className="text-[#57606a] text-[16px] font-medium cursor-pointer dark-th-color">
                                 {item?.name}
                               </span>
                             </label>{" "}
@@ -316,7 +316,7 @@ const ProposalCards = (props: any) => {
                                   alt="dao profile"
                                 />
                               </div>
-                              <p className="truncate text-[#444444] font-medium text-base">
+                              <p className="truncate text-neutral font-medium text-base">
                                 {item.createdBy || item.creatorAddress || "--"}
                               </p>
                             </div>
@@ -360,7 +360,7 @@ const ProposalCards = (props: any) => {
                             />
                           </div> */}
                             <div className="flex-1">
-                              <p className="dao-para line-clamp-2 break-words text-md font-semibold text-[#444444]">
+                              <p className="dao-para line-clamp-2 break-words text-md font-semibold text-neutral">
                                 {(item?.description &&
                                   (item?.description.length > 75
                                     ? item.description.slice(0, 75) + " ..."

@@ -294,8 +294,8 @@ const saveFavoriteNft = async (item: any) => {
               </div>
             )}
             <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
-              <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1" onClick={() => handleSlideActions("previous")} ></span>
-              <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]" onClick={() => handleSlideActions("next")}></span>
+              <span className="icon carousal-left-arrow cursor-pointer  mr-1" onClick={() => handleSlideActions("previous")} ></span>
+              <span className="icon carousal-right-arrow cursor-pointer " onClick={() => handleSlideActions("next")}></span>
             </div>
           </div>
           {localState.showBuyModal && (

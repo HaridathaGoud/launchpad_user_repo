@@ -47,9 +47,9 @@ const Claims = ({ userClaims,fetchData }) => {
                 <th className="text-left text-base text-secondary font-bold">
                   Token Symbol
                 </th>
-                {/* <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
-                        Live Price
-                        </th> */}
+                <th className="text-left text-base text-secondary font-bold whitespace-nowrap">
+                        {/* Live Price */}
+                        </th>
               </tr>
             </thead>
             <tbody>

@@ -33,7 +33,7 @@ const CustomSelect = ({
           if(disabled) return;
           setIsOpen(true)
         }}
-        className={`btn m-1 justify-start input input-bordered w-full rounded-[28px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`btn m-1 justify-start input input-bordered w-full rounded-[12px] bg-transparent hover:bg-transparent border-[#A5A5A5] focus:outline-none pl-4 h-10 ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
         {selectedValue && hasImage && (
           <img

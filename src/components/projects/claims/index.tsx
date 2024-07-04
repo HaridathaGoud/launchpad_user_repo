@@ -100,11 +100,11 @@ const Claims = (props:any) => {
                 </h2>
               </div>
               <div className="">
-                <p className="text-base text-neutral">
+                <p className="text-base text-secondary">
                   1. You first need to purchase the tokens on this page, when
                   the {process.env.REACT_APP_OFFERING_TITLE}’S is live on TBA
                 </p>
-                <p className="text-base text-neutral">
+                <p className="text-base text-secondary">
                   2. After that , claim your purchased tokens here at TGE
                 </p>
               </div>

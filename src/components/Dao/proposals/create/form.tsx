@@ -75,15 +75,15 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
   return (
     <div className="">
       <div className="mt-4 ">
-        <h4 className="inline-block ml-4 mb-2">Author</h4>
-        <div className="border-[#A5A5A5] border rounded-[28px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
+        <label className="inline-block ml-4 mb-2">Author</label>
+        <div className="border-[#A5A5A5] border rounded-[12px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
           <div className="flex items-center truncate">
             <img
               src={user?.profilePicUrl || defaultAvatar}
-              className="mr-2 w-5 h-5 rounded-full"
+              className="mr-2 w-5 h-5 rounded-full object-cover"
               alt="user"
             />
-            <span>{address}</span>
+            <span className="text-secondary">{address}</span>
           </div>
           <CopyToClipboard
             text={address}
@@ -109,7 +109,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
         </label>
         <input
           id="proposalTitle"
-          className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+          className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
           type="text"
           placeholder="Proposal Title"
           name="proposal"
@@ -133,7 +133,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
         </label>
         <textarea
           id="proposalSummary"
-          className="textarea textarea-bordered w-full resize-none leading-4 rounded-[28px] pl-5 pt-3 focus:outline-none"
+          className="textarea textarea-bordered w-full resize-none leading-4 input-bordered border-[#A5A5A5] rounded-[12px] pl-5 pt-3 focus:outline-none bg-transparent"
           rows={5}
           placeholder="Summary"
           name="summary"
@@ -153,11 +153,11 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
           setFile={(payload: any) => setField("image", payload)}
           inputRef={proposalImageRef}
           size={2}
-          uploaderClass="relative flex items-center justify-between border px-3.5 py-4 rounded-[28px] fileupload"
+          uploaderClass="relative flex items-center justify-between border px-3.5 py-4 rounded-[12px] fileupload"
           inputClass="absolute bottom-0 left-0 right-0 top-0 ml-0 w-full opacity-0 cursor-pointer"
         />
         </div>       
-        <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[28px] opacity shadow px-3 py-3 mt-[18px]">
+        <div className="flex justify-between items-center bg-[#A4AABB33] rounded-[12px] opacity shadow px-3 py-3 mt-[18px]">
           {state?.form?.image && (
             <>
               <div>
@@ -189,10 +189,10 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
                 <span className='icon uncheck-icon-ps'></span><span className='mb-0'>Decision</span>
                 </div>  */}
       <div className="mt-4">
-        <h4 className="text-dark text-sm font-normal p-0 label ml-4 mb-2 star">
+        <h4 className="text-secondary text-sm font-normal p-0 label ml-4 mb-2 star ">
           Select Your Proposal Type
         </h4>
-        <div className="flex gap-2 items-center w-full rounded-[28px] border-[#A5A5A5] border px-4 py-2 h-10">
+        <div className="flex gap-2 items-center w-full rounded-[12px] border-[#A5A5A5] border px-4 py-2 h-10">
           <label
             htmlFor="votingBox"
             className="cursor-pointer relative inline-block mt-1"
@@ -208,7 +208,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
               <span className=""></span>
             </span>
           </label>
-          <span className="text-dark text-sm font-normal p-0 label">
+          <span className="text-secondary text-sm font-normal p-0 label">
             Voting
           </span>
         </div>
@@ -243,7 +243,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
               </label>
               <input
                 type="text"
-                className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cust-delete-box pr-[36px]"
+                className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cust-delete-box pr-[36px]"
                 placeholder="Enter your option"
                 maxLength={50}
                 value={option.options ? option.options : ""}
@@ -268,10 +268,10 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
             (item: any, index:number) =>
               item?.options && (
                 <div
-                  className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200"
+                  className="px-3 rounded-xl py-1 text-secondary font-medium bg-transparent border-[#343434] border"
                   key={index}
                 >
-                  <span className="mb-0">
+                  <span className="mb-0 text-secondary">
                     {item?.index || index + 1}. {item?.options}
                   </span>
                 </div>
@@ -284,12 +284,12 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="mt-4">
-          <label className="text-dark inline-block text-xs font-normal p-0 mb-2 label ml-4 star">
+          <label className="text-dark inline-block text-xs font-normal p-0 mb-2 label ml-4 star border-[#A5A5A5]">
             Start Date & Time <span className="text-xs">(Local time zone)</span>
           </label>
           <input
             type="datetime-local"
-            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
+            className={`input input-bordered w-full pl-5 rounded-[12px] focus:outline-none h-10 py-2 border-[#A5A5A5] ${
               isMobile && !state?.startingDate
                 ? " "
                 : isMobile && state?.startingDate
@@ -312,7 +312,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
           </label>
           <input
             type="datetime-local"
-            className={`input input-bordered w-full pl-5 rounded-[28px] focus:outline-none h-10 py-2 ${
+            className={`input input-bordered w-full pl-5 rounded-[12px] focus:outline-none h-10 py-2 border-[#A5A5A5] ${
               isMobile && !state?.endingDate
                 ? " "
                 : isMobile && state?.endingDate

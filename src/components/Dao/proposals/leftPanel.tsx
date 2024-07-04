@@ -115,29 +115,29 @@ const DaoLeftPanel = (props) => {
                   className="w-12 h-12 rounded-full object-cover"
                 />
               </div>
-              <div>              
-                <h1 className="mr-1 truncate text-[18px] font-semibold text-[#111111] capitalize">
+              <div className="mt-4">              
+                <h1 className="mr-1 truncate text-[18px] font-semibold text-[#111111] capitalize dark-th-color">
                   {daoDetails?.name}
                 </h1>
                 
-                {<p className="text-md text-[#57606a] lg:text-base font-medium">{formatNumber(daoDetails?.members || 0)} members</p>}
+                {<p className="text-md text-[#57606a] lg:text-base font-medium dark-th-color">{formatNumber(daoDetails?.members || 0)} members</p>}
               </div>             
             </div>            
           )}
           {isEligibleForProposal && (
             <button
               onClick={handleProposalCreation}
-              className="bg-secondary w-full my-4 rounded-[28px] h-[42px] text-lg font-semibold text-base-100 px-6 text-start"
+              className="bg-secondary w-full my-4 rounded-[12px] h-[42px] text-lg font-semibold text-base-100 px-6 text-start"
             >
               New Proposal
             </button>
           )}
-          {props.from !== "project" && <div className="flex gap-4 items-center mt-4">
+          {/* {props.from !== "project" && <div className="flex gap-4 items-center mt-4">
                 <img src={facebookImg} alt="social-icons"/>
                 <img src={instaImg} alt="social-icons"/>
                 <img src={telegramImg} alt="social-icons"/>
                 <img src={discordImg} alt="social-icons"/>
-              </div>}
+              </div>} */}
         </div>
         {props.showHeader && isConnected && (
           <div>

@@ -7,11 +7,11 @@ const PublishProposal = ({ proposalDetails }) => {
         <span className="mb-0 me-2 text-base font-semibold text-secondary">
           {proposalDetails?.proposal}
         </span>
-        <p className="mt-2">{proposalDetails?.summary}</p>
+        <p className="mt-2 text-secondary">{proposalDetails?.summary}</p>
       </div>
       <hr className="my-3" />
       <div>
-        <h3 className="mb-0 me-2 text-base font-semibold text-secondary">Proposal Image</h3>
+        <h3 className="mb-0 me-2 text-base font-semibold text-secondary mb-2">Proposal Image</h3>
         <img src={proposalDetails?.image.url} alt={proposalDetails?.proposal}/>
       </div>
       <hr className="my-3" />
@@ -24,7 +24,7 @@ const PublishProposal = ({ proposalDetails }) => {
           <div className="flex items-center flex-wrap gap-3">
             {proposalDetails?.options?.map((item, index) => (
               <p
-                className="px-3 rounded-xl py-1 text-secondary font-medium bg-slate-200"
+                className="px-3 rounded-xl py-1 text-secondary font-medium  bg-transparent"
                 key={item.options}
               >
                 {item?.index || index + 1}. {item?.options}
@@ -40,13 +40,13 @@ const PublishProposal = ({ proposalDetails }) => {
         </h3>
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-secondary opacity-50">Start Date & Time</p>
-          <p className="">
+          <p className="text-secondary">
               {ConvertLocalFormat(proposalDetails?.startDate,true)}
           </p>
         </div>
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-secondary opacity-50">End Date & Time</p>
-          <p className="">
+          <p className="text-secondary">
               {ConvertLocalFormat(proposalDetails?.endDate,true)}
           </p>
         </div>

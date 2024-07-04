@@ -49,7 +49,7 @@ const Proposal = () => {
               </div>
               {isVoted && (
                 <div className="ml-auto">
-                  <span className="bg-primary text-white px-4 py-2 rounded-[33px]">
+                  <span className="bg-primary text-white px-4 py-2 rounded-[12px]">
                     VOTED
                   </span>
                 </div>

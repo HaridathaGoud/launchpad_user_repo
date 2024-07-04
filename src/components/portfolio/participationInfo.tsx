@@ -58,13 +58,13 @@ const ParticipationInfo = (props: any) => {
                     {participationInfo.data?.name}
                   </span>
                 ) : (
-                  "--"
+                  <h1 className="font-medium	text-[32px] text-neutral">{ "--"}</h1>
                 )}
               </div>
             </div>
             <div className="mt-[26px] mb-6">
               <p className="text-secondary text-sm font-normal">Total Stake</p>
-              <h1 className="font-medium	text-[32px] text-black">
+              <h1 className="font-medium	text-[32px] text-neutral">
                 {stakedAmount
                   ? stakedAmount + ` ${process.env.REACT_APP_TOKEN_SYMBOL}`
                   : "--"}
@@ -87,7 +87,7 @@ const ParticipationInfo = (props: any) => {
                 <p className="text-secondary text-sm font-normal">
                   Total Invested
                 </p>
-                <h1 className="font-medium	text-[32px] text-black">
+                <h1 className="font-medium	text-[32px] text-neutral">
                   {participationInfo.data?.totalInvested
                     ? participationInfo.data?.totalInvested + " $"
                     : "--"}
@@ -104,7 +104,7 @@ const ParticipationInfo = (props: any) => {
                 <p className="text-secondary text-sm font-normal">
                   Projects Participated In
                 </p>
-                <h1 className="font-medium	text-[32px] text-black">
+                <h1 className="font-medium	text-[32px] text-neutral">
                   {participationInfo.data?.projectsParticipatedIn || "--"}
                 </h1>
               </div>

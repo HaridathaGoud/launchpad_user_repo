@@ -14,7 +14,7 @@ let auth: AuthProvider | null=null;
 if (!auth) {
   auth = new AuthProvider(`${arcanaClientId}`, { 
     position: 'right',     
-    theme: 'light',
+    theme: 'dark',
     alwaysVisible: false, 
     debug:false,   
     setWindowProvider: true,

@@ -126,7 +126,7 @@ const Details = ({
           <div>
             <h1 className="font-semibold text-secondary">Chain</h1>
             {/* <h4 className="text-neutral font-semibold break-all">Polygon</h4> */}
-            <h4 className="overview-value">{nftcontractDetails?.blockChain || '--'}</h4>
+            <h4 className="overview-value text-neutral">{nftcontractDetails?.blockChain || '--'}</h4>
           </div>
           <div>
             <h1 className="font-semibold text-secondary">Last Updated</h1>

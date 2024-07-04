@@ -54,7 +54,7 @@ const TextInput = ({
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}
         className={
           inputClass ||
-          "input input-bordered w-full bg-transparent text-secondary rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+          "input input-bordered w-full bg-transparent text-secondary rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
         }
         value={value}
         onChange={(e) => onChange(fieldName, e.target.value)}

@@ -42,7 +42,7 @@ module.exports = {
 
           "base-200": "#515151",
 
-          "base-300": "#F5F5F5",
+          "base-300": "#ffffff",
 
           "neutral-content": "#9AA0A6",
 
@@ -75,9 +75,9 @@ module.exports = {
 
           "accent": "#ffffff",
 
-          "neutral": "#565656",
+          "neutral": "#ffffff",
 
-          "base-100": "#cccc",
+          "base-100": "#ffffff",
 
           "info": "#ffffff",
 
@@ -87,7 +87,7 @@ module.exports = {
 
           "error": "#f87272",
 
-          "base-200": "#cccccc",
+          "base-200": "#ffffff",
 
           "base-300": "#181818",
 

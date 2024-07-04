@@ -90,7 +90,7 @@ const StatusDetailview = ({
                         disabled={false}
                     />
                 </div>
-                <p className="pt-6">to</p>
+                <p className="pt-6 text-neutral">to</p>
                 <div className='flex items-center'>
                     <NumberInput
                         label="Max"

@@ -178,7 +178,7 @@ const FileUploader = ({
             }
             onChange={handleFileChange}
           />
-          <p className="fileUploadText">{accept==='images' && 'Upload Your  Image'} {accept==='videos' && 'Upload Your Video'} {accept==='documents' && 'Upload Your Document'} {accept==='all' && "Upload your File"}  <span className="icon upload-plus"></span></p>
+          <p className="fileUploadText text-secondary">{accept==='images' && 'Upload Your  Image'} {accept==='videos' && 'Upload Your Video'} {accept==='documents' && 'Upload Your Document'} {accept==='all' && "Upload your File"}  <span className="icon upload-plus"></span></p>
           <span className="pointer-events-none relative pl-1 text-sm">
             <span className={`text-secondary text-sm font-normal`}>
               {(canDragAndDrop && !canCopyAndPaste) && "Attach images by dragging & dropping, or by uploading them."}

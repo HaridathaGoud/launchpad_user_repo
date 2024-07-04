@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/images/yb-logo.svg";
+import logo from "../../assets/images/yb-logo-white.svg";
 import NaviLink from "../../ui/NaviLink";
 const FooterComponent = () => {
   return (

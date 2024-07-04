@@ -140,7 +140,7 @@ const PlaceBid = ({
         ></label>
         <div className="menu p-4 md:w-80 min-h-full bg-white text-sm-content pt-6">
           <div className="flex justify-between items-center my-2">
-            <h2 className="text-lg text-dark font-semibold mb-0">
+            <h2 className="text-lg text-neutral font-semibold mb-0">
               Place a Bid
             </h2>
             {loading !== "placingBid" && <Button
@@ -270,10 +270,10 @@ const PlaceBid = ({
                         }`}
                         key={step.title}
                       >
-                        <p className="font-medium hover:bg-transparent">
+                        <p className="font-medium hover:bg-transparent text-secondary">
                           {step.title}
                         </p>
-                        <p className="text-center hover:bg-transparent">
+                        <p className="text-center hover:bg-transparent text-secondary">
                           {step.message}
                         </p>
                       </li>
@@ -296,7 +296,7 @@ const PlaceBid = ({
                   </span>
                 </div>
               </div>
-            )}
+             )} 
             {currentStep===-1 && <div className="mt-16 lg:w-[350px] lg:mx-auto mb-5">
               <Button
                 btnClassName="w-full mb-4 !min-h-[39px]"

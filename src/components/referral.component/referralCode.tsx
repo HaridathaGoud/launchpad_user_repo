@@ -156,7 +156,7 @@ const Referralcode = () => {
               <div className='lg:max-w-sm mx-auto relative'>
                 <label className='text-dark text-sm font-normal p-0 mb-1 label ml-5 block'>Referral Code</label>
                 <input
-                  className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10'
+                  className='input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10'
                   type="text"
                   name="referralCode"
                   value={form?.referralCode}

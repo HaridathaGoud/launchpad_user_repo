@@ -84,7 +84,7 @@ function Voters(props: any) {
                           </td>
                           <td>
                             <div className="flex gap-4">
-                              <span className="flex-1 w-20 truncate">
+                              <span className="flex-1 w-20 truncate text-secondary">
                                 {voter?.walletAddress}
                               </span>
                               <CopyToClipboard

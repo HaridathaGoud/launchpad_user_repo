@@ -177,7 +177,7 @@ const PutOnAuction = ({
                 inputBoxClass=""
                 disabled={isLoading !== ""}
                 placeholder="Ex: 0.0001 WMATIC"
-                inputClass="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                inputClass="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                 errorClass="text-sm font-normal text-red-600 ml-2.5"
               />
             </div>

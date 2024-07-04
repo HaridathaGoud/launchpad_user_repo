@@ -52,7 +52,7 @@ const CheckpointsShimmer: NextPage = () => {
             </div>
             <div className='mt-4 flex justify-between items-end'>
             <div className="h-4 w-52 bg-slate-200 rounded max-w-lg"></div>
-            <div className="h-10 w-56 bg-slate-200 rounded-[33px] max-w-lg"></div>
+            <div className="h-10 w-56 bg-slate-200 rounded-[12px] max-w-lg"></div>
             </div>
           </div>
         </div>

@@ -79,14 +79,14 @@ export default function CreateFirstPraposal(props: any) {
   ]);
   return (
     <>
-      <div className="bg-base-300 py-[18px] px-5 rounded-lg shadow-md text-center">
+      <div className="dao-card py-[18px] px-5 rounded-lg shadow-md text-center">
         <div className="flex justify-center mb-6">
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>
         {isEligibleForProposal && (
           <div className="">
             <Button
-              btnClassName="bg-primary min-w-[164px] py-3 rounded-[28px] text-lg font-semibold text-base-100 px-8 inline-block"
+              btnClassName="bg-primary min-w-[164px] py-3 rounded-[12px] text-lg font-semibold text-base-100 px-8 inline-block"
               handleClick={handleProposalCreation}
               type="primary"
             >

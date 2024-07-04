@@ -142,7 +142,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileFirstName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               placeholder="First Name"
               name="firstName"
@@ -176,7 +176,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileLastName"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               placeholder="Last Name"
               name="lastName"
@@ -210,7 +210,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileEmail"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               name="email"
               maxLength={50}
@@ -243,7 +243,7 @@ const ProfileEdit = ({
             <div className="flex">
               <select
                 id="profilePhone"
-                className="input input-bordered w-32 rounded-[28px] truncate  border-[#A5A5A5] focus:outline-none pl-5 pr-10 rounded-ee-none rounded-se-none h-10 cursor-pointer"
+                className="input input-bordered w-32 rounded-[12px] truncate  border-[#A5A5A5] focus:outline-none pl-5 pr-10 rounded-ee-none rounded-se-none h-10 cursor-pointer"
                 value={
                   state.formData?.countryCode ? state.formData?.countryCode : ""
                 }
@@ -273,7 +273,7 @@ const ProfileEdit = ({
                 ))}
               </select>
               <input
-                className="input !rounded-ss-none !rounded-es-none input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5 h-10"
+                className="input !rounded-ss-none !rounded-es-none input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-5 h-10"
                 type="text"
                 name="phoneNo"
                 maxLength={12}
@@ -315,7 +315,7 @@ const ProfileEdit = ({
             </label>
             <select
               id="profileCountry"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10 cursor-pointer"
               aria-label="Default select example"
               value={state.formData?.country ? state.formData?.country : ""}
               onChange={(e) => {
@@ -351,7 +351,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileDiscordId"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={state.formData?.discordId ? state.formData?.discordId : ""}
               onChange={(e) => {
@@ -382,7 +382,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profilefacebook"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={state.formData?.facebook ? state.formData?.facebook : ""}
               onChange={(e) => {
@@ -414,7 +414,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileInsta"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={state.formData?.linkedIn ? state.formData?.linkedIn : ""}
               onChange={(e) => {
@@ -446,7 +446,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileTwitter"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={state.formData?.twitter ? state.formData?.twitter : ""}
               onChange={(e) => {
@@ -475,7 +475,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileWebsite"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={
                 state.formData?.websiteUrl ? state.formData?.websiteUrl : ""
@@ -510,7 +510,7 @@ const ProfileEdit = ({
             </label>
             <input
               id="profileDiscord"
-              className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+              className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
               type="text"
               value={state.formData?.discordUrl ? state.formData?.discordUrl : ""}
               onChange={(e) => {
@@ -535,7 +535,7 @@ const ProfileEdit = ({
           </div> */}
           {/* <div className="mt-4 relative" >
                 <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Referral Code</label>
-                <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 disabled:bg-accent disabled:border-accent'
+                <input className='input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 disabled:bg-accent disabled:border-accent'
                   type="text"
                   value={form?.referralCode}
                       placeholder="Referral Code"

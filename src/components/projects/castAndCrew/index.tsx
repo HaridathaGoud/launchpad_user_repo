@@ -24,7 +24,7 @@ const CastAndCrewMember = (props) => {
               {item.name}
             </p>
             <p
-              className={`text-info text-base font-normal text-center role-text`} title={item.role}
+              className={`text-info text-neutral font-normal text-center role-text`} title={item.role}
             >
               as {item.role}
             </p>
@@ -39,7 +39,7 @@ const CastAndCrewMember = (props) => {
           to={`/projects/${props.projectName}/${props.projectId}/castandcrew`}
         >
           <div
-            className={`bg-base-content w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer`}
+            className={`bg-base-content w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer view-all-style`}
           >
             <div className={`text-center`}>
               <span className={`icon ${styles.rightArrow}`}></span>

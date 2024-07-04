@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en" class="dark"> 
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.svg" />
@@ -18,7 +18,8 @@
       // Function to set the theme based on user preference
       function setTheme() {
         const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const newColorScheme = prefersDarkMode ? "dark" : "light";
+        // const newColorScheme = prefersDarkMode ? "dark" : "light";
+        const newColorScheme = "dark";
         document.documentElement.setAttribute("data-theme", newColorScheme);
       }
   

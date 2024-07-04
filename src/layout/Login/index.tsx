@@ -18,7 +18,7 @@ import { walletReducer, walletState } from "./reducer";
 import Overlay from "../../ui/overlay";
 const arcanaLogins = [
   { id: "google-connector", name: "google", icon: google },
-  { id: "twitter-connector", name: "twitter", icon: twitter },
+  { id: "twitter-connector", name: "twitter", icon: twitter},
   { id: "discord-connector", name: "discord", icon: discord },
 ];
 const icons = { metaMask: metmaskIcon, walletConnect: walletIcon };
@@ -208,7 +208,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
           <div className="md:w-96 mx-auto">
             {arcanaLogins.length > 0 && (
               <div className="">
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-2 w3modal-icons">
                   {arcanaLogins.map((login: any) => {
                     return (
                       <div
@@ -238,7 +238,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
             )}
             <div className="relative md:w-96 mx-auto my-8">
               <hr />
-              <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
+              <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold bg-dark-color">
                 {" "}
                 or continue with
               </p>
@@ -295,7 +295,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
           <div className="md:w-96 mx-auto mb-2">
           <div className="relative md:w-96 mx-auto my-6">
                   <hr />
-                  <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold">
+                  <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold bg-dark-color">
                     {" "}
                     or continue with
                   </p>
@@ -306,7 +306,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                   type="text"
                   placeholder="Enter Email"
                   value={localState.email}
-                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                  className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                   onChange={(e) => handleEmailChange(e.target.value)}
                   disabled={localState.verifying === "email"}
                   autoFocus
@@ -324,7 +324,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                   type="text"
                   value={localState.otp}
                   placeholder="Enter OTP"
-                  className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                  className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                   onChange={(e) => handleOTPChange(e.target.value)}
                   disabled={localState.verifying === "otp"}
                   autoFocus

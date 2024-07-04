@@ -29,7 +29,7 @@ const CreatenftShimmer = () => {
 
 const ImageShimmer = () => {
   return (
-    <div className="animate-pulse w-full h-[300px] md:h-[500px] mb-3 rounded-[28px] bg-slate-200  mt-4"></div>
+    <div className="animate-pulse w-full h-[300px] md:h-[500px] mb-3 rounded-[12px] bg-slate-200  mt-4"></div>
   );
 };
 CreatenftShimmer.ImageShimmer = ImageShimmer;

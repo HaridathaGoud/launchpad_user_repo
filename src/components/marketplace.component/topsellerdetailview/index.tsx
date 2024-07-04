@@ -114,7 +114,7 @@
 //               <SearchInputComponent />
 //               <div className="flex items-center max-sm:mt-2">
 //                 <div className="dropdown mr-2.5">
-//                   <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
+//                   <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[12px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
 //                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 //                     <li><a>Low</a></li>
 //                     <li><a>High</a></li>
@@ -140,7 +140,7 @@
 //               <SearchInputComponent />
 //               <div className="flex items-center max-sm:mt-2">
 //                 <div className="dropdown mr-2.5">
-//                   <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[28px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
+//                   <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[12px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
 //                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 //                     <li><a>Low</a></li>
 //                     <li><a>High</a></li>
@@ -224,7 +224,7 @@
 //                     </div>
 //                     <div className="mt-5" >
 //                       <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Your Bid *</label>
-//                       <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10'
+//                       <input className='input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10'
 //                         type="text"
 //                         placeholder="Proposal Title"
 //                         name="proposal"
@@ -233,14 +233,14 @@
 //                     </div>
 //                     <div className="mt-5" >
 //                       <label className='text-dark text-sm font-normal p-0 mb-2 label ml-4'>Crypto Type</label>
-//                       <select className="select select-bordered w-full rounded-[28px] border border-[#A5A5A5] focus:outline-none">
+//                       <select className="select select-bordered w-full rounded-[12px] border border-[#A5A5A5] focus:outline-none">
 //                         <option selected>WMATIC</option>
 //                         <option>Tether</option>
 //                         <option>USDT</option>
 //                       </select>
 //                     </div>
 //                     <div className="mt-5" >
-//                       <div className='w-full flex justify-between py-3 px-5 rounded-[28px] border border-[#A5A5A5] bg-info-content'>
+//                       <div className='w-full flex justify-between py-3 px-5 rounded-[12px] border border-[#A5A5A5] bg-info-content'>
 //                         <p className='text-black'>Your balance</p>
 //                         <p className='text-black font-medium'>2.3598125 WMATIC</p>
 //                       </div>
@@ -449,7 +449,7 @@ const TopsellerDetailview = (props) => {
                       className={
                         state.copied === "current"
                           ? "icon md check-icon pl-4"
-                          : "icon md copy-icon invert cursor-pointer ms-0 pl-4"
+                          : "icon md copy-icon cursor-pointer ms-0 pl-4"
                       }
                     />
                   </CopyToClipboard>

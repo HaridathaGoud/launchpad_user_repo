@@ -289,25 +289,25 @@ const MoreFromCollection = ({ nftDetails, tokenId }) => {
                 </div>
               ))}
           </div>
-          {visibleNfts?.length>=5 &&
+          {/* {visibleNfts?.length>=5 && */}
             <div className="md:flex md:absolute md:w-full justify-between md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 max-sm:mt-4">
               <Button
                 type="plain"
                 handleClick={() => handleSlideActions("previous")}
-                btnClassName="bg-white w-[52px] h-[52px] p-[10px] rounded-[12px]"
+                btnClassName="p-[10px] rounded-[12px] !bg-transparent"
               >
-                <span className="icon carousal-left-arrow cursor-pointer lg:scale-[1.4] mr-1"></span>
+                <span className="icon carousal-left-arrow cursor-pointer mr-1"></span>
               </Button>
               <Button
                 type="plain"
                 handleClick={() => handleSlideActions("next")}             
-                btnClassName="bg-white w-[52px] h-[52px] p-[10px] rounded-[12px]"
+                btnClassName=" p-[10px] rounded-[12px] !bg-transparent"
 
               >
-                <span className="icon carousal-right-arrow cursor-pointer lg:scale-[1.4]"></span>
+                <span className="icon carousal-right-arrow cursor-pointer"></span>
               </Button>
             </div>
-          }
+          {/* } */}
         </div>
         {data?.length === 0 && <NoDataFound text={""} />}
       </div>

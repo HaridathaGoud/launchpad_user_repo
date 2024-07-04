@@ -45,8 +45,8 @@ const ProfileShimmer= () => {
           </div>
        </div>
        <div className='flex gap-4 mt-4'>
-       <div className="w-28 h-10 rounded-[33px] bg-slate-200 "></div>
-       <div className="w-28 h-10 rounded-[33px] bg-slate-200 "></div>
+       <div className="w-28 h-10 rounded-[12px] bg-slate-200 "></div>
+       <div className="w-28 h-10 rounded-[12px] bg-slate-200 "></div>
        </div>
        <div className="w-1/3 h-8  rounded-md bg-slate-200  mt-2"></div>
        <div className="w-1/3 h-4  rounded-md bg-slate-200  mt-4"></div>

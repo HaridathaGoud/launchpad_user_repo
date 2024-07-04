@@ -42,7 +42,7 @@ export const BuyTokenDrawer = (props:any) => {
                     <div className="mt-10">
                       <label
                         htmlFor="amount"
-                        className="text-dark text-sm font-normal p-0 mb-2 label ml-4"
+                        className="text-dark text-sm font-normal p-0 mb-2 label ml-4 block"
                       >
                         Enter Token Count To Buy{" "}
                         <span className="text-primary">*</span>
@@ -50,12 +50,12 @@ export const BuyTokenDrawer = (props:any) => {
                       <input
                         type="text"
                         placeholder="Enter Token Count To Buy"
-                        className="input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
+                        className="input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-4 h-10"
                         id="amount"
                         defaultValue={props.buyAmount}
                         maxLength={20}
                         autoComplete="off"
-                        style={{ color: "black" }}
+                        // style={{ color: "black" }}
                         onChange={(e) => props.handleAmount(e)}
                         onKeyPress={(e) => {
                           if (!/[0-9]/.test(e.key)) {
@@ -84,7 +84,7 @@ export const BuyTokenDrawer = (props:any) => {
                     </Button>
 
                     <Button
-                      type="secondary"
+                      type="primary"
                       btnClassName="min-w-[150px]"
                       handleClick={props.handleBuyToken}
                     >

@@ -4,5 +4,6 @@
 @import url('./assets/css/global.css');
 @import url('./assets/css/global.css');
 @import url('./assets/css/custom-styles.css');
-@import url('./assets/css/light-theme.css');
+/* @import url('./assets/css/light-theme.css'); */
 @import url('./assets/css/marketplace.css');
+@import url('./assets/css/dark-theme.css');

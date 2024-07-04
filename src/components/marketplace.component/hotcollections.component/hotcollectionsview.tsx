@@ -111,12 +111,12 @@ const HotcollectionView = (props: any) => {
                         copied === "current"
                         ?
                         "icon copy-check cursor-pointer ms-2 shrink-0" :
-                        "icon md copy-icon invert cursor-pointer ms-0 pl-4"
+                        "icon md copy-icon  cursor-pointer ms-0 pl-4"
                     }
                     />
                   </CopyToClipboard>}
               </div>
-              <p className='text-white mt-3 text-base pr-4 overflow-hidden text-ellipsis line-clamp-4'>
+              <p className='text-white mt-3 text-base pr-4 overflow-hidden text-ellipsis line-clamp-4 break-all'>
                 {hotCollectionViewDetails?.data?.description ||'--'}
                 </p>
           </div>
@@ -129,7 +129,7 @@ const HotcollectionView = (props: any) => {
               rel="noreferrer"
             >
               {" "}
-              <span className='icon external cursor-pointer'></span>
+              <span className='icon external cursor-pointer' title='website'></span>
               </a>
                }
             {hotCollectionViewDetails?.data?.facebook &&
@@ -139,7 +139,7 @@ const HotcollectionView = (props: any) => {
               rel="noreferrer"
             >
               {" "}
-              <span className='icon fb cursor-pointer'></span>
+              <span className='icon fb cursor-pointer' title='facebook'></span>
               </a>
                }
             {hotCollectionViewDetails?.data?.linkedIn &&
@@ -149,7 +149,7 @@ const HotcollectionView = (props: any) => {
               rel="noreferrer"
               >
               {" "}
-              <span className='icon linkedin cursor-pointer'></span>
+              <span className='icon linkedin cursor-pointer' title='linkedin'></span>
               </a>
             }
             {hotCollectionViewDetails?.data?.twitter &&
@@ -159,7 +159,7 @@ const HotcollectionView = (props: any) => {
               rel="noreferrer"
             >
               {" "}
-              <span className='icon twit cursor-pointer'></span>
+              <span className='icon twit cursor-pointer' title='twitter'></span>
               </a>
             }
             {hotCollectionViewDetails?.data?.websiteUrl &&
@@ -169,7 +169,7 @@ const HotcollectionView = (props: any) => {
               rel="noreferrer"
             >
               {" "}
-              <span className='icon network cursor-pointer'></span>
+              <span className='icon network cursor-pointer' title='network'></span>
               </a>
             }
             </div>

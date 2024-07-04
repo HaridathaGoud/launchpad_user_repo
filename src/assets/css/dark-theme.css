@@ -23,7 +23,7 @@
   --tabBorder: linear-gradient(90deg, #3d2181 12.47%, #a161b9 49.87%, #d5955b 90.52%);
   --statusbg:rgba(255, 255, 255, 0.2);
   --darktheme-icons: url(../../assets/images/darktheme-icons.svg);
-  --darktheme-icons: url(../images/mint-light-theme-icons.svg);
+  --darktheme-icons: url(../images/dott-darktheme.svg);
   /* --darktheme-icons: url(../images/mint-darktheme-icons.svg);
   --lightcalender:url(../images/calendar.svg);
   --menudownarrow:url(../images/head-bg-black.svg); */
@@ -31,5 +31,5 @@
 body {
   /* background: var(--bodyBg) url(../../assets/images/bg-ab.svg) no-repeat top center; */
   /* background-size: cover; */
-  background-color: #000000 !important;
+  /* background-color: #000000 !important; */
 }

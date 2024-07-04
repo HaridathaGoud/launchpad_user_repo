@@ -68,7 +68,7 @@ const Carousel = ({
                 id={image.image}
                 key={image.image + image?.name}
                 className={`carousel-item w-full block overflow-y-hidden ${
-                  hasContent ? "md:min-h-[500px]" : ""
+                  hasContent ? "md:min-h-[380px]" : ""
                 }`}
               >
                 <div
@@ -80,7 +80,7 @@ const Carousel = ({
                     src={`${image.image}`}
                     className={`${
                       hasContent
-                        ? "lg:h-full w-full object-cover h-[500px]"
+                        ? "lg:h-full w-full object-cover h-[380px]"
                         : "carosalImage rounded-2xl w-full object-cover h-full"
                     }`}
                     alt={image.name ? image.name : "carousel-image"}

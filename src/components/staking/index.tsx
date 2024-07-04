@@ -215,7 +215,7 @@ const Staking = () => {
                   </div>
                   <div className=" mt-4">
                     <button
-                      className="bg-secondary w-full rounded-[28px] h-[42px] px-6 inline-block text-lg font-semibold text-base-100"
+                      className="bg-secondary w-full rounded-[12px] h-[42px] px-6 inline-block text-lg font-semibold text-base-100"
                       onClick={navigateToUniswap}
                     >
                       Buy {process.env.REACT_APP_TOKEN_SYMBOL}

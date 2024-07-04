@@ -102,7 +102,7 @@ const FoundingMember = (props) => {
               to={`/projects/${props?.projectName}/${props?.projectId}/investors`}
             >
               <div
-                className={`bg-base-content w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer `}
+                className={`bg-base-content w-20 h-20 rounded-full shrink-0 flex items-center justify-center cursor-pointer view-all-style`}
               >
                 <div className={`text-center`}>
                   <span className={`icon ${styles.rightArrow}`}></span>

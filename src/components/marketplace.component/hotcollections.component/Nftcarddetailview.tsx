@@ -172,7 +172,7 @@ const handleSuccess =()=>{
                           </div>
                             <div className="mt-5" >
                               <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Your Bid *</label>
-                              <input className='input input-bordered w-full rounded-[28px] border-[#A5A5A5] focus:outline-none pl-5'
+                              <input className='input input-bordered w-full rounded-[12px] border-[#A5A5A5] focus:outline-none pl-5'
                                 type="text"
                                 placeholder="Proposal Title"
                                 name="proposal"
@@ -181,14 +181,14 @@ const handleSuccess =()=>{
                             </div>
                             <div className="mt-5" >
                       <label className='text-dark text-sm font-normal p-0 mb-2 label ml-5'>Crypto Type</label>
-                      <select className="select select-bordered w-full rounded-[28px] border border-[#A5A5A5] focus:outline-none">
+                      <select className="select select-bordered w-full rounded-[12px] border border-[#A5A5A5] focus:outline-none">
                         <option selected>WMATIC</option>
                         <option>Tether</option>
                         <option>USDT</option>
                       </select>                      
                     </div>
                     <div className="mt-5" >                      
-                      <div className='w-full flex justify-between py-3 px-5 rounded-[28px] border border-[#A5A5A5] bg-info-content'>
+                      <div className='w-full flex justify-between py-3 px-5 rounded-[12px] border border-[#A5A5A5] bg-info-content'>
                        <p className='text-black'>Your balance</p>
                        <p className='text-black font-medium'>2.3598125 WMATIC</p>
                       </div>
@@ -208,7 +208,7 @@ const handleSuccess =()=>{
             <Button type='secondary'  btnClassName='mr-2.5 ' handleClick={handleEditProfile}>Buy Now</Button>
             <Button type='cancel' btnClassName='leading-6 place-bid  text-base' handleClick={handleEditProfile}>Place A Bid</Button>
             </div>       
-                 <div className={`max-sm:mt-4 border border-[2px] rounded-[28px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}>
+                 <div className={`max-sm:mt-4 border border-[2px] rounded-[12px] justify-between md:min-w-[132px] px-3 py-2 flex gap-3 items-center`}>
                     <span className={`detail-minus icon cursor-pointer`} onClick={deCounter}></span>
                     <p className='font-semibold text-secondary'>{count}</p>
                     <span className={`detail-plus icon cursor-pointer`} onClick={updateCounter}></span>

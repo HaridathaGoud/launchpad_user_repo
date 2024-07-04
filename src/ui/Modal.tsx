@@ -24,14 +24,13 @@ export function Modal({ id, children, modalClass,onClose,showClose=true }: Modal
       <div
         className={`modal-box w-11/12 max-w-2xl rounded-[15px] ${modalClass}`}
       >
-        <form method="dialog">
+        <form method="dialog" className="text-end">
           {showClose && <button
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            className="icon close cursor-pointer"
             onClick={() => {
               onClose?.()
               modalActions(id, "close")}}
           >
-            ✕
           </button>}
         </form>
         {children}
