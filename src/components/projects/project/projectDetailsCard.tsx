@@ -3,10 +3,20 @@ import defaultlogo from "../../../assets/images/default-logo.png";
 import NaviLink from "../../../ui/NaviLink";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 import { ProjectViewTokendetailsCardShimmer } from "../../loaders/projects/projectViewTokendetailsCardShimmer";
-const pjctTypes = {
-  ongoing: "Ongoing",
-  upcoming: "Upcoming",
-  closed: "Closed",
+const getOverallStatus = ({ privateStatus, publicStatus }) => {
+  if (
+    privateStatus.toLowerCase() === "upcoming" &&
+    publicStatus.toLowerCase() === "upcoming"
+  ) {
+    return "Upcoming";
+  }
+  if (
+    privateStatus.toLowerCase() === "ended" &&
+    publicStatus.toLowerCase() === "ended"
+  ) {
+    return "Ended";
+  }
+  return "Ongoing";
 };
 const statusColourList: any = {
   ongoing: "dot-green",
@@ -35,20 +45,26 @@ const ProjectDetailsCard = (props: any) => {
                       />
                     </div>
                     <div>
-                    {props.pjctInfo?.projectName ?  <span
-                        className="tooltip"
-                        data-tip={
-                          props.pjctInfo?.projectName?.charAt(0).toUpperCase() +
-                          props.pjctInfo?.projectName?.slice(1)
-                        }
-                      >
-                        <span className="text-2xl font-semibold text-secondary text-start lg:truncate inline-block lg:w-[300px] break-all">
-                          {props.pjctInfo?.projectName
-                            ?.charAt(0)
-                            .toUpperCase() +
-                            props.pjctInfo?.projectName?.slice(1)}
+                      {props.pjctInfo?.projectName ? (
+                        <span
+                          className="tooltip"
+                          data-tip={
+                            props.pjctInfo?.projectName
+                              ?.charAt(0)
+                              .toUpperCase() +
+                            props.pjctInfo?.projectName?.slice(1)
+                          }
+                        >
+                          <span className="text-2xl font-semibold text-secondary text-start lg:truncate inline-block lg:w-[300px] break-all">
+                            {props.pjctInfo?.projectName
+                              ?.charAt(0)
+                              .toUpperCase() +
+                              props.pjctInfo?.projectName?.slice(1)}
+                          </span>
                         </span>
-                      </span> : '--'}
+                      ) : (
+                        "--"
+                      )}
                       <h4 className="text-sm text-secondary uppercase">
                         {props.pjctInfo?.tokenSymbol}
                       </h4>
@@ -110,14 +126,14 @@ const ProjectDetailsCard = (props: any) => {
                     <div className="flex gap-3 justify-between items-center">
                       <div
                         className={` py-1 rounded px-3 ${
-                          statusColourList[props.currentPjct]
+                          getOverallStatus(props.status).toLowerCase()
                         }`}
                       >
                         <p className="text-sm font-medium text-base-100">
                           <span
                             className={`inline-block w-3 h-3 rounded-full mr-2 bg-white`}
                           ></span>
-                          {pjctTypes[props.currentPjct]}
+                          {getOverallStatus(props.status)}
                         </p>
                       </div>
 
@@ -302,8 +318,12 @@ const ProjectDetailsCard = (props: any) => {
                     <p className="text-base text-secondary opacity-60">
                       Swap Progress
                     </p>
-                    <progress className="progress progress-success w-full" value={props.swapedPercentage} max="100"></progress>
-        
+                    <progress
+                      className="progress progress-success w-full"
+                      value={props.swapedPercentage}
+                      max="100"
+                    ></progress>
+
                     <div className="flex justify-between items-start mt-1">
                       <p className="text-xs text-secondary">
                         {props.swapedPercentage?.toString()?.slice(0, 4)} %
