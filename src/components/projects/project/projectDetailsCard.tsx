@@ -3,7 +3,7 @@ import defaultlogo from "../../../assets/images/default-logo.png";
 import NaviLink from "../../../ui/NaviLink";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 import { ProjectViewTokendetailsCardShimmer } from "../../loaders/projects/projectViewTokendetailsCardShimmer";
-const getOverallStatus = ({ privateStatus, publicStatus }) => {
+const getOverallStatus = ({ private:privateStatus, public:publicStatus }) => {
   if (!privateStatus && !publicStatus) {
     return "";
   }
