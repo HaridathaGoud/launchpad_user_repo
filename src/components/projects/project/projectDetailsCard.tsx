@@ -129,13 +129,13 @@ const ProjectDetailsCard = (props: any) => {
                   <div className="flex mt-6 lg:pl-14">
                     <div className="flex gap-3 justify-between items-center">
                       {getOverallStatus(props.status) && <div
-                        className={` py-1 rounded px-3 ${getOverallStatus(
-                          props.status
-                        ).toLowerCase()}`}
+                        className={` py-1 rounded px-3`}
                       >
                         <p className="text-sm font-medium text-base-100">
                           <span
-                            className={`inline-block w-3 h-3 rounded-full mr-2 bg-white`}
+                            className={`inline-block w-3 h-3 rounded-full mr-2 ${statusColourList[getOverallStatus(
+                          props.status
+                        ).toLowerCase()]}`}
                           ></span>
                           {getOverallStatus(props.status)}
                         </p>
