@@ -34,7 +34,7 @@ const CastAndCrewMember = (props) => {
         )
       )}
 
-      {props.castCrewsData?.length !== 0 && (
+      {props.castCrewsData?.length >=5  && (
         <Link
           to={`/projects/${props.projectName}/${props.projectId}/castandcrew`}
         >

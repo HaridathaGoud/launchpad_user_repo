@@ -97,7 +97,7 @@ const FoundingMember = (props) => {
             )
           )}
 
-          {props.foundingmemsData?.stakersData?.length !== 0 && (
+          {props.foundingmemsData?.stakersData?.length >=5 && (
             <Link
               to={`/projects/${props?.projectName}/${props?.projectId}/investors`}
             >
