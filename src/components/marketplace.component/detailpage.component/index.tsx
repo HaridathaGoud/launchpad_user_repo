@@ -420,6 +420,7 @@ const DetailPage = (props: any) => {
                       <div className="mt-4">
                         {nftDetails?.saleType &&
                           nftDetails?.saleType === "Sale" &&
+                          nftDetails?.isPutonSale &&
                           nftDetails?.ownerAddress?.toLowerCase() !==
                             address?.toLowerCase() && (
                             <Button
@@ -431,6 +432,8 @@ const DetailPage = (props: any) => {
                             </Button>
                           )}
                         {nftDetails?.saleType &&
+                          (nftDetails?.isPutonSale ||
+                            nftDetails?.isPutOnAuction) &&
                           nftDetails?.ownerAddress?.toLowerCase() !==
                             address?.toLowerCase() && (
                             <Button
@@ -460,26 +463,28 @@ const DetailPage = (props: any) => {
                   <h2 className="text-base font-semibold text-secondary mt-9 mb-3.5">
                     Properties
                   </h2>
-                  {nftDetails?.properties && <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {nftDetails?.properties?.map((property: any) => {
-                      return (
-                        <div
-                          key={property.trait_type + property.value}
-                          className="border border-[#939393] px-5 py-4 text-center rounded-lg"
-                        >
-                          <p className="text-neutral font-semibold">
-                            {property.trait_type}
-                          </p>
-                          <p className="text-secondary font-semibold my-1">
-                            {property.value}
-                          </p>
-                          <p className="text-secondary">
-                            {property.used || "--"}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>}
+                  {nftDetails?.properties && (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {nftDetails?.properties?.map((property: any) => {
+                        return (
+                          <div
+                            key={property.trait_type + property.value}
+                            className="border border-[#939393] px-5 py-4 text-center rounded-lg"
+                          >
+                            <p className="text-neutral font-semibold">
+                              {property.trait_type}
+                            </p>
+                            <p className="text-secondary font-semibold my-1">
+                              {property.value}
+                            </p>
+                            <p className="text-secondary">
+                              {property.used || "--"}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                   {(!nftDetails?.properties?.length ||
                     !nftDetails?.properties) && (
                     <div className="pt-10">
