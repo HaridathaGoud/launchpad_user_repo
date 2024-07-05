@@ -3,7 +3,7 @@ import { get } from "../../utils/api";
 import ProjectInformationShimmer from "../loaders/dashboard/projectInformation";
 import { useDispatch } from "react-redux";
 import { setError } from "../../reducers/layoutReducer";
-import formatNumber from "../../ui/formatNumber";
+import {shortTheNumber} from "../../ui/formatNumber";
 
 const ProjectInformation = () => {
   const rootDispatch=useDispatch()
@@ -33,7 +33,7 @@ const ProjectInformation = () => {
   };
   const formatDetailValue = (name: string, value: number): string => {
       const prefix = name === "RAISED CAPITAL" ? "$" : "";
-      return `${prefix}${formatNumber(value)}`;
+      return `${prefix}${shortTheNumber(value)}`;
   };
   return (
     <div className="mt-[26px]">

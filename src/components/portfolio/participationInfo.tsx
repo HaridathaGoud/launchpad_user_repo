@@ -9,6 +9,7 @@ import useContractMethods from "../../hooks/useContract";
 import { stakeAmountData } from "../staking/utils";
 import { clearPortFolio, getPortFolio } from "../../reducers/portfolioReducer";
 import PortfolioShimmer from "../loaders/portfolioshimmer";
+import { numberWithCommas, shortTheNumber } from "../../ui/formatNumber";
 const ParticipationInfo = (props: any) => {
   const [stakedAmount, setStakedAmount] = useState(0);
   const { getStakedAmount } = useContractMethods();
@@ -66,7 +67,7 @@ const ParticipationInfo = (props: any) => {
               <p className="text-secondary text-sm font-normal">Total Stake</p>
               <h1 className="font-medium	text-[32px] text-neutral">
                 {stakedAmount
-                  ? stakedAmount + ` ${process.env.REACT_APP_TOKEN_SYMBOL}`
+                  ? numberWithCommas(stakedAmount) + ` ${process.env.REACT_APP_TOKEN_SYMBOL}`
                   : "--"}
               </h1>
             </div>
@@ -89,7 +90,7 @@ const ParticipationInfo = (props: any) => {
                 </p>
                 <h1 className="font-medium	text-[32px] text-neutral">
                   {participationInfo.data?.totalInvested
-                    ? participationInfo.data?.totalInvested + " $"
+                    ? numberWithCommas(participationInfo.data?.totalInvested) + " $"
                     : "--"}
                 </h1>
               </div>
@@ -105,7 +106,7 @@ const ParticipationInfo = (props: any) => {
                   Projects Participated In
                 </p>
                 <h1 className="font-medium	text-[32px] text-neutral">
-                  {participationInfo.data?.projectsParticipatedIn || "--"}
+                  {shortTheNumber(participationInfo.data?.projectsParticipatedIn) || "--"}
                 </h1>
               </div>
             </div>

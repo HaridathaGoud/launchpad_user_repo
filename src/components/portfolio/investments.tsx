@@ -1,6 +1,7 @@
 import React from "react";
 import NoDataFound from "../../ui/noData";
 import PortfolioShimmer from "../loaders/portfolioshimmer";
+import { numberWithCommas } from "../../ui/formatNumber";
 const Investments = ({ userInvestments }) => {
   return (
     <div className="">
@@ -47,14 +48,14 @@ const Investments = ({ userInvestments }) => {
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item?.invested
-                          ? `${item?.invested} ${process.env.REACT_APP_CURRENCY}`
+                          ? `${numberWithCommas(item?.invested)} ${process.env.REACT_APP_CURRENCY}`
                           : "--"}
                       </p>
                     </td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item?.tokens
-                          ? `${item?.tokens} ${item?.tokenSymbol}`
+                          ? `${numberWithCommas(item?.tokens)} ${item?.tokenSymbol}`
                           : "--"}
                       </p>
                     </td>
@@ -66,7 +67,7 @@ const Investments = ({ userInvestments }) => {
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item?.purchasePrice
-                          ? `${item?.purchasePrice} ${process.env.REACT_APP_CURRENCY}`
+                          ? `${numberWithCommas(item?.purchasePrice)} ${process.env.REACT_APP_CURRENCY}`
                           : "--"}
                       </p>
                     </td>

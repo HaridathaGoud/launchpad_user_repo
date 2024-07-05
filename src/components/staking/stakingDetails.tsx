@@ -2,26 +2,33 @@ import React, { useContext } from "react";
 
 import { StakingContextModal } from "./models";
 import { StakingContext } from "./context/stakingContext";
+import { numberWithCommas } from "../../ui/formatNumber";
 
 const StakingDetails = () => {
-  const { stakedAmount, unstakedAmount, rewardAmount, activeTab }: StakingContextModal =
-    useContext(StakingContext);
-  let stakedAmt = stakedAmount?.toLocaleString("en-US", {
-    maximumFractionDigits: 8,
-  });
-  let unstakedAmt = unstakedAmount?.toLocaleString("en-US", {
-    maximumFractionDigits: 8,
-  })
-  let rewardAmt = rewardAmount?.toLocaleString("en-US", {
-    maximumFractionDigits: 8,
-  });
+  const {
+    stakedAmount,
+    unstakedAmount,
+    rewardAmount,
+    activeTab,
+  }: StakingContextModal = useContext(StakingContext);
+  let stakedAmt = numberWithCommas(stakedAmount);
+  let unstakedAmt = numberWithCommas(unstakedAmount);
+  let rewardAmt = numberWithCommas(rewardAmount);
   return (
     <div className="sm:col md:flex justify-between items-center">
       <div className="lg:col-span-2">
-        {activeTab === 0 && <p className="text-xl font-semibold text-secondary">Staking</p>}
-        {activeTab === 1 && <p className="text-xl font-semibold text-secondary">Unstaking</p>}
-        {activeTab === 2 && <p className="text-xl font-semibold text-secondary">Withdraw</p>}
-        {activeTab === 3 && <p className="text-xl font-semibold text-secondary">Rewards</p>}
+        {activeTab === 0 && (
+          <p className="text-xl font-semibold text-secondary">Staking</p>
+        )}
+        {activeTab === 1 && (
+          <p className="text-xl font-semibold text-secondary">Unstaking</p>
+        )}
+        {activeTab === 2 && (
+          <p className="text-xl font-semibold text-secondary">Withdraw</p>
+        )}
+        {activeTab === 3 && (
+          <p className="text-xl font-semibold text-secondary">Rewards</p>
+        )}
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-0 lg:ml-auto mt-4 lg-mt-0">
         <div className="flex gap-4 pe-5 ps-5 max-sm:mb-3">

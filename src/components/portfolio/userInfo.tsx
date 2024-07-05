@@ -8,6 +8,7 @@ import { setUserID } from "../../reducers/rootReducer";
 import Button from "../../ui/Button";
 import Spinner from "../loaders/spinner";
 import useCopyToClipboard from "../../hooks/useCopytoClipboard";
+import { numberWithCommas } from "../../ui/formatNumber";
 const getName = (firstName: string | null, lastName: String | null) => {
   if (firstName && lastName) {
     return `${firstName} ${lastName}`;
@@ -138,9 +139,10 @@ const UserInfo = () => {
           <div className="mt-2">
             <p className="font-medium	text-sm text-secondary">
               {currencyBalance > 0
-                ? `${currencyBalance?.toFixed(8)} ~ ${(
-                    currencyBalance * usd
-                  )?.toFixed(2)} $`
+                ? `${numberWithCommas(currencyBalance)} ~ ${numberWithCommas(
+                    currencyBalance * usd,
+                    2
+                  )} $`
                 : "0.00 ~ 0.00 $"}
             </p>
           </div>
@@ -151,7 +153,7 @@ const UserInfo = () => {
 
         <div className="flex justify-start gap-2 items-center">
           <p className="font-medium	text-sm text-secondary w-[40px]">
-            {tokenBalance > 0 ? tokenBalance?.toFixed(8) : "0.00"}
+            {tokenBalance > 0 ? numberWithCommas(tokenBalance) : "0.00"}
           </p>
         </div>
       </div>

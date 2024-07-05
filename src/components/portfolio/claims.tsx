@@ -8,6 +8,7 @@ import Spinner from "../loaders/spinner";
 import { setToaster } from "../../reducers/layoutReducer";
 import useClaimTokens from "../../hooks/useClaimTokens";
 import PortfolioShimmer from "../loaders/portfolioshimmer";
+import { numberWithCommas } from "../../ui/formatNumber";
 
 const Claims = ({ userClaims,fetchData }) => {
   const rootDispatch = useDispatch();
@@ -61,7 +62,7 @@ const Claims = ({ userClaims,fetchData }) => {
                         {item?.projectName}
                       </p>
                     </td>
-                    <td>{item?.allocation}</td>
+                    <td>{numberWithCommas(item?.allocation)}</td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item.date ? ConvertLocalFormat(item?.date) : "--"}

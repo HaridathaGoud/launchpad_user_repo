@@ -12,7 +12,7 @@ import facebookImg from '../../../assets/images/fb.svg';
 import instaImg from '../../../assets/images/insta.svg';
 import telegramImg from '../../../assets/images/telegram.svg';
 import discordImg from '../../../assets/images/discord.svg';
-import formatNumber from "../../../ui/formatNumber";
+import {shortTheNumber} from "../../../ui/formatNumber";
 
 const DaoLeftPanel = (props) => {
   const { readRewardBalance, getOwner } = useContract();
@@ -120,7 +120,7 @@ const DaoLeftPanel = (props) => {
                   {daoDetails?.name}
                 </h1>
                 
-                {<p className="text-md text-[#57606a] lg:text-base font-medium dark-th-color">{formatNumber(daoDetails?.members || 0)} members</p>}
+                {<p className="text-md text-[#57606a] lg:text-base font-medium dark-th-color">{shortTheNumber(daoDetails?.members || 0)} members</p>}
               </div>             
             </div>            
           )}
