@@ -4,6 +4,9 @@ import NaviLink from "../../../ui/NaviLink";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 import { ProjectViewTokendetailsCardShimmer } from "../../loaders/projects/projectViewTokendetailsCardShimmer";
 const getOverallStatus = ({ privateStatus, publicStatus }) => {
+  if (!privateStatus && !publicStatus) {
+    return "";
+  }
   if (
     privateStatus.toLowerCase() === "upcoming" &&
     publicStatus.toLowerCase() === "upcoming"
@@ -124,10 +127,10 @@ const ProjectDetailsCard = (props: any) => {
                 <div className="">
                   <div className="flex mt-6 lg:pl-14">
                     <div className="flex gap-3 justify-between items-center">
-                      <div
-                        className={` py-1 rounded px-3 ${
-                          getOverallStatus(props.status).toLowerCase()
-                        }`}
+                      {getOverallStatus(props.status) && <div
+                        className={` py-1 rounded px-3 ${getOverallStatus(
+                          props.status
+                        ).toLowerCase()}`}
                       >
                         <p className="text-sm font-medium text-base-100">
                           <span
@@ -135,7 +138,7 @@ const ProjectDetailsCard = (props: any) => {
                           ></span>
                           {getOverallStatus(props.status)}
                         </p>
-                      </div>
+                      </div>}
 
                       {props.pjctInfo?.tokenNetwork && (
                         <p className="text-sm font-medium text-secondary">
