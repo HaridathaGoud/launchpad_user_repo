@@ -520,7 +520,7 @@ const TopsellerDetailview = (props) => {
           <Tabs
             tabs={tabs}
             activeTab={state.activeTab}
-            tabsClass={"tabstyle mt-[26px]"}
+            tabsClass={"tabstyle mt-[26px]  project-detail-tab"}
             labelClass={""}
             tabContentClass={"hidden"}
             iSTabChange={handleTabChange}

@@ -92,7 +92,7 @@ export default function HotCollectionsViewAll() {
                             {item.flourValue && (
                               <>
                                 <p className="text-secondary text-base font-semibold flex-1 text-right break-all">
-                                  {item.flourValue} {process.env.REACT_APP_TOKENNAME}
+                                  <span className='truncate mr-2'>{item.flourValue}</span><span>{process.env.REACT_APP_TOKENNAME}</span> 
                                 </p>
                               </>
                             )}
@@ -105,7 +105,7 @@ export default function HotCollectionsViewAll() {
                           <div className="flex justify-between items-center mt-4">
                             <label className="text-secondary text-base flex-1">Total Valume</label>
                             <p className="text-secondary text-base font-semibold flex justify-end flex-1 text-right break-all truncate" title={item.totalVolume}>
-                             <span className='truncate'> {item.totalVolume}</span> <span>{process.env.REACT_APP_TOKENNAME}</span>
+                             <span className='truncate mr-2'> {item.totalVolume}</span> <span>{process.env.REACT_APP_TOKENNAME}</span>
                             </p>
                           </div>
                         </div>

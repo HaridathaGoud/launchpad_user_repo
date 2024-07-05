@@ -81,7 +81,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
             </NaviLink>
           </div>
           <div className="flex items-center">
-            <div className="w-[26px] lg:hidden mr-2">
+            <div className="w-[26px] lg:hidden mr-2 mobile-icon-style">
               <svg
                 onClick={handleToggle}
                 className="w-5 h-5"
@@ -114,7 +114,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
           </div>
 
           <div className="navbar-center hidden lg:flex ">
-            <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 items-center ">
+            <ul className="menu menu-horizontal pl-[24px] border-l border-gray-300 items-center gap-8">
               {navMenuList.map(({ name, type, path, menu }) => {
                 return (
                   <li className="group !hover:bg-transparent" key={name}>
@@ -125,7 +125,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                             <NaviLink
                               path={path}
                               type="primary"
-                              className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                              className="text-secondary cursor-pointer bg-transparent"
                             >
                               {name}
                             </NaviLink>
@@ -134,7 +134,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                         dropdownClass="md:dropdown-end dropdown-hover"
                         dropdownList={menu}
                         addToMenuClass="!min-w-[254px] grid grid-cols-2 global-list mt-5"
-                        addToMenuBtnClass="text-center py-4"
+                        addToMenuBtnClass="text-center"
                         menuItemClass="border border-t-0"
                         isHover={true}
                       />
@@ -143,7 +143,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                       <NaviLink
                         path={path}
                         type="primary"
-                        className="mr-[30px] text-secondary cursor-pointer bg-transparent"
+                        className="text-secondary cursor-pointer bg-transparent"
                       >
                         {name}
                       </NaviLink>
@@ -162,7 +162,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
               dropdownClass="md:dropdown-end"
               dropdownList={globalDropdown}
               addToMenuClass="!min-w-[254px] grid  global-list mt-5"
-              addToMenuBtnClass="text-center py-4"
+              addToMenuBtnClass="text-left "
               menuItemClass=""
             />
           </div>

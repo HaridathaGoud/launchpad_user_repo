@@ -94,10 +94,9 @@ const Claims = (props:any) => {
           {claimHide && (
             <div className="">
               <div>
-                <h2 className="text-2xl font-medium">
-                  <span className="text-secondary">Cl</span>
-                  <span className="text-primary">aim</span>
-                </h2>
+                <h4 className="text-2xl font-semibold text-secondary mb-2 mt-8">
+                  Claim
+                </h4>
               </div>
               <div className="">
                 <p className="text-base text-secondary">
@@ -113,10 +112,9 @@ const Claims = (props:any) => {
           {!claimHide && (
             <div className="">
               <div>
-                <h2 className="text-2xl font-medium">
-                  <span className="text-secondary">Cl</span>
-                  <span className="text-primary">aim</span>
-                </h2>
+                <h4 className="text-2xl font-semibold text-secondary mb-2 mt-8">
+                  Claim
+                </h4>
               </div>
               <div className="max-sm:w-full overflow-auto">
                 <table className="refferal-table md:w-full border-spacing-y-2.5 border-separate max-sm:w-[800px] px-1">

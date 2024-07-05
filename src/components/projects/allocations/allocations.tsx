@@ -7,10 +7,9 @@ const AllocationsView = (props) => {
   return (
         <div className="" id="allocationClaimHeader">
           <div>
-            <h2 className="text-2xl font-medium">
-              <span className="text-secondary">Your</span>{" "}
-              <span className="text-primary">Allocations</span>
-            </h2>
+            <h4 className="text-2xl font-semibold text-secondary mb-2 mt-8">
+              Your Allocations
+            </h4>
           </div>
           <div className="">
             <div className="mb-6 max-sm:w-full overflow-auto">

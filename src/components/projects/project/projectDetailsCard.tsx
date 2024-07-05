@@ -22,7 +22,7 @@ const ProjectDetailsCard = (props: any) => {
       {props.loader && <ProjectViewTokendetailsCardShimmer />}
       {!props?.loader && (
         <div>
-          <div className="border bg-primary-content border-neutral-content relative rounded-[15px] py-5 px-3.5 ">
+          <div className="border bg-primary-content border-neutral-content relative rounded-[15px] py-5 px-3.5 dark-br-color">
             <div className="">
               <div className="">
                 <div className="md:flex justify-between">
@@ -106,16 +106,16 @@ const ProjectDetailsCard = (props: any) => {
                   </div>
                 </div>
                 <div className="">
-                  <div className="flex mt-6 lg:pl-14">
+                  <div className="flex lg:pl-14">
                     <div className="flex gap-3 justify-between items-center">
                       <div
-                        className={` py-1 rounded px-3 ${
+                        className={` py-1 px-3 ${
                           statusColourList[props.currentPjct]
                         }`}
                       >
-                        <p className="text-sm font-medium text-base-100">
+                        <p className="font-medium text-base-100">
                           <span
-                            className={`inline-block w-3 h-3 rounded-full mr-2 bg-white`}
+                            className={`inline-block w-2 h-2 rounded-full mr-2 bg-white`}
                           ></span>
                           {pjctTypes[props.currentPjct]}
                         </p>
@@ -139,46 +139,46 @@ const ProjectDetailsCard = (props: any) => {
 
                 <div className="grid grid-cols-2 mt-[32px] gap-5">
                   <div className="">
-                    <h5 className="text-base text-secondary mb-1">
+                    <h5 className="text-base text-secondary mb-1 font-semibold">
                       {props.pjctInfo?.totalSupply?.toLocaleString()}
                     </h5>
-                    <p className="text-base text-secondary opacity-60">
+                    <p className="text-base text-secondary opacity-60 font-normal">
                       Total Supply
                     </p>
                   </div>
                   {props.pjctInfo?.tokenType === "ERC-20" && (
                     <div className="">
                       {props.pjctInfo?.totalRaised && (
-                        <h5 className="text-base text-secondary mb-1">
+                        <h5 className="text-base text-secondary mb-1 font-semibold">
                           ${props.pjctInfo?.totalRaised?.toLocaleString()}
                         </h5>
                       )}
                       {!props.pjctInfo?.totalRaised && (
-                        <h5 className="text-base text-secondary opacity-60">
+                        <h5 className="text-base text-secondary opacity-60 font-normal">
                           -
                         </h5>
                       )}
-                      <p className="text-base text-secondary opacity-60">
+                      <p className="text-base text-secondary opacity-60 font-normal">
                         Total Raise
                       </p>
                     </div>
                   )}
 
                   <div className="">
-                    <h5 className="text-base text-secondary mb-1">
+                    <h5 className="text-base text-secondary mb-1 font-semibold">
                       {props.pjctInfo?.tokenVolume}{" "}
                       {props.pjctInfo?.tokenSymbol} ={" "}
                       {props.pjctInfo?.paymentValue}{" "}
                       {props.pjctInfo?.paymentSymbol}
                     </h5>
-                    <p className="text-base text-secondary opacity-60">Price</p>
+                    <p className="text-base text-secondary opacity-60 font-normal">Price</p>
                   </div>
                   {props.pjctInfo?.tokenType === "ERC-20" && (
                     <div className="">
-                      <h5 className="text-base text-secondary mb-1">
+                      <h5 className="text-base text-secondary mb-1 font-semibold">
                         {props.pjctInfo?.intialsupply?.toLocaleString() || "-"}
                       </h5>
-                      <p className="text-base text-secondary opacity-60">
+                      <p className="text-base text-secondary opacity-60 font-normal">
                         Initial Supply
                       </p>
                     </div>
@@ -186,13 +186,13 @@ const ProjectDetailsCard = (props: any) => {
 
                   <div className="total-status md:col-span-2">
                     <div className="fields-style">
-                      <h5 className="text-base text-secondary mb-1">
+                      <h5 className="text-base text-secondary mb-1 font-semibold">
                         {props.pjctInfo?.launchDate
                           ? ConvertLocalFormat(props.pjctInfo?.launchDate)
                           : "--"}
                       </h5>
 
-                      <p className="text-base text-secondary opacity-60">
+                      <p className="text-base text-secondary opacity-60 font-normal">
                         Launch date
                       </p>
                     </div>
@@ -223,13 +223,13 @@ const ProjectDetailsCard = (props: any) => {
                     </div>
                   </div>
                   <div
-                    className={`py-1 rounded px-3 absolute top-[-17px] right-6 md:min-w-[103px] ${
+                    className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
                       statusColourList[props.status?.["private"]?.toLowerCase()]
                     }`}
                   >
-                    <p className="text-base mb-0 text-base-100">
+                    <p className="mb-0 text-base-100">
                       <span
-                        className={`inline-block w-3 h-3 bg-white rounded-full mr-2 `}
+                        className={`inline-block w-2 h-2 bg-white rounded-full mr-2 `}
                       ></span>
                       {props.status?.["private"]}
                     </p>
@@ -260,13 +260,13 @@ const ProjectDetailsCard = (props: any) => {
                     </div>
                   </div>
                   <div
-                    className={`py-1 rounded px-3 absolute top-[-17px] right-6 md:min-w-[103px] ${
+                    className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
                       statusColourList[props.status?.["public"]?.toLowerCase()]
                     }`}
                   >
-                    <p className="text-base mb-0 text-base-100">
+                    <p className=" mb-0 text-base-100">
                       <span
-                        className={`inline-block w-3 h-3 bg-white  rounded-full mr-2 `}
+                        className={`inline-block w-2 h-2 bg-white  rounded-full mr-2 `}
                       ></span>
                       {props.status?.["public"]}
                     </p>

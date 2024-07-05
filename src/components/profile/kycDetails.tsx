@@ -92,7 +92,7 @@ const KycDetails = ({ kycStatus, id }) => {
           {identityDetailsLoader && <KycShimmer/>}
             {userDetails && (
               <>
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="col">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       First Name{" "}
@@ -104,7 +104,7 @@ const KycDetails = ({ kycStatus, id }) => {
                     </p>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       Last Name
@@ -116,7 +116,7 @@ const KycDetails = ({ kycStatus, id }) => {
                     </p>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       Email
@@ -129,7 +129,7 @@ const KycDetails = ({ kycStatus, id }) => {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       Phone No
@@ -141,7 +141,7 @@ const KycDetails = ({ kycStatus, id }) => {
                     </p>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       Date Of Birth
@@ -156,7 +156,7 @@ const KycDetails = ({ kycStatus, id }) => {
                     </p>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       Country
@@ -168,7 +168,7 @@ const KycDetails = ({ kycStatus, id }) => {
                     </p>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-4 mb-4">
+                <div className="grid md:grid-cols-4 mb-4 max-sm:grid-cols-2">
                   <div className="">
                     <p className="text-sm font-normal text-secondary opacity-[0.9]">
                       Discord ID

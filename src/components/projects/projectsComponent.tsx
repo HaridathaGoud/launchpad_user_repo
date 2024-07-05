@@ -46,7 +46,7 @@ const Projectscomponent = (props: any) => {
                     <input
                       type="text"
                       placeholder="Search IVO"
-                      className="w-full rounded-[12px] border-[#A5A5A5] border h-12 focus:outline-none pl-5 pr-12"
+                      className="w-full rounded-[12px] border-[#343434] border h-12 focus:outline-none pl-5 pr-12 bg-transparent text-neutral"
                       onKeyUp={(value) => props?.handleSearch(value)}
                       ref={props.endedIgosRef}
                     />

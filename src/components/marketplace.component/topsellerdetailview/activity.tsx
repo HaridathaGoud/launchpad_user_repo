@@ -51,7 +51,7 @@ const Activity = (props:any) => {
                         </Moment>
                       </p>
                     </td>
-                    <td> {item?.name || '--'} </td>
+                    <td> <p className="font-normal text-sm text-secondary"> {item?.name || '--'} </p></td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item?.description || '--'}

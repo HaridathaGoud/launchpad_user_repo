@@ -170,9 +170,9 @@ const BuyMembership = (props) => {
   };
   return (
     <div className="container mx-auto" id="buyMembershipHeader">
-      <h1 className="font-semibold mb-4 text-2xl text-secondary">
-        Buy Memb<span className={`text-primary`}>ership</span>
-      </h1>
+      <h2 className="font-semibold mb-4 text-2xl text-secondary">
+        Buy Membership
+      </h2>
      <div className="lg:px-[55px]">
         <div className="mt-7 text-center">
           <h1 className="text-lg font-semibold text-secondary">

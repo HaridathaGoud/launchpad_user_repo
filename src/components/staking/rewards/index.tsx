@@ -78,7 +78,7 @@ const RewardsComponent = () => {
     <div className="">
       <div className="">
         <div className="mt-5">
-          <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between">
+          <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between border-dao-emp-img-stake">
             {/* <CheckPointsComponent /> */}
             <PleaseWait text="Coming soon..." boxClass=""/>
             {/* <div className="lg:flex items-center justify-between max-sm:mt-4">

@@ -61,7 +61,7 @@ const Claims = ({ userClaims,fetchData }) => {
                         {item?.projectName}
                       </p>
                     </td>
-                    <td>{item?.allocation}</td>
+                    <td> <p className="font-normal text-sm text-secondary">{item?.allocation}</p></td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item.date ? ConvertLocalFormat(item?.date) : "--"}

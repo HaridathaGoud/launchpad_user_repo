@@ -10,7 +10,7 @@ const ProfileView = ({ profile, address }) => {
 
   return (
     <div className="lg:col-span-4 md:col-span-2">
-      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-1 gap-4">
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-1 gap-4 max-sm:grid-cols-3">
         <div>
           <h1 className="text-sm font-normal text-secondary opacity-[0.9] break-all">
             First Name
@@ -76,7 +76,7 @@ const ProfileView = ({ profile, address }) => {
             </p>
           </div>
         )}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 max-sm:col-span-3">
           <h1 className="text-sm font-normal text-secondary opacity-[0.9]">
             Wallet Address
           </h1>
