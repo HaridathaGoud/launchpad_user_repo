@@ -24,6 +24,7 @@ import {
 import { resultsReducer, resultsState } from "./reducers";
 import useContract from "../../../hooks/useContract";
 import DaoResultsShimmer from "../../loaders/DaoResultsShimmer";
+import { numberWithCommas } from "../../../ui/formatNumber";
 const ProposalResults = (props: any) => {
   const { address, isConnected } = useAccount();
   const params = useParams();
@@ -186,7 +187,7 @@ const ProposalResults = (props: any) => {
                             className={`${getVotingOptionColor[index]} shrink-0 mt-1 mr-2 align-middle  h-4 w-4 inline-block rounded-full`}
                           ></span>
                           <p className="text-secondary break-all">
-                            {data?.option} {`(${data?.votersCount || "0"})`}
+                            {data?.option} {`(${numberWithCommas(data?.votersCount) || "0"})`}
                           </p>
                         </div>
                       </div>

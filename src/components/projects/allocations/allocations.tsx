@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../../ui/Button";
 import { connect } from "react-redux";
 import NoDataFound from "../../../ui/noData";
+import { numberWithCommas } from "../../../ui/formatNumber";
 
 const AllocationsView = (props) => {
   return (
@@ -52,8 +53,8 @@ const AllocationsView = (props) => {
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {parseInt(item.allocationVolume).toLocaleString()}{" "}
-                              {item?.paymentSymbol?.toLocaleString() || "--"}
+                              {numberWithCommas(parseInt(item.allocationVolume))}{" "}
+                              {item?.paymentSymbol || "--"}
                             </p>
                           </td>
                           <td>
@@ -63,7 +64,7 @@ const AllocationsView = (props) => {
                           </td>
                           <td>
                             <p className="font-normal text-sm text-secondary">
-                              {item.purchaseVolume.toLocaleString()}
+                              {numberWithCommas(item.purchaseVolume)}
                             </p>
                           </td>
                           <td className="!p-2">

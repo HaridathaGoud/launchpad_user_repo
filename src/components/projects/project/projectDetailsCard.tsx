@@ -3,6 +3,7 @@ import defaultlogo from "../../../assets/images/default-logo.png";
 import NaviLink from "../../../ui/NaviLink";
 import ConvertLocalFormat from "../../../utils/dateFormat";
 import { ProjectViewTokendetailsCardShimmer } from "../../loaders/projects/projectViewTokendetailsCardShimmer";
+import { numberWithCommas } from "../../../ui/formatNumber";
 const getOverallStatus = ({ private:privateStatus, public:publicStatus }) => {
   if (!privateStatus && !publicStatus) {
     return "";
@@ -159,7 +160,7 @@ const ProjectDetailsCard = (props: any) => {
                 <div className="grid grid-cols-2 mt-[32px] gap-5">
                   <div className="">
                     <h5 className="text-base text-secondary mb-1">
-                      {props.pjctInfo?.totalSupply?.toLocaleString()}
+                      {props.pjctInfo?.totalSupply ? numberWithCommas(props.pjctInfo?.totalSupply) : '--'}
                     </h5>
                     <p className="text-base text-secondary opacity-60">
                       Total Supply
@@ -169,7 +170,7 @@ const ProjectDetailsCard = (props: any) => {
                     <div className="">
                       {props.pjctInfo?.totalRaised && (
                         <h5 className="text-base text-secondary mb-1">
-                          ${props.pjctInfo?.totalRaised?.toLocaleString()}
+                          ${numberWithCommas(props.pjctInfo?.totalRaised)}
                         </h5>
                       )}
                       {!props.pjctInfo?.totalRaised && (
@@ -185,9 +186,9 @@ const ProjectDetailsCard = (props: any) => {
 
                   <div className="">
                     <h5 className="text-base text-secondary mb-1">
-                      {props.pjctInfo?.tokenVolume}{" "}
+                      {numberWithCommas(props.pjctInfo?.tokenVolume)}{" "}
                       {props.pjctInfo?.tokenSymbol} ={" "}
-                      {props.pjctInfo?.paymentValue}{" "}
+                      {numberWithCommas(props.pjctInfo?.paymentValue)}{" "}
                       {props.pjctInfo?.paymentSymbol}
                     </h5>
                     <p className="text-base text-secondary opacity-60">Price</p>
@@ -195,7 +196,7 @@ const ProjectDetailsCard = (props: any) => {
                   {props.pjctInfo?.tokenType === "ERC-20" && (
                     <div className="">
                       <h5 className="text-base text-secondary mb-1">
-                        {props.pjctInfo?.intialsupply?.toLocaleString() || "-"}
+                        {props.pjctInfo?.intialsupply ? numberWithCommas(props.pjctInfo?.intialsupply) : "-"}
                       </h5>
                       <p className="text-base text-secondary opacity-60">
                         Initial Supply
@@ -299,13 +300,13 @@ const ProjectDetailsCard = (props: any) => {
                         Vesting Period
                       </h4>
                       <p className="text-base text-secondary mb-2">
-                        {props.pjctInfo?.vesting} Hours
+                        {props.pjctInfo?.vesting ? numberWithCommas(props.pjctInfo?.vesting): 0} Hours
                       </p>
                       <h4 className="text-base text-secondary opacity-60 mb-1">
                         Vesting Slots
                       </h4>
                       <p className="text-base text-secondary">
-                        {props.pjctInfo?.claimSlots}
+                        {props.pjctInfo?.claimSlots ? numberWithCommas(props.pjctInfo?.claimSlots) : '--'}
                       </p>
                     </div>
                   )}
@@ -332,8 +333,8 @@ const ProjectDetailsCard = (props: any) => {
                         {props.swapedPercentage?.toString()?.slice(0, 4)} %
                       </p>
                       <p className="text-xs text-secondary">
-                        {props.pjctInfo?.totalSoldTokens?.toLocaleString() || 0}
-                        /{props.pjctInfo?.totalSupply?.toLocaleString() || 0}
+                        {numberWithCommas(props.pjctInfo?.totalSoldTokens) || 0}
+                        /{numberWithCommas(props.pjctInfo?.totalSupply) || 0}
                       </p>
                     </div>
                   </div>

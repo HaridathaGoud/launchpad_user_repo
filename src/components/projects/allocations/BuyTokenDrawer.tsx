@@ -1,6 +1,7 @@
 import React from 'react'
 import Spinner from '../../loaders/spinner';
 import Button from '../../../ui/Button';
+import { numberWithCommas } from '../../../ui/formatNumber';
 
 export const BuyTokenDrawer = (props:any) => {
   const handleClose=()=>{
@@ -98,7 +99,7 @@ export const BuyTokenDrawer = (props:any) => {
                 <>
                   <div className="mt-10">
                     <p className="text-secondary text-lg font-medium">
-                      Are you really sure you want to buy {props.buyAmount}{" "}
+                      Are you really sure you want to buy {numberWithCommas(props.buyAmount)}{" "}
                       tokens?
                     </p>
                   </div>

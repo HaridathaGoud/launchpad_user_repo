@@ -7,6 +7,7 @@ import Spinner from "../../loaders/spinner";
 import Button from "../../../ui/Button";
 import NoDataFound from "../../../ui/noData";
 import ProposalViewShimmer from "../../loaders/ProposalViewShimmer";
+import { numberWithCommas, shortTheNumber } from "../../../ui/formatNumber";
 const pageSize = 10;
 function Voters(props: any) {
   const params = useParams();
@@ -46,7 +47,7 @@ function Voters(props: any) {
               Voters {""}
             </span>
             <span className="text-secondary">
-              ({voters?.data?.length} voters)
+              ({shortTheNumber(voters?.data?.length)} voters)
             </span>
           </div>
         </div>

@@ -7,6 +7,7 @@ import BreadCrumb from "../../ui/breadcrumb";
 import NoDataFound from "../../ui/noData";
 import JoinProject from "../shared/joinProject";
 import ConvertLocalFormat from "../../utils/dateFormat";
+import { numberWithCommas } from "../../ui/formatNumber";
 const statusColourList = {
   Ongoing: "dot-green",
   Ended: "dot-red",
@@ -145,7 +146,7 @@ const Projectscomponent = (props: any) => {
                                 </label>
                                 <p className="font-normal text-secondary">
                                   {`${
-                                    item?.totalSupply?.toLocaleString() || "-"
+                                    numberWithCommas(item?.totalSupply) || "-"
                                   }`}
                                 </p>
                               </div>
@@ -157,8 +158,8 @@ const Projectscomponent = (props: any) => {
                                   Price
                                 </label>
                                 <p className="font-normal text-secondary">
-                                  {item?.tokenVolume} {item?.tokenSymbol} ={" "}
-                                  {item?.paymentValue} {item?.paymentSymbol}
+                                {numberWithCommas(item?.tokenVolume)} {item?.tokenSymbol} ={" "}
+                                {numberWithCommas(item?.paymentValue)} {item?.paymentSymbol}
                                 </p>
                               </div>
                               <div
