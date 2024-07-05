@@ -130,7 +130,6 @@ const Projectdetails = () => {
               <ProjectDetailsCard
                 loader={loader === "all" || loader === "card"}
                 pjctInfo={data?.projectDetails}
-                currentPjct={data?.projectStatus}
                 swapedPercentage={data?.swapPercentage}
                 status={status}
               />
