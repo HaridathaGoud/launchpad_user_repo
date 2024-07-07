@@ -708,8 +708,8 @@ const Form = ({ state, updateState, inputRef, mint }) => {
                             }`}
                           key={step.title}
                         >
-                          <p className="font-medium">{step.title}</p>
-                          <p>{step.message}</p>
+                          <p className="font-medium text-secondary">{step.title}</p>
+                          <p className="text-secondary">{step.message}</p>
                         </li>
                       );
                     }

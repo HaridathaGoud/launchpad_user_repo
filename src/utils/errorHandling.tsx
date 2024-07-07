@@ -1,5 +1,4 @@
 const isErrorDispaly = (objValue: any) => {
-  console.log(objValue);
   if (objValue?.data && typeof objValue?.data === "string") {
     return objValue?.data;
   } else if (
