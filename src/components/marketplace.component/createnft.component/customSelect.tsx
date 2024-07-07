@@ -65,7 +65,7 @@ const CustomSelect = ({
                     alt={option?.[valueField]}
                   ></img>
                 )}
-                <p className="hover:bg-transparent p-0">{option?.[valueField]}</p>
+                <p className="hover:bg-transparent p-0 text-secondary">{option?.[valueField]}</p>
               </Button>
             </li>
           );
