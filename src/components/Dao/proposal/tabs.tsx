@@ -13,8 +13,8 @@ const ProposalTabs = () => {
 
   return (
     <div>
-      <div className="flex justify-end items-center mt-10">
-        <div className={`${styles.customTabs} tabs`}>
+      <div className="flex justify-start items-center mt-10 project-detail-tab">
+        <div className={`${styles.customTabs} tabs custom-btn-new`}>
           {/* <Button
           type='plain'
             btnClassName={`${styles.tab} ${activeTab === 'discussions' ? styles.tabActive : ''} tab`}

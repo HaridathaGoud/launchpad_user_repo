@@ -147,12 +147,12 @@ const BuyMembership = (props: any) => {
   };
   return (
     <div className="container mx-auto" id="buyMembershipHeader">
-      <h1 className="font-semibold mb-4 text-2xl text-secondary">
-        Buy Memb<span className={`text-primary`}>ership</span>
-      </h1>
+      <h4 className="font-semibold mb-4 text-2xl text-secondary">
+        Buy Membership
+      </h4>
       {localState.isLoading && <BuyMembershipShimmers />}
       {!localState.isLoading && (
-        <div className="lg:px-[55px]">
+        <div className="lg:pr-[55px]">
           <div className="mt-7 text-center">
             <MaticInput
              price={localState.inputCount*localState.nftPrice}

@@ -29,7 +29,7 @@ const ProjectdetailsView = (props: any) => {
         {!props.loader && (
           <div
             id={"scrollTabs"}
-            className="detail-tabs-dao sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-success-content"
+            className="project-detail-tab detail-tabs-dao sticky top-[65px] z-10 flex items-center flex-col justify-center gap-3 pt-2 pb-2 md:flex-row md:justify-between bg-success-content"
           >
             <ProjectDetailTabs pjctInfo={props.data?.projectDetails} />
             {props?.status["private"] !== "Ended" &&
@@ -52,7 +52,7 @@ const ProjectdetailsView = (props: any) => {
         )}
         <div>
           <div id="projectFeed">
-            <h4 className={`text-base font-semibold text-secondary mt-4`}>
+            <h4 className={`text-2xl font-semibold text-secondary mt-4`}>
               About Project
             </h4>
             {!props.loader && (
@@ -60,7 +60,7 @@ const ProjectdetailsView = (props: any) => {
             )}
             {props.loader && <ProjectFeedShimmer />}
           </div>
-          <h4 className={`text-base font-semibold text-secondary mb-2 mt-8`}>
+          <h4 className={`text-2xl font-semibold text-secondary mb-2 mt-8`}>
             Investors
           </h4>
           <FoundingMember
@@ -69,7 +69,7 @@ const ProjectdetailsView = (props: any) => {
             proStatus={props.proStatus}
             swapProgressBarCalculation={props.swapProgressBarCalculation}
           />
-          <h4 className={`text-base font-semibold text-secondary mb-2 mt-8`}>
+          <h4 className={`text-2xl font-semibold text-secondary mb-2 mt-8`}>
             Cast & Crew
           </h4>
           {!props.loader && (
@@ -118,10 +118,8 @@ const ProjectdetailsView = (props: any) => {
         </div>
         <hr className="my-5" />
         <div id="dao">
-          <h2 className="text-2xl font-medium">
-            <span className="text-secondary">D</span>
-            <span className="text-primary">ao</span>
-          </h2>
+            <h4 className="text-2xl font-semibold text-secondary mb-2 mt-8">Dao</h4>
+            {/* <span className="text-primary">ao</span> */}
           {props.data?.projectDetails?.daoId && (
             <CommonCreateProposal
               pjctInfo={props.data?.projectDetails}

@@ -40,7 +40,7 @@ function Voters(props: any) {
 
   return (
     <>
-      <div className="mt-[26px] mb-2">
+      <div className="mt-[16px] mb-2">
         <div className="flex justify-between items-center">
           <div>
             <span className="text-2xl font-semibold text-secondary">

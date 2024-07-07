@@ -64,7 +64,7 @@ const FoundingMember = (props) => {
                   {/* <span className={` text-base-100 text-xs font-semibold inline-flex items-center justify-center w-6 h-6 bg-primary rounded-[50%] text-center absolute right-[-5px] bottom-0.5 border border-white`}>3%</span> */}
                 </div>
                 <p
-                  className={`text-base font-normal  text-secondary text-center`} title={item.userName}
+                  className={`text-base font-normal  text-secondary text-center text-ellipsis overflow-hidden truncate`} title={item.userName}
                 >
                   {item.userName || "--"}
                 </p>

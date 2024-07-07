@@ -90,7 +90,7 @@ const Proposal = () => {
                           </p>
                           <div>
                             <span
-                              className={`font-semibold px-3 py-1 rounded ${
+                              className={`font-semibold px-3 py-1 rounded-[28px] text-[12px] ${
                                 getProposalStatusBg[
                                   proposalDetails?.data?.status
                                 ]

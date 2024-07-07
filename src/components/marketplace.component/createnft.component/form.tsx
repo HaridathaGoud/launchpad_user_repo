@@ -336,7 +336,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               defaultOption={userCollections.loading ? "Please wait..." : "Select Collection"}
               inputInfo=" This is the collection where your item will appear."
             />
-            <div className="border border-[#A5A5A5] rounded-[28px]">
+            <div className="border border-[#343434] rounded-[22px]">
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">

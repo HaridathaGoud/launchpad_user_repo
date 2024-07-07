@@ -92,7 +92,7 @@ const WithdrawComponent = () => {
     <div className="">
       <div className="">
         <div className="">
-          <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between">
+          <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between border-dao-emp-img-stake">
             {activeStep === 0 && (
               <div>
                 <CheckPointsComponent />

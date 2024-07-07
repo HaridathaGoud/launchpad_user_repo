@@ -79,7 +79,7 @@ export default function CreateFirstPraposal(props: any) {
   ]);
   return (
     <>
-      <div className="dao-card py-[18px] px-5 rounded-lg shadow-md text-center">
+      <div className="dao-card py-[18px] px-5 rounded-lg shadow-md text-center border-dao-emp-img">
         <div className="flex justify-center mb-6">
           <img src={praposalImage} alt="Create Proposal" width={300} />
         </div>

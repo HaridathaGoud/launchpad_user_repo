@@ -31,7 +31,7 @@ const baseUlClass: string =
   "p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[170px]";
 const baseLiClass: string = "";
 const baseMenuBtnClass: string =
-  "block py-2 font-semibold text-base  hover:text-primary hover:bg-transparent";
+  "block py-2 font-semibold text-base  hover:text-primary ";
 function DropdownMenus({
   btnContent,
   dropdownList,
@@ -84,19 +84,21 @@ function DropdownMenus({
               {dropdownList.map((dropdownContent: any) => (
                 <li className={`${liClass}`} key={dropdownContent.name}>
                   <button
-                    className={` ${btnClass} ${
+                    className={`app-launch-card ${btnClass} ${
                       dropdownContent.isActive ? active : inactive
                     }`}
                     onClick={() => handleAction(dropdownContent.action)}
                   >
+                    <div className="flex items-center gap-3 ">
                     {dropdownContent.image && (
                       <img
                         src={dropdownContent.image}
                         alt={dropdownContent.name}
-                        className="mx-auto"
+                        // className="mx-auto"
                       />
                     )}
-                    {dropdownContent.name}
+                   <p className="mb-0 text-neutral hover:text-primary"> {dropdownContent.name}</p>
+                    </div>
                   </button>
                 </li>
               ))}
@@ -115,11 +117,11 @@ function DropdownMenus({
         >
           <div className="hover:!bg-transparent">{btnContent}</div>
           {isOpen && (
-            <ul className="dropdown-content ml-0 z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 ">
+            <ul className="dropdown-content ml-0 z-[1] menu bg-base-100 shadow  rounded-box w-52 menu-subdropdown">
               {dropdownList.map((dropdownContent: any) => (
                 <li className={``} key={dropdownContent.name}>
                   <button
-                    className={`pb-1 pl-3 !text-left ${btnClass} ${
+                    className={`!text-left ${btnClass} ${
                       dropdownContent.isActive ? active : inactive
                     }`}
                     onClick={() => handleAction(dropdownContent.action)}
@@ -128,7 +130,7 @@ function DropdownMenus({
                       <img
                         src={dropdownContent.image}
                         alt={dropdownContent.name}
-                        className="mx-auto"
+                        className=""
                       />
                     )}
                     {/* <span className={`${dropdownContent.icon}`}></span> */}

@@ -62,7 +62,7 @@ const Claims = ({ userClaims,fetchData }) => {
                         {item?.projectName}
                       </p>
                     </td>
-                    <td>{numberWithCommas(item?.allocation)}</td>
+                    <td> <p className="font-normal text-sm text-secondary">{numberWithCommas(item?.allocation)}</p></td>
                     <td>
                       <p className="font-normal text-sm text-secondary">
                         {item.date ? ConvertLocalFormat(item?.date) : "--"}

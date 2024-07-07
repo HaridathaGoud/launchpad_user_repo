@@ -189,11 +189,11 @@ const ProposalCards = (props: any) => {
                         Proposal Status
                       </p>
                       {statusLookup?.data?.map((item: any) => (
-                        <li className="" key={item?.name}>
+                        <li className="py-2 px-2" key={item?.name}>
                           <div className="flex items-center hover:bg-transparent gap-2 p-0 h-8">
                             <label
                               htmlFor={item?.name}
-                              className="font-medium text-secondary relative mt-1 flex items-center gap-5"
+                              className="font-medium text-secondary relative mt-1 flex items-center gap-2"
                             >
                               <input
                                 id={item?.name}
@@ -322,7 +322,7 @@ const ProposalCards = (props: any) => {
                             </div>
                             <div>
                               <span
-                                className={`font-semibold px-3 py-1 rounded ${
+                                className={`font-semibold px-3 py-1 rounded-[28px] text-[12px] ${
                                   getProposalStatusBg[item?.status]
                                 }`}
                               >

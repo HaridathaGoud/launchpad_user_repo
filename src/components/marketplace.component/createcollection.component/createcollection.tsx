@@ -399,7 +399,7 @@ const CreateCollection = (props: any) => {
                                         <textarea
                                             as="textarea"
                                             placeholder="Description"
-                                            className="textarea bg-transparent border-[#a5a5a5] textarea-bordered w-full resize-none leading-4 rounded-[12px] pl-5 pt-3 focus:outline-none"
+                                            className="textarea bg-transparent border-[#343434] textarea-bordered w-full resize-none leading-4 rounded-[12px] pl-5 pt-3 focus:outline-none"
                                             rows={5}
                                             value={localState.values.description}
                                             required
@@ -461,7 +461,7 @@ const CreateCollection = (props: any) => {
                                     </div>
                                     <div className="mb-6">
                                         <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
-                                            <div className='flex gap-[14px] bg-base-300 p-[6px] rounded-[12px] border border-[#A5A5A5]'>
+                                            <div className='flex gap-[14px] bg-base-300 p-[6px] rounded-[28px] border border-[#A5A5A5]'>
                                                 <span className='matic-purple icon'></span>
                                                 <div>
                                                     <p className='text-base text-secondary font-bold'>Matic</p>

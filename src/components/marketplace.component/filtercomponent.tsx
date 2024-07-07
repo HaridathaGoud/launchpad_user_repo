@@ -15,8 +15,8 @@ export default function FilterComponent() {
             <SearchInputComponent/>
                         <div className="flex items-center max-sm:mt-2">
                             <div className="dropdown mr-2.5">
-                                <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[12px] text-sm font-medium border-0 hover:bg-accent">Price: low to high <span className="icon drop-arrow"></span></div>
-                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[12px] text-sm font-medium border-0 hover:bg-accent dar-bg-cont">Price: low to high <span className="icon drop-arrow"></span></div>
+                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 dropdown-style-price">
                                     <li><a>Low</a></li>
                                     <li><a>High</a></li>
                                 </ul>

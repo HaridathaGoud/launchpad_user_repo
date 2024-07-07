@@ -96,10 +96,10 @@ const Carousel = ({
                             <div
                               className={`${
                                 statusColourList[image.type]
-                              }  px-3 py-1 rounded flex items-center`}
+                              }  px-3 py-1 flex items-center`}
                             >
-                              <span className="align-middle bg-white mr-1 w-3 h-3 rounded-full inline-block mb-[2px]"></span>
-                              <span className="inline-block text-base-100 text-sm">
+                              <span className="align-middle bg-white mr-1 w-2 h-2 rounded-full inline-block mb-[2px]"></span>
+                              <span className="inline-block text-base-100">
                                 {image.type}
                               </span>
                             </div>

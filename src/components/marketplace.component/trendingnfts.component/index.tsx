@@ -231,7 +231,7 @@ const saveFavoriteNft = async (item: any) => {
                                 Price
                               </label>
                               <p className="text-base font-semibold text-secondary justify-end flex flex-1 text-right truncate" title={item?.value ? item?.value : "--"}>
-                                <span className="truncate"> {item?.value ? item?.value : "--"}{" "}</span>
+                                <span className="truncate mr-2"> {item?.value ? item?.value : "--"}{" "}</span>
                                 <span>{item?.value
                                   ? process.env.REACT_APP_CURRENCY_SYMBOL
                                   : ""}{" "}</span>
@@ -242,7 +242,7 @@ const saveFavoriteNft = async (item: any) => {
                                 Highest bid
                               </label>
                               <p className="text-base font-semibold text-secondary justify-end flex flex-1 text-right truncate " title={item?.highestBid ? item?.highestBid : "--"}>
-                                <span className="truncate"> {item?.highestBid ? item?.highestBid : "--"}{" "}</span>
+                                <span className="truncate mr-2"> {item?.highestBid ? item?.highestBid : "--"}{" "}</span>
                                 <span>{item?.highestBid
                                   ? process.env.REACT_APP_CURRENCY_SYMBOL
                                   : ""}</span>

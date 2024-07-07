@@ -141,7 +141,7 @@ const StakingComponent = () => {
   return (
     <div className="">
       <div className="sm:col lg:col-span-3">
-        <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between">
+        <div className="min-h-[288px] bg-base-300 rounded-lg py-5 px-4 mt-5 flex flex-col justify-between border-dao-emp-img-stake">
           {activeStep === 0 && <CheckPointsComponent />}
           {activeStep === 1 && (
             <AmountStakeUnstakeHandler
