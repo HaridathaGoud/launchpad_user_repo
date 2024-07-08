@@ -100,8 +100,8 @@ const HotcollectionView = (props: any) => {
                 <p className='text-white font-semibold text-[32px] leading-8 mr-2'>{hotCollectionViewDetails?.data?.collectionName ||'--'}</p>
               </div>
               <div className="flex text-[18px] mt-2 font-medium gap-2">
-                <p className='text-white '>By : {hotCollectionViewDetails?.data?.creatorName ||hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
-               {(!hotCollectionViewDetails?.data?.creatorName) && <CopyToClipboard
+                <p className='text-white '>By : {hotCollectionViewDetails?.data?.creatorName || hotCollectionViewDetails?.data?.userCreated || hotCollectionViewDetails?.data?.walletAddress || '--'}   </p>
+               {(!hotCollectionViewDetails?.data?.creatorName && !hotCollectionViewDetails?.data?.userCreated) && <CopyToClipboard
                     text={hotCollectionViewDetails?.data?.walletAddress}
                     options={{ format: "text/plain" }}
                     onCopy={() => handleCopy("current")}
