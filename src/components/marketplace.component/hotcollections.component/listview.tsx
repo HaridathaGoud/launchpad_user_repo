@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../../ui/Button";
-import listimg from '../../../assets/images/default-nft.png'
+import listimg from '../../../assets/images/default-nft.jpg'
 import NoData from "../../../ui/noData";
 import PortfolioShimmer from "../../loaders/portfolioshimmer";
 import { useNavigate } from "react-router-dom";

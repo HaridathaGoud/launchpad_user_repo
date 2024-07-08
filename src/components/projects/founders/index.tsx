@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../projectdetails.module.css";
-import member from "../../../../src/assets/images/default-nft.png";
+import member from "../../../../src/assets/images/default-nft.jpg";
 import { useDispatch } from "react-redux";
 import { get } from "../../../utils/api";
 import { setError } from "../../../reducers/layoutReducer";

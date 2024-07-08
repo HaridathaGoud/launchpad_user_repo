@@ -8,7 +8,7 @@ import ProjectBanner from "../projectBanner";
 import BreadCrumb from "../../../ui/breadcrumb";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { setError } from "../../../reducers/layoutReducer";
-import foundingimg from '../../../assets/images/default-nft.png';
+import foundingimg from '../../../assets/images/default-nft.jpg';
 import defaultbannerimg from '../../../assets/images/default-bg.png';
 
 const FoundingMembersView = () => {

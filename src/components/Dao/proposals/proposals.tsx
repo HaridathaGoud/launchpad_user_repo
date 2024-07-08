@@ -150,7 +150,7 @@ const ProposalCards = (props: any) => {
         {!statusLookup.loading && (
           <>
             <div className="flex gap-2">
-              <div className="relative">
+              <div className="relative w-2/4">
                 <SearchBar
                   inputRef={searchBarRef}
                   onSearch={(value: string) => {

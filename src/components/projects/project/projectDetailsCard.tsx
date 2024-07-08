@@ -243,13 +243,13 @@ const ProjectDetailsCard = (props: any) => {
                     </div>
                   </div>
                   <div
-                    className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
+                    className={`py-1 rounded px-3 absolute top-[-15px] right-6 w-[100px] text-center ${
                       statusColourList[props.status?.["private"]?.toLowerCase()]
                     }`}
                   >
                     <p className="mb-0 text-base-100">
                       <span
-                        className={`inline-block w-2 h-2 bg-white rounded-full mr-2 `}
+                        className={`inline-block w-2 h-2 bg-white rounded-full mr-1 `}
                       ></span>
                       {props.status?.["private"]}
                     </p>
@@ -280,13 +280,13 @@ const ProjectDetailsCard = (props: any) => {
                     </div>
                   </div>
                   <div
-                    className={`py-1 rounded px-3 absolute top-[-17px] right-6 ${
+                    className={`py-1 rounded px-3 absolute top-[-15px] right-6 w-[100px] text-center ${
                       statusColourList[props.status?.["public"]?.toLowerCase()]
                     }`}
                   >
                     <p className=" mb-0 text-base-100">
                       <span
-                        className={`inline-block w-2 h-2 bg-white  rounded-full mr-2 `}
+                        className={`inline-block w-2 h-2 bg-white  rounded-full mr-1 `}
                       ></span>
                       {props.status?.["public"]}
                     </p>
