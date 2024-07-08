@@ -75,7 +75,7 @@ const UserInfo = () => {
       <div className=" grid gap-4">
         <div>
           <p className="text-sm font-normal text-secondary opacity-[0.9]">
-            User name
+            Name
           </p>
           <p className="font-medium text-sm text-secondary">
             {getName(user?.firstName, user?.lastName)}
