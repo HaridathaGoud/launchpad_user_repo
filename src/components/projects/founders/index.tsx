@@ -47,7 +47,8 @@ const FoundingMember = (props) => {
       {loader && (
         <ProjecViewFoundingmembersShimmer/>
       )}
-      {!loader && (
+      {!loader && (!data?.stakersData || data?.stakersData?.length===0) && <></>}
+      {!loader && data?.stakersData && data?.stakersData?.length>0 && (
         <div className={`md:gap-4 flex gap-6 items-start overflow-x-auto`}>
           {data?.stakersData?.map((item, index) =>
             index < 4 ? (
