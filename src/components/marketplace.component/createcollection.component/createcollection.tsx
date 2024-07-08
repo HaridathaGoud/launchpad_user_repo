@@ -533,7 +533,7 @@ const CreateCollection = (props: any) => {
                                         <Button btnClassName='min-w-[128px] h-[48px]' type="cancel" handleClick={handleBack} >
                                             <span>{localState.isLoading === 'cancel' && <Spinner size="sm" />} </span>Cancel
                                         </Button>
-                                        <Button btnClassName='min-w-[128px]' type="primary" handleClick={(e) => handleSubmit(e)}>
+                                        <Button btnClassName='min-w-[128px]' type="primary" handleClick={(e) => handleSubmit(e)} disabled={localState.isLoading === 'save'}>
                                             <span>{localState.isLoading === 'save' && <Spinner size="sm" />} </span>Create
                                         </Button>
                                     </div>
