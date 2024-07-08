@@ -60,25 +60,28 @@ const ProjectdetailsView = (props: any) => {
             )}
             {props.loader && <ProjectFeedShimmer />}
           </div>
-          <h4 className={`text-2xl font-semibold text-secondary mb-2 mt-8`}>
-            Investors
-          </h4>
           <FoundingMember
             projectId={props.projectId}
             projectName={props.projectName}
             proStatus={props.proStatus}
             swapProgressBarCalculation={props.swapProgressBarCalculation}
           />
-          <h4 className={`text-2xl font-semibold text-secondary mb-2 mt-8`}>
-            Cast & Crew
-          </h4>
-          {!props.loader && (
-            <CastAndCrewMember
-              castCrewsData={props.data?.projectDetails?.cast_Crews}
-              projectId={props.projectId}
-              projectName={props.projectName}
-            />
-          )}
+          {!props.loader &&
+            props.data?.projectDetails?.cast_Crews &&
+            props.data?.projectDetails?.cast_Crews?.length > 0 && (
+              <>
+                <h4
+                  className={`text-2xl font-semibold text-secondary mb-2 mt-8`}
+                >
+                  Cast & Crew
+                </h4>
+                <CastAndCrewMember
+                  castCrewsData={props.data?.projectDetails?.cast_Crews}
+                  projectId={props.projectId}
+                  projectName={props.projectName}
+                />
+              </>
+            )}
           {props.loader && <ProjectViewCastCrewShimmer />}
           <hr className="my-5" />
         </div>
@@ -118,8 +121,10 @@ const ProjectdetailsView = (props: any) => {
         </div>
         <hr className="my-5" />
         <div id="dao">
-            <h4 className="text-2xl font-semibold text-secondary mb-2 mt-8">Dao</h4>
-            {/* <span className="text-primary">ao</span> */}
+          <h4 className="text-2xl font-semibold text-secondary mb-2 mt-8">
+            Dao
+          </h4>
+          {/* <span className="text-primary">ao</span> */}
           {props.data?.projectDetails?.daoId && (
             <CommonCreateProposal
               pjctInfo={props.data?.projectDetails}
