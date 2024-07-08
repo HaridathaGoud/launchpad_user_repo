@@ -22,7 +22,7 @@ const arcanaLogins = [
   { id: "discord-connector", name: "discord", icon: discord },
 ];
 const icons = { metaMask: metmaskIcon, walletConnect: walletIcon };
-const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
+const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: IWalletConnection) => {
   const rootDispatch = useDispatch();
   const { connectAsync, connectors, isLoading, pendingConnector } =
     useConnect();
@@ -101,15 +101,15 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
       const isValid = validate("otp");
       if (!isValid) return;
       await connector?.auth?.loginWithOTPComplete(localState.otp, () => {
-        modalActions("walletConnectModal", "close");
+        modalActions(modalId, "close");
       });
       handleConnect(
         connector,
         isConnected,
         connectAsync,
         switchNetwork,
-        disconnectAsync,
         onWalletConect,
+        disconnectAsync,
         onConnectionSuccess,
         handleError
       );
@@ -171,14 +171,14 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
       isConnected,
       connectAsync,
       switchNetwork,
-      disconnectAsync,
       onWalletConect,
+      disconnectAsync,
       onConnectionSuccess,
       handleError
     );
   };
   const onConnectionSuccess = () => {
-    modalActions("walletConnectModal", "close");
+    modalActions(modalId, "close");
     onModalClose();
   };
   const onModalClose = () => {
@@ -193,7 +193,7 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
   const [arcanaConnector, ...walletConnectors] = connectors;
   return (
     <Modal
-      id={"walletConnectModal"}
+      id={modalId}
       modalClass="md:w-[60%] lg:w-[35%] relative"
       onClose={onModalClose}
     >
@@ -267,8 +267,8 @@ const Login = ({ onWalletConect, onWalletError }: IWalletConnection) => {
                           isConnected,
                           connectAsync,
                           switchNetwork,
-                          disconnectAsync,
                           onWalletConect,
+                          disconnectAsync,
                           onConnectionSuccess,
                           handleError
                         )
@@ -393,4 +393,5 @@ export default Login;
 interface IWalletConnection {
   onWalletConect: Function;
   onWalletError?: Function;
+  modalId?:string;
 }

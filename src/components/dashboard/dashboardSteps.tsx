@@ -5,6 +5,8 @@ import { useAccount, useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { useSelector } from "react-redux";
 import { navigateToUniswap } from "../../utils/commonNavigations";
+import Login from "../../layout/Login";
+import { modalActions } from "../../ui/Modal";
 const DashboardSteps = () => {
   const navigate = useNavigate();
   const [isKycComplete, setIsKycComplete] = useState<boolean>(false);
@@ -23,6 +25,10 @@ const DashboardSteps = () => {
     }
   }, [user, address, isConnected]);
   const navigateToStake = () => {
+    if(!user || !user?.id){
+      modalActions('loginFromDashboardSteps','open');
+      return;
+    }
     navigate("/staking");
   };
   const navigateToCompleteKyc = async () => {
@@ -136,6 +142,7 @@ const DashboardSteps = () => {
           </div>
         </div>
       </div>
+      <Login modalId="loginFromDashboardSteps" onWalletConect={()=>navigate("/staking")}/>
     </div>
   );
 };

@@ -163,7 +163,7 @@ const AppLayout = () => {
             changingAddress={changingAddress}
             onDisconnect={onDisconnect}
           />
-          <Login onWalletConect={(account: any) => console.log(account)} />
+          <Login onWalletConect={(account: any) => console.log("connected")} />
           <div className="">
             {error?.message && (
               <ErrorMessage

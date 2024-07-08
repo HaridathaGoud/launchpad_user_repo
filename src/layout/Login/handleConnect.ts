@@ -2,7 +2,7 @@ import { supportedChainIds } from "../../utils/supportedChains";
 
 export const handleConnect = async (connector: any,isConnected:boolean,connectAsync:Function,switchNetwork:Function,onWalletConect:Function,disconnectAsync:Function,onWalletClose:Function,handleError:Function) => {
     const onAccountsChanged = (account) => {
-        onWalletConect(account);
+        onWalletConect?.(account);
       };
       const onChainChanged = async () => {
         await switchNetwork({ chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0 });   
@@ -15,11 +15,12 @@ export const handleConnect = async (connector: any,isConnected:boolean,connectAs
         const { account, chain } = await connectAsync({ connector });
         if (!supportedChainIds.includes(chain.id)) {
           await switchNetwork({ chainId: Number(process.env.REACT_APP_CHAIN_ID_NUMARIC) || 0 });
-          onWalletConect(account);
+          onWalletConect?.(account);
           connector.onAccountsChanged = onAccountsChanged;
           connector.onChainChanged = onChainChanged;
           onWalletClose();
         } else {
+          onWalletConect?.(account);
           onWalletClose();
           connector.onAccountsChanged = onAccountsChanged;
           connector.onChainChanged = onChainChanged;
