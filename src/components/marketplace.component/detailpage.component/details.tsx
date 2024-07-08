@@ -48,17 +48,11 @@ const Details = ({
         </div>
 
         {nftDetails?.description && (
-          <>
-            <h3 className="text-base font-semibold text-secondary mb-4">
-              Description
-            </h3>
             <p className="text-secondary">{nftDetails?.description}</p>
-          </>
         )}
       </div>
       <hr className="mt-[22px] mb-3" />
       <div className="px-2.5 pt-2 pb-6">
-        <h1 className="text-base font-semibold text-secondary mb-4">Details</h1>
         <div className="grid md:grid-cols-3 gap-4">
           <div>
             <h1 className="font-semibold text-secondary">Contract Address</h1>
