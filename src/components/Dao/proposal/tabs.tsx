@@ -14,7 +14,7 @@ const ProposalTabs = () => {
   return (
     <div>
       <div className="flex justify-start items-center mt-10 project-detail-tab">
-        <div className={`${styles.customTabs} tabs custom-btn-new`}>
+        <div className={`${styles.customTabs} tabs custom-btn-new !p-0`}>
           {/* <Button
           type='plain'
             btnClassName={`${styles.tab} ${activeTab === 'discussions' ? styles.tabActive : ''} tab`}

@@ -242,17 +242,17 @@ const Nfts = forwardRef((props: any, ref) => {
                     <div className="md:flex justify-between gap-4">
                         <SearchBar searchBarClass='xl:w-[42rem] md:w-96 relative' onSearch={handleSearch} inputRef={searchInputRef} placeholder="Search NFT Name,  Category...... " />
                         <div className="flex items-center max-sm:mt-2">
-                            <div className="dropdown mr-2.5">
-                                <div tabIndex={0} role="button" className=" m-1 bg-accent px-4 py-2.5 rounded-[12px] text-sm font-medium border-0 hover:bg-accent dar-bg-cont">Price: {localState.values?.price} <span className="icon drop-arrow"></span></div>
+                            <div className="dropdown mr-2.5 mb-drp-w">
+                                <div tabIndex={0} role="button" className=" m-1 max-sm:m-0 bg-accent px-4 py-2.5 rounded-[12px] text-sm font-medium border-0 hover:bg-accent dar-bg-cont">Price: {localState.values?.price} <span className="icon drop-arrow"></span></div>
                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 dropdown-style-price">
                                     <li onClick={(event) => handlePriceRangeSelection(event, 'low2high')} ><a>Low</a></li>
                                     <li onClick={(event) => handlePriceRangeSelection(event, 'high2low')}><a>High</a></li>
                                 </ul>
                             </div>
-                            <span className={` p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content1' ? 'bg-primary' : 'bg-accent'}`} onClick={showContent1}>
+                            <span className={` p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content1' ? 'bg-primary' : 'dar-bg-cont'}`} onClick={showContent1}>
                                 <span className={`icon filter-squre ${localState?.activeContent === 'content1' ? 'invert' : ''}`}></span>
                             </span>
-                            <span className={`mx-4 bg-accent p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content2' ? 'bg-primary' : 'bg-accent'}`} onClick={showContent2}>
+                            <span className={`max-sm:mr-0 mx-4 bg-accent p-2.5 rounded cursor-pointer ${localState?.activeContent === 'content2' ? 'bg-primary' : 'dar-bg-cont'}`} onClick={showContent2}>
                                 <span className={`icon properties ${localState?.activeContent === 'content2' ? 'invert' : ''}`}></span>
                             </span>
                         </div>

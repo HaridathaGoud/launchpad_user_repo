@@ -45,7 +45,7 @@ const AmountStakeUnstakeHandler = (props) => {
             <input
               type="text"
               placeholder="Enter Amount"
-              className="rounded-[12px] border-warning-content border px-4 text-sm py-2 lg:w-[450px]"
+              className="rounded-[12px] border border-[#343434] px-4 text-sm py-2 lg:w-[450px] text-neutral focus:border-[#a5a5a5]"
               id="amount"
               value={stakeAmount}
               onChange={handleAmount}

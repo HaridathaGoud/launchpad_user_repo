@@ -104,7 +104,7 @@ const Proposal = () => {
                           <h2 className="text-base font-semibold text-secondary whitespace-nowrap">
                             Created By
                           </h2>
-                          <div className="flex items-center bg-accent rounded-[50px] p-1.5 truncate">
+                          <div className="flex items-center border border-[#343434] rounded-[50px] p-1.5 truncate">
                             <img
                               src={
                                 proposalDetails?.data?.creatorImage ||
@@ -113,7 +113,7 @@ const Proposal = () => {
                               className="w-[24px] h-[24px] mr-3 rounded-full object-cover"
                               alt="created By"
                             />
-                            <span className="truncate">
+                            <span className="truncate text-neutral">
                               {" "}
                               {proposalDetails?.data?.walletAddress === address
                                 ? "YOU"

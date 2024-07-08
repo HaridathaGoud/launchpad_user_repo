@@ -26,7 +26,7 @@ const Tabs = ({
     </div>
   </div> */}
 
-    <div role="tablist" className={`tabs ${tabsClass ? tabsClass : "tabstyle tab-design-style khudhkufhd"}`}>
+    <div role="tablist" className={`tabs ${tabsClass ? tabsClass : "tabstyle tab-design-style"}`}>
       {tabs.map((tab, index) => (
         <React.Fragment key={index}>
           <input

@@ -435,16 +435,18 @@ const ProposalCards = (props: any) => {
                     {props.from === "project" &&
                       !proposals.data?.length &&
                       proposals.nextPage > 2 && (
+                        <div className="dao-card py-[18px] px-5 rounded-lg shadow-md text-center border-dao-emp-img col-span-2">
                         <div className="mb-4">
                           <NoDataFound text={""} />
                         </div>
+                      </div>
                       )}
                     {!proposals?.data?.length &&
                       (state.startDate ||
                         state.endDate ||
                         (state.status !== "All" &&
                           !state.startDate &&
-                          !state.endDate)) && <NoDataFound text={""} />}
+                          !state.endDate)) && <div className="col-span-2 dao-card py-[18px] px-5 rounded-lg shadow-md text-center border-dao-emp-img"><NoDataFound text={""} /></div>}
                     {!proposals.loading &&
                       ((props.from !== "project" && !proposals.data?.length) ||
                         (props.from === "project" &&

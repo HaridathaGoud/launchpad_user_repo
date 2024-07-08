@@ -125,7 +125,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
                               type="primary"
                               className="text-secondary cursor-pointer bg-transparent"
                             >
-                              {name}
+                              {name}<span className="icon arrow-icon"></span>
                             </NaviLink>
                           </span>
                         }

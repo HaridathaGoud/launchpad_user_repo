@@ -76,7 +76,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
     <div className="">
       <div className="mt-4 ">
         <label className="inline-block ml-4 mb-2">Author</label>
-        <div className="border-[#A5A5A5] border rounded-[12px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9">
+        <div className="border-[#343434] border rounded-[12px] px-4 py-2 flex items-center truncate copy-clip justify-between h-9 focus:border-[#a5a5a5]">
           <div className="flex items-center truncate">
             <img
               src={user?.profilePicUrl || defaultAvatar}
@@ -192,7 +192,7 @@ const ProposalForm = ({ state, address, user, dispatch }) => {
         <h4 className="text-secondary text-sm font-normal p-0 label ml-4 mb-2 star ">
           Select Your Proposal Type
         </h4>
-        <div className="flex gap-2 items-center w-full rounded-[12px] border-[#A5A5A5] border px-4 py-2 h-10">
+        <div className="flex gap-2 items-center w-full rounded-[12px] border-[#343434] border px-4 py-2 h-10 hover:border-[#a5a5a5]">
           <label
             htmlFor="votingBox"
             className="cursor-pointer relative inline-block mt-1"
