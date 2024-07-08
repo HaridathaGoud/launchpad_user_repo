@@ -9,18 +9,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../ui/NaviLink";
 import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
-import {
-  getGlobalDropDown,
-  getNavBarDropdown,
-  getNavMenu,
-} from "./utils";
+import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
 import useArcanaAuth from "../../hooks/useArcanaAuth";
 import Sidebar from "./sidebar";
 function Navbar({ changingAddress, handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const user= useSelector((state: any) => state.auth.user);
-  const isLoggedIn=useSelector((state:any)=>state.auth.arcanaUser?.isLoggedIn)
+  const user = useSelector((state: any) => state.auth.user);
+  const isLoggedIn = useSelector(
+    (state: any) => state.auth.arcanaUser?.isLoggedIn
+  );
   const { isConnected, address, isConnecting, isReconnecting } = useAccount();
   const [isChecked, setIsChecked] = useState(false);
 
@@ -54,7 +52,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
           return;
       }
     },
-    [pathname, isLoggedIn,address,user?.id]
+    [pathname, isLoggedIn, address, user?.id]
   );
   const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
     return {
@@ -66,7 +64,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
       ),
       globalDropdown: getGlobalDropDown(navigate),
     };
-  }, [address,user?.id, pathname, isLoggedIn]);
+  }, [address, user?.id, pathname, isLoggedIn]);
 
   return (
     <div
@@ -175,7 +173,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
               className={`bg-transparent p-2 px-2 truncate rounded-[12px] border-solid border-[1px] border-secondary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
             >
               <p className="!text-primary inline-block text-sm leading-5 truncate dark-textwhite">
-                please wait...
+                Please wait...
               </p>
               <span>
                 <Spinner size="loading-sm" />
