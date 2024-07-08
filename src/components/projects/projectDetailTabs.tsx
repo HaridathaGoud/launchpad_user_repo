@@ -12,7 +12,7 @@ const ProjectDetailTabs = ({
   const navigateToProject=(id:string)=>{
     navigate(`/projects/${params?.projectName}/${params?.projectId}/${id}`)
   }
-  const tabFromParams=params?.tab ? {id:params?.tab,shouldRedirect:true } :{id:""}
+  const tabFromParams=params?.tab!=='null' ? {id:params?.tab,shouldRedirect:true } :{id:"projectFeed",shouldRedirect:false}
   const active=params?.proposalId ? {id:"dao",shouldRedirect:false } : tabFromParams
   const action=params?.proposalId && navigateToProject;
   const sections = useMemo(()=>[

@@ -4,12 +4,12 @@ const shortTheNumber = (value: number | string) => {
     return value;
   }
   if (value >= 1000 && value < 1000000) {
-    return `${Math.floor(value / 1000)}K+`;
+    return `${numberWithCommas(Math.floor(value / 1000))}K+`;
   }
   if (value >= 1000000 && value < 1000000000) {
-    return `${Math.floor(value / 1000000)}M+`;
+    return `${numberWithCommas(Math.floor(value / 1000000))}M+`;
   }
-  return `${Math.floor(value / 1000000000)}B+`;
+  return `${numberWithCommas(Math.floor(value / 1000000000))}B+`;
 };
 
 const numberWithCommas = (value: any, maximumFractionDigits: number = 8) => {
