@@ -530,7 +530,7 @@ const CreateCollection = (props: any) => {
                                         </div>
                                     </div>
                                     <div className="mt-4 flex justify-end gap-4 items-center">
-                                        <Button btnClassName='min-w-[128px] h-[48px]' type="cancel" handleClick={handleBack} >
+                                        <Button btnClassName='min-w-[128px] h-[48px]' type="cancel" handleClick={handleBack} disabled={localState.isLoading === 'save'}>
                                             <span>{localState.isLoading === 'cancel' && <Spinner size="sm" />} </span>Cancel
                                         </Button>
                                         <Button btnClassName='min-w-[128px]' type="primary" handleClick={(e) => handleSubmit(e)} disabled={localState.isLoading === 'save'}>
