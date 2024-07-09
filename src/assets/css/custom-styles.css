@@ -376,6 +376,7 @@ html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-le
 .tune-button {font-weight: 600;height: 46px;cursor: pointer;border-radius: 9999px;border: 1px solid #e0e0e0!important;background-color: transparent;padding-left: 22px;padding-right: 22px;color: #444444  !important;}
 .tune-button:hover{border: 1px solid #57606a !important;}
 .steps .step:before, .steps .step:after{background-color: #353352 !important;color: #ffffff !important;}
+html[data-theme="dark"] .company-logos img{filter: invert();}
 /* .footer{} */
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}
