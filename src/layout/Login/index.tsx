@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useCallback, useReducer } from "react";
 import metmaskIcon from "../../assets/images/metamask.svg";
 import walletIcon from "../../assets/images/walletconnect.svg";
 import google from "../../assets/images/google.svg";
@@ -6,8 +6,8 @@ import twitter from "../../assets/images/twitter-img.svg";
 import discord from "../../assets/images/discord-img.svg";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { switchNetwork } from "wagmi/actions";
-import { useDispatch } from "react-redux";
-import { setToaster } from "../../reducers/layoutReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setError, setToaster } from "../../reducers/layoutReducer";
 import { handleConnect } from "./handleConnect";
 import { emailValidation } from "../../utils/validation";
 import Button from "../../ui/Button";
@@ -16,17 +16,33 @@ import Spinner from "../../components/loaders/spinner";
 import TimeCalculate from "../../components/staking/timeCalculate";
 import { walletReducer, walletState } from "./reducer";
 import Overlay from "../../ui/overlay";
+import {
+  getCustomerDetails,
+  setArcanaUserDetails,
+  setGettingUserData,
+  setUserID,
+} from "../../reducers/rootReducer";
+import useArcanaAuth from "../../hooks/useArcanaAuth";
+import { store } from "../../store";
 const arcanaLogins = [
   { id: "google-connector", name: "google", icon: google },
-  { id: "twitter-connector", name: "twitter", icon: twitter},
+  { id: "twitter-connector", name: "twitter", icon: twitter },
   { id: "discord-connector", name: "discord", icon: discord },
 ];
 const icons = { metaMask: metmaskIcon, walletConnect: walletIcon };
-const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: IWalletConnection) => {
+const Login = ({
+  onWalletConect,
+  onWalletError,
+  modalId = "walletConnectModal",
+}: IWalletConnection) => {
   const rootDispatch = useDispatch();
+  const gettingUserData = useSelector(
+    (store: any) => store.auth.gettingUserData
+  );
   const { connectAsync, connectors, isLoading, pendingConnector } =
     useConnect();
   const { isConnected } = useAccount();
+  const auth = useArcanaAuth();
   const [localState, localDispatch] = useReducer(walletReducer, walletState);
   const { disconnectAsync } = useDisconnect();
   const handleError = (error: any) => {
@@ -95,23 +111,45 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
     }
     return isValid;
   };
+  const onDisconnect = useCallback(async () => {
+    try {
+      await disconnectAsync();
+      auth.connected && (await auth.logout?.());
+      rootDispatch(setArcanaUserDetails({ isLoggedIn: false }));
+      rootDispatch(setUserID({ id: "", name: "" }));
+      rootDispatch(setGettingUserData(''))
+    } catch (error) {
+      rootDispatch(setError({ message: error.message || error }));
+    }
+  }, [auth]);
+  const onSuccessfulConnection = (address: any) => {
+    onWalletConect?.(address);
+    closeModal();
+  };
+  const getUserDetails = (address: any) => {
+    store.dispatch(
+      getCustomerDetails(address, onSuccessfulConnection, onDisconnect)
+    );
+  };
   const confirmOTP = async (connector: any) => {
-    localDispatch({ type: "setVerifying", payload: "otp" });
+    localDispatch({
+      type: "setState",
+      payload: { verifying: "otp", gettingUser: true },
+    });
     try {
       const isValid = validate("otp");
       if (!isValid) return;
       await connector?.auth?.loginWithOTPComplete(localState.otp, () => {
         modalActions(modalId, "close");
       });
-      handleConnect(
+      await handleConnect(
         connector,
         isConnected,
         connectAsync,
         switchNetwork,
-        onWalletConect,
-        disconnectAsync,
-        onConnectionSuccess,
-        handleError
+        closeModal,
+        handleError,
+        getUserDetails
       );
     } catch (error) {
       const errorsToUpdate = { ...localState.errors };
@@ -120,7 +158,10 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
         message["errorDescription"] || message["error"] || message;
       localDispatch({ type: "setErrors", payload: errorsToUpdate });
     } finally {
-      localDispatch({ type: "setVerifying", payload: "" });
+      localDispatch({
+        type: "setState",
+        payload: { verifying: "", gettingUser: false },
+      });
     }
   };
   const sendOTP = async (connector: any, otpSent?: number) => {
@@ -163,21 +204,22 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
       localState.otpSent ? confirmOTP(connector) : sendOTP(connector);
       return;
     }
+    localDispatch({ type: "setGettingUser", payload: true });
     await connector.setLogin({
       provider: `${connectTo}`,
     });
-    handleConnect(
+    await handleConnect(
       connector,
       isConnected,
       connectAsync,
       switchNetwork,
-      onWalletConect,
-      disconnectAsync,
-      onConnectionSuccess,
-      handleError
+      closeModal,
+      handleError,
+      getUserDetails
     );
+    localDispatch({ type: "setGettingUser", payload: false });
   };
-  const onConnectionSuccess = () => {
+  const closeModal = () => {
     modalActions(modalId, "close");
     onModalClose();
   };
@@ -243,10 +285,14 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
                 or continue with
               </p>
             </div>
-            {isLoading && pendingConnector?.id === arcanaConnector.id && (
-              <Overlay>
-                <span className="text-white">
-                  <Spinner size="loading-lg" />
+            {((isLoading && pendingConnector?.id === arcanaConnector.id) ||
+              gettingUserData==='connecting') && (
+              <Overlay bgColor="bg-[#000]" bgOpacity="bg-opacity-60">
+                <span className="text-white flex items-center justify-center gap-2">
+                  <span className="text-[24px] font-semibold">
+                    Connecting...
+                  </span>
+                  <Spinner />
                 </span>
               </Overlay>
             )}
@@ -261,18 +307,17 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
                       btnClassName="border-[1px] border-info-content p-4 hover:animate-heartbeat rounded-full flex items-center mb-4 mx-auto"
                       key={connector.id}
                       disabled={localState.verifying !== ""}
-                      handleClick={() =>
-                        handleConnect(
+                      handleClick={async () => {
+                        await handleConnect(
                           connector,
                           isConnected,
                           connectAsync,
                           switchNetwork,
-                          onWalletConect,
-                          disconnectAsync,
-                          onConnectionSuccess,
-                          handleError
-                        )
-                      }
+                          closeModal,
+                          handleError,
+                          getUserDetails
+                        );
+                      }}
                     >
                       <img
                         src={icons[connector.id] || metmaskIcon}
@@ -282,10 +327,14 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
                     </Button>
                   </span>
                 )}
-                {isLoading && pendingConnector?.id === connector.id && (
-                  <Overlay>
-                    <span className="text-white">
-                      <Spinner size="loading-lg" />
+                {((isLoading && pendingConnector?.id === connector.id) ||
+                  gettingUserData==='connecting') && (
+                  <Overlay bgColor="bg-[#000]" bgOpacity="bg-opacity-60">
+                    <span className="text-white flex items-center justify-center gap-2">
+                      <span className="text-[24px] font-semibold">
+                        Connecting...
+                      </span>
+                      <Spinner />
                     </span>
                   </Overlay>
                 )}
@@ -293,13 +342,13 @@ const Login = ({ onWalletConect, onWalletError,modalId="walletConnectModal" }: I
             ))}
           </div>
           <div className="md:w-96 mx-auto mb-2">
-          <div className="relative md:w-96 mx-auto my-6">
-                  <hr />
-                  <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold bg-dark-color">
-                    {" "}
-                    or continue with
-                  </p>
-                </div>
+            <div className="relative md:w-96 mx-auto my-6">
+              <hr />
+              <p className="text-center w-36 absolute top-0 bg-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold bg-dark-color">
+                {" "}
+                or continue with
+              </p>
+            </div>
             {localState.otpSent === 0 && (
               <div>
                 <input
@@ -393,5 +442,5 @@ export default Login;
 interface IWalletConnection {
   onWalletConect: Function;
   onWalletError?: Function;
-  modalId?:string;
+  modalId?: string;
 }

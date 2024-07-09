@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
 import FooterComponent from "./Footer";
@@ -10,20 +10,21 @@ import SwipeUp from "../ui/swipeUp";
 import PleaseWait from "./pleaseWait";
 import useOnlineStatus from "../hooks/useOnlineStatus";
 import {
+  getCustomerDetails,
   getTokenDetails,
   setArcanaUserDetails,
   setUserID,
   Staker,
-  walletAddress,
 } from "../reducers/rootReducer";
 import { store } from "../store";
 import { ConnectorData, useAccount, useDisconnect } from "wagmi";
-import { getKyc } from "../utils/api";
 import useArcanaAuth from "../hooks/useArcanaAuth";
 import useContract from "../hooks/useContract";
 import offline from "../assets/images/offline.svg";
 import Login from "./Login";
 import { supportedChainIds } from "../utils/supportedChains";
+import Overlay from "../ui/overlay";
+import Spinner from "../components/loaders/spinner";
 const AppLayout = () => {
   const { pathname } = useLocation();
   const { isStaker } = useContract();
@@ -32,23 +33,23 @@ const AppLayout = () => {
   const isOnline = useOnlineStatus();
   const rootDispatch = useDispatch();
   const { disconnectAsync } = useDisconnect();
-  const error = useSelector((store:any) => store.layoutReducer.error);
-  const toaster = useSelector((store:any) => store.layoutReducer.toaster);
-  const user = useSelector((store:any) => store.auth.user);
-  const hasBasicToken = useSelector((store:any) => store.auth.token);
-  const [changingAddress, setChangingAddress] = useState(false);
+  const error = useSelector((store: any) => store.layoutReducer.error);
+  const toaster = useSelector((store: any) => store.layoutReducer.toaster);
+  const gettingUserData = useSelector((store: any) => store.auth.gettingUserData);
+  const user = useSelector((store: any) => store.auth.user);
+  const hasBasicToken = useSelector((store: any) => store.auth.token);
   useEffect(() => {
     store.dispatch(getTokenDetails(null, null));
   }, []);
   useEffect(() => {
-    if (isConnected && address && !user?.id) {
-      getCustomerDetails(address);
+    if (isConnected && address && !gettingUserData &&!user?.id) {
+      store.dispatch(getCustomerDetails(address,()=>console.log("connected"),onDisconnect));
     }
     if (!isConnected && !address) {
       store.dispatch(setUserID({ id: "", name: "" }));
       store.dispatch(setArcanaUserDetails({ isLoggedIn: false }));
     }
-  }, [isConnected, address]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isConnected, address,gettingUserData,user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     error?.message && rootDispatch(setError({ message: "" }));
     toaster?.message && rootDispatch(setToaster({ message: "" }));
@@ -82,7 +83,7 @@ const AppLayout = () => {
   };
   const handleConnectorUpdate = ({ account, chain }: ConnectorData | any) => {
     if (account) {
-      getCustomerDetails(account);
+      store.dispatch(getCustomerDetails(account,()=>console.log("Account changed!"),onDisconnect,"changing"));
       getStakeFlag();
       return;
     }
@@ -97,48 +98,12 @@ const AppLayout = () => {
       rootDispatch(setError({ message: "" }));
     }
   };
-  const dispatchCustomerDetails = async (data: any) => {
-    const dataToUpdate = { ...data };
-    if (!data.token) {
-      const response = await getKyc(`User/GetAuthorizationToken/${data.id}`);
-      if (response.status === 200) {
-        dataToUpdate.token = response.data;
-      } else {
-        isConnected && address && await onDisconnect()
-        throw new Error(
-          "Oops! An error occurred. Please try logging in again."
-        );
-      }
-    }
-    store.dispatch(setUserID(dataToUpdate));
-    store.dispatch(walletAddress(address || ""));
-  };
-  const getCustomerDetails = async (address: string | undefined) => {
-    setChangingAddress(true);
-    if (address) {
-      try {
-        const res = await getKyc(`User/CustomerDetails/${address}`);
-        if (res.statusText?.toLowerCase() === "ok" || res.status === 200) {
-          await dispatchCustomerDetails(res?.data);
-        } else {
-          isConnected  && await onDisconnect()
-          rootDispatch(setError({ message: res }));
-        }
-      } catch (error) {
-        isConnected && await onDisconnect()
-        rootDispatch(setError({ message: error.message || error }));
-      } finally {
-        setChangingAddress(false);
-      }
-    }
-  };
   const getStakeFlag = () => {
     isStaker().then((res: any) => {
       store.dispatch(Staker(res));
     });
   };
   const onDisconnect = useCallback(async () => {
-    setChangingAddress(true);
     try {
       await disconnectAsync();
       auth.connected && (await auth.logout?.());
@@ -146,8 +111,6 @@ const AppLayout = () => {
       rootDispatch(setUserID({ id: "", name: "" }));
     } catch (error) {
       rootDispatch(setError({ message: error.message || error }));
-    } finally {
-      setChangingAddress(false);
     }
   }, [auth]);
   return (
@@ -160,7 +123,6 @@ const AppLayout = () => {
       {isOnline && (
         <>
           <Header
-            changingAddress={changingAddress}
             onDisconnect={onDisconnect}
           />
           <Login onWalletConect={(account: any) => console.log("connected")} />
@@ -184,6 +146,14 @@ const AppLayout = () => {
                 callbackTimeout={toaster?.callbackTimeout}
               />
             )}
+             {gettingUserData==='changing' && <Overlay bgColor="bg-[#000]" bgOpacity="bg-opacity-75">
+                <span className="text-white flex items-center justify-center gap-2">
+                  <span className="text-[24px] font-semibold">
+                    Connecting...
+                  </span>
+                  <Spinner />
+                </span>
+              </Overlay>}
             {hasBasicToken && (
               <div className="min-h-[80vh]">
                 <Outlet />

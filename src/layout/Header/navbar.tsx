@@ -9,16 +9,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NaviLink from "../../ui/NaviLink";
 import ConnectWallet from "../../ui/connectButton";
 import Spinner from "../../components/loaders/spinner";
-import { getGlobalDropDown, getNavBarDropdown, getNavMenu } from "./utils";
+import {
+  getNavBarDropdown,
+  getNavMenu,
+} from "./utils";
 import useArcanaAuth from "../../hooks/useArcanaAuth";
 import Sidebar from "./sidebar";
-function Navbar({ changingAddress, handleDisconnect }) {
+function Navbar({ handleDisconnect }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const user = useSelector((state: any) => state.auth.user);
-  const isLoggedIn = useSelector(
-    (state: any) => state.auth.arcanaUser?.isLoggedIn
-  );
+  const user= useSelector((state: any) => state.auth.user);
+  const gettingUserData= useSelector((state: any) => state.auth.gettingUserData);
+  const isLoggedIn=useSelector((state:any)=>state.auth.arcanaUser?.isLoggedIn)
   const { isConnected, address, isConnecting, isReconnecting } = useAccount();
   const [isChecked, setIsChecked] = useState(false);
 
@@ -52,19 +54,18 @@ function Navbar({ changingAddress, handleDisconnect }) {
           return;
       }
     },
-    [pathname, isLoggedIn, address, user?.id]
+    [pathname, isLoggedIn,address,user?.id]
   );
-  const { navMenuList, navBarDropDownMenu, globalDropdown } = useMemo(() => {
+  const { navMenuList, navBarDropDownMenu } = useMemo(() => {
     return {
       navMenuList: getNavMenu(navigate, pathname, user?.id),
       navBarDropDownMenu: getNavBarDropdown(
         handleDropdownAction,
         pathname,
         isLoggedIn
-      ),
-      globalDropdown: getGlobalDropDown(navigate),
+      )
     };
-  }, [address, user?.id, pathname, isLoggedIn]);
+  }, [address,user?.id, pathname, isLoggedIn]);
 
   return (
     <div
@@ -154,21 +155,11 @@ function Navbar({ changingAddress, handleDisconnect }) {
         </div>
 
         <div className="navbar-end">
-          <div className="mr-6">
-            <DropdownMenus
-              btnContent={<span className="icon menu-icon"></span>}
-              dropdownClass="md:dropdown-end"
-              dropdownList={globalDropdown}
-              addToMenuClass="!min-w-[254px] grid  global-list mt-5"
-              addToMenuBtnClass="text-left "
-              menuItemClass=""
-            />
-          </div>
           {!isConnected &&
             !isReconnecting &&
             !isConnecting &&
-            !changingAddress && <ConnectWallet />}
-          {(isReconnecting || isConnecting || changingAddress) && (
+            !gettingUserData && <ConnectWallet />}
+          {(isReconnecting || isConnecting || gettingUserData) && (
             <div
               className={`bg-transparent p-2 px-2 truncate rounded-[12px] border-solid border-[1px] border-secondary bg-secondary !text-base-100 font-semibold text-sm flex items-center gap-4 lg:px-4 max-sm:scale-[0.7] min-w-[160px] min-h-[48px]`}
             >
@@ -182,7 +173,7 @@ function Navbar({ changingAddress, handleDisconnect }) {
           )}
           {!isReconnecting &&
             !isConnecting &&
-            !changingAddress &&
+            !gettingUserData &&
             isConnected && (
               <DropdownMenus
                 btnContent={

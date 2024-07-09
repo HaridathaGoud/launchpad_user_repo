@@ -2,6 +2,8 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 import { apiUploadPost, getMinting, putForMinting } from "../../../utils/api";
 import { isErrorDispaly } from "../../../utils/errorHandling";
 import { waitForTransaction } from "wagmi/actions";
+import { addressType } from "../../../utils/useCollectionDeployer";
+import { ethers } from "ethers";
 const projectId = process.env.REACT_APP_PROJECTID;
 const projectSecret = process.env.REACT_APP_PROJECTSECRET;
 const authorization = "Basic " + btoa(projectId + ":" + projectSecret);
@@ -15,7 +17,14 @@ function base64ToBlob(base64, mimeType) {
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: mimeType });
 }
-
+const validate=async (getCount:Function,address:addressType)=>{
+  try{
+    const response=await getCount(address);
+    return {data:Number(response),error:''}
+  }catch(error){
+    return {data:null,error}
+  }
+}
 const validation = (
   data: any,
   userBalance: number,
@@ -96,10 +105,22 @@ export const getMembershipDetails = async (funArgs: any, callbacks: any) => {
 };
 
 export const getMetaData = async (funArgs: any, callbacks: any) => {
-  const { count, daoId } = funArgs;
+  const { count, daoId,totalSupply,getMintedCount,contractAddress,getDetails } = funArgs;
   const { setLoading, onSuccess, onError, loaderType } = callbacks;
   try {
     setLoading(loaderType, true);
+    debugger
+    const {data:totalSold,error}=await validate(getMintedCount,contractAddress);
+    if(error){
+      onError(error)
+      return;
+    }
+    console.log(totalSold,count,totalSupply)
+    if(totalSold && totalSold+count>Number(totalSupply)){
+      getDetails()
+      onError(`Already sold ${totalSold} out of ${totalSupply}! You can now buy only ${totalSupply - totalSold} memberships.`);
+      return;
+    }
     const response = await getMinting(`User/mintfiles/${count}/${daoId}`);
     if (
       response.statusText?.toLowerCase() === "ok" ||

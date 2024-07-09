@@ -17,9 +17,10 @@ import {
 import { buyMembershipReducer, buyMembershipState } from "./reducer";
 import { setError, setToaster } from "../../../reducers/layoutReducer";
 import BuyMembershipShimmers from "../../loaders/projects/buyMembershipShimmer";
+import { shortTheNumber } from "../../../ui/formatNumber";
 
 const BuyMembership = (props: any) => {
-  const { daoId, contractAddress,totalSoldTokens,totalSupply } =
+  const { daoId, contractAddress, totalSoldTokens, totalSupply } =
     props.projectDetails;
   const rootDispatch = useDispatch();
   const [localState, localDispatch] = useReducer(
@@ -95,12 +96,13 @@ const BuyMembership = (props: any) => {
   const onSuccessfulMint = () => {
     rootDispatch(setToaster({ message: "Membership purchase successful!" }));
     // modalActions("mintSuccessModal", "open");
-    props.getDetails?.()
+    props.getDetails?.();
+    getDetails();
     setLoading("setIsMinting", false);
   };
   const onTransaction = async (txDetails: any, files: any) => {
     await updateTransactionHash(
-      { data: txDetails, files: files, userId: user.id,daoId:daoId },
+      { data: txDetails, files: files, userId: user.id, daoId: daoId },
       { onSuccess: onSuccessfulMint, onError: setErrorMessage }
     );
   };
@@ -131,12 +133,19 @@ const BuyMembership = (props: any) => {
     );
   };
   const handleMinting = async () => {
-    if(!props?.proStatus()){
-      rootDispatch(setError({message:'No active rounds at the moment.'}))
+    if (!props?.proStatus()) {
+      rootDispatch(setError({ message: "No active rounds at the moment." }));
       return;
     }
     await getMetaData(
-      { count: localState.inputCount, daoId: daoId },
+      {
+        count: localState.inputCount,
+        daoId: daoId,
+        totalSupply,
+        getMintedCount,
+        contractAddress,
+        getDetails: props?.getDetails,
+      },
       {
         onSuccess: handleIpfsUploading,
         onError: setErrorMessage,
@@ -147,16 +156,31 @@ const BuyMembership = (props: any) => {
   };
   return (
     <div className="container mx-auto" id="buyMembershipHeader">
-      <h4 className="font-semibold mb-4 text-2xl text-secondary">
-        Buy Membership
-      </h4>
+      <div className="md:flex justify-between flex-wrap items-center mb-4">
+        <h4 className="font-semibold text-2xl text-secondary">
+          Buy Membership
+        </h4>
+        {user?.id && (
+          <p className="mt-4 md:mt-0 lg:pr-[55px] font-semibold text-secondary h-full flex gap-2 items-center">
+            Current Balance :{" "}
+            {localState.isLoading ? (
+              <Spinner size="loading-sm" />
+            ) : (
+              <span className="text-primary">
+                {shortTheNumber(localState.currUserMintedCount)}
+              </span>
+            )}{" "}
+            memberships
+          </p>
+        )}
+      </div>
       {localState.isLoading && <BuyMembershipShimmers />}
       {!localState.isLoading && (
         <div className="lg:pr-[55px]">
           <div className="mt-7 text-center">
             <MaticInput
-             price={localState.inputCount*localState.nftPrice}
-              value={(isConnected && address) ? localState.inputCount : 0}
+              price={localState.inputCount * localState.nftPrice}
+              value={isConnected && address ? localState.inputCount : 0}
               setValue={(value: any) => {
                 localDispatch({
                   type: "setInputCount",
@@ -175,7 +199,7 @@ const BuyMembership = (props: any) => {
                   !isConnected ||
                   !user?.id ||
                   localState.isMinting ||
-                  totalSoldTokens>=totalSupply
+                  totalSoldTokens >= totalSupply
                 }
               >
                 {localState.isMinting && (
