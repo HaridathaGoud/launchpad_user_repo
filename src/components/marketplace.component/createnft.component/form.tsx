@@ -340,7 +340,7 @@ const Form = ({ state, updateState, inputRef, mint }) => {
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <span className="icon properties  invert"></span>
+                    <span className="icon properties"></span>
                     <div className="ms-2">
                       <h6 className="text-secondary text-base font-normal">
                         Properties

@@ -11,7 +11,7 @@
 .redDot{display: inline-block;width: 16px;height: 16px;border-radius: 50%;background-color: #D60000;}
 .bgCreator{border-radius: 50px;    border: 1px solid rgba(217, 217, 217, 0.10);    background: #D0D0D0;}
 .cardImg span{width: 100% !important;height: 100% !important;}
-.customTabs .tab{border-radius: 28px;background: #D0D0D0;padding: 8px 14px;color: #000; font-size: 14px; font-weight: 600; line-height: normal;}
+.customTabs .tab{border-radius: 12px;background: #D0D0D0;padding: 8px 14px;color: #000; font-size: 14px; font-weight: 600; line-height: normal;}
 .customTabs .tabActive{background: #D60000;color: #fff;}
 .customTabs{gap: 10px;}
 .love{width: 24px; height: 24px; background-position: -385px -12px !important;}

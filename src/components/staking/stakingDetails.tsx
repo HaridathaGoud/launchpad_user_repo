@@ -15,8 +15,8 @@ const StakingDetails = () => {
   let unstakedAmt = numberWithCommas(unstakedAmount);
   let rewardAmt = numberWithCommas(rewardAmount);
   return (
-    <div className="sm:col md:flex justify-between items-center">
-      <div className="lg:col-span-2">
+    <div className="">
+      <div className="">
         {activeTab === 0 && (
           <p className="text-xl font-semibold text-secondary">Staking</p>
         )}
@@ -30,13 +30,13 @@ const StakingDetails = () => {
           <p className="text-xl font-semibold text-secondary">Rewards</p>
         )}
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-0 lg:ml-auto mt-4 lg-mt-0">
+      <div className="grid md:grid-cols-5 lg:grid-cols-5 gap-2 lg:gap-0 lg:ml-auto mt-4 lg-mt-0">
         <div className="flex gap-4 pe-5 ps-5 max-sm:mb-3">
           <div>
             <span className="icon md stake-user"></span>
           </div>
           <div>
-            <h2 className="text-base text-secondary font-medium">
+            <h2 className="text-base text-secondary font-medium break-all truncate w-[100px] break-all">
               {stakedAmt || 0}
             </h2>
             <p className="text-sm font-normal text-primary">Staked</p>
@@ -47,7 +47,7 @@ const StakingDetails = () => {
             <span className="icon md ybc"></span>
           </div>
           <div>
-            <h2 className="text-base text-secondary font-medium">
+            <h2 className="text-base text-secondary font-medium break-all truncate w-[100px] break-all">
               {unstakedAmt || 0}
             </h2>
             <p className="text-sm font-normal text-primary">Unstaked</p>
@@ -58,7 +58,7 @@ const StakingDetails = () => {
             <span className="icon md apy"></span>
           </div>
           <div>
-            <h2 className="text-base text-secondary font-medium">
+            <h2 className="text-base text-secondary font-medium break-all truncate w-[100px] break-all">
               {rewardAmt || 0}
             </h2>
             <p className="text-sm font-normal text-primary">Rewards</p>
