@@ -377,6 +377,7 @@ html[data-theme="dark"] .proposal-filters + .dao-dropdown{border: none;border-le
 .tune-button:hover{border: 1px solid #57606a !important;}
 .steps .step:before, .steps .step:after{background-color: #353352 !important;color: #ffffff !important;}
 html[data-theme="dark"] .company-logos img{filter: invert();}
+.radio {border-color: #fff !important;}
 /* .footer{} */
 @media (min-width:768px){
   .browse-catogery .carousel-item{width: 310px;}

@@ -34,7 +34,7 @@ const StakingDetails = () => {
           <p className="text-xl font-semibold text-secondary">Rewards</p>
         )}
       </div>
-      <div className="grid md:grid-cols-5 lg:grid-cols-5 gap-2 lg:gap-0 lg:ml-auto mt-4 lg-mt-0">
+      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-0 lg:ml-auto mt-4 lg-mt-0">
         <div className="flex gap-4 pe-5 ps-5 max-sm:mb-3">
           <div>
             <span className="icon md stake-user"></span>
