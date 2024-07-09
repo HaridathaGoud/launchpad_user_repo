@@ -44,7 +44,7 @@ const ProposalView = (props) => {
           <div className="mt-5 mb-4">
             <BreadCrumb />  
           </div>
-          {props?.showTabs &&<div className="sticky top-[73px] z-10">
+          {props?.showTabs &&<div className="sticky top-[73px] z-10 project-detail-tab">
                <ProjectDetailTabs pjctInfo={null} />
             </div>}
             {props?.showTabs && <div className="mb-8"></div>}

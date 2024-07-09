@@ -462,7 +462,7 @@ const ProposalCards = (props: any) => {
                           />
                         </div>
                       )}
-                    <div className="flex justify-center">
+                    <div className="flex justify-end col-span-2">
                       {proposals.loading && (
                         <span className="text-center">
                           <Spinner />
