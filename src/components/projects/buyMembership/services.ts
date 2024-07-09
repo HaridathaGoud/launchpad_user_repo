@@ -115,7 +115,6 @@ export const getMetaData = async (funArgs: any, callbacks: any) => {
       onError(error)
       return;
     }
-    console.log(totalSold,count,totalSupply)
     if(totalSold && totalSold+count>Number(totalSupply)){
       getDetails()
       onError(`Already sold ${totalSold} out of ${totalSupply}! You can now buy only ${totalSupply - totalSold} memberships.`);

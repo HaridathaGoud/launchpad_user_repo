@@ -76,7 +76,7 @@ import AllocationsShimmer from '../../loaders/projects/allocationsShimmer';
         if (payload) {
           dispatch({
             type: "setAllocationVolume",
-            payload: item?.allocationVolume,
+            payload: parseInt(item?.allocationVolume),
           });
           dispatch({
             type: "setBuyAmount",
